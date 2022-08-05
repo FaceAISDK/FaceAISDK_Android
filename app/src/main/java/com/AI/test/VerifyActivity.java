@@ -105,7 +105,7 @@ public class VerifyActivity extends AppCompatActivity {
 
 
     /**
-     * 根据业务和UI交互修改你的UI
+     * 根据业务和UI交互修改你的 UI
      *
      */
     private void showAliveDetectTips(int actionCode){
