@@ -14,7 +14,9 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.16" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.16" />
         <entry key="app/src/main/res/drawable/ic_shutter_pressed.xml" value="0.16" />
+        <entry key="app/src/main/res/layout/activity_navi.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_update_base_face.xml" value="0.16847826086956522" />
+        <entry key="app/src/main/res/layout/activity_verify.xml" value="0.17760416666666667" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.16" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.16" />
       </map>

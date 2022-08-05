@@ -51,8 +51,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-    implementation "io.github.anylifezlb:FaceVerification:0.0.2"
+    implementation "io.github.anylifezlb:FaceVerification:0.0.3"
     implementation 'pub.devrel:easypermissions:3.0.0'
+    implementation "androidx.cardview:cardview:1.0.0"
 
     def camera_version = '1.1.0-alpha05' //target 28,latest Version
     implementation "androidx.camera:camera-core:$camera_version"
