@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">人脸识别</string>
+    <string name="capture_button_alt">Capture</string>
+    <string name="switch_camera_button_alt">Switch camera</string>
+
+
+</resources>

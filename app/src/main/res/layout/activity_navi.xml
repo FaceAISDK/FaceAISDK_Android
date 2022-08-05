@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".NaviActivity">
+
+
+    <TextView
+        android:id="@+id/face_verify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:layout_marginTop="66dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="人脸检测,人脸识别" />
+
+
+    <TextView
+        android:id="@+id/change_base_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:layout_marginTop="55dp"
+        app:layout_constraintTop_toBottomOf="@+id/face_verify"
+        android:text="更换底片,请拍正脸" />
+
+
+    <TextView
+        android:id="@+id/live_body_detect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:padding="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/change_base_img"
+        android:layout_marginTop="55dp"
+        android:text="关于我们,查看更多" />
+
+
+
+    <TextView
+        android:id="@+id/tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="35dp"
+        android:text="Demo仅供参考。More? contact me: anylife.zlb@gmail.com" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

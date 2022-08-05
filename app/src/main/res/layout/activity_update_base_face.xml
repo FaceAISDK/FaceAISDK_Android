@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
+    tools:context=".UpdateBaseFaceActivity">
+
+
+
+    <ImageView
+        android:id="@+id/baseImg"
+        android:layout_width="139dp"
+        android:layout_height="219dp"/>
+
+
+    <TextView
+        android:id="@+id/update"
+        android:text="更改底片"
+        android:padding="11dp"
+        android:layout_marginTop="33dp"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_width="111dp"
+        android:layout_height="wrap_content"/>
+
+
+
+</LinearLayout>
