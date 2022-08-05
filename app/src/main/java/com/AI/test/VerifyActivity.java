@@ -210,9 +210,6 @@ public class VerifyActivity extends AppCompatActivity {
     }
 
 
-
-
-
     /**
      * 资源释放
      */

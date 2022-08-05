@@ -14,12 +14,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.AI.FaceVerify.utils.AiUtil;
 import com.AI.FaceVerify.utils.FaceFileProviderUtils;
+import com.AI.test.utils.FileStorage;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
  * 更换照片底片
+ *
  */
 public class UpdateBaseFaceActivity extends AppCompatActivity {
 
@@ -69,7 +72,7 @@ public class UpdateBaseFaceActivity extends AppCompatActivity {
                 Bitmap bitmap = null;
                 try {
                     bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(cropImgUri));
-//                    //设置显示图片
+
                     imageView.setImageBitmap(bitmap);
 
                     //save Bitmap

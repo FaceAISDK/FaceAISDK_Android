@@ -21,6 +21,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * 演示导航Navi
+ *
  */
 public class NaviActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
