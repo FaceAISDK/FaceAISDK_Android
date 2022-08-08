@@ -13,7 +13,7 @@ Offline Android Face Detection &amp; Recognition SDK And Alive Detect 离线版A
 
 ## 接入使用
 
-    implementation "io.github.anylifezlb:FaceVerification:1.x.y"
+    implementation "io.github.anylifezlb:Face-Verification:0.1.0"
    
     更多使用说明下载参考本Repo，里面有比较详尽的使用方法，其中 
 
