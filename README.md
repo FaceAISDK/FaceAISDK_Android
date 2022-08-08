@@ -1,4 +1,4 @@
-# FaceVerificationSDK
+#  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
 Offline Android Face Detection &amp; Recognition SDK And Alive Detect 离线版Android人脸检测，人脸识别和活体检测
 
@@ -30,3 +30,10 @@ Offline Android Face Detection &amp; Recognition SDK And Alive Detect 离线版A
 ## Demo 下载
 
    请前往下载： https://beta.bugly.qq.com/opv0
+   
+   ![扫一扫下载](https://upload-images.jianshu.io/upload_images/2376786-fae77d471e8bcb6d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/333)
+
+
+   
+   
+   
