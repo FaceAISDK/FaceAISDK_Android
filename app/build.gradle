@@ -52,7 +52,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
 //        implementation(name: 'FaceVerifyLib-release', ext: 'aar')
-    implementation "io.github.anylifezlb:Face-Verification:0.2.5"  //混淆啊
+    implementation "io.github.anylifezlb:Face-Verification:1.0.0-alpha01"  //混淆啊
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation "androidx.cardview:cardview:1.0.0"
 

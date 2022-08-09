@@ -34,7 +34,7 @@ public class UpdateBaseFaceActivity extends AppCompatActivity {
 
     private String baseImgName;
     private Uri imageUri;        //拍照的原图保存地址
-    private Uri cropImgUri;      //裁剪过的图片地址
+    private Uri cropImgUri;       //裁剪过的图片地址
 
     private ImageView imageView;
     private TextView textView;

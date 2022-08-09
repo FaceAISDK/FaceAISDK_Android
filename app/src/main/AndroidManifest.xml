@@ -36,7 +36,6 @@
         <activity
             android:name=".VerifyActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>

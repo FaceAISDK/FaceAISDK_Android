@@ -30,8 +30,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.widget.TextView;
 
-import com.AI.FaceVerify.verify.FaceDetectorProcess;
 import com.AI.FaceVerify.graphic.GraphicOverlay;
+import com.AI.FaceVerify.verify.FaceDetectorUtils;
+import com.AI.FaceVerify.verify.FaceProcessBuilder;
 import com.AI.FaceVerify.verify.VerifyStatusCallBack;
 import com.AI.FaceVerify.utils.AiUtil;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -52,7 +53,7 @@ public class VerifyActivity extends AppCompatActivity {
 
     private boolean isPass = false;
     private Bitmap baseBitmap; //底片Bitmap
-    private FaceDetectorProcess faceDetectorUtils;
+    private FaceDetectorUtils faceDetectorUtils=new FaceDetectorUtils();
 
 
     @Override
@@ -71,13 +72,14 @@ public class VerifyActivity extends AppCompatActivity {
         File file = new File(cacheMediasDir + "testBaseImgName.jpg");
         baseBitmap = AiUtil.compressPath(VerifyActivity.this, Uri.fromFile(file));
 
-        //Builder 模式吧。
 
-        //第二个参数表示是否需要活体检测
-        //活体检测的使用需要你发送邮件申请，简要描述App名称，包名和功能简介到 anylife.zlb@gmail.com
-        //mGraphicOverlay可以不传，仅仅是辅助开发调试，后期版本会去除
-        faceDetectorUtils = new FaceDetectorProcess(VerifyActivity.this, true, mGraphicOverlay, baseBitmap,
-                new VerifyStatusCallBack() {
+
+
+        FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
+                .setBaseBitmap(baseBitmap)
+                .setGraphicOverlay(mGraphicOverlay)  //正式环境
+                .setLiveCheck(true)
+                .setVerifyStatusCallBack(new VerifyStatusCallBack() {
                     @Override
                     public void onCompleted(boolean isMatched) {
                         runOnUiThread(() -> {
@@ -118,16 +120,80 @@ public class VerifyActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailed(int code) {
-                        //错误Code 见错误文档编码
 
                     }
 
                     @Override
                     public void onProcessTips(int actionCode) {
                         showAliveDetectTips(actionCode);
-                    }
 
-                });
+                    }
+                })
+                .create();
+
+
+
+        faceDetectorUtils.setDetectorParams(faceProcessBuilder);
+
+
+//
+//        //Builder 模式吧。
+//
+//        //第二个参数表示是否需要活体检测
+//        //活体检测的使用需要你发送邮件申请，简要描述App名称，包名和功能简介到 anylife.zlb@gmail.com
+//        //mGraphicOverlay可以不传，仅仅是辅助开发调试，后期版本会去除
+//        faceDetectorUtils = new FaceDetectorProcess(VerifyActivity.this, true, mGraphicOverlay, baseBitmap,
+//                new VerifyStatusCallBack() {
+//                    @Override
+//                    public void onCompleted(boolean isMatched) {
+//                        runOnUiThread(() -> {
+//                            if (isMatched) {
+//                                isPass = true;
+//                                resultTextView.setText("核验已通过，与底片为同一人！ ");
+//                                resultTextView.setBackgroundColor(getResources()
+//                                        .getColor(R.color.green));
+//
+//
+//                                new AlertDialog.Builder(VerifyActivity.this)
+//                                        .setMessage("核验已通过，与底片为同一人！")
+//                                        .setPositiveButton("知道了",
+//                                                (dialog1, which) -> {
+//                                                    VerifyActivity.this.finish();
+//                                                })
+//                                        .show();
+//
+//
+//                            } else {
+//                                isPass = false;
+//                                resultTextView.setText("核验不通过，与底片不符！ ");
+//                                resultTextView.setBackgroundColor(getResources()
+//                                        .getColor(R.color.red));
+//
+//
+//                                new AlertDialog.Builder(VerifyActivity.this)
+//                                        .setMessage("核验不通过，与底片不符！ ")
+//                                        .setPositiveButton("知道了",
+//                                                (dialog1, which) -> {
+//                                                    VerifyActivity.this.finish();
+//                                                })
+//                                        .show();
+//
+//                            }
+//                        });
+//                    }
+//
+//                    @Override
+//                    public void onFailed(int code) {
+//                        //错误Code 见错误文档编码
+//
+//                    }
+//
+//                    @Override
+//                    public void onProcessTips(int actionCode) {
+//                        showAliveDetectTips(actionCode);
+//                    }
+//
+//                });
 
         initCameraXAnalysis();
     }
