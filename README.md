@@ -31,7 +31,9 @@ Offline Android Face Detection &amp; Recognition SDK And Alive Detect 离线版A
 
    请前往下载： https://beta.bugly.qq.com/opv0
    
-   ![扫一扫下载](https://upload-images.jianshu.io/upload_images/2376786-fae77d471e8bcb6d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/333)
+
+   ![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2c2bfe8d858c475ebc4af4dd3eef24b2~tplv-k3u1fbpfcp-watermark.image?)
+   
 
 
    
