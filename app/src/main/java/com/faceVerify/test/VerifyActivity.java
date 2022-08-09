@@ -30,7 +30,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.widget.TextView;
 
-import com.AI.FaceVerify.verify.FaceDetectorUtils;
+import com.AI.FaceVerify.verify.FaceDetectorProcess;
 import com.AI.FaceVerify.graphic.GraphicOverlay;
 import com.AI.FaceVerify.verify.VerifyStatusCallBack;
 import com.AI.FaceVerify.utils.AiUtil;
@@ -52,7 +52,7 @@ public class VerifyActivity extends AppCompatActivity {
 
     private boolean isPass = false;
     private Bitmap baseBitmap; //底片Bitmap
-    private FaceDetectorUtils faceDetectorUtils;
+    private FaceDetectorProcess faceDetectorUtils;
 
 
     @Override
@@ -76,7 +76,7 @@ public class VerifyActivity extends AppCompatActivity {
         //第二个参数表示是否需要活体检测
         //活体检测的使用需要你发送邮件申请，简要描述App名称，包名和功能简介到 anylife.zlb@gmail.com
         //mGraphicOverlay可以不传，仅仅是辅助开发调试，后期版本会去除
-        faceDetectorUtils = new FaceDetectorUtils(VerifyActivity.this, true, mGraphicOverlay, baseBitmap,
+        faceDetectorUtils = new FaceDetectorProcess(VerifyActivity.this, true, mGraphicOverlay, baseBitmap,
                 new VerifyStatusCallBack() {
                     @Override
                     public void onCompleted(boolean isMatched) {
