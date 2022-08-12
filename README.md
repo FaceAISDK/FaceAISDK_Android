@@ -12,15 +12,19 @@ Offline Android Face Detection &amp; Recognition SDK And Alive Detect 离线版A
    前期测试效果能覆盖99.5 % 的中低端机器，识别成功率>99.4% 
 
 ## 接入使用
+ 
+    当前版本：1.0.0-alpha02
+    * 修复部分手机闪退问题
+    * 添加认别超时检测
+    
 
-    implementation "io.github.anylifezlb:Face-Verification:1.0.0-alpha01"
+    implementation "io.github.anylifezlb:Face-Verification:1.0.0-alpha02"
    
     更多使用说明下载参考本Repo，里面有比较详尽的使用方法，其中 
 
     * NaviActivity Demo 演示导航页面
     * UpdateBaseFaceActivity 更换底片页面
     * VerifyActivity 人脸检测识别，活体检测页面
-
 
     其中活体检测的使用需要你发送邮件申请，简要描述App名称 ，包名 和 功能简介
     anylife.zlb@gmail.com

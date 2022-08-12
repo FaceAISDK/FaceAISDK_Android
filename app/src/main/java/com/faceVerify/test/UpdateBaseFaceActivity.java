@@ -1,5 +1,8 @@
 package com.faceVerify.test;
 
+import static com.faceVerify.test.FaceApplication.BASE_FACE_KEY;
+import static com.faceVerify.test.FaceApplication.CACHE_BASE_FACE_DIR;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import android.content.Intent;
@@ -8,7 +11,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * 更换照片底片
+ * 更换照片底片,底片质量要高一点
  *
  */
 public class UpdateBaseFaceActivity extends AppCompatActivity {
@@ -29,12 +31,9 @@ public class UpdateBaseFaceActivity extends AppCompatActivity {
     private static final int REQUEST_CAPTURE = 2;      //拍照
     private static final int REQUEST_PICTURE_CUT = 3;  //剪裁图片
 
-    private String cacheMediasDir =
-            Environment.getExternalStorageDirectory().toString() + "/cameraX/face/";
-
-    private String baseImgName;
-    private Uri imageUri;        //拍照的原图保存地址
-    private Uri cropImgUri;       //裁剪过的图片地址
+    private String yourUniQueFaceId;
+    private Uri imageUri;         // 拍照的原图保存地址
+    private Uri cropImgUri;       // 裁剪过的图片地址
 
     private ImageView imageView;
     private TextView textView;
@@ -44,12 +43,13 @@ public class UpdateBaseFaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_base_face);
 
+
         imageView = findViewById(R.id.baseImg);
         textView = findViewById(R.id.update);
-        baseImgName = getIntent().getStringExtra("baseImgName");
+        yourUniQueFaceId = getIntent().getStringExtra(BASE_FACE_KEY);
 
-        //可以自己录一张人脸底片 baseImgName
-        File file = new File(cacheMediasDir + "testBaseImgName.jpg");
+        //可以自己录一张人脸底片 baseImgName YourUniQueFaceId
+        File file = new File(CACHE_BASE_FACE_DIR, yourUniQueFaceId);
         imageView.setImageBitmap(AiUtil.compressPath(UpdateBaseFaceActivity.this, Uri.fromFile(file)));
 
         textView.setOnClickListener(v -> {
@@ -76,7 +76,12 @@ public class UpdateBaseFaceActivity extends AppCompatActivity {
                     imageView.setImageBitmap(bitmap);
 
                     //save Bitmap
-                    File file = new File(cacheMediasDir.concat(baseImgName).concat(".jpg"));
+//                    File file = new File(cacheMediasDir.concat(baseImgName).concat(".jpg"));
+
+
+                    File file = new File(CACHE_BASE_FACE_DIR,yourUniQueFaceId);
+
+
                     try {
                         FileOutputStream fos = new FileOutputStream(file);
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
@@ -96,9 +101,10 @@ public class UpdateBaseFaceActivity extends AppCompatActivity {
 
     /**
      * 打开系统相机
+     *
      */
     private void openCamera() {
-        File file = new FileStorage(cacheMediasDir).createTempFile("tempTake.jpg");
+        File file = new FileStorage(CACHE_BASE_FACE_DIR).createTempFile("tempTake.jpg");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             imageUri = FileProvider.getUriForFile(UpdateBaseFaceActivity.this,
@@ -123,9 +129,10 @@ public class UpdateBaseFaceActivity extends AppCompatActivity {
 
     /**
      * 裁剪相片
+     *
      */
     private void cropPhoto() {
-        File file = new FileStorage(cacheMediasDir).createTempFile("temp.jpg");
+        File file = new FileStorage(CACHE_BASE_FACE_DIR).createTempFile("temp.jpg");
         cropImgUri = Uri.fromFile(file);
         Intent intent = new Intent("com.android.camera.action.CROP");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

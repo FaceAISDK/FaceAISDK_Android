@@ -5,7 +5,6 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature android:name="android.hardware.camera" />
 
@@ -16,6 +15,7 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".FaceApplication"
         android:theme="@style/AppTheme">
 
         <activity
@@ -24,6 +24,7 @@
 
         <activity
             android:name=".NaviActivity"
+            android:exported="true"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>

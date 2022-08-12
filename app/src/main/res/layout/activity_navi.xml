@@ -4,16 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/blue"
     android:paddingTop="122dp"
     tools:context=".NaviActivity">
 
     <!-- A CardView that contains a TextView -->
     <androidx.cardview.widget.CardView
         android:id="@+id/face_verify_card"
-        android:layout_width="136dp"
-        android:layout_height="88dp"
+        android:layout_width="144dp"
+        android:layout_height="80dp"
         app:cardCornerRadius="4dp"
+        android:background="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/update_base_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -38,7 +39,7 @@
                 android:gravity="center"
                 android:text="人脸识别"
                 android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -48,8 +49,8 @@
     <!-- A CardView that contains a TextView -->
     <androidx.cardview.widget.CardView
         android:id="@+id/update_base_image"
-        android:layout_width="136dp"
-        android:layout_height="88dp"
+        android:layout_width="144dp"
+        android:layout_height="80dp"
         app:cardCornerRadius="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/face_verify_card"
@@ -76,7 +77,7 @@
                 android:gravity="center"
                 android:text="更换底片"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/update_base_image" />
 
         </LinearLayout>
@@ -88,14 +89,24 @@
         android:id="@+id/more_about_me"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="111dp"
         android:padding="9dp"
         android:gravity="center"
         android:text="关于我们,查看更多"
         android:textColor="@android:color/white"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@+id/update_base_image" />
 
+
+    <ImageView
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="@drawable/icon1"
+        android:layout_marginBottom="55dp"
+        android:onClick="onUpload"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

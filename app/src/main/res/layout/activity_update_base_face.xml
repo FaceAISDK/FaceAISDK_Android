@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_gravity="center"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context=".UpdateBaseFaceActivity">
-
-
-
-    <ImageView
-        android:id="@+id/baseImg"
-        android:layout_width="166dp"
-        android:layout_height="234dp"/>
 
 
     <TextView
         android:id="@+id/update"
-        android:text="更改底片"
-        android:padding="17dp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="33dp"
-        android:textStyle="bold"
-        android:textSize="19sp"
+        android:background="@color/colorPrimary"
         android:gravity="center"
-        android:layout_width="159dp"
-        android:layout_height="wrap_content"/>
+        android:padding="10dp"
+        android:text=" 更改底片 "
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
-
+    <ImageView
+        android:id="@+id/baseImg"
+        android:layout_width="222dp"
+        android:layout_height="222dp"
+        android:layout_marginTop="44dp"
+        android:background="@mipmap/ic_launcher_round" />
 
 </LinearLayout>
