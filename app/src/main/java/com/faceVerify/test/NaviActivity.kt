@@ -65,7 +65,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
      * 统一全局的拦截权限请求，给提示
      */
     private fun checkNeededPermission() {
-        val perms = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val perms = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
         if (EasyPermissions.hasPermissions(this, *perms)) {
         } else {
             EasyPermissions.requestPermissions(this, "", 11, *perms)
