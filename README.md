@@ -8,8 +8,19 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
 
 ## 简要说明
-   本SDK仅供Android 5.0 以上系统使用，所有功能都是离线使用，包含人脸检测，人脸识别和活体检测（暂未加超时检测）
-   前期测试效果能覆盖99.5 % 的中低端机器，识别成功率>99.4% 
+
+  本SDK仅供Android 5.0 以上系统使用，包含人脸检测，人脸识别和活体检测，所有功能都是离线使用。SDK 总体积大小约为14.x MB，其中：
+  * 人脸检测 2.x MB
+  * 识别对比 5.x MB
+  * 活体检测 6.x MB；
+  
+  后期模型数据可以不绑定SDK，以便减少APK 包体积，支持模型自定义私有化部署！
+ 
+  离线模型是MobileFaceNet，解释器 TensorFlow Lite2.9.0 和机器学习套件ML KIT，相机预览和流处理CameraX 
+  前期测试效果能覆盖99.5 % 的中低端机器，识别成功率>99.9%。本统计数据仅供参考，以目前手机的配置，足以跑起来整个工程，
+  但是多年以前的老旧机型和部分OEM 的设备运行就有点卡顿了，这类设备市面的保有量非常非常低，几乎可以忽略。
+  可以概括为正常的手机都没有问题，除了部分山寨组装机，定制机。
+
 
 ## 接入使用
  
@@ -33,12 +44,9 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
 ## Demo 下载
 
-   请前往下载： https://beta.bugly.qq.com/opv0
-   
+   请前往下载： https://beta.bugly.qq.com/crx4
 
-   ![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2c2bfe8d858c475ebc4af4dd3eef24b2~tplv-k3u1fbpfcp-watermark.image?)
-   
-
+![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ad9d5c616f91466a81dab0282c9daae7~tplv-k3u1fbpfcp-watermark.image?)
 
    
    

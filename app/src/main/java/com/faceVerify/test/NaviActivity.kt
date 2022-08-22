@@ -26,24 +26,32 @@ import java.io.File
  */
 class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
-    private var yourUniQueFaceId="18707611416" //wechat
-
+    private var yourUniQueFaceId = "18707611416" //wechat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navi)
+
         checkNeededPermission()
 
         face_verify_card.setOnClickListener {
             //可以自己录一张人脸底片，业务方可以根据自己的要求改写testBaseImgName 处理
-            val file = File(CACHE_BASE_FACE_DIR , yourUniQueFaceId)
+            val file = File(CACHE_BASE_FACE_DIR, yourUniQueFaceId)
             if (AiUtil.compressPath(this@NaviActivity, Uri.fromFile(file)) != null) {
-                startActivity(Intent(this@NaviActivity, VerifyActivity::class.java)
-                    .putExtra(BASE_FACE_KEY, yourUniQueFaceId))
+                startActivity(
+                    Intent(this@NaviActivity, VerifyActivity::class.java)
+                        .putExtra(BASE_FACE_KEY, yourUniQueFaceId)
+                )
             } else {
                 Toast.makeText(this@NaviActivity, "请先录入人脸底片", Toast.LENGTH_SHORT).show()
+                startActivity(
+                    Intent(this@NaviActivity, UpdateBaseFaceActivity::class.java)
+                        .putExtra(BASE_FACE_KEY, yourUniQueFaceId)
+                )
             }
         }
+
+
 
         more_about_me.setOnClickListener {
             val uri = Uri.parse("https://github.com/AnyLifeZLB/FaceVerificationSDK")
@@ -53,24 +61,31 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
             startActivity(intent)
         }
 
+
         update_base_image.setOnClickListener {
             startActivity(
                 Intent(this@NaviActivity, UpdateBaseFaceActivity::class.java)
                     .putExtra(BASE_FACE_KEY, yourUniQueFaceId)
             )
         }
+
     }
 
     /**
      * 统一全局的拦截权限请求，给提示
      */
     private fun checkNeededPermission() {
-        val perms = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+        val perms = arrayOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
         if (EasyPermissions.hasPermissions(this, *perms)) {
         } else {
             EasyPermissions.requestPermissions(this, "", 11, *perms)
         }
     }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
