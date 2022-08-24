@@ -1,6 +1,7 @@
 package com.faceVerify.test;
 
 import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_RESULT_ENUM.ACTION_FAILED;
+import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_RESULT_ENUM.ACTION_NO_FACE_DETECT;
 import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_RESULT_ENUM.ACTION_OK;
 import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_RESULT_ENUM.ACTION_TIME_OUT;
 import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.NOD_HEAD;
@@ -158,7 +159,9 @@ public class VerifyActivity extends AppCompatActivity {
                             .show();
                     break;
 
-
+                case ACTION_NO_FACE_DETECT:
+                    tipsTextView.setText("画面没有检测到人脸");
+                    break;
 
                 case ACTION_FAILED:
                     tipsTextView.setText("活体检测失败了");

@@ -22,6 +22,7 @@
 
         <activity
             android:name=".UpdateBaseFaceActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
 
         <activity
@@ -38,6 +39,7 @@
 
         <activity
             android:name=".VerifyActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
     </application>
 

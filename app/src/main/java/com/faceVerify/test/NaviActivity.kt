@@ -82,7 +82,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         )
         if (EasyPermissions.hasPermissions(this, *perms)) {
         } else {
-            EasyPermissions.requestPermissions(this, "", 11, *perms)
+            EasyPermissions.requestPermissions(this, "请求授权的相机和读取相册都仅仅是为了完成人脸识别所必需，请授权！", 11, *perms)
         }
     }
 
