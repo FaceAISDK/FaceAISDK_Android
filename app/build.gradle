@@ -11,8 +11,8 @@ android {
         applicationId "com.faceVerify.test"
         minSdkVersion 21
         targetSdkVersion 32  //需要升级到32
-        versionCode 1
-        versionName "1.0"
+        versionCode 7
+        versionName "1.1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
