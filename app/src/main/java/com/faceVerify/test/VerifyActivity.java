@@ -30,6 +30,9 @@ import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.AI.FaceVerify.graphic.GraphicOverlay;
@@ -51,48 +54,68 @@ import java.util.concurrent.Executors;
  */
 public class VerifyActivity extends AppCompatActivity {
 
-    private TextView resultTextView, tipsTextView;
-    private GraphicOverlay mGraphicOverlay; //遮罩层，仅仅用于调试用
+    private TextView tipsTextView;
 
     private boolean isPass = false;
-    private Bitmap baseBitmap; //底片Bitmap
+
     private FaceDetectorUtils faceDetectorUtils = new FaceDetectorUtils();
 
 
-    private String yourUniQueFaceId;
+    /**
+     * 资源释放
+     *
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        faceDetectorUtils.destroyProcess();
+        faceDetectorUtils = null;
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_verify);
 
         tipsTextView = findViewById(R.id.tips_view);
-        resultTextView = findViewById(R.id.result_text_view);
-//        mGraphicOverlay = findViewById(R.id.graphic_overlay);
-        yourUniQueFaceId = getIntent().getStringExtra(BASE_FACE_KEY);
 
-        //可以自己录一张人脸底片，后期 底片不用 Bitmap ,加密使用
-        File file = new File(CACHE_BASE_FACE_DIR,yourUniQueFaceId);
+        findViewById(R.id.back).setOnClickListener(v -> VerifyActivity.this.finish());
 
-        baseBitmap = AiUtil.compressPath(VerifyActivity.this, Uri.fromFile(file));
+        String yourUniQueFaceId = getIntent().getStringExtra(BASE_FACE_KEY); //你的FaceID Key
 
-        // 活体检测的使用需要你发送邮件申请，简要描述App名称，包名和功能简介到 anylife.zlb@gmail.com
+        //要对比的人脸底片（都是1：1 比对）
+        File file = new File(CACHE_BASE_FACE_DIR, yourUniQueFaceId);
+        Bitmap baseBitmap = AiUtil.compressPath(VerifyActivity.this, Uri.fromFile(file));
+
+        //初始化引擎
+        initVerify(baseBitmap);
+
+        initCameraXAnalysis();
+    }
+
+
+    /**
+     * 初始化认证引擎
+     *
+     *
+     * 活体检测的使用需要你发送邮件申请，简要描述App名称，包名和功能简介到 anylife.zlb@gmail.com
+     * @param baseBitmap 底片
+     */
+    private void initVerify(Bitmap baseBitmap){
+
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                // threshold 相似度门槛值后期支持设置
-                .setBaseBitmap(baseBitmap)          //底片
-//                .setGraphicOverlay(mGraphicOverlay) //遮罩层，人脸模型画面演示。正式环境不需要配置
-                .setLiveCheck(true)  //是否需要活体检测，需要发送邮件，详情参考ReadMe
+                .setThreshold(0.8f)                 //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
+                .setBaseBitmap(baseBitmap)          //底片,请录入的时候保证底片质量
+                .setLiveCheck(true)                 //是否需要活体检测，需要发送邮件，详情参考ReadMe
                 .setProcessCallBack(new ProcessCallBack() {
                     @Override
                     public void onCompleted(boolean isMatched) {
                         runOnUiThread(() -> {
                             if (isMatched) {
                                 isPass = true;
-                                resultTextView.setText("核验已通过，与底片为同一人！ ");
-                                resultTextView.setBackgroundColor(getResources()
-                                        .getColor(R.color.green));
-
+                                tipsTextView.setText("核验已通过，与底片为同一人！ ");
 
                                 new AlertDialog.Builder(VerifyActivity.this)
                                         .setMessage("核验已通过，与底片为同一人！")
@@ -105,10 +128,8 @@ public class VerifyActivity extends AppCompatActivity {
 
                             } else {
                                 isPass = false;
-                                resultTextView.setText("核验不通过，与底片不符！ ");
-                                resultTextView.setBackgroundColor(getResources()
-                                        .getColor(R.color.red));
 
+                                tipsTextView.setText("核验不通过，与底片不符！ ");
 
                                 new AlertDialog.Builder(VerifyActivity.this)
                                         .setMessage("核验不通过，与底片不符！ ")
@@ -135,13 +156,12 @@ public class VerifyActivity extends AppCompatActivity {
                 .create();
 
         faceDetectorUtils.setDetectorParams(faceProcessBuilder);
-
-        initCameraXAnalysis();
     }
 
 
     /**
-     * 根据业务和设计师UI交互修改你的 UI
+     * 根据业务和设计师UI交互修改你的 UI，Demo 仅供参考
+     *
      */
     private void showAliveDetectTips(int actionCode) {
         runOnUiThread(() -> {
@@ -197,6 +217,8 @@ public class VerifyActivity extends AppCompatActivity {
 
     /**
      * 初始化相机,使用CameraX 结合CNN
+     *
+     * 还有手机没有前置摄像头的？？ 要支持前置摄像头吗？
      */
     public void initCameraXAnalysis() {
         PreviewView previewView = findViewById(R.id.previewView);
@@ -216,7 +238,6 @@ public class VerifyActivity extends AppCompatActivity {
 
                 ImageAnalysis imageAnalysis =
                         new ImageAnalysis.Builder()
-                                //CameraX 可通过 setOutputImageFormat(int) 支持 YUV_420_888
                                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                                 .build();
 
@@ -262,15 +283,6 @@ public class VerifyActivity extends AppCompatActivity {
         }, ContextCompat.getMainExecutor(this));
     }
 
-
-    /**
-     * 资源释放
-     */
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        faceDetectorUtils = null;
-    }
 
 
 }

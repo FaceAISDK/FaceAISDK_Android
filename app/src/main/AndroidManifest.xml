@@ -39,8 +39,10 @@
 
         <activity
             android:name=".VerifyActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:screenOrientation="portrait"
             android:exported="false" />
+
     </application>
 
 </manifest>

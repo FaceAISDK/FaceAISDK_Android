@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.faceVerify.test.VerifyActivity">
 
@@ -11,24 +13,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/result_text_view"
+
+    <com.AI.FaceVerify.view.FaceCoverView
         android:layout_width="match_parent"
-        android:layout_height="29dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="33dp"
-        android:gravity="center"
-        android:textColor="@android:color/white"
-        android:textSize="12sp"
-        android:visibility="invisible"
-        tools:text="比对结果" />
+        android:layout_height="match_parent" />
+
 
     <TextView
         android:id="@+id/tips_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="77dp"
         android:background="@color/blue"
         android:gravity="center"
         android:paddingLeft="18dp"
@@ -37,8 +32,24 @@
         android:paddingBottom="5dp"
         android:text="Initializing"
         android:textColor="@color/green"
-        android:textSize="16sp" />
+        android:layout_marginTop="111dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_margin="15dp"
+        android:padding="9dp"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:src="@drawable/ic_baseline_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 

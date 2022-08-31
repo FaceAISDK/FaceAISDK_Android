@@ -21,15 +21,17 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
   但是多年以前的老旧机型和部分OEM 的设备运行就有点卡顿了，这类设备市面的保有量非常非常低，几乎可以忽略。
   可以概括为正常的手机都没有问题，除了部分山寨组装机，定制机。
 
+## 
+
 
 ## 接入使用
  
-    当前版本：1.0.0-alpha02
+    当前版本：1.1.0
     * 修复部分手机闪退问题
     * 添加认别超时检测
     
 
-    implementation "io.github.anylifezlb:Face-Verification:1.0.0-alpha02"
+    implementation "io.github.anylifezlb:Face-Verification:1.1.0"
    
     更多使用说明下载参考本Repo，里面有比较详尽的使用方法，其中 
 
