@@ -50,7 +50,7 @@ import java.util.concurrent.Executors;
 /**
  * 检验超时周末有空添加，可以根据Demo 结合自身进行业务定制UX，请先了解人脸识别基础
  *
- * 2.0.0 版本后已经稳定
+ * 2.0.0 版本后已经稳定。 为了你更好的开展业务，商业使用请联系添加签名
  */
 public class VerifyActivity extends AppCompatActivity {
 
@@ -239,8 +239,8 @@ public class VerifyActivity extends AppCompatActivity {
                                 throw new IllegalArgumentException("Invalid image format");
                             }
 
+                            //todo 低端机控制码流
                             faceDetectorUtils.goVerify(imageProxy);
-
 
                             imageProxy.close();
                         });
@@ -275,7 +275,5 @@ public class VerifyActivity extends AppCompatActivity {
 
         }, ContextCompat.getMainExecutor(this));
     }
-
-
 
 }

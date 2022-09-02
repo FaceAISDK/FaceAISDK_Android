@@ -20,9 +20,12 @@ import java.io.File
  *
  * Compile SDK 准备升级到32
  *
+ * 仅供学习交流，未经授权严禁用于商业行为
+ * 仅供学习交流，未经授权严禁用于商业行为
+ * 仅供学习交流，未经授权严禁用于商业行为
  *
- * V1.0.0 Alpha 01 仅供学习交流，未经授权严禁用于商业行为
- * 2022.07.30 SZ
+ *
+ * 2022.07.29
  */
 class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 

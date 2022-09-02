@@ -15,10 +15,10 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
   
   后期模型数据可以不绑定SDK，以便减少APK 包体积，支持模型自定义私有化部署！
  
-  离线模型MFN，解释器 TensorFlow Lite2.9.0 和机器学习套件ML KIT，相机预览和流处理CameraX 
+  SDK使用的离线模型为MFN，解释器 TensorFlow Lite2.9.0 和机器学习套件ML KIT，相机预览和流处理CameraX 
   前期测试效果能覆盖99.5 % 的中低端机器，识别成功率>99.9%。本统计数据仅供参考，以目前手机的配置，足以跑起来整个工程，
   但是多年以前的老旧机型和部分OEM 的设备运行就有点卡顿了，这类设备市面的保有量非常非常低，几乎可以忽略。
-  可以概括为正常的手机都没有问题，除了部分山寨组装机，定制机。
+  可以概括为除了部分山寨组装机，定制机市面大厂销售的符合Google标准的手机都没有问题。
   
   ![Preview](https://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
 

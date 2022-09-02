@@ -11,8 +11,8 @@ android {
         applicationId "com.faceVerify.test"
         minSdkVersion 21
         targetSdkVersion 32  // 需要升级到32
-        versionCode 7
-        versionName "1.1.0"
+        versionCode 8
+        versionName "2.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -32,6 +32,7 @@ android {
         }
     }
 
+    //注意设置
     androidResources {
         noCompress 'tflite'
     }
@@ -48,7 +49,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     
-    implementation "io.github.anylifezlb:Face-Verification:2.0.0"
+    implementation "io.github.anylifezlb:Face-Verification:2.1.0-beta01"
 
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation "androidx.cardview:cardview:1.0.0"
