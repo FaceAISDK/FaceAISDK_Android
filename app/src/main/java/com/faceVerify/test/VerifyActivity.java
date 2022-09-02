@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
+import androidx.camera.core.CameraInfoUnavailableException;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageProxy;
@@ -49,14 +50,11 @@ import java.util.concurrent.Executors;
 /**
  * 检验超时周末有空添加，可以根据Demo 结合自身进行业务定制UX，请先了解人脸识别基础
  *
- * MFC: https://arxiv.org/pdf/1804.07573.pdf
- * BAD：https://ai.baidu.com/ai-doc/FACE/Bkp6nusr3 (参考性能指标描述等)
+ * 2.0.0 版本后已经稳定
  */
 public class VerifyActivity extends AppCompatActivity {
 
     private TextView tipsTextView;
-
-    private boolean isPass = false;
 
     private FaceDetectorUtils faceDetectorUtils = new FaceDetectorUtils();
 
@@ -114,9 +112,7 @@ public class VerifyActivity extends AppCompatActivity {
                     public void onCompleted(boolean isMatched) {
                         runOnUiThread(() -> {
                             if (isMatched) {
-                                isPass = true;
                                 tipsTextView.setText("核验已通过，与底片为同一人！ ");
-
                                 new AlertDialog.Builder(VerifyActivity.this)
                                         .setMessage("核验已通过，与底片为同一人！")
                                         .setPositiveButton("知道了",
@@ -127,7 +123,6 @@ public class VerifyActivity extends AppCompatActivity {
 
 
                             } else {
-                                isPass = false;
 
                                 tipsTextView.setText("核验不通过，与底片不符！ ");
 
@@ -218,7 +213,6 @@ public class VerifyActivity extends AppCompatActivity {
     /**
      * 初始化相机,使用CameraX 结合CNN
      *
-     * 还有手机没有前置摄像头的？？ 要支持前置摄像头吗？
      */
     public void initCameraXAnalysis() {
         PreviewView previewView = findViewById(R.id.previewView);
@@ -226,8 +220,6 @@ public class VerifyActivity extends AppCompatActivity {
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture =
                 ProcessCameraProvider.getInstance(this);
 
-        //图像预览和摄像头原始数据回调 暴露，以便后期格式转换和人工智障处理
-        //图像编码默认格式 YUV_420_888。
         cameraProviderFuture.addListener(() -> {
             try {
                 // Camera provider is now guaranteed to be available
@@ -242,39 +234,40 @@ public class VerifyActivity extends AppCompatActivity {
                                 .build();
 
                 imageAnalysis.setAnalyzer(Executors.newSingleThreadExecutor(),
-                        new ImageAnalysis.Analyzer() {
-                            @SuppressLint("UnsafeOptInUsageError")
-                            @Override
-                            public void analyze(@NonNull ImageProxy imageProxy) {
-                                if (imageProxy.getFormat() != ImageFormat.YUV_420_888) {
-                                    throw new IllegalArgumentException("Invalid image format");
-                                }
-
-                                if (!isPass) {
-                                    faceDetectorUtils.goVerify(imageProxy);
-                                }
-
-                                imageProxy.close();
+                        imageProxy -> {
+                            if (imageProxy.getFormat() != ImageFormat.YUV_420_888) {
+                                throw new IllegalArgumentException("Invalid image format");
                             }
+
+                            faceDetectorUtils.goVerify(imageProxy);
+
+
+                            imageProxy.close();
                         });
+
+
+                //front camera default
+                int lensFacing=cameraProvider.hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA)?
+                        CameraSelector.LENS_FACING_FRONT:CameraSelector.LENS_FACING_BACK;
 
 
                 // Choose the camera by requiring a lens facing
                 CameraSelector cameraSelector = new CameraSelector.Builder()
-                        .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
+                        .requireLensFacing(lensFacing)
                         .build();
 
                 // Attach use cases to the camera with the same lifecycle owner
-                Camera camera = cameraProvider.bindToLifecycle(
+                cameraProvider.bindToLifecycle(
                         ((LifecycleOwner) this),
                         cameraSelector,
                         preview, imageAnalysis);
+
 
                 // Connect the preview use case to the previewView
                 preview.setSurfaceProvider(
                         previewView.getSurfaceProvider());
 
-            } catch (InterruptedException | ExecutionException e) {
+            } catch (InterruptedException | ExecutionException | CameraInfoUnavailableException e) {
                 // Currently no exceptions thrown. cameraProviderFuture.get()
                 // shouldn't block since the listener is being called, so no need to
                 // handle InterruptedException.

@@ -10,8 +10,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 ## 简要说明
 
   本SDK仅供Android 5.0 以上系统使用，包含人脸检测，人脸识别和活体检测，所有功能都是离线使用。SDK 总体积大小约为14.x MB，其中：
-  * 人脸检测 2.x MB
-  * 识别对比 5.x MB
+  * 人脸识别 7.X MB
   * 活体检测 6.x MB；
   
   后期模型数据可以不绑定SDK，以便减少APK 包体积，支持模型自定义私有化部署！
@@ -24,21 +23,21 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
   ![Preview](https://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
 
 
-## 使用场景
+## 使用场景（1：1 场景）
 
-  门禁，考勤系统，人脸识别防盗门，智能楼宇，智能工地，智能校园等场景
+  手机考勤系统，机场/卡口人证对齐，免密码登录，酒店入驻、刷脸支付、刷脸解锁
 
 
 ## 接入使用
  
-    当前版本：1.1.0
-    * 修复部分手机闪退问题
-    * 添加认别超时检测
-    * 优化使用体验
-    
+    #### 当前版本：2.0.0
+
+    * 优化活体检测灵敏度，提高低端机速度
+    * 优化活体检测灵敏度，提高低端机速度
+
 
     //Android studio gradle 引入（Eclipse？Not support now !）
-    implementation "io.github.anylifezlb:Face-Verification:1.0.0-beta02"
+    implementation "io.github.anylifezlb:Face-Verification:2.0.0"
     
     ``` 
     //更多说明请看代码和下载Demo体验
@@ -68,6 +67,8 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
         faceDetectorUtils.setDetectorParams(faceProcessBuilder);
     ```
+
+
    
     更多使用说明下载参考本Repo，里面有比较详尽的使用方法，其中 
 

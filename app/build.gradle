@@ -47,10 +47,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-
     
-    implementation "io.github.anylifezlb:Face-Verification:1.1.0"
-
+    implementation "io.github.anylifezlb:Face-Verification:2.0.0"
 
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation "androidx.cardview:cardview:1.0.0"
@@ -69,7 +67,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-
 }
 
 
@@ -78,3 +75,6 @@ repositories {
         dirs 'aars'
     }
 }
+
+
+
