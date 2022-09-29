@@ -7,7 +7,7 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".UpdateBaseFaceActivity">
+    tools:context=".New11BaseFaceActivity">
 
 
     <TextView

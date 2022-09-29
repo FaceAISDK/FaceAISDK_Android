@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.faceVerify.test.VerifyActivity">
+    tools:context="com.faceVerify.test.VerifyActivity1N">
+
 
     <androidx.camera.view.PreviewView
         android:id="@+id/previewView"
@@ -15,9 +16,9 @@
         android:layout_height="match_parent" />
 
 
-<!--    <com.AI.FaceVerify.view.FaceCoverView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent" />-->
+    <com.AI.FaceVerify.view.FaceCoverView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
     <TextView

@@ -1,6 +1,6 @@
-package com.faceVerify.test;
+package com.faceVerify.test.verify1N;
 
-import static android.os.Environment.DIRECTORY_PICTURES;
+import static com.faceVerify.test.FaceApplication.BASE_FACE_DIR_1n;
 import static com.faceVerify.test.FaceApplication.BASE_FACE_KEY;
 import static com.faceVerify.test.FaceApplication.CACHE_BASE_FACE_DIR;
 
@@ -10,7 +10,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +20,7 @@ import androidx.core.content.FileProvider;
 
 import com.AI.FaceVerify.utils.AiUtil;
 import com.AI.FaceVerify.utils.FaceFileProviderUtils;
+import com.faceVerify.test.R;
 import com.faceVerify.test.utils.FileStorage;
 
 import java.io.File;
@@ -27,10 +28,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * 更换照片底片,底片质量要高一点
+ * 添加1：N 的人脸识别底照
  *
  */
-public class NewBaseFaceActivity extends AppCompatActivity {
+public class Add1NBaseFaceActivity extends AppCompatActivity {
 
     private static final int REQUEST_CAPTURE = 2;      //拍照
     private static final int REQUEST_PICTURE_CUT = 3;  //剪裁图片
@@ -47,14 +48,13 @@ public class NewBaseFaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_base_face);
 
-
         imageView = findViewById(R.id.baseImg);
         textView = findViewById(R.id.update);
-        yourUniQueFaceId = getIntent().getStringExtra(BASE_FACE_KEY);
 
-        //可以自己录一张人脸底片 baseImgName YourUniQueFaceId
-        File file = new File(CACHE_BASE_FACE_DIR, yourUniQueFaceId);
-        imageView.setImageBitmap(AiUtil.compressPath(NewBaseFaceActivity.this, Uri.fromFile(file)));
+//        File file = new File(CACHE_BASE_FACE_DIR+BASE_FACE_DIR_1n, yourUniQueFaceId);
+//        imageView.setImageBitmap(AiUtil.compressPath(Add1NBaseFaceActivity.this, Uri.fromFile(file)));
+
+         yourUniQueFaceId  = "AI-face-" + SystemClock.currentThreadTimeMillis();
 
         textView.setOnClickListener(v -> {
             openCamera();
@@ -79,9 +79,7 @@ public class NewBaseFaceActivity extends AppCompatActivity {
 
                     imageView.setImageBitmap(bitmap);
 
-
-                    File file = new File(CACHE_BASE_FACE_DIR,yourUniQueFaceId);
-
+                    File file = new File(CACHE_BASE_FACE_DIR+BASE_FACE_DIR_1n,yourUniQueFaceId);
 
                     try {
                         FileOutputStream fos = new FileOutputStream(file);
@@ -105,26 +103,17 @@ public class NewBaseFaceActivity extends AppCompatActivity {
      *
      */
     private void openCamera() {
-        File file = new FileStorage(CACHE_BASE_FACE_DIR).createTempFile("tempTake.jpg");
-
-
-//        File file = new File(CACHE_BASE_FACE_DIR , yourUniQueFaceId);
-
-//        try {
-//            file.createNewFile();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        File file = new FileStorage(CACHE_BASE_FACE_DIR+BASE_FACE_DIR_1n).createTempFile("tempTake.jpg");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            imageUri = FileProvider.getUriForFile(NewBaseFaceActivity.this,
+            imageUri = FileProvider.getUriForFile(Add1NBaseFaceActivity.this,
                     FaceFileProviderUtils.getAuthority(this), file);
         } else {
             imageUri = Uri.fromFile(file);
         }
         Intent intent = new Intent();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
         intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);          //设置Action为拍照
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);         //将拍取的照片保存到指定URI
@@ -142,36 +131,18 @@ public class NewBaseFaceActivity extends AppCompatActivity {
      *
      */
     private void cropPhoto() {
+        File file = new FileStorage(CACHE_BASE_FACE_DIR+BASE_FACE_DIR_1n).createTempFile("tempTake.jpg");
 
-        File cropPhoto;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-            //虽然getExternalStoragePublicDirectory方法被淘汰了，但是不影响使用
-            cropPhoto = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES),"crop_image.jpg");
-        }else{
-            cropPhoto = new File(getExternalCacheDir(),"crop_image.jpg");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            cropImgUri = FileProvider.getUriForFile(Add1NBaseFaceActivity.this,
+                    FaceFileProviderUtils.getAuthority(this), file);
+        } else {
+            cropImgUri = Uri.fromFile(file);
         }
-
-
-
-//        File file = new FileStorage(CACHE_BASE_FACE_DIR).createTempFile("temp.jpg");
-        cropImgUri = Uri.fromFile(cropPhoto);
-
-
-
-
-
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            cropImgUri = FileProvider.getUriForFile(NewBaseFaceActivity.this,
-//                    FaceFileProviderUtils.getAuthority(this), cropPhoto);
-//        } else {
-//            cropImgUri = Uri.fromFile(cropPhoto);
-//        }
 
         Intent intent = new Intent("com.android.camera.action.CROP");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
         }
         intent.setDataAndType(imageUri, "image/*");
         intent.putExtra("crop", "true");

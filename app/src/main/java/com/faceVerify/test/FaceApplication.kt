@@ -12,9 +12,11 @@ import android.os.Environment
 class FaceApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-
-        //init your custom params
         CACHE_BASE_FACE_DIR = getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+
+        BASE_FACE_DIR_11 = "/11";
+        BASE_FACE_DIR_1n = "/1n";
+
         BASE_FACE_KEY="AI_BASE_FACE_KEY"
     }
 
@@ -37,6 +39,7 @@ class FaceApplication : Application() {
     public companion object {
         lateinit var  CACHE_BASE_FACE_DIR: String
         lateinit var  BASE_FACE_KEY: String
-
+        lateinit var  BASE_FACE_DIR_11: String
+        lateinit var  BASE_FACE_DIR_1n: String
     }
 }

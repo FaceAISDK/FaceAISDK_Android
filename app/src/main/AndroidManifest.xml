@@ -20,10 +20,6 @@
         android:name=".FaceApplication"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:name=".UpdateBaseFaceActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
 
         <activity
             android:name=".NaviActivity"
@@ -37,8 +33,26 @@
 
         </activity>
 
+
         <activity
-            android:name=".VerifyActivity"
+            android:name=".verify11.New11BaseFaceActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+
+        <activity
+            android:name=".verify11.Verify11Activity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+
+
+        <activity
+            android:name=".verify1N.Verify1NActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+
+        <activity
+            android:name=".verify1N.Add1NBaseFaceActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:screenOrientation="portrait"
             android:exported="false" />

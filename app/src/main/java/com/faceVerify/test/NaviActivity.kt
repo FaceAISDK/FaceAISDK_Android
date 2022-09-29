@@ -11,6 +11,10 @@ import android.view.View
 import android.widget.Toast
 import com.faceVerify.test.FaceApplication.Companion.BASE_FACE_KEY
 import com.faceVerify.test.FaceApplication.Companion.CACHE_BASE_FACE_DIR
+import com.faceVerify.test.verify11.New11BaseFaceActivity
+import com.faceVerify.test.verify11.Verify11Activity
+import com.faceVerify.test.verify1N.Add1NBaseFaceActivity
+import com.faceVerify.test.verify1N.Verify1NActivity
 import kotlinx.android.synthetic.main.activity_navi.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
@@ -19,10 +23,6 @@ import java.io.File
  * 演示导航 Navi
  *
  * Compile SDK 准备升级到32
- *
- * 仅供学习交流，未经授权严禁用于商业行为
- * 仅供学习交流，未经授权严禁用于商业行为
- * 仅供学习交流，未经授权严禁用于商业行为
  *
  *
  * 2022.07.29
@@ -42,17 +42,47 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
             val file = File(CACHE_BASE_FACE_DIR, yourUniQueFaceId)
             if (AiUtil.compressPath(this@NaviActivity, Uri.fromFile(file)) != null) {
                 startActivity(
-                    Intent(this@NaviActivity, VerifyActivity::class.java)
+                    Intent(this@NaviActivity, Verify11Activity::class.java)
                         .putExtra(BASE_FACE_KEY, yourUniQueFaceId)
                 )
             } else {
                 Toast.makeText(this@NaviActivity, "请先录入人脸底片", Toast.LENGTH_SHORT).show()
                 startActivity(
-                    Intent(this@NaviActivity, UpdateBaseFaceActivity::class.java)
+                    Intent(this@NaviActivity, New11BaseFaceActivity::class.java)
                         .putExtra(BASE_FACE_KEY, yourUniQueFaceId)
                 )
             }
         }
+
+        update_base_image.setOnClickListener {
+            startActivity(
+                Intent(this@NaviActivity, New11BaseFaceActivity::class.java)
+                    .putExtra(BASE_FACE_KEY, yourUniQueFaceId)
+            )
+        }
+
+
+
+
+
+        verify1n.setOnClickListener {
+            //1:N 人脸比对
+            val file = File(CACHE_BASE_FACE_DIR, yourUniQueFaceId)
+            if (AiUtil.compressPath(this@NaviActivity, Uri.fromFile(file)) != null) {
+                startActivity(
+                    Intent(this@NaviActivity, Verify1NActivity::class.java)
+                )
+            } else {
+                Toast.makeText(this@NaviActivity, "请先录入人脸底片", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        verify1n_add.setOnClickListener {
+            startActivity(
+                Intent(this@NaviActivity, Add1NBaseFaceActivity::class.java)
+            )
+        }
+
 
 
 
@@ -67,7 +97,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         update_base_image.setOnClickListener {
             startActivity(
-                Intent(this@NaviActivity, UpdateBaseFaceActivity::class.java)
+                Intent(this@NaviActivity, New11BaseFaceActivity::class.java)
                     .putExtra(BASE_FACE_KEY, yourUniQueFaceId)
             )
         }
@@ -107,6 +137,8 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         Toast.makeText(this, "不授权无法使用App啊", Toast.LENGTH_SHORT).show()
     }
+
+
 
     fun onUpload(view: View?) {
         Toast.makeText(this, "分析优化中...", Toast.LENGTH_SHORT).show()

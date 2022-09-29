@@ -1,46 +1,40 @@
-package com.faceVerify.test;
+package com.faceVerify.test.verify11;
 
 import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_RESULT_ENUM.ACTION_FAILED;
 import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_RESULT_ENUM.ACTION_NO_FACE_DETECT;
 import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_RESULT_ENUM.ACTION_OK;
 import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_RESULT_ENUM.ACTION_TIME_OUT;
-import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.NOD_HEAD;
-import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD;
-
 import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.BLINK;
+import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.NOD_HEAD;
 import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE;
+import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD;
 import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.SMILE;
+import static com.faceVerify.test.FaceApplication.BASE_FACE_DIR_11;
 import static com.faceVerify.test.FaceApplication.BASE_FACE_KEY;
 import static com.faceVerify.test.FaceApplication.CACHE_BASE_FACE_DIR;
-import androidx.annotation.NonNull;
+
+import android.graphics.Bitmap;
+import android.graphics.ImageFormat;
+import android.net.Uri;
+import android.os.Bundle;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.core.Camera;
 import androidx.camera.core.CameraInfoUnavailableException;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
-import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
-import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
-import android.graphics.ImageFormat;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.TextView;
-
-import com.AI.FaceVerify.graphic.GraphicOverlay;
+import com.AI.FaceVerify.utils.AiUtil;
 import com.AI.FaceVerify.verify.FaceDetectorUtils;
 import com.AI.FaceVerify.verify.FaceProcessBuilder;
 import com.AI.FaceVerify.verify.ProcessCallBack;
-import com.AI.FaceVerify.utils.AiUtil;
+import com.faceVerify.test.R;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.File;
@@ -48,19 +42,18 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 
 /**
- * 检验超时周末有空添加，可以根据Demo 结合自身进行业务定制UX，请先了解人脸识别基础
+ * 1：1 的人脸识别比对
  *
- * 2.0.0 版本后已经稳定。 为了你更好的开展业务，商业使用请联系添加签名
+ *
  */
-public class VerifyActivity extends AppCompatActivity {
+public class Verify11Activity extends AppCompatActivity {
 
     private TextView tipsTextView;
-
     private FaceDetectorUtils faceDetectorUtils = new FaceDetectorUtils();
 
 
     /**
-     * 资源释放
+     * 资源释放,
      *
      */
     @Override
@@ -71,6 +64,7 @@ public class VerifyActivity extends AppCompatActivity {
     }
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,13 +73,13 @@ public class VerifyActivity extends AppCompatActivity {
 
         tipsTextView = findViewById(R.id.tips_view);
 
-        findViewById(R.id.back).setOnClickListener(v -> VerifyActivity.this.finish());
+        findViewById(R.id.back).setOnClickListener(v -> Verify11Activity.this.finish());
 
         String yourUniQueFaceId = getIntent().getStringExtra(BASE_FACE_KEY); //你的FaceID Key
 
         //要对比的人脸底片（都是1：1 比对）
-        File file = new File(CACHE_BASE_FACE_DIR, yourUniQueFaceId);
-        Bitmap baseBitmap = AiUtil.compressPath(VerifyActivity.this, Uri.fromFile(file));
+        File file = new File(CACHE_BASE_FACE_DIR+BASE_FACE_DIR_11, yourUniQueFaceId);
+        Bitmap baseBitmap = AiUtil.compressPath(Verify11Activity.this, Uri.fromFile(file));
 
         //初始化引擎
         initVerify(baseBitmap);
@@ -102,6 +96,8 @@ public class VerifyActivity extends AppCompatActivity {
      * @param baseBitmap 底片
      */
     private void initVerify(Bitmap baseBitmap){
+        // 1:N 比对 设置 setFaceLibFolder，1：1 比对设置BaseBitmap
+        // 两个都设置优先1：1 识别， 都不设置报错
 
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setThreshold(0.8f)                 //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
@@ -113,11 +109,12 @@ public class VerifyActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             if (isMatched) {
                                 tipsTextView.setText("核验已通过，与底片为同一人！ ");
-                                new AlertDialog.Builder(VerifyActivity.this)
+                                new AlertDialog.Builder(Verify11Activity.this)
                                         .setMessage("核验已通过，与底片为同一人！")
+                                        .setCancelable(false)
                                         .setPositiveButton("知道了",
                                                 (dialog1, which) -> {
-                                                    VerifyActivity.this.finish();
+                                                    Verify11Activity.this.finish();
                                                 })
                                         .show();
 
@@ -126,16 +123,22 @@ public class VerifyActivity extends AppCompatActivity {
 
                                 tipsTextView.setText("核验不通过，与底片不符！ ");
 
-                                new AlertDialog.Builder(VerifyActivity.this)
+                                new AlertDialog.Builder(Verify11Activity.this)
                                         .setMessage("核验不通过，与底片不符！ ")
+                                        .setCancelable(false)
                                         .setPositiveButton("知道了",
                                                 (dialog1, which) -> {
-                                                    VerifyActivity.this.finish();
+                                                    Verify11Activity.this.finish();
                                                 })
                                         .show();
 
                             }
                         });
+                    }
+
+                    @Override
+                    public void onMostSimilar(String imagePath){
+
                     }
 
                     @Override
@@ -163,12 +166,12 @@ public class VerifyActivity extends AppCompatActivity {
             switch (actionCode) {
 
                 case ACTION_TIME_OUT:
-                    new android.app.AlertDialog.Builder(VerifyActivity.this)
+                    new android.app.AlertDialog.Builder(Verify11Activity.this)
                             .setMessage("检测超时了！")
+                            .setCancelable(false)
                             .setPositiveButton("再来一次",
                                     (dialog1, which) -> {
                                         //Demo 只是把每种状态抛出来，用户可以自己根据需求改造
-
                                         faceDetectorUtils.retryVerify();
                                     })
                             .show();
@@ -239,7 +242,7 @@ public class VerifyActivity extends AppCompatActivity {
                                 throw new IllegalArgumentException("Invalid image format");
                             }
 
-                            //todo 低端机控制码流
+                            //todo 低端机控制码流，不应该再用Bitmap 传递处理
                             faceDetectorUtils.goVerify(imageProxy);
 
                             imageProxy.close();
