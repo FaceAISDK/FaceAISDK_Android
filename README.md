@@ -84,9 +84,9 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
 ## Demo 下载
 
-   请前往下载： https://beta.bugly.qq.com/crx4 (托管服务如果失效请github打包)
+   请前往下载： https://beta.bugly.qq.com/nhwg (托管服务如果失效请github打包)
 
-![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ad9d5c616f91466a81dab0282c9daae7~tplv-k3u1fbpfcp-watermark.image?)
+![image](https://user-images.githubusercontent.com/15169396/189787317-c1d8d9f6-c38d-43de-bdc3-1cf77423fe46.png)
 
    
    
