@@ -7,7 +7,6 @@ import android.os.Environment
 /**
  * global param init
  *
- *
  */
 class FaceApplication : Application() {
     override fun onCreate() {
@@ -15,7 +14,7 @@ class FaceApplication : Application() {
         CACHE_BASE_FACE_DIR = getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
 
         BASE_FACE_DIR_11 = "/11";
-        BASE_FACE_DIR_1n = "/1n";
+        BASE_FACE_DIR_1N = "/1n";
 
         BASE_FACE_KEY="AI_BASE_FACE_KEY"
     }
@@ -40,6 +39,7 @@ class FaceApplication : Application() {
         lateinit var  CACHE_BASE_FACE_DIR: String
         lateinit var  BASE_FACE_KEY: String
         lateinit var  BASE_FACE_DIR_11: String
-        lateinit var  BASE_FACE_DIR_1n: String
+        lateinit var  BASE_FACE_DIR_1N: String
     }
+
 }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.faceVerify.test.VerifyActivity1N">
+    tools:context=".verify1N.Verify1NActivity">
 
 
     <androidx.camera.view.PreviewView

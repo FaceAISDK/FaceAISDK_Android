@@ -43,7 +43,7 @@ public class New11BaseFaceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_base_face);
+        setContentView(R.layout.activity_update_base_face_11);
 
         imageView = findViewById(R.id.baseImg);
         textView = findViewById(R.id.update);

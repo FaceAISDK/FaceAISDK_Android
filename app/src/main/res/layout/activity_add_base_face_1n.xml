@@ -7,7 +7,23 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".New11BaseFaceActivity">
+    tools:context=".verify1N.Add1NBaseFaceActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="123dp"
+
+        />
+
+
+    <ImageView
+        android:id="@+id/baseImg"
+        android:layout_width="111dp"
+        android:layout_height="111dp"
+        android:layout_marginTop="44dp"
+        android:background="@mipmap/ic_launcher_round" />
+
 
 
     <TextView
@@ -18,16 +34,9 @@
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:padding="10dp"
-        android:text=" 更改底片 "
+        android:text=" 添加底片 "
         android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/baseImg"
-        android:layout_width="222dp"
-        android:layout_height="222dp"
-        android:layout_marginTop="44dp"
-        android:background="@mipmap/ic_launcher_round" />
 
 </LinearLayout>

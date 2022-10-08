@@ -23,15 +23,17 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
   ![Preview](https://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
 
 
-## 使用场景（1：1 场景）
+## 使用场景
 
-   手机考勤系统，机场/卡口人证对齐，免密码登录，酒店入驻、刷脸支付、刷脸解锁 。由于TensorFlow 的特性，设备硬件要求GPU参数性能要好
+   【1：1】 识别手机考勤系统，机场/卡口人证对齐，免密码登录，酒店入驻、刷脸支付、刷脸解锁 。由于TensorFlow 的特性，设备硬件要求GPU参数性能要好
   （本SDK目前适配了Android 5-13，其他定制化需求请联系交流 ）
+
+   【1:N】 识别场景（考勤机，物业管理业主出入凭证等）请自行管理好底片库
 
 
 ## 接入使用
  
-    #### 当前版本：2.3.0
+    #### 当前版本：2.3.1
 
     * 优化活体检测灵敏度，提高低端机速度
     * 1:N 识别
@@ -45,13 +47,19 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
     
             FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setThreshold(0.8f)                 //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
-                .setBaseBitmap(baseBitmap)          //底片,请录入的时候保证底片质量
+                .setBaseBitmap(baseBitmap)          //1：1 底片
+                .setFaceLibFolder(BASE_FACE_DIR_1N) //1：N 底片库 （1还是N 中检测只能有一种）
                 .setGraphicOverlay(mGraphicOverlay) //遮罩层，人脸模型标记画面演示,可不传。
                 .setLiveCheck(true)                 //是否需要活体检测，需要发送邮件，详情参考ReadMe
                 .setProcessCallBack(new ProcessCallBack() {
                     @Override
                     public void onCompleted(boolean isMatched) {
       
+                    }
+
+                    @Override
+                    public void onMostSimilar(String imagePath){
+                        //only 1：N 人脸识别检测会有Callback
                     }
 
                     @Override

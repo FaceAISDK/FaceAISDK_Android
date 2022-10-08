@@ -11,12 +11,15 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        google()
+        maven { url 'https://developer.huawei.com/repo/' }
     }
     
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.2'
+        classpath 'com.android.tools.build:gradle:7.3.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+        classpath 'com.huawei.agconnect:agcp:1.4.1.300'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -28,8 +31,26 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
+
+
+        jcenter()
         mavenCentral()
+        google()
+
+        //融云 maven 仓库地址
+        maven {url "https://maven.rongcloud.cn/repository/maven-releases/"}
+
+        maven { url "https://jitpack.io" }
+
+        maven {
+            name "aliyunmaven"
+            url "https://maven.aliyun.com/nexus/content/groups/public/"
+        }
+
+        maven { url 'https://pkg.vankeservice.com/repository/maven-releases/' }
+
+        maven { url 'https://developer.huawei.com/repo/'}
+
     }
 
     plugins.withId("com.vanniktech.maven.publish") {

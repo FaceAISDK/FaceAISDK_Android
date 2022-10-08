@@ -10,8 +10,7 @@ import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.SHAKE
 import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.BLINK;
 import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE;
 import static com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.SMILE;
-import static com.faceVerify.test.FaceApplication.BASE_FACE_DIR_1n;
-import static com.faceVerify.test.FaceApplication.BASE_FACE_KEY;
+import static com.faceVerify.test.FaceApplication.BASE_FACE_DIR_1N;
 import static com.faceVerify.test.FaceApplication.CACHE_BASE_FACE_DIR;
 
 import androidx.appcompat.app.AlertDialog;
@@ -25,26 +24,21 @@ import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
-import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.widget.TextView;
 
 import com.AI.FaceVerify.verify.FaceDetectorUtils;
 import com.AI.FaceVerify.verify.FaceProcessBuilder;
 import com.AI.FaceVerify.verify.ProcessCallBack;
-import com.AI.FaceVerify.utils.AiUtil;
 import com.faceVerify.test.R;
 import com.google.common.util.concurrent.ListenableFuture;
 
-import java.io.File;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 
 /**
- * 1：1 的人脸识别比对
+ * 1：N 的人脸识别比对
  *
  *
  */
@@ -79,8 +73,6 @@ public class Verify1NActivity extends AppCompatActivity {
         findViewById(R.id.back).setOnClickListener(v -> Verify1NActivity.this.finish());
 
 
-
-
         //初始化引擎
         initVerify();
 
@@ -93,50 +85,33 @@ public class Verify1NActivity extends AppCompatActivity {
      *
      *
      * 活体检测的使用需要你发送邮件申请，简要描述App名称，包名和功能简介到 anylife.zlb@gmail.com
-     * @param baseBitmap 底片
      */
     private void initVerify( ){
         // 1:N 比对 设置 setFaceLibFolder，1：1 比对设置BaseBitmap
         // 两个都设置优先1：1 识别， 都不设置报错
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setThreshold(0.8f)                 //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
-                .setFaceLibFolder(CACHE_BASE_FACE_DIR+BASE_FACE_DIR_1n) //N 底片库
+                .setFaceLibFolder(CACHE_BASE_FACE_DIR+ BASE_FACE_DIR_1N) //N 底片库
                 .setLiveCheck(true)                 //是否需要活体检测，需要发送邮件，详情参考ReadMe
                 .setProcessCallBack(new ProcessCallBack() {
                     @Override
                     public void onCompleted(boolean isMatched) {
-                        runOnUiThread(() -> {
-                            if (isMatched) {
-                                tipsTextView.setText("核验已通过，与底片为同一人！ ");
-                                new AlertDialog.Builder(Verify1NActivity.this)
-                                        .setMessage("核验已通过，与底片为同一人！")
-                                        .setCancelable(false)
-                                        .setPositiveButton("知道了",
-                                                (dialog1, which) -> {
-                                                    Verify1NActivity.this.finish();
-                                                })
-                                        .show();
-
-
-                            } else {
-
-                                tipsTextView.setText("核验不通过，与底片不符！ ");
-
-                                new AlertDialog.Builder(Verify1NActivity.this)
-                                        .setMessage("核验不通过，与底片不符！ ")
-                                        .setCancelable(false)
-                                        .setPositiveButton("知道了",
-                                                (dialog1, which) -> {
-                                                    Verify1NActivity.this.finish();
-                                                })
-                                        .show();
-
-                            }
-                        });
+                        //only 1：1 will callback
                     }
 
                     @Override
                     public void onMostSimilar(String imagePath){
+                        runOnUiThread(() -> {
+                                new AlertDialog.Builder(Verify1NActivity.this)
+                                        .setMessage("最佳匹配："+imagePath)
+                                        .setCancelable(false)
+                                        .setPositiveButton("知道了",
+                                                (dialog1, which) -> {
+                                                    Verify1NActivity.this.finish();
+                                                })
+                                        .show();
+
+                        });
 
                     }
 

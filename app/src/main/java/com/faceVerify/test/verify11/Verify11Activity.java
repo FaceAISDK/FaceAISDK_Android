@@ -98,7 +98,6 @@ public class Verify11Activity extends AppCompatActivity {
     private void initVerify(Bitmap baseBitmap){
         // 1:N 比对 设置 setFaceLibFolder，1：1 比对设置BaseBitmap
         // 两个都设置优先1：1 识别， 都不设置报错
-
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setThreshold(0.8f)                 //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
                 .setBaseBitmap(baseBitmap)          //底片,请录入的时候保证底片质量
@@ -138,7 +137,7 @@ public class Verify11Activity extends AppCompatActivity {
 
                     @Override
                     public void onMostSimilar(String imagePath){
-
+                        //only 1：N 人脸识别检测会有Callback
                     }
 
                     @Override

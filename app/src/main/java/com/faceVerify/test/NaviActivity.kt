@@ -1,14 +1,16 @@
 package com.faceVerify.test
 
 import android.Manifest
-import androidx.appcompat.app.AppCompatActivity
-import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
-import android.os.Bundle
-import com.AI.FaceVerify.utils.AiUtil
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.AI.FaceVerify.utils.AiUtil
+import com.faceVerify.test.FaceApplication.Companion.BASE_FACE_DIR_11
+import com.faceVerify.test.FaceApplication.Companion.BASE_FACE_DIR_1N
 import com.faceVerify.test.FaceApplication.Companion.BASE_FACE_KEY
 import com.faceVerify.test.FaceApplication.Companion.CACHE_BASE_FACE_DIR
 import com.faceVerify.test.verify11.New11BaseFaceActivity
@@ -17,12 +19,14 @@ import com.faceVerify.test.verify1N.Add1NBaseFaceActivity
 import com.faceVerify.test.verify1N.Verify1NActivity
 import kotlinx.android.synthetic.main.activity_navi.*
 import pub.devrel.easypermissions.EasyPermissions
+import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import java.io.File
 
 /**
  * 演示导航 Navi
  *
- * Compile SDK 准备升级到32
+ * 更多请发邮件 anylife.zlb@gmail.com
+ * 或者微信：18707611416
  *
  *
  * 2022.07.29
@@ -39,7 +43,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         face_verify_card.setOnClickListener {
             //可以自己录一张人脸底片，业务方可以根据自己的要求改写testBaseImgName 处理
-            val file = File(CACHE_BASE_FACE_DIR, yourUniQueFaceId)
+            val file = File(CACHE_BASE_FACE_DIR+ BASE_FACE_DIR_11, yourUniQueFaceId)
             if (AiUtil.compressPath(this@NaviActivity, Uri.fromFile(file)) != null) {
                 startActivity(
                     Intent(this@NaviActivity, Verify11Activity::class.java)
@@ -54,6 +58,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
             }
         }
 
+        //添加1：1人脸识别底片
         update_base_image.setOnClickListener {
             startActivity(
                 Intent(this@NaviActivity, New11BaseFaceActivity::class.java)
@@ -63,27 +68,28 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
 
 
-
-
         verify1n.setOnClickListener {
-            //1:N 人脸比对
-            val file = File(CACHE_BASE_FACE_DIR, yourUniQueFaceId)
-            if (AiUtil.compressPath(this@NaviActivity, Uri.fromFile(file)) != null) {
+            //1:N 人脸比对，实际应用请自行管理底片的处理
+            if (getFilesAllName(CACHE_BASE_FACE_DIR+ BASE_FACE_DIR_1N).isEmpty()) {
+                Toast.makeText(this@NaviActivity, "请先添加底片", Toast.LENGTH_SHORT).show()
+                startActivity(
+                    Intent(this@NaviActivity, Add1NBaseFaceActivity::class.java)
+                )
+
+            } else {
                 startActivity(
                     Intent(this@NaviActivity, Verify1NActivity::class.java)
                 )
-            } else {
-                Toast.makeText(this@NaviActivity, "请先录入人脸底片", Toast.LENGTH_SHORT).show()
             }
         }
 
+
+        //添加1：N 人脸识别底片
         verify1n_add.setOnClickListener {
             startActivity(
                 Intent(this@NaviActivity, Add1NBaseFaceActivity::class.java)
             )
         }
-
-
 
 
         more_about_me.setOnClickListener {
@@ -103,6 +109,32 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
     }
+
+
+    /**
+     * 获取底片文件夹下的所有文件
+     *
+     * @param path
+     * @return
+     */
+    private fun getFilesAllName(path: String?): List<String> {
+        val file = File(path)
+        val files = file.listFiles()
+        val fileNames: MutableList<String> = ArrayList()
+
+        if (files == null) {
+            Log.e("error", "空目录")
+            return fileNames
+        }
+        for (i in files.indices) {
+            if (!files[i].absolutePath.contains("tempTake")) {
+                fileNames.add(files[i].absolutePath)
+            }
+        }
+        return fileNames
+    }
+
+
 
     /**
      * 统一全局的拦截权限请求，给提示
