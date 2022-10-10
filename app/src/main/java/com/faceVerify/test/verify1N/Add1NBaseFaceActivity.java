@@ -22,7 +22,7 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.AI.FaceVerify.utils.FaceFileProviderUtils;
-import com.AI.FaceVerify.verify.VerifyBaseImage;
+import com.AI.FaceVerify.verify.BaseImageDispose;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -45,7 +45,6 @@ import java.util.List;
 
 /**
  * 添加1：N 的人脸识别底照
- *
  */
 public class Add1NBaseFaceActivity extends AppCompatActivity {
 
@@ -56,7 +55,7 @@ public class Add1NBaseFaceActivity extends AppCompatActivity {
     private Uri imageUri;         // 拍照的原图保存地址
     private Uri cropImgUri;       // 裁剪过的图片地址
 
-    private List<String> list=new ArrayList<>();
+    private List<String> BaseImageList = new ArrayList<>();
 
     private ImageView imageView;
     private TextView textView;
@@ -75,7 +74,7 @@ public class Add1NBaseFaceActivity extends AppCompatActivity {
         textView = findViewById(R.id.update);
         recyclerView = findViewById(R.id.recyclerView);
 
-        yourUniQueFaceId = "AI-face-" + SystemClock.currentThreadTimeMillis();
+        yourUniQueFaceId = "base-face-" + SystemClock.currentThreadTimeMillis();
 
         textView.setOnClickListener(v -> {
         });
@@ -92,17 +91,17 @@ public class Add1NBaseFaceActivity extends AppCompatActivity {
                     fos.close();
 
                     Toast.makeText(getBaseContext(), "保存成功", Toast.LENGTH_LONG).show();
-                    baseBitmap=null;
+                    baseBitmap = null;
 
 
-                    list.clear();
-                    list.addAll(getFilesAllName(CACHE_BASE_FACE_DIR + BASE_FACE_DIR_1N));
+                    BaseImageList.clear();
+                    BaseImageList.addAll(getFilesAllName(CACHE_BASE_FACE_DIR + BASE_FACE_DIR_1N));
                     adapter.notifyDataSetChanged();
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }else {
+            } else {
                 openCamera();
             }
         });
@@ -114,9 +113,9 @@ public class Add1NBaseFaceActivity extends AppCompatActivity {
         flm.setAlignItems(AlignItems.CENTER);
         flm.setJustifyContent(JustifyContent.FLEX_START);
 
-        list=getFilesAllName(CACHE_BASE_FACE_DIR + BASE_FACE_DIR_1N);
+        BaseImageList.addAll(getFilesAllName(CACHE_BASE_FACE_DIR + BASE_FACE_DIR_1N));
 
-         adapter = new BaseImageAdapter(list);
+        adapter = new BaseImageAdapter(BaseImageList);
         recyclerView.setLayoutManager(flm);
         recyclerView.setAdapter(adapter);
     }
@@ -133,7 +132,7 @@ public class Add1NBaseFaceActivity extends AppCompatActivity {
 
             case REQUEST_PICTURE_CUT://裁剪完成
                 try {
-                    baseBitmap = VerifyBaseImage.verify(getBaseContext(),
+                    baseBitmap = BaseImageDispose.dispose(getBaseContext(),
                             BitmapFactory.decodeStream(getContentResolver().openInputStream(cropImgUri)));
 
                     if (null != baseBitmap) {
@@ -148,7 +147,7 @@ public class Add1NBaseFaceActivity extends AppCompatActivity {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    }else{
+                    } else {
                         Add1NBaseFaceActivity.this.finish();
                     }
 
@@ -229,11 +228,12 @@ public class Add1NBaseFaceActivity extends AppCompatActivity {
     public List<String> getFilesAllName(String path) {
         File file = new File(path);
         File[] files = file.listFiles();
+        List<String> fileNames = new ArrayList<>();
+
         if (files == null) {
             Log.e("error", "空目录");
-            return null;
+            return fileNames;
         }
-        List<String> fileNames = new ArrayList<>();
         for (int i = 0; i < files.length; i++) {
             if (!files[i].getAbsolutePath().contains("tempTake")) {
                 fileNames.add(files[i].getAbsolutePath());

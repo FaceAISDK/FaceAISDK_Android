@@ -13,10 +13,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.AI.FaceVerify.utils.AiUtil;
 import com.AI.FaceVerify.utils.FaceFileProviderUtils;
+import com.AI.FaceVerify.verify.BaseImageDispose;
 import com.faceVerify.test.R;
 import com.faceVerify.test.utils.FileStorage;
 
@@ -40,6 +44,9 @@ public class New11BaseFaceActivity extends AppCompatActivity {
     private ImageView imageView;
     private TextView textView;
 
+    private Bitmap baseBitmap;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,14 +56,33 @@ public class New11BaseFaceActivity extends AppCompatActivity {
         textView = findViewById(R.id.update);
         yourUniQueFaceId = getIntent().getStringExtra(BASE_FACE_KEY);
 
-        //可以自己录一张人脸底片 baseImgName YourUniQueFaceId
-        File file = new File(CACHE_BASE_FACE_DIR+BASE_FACE_DIR_11, yourUniQueFaceId);
-        imageView.setImageBitmap(AiUtil.compressPath(New11BaseFaceActivity.this, Uri.fromFile(file)));
+//        //可以自己录一张人脸底片 baseImgName YourUniQueFaceId
+//        File file = new File(CACHE_BASE_FACE_DIR+BASE_FACE_DIR_11, yourUniQueFaceId);
+//        imageView.setImageBitmap(AiUtil.compressPath(New11BaseFaceActivity.this, Uri.fromFile(file)));
 
         textView.setOnClickListener(v -> {
-            openCamera();
+
+            if (null != baseBitmap) {
+                File file = new File(CACHE_BASE_FACE_DIR+BASE_FACE_DIR_11, yourUniQueFaceId);
+                try {
+                    FileOutputStream fos = new FileOutputStream(file);
+                    baseBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                    fos.flush();
+                    fos.close();
+
+                    Toast.makeText(getBaseContext(),"保存成功",Toast.LENGTH_LONG).show();
+
+                    New11BaseFaceActivity.this.finish();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                openCamera();
+            }
+
         });
 
+        openCamera();
     }
 
 
@@ -70,26 +96,50 @@ public class New11BaseFaceActivity extends AppCompatActivity {
                 break;
 
             case REQUEST_PICTURE_CUT://裁剪完成
-                Bitmap bitmap = null;
+//                Bitmap bitmap = null;
+//                try {
+//                    bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(cropImgUri));
+//
+//                    imageView.setImageBitmap(bitmap);
+//
+//                    File file = new File(CACHE_BASE_FACE_DIR+BASE_FACE_DIR_11,yourUniQueFaceId);
+//
+//                    try {
+//                        FileOutputStream fos = new FileOutputStream(file);
+//                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+//                        fos.flush();
+//                        fos.close();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+
                 try {
-                    bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(cropImgUri));
+                    baseBitmap = BaseImageDispose.dispose(getBaseContext(),
+                            BitmapFactory.decodeStream(getContentResolver().openInputStream(cropImgUri)));
 
-                    imageView.setImageBitmap(bitmap);
-
-                    File file = new File(CACHE_BASE_FACE_DIR+BASE_FACE_DIR_11,yourUniQueFaceId);
-
-                    try {
-                        FileOutputStream fos = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                        fos.flush();
-                        fos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (null != baseBitmap) {
+                        imageView.setImageBitmap(baseBitmap);
+                        File file = new File(CACHE_BASE_FACE_DIR+BASE_FACE_DIR_11, yourUniQueFaceId);
+                        try {
+                            FileOutputStream fos = new FileOutputStream(file);
+                            baseBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                            fos.flush();
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+
+
                 break;
         }
     }

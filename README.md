@@ -25,7 +25,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
 ## 使用场景
 
-   【1：1】 识别手机考勤系统，机场/卡口人证对齐，免密码登录，酒店入驻、刷脸支付、刷脸解锁 。由于TensorFlow 的特性，设备硬件要求GPU参数性能要好
+   【1:1】 识别手机考勤系统，机场/卡口人证对齐，免密码登录，酒店入驻、刷脸支付、刷脸解锁 。由于TensorFlow 的特性，设备硬件要求GPU参数性能要好
   （本SDK目前适配了Android 5-13，其他定制化需求请联系交流 ）
 
    【1:N】 识别场景（考勤机，物业管理业主出入凭证等）请自行管理好底片库
@@ -33,14 +33,14 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
 ## 接入使用
  
-    #### 当前版本：2.3.1
+    #### 当前版本：3.0.2
 
     * 优化活体检测灵敏度，提高低端机速度
     * 1:N 识别
 
 
     //Android studio gradle 引入（Eclipse？Not support now !）
-    implementation "io.github.anylifezlb:Face-Verification:2.3.0"
+    implementation "io.github.anylifezlb:Face-Verification:3.0.2"
     
     ``` 
     //更多说明请看代码和下载Demo体验

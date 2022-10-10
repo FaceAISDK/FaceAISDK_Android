@@ -10,9 +10,9 @@ android {
     defaultConfig {
         applicationId "com.faceVerify.test"
         minSdkVersion 21
-        targetSdkVersion 32  // 需要升级到32
+        targetSdkVersion 32
         versionCode 9
-        versionName "2.1.0"
+        versionName "2.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -49,15 +49,15 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+
     
-    implementation "io.github.anylifezlb:Face-Verification:2.3.0"
+    implementation "io.github.anylifezlb:Face-Verification:3.0.2" //请使用最新依赖
+
 
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.2.1"
-//    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.8'
-
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.8'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
     implementation 'com.github.bumptech.glide:glide:4.12.0'
@@ -72,7 +72,7 @@ dependencies {
 
 
     // App compat and UI  things
-    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
