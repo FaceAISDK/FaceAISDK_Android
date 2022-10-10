@@ -74,14 +74,10 @@ public class Add1NBaseFaceActivity extends AppCompatActivity {
         textView = findViewById(R.id.update);
         recyclerView = findViewById(R.id.recyclerView);
 
-        yourUniQueFaceId = "base-face-" + SystemClock.currentThreadTimeMillis();
-
-        textView.setOnClickListener(v -> {
-        });
-
 
         textView.setOnClickListener(v -> {
             if (null != baseBitmap) {
+                yourUniQueFaceId = "base-face-" + SystemClock.currentThreadTimeMillis();
                 File file = new File(CACHE_BASE_FACE_DIR + BASE_FACE_DIR_1N, yourUniQueFaceId);
                 try {
                     FileOutputStream fos = new FileOutputStream(file);
@@ -92,7 +88,6 @@ public class Add1NBaseFaceActivity extends AppCompatActivity {
 
                     Toast.makeText(getBaseContext(), "保存成功", Toast.LENGTH_LONG).show();
                     baseBitmap = null;
-
 
                     BaseImageList.clear();
                     BaseImageList.addAll(getFilesAllName(CACHE_BASE_FACE_DIR + BASE_FACE_DIR_1N));
@@ -137,16 +132,6 @@ public class Add1NBaseFaceActivity extends AppCompatActivity {
 
                     if (null != baseBitmap) {
                         imageView.setImageBitmap(baseBitmap);
-                        textView.setVisibility(View.VISIBLE);
-                        File file = new File(CACHE_BASE_FACE_DIR + BASE_FACE_DIR_1N, yourUniQueFaceId);
-                        try {
-                            FileOutputStream fos = new FileOutputStream(file);
-                            baseBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                            fos.flush();
-                            fos.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                     } else {
                         Add1NBaseFaceActivity.this.finish();
                     }
