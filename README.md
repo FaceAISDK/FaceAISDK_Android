@@ -3,7 +3,7 @@
 Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版Android人脸检测，人脸识别和活体检测SDK
 
 <div align=center>
-<img src="https://user-images.githubusercontent.com/15169396/182627098-0ca24289-641b-4593-bf7c-72b09c4bf94e.jpeg" width = 20% height = 20% />
+<img src="http://user-images.githubusercontent.com/15169396/182627098-0ca24289-641b-4593-bf7c-72b09c4bf94e.jpeg" width = 20% height = 20% />
 </div>
 
 
@@ -20,7 +20,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
   但是多年以前的老旧机型和部分OEM 的设备运行就有点卡顿了，这类设备市面的保有量非常非常低，几乎可以忽略。
   可以概括为除了部分山寨组装机，定制机市面大厂销售的符合Google标准的手机都没有问题。
   
-  ![Preview](https://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
+  ![Preview](http://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
 
 
 ## 使用场景
@@ -94,8 +94,12 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
    请前往下载： https://beta.bugly.qq.com/nhwg (托管服务如果失效请github打包)
 
-![image](https://user-images.githubusercontent.com/15169396/189787317-c1d8d9f6-c38d-43de-bdc3-1cf77423fe46.png)
+![image](http://user-images.githubusercontent.com/15169396/189787317-c1d8d9f6-c38d-43de-bdc3-1cf77423fe46.png)
 
+
+  .
+  
+![](https://upload-images.jianshu.io/upload_images/2376786-795f2c165ed3d712.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
    
    
    
