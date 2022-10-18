@@ -18,7 +18,8 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
   SDK使用的离线模型为MFN，解释器 TensorFlow Lite2.9.0 和机器学习套件ML KIT，相机预览和流处理CameraX 
   前期测试效果能覆盖99.5 % 的中低端机器，识别成功率>99.9%。本统计数据仅供参考，以目前手机的配置，足以跑起来整个工程，
   但是多年以前的老旧机型和部分OEM 的设备运行就有点卡顿了，这类设备市面的保有量非常非常低，几乎可以忽略。
-  可以概括为除了部分山寨组装机，定制机市面大厂销售的符合Google标准的手机都没有问题。
+  可以概括为除了部分山寨组装机，定制机市面大厂销售的符合Google标准的手机都没有问题。其他车载，摄像头，门禁特殊设备特殊硬件
+  如有问题请先提Issues
   
   ![Preview](http://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
 
@@ -26,21 +27,21 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 ## 使用场景
 
    【1:1】 识别手机考勤系统，机场/卡口人证对齐，免密码登录，酒店入驻、刷脸支付、刷脸解锁 。由于TensorFlow 的特性，设备硬件要求GPU参数性能要好
-  （本SDK目前适配了Android 5-13，其他定制化需求请联系交流 ）
+  （本SDK目前适配了Android 5-13，其他定制化需求请联系anylife.zlb@gmail.com交流 ）
 
    【1:N】 识别场景（考勤机，物业管理业主出入凭证等）请自行管理好底片库
 
 
 ## 接入使用
  
-    #### 当前版本：3.0.2
+    #### 当前版本：3.0.6
 
     * 优化活体检测灵敏度，提高低端机速度
     * 1:N 识别
 
 
     //Android studio gradle 引入（Eclipse？Not support now !）
-    implementation "io.github.anylifezlb:Face-Verification:3.0.2"
+    implementation "io.github.anylifezlb:Face-Verification:3.0.6"
     
     ``` 
     //更多说明请看代码和下载Demo体验
@@ -54,7 +55,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
                 .setProcessCallBack(new ProcessCallBack() {
                     @Override
                     public void onCompleted(boolean isMatched) {
-      
+                         //only 1：1 人脸识别检测会有Callback
                     }
 
                     @Override
@@ -79,14 +80,14 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
 
    
-    更多使用说明下载参考本Repo，里面有比较详尽的使用方法，其中 
+    更多使用说明下载参考本Repo和下载Demo体验，里面有比较详尽的使用方法，其中 
 
     * NaviActivity Demo 演示导航页面
-    * UpdateBaseFaceActivity 更换底片页面
-    * VerifyActivity 人脸检测识别，活体检测页面
+    * New11BaseFaceActivity 更换底片页面（1：1）
+    * Verify11Activity 人脸检测识别，活体检测页面（1：1）
 
     其中活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请，内容包括
-    APP简要描述，App名称 ，包名 和 下载链接。
+    APP简要描述，App名称 ，包名 ，功能主页截屏，logo和 下载链接6项内容。
 
 
 
@@ -97,9 +98,8 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 ![image](http://user-images.githubusercontent.com/15169396/189787317-c1d8d9f6-c38d-43de-bdc3-1cf77423fe46.png)
 
 
-  .
+   - 赞助一杯咖啡☕️？
   
 ![](https://upload-images.jianshu.io/upload_images/2376786-795f2c165ed3d712.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-   
    
    

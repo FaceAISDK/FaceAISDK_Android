@@ -7,22 +7,19 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:orientation="vertical"
+    android:background="@drawable/img"
     tools:context=".verify1N.Add1NBaseFaceActivity">
-
 
 
     <ImageView
         android:id="@+id/baseImg"
-        android:layout_width="188dp"
-        android:layout_height="188dp"
-        android:layout_marginTop="44dp"
+        android:layout_width="111dp"
+        android:layout_height="111dp"
         android:background="@mipmap/ic_launcher_round" />
-
-
 
     <TextView
         android:id="@+id/update"
-        android:layout_width="200dp"
+        android:layout_width="111dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="33dp"
         android:background="@color/colorPrimary"

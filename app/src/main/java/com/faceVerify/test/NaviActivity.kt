@@ -25,15 +25,15 @@ import java.io.File
 /**
  * 演示导航 Navi
  *
- * 更多请发邮件 anylife.zlb@gmail.com
- * 或者微信：18707611416
+ * 更多请发邮件 anylife.zlb@gmail.com 交流
+ * 或者微信：18707611416 （）
  *
  *
  * 2022.07.29
  */
 class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
-    private var yourUniQueFaceId = "18707611416" //wechat
+    private var yourUniQueFaceId = "18707611416" //wechat or email me： anylife.zlb@gmail.com
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,9 +135,9 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
     }
 
 
-
     /**
      * 统一全局的拦截权限请求，给提示
+     *
      */
     private fun checkNeededPermission() {
         val perms = arrayOf(
@@ -147,7 +147,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         )
         if (EasyPermissions.hasPermissions(this, *perms)) {
         } else {
-            EasyPermissions.requestPermissions(this, "请求授权的相机和读取相册都仅仅是为了完成人脸识别所必需，请授权！", 11, *perms)
+            EasyPermissions.requestPermissions(this, "相机和读取相册都仅仅是为了完成人脸识别所必需，请授权！", 11, *perms)
         }
     }
 
@@ -175,4 +175,5 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
     fun onUpload(view: View?) {
         Toast.makeText(this, "分析优化中...", Toast.LENGTH_SHORT).show()
     }
+
 }

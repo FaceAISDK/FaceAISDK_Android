@@ -216,7 +216,7 @@ public class Verify1NActivity extends AppCompatActivity {
                                 throw new IllegalArgumentException("Invalid image format");
                             }
 
-                            //todo 低端机控制码流，不应该再用Bitmap 传递处理
+
                             faceDetectorUtils.goVerify(imageProxy);
 
                             imageProxy.close();

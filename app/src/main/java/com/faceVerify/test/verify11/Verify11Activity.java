@@ -71,6 +71,8 @@ public class Verify11Activity extends AppCompatActivity {
 
         setContentView(R.layout.activity_verify);
 
+        setTitle("1:1 人脸识别");
+
         tipsTextView = findViewById(R.id.tips_view);
 
         findViewById(R.id.back).setOnClickListener(v -> Verify11Activity.this.finish());
@@ -119,9 +121,7 @@ public class Verify11Activity extends AppCompatActivity {
 
 
                             } else {
-
                                 tipsTextView.setText("核验不通过，与底片不符！ ");
-
                                 new AlertDialog.Builder(Verify11Activity.this)
                                         .setMessage("核验不通过，与底片不符！ ")
                                         .setCancelable(false)
@@ -130,7 +130,6 @@ public class Verify11Activity extends AppCompatActivity {
                                                     Verify11Activity.this.finish();
                                                 })
                                         .show();
-
                             }
                         });
                     }

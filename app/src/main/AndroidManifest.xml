@@ -10,51 +10,50 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <application
+        android:name=".FaceApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".FaceApplication"
         android:theme="@style/AppTheme">
-
 
         <activity
             android:name=".NaviActivity"
-            android:exported="true"
             android:configChanges="orientation"
+            android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
 
         <activity
             android:name=".verify11.New11BaseFaceActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
             android:name=".verify11.Verify11Activity"
+            android:exported="false"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
 
         <activity
             android:name=".verify1N.Verify1NActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:exported="false"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
             android:name=".verify1N.Add1NBaseFaceActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:exported="false"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
     </application>
 

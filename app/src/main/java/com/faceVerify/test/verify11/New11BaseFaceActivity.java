@@ -3,7 +3,6 @@ package com.faceVerify.test.verify11;
 import static com.faceVerify.test.FaceApplication.BASE_FACE_DIR_11;
 import static com.faceVerify.test.FaceApplication.BASE_FACE_KEY;
 import static com.faceVerify.test.FaceApplication.CACHE_BASE_FACE_DIR;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import android.content.Intent;
@@ -13,17 +12,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.AI.FaceVerify.utils.AiUtil;
 import com.AI.FaceVerify.utils.FaceFileProviderUtils;
 import com.AI.FaceVerify.verify.BaseImageDispose;
 import com.faceVerify.test.R;
 import com.faceVerify.test.utils.FileStorage;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

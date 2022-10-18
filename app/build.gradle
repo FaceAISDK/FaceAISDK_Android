@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
-
 android {
     compileSdkVersion 32
 
@@ -41,6 +40,7 @@ android {
         abortOnError false
         checkReleaseBuilds false
     }
+
     namespace 'com.faceVerify.test'
 
 }
@@ -50,9 +50,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-    
-    implementation "io.github.anylifezlb:Face-Verification:3.0.2" //请使用最新依赖
-
+    implementation "io.github.anylifezlb:Face-Verification:3.0.6" //请使用最新依赖
 
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation "androidx.cardview:cardview:1.0.0"
