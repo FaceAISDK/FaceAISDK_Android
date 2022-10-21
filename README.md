@@ -13,42 +13,50 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
   * 人脸识别 7.X MB
   * 活体检测 6.x MB；
   
-  后期模型数据可以不绑定SDK，以便减少APK 包体积，支持模型自定义私有化部署！
- 
-  SDK使用的离线模型为MFN，解释器 TensorFlow Lite2.9.0 和机器学习套件ML KIT，相机预览和流处理CameraX 
-  前期测试效果能覆盖99.5 % 的中低端机器，识别成功率>99.9%。本统计数据仅供参考，以目前手机的配置，足以跑起来整个工程，
+  后期模型数据会解除绑定SDK，以便减少APK包发行体积，支持模型自定义私有化部署！
+
+  前期测试效果能覆盖99.5 % 的中低端机器，识别成功率>99.7%，本统计数据仅供参考。以目前手机的配置，足以跑起来整个工程，
   但是多年以前的老旧机型和部分OEM 的设备运行就有点卡顿了，这类设备市面的保有量非常非常低，几乎可以忽略。
-  可以概括为除了部分山寨组装机，定制机市面大厂销售的符合Google标准的手机都没有问题。其他车载，摄像头，门禁特殊设备特殊硬件
+  可以概括为除了部分山寨组装机，定制机市面大厂销售的符合Google标准的手机都没有问题；其他车载，摄像头，门禁特殊设备特殊硬件
   如有问题请先提Issues
+
+  SDK使用的离线模型为MFN，解释器为TensorFlow Lite和 机器学习套件ML，由于TensorFlow 的特性，设备硬件要求GPU参数性能要好
+ （本SDK目前适配了Android 5-13，其他定制化需求请联系anylife.zlb@gmail.com交流 ）
+
+  GPU 采用高吞吐量式设计，可处理大规模可并行化的工作负载。因此，它们非常适合包含大量算子的深度神经网络，每个算子都会处理
+  一个或多个输入张量，可以轻松地划分为较小的工作负载且并行执行，这通常可以降低延迟。在最佳情况下，GPU 上的推断速度现已
+  足够快，适用于以前无法实现的实时应用。与CPU不同，GPU 支持 16 位或 32 位浮点数运算，并且无需量化即可获得最佳性能。
+  委托确实接受 8 位量化模型，但是将以浮点数进行计算。GPU 推断的另一个优势是其功效，GPU 以非常高效且经优化的方式执行计算，
+  因此与在 CPU 上执行相同任务时相比，GPU 的功耗和产生的热量更低。
   
   ![Preview](http://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
 
 
 ## 使用场景
 
-   【1:1】 识别手机考勤系统，机场/卡口人证对齐，免密码登录，酒店入驻、刷脸支付、刷脸解锁 。由于TensorFlow 的特性，设备硬件要求GPU参数性能要好
-  （本SDK目前适配了Android 5-13，其他定制化需求请联系anylife.zlb@gmail.com交流 ）
+   【1:1】 识别手机考勤系统，机场/卡口人证对齐，免密码登录，酒店入驻、刷脸支付、刷脸解锁 
 
    【1:N】 识别场景（考勤机，物业管理业主出入凭证等）请自行管理好底片库
 
 
 ## 接入使用
  
-    #### 当前版本：3.0.6
+    #### 当前版本：3.0.8
 
     * 优化活体检测灵敏度，提高低端机速度
-    * 1:N 识别
+    * 开放1:N 识别（暂未优化，需要提升速率！）
+    * 开发自定义 threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
 
 
     //Android studio gradle 引入（Eclipse？Not support now !）
-    implementation "io.github.anylifezlb:Face-Verification:3.0.6"
+    implementation "io.github.anylifezlb:Face-Verification:3.0.8"
     
     ``` 
     //更多说明请看代码和下载Demo体验
     
             FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setThreshold(0.8f)                 //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
-                .setBaseBitmap(baseBitmap)          //1：1 底片
+                .setBaseBitmap(baseBitmap)          //1：1 底片「底片请设置为正脸无遮挡，并如Demo裁剪为仅含人脸」
                 .setFaceLibFolder(BASE_FACE_DIR_1N) //1：N 底片库 （1还是N 中检测只能有一种）
                 .setGraphicOverlay(mGraphicOverlay) //遮罩层，人脸模型标记画面演示,可不传。
                 .setLiveCheck(true)                 //是否需要活体检测，需要发送邮件，详情参考ReadMe
@@ -90,16 +98,11 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
     APP简要描述，App名称 ，包名 ，功能主页截屏，logo和 下载链接6项内容。
 
 
-
 ## Demo 下载
 
    请前往下载： https://beta.bugly.qq.com/nhwg (托管服务如果失效请github打包)
 
 ![image](http://user-images.githubusercontent.com/15169396/189787317-c1d8d9f6-c38d-43de-bdc3-1cf77423fe46.png)
 
-
-   - 赞助一杯咖啡☕️？
-  
-![](https://upload-images.jianshu.io/upload_images/2376786-795f2c165ed3d712.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
    
    

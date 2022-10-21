@@ -81,10 +81,8 @@ public class Verify1NActivity extends AppCompatActivity {
 
 
     /**
-     * 初始化认证引擎
+     * 1：N 人脸识别比对，验证的时候可以百度自行插入N 张人脸底图到对应目录
      *
-     *
-     * 活体检测的使用需要你发送邮件申请，简要描述App名称，包名和功能简介到 anylife.zlb@gmail.com
      */
     private void initVerify( ){
         // 1:N 比对 设置 setFaceLibFolder，1：1 比对设置BaseBitmap
@@ -124,6 +122,7 @@ public class Verify1NActivity extends AppCompatActivity {
                     public void onProcessTips(int actionCode) {
                         showAliveDetectTips(actionCode);
                     }
+
                 })
                 .create();
 

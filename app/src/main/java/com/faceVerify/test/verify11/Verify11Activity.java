@@ -13,11 +13,15 @@ import static com.faceVerify.test.FaceApplication.BASE_FACE_DIR_11;
 import static com.faceVerify.test.FaceApplication.BASE_FACE_KEY;
 import static com.faceVerify.test.FaceApplication.CACHE_BASE_FACE_DIR;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -87,7 +91,13 @@ public class Verify11Activity extends AppCompatActivity {
         initVerify(baseBitmap);
 
         initCameraXAnalysis();
+
+
+        Log.d("DEVELOP",isOpenDevelopmentSetting(this)+"  "+isUSBDebugSetting(this));
     }
+
+
+
 
 
     /**
@@ -275,6 +285,27 @@ public class Verify11Activity extends AppCompatActivity {
             }
 
         }, ContextCompat.getMainExecutor(this));
+    }
+
+
+    /**
+     * 开发者选项是否开启
+     *
+     * @return true 开启
+     */
+    public  boolean isOpenDevelopmentSetting(Activity activity) {
+        boolean enableAdb = Settings.Secure.getInt(activity.getContentResolver(), Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
+        return enableAdb;
+    }
+
+    /**
+     * usb调试是否开启
+     *
+     * @return true 开启
+     */
+    public  boolean isUSBDebugSetting(Activity activity){
+        boolean enableAdb = Settings.Secure.getInt(activity.getContentResolver(), Settings.Global.ADB_ENABLED, 0) != 0;
+        return enableAdb;
     }
 
 }

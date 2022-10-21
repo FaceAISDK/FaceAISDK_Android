@@ -19,6 +19,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -46,11 +47,10 @@ android {
 }
 
 
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-    implementation "io.github.anylifezlb:Face-Verification:3.0.6" //请使用最新依赖
+    implementation "io.github.anylifezlb:Face-Verification:3.0.8" //请使用最新依赖
 
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation "androidx.cardview:cardview:1.0.0"
@@ -61,13 +61,11 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
-
-    def camera_version = '1.1.0-alpha05'  //target 28,latest Version
+    def camera_version = '1.1.0-alpha05'  //t28,latest Version
     implementation "androidx.camera:camera-core:$camera_version"
     implementation "androidx.camera:camera-camera2:$camera_version"
     implementation "androidx.camera:camera-lifecycle:$camera_version"
     implementation "androidx.camera:camera-view:1.0.0-alpha25"
-
 
     // App compat and UI  things
     implementation 'androidx.appcompat:appcompat:1.5.1'

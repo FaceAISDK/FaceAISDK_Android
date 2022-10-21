@@ -13,6 +13,7 @@ import com.faceVerify.test.FaceApplication.Companion.BASE_FACE_DIR_11
 import com.faceVerify.test.FaceApplication.Companion.BASE_FACE_DIR_1N
 import com.faceVerify.test.FaceApplication.Companion.BASE_FACE_KEY
 import com.faceVerify.test.FaceApplication.Companion.CACHE_BASE_FACE_DIR
+import com.faceVerify.test.utils.FileUtils
 import com.faceVerify.test.verify11.New11BaseFaceActivity
 import com.faceVerify.test.verify11.Verify11Activity
 import com.faceVerify.test.verify1N.Add1NBaseFaceActivity
@@ -40,6 +41,20 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         setContentView(R.layout.activity_navi)
 
         checkNeededPermission()
+
+
+        ///storage/emulated/0/Android/data/com.AI.test/files/Pictures/faceVerify/1n
+        FileUtils.getInstance(this).copyAssetsToSD("baseImg", CACHE_BASE_FACE_DIR + BASE_FACE_DIR_1N)
+            .setFileOperateCallback(object : FileUtils.FileOperateCallback {
+                override fun onSuccess() {
+                    var yourUniQueFaceId="18826562075"
+                }
+
+                override fun onFailed(error: String) {
+                    var yourUniQueFaceId="18826562075"
+                }
+            })
+
 
         face_verify_card.setOnClickListener {
             //可以自己录一张人脸底片，业务方可以根据自己的要求改写testBaseImgName 处理
