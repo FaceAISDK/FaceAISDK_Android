@@ -42,8 +42,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         checkNeededPermission()
 
-
-        ///storage/emulated/0/Android/data/com.AI.test/files/Pictures/faceVerify/1n
+        // storage/emulated/0/Android/data/com.AI.test/files/Pictures/faceVerify/1n
         FileUtils.getInstance(this).copyAssetsToSD("baseImg", CACHE_BASE_FACE_DIR + BASE_FACE_DIR_1N)
             .setFileOperateCallback(object : FileUtils.FileOperateCallback {
                 override fun onSuccess() {

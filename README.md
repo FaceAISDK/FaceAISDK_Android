@@ -36,7 +36,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
    【1:1】 识别手机考勤系统，机场/卡口人证对齐，免密码登录，酒店入驻、刷脸支付、刷脸解锁 
 
-   【1:N】 识别场景（考勤机，物业管理业主出入凭证等）请自行管理好底片库
+   【1:N】 考勤机，物业管理业主出入凭证等，（暂未优化1：N 识别速度！）
 
 
 ## 接入使用
