@@ -222,7 +222,7 @@ public class Verify11Activity extends AppCompatActivity {
 
 
     /**
-     * 初始化相机,使用CameraX 结合CNN
+     * 相机的兼容性问题处理有点繁琐，Google 也没法适配全部厂商
      *
      */
     public void initCameraXAnalysis() {
@@ -250,7 +250,6 @@ public class Verify11Activity extends AppCompatActivity {
                                 throw new IllegalArgumentException("Invalid image format");
                             }
 
-                            //todo 低端机控制码流，不应该再用Bitmap 传递处理
                             faceDetectorUtils.goVerify(imageProxy);
 
                             imageProxy.close();

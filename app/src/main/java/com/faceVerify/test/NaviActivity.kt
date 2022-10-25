@@ -185,7 +185,6 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
     }
 
 
-
     fun onUpload(view: View?) {
         Toast.makeText(this, "分析优化中...", Toast.LENGTH_SHORT).show()
     }

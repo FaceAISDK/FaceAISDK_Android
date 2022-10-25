@@ -187,7 +187,7 @@ public class Verify1NActivity extends AppCompatActivity {
 
 
     /**
-     * 初始化相机,使用CameraX 结合CNN
+     * 相机的兼容性问题处理有点繁琐，Google 也没法适配全部厂商
      *
      */
     public void initCameraXAnalysis() {
