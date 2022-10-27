@@ -23,11 +23,6 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
   SDK使用的离线模型为MFN，解释器为TensorFlow Lite和 机器学习套件ML，由于TensorFlow 的特性，设备硬件要求GPU参数性能要好
  （本SDK目前适配了Android 5-13，其他定制化需求请联系anylife.zlb@gmail.com交流 ）
 
-  GPU 采用高吞吐量式设计，可处理大规模可并行化的工作负载。因此，它们非常适合包含大量算子的深度神经网络，每个算子都会处理
-  一个或多个输入张量，可以轻松地划分为较小的工作负载且并行执行，这通常可以降低延迟。在最佳情况下，GPU 上的推断速度现已
-  足够快，适用于以前无法实现的实时应用。与CPU不同，GPU 支持 16 位或 32 位浮点数运算，并且无需量化即可获得最佳性能。
-  委托确实接受 8 位量化模型，但是将以浮点数进行计算。GPU 推断的另一个优势是其功效，GPU 以非常高效且经优化的方式执行计算，
-  因此与在 CPU 上执行相同任务时相比，GPU 的功耗和产生的热量更低。
   
   ![Preview](http://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
 
