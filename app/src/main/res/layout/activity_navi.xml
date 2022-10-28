@@ -93,8 +93,8 @@
         android:layout_marginTop="111dp"
         android:padding="9dp"
         android:gravity="center"
-        android:text="1:N 人脸检测识别演示"
-        android:textColor="@android:color/white"
+        android:text="1:N人脸识别演示(完善中)"
+        android:textColor="@android:color/darker_gray"
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@+id/update_base_image" />
 
@@ -107,7 +107,7 @@
         android:padding="9dp"
         android:gravity="center"
         android:text="1:N 人脸识别底片添加"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/darker_gray"
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@+id/verify1n" />
 
