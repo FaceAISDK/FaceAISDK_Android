@@ -37,8 +37,6 @@ allprojects {
         mavenCentral()
         google()
 
-        //融云 maven 仓库地址
-        maven {url "https://maven.rongcloud.cn/repository/maven-releases/"}
 
         maven { url "https://jitpack.io" }
 
@@ -47,7 +45,6 @@ allprojects {
             url "https://maven.aliyun.com/nexus/content/groups/public/"
         }
 
-        maven { url 'https://pkg.vankeservice.com/repository/maven-releases/' }
 
         maven { url 'https://developer.huawei.com/repo/'}
 
