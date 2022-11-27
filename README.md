@@ -37,16 +37,15 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
 ## 接入使用
  
-    #### 当前版本：3.2.2（3.1.5+ 使用方式简化，不兼容升级）
-    #### 当前版本：3.0.8 (稳定版)
+    #### 当前版本：3.3.3  （3.2.0以后 使用方式简化，安全升级。不兼容升级）
 
     * 简化调用使用方式 ！
     * 提升活体检测速度，低端机体验
     * 开放1:N 识别（暂未优化，需要提升速率！）
 
 
-    //Android studio gradle 引入（Eclipse？Not support now !）
-    implementation "io.github.anylifezlb:Face-Verification:3.2.2"
+    //Gradle
+    implementation "io.github.anylifezlb:Face-Verification:3.3.3"
     
     ``` 
     //更多说明请看代码和下载Demo体验
