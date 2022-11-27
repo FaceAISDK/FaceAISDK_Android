@@ -38,6 +38,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 ## 接入使用
  
     #### 当前版本：3.2.2（3.1.5+ 使用方式简化，不兼容升级）
+    #### 当前版本：3.0.8 (稳定版)
 
     * 简化调用使用方式 ！
     * 提升活体检测速度，低端机体验
