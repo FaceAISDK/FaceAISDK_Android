@@ -11,12 +11,16 @@ import android.os.Environment
 class FaceApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        CACHE_BASE_FACE_DIR = getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
+        BASE_FACE_PATH = getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
 
-        BASE_FACE_DIR_11 = "/11";
-        BASE_FACE_DIR_1N = "/1n";
+        DIR_11_VALUE = "/11";
+        DIR_1N_VALUE = "/1n";
+        FACE_DIR_KEY="FACE_DIR_KEY"
 
-        BASE_FACE_KEY="AI_BASE_FACE_KEY"
+
+        USER_ID_KEY="USER_ID_KEY"
+
+
     }
 
     override fun onTerminate() {
@@ -35,11 +39,16 @@ class FaceApplication : Application() {
         super.onTrimMemory(level)
     }
 
+    //可以精简一些了
     public companion object {
-        lateinit var  CACHE_BASE_FACE_DIR: String
-        lateinit var  BASE_FACE_KEY: String
-        lateinit var  BASE_FACE_DIR_11: String
-        lateinit var  BASE_FACE_DIR_1N: String
+        lateinit var  BASE_FACE_PATH: String
+
+        lateinit var  DIR_11_VALUE: String
+        lateinit var  DIR_1N_VALUE: String
+        lateinit var  FACE_DIR_KEY: String
+
+        lateinit var  USER_ID_KEY: String
+
     }
 
 }

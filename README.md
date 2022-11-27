@@ -20,9 +20,10 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
   可以概括为除了部分山寨组装机，定制机市面大厂销售的符合Google标准的手机都没有问题；其他车载，摄像头，门禁特殊设备特殊硬件
   如有问题请先提Issues
 
-  SDK使用的离线模型为MFN，解释器为TensorFlow Lite和 机器学习套件ML，由于TensorFlow 的特性，设备硬件要求GPU参数性能要好
+  SDK使用的离线模型为MFN，解释器为TensorFlow Lite和 机器学习套件ML，由于TensorFlow 的特性，下一步推理代理会转到GPU尝试
  （本SDK目前适配了Android 5-13，其他定制化需求请联系anylife.zlb@gmail.com交流 ）
 
+  活体检测支持张嘴，微笑，眨眼，摇头，点头 随机两种组合验证，低端机离线验证速度正常。
   
   ![Preview](http://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
 
@@ -36,15 +37,15 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
 ## 接入使用
  
-    #### 当前版本：3.0.8
+    #### 当前版本：3.2.2（3.1.5+ 使用方式简化，不兼容升级）
 
-    * 优化活体检测灵敏度，提高低端机速度
+    * 简化调用使用方式 ！
+    * 提升活体检测速度，低端机体验
     * 开放1:N 识别（暂未优化，需要提升速率！）
-    * 开发自定义 threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
 
 
     //Android studio gradle 引入（Eclipse？Not support now !）
-    implementation "io.github.anylifezlb:Face-Verification:3.0.8"
+    implementation "io.github.anylifezlb:Face-Verification:3.2.2"
     
     ``` 
     //更多说明请看代码和下载Demo体验
@@ -88,6 +89,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
     * NaviActivity Demo 演示导航页面
     * New11BaseFaceActivity 更换底片页面（1：1）
     * Verify11Activity 人脸检测识别，活体检测页面（1：1）
+    * 1：N 识别暂未优化
 
     其中活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请，内容包括
     APP简要描述，App名称 ，包名 ，功能主页截屏，logo和 下载链接6项内容。
@@ -95,7 +97,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
 ## Demo 下载
 
-   请前往下载： https://beta.bugly.qq.com/nhwg (托管服务如果失效请github打包)
+   请前往下载： https://beta.bugly.qq.com/nhwg (托管服务如果失效请github 下载代码打包)
 
 ![image](http://user-images.githubusercontent.com/15169396/189787317-c1d8d9f6-c38d-43de-bdc3-1cf77423fe46.png)
 

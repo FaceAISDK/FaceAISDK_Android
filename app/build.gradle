@@ -11,10 +11,9 @@ android {
         minSdkVersion 21
         targetSdkVersion 32
         versionCode 9
-        versionName "2.2.0"
+        versionName "3.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
 
     buildTypes {
         release {
@@ -32,6 +31,14 @@ android {
         }
     }
 
+//    android.applicationVariants.all { variant ->
+//        variant.outputs.all {
+//            variant.getPackageApplication().outputDirectory = new File(project.rootDir.absolutePath + "/apk")
+//            outputFileName = "FaceVerify-"+"${variant.buildType.name}.apk"
+//        }
+//    }
+
+
     //注意设置
     androidResources {
         noCompress 'tflite'
@@ -43,29 +50,26 @@ android {
     }
 
     namespace 'com.faceVerify.test'
-
 }
 
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-    implementation "io.github.anylifezlb:Face-Verification:3.0.8" //请使用最新依赖
 
+    implementation "io.github.anylifezlb:Face-Verification:3.3.1" //请使用最新依赖
+
+
+    // 以下为业务需要其他依赖
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.8'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    kapt 'com.github.bumptech.glide:compiler:4.11.0'
-
-    def camera_version = '1.1.0-alpha05'  //t28,latest Version
-    implementation "androidx.camera:camera-core:$camera_version"
-    implementation "androidx.camera:camera-camera2:$camera_version"
-    implementation "androidx.camera:camera-lifecycle:$camera_version"
-    implementation "androidx.camera:camera-view:1.0.0-alpha25"
+    implementation 'com.github.bumptech.glide:glide:4.13.0'
+    implementation 'com.google.android.material:material:1.7.0'
+    kapt 'com.github.bumptech.glide:compiler:4.13.0'
 
     // App compat and UI  things
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -80,6 +84,7 @@ repositories {
     flatDir {
         dirs 'aars'
     }
+
 }
 
 

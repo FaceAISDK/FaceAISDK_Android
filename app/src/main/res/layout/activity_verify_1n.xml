@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:customAttr="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".verify1N.Verify1NActivity">
+
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_camerax"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.AI.FaceVerify.view.FaceCoverView
+        android:id="@+id/face_cover"
+        customAttr:circle_margin="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <TextView
+        android:id="@+id/tips_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@color/blue"
+        android:gravity="center"
+        android:paddingLeft="18dp"
+        android:paddingTop="5dp"
+        android:paddingRight="18dp"
+        android:paddingBottom="5dp"
+        android:text="Initializing"
+        android:textColor="@color/green"
+        android:layout_marginTop="111dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_margin="15dp"
+        android:padding="9dp"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:src="@drawable/ic_baseline_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:customAttr="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".utils.AddBaseImageActivity">
+
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_camerax"
+        customAttr:circle_margin="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.AI.FaceVerify.view.FaceCoverView
+        android:id="@+id/face_cover"
+        customAttr:circle_margin="22dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <TextView
+        android:id="@+id/tips_view"
+        android:layout_width="wrap_content"
+        android:layout_height="29dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:background="@color/black_overlay"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:text="初始化中..."
+        tools:text="比对结果" />
+
+
+</RelativeLayout>
+
+

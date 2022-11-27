@@ -6,17 +6,18 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    xmlns:customAttr="http://schemas.android.com/apk/res-auto"
     tools:context=".verify1N.Verify1NActivity">
 
 
-    <androidx.camera.view.PreviewView
-        android:id="@+id/previewView"
-        android:fitsSystemWindows="true"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_camerax"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-
     <com.AI.FaceVerify.view.FaceCoverView
+        android:id="@+id/face_cover"
+        customAttr:circle_margin="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -34,7 +35,7 @@
         android:paddingBottom="5dp"
         android:text="Initializing"
         android:textColor="@color/green"
-        android:layout_marginTop="111dp"
+        android:layout_marginTop="88dp"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

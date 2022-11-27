@@ -9,14 +9,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.AI.FaceVerify.utils.AiUtil
-import com.faceVerify.test.FaceApplication.Companion.BASE_FACE_DIR_11
-import com.faceVerify.test.FaceApplication.Companion.BASE_FACE_DIR_1N
-import com.faceVerify.test.FaceApplication.Companion.BASE_FACE_KEY
-import com.faceVerify.test.FaceApplication.Companion.CACHE_BASE_FACE_DIR
-import com.faceVerify.test.utils.FileUtils
-import com.faceVerify.test.verify11.New11BaseFaceActivity
+import com.AI.FaceVerify.utils.CopyFileUtils
+import com.faceVerify.test.FaceApplication.Companion.BASE_FACE_PATH
+import com.faceVerify.test.FaceApplication.Companion.DIR_11_VALUE
+import com.faceVerify.test.FaceApplication.Companion.DIR_1N_VALUE
+import com.faceVerify.test.FaceApplication.Companion.FACE_DIR_KEY
+import com.faceVerify.test.FaceApplication.Companion.USER_ID_KEY
+import com.faceVerify.test.utils.AddBaseImageActivity
 import com.faceVerify.test.verify11.Verify11Activity
-import com.faceVerify.test.verify1N.Add1NBaseFaceActivity
 import com.faceVerify.test.verify1N.Verify1NActivity
 import kotlinx.android.synthetic.main.activity_navi.*
 import pub.devrel.easypermissions.EasyPermissions
@@ -27,14 +27,14 @@ import java.io.File
  * 演示导航 Navi
  *
  * 更多请发邮件 anylife.zlb@gmail.com 交流
- * 或者微信：18707611416 （）
  *
  *
  * 2022.07.29
+ *
  */
 class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
-    private var yourUniQueFaceId = "18707611416" //wechat or email me： anylife.zlb@gmail.com
+    private var yourUniQueFaceId = "18707611416"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,32 +42,21 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         checkNeededPermission()
 
-        // storage/emulated/0/Android/data/com.AI.test/files/Pictures/faceVerify/1n
-        FileUtils.getInstance(this).copyAssetsToSD("baseImg", CACHE_BASE_FACE_DIR + BASE_FACE_DIR_1N)
-            .setFileOperateCallback(object : FileUtils.FileOperateCallback {
-                override fun onSuccess() {
-                    var yourUniQueFaceId="18826562075"
-                }
-
-                override fun onFailed(error: String) {
-                    var yourUniQueFaceId="18826562075"
-                }
-            })
-
 
         face_verify_card.setOnClickListener {
             //可以自己录一张人脸底片，业务方可以根据自己的要求改写testBaseImgName 处理
-            val file = File(CACHE_BASE_FACE_DIR+ BASE_FACE_DIR_11, yourUniQueFaceId)
+            val file = File(BASE_FACE_PATH+ DIR_11_VALUE, yourUniQueFaceId)
             if (AiUtil.compressPath(this@NaviActivity, Uri.fromFile(file)) != null) {
                 startActivity(
                     Intent(this@NaviActivity, Verify11Activity::class.java)
-                        .putExtra(BASE_FACE_KEY, yourUniQueFaceId)
+                        .putExtra(USER_ID_KEY, yourUniQueFaceId)
                 )
             } else {
                 Toast.makeText(this@NaviActivity, "请先录入人脸底片", Toast.LENGTH_SHORT).show()
                 startActivity(
-                    Intent(this@NaviActivity, New11BaseFaceActivity::class.java)
-                        .putExtra(BASE_FACE_KEY, yourUniQueFaceId)
+                    Intent(this@NaviActivity, AddBaseImageActivity::class.java)
+                        .putExtra(USER_ID_KEY, yourUniQueFaceId)
+                        .putExtra(FACE_DIR_KEY, DIR_11_VALUE)
                 )
             }
         }
@@ -75,8 +64,9 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         //添加1：1人脸识别底片
         update_base_image.setOnClickListener {
             startActivity(
-                Intent(this@NaviActivity, New11BaseFaceActivity::class.java)
-                    .putExtra(BASE_FACE_KEY, yourUniQueFaceId)
+                Intent(this@NaviActivity, AddBaseImageActivity::class.java)
+                    .putExtra(USER_ID_KEY, yourUniQueFaceId)
+                    .putExtra(FACE_DIR_KEY, DIR_11_VALUE)
             )
         }
 
@@ -84,12 +74,13 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         verify1n.setOnClickListener {
             //1:N 人脸比对，实际应用请自行管理底片的处理
-            if (getFilesAllName(CACHE_BASE_FACE_DIR+ BASE_FACE_DIR_1N).isEmpty()) {
+            if (getFilesAllName(BASE_FACE_PATH+ DIR_1N_VALUE).isEmpty()) {
                 Toast.makeText(this@NaviActivity, "请先添加底片", Toast.LENGTH_SHORT).show()
                 startActivity(
-                    Intent(this@NaviActivity, Add1NBaseFaceActivity::class.java)
+                    Intent(this@NaviActivity, AddBaseImageActivity::class.java)
+                        .putExtra(USER_ID_KEY, yourUniQueFaceId)
+                        .putExtra(FACE_DIR_KEY, DIR_1N_VALUE)
                 )
-
             } else {
                 startActivity(
                     Intent(this@NaviActivity, Verify1NActivity::class.java)
@@ -100,10 +91,32 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         //添加1：N 人脸识别底片
         verify1n_add.setOnClickListener {
+
+
+            CopyFileUtils.getInstance(this@NaviActivity)
+                .copyAssetsToSD("baseImg", BASE_FACE_PATH + DIR_1N_VALUE)
+                .setFileOperateCallback(object : CopyFileUtils.FileOperateCallback{
+                    override fun onSuccess() {
+                        Toast.makeText(baseContext, "1:N 底片复制成功", Toast.LENGTH_SHORT).show()
+
+                    }
+
+                    override fun onFailed(error: String?) {
+                        Toast.makeText(baseContext, "操作失败:$error", Toast.LENGTH_SHORT).show()
+
+                    }
+                })
+
+
+
             startActivity(
-                Intent(this@NaviActivity, Add1NBaseFaceActivity::class.java)
+                Intent(this@NaviActivity, AddBaseImageActivity::class.java)
+                    .putExtra(USER_ID_KEY, yourUniQueFaceId)
+                    .putExtra(FACE_DIR_KEY, DIR_1N_VALUE)
             )
         }
+
+
 
 
         more_about_me.setOnClickListener {
@@ -114,13 +127,6 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
             startActivity(intent)
         }
 
-
-        update_base_image.setOnClickListener {
-            startActivity(
-                Intent(this@NaviActivity, New11BaseFaceActivity::class.java)
-                    .putExtra(BASE_FACE_KEY, yourUniQueFaceId)
-            )
-        }
 
     }
 
