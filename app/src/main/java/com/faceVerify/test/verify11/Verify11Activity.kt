@@ -104,6 +104,7 @@ class Verify11Activity : AppCompatActivity() {
             .setThreshold(0.80f) //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
             .setBaseBitmap(baseBitmap) //底片,请录入的时候保证底片质量
             .setLiveCheck(true) //是否需要活体检测，需要发送邮件，详情参考ReadMe
+            .setVerifyTimeOut(11)
             .setProcessCallBack(object : ProcessCallBack() {
                 override fun onCompleted(isMatched: Boolean) {
                     runOnUiThread {
