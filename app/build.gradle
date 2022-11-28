@@ -57,7 +57,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
 
-    implementation "io.github.anylifezlb:Face-Verification:3.3.1" //请使用最新依赖
+    implementation "io.github.anylifezlb:Face-Verification:3.3.3" //请使用最新依赖
 
 
     // 以下为业务需要其他依赖
