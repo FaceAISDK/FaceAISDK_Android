@@ -31,12 +31,7 @@ android {
         }
     }
 
-//    android.applicationVariants.all { variant ->
-//        variant.outputs.all {
-//            variant.getPackageApplication().outputDirectory = new File(project.rootDir.absolutePath + "/apk")
-//            outputFileName = "FaceVerify-"+"${variant.buildType.name}.apk"
-//        }
-//    }
+
 
 
     //注意设置
@@ -57,7 +52,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
 
-    implementation "io.github.anylifezlb:Face-Verification:3.3.3"   //请使用最新依赖。
+    implementation "io.github.anylifezlb:Face-Verification:3.3.4"  // 3.3.3 版本后性能，安全，易用性大改
 
 
     // 以下为业务需要其他依赖

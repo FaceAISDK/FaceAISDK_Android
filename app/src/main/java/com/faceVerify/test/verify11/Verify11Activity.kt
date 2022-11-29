@@ -50,13 +50,10 @@ class Verify11Activity : AppCompatActivity() {
 
         val yourUniQueFaceId = intent.getStringExtra(FaceApplication.USER_ID_KEY)
 
-
-
         val cameraXFragment = CameraXAnalyzeFragment.newInstance(CAMERA_ORIGINAL)
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_camerax, cameraXFragment).commit()
-
 
 
         //要对比的人脸底片，业务方自行处理
@@ -64,12 +61,11 @@ class Verify11Activity : AppCompatActivity() {
             FaceApplication.BASE_FACE_PATH + FaceApplication.DIR_11_VALUE,
             yourUniQueFaceId
         )
+
         val baseBitmap = AiUtil.compressPath(baseContext, Uri.fromFile(file))
 
         //初始化引擎
         initFaceVerify(baseBitmap)
-
-
 
 
         //VerifyCameraXFragment 封装了相机的处理，UI 定制暴露给业务层自由修改
@@ -77,18 +73,15 @@ class Verify11Activity : AppCompatActivity() {
             override fun analyze(imageProxy: ImageProxy) {
                 if (this@Verify11Activity.isDestroyed || this@Verify11Activity.isFinishing) return
 
+                //第二个参数
                 faceVerifyUtils.goVerify(imageProxy, face_cover.margin);
             }
 
-            override fun analyze(rgbBytes: ByteArray,w:Int,h:Int) {
+            override fun analyze(rgbBytes: ByteArray, w: Int, h: Int) {
 
             }
         })
     }
-
-
-
-
 
 
     /**
@@ -103,7 +96,8 @@ class Verify11Activity : AppCompatActivity() {
         val faceProcessBuilder = FaceProcessBuilder.Builder(this)
             .setThreshold(0.80f) //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
             .setBaseBitmap(baseBitmap) //底片,请录入的时候保证底片质量
-            .setLiveCheck(true) //是否需要活体检测，需要发送邮件，详情参考ReadMe
+            .setLiveCheck(true)   //是否需要活体检测，需要发送邮件，详情参考ReadMe
+            .setVerifyTimeOut(10)     //  活体检测支持设置超时时间 9-16 秒
             .setVerifyTimeOut(11)
             .setProcessCallBack(object : ProcessCallBack() {
                 override fun onCompleted(isMatched: Boolean) {
@@ -112,15 +106,8 @@ class Verify11Activity : AppCompatActivity() {
                             tips_view.text = "核验已通过，与底片为同一人！ "
                             this@Verify11Activity.finish()
 
-                            Toast.makeText(this@Verify11Activity,"验证通过",Toast.LENGTH_LONG).show();
+                            Toast.makeText(this@Verify11Activity, "验证通过", Toast.LENGTH_LONG).show();
 
-//                            AlertDialog.Builder(this@Verify11Activity)
-//                                .setMessage("核验已通过，与底片为同一人！")
-//                                .setCancelable(false)
-//                                .setPositiveButton(
-//                                    "知道了"
-//                                ) { dialog1: DialogInterface?, which: Int -> finish() }
-//                                .show()
 
                         } else {
                             tips_view.text = "核验不通过，与底片不符！ "

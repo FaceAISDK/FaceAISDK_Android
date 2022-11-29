@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.activity_verify_1n.*
  *
  *
  */
-
 class Verify1NActivity : AppCompatActivity() {
 
     private var faceDetectorUtils: FaceVerifyUtils = FaceVerifyUtils()
@@ -75,7 +74,7 @@ class Verify1NActivity : AppCompatActivity() {
             .setThreshold(0.88f) //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
             .setFaceLibFolder(FaceApplication.BASE_FACE_PATH + FaceApplication.DIR_1N_VALUE) //N 底片库
             .setLiveCheck(false) //是否需要活体检测，需要发送邮件，详情参考ReadMe
-            .setVerifyTimeOut(11)
+            .setVerifyTimeOut(10)     //  活体检测支持设置超时时间 9-16 秒
             .setProcessCallBack(object : ProcessCallBack() {
                 override fun onCompleted(isMatched: Boolean) {
                     //only 1：1 will callback

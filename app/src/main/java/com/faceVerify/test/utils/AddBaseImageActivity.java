@@ -34,30 +34,23 @@ public class AddBaseImageActivity extends AppCompatActivity {
     private BaseImageDispose baseImageDispose;
     private String yourUniQueFaceId;
     private String childDir;
+    private long i=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_base);  //1:n 对比
+        setContentView(R.layout.activity_add_base);
 
         setTitle("底图添加");
+
+        findViewById(R.id.back).setOnClickListener(v -> {
+            finish();
+        });
 
         yourUniQueFaceId = getIntent().getStringExtra(USER_ID_KEY);
         childDir = getIntent().getStringExtra(FACE_DIR_KEY);
 
         tipsTextView = findViewById(R.id.tips_view);
-
-        new BaseImageDispose(getBaseContext(),new BaseImageCallBack(){
-            @Override
-            public void onCompleted(Bitmap bitmap) {
-
-            }
-
-            @Override
-            public void onProcessTips(int actionCode) {
-
-            }
-        });
 
 
         baseImageDispose = new BaseImageDispose(getBaseContext(), new BaseImageCallBack() {
@@ -85,7 +78,6 @@ public class AddBaseImageActivity extends AppCompatActivity {
                                 tipsTextView.setText("图像校准失败");
                                 break;
                         }
-
                     }
                 });
             }
@@ -95,8 +87,15 @@ public class AddBaseImageActivity extends AppCompatActivity {
         cameraXFragment.setOnAnalyzerListener(new CameraXAnalyzeFragment.onAnalyzeData() {
             @Override
             public void analyze(@NonNull ImageProxy imageProxy) {
-                //什么Bitmap,保存为最终形态吧
-                baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy,15));
+                i++;
+
+                if(i%9==0){
+                    //什么Bitmap,保存为最终形态吧
+                    baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy,15));
+                }
+
+
+
             }
 
             @Override
@@ -123,19 +122,19 @@ public class AddBaseImageActivity extends AppCompatActivity {
 
         //设置对话框布局
         dialog.setView(dialogView);
-        ImageView basePreView = (ImageView) dialogView.findViewById(R.id.preview);
+        dialog.setCanceledOnTouchOutside(false);
+        ImageView basePreView = dialogView.findViewById(R.id.preview);
 
         basePreView.setImageBitmap(bitmap);
 
-        Button btnOK = (Button) dialogView.findViewById(R.id.btn_ok);
-        Button btnCancel = (Button) dialogView.findViewById(R.id.btn_cancel);
+        Button btnOK = dialogView.findViewById(R.id.btn_ok);
+        Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
+
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 baseImageDispose.saveBaseImage(bitmap, BASE_FACE_PATH
                         + childDir,yourUniQueFaceId);
-
                 dialog.dismiss();
                 finish();
             }
@@ -144,15 +143,13 @@ public class AddBaseImageActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 dialog.dismiss();
-
                 //太快了，可以延迟一点重试
                 baseImageDispose.retry();
             }
         });
+
         dialog.show();
     }
-
 
 }

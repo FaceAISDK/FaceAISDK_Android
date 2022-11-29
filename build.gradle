@@ -50,11 +50,7 @@ allprojects {
 
     }
 
-    plugins.withId("com.vanniktech.maven.publish") {
-        mavenPublish {
-            sonatypeHost = "S01"
-        }
-    }
+
 }
 
 
