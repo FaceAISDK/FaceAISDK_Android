@@ -10,10 +10,10 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 ## 简要说明
 
   本SDK支持 Android 5.0 +，包含人脸检测，人脸识别和动作活体检测，所有功能都是离线使用。
-  活体检测支持张嘴，微笑，眨眼，摇头，点头 5种方式随机两种组合验证，低端机离线验证速度正常。
+  活体检测支持 张嘴，微笑，眨眼，摇头，点头 5种方式随机两种组合验证，低端机离线验证速度正常。
 
   前期测试效果能覆盖99.5 % 的中低端机器，识别成功率>99.7%，本统计数据仅供参考。
-  特殊设备特殊硬件，如有问题请先提Issues，其他定制化需求请联系anylife.zlb@gmail.com交流
+  特殊系统设备特殊硬件，如有问题请先提Issues，其他定制化需求请联系 anylife.zlb@gmail.com 交流
   
   ![Preview](http://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
 
@@ -45,7 +45,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
                 .setThreshold(0.8f)                 //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
                 .setBaseBitmap(baseBitmap)          //1：1 底片「底片请设置为正脸无遮挡，并如Demo裁剪为仅含人脸」
                 .setFaceLibFolder(BASE_FACE_DIR_1N) //1：N 底片库 （1还是N 中检测只能有一种）
-                .setGraphicOverlay(mGraphicOverlay) //遮罩层，人脸模型标记画面演示,可不传。
+                .setGraphicOverlay(mGraphicOverlay) //遮罩层，人脸模型标记画面演示,只是辅助调试用
                 .setLiveCheck(true)                 //是否需要活体检测，需要发送邮件，详情参考ReadMe
                 .setVerifyTimeOut(10)               //活体检测支持设置超时时间 9-16 秒
                 .setProcessCallBack(new ProcessCallBack() {
