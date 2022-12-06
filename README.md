@@ -90,10 +90,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
    请前往下载： https://www.pgyer.com/faceVerify (托管服务如果失效请github 下载代码打包)
 
-![蒲公英下载](https://user-images.githubusercontent.com/15169396/204509617-d36f3990-b63e-4eb8-9437-be8200e1aeed.png)
-
-
    
 <div align=center>
-<img src="https://user-images.githubusercontent.com/15169396/205933436-46e77bda-66f5-49fe-88d0-91d07931b758.png" width = 40% height = 40% />
+<img src="https://user-images.githubusercontent.com/15169396/205934647-e78b4c81-0da9-473f-a359-54b052755ffd.png" width = 33% height = 33% />
 </div>
