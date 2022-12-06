@@ -94,6 +94,6 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
 
    
-   <div align=center>
-<img src="https://user-images.githubusercontent.com/15169396/205933436-46e77bda-66f5-49fe-88d0-91d07931b758.png" width = 20% height = 20% />
+<div align=center>
+<img src="https://user-images.githubusercontent.com/15169396/205933436-46e77bda-66f5-49fe-88d0-91d07931b758.png" width = 40% height = 40% />
 </div>
