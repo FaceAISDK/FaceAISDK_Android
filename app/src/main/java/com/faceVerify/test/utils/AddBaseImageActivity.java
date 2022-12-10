@@ -1,6 +1,5 @@
 package com.faceVerify.test.utils;
 
-
 import static com.AI.FaceVerify.view.CameraXAnalyzeFragment.CAMERA_ORIGINAL;
 import static com.faceVerify.test.FaceApplication.FACE_DIR_KEY;
 import static com.faceVerify.test.FaceApplication.BASE_FACE_PATH;
@@ -27,21 +26,22 @@ import com.faceVerify.test.R;
 
 
 /**
- * 新加，修改底图
+ *  新加，修改底图
+ *
  */
 public class AddBaseImageActivity extends AppCompatActivity {
     private TextView tipsTextView;
     private BaseImageDispose baseImageDispose;
     private String yourUniQueFaceId;
     private String childDir;
-    private long i=1;
+    private long index =1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_base);
 
-        setTitle("底图添加");
+        setTitle("底图编辑");
 
         findViewById(R.id.back).setOnClickListener(v -> {
             finish();
@@ -51,7 +51,6 @@ public class AddBaseImageActivity extends AppCompatActivity {
         childDir = getIntent().getStringExtra(FACE_DIR_KEY);
 
         tipsTextView = findViewById(R.id.tips_view);
-
 
         baseImageDispose = new BaseImageDispose(getBaseContext(), new BaseImageCallBack() {
             @Override
@@ -87,14 +86,11 @@ public class AddBaseImageActivity extends AppCompatActivity {
         cameraXFragment.setOnAnalyzerListener(new CameraXAnalyzeFragment.onAnalyzeData() {
             @Override
             public void analyze(@NonNull ImageProxy imageProxy) {
-                i++;
+                index++;
 
-                if(i%9==0){
-                    //什么Bitmap,保存为最终形态吧
+                if(index %18==0){  // 可以改为一个按钮来给用户控制
                     baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy,15));
                 }
-
-
 
             }
 
@@ -130,23 +126,18 @@ public class AddBaseImageActivity extends AppCompatActivity {
         Button btnOK = dialogView.findViewById(R.id.btn_ok);
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
 
-        btnOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                baseImageDispose.saveBaseImage(bitmap, BASE_FACE_PATH
-                        + childDir,yourUniQueFaceId);
-                dialog.dismiss();
-                finish();
-            }
+        btnOK.setOnClickListener(v -> {
+            baseImageDispose.saveBaseImage(bitmap, BASE_FACE_PATH
+                    + childDir,yourUniQueFaceId);
+            dialog.dismiss();
+            finish();
         });
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                //太快了，可以延迟一点重试
-                baseImageDispose.retry();
-            }
+        btnCancel.setOnClickListener(v -> {
+            index=1;
+            dialog.dismiss();
+            //太快了，可以延迟一点重试
+            baseImageDispose.retry();
         });
 
         dialog.show();

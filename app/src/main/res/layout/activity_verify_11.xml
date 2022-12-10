@@ -17,9 +17,16 @@
 
     <com.AI.FaceVerify.view.FaceCoverView
         android:id="@+id/face_cover"
-        customAttr:circle_margin="15dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+
+        customAttr:circle_margin="16dp"
+        customAttr:tip_text_size="20sp"
+        customAttr:tip_text_color="@color/colorPrimary"
+        customAttr:progress_start_color="@color/yellow"
+        customAttr:progress_end_color="@color/red"
+        customAttr:show_progress="true"
+        />
 
 
     <TextView
@@ -36,7 +43,7 @@
         android:text="Initializing"
         android:textColor="@color/green"
         android:layout_marginTop="88dp"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

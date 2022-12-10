@@ -51,9 +51,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-
-    implementation "io.github.anylifezlb:Face-Verification:3.3.4"  // 3.3.3 版本后性能，安全，易用性大改
-
+    implementation "io.github.anylifezlb:Face-Verification:3.5.1"   // 3.3.3 版本后性能，安全，易用性大改
 
     // 以下为业务需要其他依赖
     implementation 'pub.devrel:easypermissions:3.0.0'

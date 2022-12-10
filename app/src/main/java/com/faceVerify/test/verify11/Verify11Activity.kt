@@ -25,19 +25,18 @@ import java.io.File
 /**
  * 1：1 的人脸识别比对
  *
+ * 如果对比阈值 大于 设定值，一次就返回成功
+ * 如果对比阈值 小于 设定值，尝试5次返回失败
+ *
+ * 这样画面也不会闪的太快看不清提示
+ *
+ *
  *
  */
 class Verify11Activity : AppCompatActivity() {
 
     private var faceVerifyUtils: FaceVerifyUtils = FaceVerifyUtils()
 
-    /**
-     * 资源释放
-     */
-    override fun onDestroy() {
-        super.onDestroy()
-        faceVerifyUtils.destroyProcess()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +61,7 @@ class Verify11Activity : AppCompatActivity() {
             yourUniQueFaceId
         )
 
+        //Bitmap 提前压缩好，可以加快识别速度 50 - 60 ms
         val baseBitmap = AiUtil.compressPath(baseContext, Uri.fromFile(file))
 
         //初始化引擎
@@ -72,14 +72,13 @@ class Verify11Activity : AppCompatActivity() {
         cameraXFragment.setOnAnalyzerListener(object : CameraXAnalyzeFragment.onAnalyzeData {
             override fun analyze(imageProxy: ImageProxy) {
                 if (this@Verify11Activity.isDestroyed || this@Verify11Activity.isFinishing) return
-
-                //第二个参数
-                faceVerifyUtils.goVerify(imageProxy, face_cover.margin);
-            }
-
-            override fun analyze(rgbBytes: ByteArray, w: Int, h: Int) {
+                //第二个参数i 是指圆直径R-margin 为边长的正方形区域为分析区域
+//                faceVerifyUtils.goVerify(imageProxy, face_cover.margin);
+                faceVerifyUtils.goVerify(imageProxy, 2)
 
             }
+
+            override fun analyze(rgbBytes: ByteArray, w: Int, h: Int) {}
         })
     }
 
@@ -94,11 +93,10 @@ class Verify11Activity : AppCompatActivity() {
         // 1:N 比对 设置 setFaceLibFolder，1：1 比对设置BaseBitmap
         // 两个都设置优先1：1 识别， 都不设置报错
         val faceProcessBuilder = FaceProcessBuilder.Builder(this)
-            .setThreshold(0.80f) //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
+            .setThreshold(0.80f)       //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
             .setBaseBitmap(baseBitmap) //底片,请录入的时候保证底片质量
-            .setLiveCheck(true)   //是否需要活体检测，需要发送邮件，详情参考ReadMe
-            .setVerifyTimeOut(10)     //  活体检测支持设置超时时间 9-16 秒
-            .setVerifyTimeOut(11)
+            .setLiveCheck(true)        //是否需要活体检测，需要发送邮件，详情参考ReadMe
+            .setVerifyTimeOut(10)      //活体检测支持设置超时时间 9-16 秒
             .setProcessCallBack(object : ProcessCallBack() {
                 override fun onCompleted(isMatched: Boolean) {
                     runOnUiThread {
@@ -107,7 +105,6 @@ class Verify11Activity : AppCompatActivity() {
                             this@Verify11Activity.finish()
 
                             Toast.makeText(this@Verify11Activity, "验证通过", Toast.LENGTH_LONG).show();
-
 
                         } else {
                             tips_view.text = "核验不通过，与底片不符！ "
@@ -123,19 +120,24 @@ class Verify11Activity : AppCompatActivity() {
                 }
 
                 override fun onMostSimilar(imagePath: String) {
-                    //only 1：N 人脸识别检测会有Callback
+                    //Only 1：N 人脸识别检测会有Callback
                 }
 
                 override fun onFailed(code: Int) {
-
+                    //严重错误直接阻断主流程的
                 }
 
                 override fun onProcessTips(actionCode: Int) {
                     showAliveDetectTips(actionCode)
                 }
 
+
+                override fun onTimeOutStart(p0: Float) {
+                    face_cover.startCountDown(p0)
+                }
             })
             .create()
+
         faceVerifyUtils.setDetectorParams(faceProcessBuilder)
     }
 
@@ -163,6 +165,9 @@ class Verify11Activity : AppCompatActivity() {
                         .show()
                 }
 
+                //5次相比阈值太低就判断为非同一人
+                VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS -> tips_view.text = "人脸比对中..."
+
                 VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE -> tips_view.text = "画面没有检测到人脸"
                 VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED -> tips_view.text = "活体检测失败了"
                 VERIFY_DETECT_TIPS_ENUM.ACTION_OK -> tips_view.text = "已经完成活体检测"
@@ -172,9 +177,24 @@ class Verify11Activity : AppCompatActivity() {
                 ALIVE_DETECT_TYPE_ENUM.BLINK -> tips_view.text = "请轻眨眼"
                 ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD -> tips_view.text = "请缓慢左右摇头"
                 ALIVE_DETECT_TYPE_ENUM.NOD_HEAD -> tips_view.text = "请缓慢上下点头"
+
+
+//                ALIVE_DETECT_TYPE_ENUM.NO_MOUSE -> tips_view_2.text = "请勿遮挡嘴巴"
+//                ALIVE_DETECT_TYPE_ENUM.NO_NOSE -> tips_view_2.text = "请勿遮挡鼻子"
+//                ALIVE_DETECT_TYPE_ENUM.NO_EYE -> tips_view_2.text = "请勿遮挡眼睛"
+//                ALIVE_DETECT_TYPE_ENUM.LAND_MARK_ALL -> tips_view_2.text = ""
+
             }
         }
     }
 
+
+    /**
+     * 资源释放
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        faceVerifyUtils.destroyProcess()
+    }
 
 }

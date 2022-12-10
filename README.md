@@ -9,7 +9,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
 ## 简要说明
 
-  本SDK支持 Android 5.0 +，包含人脸检测，人脸识别和动作活体检测，所有功能都是离线使用。
+  本SDK支持 Android 5.0 +，包含人脸检测，人脸识别和动作活体检测，所有功能都是离线使用，数据都在用户终端隐私目录。
   活体检测支持张嘴，微笑，眨眼，摇头，点头 5种方式随机两种组合验证，低端机离线验证速度正常。
 
   前期测试效果能覆盖99.5 % 的中低端机器，识别成功率>99.7%，本统计数据仅供参考。
@@ -32,11 +32,11 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
     * 简化调用使用方式 ！
     * 活体检测支持设置超时时间 9-16 秒 
     * 开放1:N 识别（暂未优化，需要提升速率！）
-    * 开发自定义 threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
+    * 活体检测倒计时转圈动画
 
 
     //Gradle
-    implementation "io.github.anylifezlb:Face-Verification:3.3.3"
+    implementation "io.github.anylifezlb:Face-Verification:3.5.0"
     
     ``` 
     //更多说明请看代码和下载Demo体验

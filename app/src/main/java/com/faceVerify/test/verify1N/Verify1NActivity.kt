@@ -26,13 +26,7 @@ class Verify1NActivity : AppCompatActivity() {
 
     private var faceDetectorUtils: FaceVerifyUtils = FaceVerifyUtils()
 
-    /**
-     * 资源释放
-     */
-    override fun onDestroy() {
-        super.onDestroy()
-        faceDetectorUtils.destroyProcess()
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,8 +80,8 @@ class Verify1NActivity : AppCompatActivity() {
                             .setMessage("最佳匹配：$imagePath")
                             .setCancelable(false)
                             .setPositiveButton(
-                                "知道了", null
-                            )
+                                "知道了"
+                            ) { dialog1: DialogInterface?, which: Int -> finish() }
                             .show()
                     }
                 }
@@ -128,6 +122,10 @@ class Verify1NActivity : AppCompatActivity() {
                         .show()
                 }
 
+
+                VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS -> {
+                    tips_view.text = "检索中..."
+                }
                 VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE -> tips_view.text = "画面没有检测到人脸"
                 VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED -> tips_view.text = "活体检测失败了"
                 VERIFY_DETECT_TIPS_ENUM.ACTION_OK -> tips_view.text = "已经完成活体检测"
@@ -140,6 +138,14 @@ class Verify1NActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    /**
+     * 资源释放
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        faceDetectorUtils.destroyProcess()
     }
 
 }
