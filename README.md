@@ -9,10 +9,10 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
 ## 简要说明
 
-  本SDK支持Android 5+，包含人脸检测，人脸识别和动作活体检测，所有处理都在本地端执行，敏感资料不发送后台Server，更具隐私安全。
-  活体检测支持张嘴，微笑，眨眼，摇头，点头 5种方式随机两种组合验证（摇头点头可拆分为左右上下4个动作），低端机离线验证速度正常。
+  本SDK支持Android 5+，包含人脸检测，人脸识别和动作活体检测，所有处理都是离线终端执行，敏感资料不发送后台Server，更具隐私安全；
+  其中活体检测支持张嘴，微笑，眨眼，摇头，点头 随机两种组合验证（摇头点头也可拆分为左右上下4个动作），低端机离线验证速度正常。
 
-  前期测试效果能覆盖99.5 % 的中低端机器，识别成功率>99.7%，本统计数据仅供参考。
+  前期测试效果能覆盖95% 的中高低端机器，识别成功率>99% ，实验数据仅供参考，可下载体验后决定是否引入使用。
   特殊系统设备特殊硬件，如有问题请先提Issues，其他定制化需求请联系 anylife.zlb@gmail.com 交流
   
   ![Preview](http://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
@@ -78,8 +78,8 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
     更多使用说明下载参考本Repo和下载Demo体验，里面有比较详尽的使用方法，其中 
 
     * NaviActivity Demo 演示导航页面
-    * New11BaseFaceActivity 更换底片页面（1：1）
     * Verify11Activity 人脸检测识别，活体检测页面（1：1）
+    * AddBaseImageActivity 更换底片页面，仅供参考建议业务方使用自拍裁剪后使用本程序处理获取高质量底片
     * 1：N 识别暂未优化
 
     其中活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请，内容包括
@@ -90,7 +90,8 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
    请前往下载： https://www.pgyer.com/faceVerify (托管服务如果失效请github 下载代码打包)
 
+
    
 <div align=center>
-<img src="https://user-images.githubusercontent.com/15169396/205934647-e78b4c81-0da9-473f-a359-54b052755ffd.png" width = 33% height = 33% />
+<img src="https://user-images.githubusercontent.com/15169396/210045090-60c073df-ddbd-4747-8e24-f0dce1eccb58.png" width = 33% height = 33% />
 </div>
