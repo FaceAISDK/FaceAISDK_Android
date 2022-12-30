@@ -84,6 +84,8 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
     其中活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请，内容包括
     APP简要描述，App名称 ，包名 ，功能主页截屏，logo 和 下载链接6项内容。
+    
+    如果是H5 web 应用需要使用人脸识别，可以封装JsBrodge 调用交互使用。如果需要减少包体积，模型文件可以私有部署
 
 
 ## Demo 下载
