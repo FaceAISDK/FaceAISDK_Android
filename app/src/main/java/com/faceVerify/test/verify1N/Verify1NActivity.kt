@@ -18,14 +18,12 @@ import kotlinx.android.synthetic.main.activity_verify_1n.*
 
 
 /**
- * 1：N 的人脸识别比对
- *
+ * 1：N 的人脸识别比对，还没有完善封装，预计23年二季度
  *
  */
 class Verify1NActivity : AppCompatActivity() {
 
     private var faceDetectorUtils: FaceVerifyUtils = FaceVerifyUtils()
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

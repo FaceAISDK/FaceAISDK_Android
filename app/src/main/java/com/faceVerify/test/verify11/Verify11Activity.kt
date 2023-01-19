@@ -12,6 +12,8 @@ import com.AI.FaceVerify.verify.ProcessCallBack
 import android.content.DialogInterface
 import com.AI.FaceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -30,13 +32,10 @@ import java.io.File
  *
  * 这样画面也不会闪的太快看不清提示
  *
- *
- *
  */
 class Verify11Activity : AppCompatActivity() {
 
     private var faceVerifyUtils: FaceVerifyUtils = FaceVerifyUtils()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,14 +69,17 @@ class Verify11Activity : AppCompatActivity() {
 
         //VerifyCameraXFragment 封装了相机的处理，UI 定制暴露给业务层自由修改
         cameraXFragment.setOnAnalyzerListener(object : CameraXAnalyzeFragment.onAnalyzeData {
+
             override fun analyze(imageProxy: ImageProxy) {
                 if (this@Verify11Activity.isDestroyed || this@Verify11Activity.isFinishing) return
-                //第二个参数i 是指圆直径R-margin 为边长的正方形区域为分析区域
+                //第二个参数i 是指圆直径R-margin 为边长的正方形区域为分析区域,是为了剪裁圆形所在正方形框内的图像进行分析
+
 //                faceVerifyUtils.goVerify(imageProxy, face_cover.margin);
                 faceVerifyUtils.goVerify(imageProxy, 2)
 
             }
 
+            //拓展接口方法，暂不用
             override fun analyze(rgbBytes: ByteArray, w: Int, h: Int) {}
         })
     }
@@ -93,7 +95,7 @@ class Verify11Activity : AppCompatActivity() {
         // 1:N 比对 设置 setFaceLibFolder，1：1 比对设置BaseBitmap
         // 两个都设置优先1：1 识别， 都不设置报错
         val faceProcessBuilder = FaceProcessBuilder.Builder(this)
-            .setThreshold(0.80f)       //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
+            .setThreshold(0.75f)       //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
             .setBaseBitmap(baseBitmap) //底片,请录入的时候保证底片质量
             .setLiveCheck(true)        //是否需要活体检测，需要发送邮件，详情参考ReadMe
             .setVerifyTimeOut(10)      //活体检测支持设置超时时间 9-16 秒
@@ -102,9 +104,12 @@ class Verify11Activity : AppCompatActivity() {
                     runOnUiThread {
                         if (isMatched) {
                             tips_view.text = "核验已通过，与底片为同一人！ "
-                            this@Verify11Activity.finish()
 
                             Toast.makeText(this@Verify11Activity, "验证通过", Toast.LENGTH_LONG).show();
+
+                            Handler(Looper.getMainLooper()).postDelayed(
+                                { this@Verify11Activity.finish() }, 1000  //时间根据业务需求自由修改
+                            )
 
                         } else {
                             tips_view.text = "核验不通过，与底片不符！ "
@@ -161,6 +166,18 @@ class Verify11Activity : AppCompatActivity() {
                         ) { dialog1: DialogInterface?, which: Int ->
                             //Demo 只是把每种状态抛出来，用户可以自己根据需求改造
                             faceVerifyUtils.retryVerify()
+                        }
+                        .show()
+                }
+
+
+                VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY -> {
+                    tips_view.text = "多次切换画面或无人脸"
+                    android.app.AlertDialog.Builder(this@Verify11Activity)
+                        .setMessage("多次切换画面或无人脸，停止识别。\n识别过程请保持人脸在画面中")
+                        .setCancelable(false)
+                        .setPositiveButton("知道了") { dialog1: DialogInterface?, which: Int ->
+                            finish()
                         }
                         .show()
                 }

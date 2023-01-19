@@ -43,7 +43,7 @@
         android:text="Initializing"
         android:textColor="@color/green"
         android:layout_marginTop="88dp"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

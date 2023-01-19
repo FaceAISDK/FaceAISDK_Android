@@ -17,6 +17,8 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
   
   ![Preview](http://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
 
+  人脸识别方案为：[MobileFaceNets](https://arxiv.org/pdf/1804.07573.pdf) ，解释器为TensorFlow lite； 预计23 年第二季度方案会升级，同时官方也会更新解释器 。
+
 
 ## 使用场景
 
@@ -36,7 +38,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
 
     //Gradle
-    implementation "io.github.anylifezlb:Face-Verification:3.5.0"
+    implementation "io.github.anylifezlb:Face-Verification:3.6.3"
     
     ``` 
     //更多说明请看代码和下载Demo体验

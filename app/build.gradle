@@ -4,12 +4,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.faceVerify.test"
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 9
         versionName "3.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -51,7 +51,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-    implementation "io.github.anylifezlb:Face-Verification:3.5.5"   // 3.3.3 版本后性能，安全，易用性大改
+    implementation "io.github.anylifezlb:Face-Verification:3.6.3"   // 3.3.3 版本后性能，安全，易用性大改
 
     // 以下为业务需要其他依赖
     implementation 'pub.devrel:easypermissions:3.0.0'

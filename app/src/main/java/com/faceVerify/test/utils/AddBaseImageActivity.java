@@ -26,7 +26,9 @@ import com.faceVerify.test.R;
 
 
 /**
- *  新加，修改底图
+ *  仅仅供参考使用，底图处理建议调用系统相机自拍然后裁剪+程序识别以获取高清正常的底片
+ *
+ *  部分业务可以添加审核环节，本Demo 仅供参考
  *
  */
 public class AddBaseImageActivity extends AppCompatActivity {
