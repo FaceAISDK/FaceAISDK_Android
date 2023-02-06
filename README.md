@@ -101,6 +101,8 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
    如果你的应用场景SDK 不能匹配需要特殊定制化，请发邮件到anylife.zlb@gmail.com
    也可以加微信 HaoNan19990322 （请标注人脸识别定制，否则添加不通过，谢谢）
    
+   Github: https://github.com/AnyLifeZLB/FaceVerificationSDK
+   
    
    
    
