@@ -12,7 +12,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
   本SDK支持Android 5+，包含人脸检测，人脸识别和动作活体检测，所有处理都是离线终端执行，敏感资料不发送后台Server，更具隐私安全；
   其中活体检测支持张嘴，微笑，眨眼，摇头，点头 随机两种组合验证（摇头点头也可拆分为左右上下4个动作），低端机离线验证速度正常。
 
-  前期测试效果能覆盖95% 的中高低端机器，识别成功率>99% ，实验数据仅供参考，可下载体验后决定是否引入使用。
+  前期测试效果能覆盖95% 的中高低端机器，识别成功率>99% ，实验数据仅供参考，最低端手机完整的兼容性功能通过设备为魅蓝Note3（2016年低端机）。
   特殊系统设备特殊硬件，如有问题请先提Issues，其他定制化需求请联系 anylife.zlb@gmail.com 交流
   
   ![Preview](http://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
