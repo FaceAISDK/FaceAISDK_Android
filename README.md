@@ -13,7 +13,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
   其中活体检测支持张嘴，微笑，眨眼，摇头，点头 随机两种组合验证（摇头点头也可拆分为左右上下4个动作），低端机离线验证速度正常。
 
   前期测试效果能覆盖95% 的中高低端机器，识别成功率>99% ，实验数据仅供参考，最低端手机完整的兼容性功能通过设备为2016年低端机魅蓝Note3。
-  特殊系统设备特殊硬件，如有问题请先提Issues，其他定制化需求请联系 anylife.zlb@gmail.com 交流
+  特殊系统设备特殊硬件，如有问题请先提Issues附带系统版本，设备型号，错误log等信息，其他定制化需求请联系 anylife.zlb@gmail.com 交流
   
   ![Preview](http://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
 
@@ -31,7 +31,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
     #### 3.6.9 更新说明
 
     * 提高中高端设备识别精确度，低配设备时间换效率吧
-    * 优化活体检测的完整性
+    * 优化活体检测链路的完整性和作弊检测
 
 
     //Gradle
@@ -82,7 +82,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
     * 1：N 识别暂未优化
 
     其中活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请，内容包括
-    APP简要描述，App名称 ，包名 ，功能主页截屏，logo 和 下载链接6项内容。
+    APP简要描述，App名称 ，包名 ，功能主页截屏和 下载链接5项内容。
     
     如果是H5 web 应用需要使用人脸识别，可以封装JsBrodge 调用交互使用。如果需要减少包体积，模型文件可以私有部署
 
@@ -95,3 +95,13 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 <div align=center>
 <img src="https://user-images.githubusercontent.com/15169396/210045090-60c073df-ddbd-4747-8e24-f0dce1eccb58.png" width = 33% height = 33% />
 </div>
+
+## 服务定制
+
+   如果你的应用场景SDK 不能匹配需要特殊定制化，请发邮件到anylife.zlb@gmail.com
+   也可以加微信 HaoNan19990322 （请标注人脸识别定制，否则添加不通过，谢谢）
+   
+   
+   
+   
+   
