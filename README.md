@@ -12,33 +12,30 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
   本SDK支持Android 5+，包含人脸检测，人脸识别和动作活体检测，所有处理都是离线终端执行，敏感资料不发送后台Server，更具隐私安全；
   其中活体检测支持张嘴，微笑，眨眼，摇头，点头 随机两种组合验证（摇头点头也可拆分为左右上下4个动作），低端机离线验证速度正常。
 
-  前期测试效果能覆盖95% 的中高低端机器，识别成功率>99% ，实验数据仅供参考，最低端手机完整的兼容性功能通过设备为魅蓝Note3（2016年低端机）。
+  前期测试效果能覆盖95% 的中高低端机器，识别成功率>99% ，实验数据仅供参考，最低端手机完整的兼容性功能通过设备为2016年低端机魅蓝Note3。
   特殊系统设备特殊硬件，如有问题请先提Issues，其他定制化需求请联系 anylife.zlb@gmail.com 交流
   
   ![Preview](http://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
 
-  人脸识别方案为：[MobileFaceNets](https://arxiv.org/pdf/1804.07573.pdf) ，解释器为TensorFlow lite； 预计23 年第二季度方案会升级，同时官方也会更新解释器。
+  人脸识别方案为：[MobileFaceNets](https://arxiv.org/pdf/1804.07573.pdf) ，解释器为TensorFlow lite； 预计23 年第二季度
+  方案会升级，同时官方也会更新解释器。
 
 
 ## 使用场景
 
-   【1:1】 识别手机考勤系统，机场/卡口人证对齐，免密码登录，酒店入驻、刷脸支付、刷脸解锁 
-
+   【1:1】 识别手机考勤系统，机场/卡口人证对齐，免密码登录，酒店入驻、刷脸支付、刷脸解锁
    【1:N】 考勤机，物业管理业主出入凭证等，（暂未优化1：N 识别速度！SM-9700百张底片最差5s左右，最好50ms）
-
 
 ## 接入使用
  
-    #### 更新说明 （3.3.3以后 使用方式简化，安全升级。不兼容升级请参考Demo精简接入）
+    #### 3.6.9 更新说明
 
-    * 简化调用使用方式 ！
-    * 活体检测支持设置超时时间 9-16 秒 
-    * 开放1:N 识别（暂未优化，需要提升速率！）
-    * 活体检测倒计时转圈动画
+    * 提高中高端设备识别精确度，低配设备时间换效率吧
+    * 优化活体检测的完整性
 
 
     //Gradle
-    implementation "io.github.anylifezlb:Face-Verification:3.6.3"
+    implementation "io.github.anylifezlb:Face-Verification:3.6.9"
     
     ``` 
     //更多说明请看代码和下载Demo体验
@@ -80,7 +77,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
     更多使用说明下载参考本Repo和下载Demo体验，里面有比较详尽的使用方法，其中 
 
     * NaviActivity Demo 演示导航页面
-    * Verify11Activity 人脸检测识别，活体检测页面（1：1）
+    * Verify11Activity 人脸检测识别，活体检测页面（ 1：1）
     * AddBaseImageActivity 更换底片页面，仅供参考建议业务方使用自拍裁剪后使用本程序处理获取高质量底片
     * 1：N 识别暂未优化
 
@@ -93,7 +90,6 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 ## Demo 下载
 
    请前往下载： https://www.pgyer.com/faceVerify (托管服务如果失效请github 下载代码打包)
-
 
    
 <div align=center>

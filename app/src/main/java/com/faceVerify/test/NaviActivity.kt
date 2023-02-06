@@ -24,7 +24,9 @@ import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import java.io.File
 
 /**
- * 演示导航 Navi
+ * Demo演示 Navi
+ *
+ * Demo 仅仅是演示如何接入SDK，根据业务场景用户自行修改符合需求
  *
  * 更多请发邮件 anylife.zlb@gmail.com 交流
  *
@@ -41,7 +43,6 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         setContentView(R.layout.activity_navi)
 
         checkNeededPermission()
-
 
         face_verify_card.setOnClickListener {
             //可以自己录一张人脸底片，业务方可以根据自己的要求改写testBaseImgName 处理
@@ -61,6 +62,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
             }
         }
 
+
         //添加1：1人脸识别底片
         update_base_image.setOnClickListener {
             startActivity(
@@ -69,7 +71,6 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
                     .putExtra(FACE_DIR_KEY, DIR_11_VALUE)
             )
         }
-
 
 
         verify1n.setOnClickListener {
@@ -92,21 +93,17 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         //添加1：N 人脸识别底片
         verify1n_add.setOnClickListener {
 
-
             CopyFileUtils.getInstance(this@NaviActivity)
                 .copyAssetsToSD("baseImg", BASE_FACE_PATH + DIR_1N_VALUE)
                 .setFileOperateCallback(object : CopyFileUtils.FileOperateCallback{
                     override fun onSuccess() {
                         Toast.makeText(baseContext, "1:N 底片复制成功", Toast.LENGTH_SHORT).show()
-
                     }
 
                     override fun onFailed(error: String?) {
                         Toast.makeText(baseContext, "操作失败:$error", Toast.LENGTH_SHORT).show()
-
                     }
                 })
-
 
 
             startActivity(
@@ -117,8 +114,6 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
 
-
-
         more_about_me.setOnClickListener {
             val uri = Uri.parse("https://github.com/AnyLifeZLB/FaceVerificationSDK")
             val intent = Intent(Intent.ACTION_VIEW)
@@ -126,7 +121,6 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
             intent.data = uri
             startActivity(intent)
         }
-
 
     }
 

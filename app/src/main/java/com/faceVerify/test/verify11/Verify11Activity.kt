@@ -66,14 +66,12 @@ class Verify11Activity : AppCompatActivity() {
         //初始化引擎
         initFaceVerify(baseBitmap)
 
-
         //VerifyCameraXFragment 封装了相机的处理，UI 定制暴露给业务层自由修改
         cameraXFragment.setOnAnalyzerListener(object : CameraXAnalyzeFragment.onAnalyzeData {
 
             override fun analyze(imageProxy: ImageProxy) {
                 if (this@Verify11Activity.isDestroyed || this@Verify11Activity.isFinishing) return
                 //第二个参数i 是指圆直径R-margin 为边长的正方形区域为分析区域,是为了剪裁圆形所在正方形框内的图像进行分析
-
 //                faceVerifyUtils.goVerify(imageProxy, face_cover.margin);
                 faceVerifyUtils.goVerify(imageProxy, 2)
 
@@ -166,6 +164,18 @@ class Verify11Activity : AppCompatActivity() {
                         ) { dialog1: DialogInterface?, which: Int ->
                             //Demo 只是把每种状态抛出来，用户可以自己根据需求改造
                             faceVerifyUtils.retryVerify()
+                        }
+                        .show()
+                }
+
+
+                VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY -> {
+                    tips_view.text = "多次切换画面或无人脸"
+                    android.app.AlertDialog.Builder(this@Verify11Activity)
+                        .setMessage("多次切换画面或无人脸，停止识别。\n识别过程请保持人脸在画面中")
+                        .setCancelable(false)
+                        .setPositiveButton("知道了") { dialog1: DialogInterface?, which: Int ->
+                            finish()
                         }
                         .show()
                 }

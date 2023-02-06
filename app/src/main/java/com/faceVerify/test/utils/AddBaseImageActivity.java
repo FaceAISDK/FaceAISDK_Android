@@ -22,6 +22,7 @@ import com.AI.FaceVerify.baseImage.BaseImageCallBack;
 import com.AI.FaceVerify.baseImage.BaseImageDispose;
 import com.AI.FaceVerify.convert.DataConvertUtils;
 import com.AI.FaceVerify.view.CameraXAnalyzeFragment;
+import com.AI.FaceVerify.view.FaceCoverView;
 import com.faceVerify.test.R;
 
 
@@ -32,11 +33,12 @@ import com.faceVerify.test.R;
  *
  */
 public class AddBaseImageActivity extends AppCompatActivity {
-    private TextView tipsTextView;
     private BaseImageDispose baseImageDispose;
     private String yourUniQueFaceId;
     private String childDir;
     private long index =1;
+
+    private FaceCoverView face_cover;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,8 @@ public class AddBaseImageActivity extends AppCompatActivity {
         yourUniQueFaceId = getIntent().getStringExtra(USER_ID_KEY);
         childDir = getIntent().getStringExtra(FACE_DIR_KEY);
 
-        tipsTextView = findViewById(R.id.tips_view);
+        face_cover = findViewById(R.id.face_cover);
+        face_cover.setTipText("请保持正脸在识别框中");
 
         baseImageDispose = new BaseImageDispose(getBaseContext(), new BaseImageCallBack() {
             @Override
@@ -67,16 +70,16 @@ public class AddBaseImageActivity extends AppCompatActivity {
                     public void run() {
                         switch (actionCode) {
                             case NO_FACE:
-                                tipsTextView.setText("未检测到人脸");
+                                face_cover.setTipText("未检测到人脸");
                                 break;
                             case MANY_FACE:
-                                tipsTextView.setText("多张人脸出现");
+                                face_cover.setTipText("多张人脸出现");
                                 break;
                             case SMALL_FACE:
-                                tipsTextView.setText("靠近一点");
+                                face_cover.setTipText("靠近一点");
                                 break;
                             case AlIGN_FAILED:
-                                tipsTextView.setText("图像校准失败");
+                                face_cover.setTipText("图像校准失败");
                                 break;
                         }
                     }
@@ -90,7 +93,7 @@ public class AddBaseImageActivity extends AppCompatActivity {
             public void analyze(@NonNull ImageProxy imageProxy) {
                 index++;
 
-                if(index %18==0){  // 可以改为一个按钮来给用户控制
+                if(index %18==0){  // 可以改为一个按钮来给用户控制。或者根据业务自己倒计时 3 2 1
                     baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy,15));
                 }
 
