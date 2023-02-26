@@ -9,6 +9,20 @@ import android.os.Environment
  *
  */
 class FaceApplication : Application() {
+
+
+//    /**
+//     *  限制摄像头可以加速启动
+//     *
+//     */
+//    override fun getCameraXConfig(): CameraXConfig {
+//        return CameraXConfig.Builder.fromConfig(Camera2Config.defaultConfig())
+//            .setAvailableCamerasLimiter(CameraSelector.DEFAULT_FRONT_CAMERA)
+//            .build()
+//    }
+
+
+
     override fun onCreate() {
         super.onCreate()
         BASE_FACE_PATH = getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
@@ -19,8 +33,6 @@ class FaceApplication : Application() {
 
 
         USER_ID_KEY="USER_ID_KEY"
-
-
     }
 
     override fun onTerminate() {

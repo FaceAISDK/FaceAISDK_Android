@@ -10,8 +10,8 @@ android {
         applicationId "com.faceVerify.test"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 10
-        versionName "3.0.2"
+        versionCode 11
+        versionName "3.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -32,11 +32,6 @@ android {
     }
 
 
-    //注意设置
-    androidResources {
-        noCompress 'tflite'
-    }
-
     lint {
         abortOnError false
         checkReleaseBuilds false
@@ -49,8 +44,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-    implementation "io.github.anylifezlb:Face-Verification:3.6.9"   //请使用最新依赖
-
+    implementation 'io.github.anylifezlb:Face-Verification:3.8.0_beta3'
 
     // 以下为业务需要其他依赖
     implementation 'pub.devrel:easypermissions:3.0.0'
@@ -76,7 +70,6 @@ repositories {
     flatDir {
         dirs 'aars'
     }
-
 }
 
 

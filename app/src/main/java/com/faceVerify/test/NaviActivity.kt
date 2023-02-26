@@ -24,15 +24,16 @@ import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import java.io.File
 
 /**
- * Demo演示 Navi
  *
  * Demo 仅仅是演示如何接入SDK，根据业务场景用户自行修改符合需求
  *
- * 更多请发邮件 anylife.zlb@gmail.com 交流
+ * 静默活体检测&炫光活体检测Alpha 版本已经发布，抢先体验请发送邮件
+ *
+ * 更多请发邮件 anylife.zlb@gmail.com
+ * 或加微信 HaoNan19990322 （请标注人脸识别定制，否则添加不通过，谢谢）交流
  *
  *
  * 2022.07.29
- *
  */
 class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 

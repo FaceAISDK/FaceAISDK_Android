@@ -25,12 +25,8 @@ import kotlinx.android.synthetic.main.activity_verify_11.*
 import java.io.File
 
 /**
- * 1：1 的人脸识别比对
- *
- * 如果对比阈值 大于 设定值，一次就返回成功
- * 如果对比阈值 小于 设定值，尝试5次返回失败
- *
- * 这样画面也不会闪的太快看不清提示
+ * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo
+ * 静默活体检测&炫光活体检测Alpha 版本已经发布，抢先体验请发送邮件
  *
  */
 class Verify11Activity : AppCompatActivity() {
@@ -53,26 +49,28 @@ class Verify11Activity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_camerax, cameraXFragment).commit()
 
-
         //要对比的人脸底片，业务方自行处理
         val file = File(
             FaceApplication.BASE_FACE_PATH + FaceApplication.DIR_11_VALUE,
             yourUniQueFaceId
         )
 
-        //Bitmap 提前压缩好，可以加快识别速度 50 - 60 ms
+        //预留的底图，缓存在本地私有目录
         val baseBitmap = AiUtil.compressPath(baseContext, Uri.fromFile(file))
 
-        //初始化引擎
+        //1.初始化引擎，各种参数配置
         initFaceVerify(baseBitmap)
 
-        //VerifyCameraXFragment 封装了相机的处理，UI 定制暴露给业务层自由修改
+        //2.初始化相机管理VerifyCameraXFragment，数据回掉格式为ImageProxy（可支持ByteArray）
         cameraXFragment.setOnAnalyzerListener(object : CameraXAnalyzeFragment.onAnalyzeData {
 
             override fun analyze(imageProxy: ImageProxy) {
                 if (this@Verify11Activity.isDestroyed || this@Verify11Activity.isFinishing) return
+
                 //第二个参数i 是指圆直径R-margin 为边长的正方形区域为分析区域,是为了剪裁圆形所在正方形框内的图像进行分析
 //                faceVerifyUtils.goVerify(imageProxy, face_cover.margin);
+
+                //3.给人脸识别 活体检测引擎喂数据流 imageProxy
                 faceVerifyUtils.goVerify(imageProxy, 2)
 
             }
@@ -87,6 +85,7 @@ class Verify11Activity : AppCompatActivity() {
      * 初始化认证引擎
      *
      * 活体检测的使用需要你发送邮件申请，简要描述App名称，包名和功能简介到 anylife.zlb@gmail.com
+     *
      * @param baseBitmap 底片
      */
     private fun initFaceVerify(baseBitmap: Bitmap) {
@@ -138,6 +137,15 @@ class Verify11Activity : AppCompatActivity() {
                 override fun onTimeOutStart(p0: Float) {
                     face_cover.startCountDown(p0)
                 }
+
+                //静默活体检测得分大于0.85 可以认为是真人
+                //静默活体检测&炫光活体检测Alpha 版本已经发布，抢先体验请发送邮件
+                override fun onSilentAntiSpoofing(scoreValue: Float) {
+                    runOnUiThread {
+                        silent_Score.text = "静默活体可靠系数：$scoreValue"
+                    }
+                }
+
             })
             .create()
 
@@ -147,6 +155,8 @@ class Verify11Activity : AppCompatActivity() {
 
     /**
      * 根据业务和设计师UI交互修改你的 UI，Demo 仅供参考
+     *
+     * 添加声音提示和动画提示定制也在这里根据返回码进行定制
      *
      */
     private fun showAliveDetectTips(actionCode: Int) {
@@ -197,14 +207,13 @@ class Verify11Activity : AppCompatActivity() {
 
                 VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE -> tips_view.text = "画面没有检测到人脸"
                 VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED -> tips_view.text = "活体检测失败了"
-                VERIFY_DETECT_TIPS_ENUM.ACTION_OK -> tips_view.text = "已经完成活体检测"
+                VERIFY_DETECT_TIPS_ENUM.ACTION_OK -> tips_view.text = "请保持正对屏幕"  //已经完成活体检测
 
                 ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE -> tips_view.text = "请张嘴"
                 ALIVE_DETECT_TYPE_ENUM.SMILE -> tips_view.text = "请微笑"
                 ALIVE_DETECT_TYPE_ENUM.BLINK -> tips_view.text = "请轻眨眼"
                 ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD -> tips_view.text = "请缓慢左右摇头"
                 ALIVE_DETECT_TYPE_ENUM.NOD_HEAD -> tips_view.text = "请缓慢上下点头"
-
 
 //                ALIVE_DETECT_TYPE_ENUM.NO_MOUSE -> tips_view_2.text = "请勿遮挡嘴巴"
 //                ALIVE_DETECT_TYPE_ENUM.NO_NOSE -> tips_view_2.text = "请勿遮挡鼻子"
@@ -213,6 +222,16 @@ class Verify11Activity : AppCompatActivity() {
 
             }
         }
+    }
+
+
+    /**
+     * 暂停识别，防止切屏识别，如果你需要退后台不能识别的话打开注释
+     *
+     */
+    override fun onPause() {
+        super.onPause()
+//        faceVerifyUtils.pauseProcess()
     }
 
 
