@@ -48,10 +48,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.io.File;
 
 /**
- * Demo 接入演示
+ * Demo 接入演示。提高识别精确度和速度
  *
  *
  */
+@Deprecated
 public class VerifyTestActivity extends AppCompatActivity {
     private TextView tipsTextView;
     private FaceCoverView faceCoverView;
