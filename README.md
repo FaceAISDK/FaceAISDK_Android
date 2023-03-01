@@ -17,8 +17,7 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
   
   ![Preview](http://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
 
-  人脸识别方案为：[MobileFaceNets](https://arxiv.org/pdf/1804.07573.pdf) ，解释器为TensorFlow lite； 预计23 年第二季度
-  方案会升级，同时官方也会更新解释器。
+  静默活体检测&炫光活体检测Alpha 版本已经发布，抢先体验请发送邮件。
 
 
 ## 使用场景

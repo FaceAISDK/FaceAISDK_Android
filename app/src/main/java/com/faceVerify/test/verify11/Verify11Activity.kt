@@ -26,6 +26,7 @@ import java.io.File
 
 /**
  * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo
+ * 静默活体检测&炫光活体检测Alpha 版本已经发布，抢先体验请发送邮件
  *
  */
 class Verify11Activity : AppCompatActivity() {
@@ -137,12 +138,14 @@ class Verify11Activity : AppCompatActivity() {
                     face_cover.startCountDown(p0)
                 }
 
-                //静默活体检测得分大于0.85 可以认为是真人。二季度会有炫彩活体配合防止作弊
+                //静默活体检测得分大于0.85 可以认为是真人
+                //静默活体检测&炫光活体检测Alpha 版本已经发布，抢先体验请发送邮件
                 override fun onSilentAntiSpoofing(scoreValue: Float) {
                     runOnUiThread {
                         silent_Score.text = "静默活体可靠系数：$scoreValue"
                     }
                 }
+
 
             })
             .create()

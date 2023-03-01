@@ -32,6 +32,11 @@ android {
     }
 
 
+    //注意设置
+    androidResources {
+        noCompress 'tflite'
+    }
+
     lint {
         abortOnError false
         checkReleaseBuilds false
