@@ -27,15 +27,15 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
 ## 接入使用
  
-    #### 3.8.1 更新说明
+    #### 3.8.4 更新说明
 
-    * 提高中高端设备识别精确度，低配设备时间换效率吧
-    * 优化动作活体检测的完整性
+    * 提高识别精确度和速度
+    * 添加ARM 64位CPU支持
     * 添加静默活体检测，防止视频合成等欺骗 （苹果系统可以下载xPression测验）
 
 
     //Gradle
-    implementation "io.github.anylifezlb:Face-Verification:3.8.1"
+    implementation "io.github.anylifezlb:Face-Verification:3.8.4"
     
     ``` 
     //更多说明请看代码和下载Demo体验
@@ -83,13 +83,11 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
 
     其中活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请，内容包括
     APP简要描述，App名称 ，包名 ，功能主页截屏和 下载链接5项内容。
-    
-    如果是H5 web 应用需要使用人脸识别，可以封装JsBrodge 调用交互使用。如果需要减少包体积，模型文件可以私有部署
 
 
-## Demo 下载
+## Demo 下载体验
 
-   请前往下载： https://www.pgyer.com/faceVerify (托管服务如果失效请github 下载代码打包)
+   最新版下载地址： https://www.pgyer.com/faceVerify 
 
    
 <div align=center>
