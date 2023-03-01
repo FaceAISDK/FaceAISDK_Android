@@ -15,7 +15,8 @@ Offline Android Face Detection &amp; Recognition And Alive Detect SDK 离线版A
   前期测试效果能覆盖95% 的中高低端机器，识别成功率>99% ，实验数据仅供参考，最低端手机完整的兼容性功能通过设备为2016年低端机魅蓝Note3。
   特殊系统设备特殊硬件，如有问题请先提Issues附带系统版本，设备型号，错误log等信息，其他定制化需求请联系 anylife.zlb@gmail.com 交流
   
-  ![Preview](http://user-images.githubusercontent.com/15169396/187821824-c74e50dc-06c9-4573-8806-6f45d5c7d7dc.png)
+  ![image](https://user-images.githubusercontent.com/15169396/222224246-b83fca54-6cfb-4924-98a6-809b11da8761.png)
+
 
   静默活体检测&炫光活体检测Alpha 版本已经发布，抢先体验请发送邮件。
 
