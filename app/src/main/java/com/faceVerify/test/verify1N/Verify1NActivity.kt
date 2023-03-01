@@ -18,7 +18,9 @@ import kotlinx.android.synthetic.main.activity_verify_1n.*
 
 
 /**
- * 1：N 的人脸识别比对，还没有完善封装，预计23年二季度
+ * 1：N 的人脸识别比对，还没有完善封装
+ *
+ * 底片库太多识别时间还不够理想，预计23年二季度完善
  *
  */
 class Verify1NActivity : AppCompatActivity() {

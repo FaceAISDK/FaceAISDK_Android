@@ -27,16 +27,18 @@ import com.faceVerify.test.R;
 
 
 /**
- *  仅仅供参考使用，底图处理建议调用系统相机自拍然后裁剪+程序识别以获取高清正常的底片
- *
- *  部分业务可以添加审核环节，本Demo 仅供参考
- *
+ * 仅仅供参考使用，底图处理建议调用系统相机自拍然后裁剪+程序识别以获取高清正常的底片
+ * <p>
+ * 底片的质量是 影响识别的准确率的直接因素之一
+ * <p>
+ * <p>
+ * 部分业务可以添加审核环节，本Demo 仅供参考
  */
 public class AddBaseImageActivity extends AppCompatActivity {
     private BaseImageDispose baseImageDispose;
     private String yourUniQueFaceId;
     private String childDir;
-    private long index =1;
+    private long index = 1;
 
     private FaceCoverView face_cover;
 
@@ -93,14 +95,15 @@ public class AddBaseImageActivity extends AppCompatActivity {
             public void analyze(@NonNull ImageProxy imageProxy) {
                 index++;
 
-                if(index %18==0){  // 可以改为一个按钮来给用户控制。或者根据业务自己倒计时 3 2 1
-                    baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy,15));
+                // 可以改为一个按钮来给用户控制，点击后再抓图。Demo 聚焦SDK接入不完善可能的业务需求
+                if (index % 18 == 0) {
+                    baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy, 15));
                 }
 
             }
 
             @Override
-            public void analyze(byte[] rgbBytes,int w,int h) {
+            public void analyze(byte[] rgbBytes, int w, int h) {
                 Log.d("1NN1", "length" + rgbBytes.length);
             }
         });
@@ -133,13 +136,13 @@ public class AddBaseImageActivity extends AppCompatActivity {
 
         btnOK.setOnClickListener(v -> {
             baseImageDispose.saveBaseImage(bitmap, BASE_FACE_PATH
-                    + childDir,yourUniQueFaceId);
+                    + childDir, yourUniQueFaceId);
             dialog.dismiss();
             finish();
         });
 
         btnCancel.setOnClickListener(v -> {
-            index=1;
+            index = 1;
             dialog.dismiss();
             //太快了，可以延迟一点重试
             baseImageDispose.retry();

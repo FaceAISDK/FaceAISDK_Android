@@ -3,7 +3,7 @@
 buildscript {
 
     ext {
-        kotlin_version = "1.7.0"
+        kotlin_version = "1.7.20"
         java_version = JavaVersion.VERSION_1_8
         dokka_version = '1.4.10.2'
     }
@@ -11,7 +11,6 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        google()
         maven { url 'https://developer.huawei.com/repo/' }
     }
     
@@ -32,11 +31,8 @@ buildscript {
 allprojects {
     repositories {
 
-
-        jcenter()
         mavenCentral()
         google()
-
 
         maven { url "https://jitpack.io" }
 
@@ -44,7 +40,6 @@ allprojects {
             name "aliyunmaven"
             url "https://maven.aliyun.com/nexus/content/groups/public/"
         }
-
 
         maven { url 'https://developer.huawei.com/repo/'}
 

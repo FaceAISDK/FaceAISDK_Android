@@ -7,11 +7,11 @@ android {
     compileSdkVersion 33
 
     defaultConfig {
-        applicationId "com.faceVerify.test"
+        applicationId "com.faceVerify.test123"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 10
-        versionName "3.0.2"
+        versionCode 14
+        versionName "3.8.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -26,16 +26,11 @@ android {
     android {
         defaultConfig {
             ndk {
-                abiFilters 'armeabi-v7a'
+                abiFilters 'armeabi-v7a','arm64-v8a'
             }
         }
     }
 
-
-    //注意设置
-    androidResources {
-        noCompress 'tflite'
-    }
 
     lint {
         abortOnError false
@@ -49,8 +44,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-    implementation "io.github.anylifezlb:Face-Verification:3.6.9"   //请使用最新依赖
-
+    implementation 'io.github.anylifezlb:Face-Verification:3.8.4'
 
     // 以下为业务需要其他依赖
     implementation 'pub.devrel:easypermissions:3.0.0'
@@ -76,7 +70,6 @@ repositories {
     flatDir {
         dirs 'aars'
     }
-
 }
 
 

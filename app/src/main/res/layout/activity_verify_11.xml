@@ -19,12 +19,11 @@
         android:id="@+id/face_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         customAttr:circle_margin="16dp"
         customAttr:tip_text_size="20sp"
         customAttr:tip_text_color="@color/colorPrimary"
-        customAttr:progress_start_color="@color/yellow"
-        customAttr:progress_end_color="@color/red"
+        customAttr:progress_start_color="@color/blue_sky"
+        customAttr:progress_end_color="@color/green"
         customAttr:show_progress="true"
         />
 
@@ -40,12 +39,24 @@
         android:paddingTop="5dp"
         android:paddingRight="18dp"
         android:paddingBottom="5dp"
-        android:text="Initializing"
+        android:text="请正对屏幕，保持人脸在圆框内"
         android:textColor="@color/green"
         android:layout_marginTop="88dp"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/silent_Score"
+        android:layout_margin="33dp"
+        android:padding="9dp"
+        android:textSize="16sp"
+        android:textColor="@color/red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -58,6 +69,8 @@
         android:src="@drawable/ic_baseline_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

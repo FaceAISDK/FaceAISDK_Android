@@ -15,6 +15,7 @@ import com.faceVerify.test.FaceApplication.Companion.DIR_11_VALUE
 import com.faceVerify.test.FaceApplication.Companion.DIR_1N_VALUE
 import com.faceVerify.test.FaceApplication.Companion.FACE_DIR_KEY
 import com.faceVerify.test.FaceApplication.Companion.USER_ID_KEY
+import com.faceVerify.test.utils.AboutUsActivity
 import com.faceVerify.test.utils.AddBaseImageActivity
 import com.faceVerify.test.verify11.Verify11Activity
 import com.faceVerify.test.verify1N.Verify1NActivity
@@ -115,11 +116,17 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
 
         more_about_me.setOnClickListener {
-            val uri = Uri.parse("https://github.com/AnyLifeZLB/FaceVerificationSDK")
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.addCategory(Intent.CATEGORY_BROWSABLE)
-            intent.data = uri
-            startActivity(intent)
+
+            startActivity(
+                Intent(this@NaviActivity, AboutUsActivity::class.java)
+            )
+
+
+//            val uri = Uri.parse("https://github.com/AnyLifeZLB/FaceVerificationSDK")
+//            val intent = Intent(Intent.ACTION_VIEW)
+//            intent.addCategory(Intent.CATEGORY_BROWSABLE)
+//            intent.data = uri
+//            startActivity(intent)
         }
 
     }

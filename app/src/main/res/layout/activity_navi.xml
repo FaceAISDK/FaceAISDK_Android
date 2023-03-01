@@ -120,7 +120,8 @@
         android:padding="19dp"
         android:text="关于我们,查看更多"
         android:textColor="@android:color/white"
-        android:textSize="14sp"
+        android:textSize="16sp"
+        android:layout_marginBottom="@dimen/dp_40"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 
