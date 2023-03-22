@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +34,8 @@ import com.faceVerify.test.R;
  * <p>
  * <p>
  * 部分业务可以添加审核环节，本Demo 仅供参考
+ *
+ * 古木阴中系短篷，杖藜扶我过桥东。沾衣欲湿杏花雨，吹面不寒杨柳风
  */
 public class AddBaseImageActivity extends AppCompatActivity {
     private BaseImageDispose baseImageDispose;
@@ -53,6 +56,7 @@ public class AddBaseImageActivity extends AppCompatActivity {
             finish();
         });
 
+        //业务方根据自己业务修改Face ID 管理
         yourUniQueFaceId = getIntent().getStringExtra(USER_ID_KEY);
         childDir = getIntent().getStringExtra(FACE_DIR_KEY);
 
@@ -106,6 +110,7 @@ public class AddBaseImageActivity extends AppCompatActivity {
             public void analyze(byte[] rgbBytes, int w, int h) {
                 Log.d("1NN1", "length" + rgbBytes.length);
             }
+
         });
 
         getSupportFragmentManager().beginTransaction()
@@ -124,6 +129,7 @@ public class AddBaseImageActivity extends AppCompatActivity {
         final AlertDialog dialog = builder.create();
         View dialogView = View.inflate(this, R.layout.dialog_confirm_base, null);
 
+
         //设置对话框布局
         dialog.setView(dialogView);
         dialog.setCanceledOnTouchOutside(false);
@@ -133,6 +139,8 @@ public class AddBaseImageActivity extends AppCompatActivity {
 
         Button btnOK = dialogView.findViewById(R.id.btn_ok);
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
+
+        EditText editText=dialogView.findViewById(R.id.edit_text);  //face id
 
         btnOK.setOnClickListener(v -> {
             baseImageDispose.saveBaseImage(bitmap, BASE_FACE_PATH
@@ -147,6 +155,8 @@ public class AddBaseImageActivity extends AppCompatActivity {
             //太快了，可以延迟一点重试
             baseImageDispose.retry();
         });
+
+        dialog.setCanceledOnTouchOutside(false);
 
         dialog.show();
     }

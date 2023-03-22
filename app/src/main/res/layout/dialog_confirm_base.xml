@@ -28,10 +28,23 @@
             <ImageView
                 android:id="@+id/preview"
                 android:layout_gravity="center"
-                android:layout_marginTop="55dp"
-                android:layout_marginBottom="55dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="25dp"
                 android:layout_width="222dp"
                 android:layout_height="222dp"/>
+
+
+            <EditText
+                android:id="@+id/edit_text"
+                android:layout_width="222dp"
+                android:layout_height="wrap_content"
+                android:hint="输入自定义Face ID"
+                android:digits="0123456789abcdefghijklmnopqrstuvwxyz"
+                android:layout_gravity="center"
+                android:layout_marginBottom="25dp"
+                android:textColorHint="@color/black_overlay"
+                android:focusable="true"
+                />
 
 
             <LinearLayout

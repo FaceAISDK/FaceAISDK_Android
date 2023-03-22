@@ -1,12 +1,8 @@
 package com.faceVerify.test.verify1N
 
-import android.content.DialogInterface
 import android.os.Bundle
-import com.faceVerify.test.R
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ImageProxy
-
 import com.AI.FaceVerify.verify.FaceProcessBuilder
 import com.AI.FaceVerify.verify.FaceVerifyUtils
 import com.AI.FaceVerify.verify.ProcessCallBack
@@ -14,6 +10,7 @@ import com.AI.FaceVerify.verify.VerifyStatus.*
 import com.AI.FaceVerify.view.CameraXAnalyzeFragment
 import com.AI.FaceVerify.view.CameraXAnalyzeFragment.CAMERA_ORIGINAL
 import com.faceVerify.test.FaceApplication
+import com.faceVerify.test.R
 import kotlinx.android.synthetic.main.activity_verify_1n.*
 
 
@@ -65,24 +62,26 @@ class Verify1NActivity : AppCompatActivity() {
         // 1:N 比对 设置 setFaceLibFolder，1：1 比对设置BaseBitmap
         // 两个都设置优先1：1 识别， 都不设置报错
         val faceProcessBuilder = FaceProcessBuilder.Builder(this)
-            .setThreshold(0.88f) //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
-            .setFaceLibFolder(FaceApplication.BASE_FACE_PATH + FaceApplication.DIR_1N_VALUE) //N 底片库
-            .setLiveCheck(false) //是否需要活体检测，需要发送邮件，详情参考ReadMe
-            .setVerifyTimeOut(10)     //  活体检测支持设置超时时间 9-16 秒
+            .setThreshold(0.85f) //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
+            .setFaceLibFolder(FaceApplication.BASE_FACE_PATH + FaceApplication.DIR_1N_VALUE) //N 底片库文件夹路径
+            .setLiveCheck(true) //是否需要活体检测，需要发送邮件，详情参考ReadMe
             .setProcessCallBack(object : ProcessCallBack() {
-                override fun onCompleted(isMatched: Boolean) {
-                    //only 1：1 will callback
+
+                override fun onSilentAntiSpoofing(score: Float) {
+                    //静默活体分值，防止作弊
+                    face_cover.setTipText("活体得分：$score")
                 }
 
                 override fun onMostSimilar(imagePath: String) {
                     runOnUiThread {
-                        AlertDialog.Builder(this@Verify1NActivity)
-                            .setMessage("最佳匹配：$imagePath")
-                            .setCancelable(false)
-                            .setPositiveButton(
-                                "知道了"
-                            ) { dialog1: DialogInterface?, which: Int -> finish() }
-                            .show()
+//                        AlertDialog.Builder(this@Verify1NActivity)
+//                            .setMessage("最佳匹配：$imagePath")
+//                            .setCancelable(false)
+//                            .setPositiveButton(
+//                                "知道了"
+//                            ) { dialog1: DialogInterface?, which: Int -> finish() }
+//                            .show()
+
                     }
                 }
 
@@ -109,32 +108,14 @@ class Verify1NActivity : AppCompatActivity() {
 
         runOnUiThread {
             when (actionCode) {
-                VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT -> {
-                    android.app.AlertDialog.Builder(this@Verify1NActivity)
-                        .setMessage("检测超时了！")
-                        .setCancelable(false)
-                        .setPositiveButton(
-                            "再来一次"
-                        ) { dialog1: DialogInterface?, which: Int ->
-                            //Demo 只是把每种状态抛出来，用户可以自己根据需求改造
-                            faceDetectorUtils.retryVerify()
-                        }
-                        .show()
-                }
-
 
                 VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS -> {
-                    tips_view.text = "检索中..."
+                    face_cover.setTipText( "检索中...")
                 }
-                VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE -> tips_view.text = "画面没有检测到人脸"
-                VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED -> tips_view.text = "活体检测失败了"
-                VERIFY_DETECT_TIPS_ENUM.ACTION_OK -> tips_view.text = "已经完成活体检测"
 
-                ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE -> tips_view.text = "请张嘴"
-                ALIVE_DETECT_TYPE_ENUM.SMILE -> tips_view.text = "请微笑"
-                ALIVE_DETECT_TYPE_ENUM.BLINK -> tips_view.text = "请轻眨眼"
-                ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD -> tips_view.text = "请缓慢左右摇头"
-                ALIVE_DETECT_TYPE_ENUM.NOD_HEAD -> tips_view.text = "请缓慢上下点头"
+                VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY -> face_cover.setTipText( "没有检测到人脸")
+                VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED -> face_cover.setTipText( "活体检测失败了")
+                VERIFY_DETECT_TIPS_ENUM.ACTION_OK -> face_cover.setTipText( "已经完成活体检测")
 
             }
         }

@@ -96,6 +96,7 @@ class Verify11Activity : AppCompatActivity() {
             .setBaseBitmap(baseBitmap) //底片,请录入的时候保证底片质量
             .setLiveCheck(true)        //是否需要活体检测，需要发送邮件，详情参考ReadMe
             .setVerifyTimeOut(10)      //活体检测支持设置超时时间 9-16 秒
+            .setGraphicOverlay(faceTips)//正式环境请去除设置
             .setProcessCallBack(object : ProcessCallBack() {
                 override fun onCompleted(isMatched: Boolean) {
                     runOnUiThread {
@@ -121,9 +122,6 @@ class Verify11Activity : AppCompatActivity() {
                     }
                 }
 
-                override fun onMostSimilar(imagePath: String) {
-                    //Only 1：N 人脸识别检测会有Callback
-                }
 
                 override fun onFailed(code: Int) {
                     //严重错误直接阻断主流程的
@@ -166,6 +164,7 @@ class Verify11Activity : AppCompatActivity() {
 
         runOnUiThread {
             when (actionCode) {
+
                 VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT -> {
                     android.app.AlertDialog.Builder(this@Verify11Activity)
                         .setMessage("检测超时了！")
