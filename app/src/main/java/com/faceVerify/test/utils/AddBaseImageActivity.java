@@ -13,22 +13,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.ImageProxy;
-
 import com.AI.FaceVerify.baseImage.BaseImageCallBack;
 import com.AI.FaceVerify.baseImage.BaseImageDispose;
 import com.AI.FaceVerify.convert.DataConvertUtils;
 import com.AI.FaceVerify.view.CameraXAnalyzeFragment;
 import com.AI.FaceVerify.view.FaceCoverView;
 import com.faceVerify.test.R;
-
-import java.io.File;
-
 
 /**
  * 仅仅供参考使用，底图处理建议调用系统相机自拍然后裁剪+程序识别以获取高清正常的底片
@@ -144,7 +138,6 @@ public class AddBaseImageActivity extends AppCompatActivity {
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
 
         EditText editText = dialogView.findViewById(R.id.edit_text);  //face id
-
 
         editText.requestFocus();
 

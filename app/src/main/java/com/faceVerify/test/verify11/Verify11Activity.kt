@@ -144,7 +144,6 @@ class Verify11Activity : AppCompatActivity() {
                     }
                 }
 
-
             })
             .create()
 
@@ -190,7 +189,6 @@ class Verify11Activity : AppCompatActivity() {
                         .show()
                 }
 
-
                 VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY -> {
                     tips_view.text = "多次切换画面或无人脸"
                     android.app.AlertDialog.Builder(this@Verify11Activity)
@@ -233,8 +231,6 @@ class Verify11Activity : AppCompatActivity() {
         super.onPause()
 //        faceVerifyUtils.pauseProcess()
     }
-
-
 
 
     /**

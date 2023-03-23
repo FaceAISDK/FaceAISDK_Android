@@ -42,9 +42,6 @@ import com.AI.FaceVerify.verify.FaceVerifyUtils;
 import com.AI.FaceVerify.verify.ProcessCallBack;
 import com.AI.FaceVerify.view.CameraXAnalyzeFragment;
 import com.AI.FaceVerify.view.FaceCoverView;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 import java.io.File;
 
 /**
@@ -56,9 +53,7 @@ import java.io.File;
 public class VerifyTestActivity extends AppCompatActivity {
     private TextView tipsTextView;
     private FaceCoverView faceCoverView;
-
     private FaceVerifyUtils faceDetectorUtils = new FaceVerifyUtils();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +65,12 @@ public class VerifyTestActivity extends AppCompatActivity {
         tipsTextView = findViewById(R.id.tips_view);
         faceCoverView = findViewById(R.id.face_cover);
 
-
         //要对比的人脸底片，业务方自行处理
         File file = new File(
                 FaceApplication.BASE_FACE_PATH + FaceApplication.DIR_11_VALUE,
                 "yourUniQueFaceId");
 
         Bitmap baseBitmap = AiUtil.compressPath(getBaseContext(), Uri.fromFile(file));
-
 
         // 1:N 比对 设置 setFaceLibFolder，1：1 比对设置BaseBitmap
         // 两个都设置优先1：1 识别， 都不设置报错
@@ -115,10 +108,8 @@ public class VerifyTestActivity extends AppCompatActivity {
                         showAliveDetectTips(actionCode);
                     }
 
-
                 })
                 .create();
-
 
         faceDetectorUtils.setDetectorParams(faceProcessBuilder);
 
@@ -143,9 +134,6 @@ public class VerifyTestActivity extends AppCompatActivity {
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
 
     }
-
-
-
 
 
     /**

@@ -134,9 +134,6 @@ class Verify1NActivity : AppCompatActivity() {
                     face_cover.setTipText( "没有检测到人脸")
                 }
 
-                VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED -> face_cover.setTipText( "活体检测失败了")
-                VERIFY_DETECT_TIPS_ENUM.ACTION_OK -> face_cover.setTipText( "已经完成活体检测")
-
             }
         }
     }
