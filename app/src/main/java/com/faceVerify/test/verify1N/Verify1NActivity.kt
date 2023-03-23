@@ -24,6 +24,7 @@ import java.io.File
  *
  * 底片库太多识别时间还不够理想，预计23年二季度完善
  *
+ *
  */
 class Verify1NActivity : AppCompatActivity() {
 
@@ -120,10 +121,6 @@ class Verify1NActivity : AppCompatActivity() {
         runOnUiThread {
             when (actionCode) {
 
-                VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS -> {
-//                    face_cover.setTipText( "检索中...")
-                }
-
                 VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE -> {
                     result_layout.visibility= INVISIBLE
                     face_cover.setTipText( "没有检测到人脸")
@@ -132,6 +129,11 @@ class Verify1NActivity : AppCompatActivity() {
                 VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY -> {
                     result_layout.visibility= INVISIBLE
                     face_cover.setTipText( "没有检测到人脸")
+                }
+
+
+                VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS -> {
+//                    face_cover.setTipText( "检索中...")
                 }
 
             }
