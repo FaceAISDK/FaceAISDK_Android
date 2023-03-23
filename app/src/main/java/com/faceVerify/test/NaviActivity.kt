@@ -95,17 +95,17 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         //添加1：N 人脸识别底片
         verify1n_add.setOnClickListener {
 
-            CopyFileUtils.getInstance(this@NaviActivity)
-                .copyAssetsToSD("baseImg", BASE_FACE_PATH + DIR_1N_VALUE)
-                .setFileOperateCallback(object : CopyFileUtils.FileOperateCallback{
-                    override fun onSuccess() {
-                        Toast.makeText(baseContext, "1:N 底片复制成功", Toast.LENGTH_SHORT).show()
-                    }
-
-                    override fun onFailed(error: String?) {
-                        Toast.makeText(baseContext, "操作失败:$error", Toast.LENGTH_SHORT).show()
-                    }
-                })
+//            CopyFileUtils.getInstance(this@NaviActivity)
+//                .copyAssetsToSD("baseImg", BASE_FACE_PATH + DIR_1N_VALUE)
+//                .setFileOperateCallback(object : CopyFileUtils.FileOperateCallback{
+//                    override fun onSuccess() {
+//                        Toast.makeText(baseContext, "1:N 底片复制成功", Toast.LENGTH_SHORT).show()
+//                    }
+//
+//                    override fun onFailed(error: String?) {
+//                        Toast.makeText(baseContext, "操作失败:$error", Toast.LENGTH_SHORT).show()
+//                    }
+//                })
 
 
             startActivity(

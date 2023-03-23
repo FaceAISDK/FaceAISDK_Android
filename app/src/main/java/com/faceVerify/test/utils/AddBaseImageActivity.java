@@ -7,9 +7,11 @@ import static com.faceVerify.test.FaceApplication.USER_ID_KEY;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +27,8 @@ import com.AI.FaceVerify.view.CameraXAnalyzeFragment;
 import com.AI.FaceVerify.view.FaceCoverView;
 import com.faceVerify.test.R;
 
+import java.io.File;
+
 
 /**
  * 仅仅供参考使用，底图处理建议调用系统相机自拍然后裁剪+程序识别以获取高清正常的底片
@@ -33,6 +37,8 @@ import com.faceVerify.test.R;
  * <p>
  * <p>
  * 部分业务可以添加审核环节，本Demo 仅供参考
+ * <p>
+ * 古木阴中系短篷，杖藜扶我过桥东。沾衣欲湿杏花雨，吹面不寒杨柳风
  */
 public class AddBaseImageActivity extends AppCompatActivity {
     private BaseImageDispose baseImageDispose;
@@ -53,6 +59,7 @@ public class AddBaseImageActivity extends AppCompatActivity {
             finish();
         });
 
+        //业务方根据自己业务修改Face ID 管理
         yourUniQueFaceId = getIntent().getStringExtra(USER_ID_KEY);
         childDir = getIntent().getStringExtra(FACE_DIR_KEY);
 
@@ -106,6 +113,7 @@ public class AddBaseImageActivity extends AppCompatActivity {
             public void analyze(byte[] rgbBytes, int w, int h) {
                 Log.d("1NN1", "length" + rgbBytes.length);
             }
+
         });
 
         getSupportFragmentManager().beginTransaction()
@@ -124,6 +132,7 @@ public class AddBaseImageActivity extends AppCompatActivity {
         final AlertDialog dialog = builder.create();
         View dialogView = View.inflate(this, R.layout.dialog_confirm_base, null);
 
+
         //设置对话框布局
         dialog.setView(dialogView);
         dialog.setCanceledOnTouchOutside(false);
@@ -134,7 +143,18 @@ public class AddBaseImageActivity extends AppCompatActivity {
         Button btnOK = dialogView.findViewById(R.id.btn_ok);
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
 
+        EditText editText = dialogView.findViewById(R.id.edit_text);  //face id
+
+
+        editText.requestFocus();
+
         btnOK.setOnClickListener(v -> {
+
+            if (!TextUtils.isEmpty(editText.getText().toString())) {
+                yourUniQueFaceId = editText.getText().toString();
+            }
+
+            //添加新的底片，业务需要处理是新加还是修改！！自行处理
             baseImageDispose.saveBaseImage(bitmap, BASE_FACE_PATH
                     + childDir, yourUniQueFaceId);
             dialog.dismiss();
@@ -147,6 +167,8 @@ public class AddBaseImageActivity extends AppCompatActivity {
             //太快了，可以延迟一点重试
             baseImageDispose.retry();
         });
+
+        dialog.setCanceledOnTouchOutside(false);
 
         dialog.show();
     }

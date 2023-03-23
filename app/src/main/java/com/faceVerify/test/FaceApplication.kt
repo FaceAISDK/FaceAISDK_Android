@@ -3,6 +3,7 @@ package com.faceVerify.test
 import android.app.Application
 import android.content.res.Configuration
 import android.os.Environment
+import com.tencent.bugly.crashreport.CrashReport
 
 /**
  * global param init
@@ -31,8 +32,11 @@ class FaceApplication : Application() {
         DIR_1N_VALUE = "/1n";
         FACE_DIR_KEY="FACE_DIR_KEY"
 
-
         USER_ID_KEY="USER_ID_KEY"
+
+
+        //SDK 所有的能力都是离线识别，不需要网络，Bugly 收集错误信息用了网络而已！！！
+        CrashReport.initCrashReport(this, "36fade54d8", false)  //Bugly Crash 收集
     }
 
     override fun onTerminate() {
