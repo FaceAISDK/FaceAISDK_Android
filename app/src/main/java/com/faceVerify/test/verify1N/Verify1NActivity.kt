@@ -1,6 +1,8 @@
 package com.faceVerify.test.verify1N
 
 import android.os.Bundle
+import android.os.Handler
+import android.text.TextUtils
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +14,6 @@ import com.AI.FaceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM
 import com.AI.FaceVerify.view.CameraXAnalyzeFragment
 import com.AI.FaceVerify.view.CameraXAnalyzeFragment.CAMERA_ORIGINAL
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.faceVerify.test.FaceApplication
 import com.faceVerify.test.R
 import kotlinx.android.synthetic.main.activity_verify_1n.*
@@ -78,22 +79,27 @@ class Verify1NActivity : AppCompatActivity() {
                     score=s
                     //静默活体分值，防止作弊
                     face_cover.setTipText("活体得分：$score")
+                    result_layout.visibility= INVISIBLE
+
                 }
 
                 override fun onMostSimilar(imagePath: String) {
                     runOnUiThread {
 
                         if(score>9){
-
+                            //假如你需要活体检测,得分> Hold 才不是作弊
                         }
 
-                        result_layout.visibility= VISIBLE
-                        Glide.with(baseContext).load(imagePath)
-                            .transform(CircleCrop())
-                            .into(result_image)
+                        face_cover.setTipText("")
 
-                        val file = File(imagePath)
-                        result_text.text=file.name
+                        if(!TextUtils.isEmpty(imagePath)){
+                            result_layout.visibility= VISIBLE
+                            Glide.with(baseContext).load(imagePath).into(result_image)
+
+                            val file = File(imagePath)
+                            result_text.text=file.name
+                        }
+
                     }
                 }
 
@@ -133,12 +139,17 @@ class Verify1NActivity : AppCompatActivity() {
 
 
                 VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS -> {
-//                    face_cover.setTipText( "检索中...")
-                }
 
+                    Handler().postDelayed(Runnable {
+                        face_cover.setTipText( "检索中...")
+                    }, 1000)
+
+
+                }
             }
         }
     }
+
 
     /**
      * 资源释放
@@ -147,5 +158,6 @@ class Verify1NActivity : AppCompatActivity() {
         super.onDestroy()
         faceDetectorUtils.destroyProcess()
     }
+
 
 }
