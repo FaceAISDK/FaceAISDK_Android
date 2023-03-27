@@ -140,10 +140,9 @@ class Verify1NActivity : AppCompatActivity() {
 
                 VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS -> {
 
-                    Handler().postDelayed(Runnable {
+                    Handler().postDelayed({
                         face_cover.setTipText( "检索中...")
                     }, 1000)
-
 
                 }
             }

@@ -11,8 +11,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
 
-        versionCode 16
-        versionName "3.9.0"
+        versionCode 17
+        versionName "3.9.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -45,9 +45,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-    implementation 'com.tencent.bugly:crashreport:4.1.9'
 
-    implementation 'io.github.anylifezlb:Face-Verification:3.8.7.alpha2'
+    implementation 'io.github.anylifezlb:Face-Verification:3.8.7.alpha4'
 
     // 以下为业务需要其他依赖
     implementation 'pub.devrel:easypermissions:3.0.0'
@@ -60,6 +59,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.7.0'
     kapt 'com.github.bumptech.glide:compiler:4.13.0'
 
+    implementation 'com.tencent.bugly:crashreport:4.1.9'
+
     // App compat and UI  things
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
@@ -69,11 +70,11 @@ dependencies {
 }
 
 
-repositories {
-    flatDir {
-        dirs 'aars'
-    }
-}
+//repositories {
+//    flatDir {
+//        dirs 'aars'
+//    }
+//}
 
 
 
