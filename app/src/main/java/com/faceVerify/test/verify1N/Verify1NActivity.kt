@@ -77,10 +77,12 @@ class Verify1NActivity : AppCompatActivity() {
 
                 override fun onSilentAntiSpoofing(s: Float) {
                     score=s
-                    //静默活体分值，防止作弊
-                    face_cover.setTipText("活体得分：$score")
-                    result_layout.visibility= INVISIBLE
 
+                    runOnUiThread {
+                        //静默活体分值，防止作弊
+                        face_cover.setTipText("活体得分：$score")
+                        result_layout.visibility= INVISIBLE
+                    }
                 }
 
                 override fun onMostSimilar(imagePath: String) {

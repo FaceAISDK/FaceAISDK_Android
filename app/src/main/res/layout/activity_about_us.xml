@@ -29,7 +29,7 @@
         android:layout_marginTop="77dp"
         android:gravity="center"
         android:padding="19dp"
-        android:text="微信WeChat:    HaoNan19990322"
+        android:text="微信WeChat:      HaoNan19990322"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,10 +41,23 @@
         android:layout_marginTop="66dp"
         android:gravity="center"
         android:padding="19dp"
-        android:text="邮箱Email:   anylife.zlb@gmail.com"
+        android:text="邮箱Email:     anylife.zlb@gmail.com"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@+id/wechat" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="66dp"
+        android:gravity="center"
+        android:padding="19dp"
+        android:text="长按可以复制 "
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="@+id/email" />
+
 
     <TextView
         android:id="@+id/more_about_me"
@@ -52,7 +65,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="19dp"
-        android:layout_marginTop="99dp"
+        android:layout_marginTop="123dp"
         android:text="联系我们,查看更多"
         android:textColor="@android:color/white"
         android:textSize="18sp"

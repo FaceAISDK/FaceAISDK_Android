@@ -9,7 +9,7 @@ Offline Android Face Detection &amp; Recognition And  Liveness Detection & Anti 
 
 ## 简要说明
 
-  本SDK支持Android 5+，包含人脸识别比对，动作活体检测和静默活体防伪，所有处理都在离线终端执行，不收集人脸信息，更具隐私安全；
+  本SDK支持Android 5+，包含人脸识别比对，动作活体检测和静默活体防伪，所有处理都在设备终端离线执行，不收集人脸信息更具隐私安全；
   其中活体检测支持张嘴，微笑，眨眼，摇头，点头 随机两种组合验证（摇头点头也可拆分为左右上下4个动作），低端机离线验证速度正常。
 
   SDK 中的摄像头管理已经全部升级为[CameraX](https://developer.android.com/training/camerax?hl=zh-cn) ，兼容性和健壮性极大提升(Camera 1已经废弃)
@@ -29,15 +29,14 @@ Offline Android Face Detection &amp; Recognition And  Liveness Detection & Anti 
 
 ## 接入使用
  
-    #### 3.8.7 更新说明
+    #### 3.8.X 更新说明
 
-    * 提高识别精确度和速度
-    * 打通1：N 识别主流程 （算法未优化速度）
-    * 添加静默活体检测，防止视频合成等欺骗 （苹果系统可以下载xPression测验）
+    * 调整Target SDK=31以及对应的依赖降级以便处理依赖冲突
+    * 打通1：N 识别流程，识别速度预计第二季度完成优化
 
 
     //Gradle
-    implementation "io.github.anylifezlb:Face-Verification:3.8.7"
+    implementation "io.github.anylifezlb:Face-Verification:3.8.7.alpha6"
     
     ``` 
     //更多说明请看代码和下载Demo体验
@@ -86,7 +85,7 @@ Offline Android Face Detection &amp; Recognition And  Liveness Detection & Anti 
     其中活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请，内容包括
     APP简要描述，App名称 ，包名 ，功能主页截屏和 下载链接5项内容。
 
-    静默活体检测&炫光活体检测Alpha 版本已经发布，抢先体验请发送邮件。
+    静默活体检测&炫光活体检测Alpha 版本已经发布，抢先体验请发送邮件吧。
 
 
 

@@ -92,21 +92,8 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
 
-        //添加1：N 人脸识别底片
+        //去添加1：N 人脸识别底片
         verify1n_add.setOnClickListener {
-
-            CopyFileUtils.getInstance(this@NaviActivity)
-                .copyAssetsToSD("baseImg", BASE_FACE_PATH + DIR_1N_VALUE)
-                .setFileOperateCallback(object : CopyFileUtils.FileOperateCallback{
-                    override fun onSuccess() {
-                        Toast.makeText(baseContext, "1:N 底片复制成功", Toast.LENGTH_SHORT).show()
-                    }
-
-                    override fun onFailed(error: String?) {
-                        Toast.makeText(baseContext, "操作失败:$error", Toast.LENGTH_SHORT).show()
-                    }
-                })
-
 
             startActivity(
                 Intent(this@NaviActivity, AddBaseImageActivity::class.java)
@@ -116,12 +103,29 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
 
+        //导入内置110张测试人脸
+        verify1n_add_100.setOnClickListener {
+
+            CopyFileUtils.getInstance(this@NaviActivity)
+                .copyAssetsToSD("baseImg", BASE_FACE_PATH + DIR_1N_VALUE)
+                .setFileOperateCallback(object : CopyFileUtils.FileOperateCallback{
+                    override fun onSuccess() {
+                        Toast.makeText(baseContext, "成功导入110张", Toast.LENGTH_LONG).show()
+                    }
+
+                    override fun onFailed(error: String?) {
+                        Toast.makeText(baseContext, "导入失败:$error", Toast.LENGTH_SHORT).show()
+                    }
+                })
+        }
+
+
+
         more_about_me.setOnClickListener {
 
             startActivity(
                 Intent(this@NaviActivity, AboutUsActivity::class.java)
             )
-
 
 //            val uri = Uri.parse("https://github.com/AnyLifeZLB/FaceVerificationSDK")
 //            val intent = Intent(Intent.ACTION_VIEW)
