@@ -48,8 +48,10 @@ class Verify1NActivity : AppCompatActivity() {
         //VerifyCameraXFragment 封装了相机的处理，UI 定制暴露给业务层自由修改
         cameraXFragment.setOnAnalyzerListener(object : CameraXAnalyzeFragment.onAnalyzeData {
             override fun analyze(imageProxy: ImageProxy) {
-                if (this@Verify1NActivity.isDestroyed || this@Verify1NActivity.isFinishing) return
-                faceDetectorUtils.goVerify(imageProxy, face_cover.margin)
+                if (!this@Verify1NActivity.isDestroyed &&!this@Verify1NActivity.isFinishing) {
+                    //如果设备有红外传感器，可以做一个标志触发，不需要一直检测
+                    faceDetectorUtils.goVerify(imageProxy, face_cover.margin)
+                }
             }
 
             override fun analyze(rgbBytes: ByteArray, w: Int, h: Int) {
@@ -87,7 +89,6 @@ class Verify1NActivity : AppCompatActivity() {
 
                 override fun onMostSimilar(imagePath: String) {
                     runOnUiThread {
-
                         if(score>9){
                             //假如你需要活体检测,得分> Hold 才不是作弊
                         }
@@ -97,11 +98,9 @@ class Verify1NActivity : AppCompatActivity() {
                         if(!TextUtils.isEmpty(imagePath)){
                             result_layout.visibility= VISIBLE
                             Glide.with(baseContext).load(imagePath).into(result_image)
-
                             val file = File(imagePath)
                             result_text.text=file.name
                         }
-
                     }
                 }
 

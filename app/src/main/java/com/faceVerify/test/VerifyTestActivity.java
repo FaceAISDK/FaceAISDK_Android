@@ -15,27 +15,15 @@ import static com.AI.FaceVerify.view.CameraXAnalyzeFragment.CAMERA_ORIGINAL;
 import static com.faceVerify.test.FaceApplication.BASE_FACE_PATH;
 import static com.faceVerify.test.FaceApplication.DIR_1N_VALUE;
 
-import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.ImageProxy;
-
-import com.AI.FaceVerify.convert.DataConvertUtils;
 import com.AI.FaceVerify.utils.AiUtil;
 import com.AI.FaceVerify.verify.FaceProcessBuilder;
 import com.AI.FaceVerify.verify.FaceVerifyUtils;
@@ -91,12 +79,6 @@ public class VerifyTestActivity extends AppCompatActivity {
                             finish();
                         });
                     }
-
-                    @Override
-                    public void onMostSimilar(String similar) {
-
-                    }
-
 
                     @Override
                     public void onFailed(int code) {

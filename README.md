@@ -9,7 +9,7 @@ Offline Android Face Detection &amp; Recognition And  Liveness Detection & Anti 
 
 ## 简要说明
 
-  本SDK支持Android 5+，包含人脸识别比对，动作活体检测和静默活体防伪，所有处理都在设备终端离线执行，不收集人脸信息更具隐私安全；
+  本SDK支持Android 5+，包含人脸识别比对，动作活体检测和静默活体防伪，**所有处理都在设备终端离线执行，不收集人脸信息更具隐私安全**
   其中活体检测支持张嘴，微笑，眨眼，摇头，点头 随机两种组合验证（摇头点头也可拆分为左右上下4个动作），低端机离线验证速度正常。
 
   SDK 中的摄像头管理已经全部升级为[CameraX](https://developer.android.com/training/camerax?hl=zh-cn) ，兼容性和健壮性极大提升(Camera 1已经废弃)
@@ -23,7 +23,7 @@ Offline Android Face Detection &amp; Recognition And  Liveness Detection & Anti 
 
 ## 使用场景
 
-   【1:1】 识别手机考勤系统，机场/卡口人证对齐，免密码登录，酒店入驻、刷脸支付、刷脸解锁 
+   【1:1】 移动考勤真人校验，机场/卡口人证对齐，免密登录，酒店入驻、刷脸支付、刷脸解锁、真人校验
 
    【1:N】 考勤机，物业管理业主出入凭证等，（暂未优化1：N 识别速度！SM-9700百张底片最差5s左右，最好50ms）
 
@@ -34,9 +34,8 @@ Offline Android Face Detection &amp; Recognition And  Liveness Detection & Anti 
     * 调整Target SDK=31以及对应的依赖降级以便处理依赖冲突
     * 打通1：N 识别流程，识别速度预计第二季度完成优化
 
-
     //Gradle
-    implementation "io.github.anylifezlb:Face-Verification:3.8.7.alpha6"
+    implementation "io.github.anylifezlb:Face-Verification:3.8.8_xxxxx"
     
     ``` 
     //更多说明请看代码和下载Demo体验
@@ -93,7 +92,6 @@ Offline Android Face Detection &amp; Recognition And  Liveness Detection & Anti 
 
    最新版下载地址： https://www.pgyer.com/faceVerify 
 
-   
 <div align=center>
 <img src="https://user-images.githubusercontent.com/15169396/210045090-60c073df-ddbd-4747-8e24-f0dce1eccb58.png" width = 33% height = 33% />
 </div>
