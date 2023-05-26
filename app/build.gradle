@@ -47,12 +47,8 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-
-
     //人脸识别 活体检测 SDK 依赖
-    implementation 'io.github.anylifezlb:Face-Verification:3.8.8'
-
-
+    implementation 'io.github.anylifezlb:Face-Verification:3.8.7.alpha16'
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
@@ -63,7 +59,7 @@ dependencies {
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
     implementation 'com.github.bumptech.glide:glide:4.13.0'
-    implementation 'com.google.android.material:material:1.5.0'
+//    implementation 'com.google.android.material:material:1.5.0'
     kapt 'com.github.bumptech.glide:compiler:4.13.0'
 
     implementation 'com.tencent.bugly:crashreport:4.1.9' //Demo 为了收集Crash 开了网络权限
@@ -73,9 +69,6 @@ dependencies {
 //    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-
-
-
 
 
 }

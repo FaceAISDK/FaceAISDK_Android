@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue"
+    android:background="@color/blue_sky"
     android:paddingTop="122dp"
     tools:context=".NaviActivity">
 
     <!-- A CardView that contains a TextView -->
     <androidx.cardview.widget.CardView
         android:id="@+id/face_verify_card"
-        android:layout_width="144dp"
-        android:layout_height="80dp"
+        android:layout_width="155dp"
+        android:layout_height="85dp"
         app:cardCornerRadius="4dp"
-        android:background="@color/white"
+        app:cardBackgroundColor="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/update_base_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -28,8 +28,9 @@
             <ImageView
                 android:layout_width="55dp"
                 android:layout_height="55dp"
+                android:padding="7dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/band_image" />
+                android:src="@drawable/baseline_face_retouching_natural_24" />
 
             <TextView
                 android:id="@+id/face_verify"
@@ -38,7 +39,7 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:text="人脸识别"
-                android:textColor="@android:color/black"
+                android:textColor="#2DCC18"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -49,9 +50,10 @@
     <!-- A CardView that contains a TextView -->
     <androidx.cardview.widget.CardView
         android:id="@+id/update_base_image"
-        android:layout_width="144dp"
-        android:layout_height="80dp"
+        android:layout_width="155dp"
+        android:layout_height="85dp"
         app:cardCornerRadius="4dp"
+        app:cardBackgroundColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/face_verify_card"
         app:layout_constraintTop_toTopOf="parent">
@@ -67,7 +69,7 @@
                 android:layout_height="55dp"
                 android:padding="9dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_baseline_add_reaction_24" />
+                android:src="@drawable/ic_baseline_arrow_back_24" />
 
             <TextView
                 android:id="@+id/change_base_img"
@@ -76,7 +78,7 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:text="更换底片"
-                android:textColor="@android:color/black"
+                android:textColor="#2DCC18"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/update_base_image" />
 
@@ -136,6 +138,21 @@
         android:textSize="16sp"
         android:layout_marginBottom="@dimen/dp_40"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/change_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="16sp"
+        android:visibility="visible"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="22dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="点击切换摄像头" />
+
 
 
 

@@ -1,5 +1,6 @@
 package com.faceVerify.test.verify11
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import com.AI.FaceVerify.verify.FaceVerifyUtils
 import android.os.Bundle
@@ -21,6 +22,7 @@ import androidx.camera.core.*
 import com.AI.FaceVerify.verify.VerifyStatus.*
 import com.AI.FaceVerify.view.CameraXAnalyzeFragment
 import com.AI.FaceVerify.view.CameraXAnalyzeFragment.CAMERA_ORIGINAL
+import com.faceVerify.test.utils.VoicePlayer
 import kotlinx.android.synthetic.main.activity_verify_11.*
 import java.io.File
 
@@ -44,7 +46,9 @@ class Verify11Activity : AppCompatActivity() {
 
         val yourUniQueFaceId = intent.getStringExtra(FaceApplication.USER_ID_KEY)
 
-        val cameraXFragment = CameraXAnalyzeFragment.newInstance(CAMERA_ORIGINAL)
+        // 0 ,前置摄像头       1，后置摄像头    部分外接摄像头支持可能是1
+        val cameraXFragment = CameraXAnalyzeFragment.newInstance(CAMERA_ORIGINAL,getSharedPreferences(
+            "faceVerify", Context.MODE_PRIVATE).getInt("cameraFlag",0))
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_camerax, cameraXFragment).commit()
@@ -92,16 +96,20 @@ class Verify11Activity : AppCompatActivity() {
         // 1:N 比对 设置 setFaceLibFolder，1：1 比对设置BaseBitmap
         // 两个都设置优先1：1 识别， 都不设置报错
         val faceProcessBuilder = FaceProcessBuilder.Builder(this)
-            .setThreshold(0.75f)       //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
+            .setThreshold(0.77f)       //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
             .setBaseBitmap(baseBitmap) //底片,请录入的时候保证底片质量
             .setLiveCheck(true)        //是否需要活体检测，需要发送邮件，详情参考ReadMe
-            .setVerifyTimeOut(10)      //活体检测支持设置超时时间 9-16 秒
-            .setGraphicOverlay(faceTips)//正式环境请去除设置
+            .setVerifyTimeOut(15)      //活体检测支持设置超时时间 9-16 秒
+            .setMotionStepSize(1)
+
+//            .setGraphicOverlay(faceTips)//正式环境请去除设置
+
             .setProcessCallBack(object : ProcessCallBack() {
                 override fun onCompleted(isMatched: Boolean) {
                     runOnUiThread {
                         if (isMatched) {
                             tips_view.text = "核验已通过，与底片为同一人！ "
+                            face_cover.setTipText("核验已通过，与底片为同一人！");
 
                             Toast.makeText(this@Verify11Activity, "验证通过", Toast.LENGTH_LONG).show();
 
@@ -111,6 +119,8 @@ class Verify11Activity : AppCompatActivity() {
 
                         } else {
                             tips_view.text = "核验不通过，与底片不符！ "
+                            face_cover.setTipText("核验不通过，与底片不符！ ");
+
                             AlertDialog.Builder(this@Verify11Activity)
                                 .setMessage("核验不通过，与底片不符！ ")
                                 .setCancelable(false)
@@ -180,17 +190,8 @@ class Verify11Activity : AppCompatActivity() {
 
                 VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY -> {
                     tips_view.text = "多次切换画面或无人脸"
-                    android.app.AlertDialog.Builder(this@Verify11Activity)
-                        .setMessage("多次切换画面或无人脸，停止识别。\n识别过程请保持人脸在画面中")
-                        .setCancelable(false)
-                        .setPositiveButton("知道了") { dialog1: DialogInterface?, which: Int ->
-                            finish()
-                        }
-                        .show()
-                }
+                    face_cover.setTipText("多次切换画面或无人脸");
 
-                VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY -> {
-                    tips_view.text = "多次切换画面或无人脸"
                     android.app.AlertDialog.Builder(this@Verify11Activity)
                         .setMessage("多次切换画面或无人脸，停止识别。\n识别过程请保持人脸在画面中")
                         .setCancelable(false)
@@ -205,13 +206,31 @@ class Verify11Activity : AppCompatActivity() {
 
                 VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE -> tips_view.text = "画面没有检测到人脸"
                 VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED -> tips_view.text = "活体检测失败了"
-                VERIFY_DETECT_TIPS_ENUM.ACTION_OK -> tips_view.text = "请保持正对屏幕"  //已经完成活体检测
+                VERIFY_DETECT_TIPS_ENUM.ACTION_OK ->{
+                    VoicePlayer.getInstance().play(R.raw.face_camera)
+                    tips_view.text = "请保持正对屏幕"
+                }
 
-                ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE -> tips_view.text = "请张嘴"
-                ALIVE_DETECT_TYPE_ENUM.SMILE -> tips_view.text = "请微笑"
-                ALIVE_DETECT_TYPE_ENUM.BLINK -> tips_view.text = "请轻眨眼"
-                ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD -> tips_view.text = "请缓慢左右摇头"
-                ALIVE_DETECT_TYPE_ENUM.NOD_HEAD -> tips_view.text = "请缓慢上下点头"
+                ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE ->{
+                    VoicePlayer.getInstance().play(R.raw.open_mouse)
+                    tips_view.text = "请张嘴"
+                }
+                ALIVE_DETECT_TYPE_ENUM.SMILE -> {
+                    tips_view.text = "请微笑"
+                    VoicePlayer.getInstance().play(R.raw.smile)
+                }
+                ALIVE_DETECT_TYPE_ENUM.BLINK -> {
+                    VoicePlayer.getInstance().play(R.raw.blink)
+                    tips_view.text = "请轻眨眼"
+                }
+                ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD -> {
+                    VoicePlayer.getInstance().play(R.raw.shake_head)
+                    tips_view.text = "请缓慢左右摇头"
+                }
+                ALIVE_DETECT_TYPE_ENUM.NOD_HEAD ->{
+                    VoicePlayer.getInstance().play(R.raw.nod_head)
+                    tips_view.text = "请缓慢上下点头"
+                }
 
 //                ALIVE_DETECT_TYPE_ENUM.NO_MOUSE -> tips_view_2.text = "请勿遮挡嘴巴"
 //                ALIVE_DETECT_TYPE_ENUM.NO_NOSE -> tips_view_2.text = "请勿遮挡鼻子"
@@ -223,14 +242,6 @@ class Verify11Activity : AppCompatActivity() {
     }
 
 
-    /**
-     * 暂停识别，防止切屏识别，如果你需要退后台不能识别的话打开注释
-     *
-     */
-    override fun onPause() {
-        super.onPause()
-//        faceVerifyUtils.pauseProcess()
-    }
 
 
     /**
@@ -239,6 +250,7 @@ class Verify11Activity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         faceVerifyUtils.destroyProcess()
+        face_cover.destroyView()
     }
 
 }

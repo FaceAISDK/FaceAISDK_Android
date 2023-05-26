@@ -1,5 +1,6 @@
 package com.faceVerify.test.verify1N
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
@@ -43,7 +44,10 @@ class Verify1NActivity : AppCompatActivity() {
         //初始化引擎
         initFaceVerify()
 
-        val cameraXFragment = CameraXAnalyzeFragment.newInstance(CAMERA_ORIGINAL)
+        // 0 ,前置摄像头       1，后置摄像头    部分外接摄像头支持可能是1
+        val cameraXFragment = CameraXAnalyzeFragment.newInstance(CAMERA_ORIGINAL,
+            getSharedPreferences(
+                "faceVerify", Context.MODE_PRIVATE).getInt("cameraFlag",0))
 
         //VerifyCameraXFragment 封装了相机的处理，UI 定制暴露给业务层自由修改
         cameraXFragment.setOnAnalyzerListener(object : CameraXAnalyzeFragment.onAnalyzeData {
@@ -151,13 +155,13 @@ class Verify1NActivity : AppCompatActivity() {
     }
 
 
-    /**
-     * 资源释放
-     */
-    override fun onDestroy() {
-        super.onDestroy()
-        faceDetectorUtils.destroyProcess()
-    }
+//    /**
+//     * 资源释放
+//     */
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        faceDetectorUtils.destroyProcess()
+//    }
 
 
 }

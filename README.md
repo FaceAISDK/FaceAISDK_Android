@@ -1,6 +1,6 @@
 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
-Offline Android Face Detection &amp; Recognition And  Liveness Detection & Anti Spoofing SDK 离线版Android人脸检测，人脸识别和活体检测反作弊SDK
+Offline Android Face Detection &amp; Recognition And  Liveness Detection & Anti Spoofing SDK 离线版Android人脸检测，人脸识别和活体检测反作弊 SDK
 
 <div align=center>
 <img src="http://user-images.githubusercontent.com/15169396/182627098-0ca24289-641b-4593-bf7c-72b09c4bf94e.jpeg" width = 20% height = 20% />
@@ -9,16 +9,14 @@ Offline Android Face Detection &amp; Recognition And  Liveness Detection & Anti 
 
 ## 简要说明
 
-  本SDK支持Android 5+，包含人脸识别比对，动作活体检测和静默活体防伪，**所有处理都在设备终端离线执行，不收集人脸信息更具隐私安全**
+  SDK包含动作活体、静默活体检测，1：1人脸识别以及1：N人脸识别查找，**所有处理都在设备终端离线执行，不收集人脸信息更具隐私安全**
   其中活体检测支持张嘴，微笑，眨眼，摇头，点头 随机两种组合验证（摇头点头也可拆分为左右上下4个动作），低端机离线验证速度正常。
+  SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM® Cortex®-A53™1.8GHz x4 + ARM Mali T860 图形处理器运行流畅
 
-  SDK 中的摄像头管理已经全部升级为[CameraX](https://developer.android.com/training/camerax?hl=zh-cn) ，兼容性和健壮性极大提升(Camera 1已经废弃)
-
-  前期测试效果能覆盖95% 的中高低端机器，识别成功率>99% ，实验数据仅供参考，最低端手机完整的兼容性功能通过设备为2016年低端机魅蓝Note3。
-  特殊系统设备特殊硬件，如有问题请先提Issues附带系统版本，设备型号，错误log等信息，其他定制化需求请联系 anylife.zlb@gmail.com 交流
+  实验室测试效果能覆盖95% 的中高低端机器，识别成功率>99% ；特殊DIY系统设备或特殊定制硬件如有问题请先提Issues附带系统版本，
+  设备型号，错误log等信息。或anylife.zlb@gmail.com 交流
   
   ![image](https://user-images.githubusercontent.com/15169396/222224246-b83fca54-6cfb-4924-98a6-809b11da8761.png)
-
 
 
 ## 使用场景
@@ -31,11 +29,11 @@ Offline Android Face Detection &amp; Recognition And  Liveness Detection & Anti 
  
     #### 3.8.X 更新说明
 
-    * 调整Target SDK=31以及对应的依赖降级以便处理依赖冲突
+    * 支持横屏模式，支持32位CPU
     * 打通1：N 识别流程，识别速度预计第二季度完成优化
 
     //Gradle
-    implementation "io.github.anylifezlb:Face-Verification:3.8.8_xxxxx"
+    implementation "io.github.anylifezlb:Face-Verification:3.8.7.alpha11"
     
     ``` 
     //更多说明请看代码和下载Demo体验
@@ -84,13 +82,12 @@ Offline Android Face Detection &amp; Recognition And  Liveness Detection & Anti 
     其中活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请，内容包括
     APP简要描述，App名称 ，包名 ，功能主页截屏和 下载链接5项内容。
 
-    静默活体检测&炫光活体检测Alpha 版本已经发布，抢先体验请发送邮件吧。
-
 
 
 ## Demo 下载体验
 
-   最新版下载地址： https://www.pgyer.com/faceVerify 
+   最新版下载地址： https://www.pgyer.com/faceVerify 。微信或相机扫码后选择在浏览器中打开点击下载安装
+体验验证是否符合你的业务需求，一旦采购介绍人奖励5-10% 采购额，近期更有优惠大酬宾 
 
 <div align=center>
 <img src="https://user-images.githubusercontent.com/15169396/210045090-60c073df-ddbd-4747-8e24-f0dce1eccb58.png" width = 33% height = 33% />
@@ -98,8 +95,8 @@ Offline Android Face Detection &amp; Recognition And  Liveness Detection & Anti 
 
 ## 服务定制
 
-   如果你的应用场景SDK 不能匹配需要特殊定制化，请发邮件到anylife.zlb@gmail.com
-   也可以加微信 HaoNan19990322 （请标注人脸识别定制，否则添加不通过，谢谢）
+   如果 SDK 不能匹配你的应用场景需要特殊定制化，请发邮件到anylife.zlb@gmail.com
+   也可以加微信 HaoNan19990322 （请标注为 人脸识别定制，否则添加不通过，谢谢）
    
    Github:  https://github.com/AnyLifeZLB/FaceVerificationSDK
    

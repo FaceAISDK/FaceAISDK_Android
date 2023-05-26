@@ -16,6 +16,7 @@ import static com.faceVerify.test.FaceApplication.BASE_FACE_PATH;
 import static com.faceVerify.test.FaceApplication.DIR_1N_VALUE;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -95,7 +96,8 @@ public class VerifyTestActivity extends AppCompatActivity {
 
         faceDetectorUtils.setDetectorParams(faceProcessBuilder);
 
-        CameraXAnalyzeFragment cameraXFragment = CameraXAnalyzeFragment.newInstance(CAMERA_ORIGINAL);
+        CameraXAnalyzeFragment cameraXFragment = CameraXAnalyzeFragment.newInstance(CAMERA_ORIGINAL,getSharedPreferences(
+                "faceVerify", Context.MODE_PRIVATE).getInt("cameraFlag",0));
         cameraXFragment.setOnAnalyzerListener(new CameraXAnalyzeFragment.onAnalyzeData() {
             @Override
             public void analyze(@NonNull ImageProxy imageProxy) {

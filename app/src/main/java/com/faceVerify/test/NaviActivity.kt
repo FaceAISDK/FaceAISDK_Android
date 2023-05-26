@@ -1,6 +1,7 @@
 package com.faceVerify.test
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -17,6 +18,7 @@ import com.faceVerify.test.FaceApplication.Companion.FACE_DIR_KEY
 import com.faceVerify.test.FaceApplication.Companion.USER_ID_KEY
 import com.faceVerify.test.utils.AboutUsActivity
 import com.faceVerify.test.utils.AddBaseImageActivity
+import com.faceVerify.test.utils.VoicePlayer
 import com.faceVerify.test.verify11.Verify11Activity
 import com.faceVerify.test.verify1N.Verify1NActivity
 import kotlinx.android.synthetic.main.activity_navi.*
@@ -127,13 +129,34 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
                 Intent(this@NaviActivity, AboutUsActivity::class.java)
             )
 
-//            val uri = Uri.parse("https://github.com/AnyLifeZLB/FaceVerificationSDK")
-//            val intent = Intent(Intent.ACTION_VIEW)
-//            intent.addCategory(Intent.CATEGORY_BROWSABLE)
-//            intent.data = uri
-//            startActivity(intent)
         }
 
+
+        change_camera.setOnClickListener {
+            val sharedPref = getSharedPreferences(
+                "faceVerify", Context.MODE_PRIVATE)
+
+            if(sharedPref.getInt("cameraFlag",0)==1){
+                sharedPref.edit().putInt("cameraFlag",0).apply()
+                Toast.makeText(
+                    baseContext,
+                    "已切换前置摄像头",
+                    Toast.LENGTH_LONG
+                ).show()
+            }else{
+                sharedPref.edit().putInt("cameraFlag",1).apply()
+                Toast.makeText(
+                    baseContext,
+                    "已切换后置/外接摄像头",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
+        }
+
+
+
+        VoicePlayer.getInstance().init(this)
     }
 
 

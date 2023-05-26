@@ -5,6 +5,7 @@ import static com.faceVerify.test.FaceApplication.FACE_DIR_KEY;
 import static com.faceVerify.test.FaceApplication.BASE_FACE_PATH;
 import static com.faceVerify.test.FaceApplication.USER_ID_KEY;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -90,7 +91,9 @@ public class AddBaseImageActivity extends AppCompatActivity {
             }
         });
 
-        CameraXAnalyzeFragment cameraXFragment = CameraXAnalyzeFragment.newInstance(CAMERA_ORIGINAL);
+        // 0 ,前置摄像头       1，后置摄像头    部分外接摄像头支持可能是1
+        CameraXAnalyzeFragment cameraXFragment = CameraXAnalyzeFragment.newInstance(CAMERA_ORIGINAL,getSharedPreferences(
+                "faceVerify", Context.MODE_PRIVATE).getInt("cameraFlag",0));
         cameraXFragment.setOnAnalyzerListener(new CameraXAnalyzeFragment.onAnalyzeData() {
             @Override
             public void analyze(@NonNull ImageProxy imageProxy) {

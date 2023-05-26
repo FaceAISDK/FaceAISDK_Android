@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         customAttr:tip_text_size="20sp"
         customAttr:tip_text_color="@color/colorPrimary"
-        customAttr:circle_margin="22dp" />
+        customAttr:circle_margin="44dp" />
 
 
     <ImageView
