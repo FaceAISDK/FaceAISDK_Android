@@ -29,11 +29,11 @@ Offline Android Face Detection &amp; Recognition And  Liveness Detection & Anti 
  
     #### 3.8.X 更新说明
 
-    * 支持横屏模式，支持32位CPU
+    * 支持横屏模式，支持部分外接摄像头
     * 打通1：N 识别流程，识别速度预计第二季度完成优化
 
     //Gradle
-    implementation "io.github.anylifezlb:Face-Verification:3.8.7.alpha11"
+    implementation "io.github.anylifezlb:Face-Verification:3.8.7.alpha16"
     
     ``` 
     //更多说明请看代码和下载Demo体验
