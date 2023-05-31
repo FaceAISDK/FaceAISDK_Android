@@ -100,7 +100,7 @@ class Verify11Activity : AppCompatActivity() {
             .setBaseBitmap(baseBitmap) //底片,请录入的时候保证底片质量
             .setLiveCheck(true)        //是否需要活体检测，需要发送邮件，详情参考ReadMe
             .setVerifyTimeOut(15)      //活体检测支持设置超时时间 9-16 秒
-            .setMotionStepSize(1)
+            .setMotionStepSize(1)      //随机动作验证活体的步骤个数，支持1-2个步骤
 
 //            .setGraphicOverlay(faceTips)//正式环境请去除设置
 
@@ -108,14 +108,16 @@ class Verify11Activity : AppCompatActivity() {
                 override fun onCompleted(isMatched: Boolean) {
                     runOnUiThread {
                         if (isMatched) {
+                            //各种形式的提示，根据业务需求选择
                             tips_view.text = "核验已通过，与底片为同一人！ "
                             face_cover.setTipText("核验已通过，与底片为同一人！");
 
                             Toast.makeText(this@Verify11Activity, "验证通过", Toast.LENGTH_LONG).show();
-
                             Handler(Looper.getMainLooper()).postDelayed(
                                 { this@Verify11Activity.finish() }, 1000  //时间根据业务需求自由修改
                             )
+
+                            VoicePlayer.getInstance().play(R.raw.verify_success)
 
                         } else {
                             tips_view.text = "核验不通过，与底片不符！ "
@@ -128,6 +130,9 @@ class Verify11Activity : AppCompatActivity() {
                                     "知道了"
                                 ) { dialog1: DialogInterface?, which: Int -> finish() }
                                 .show()
+
+                            VoicePlayer.getInstance().play(R.raw.verify_failed)
+
                         }
                     }
                 }
