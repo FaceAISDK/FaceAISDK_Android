@@ -96,7 +96,7 @@ class Verify11Activity : AppCompatActivity() {
         // 1:N 比对 设置 setFaceLibFolder，1：1 比对设置BaseBitmap
         // 两个都设置优先1：1 识别， 都不设置报错
         val faceProcessBuilder = FaceProcessBuilder.Builder(this)
-            .setThreshold(0.77f)       //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
+            .setThreshold(0.85f)       //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
             .setBaseBitmap(baseBitmap) //底片,请录入的时候保证底片质量
             .setLiveCheck(true)        //是否需要活体检测，需要发送邮件，详情参考ReadMe
             .setVerifyTimeOut(15)      //活体检测支持设置超时时间 9-16 秒

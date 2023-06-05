@@ -59,7 +59,6 @@ dependencies {
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
     implementation 'com.github.bumptech.glide:glide:4.13.0'
-//    implementation 'com.google.android.material:material:1.5.0'
     kapt 'com.github.bumptech.glide:compiler:4.13.0'
 
     implementation 'com.tencent.bugly:crashreport:4.1.9' //Demo 为了收集Crash 开了网络权限

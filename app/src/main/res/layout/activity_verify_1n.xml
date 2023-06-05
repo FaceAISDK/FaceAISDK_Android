@@ -18,7 +18,7 @@
         android:id="@+id/face_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        customAttr:circle_margin="44dp"
+        customAttr:circle_margin="22dp"
         customAttr:tip_text_color="@color/blue_sky"
         customAttr:tip_text_size="18sp" />
 
