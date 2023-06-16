@@ -38,7 +38,7 @@ Offline Android Face Detection &amp; Recognition And  Liveness Detection & Anti 
 
     注：CPU 建议64位 ARM® Cortex®-A53™1.8GHz以上配置，外接摄像头请切换为标志1
     //Gradle
-    implementation "io.github.anylifezlb:Face-Verification:3.8.8.Alpha1"
+    implementation "io.github.anylifezlb:Face-Verification:3.8.8.Alpha5"
     
     ``` 
     //更多说明请看代码和下载Demo体验

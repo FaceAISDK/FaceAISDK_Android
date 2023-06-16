@@ -28,7 +28,7 @@ import java.io.File
 
 /**
  * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo
- * 静默活体检测&炫光活体检测Alpha 版本已经发布，抢先体验请发送邮件
+ * 静默活体检测 版本已经发布，抢先体验请发送邮件
  *
  */
 class Verify11Activity : AppCompatActivity() {
@@ -40,7 +40,7 @@ class Verify11Activity : AppCompatActivity() {
         setContentView(R.layout.activity_verify_11)
         title = "1:1 人脸识别"
 
-        back.setOnClickListener { v: View? ->
+        back.setOnClickListener {
             finish()
         }
 

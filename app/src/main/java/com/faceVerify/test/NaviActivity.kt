@@ -106,7 +106,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
 
         //导入内置30张测试人脸，所有测试人脸均是AI 生成，没有侵犯个人隐私
-        verify1n_add_100.setOnClickListener {
+        verify1n_add_30.setOnClickListener {
 
             CopyFileUtils.getInstance(this@NaviActivity)
                 .copyAssetsToSD("baseImg", BASE_FACE_PATH + DIR_1N_VALUE)

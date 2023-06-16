@@ -88,34 +88,24 @@
 
 
 
-    <TextView
-        android:id="@+id/verify1n"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="111dp"
-        android:padding="9dp"
-        android:gravity="center"
-        android:text="1:N人脸识别演示(完善中)"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@+id/update_base_image" />
+
 
 
     <TextView
         android:id="@+id/verify1n_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="66dp"
         android:padding="9dp"
         android:gravity="center"
         android:text="1:N 人脸识别底片添加"
         android:textColor="@android:color/darker_gray"
         android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@+id/verify1n" />
+        app:layout_constraintTop_toBottomOf="@+id/update_base_image" />
 
 
     <TextView
-        android:id="@+id/verify1n_add_100"
+        android:id="@+id/verify1n_add_30"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -125,6 +115,18 @@
         android:textColor="@android:color/darker_gray"
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@+id/verify1n_add" />
+
+    <TextView
+        android:id="@+id/verify1n"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:padding="9dp"
+        android:gravity="center"
+        android:text="1:N人脸识别演示(完善中)"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/verify1n_add_30" />
 
 
     <TextView

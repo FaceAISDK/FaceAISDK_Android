@@ -22,10 +22,9 @@ import java.io.File
 
 
 /**
- * 1：N 的人脸识别比对，还没有完善封装
- *
- * 底片库太多识别时间还不够理想，预计23年二季度完善
- *
+ * 1：N 的人脸识别比对
+ * 预计616 会迁移到 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
+ * 以便支持千张级别的离线识别秒级搜索 ，正式版本请发送邮件联系
  *
  */
 class Verify1NActivity : AppCompatActivity() {
@@ -69,12 +68,14 @@ class Verify1NActivity : AppCompatActivity() {
     }
 
     /**
-     * 1：N 人脸识别比对，验证的时候可以百度自行插入N 张人脸底图到对应目录
+     * 1：N 人脸识别比对，人脸数据存放在App 内置存储不泄露个人人脸数据
+     *
+     * 非常不建议放在公共目录
      *
      */
     private fun initFaceVerify() {
         // 1:N 比对 设置 setFaceLibFolder，1：1 比对设置BaseBitmap
-        // 两个都设置优先1：1 识别， 都不设置报错
+        // 两个都设置优先1：1 识别， 都不设置报错。 后期会独立1：N 识别到新的工程
         val faceProcessBuilder = FaceProcessBuilder.Builder(this)
             .setThreshold(0.85f) //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
             .setFaceLibFolder(FaceApplication.BASE_FACE_PATH + FaceApplication.DIR_1N_VALUE) //N 底片库文件夹路径
@@ -153,15 +154,6 @@ class Verify1NActivity : AppCompatActivity() {
             }
         }
     }
-
-
-//    /**
-//     * 资源释放
-//     */
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        faceDetectorUtils.destroyProcess()
-//    }
 
 
 }

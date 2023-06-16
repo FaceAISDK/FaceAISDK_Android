@@ -23,7 +23,11 @@ class FaceApplication : Application() {
 //    }
 
 
-
+    /**
+     * 人脸数据不管是1：1 识别还是1：N 识别都建议放在App 内部存储目录
+     *
+     *
+     */
     override fun onCreate() {
         super.onCreate()
         BASE_FACE_PATH = getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()
