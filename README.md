@@ -31,14 +31,14 @@ On Device Android Face Detection &amp; Recognition And  Liveness Detection & Ant
 
 ## 接入使用
  
-    #### 3.8.8 更新说明
+    #### 3.8.9 更新说明
 
     * 支持横屏模式，支持部分外接摄像头
     * 1：N 人脸检索 迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android 
 
     注：CPU 建议64位 ARM® Cortex®-A53™1.8GHz以上配置，外接摄像头请切换为标志1
     //Gradle
-    implementation "io.github.anylifezlb:Face-Verification:3.8.8.Alpha5"
+    implementation "io.github.anylifezlb:Face-Verification:3.8.9"
     
     ``` 
     //更多说明请看代码和下载Demo体验
@@ -85,7 +85,7 @@ On Device Android Face Detection &amp; Recognition And  Liveness Detection & Ant
     * AddBaseImageActivity 更换底片页面，仅供参考建议业务方使用自拍裁剪后使用本程序处理获取高质量底片
     * 1：N 识别暂未优化检索速度
 
-    其中活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请，内容包括
+    不含活体检测不需要license完全免费，包含活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请，内容包括
     APP简要描述，App名称 ，包名 ，功能主页截屏和 下载链接5项内容。
 
 
@@ -105,11 +105,13 @@ On Device Android Face Detection &amp; Recognition And  Liveness Detection & Ant
    也可以加微信 HaoNan19990322 （请标注为 人脸识别定制，否则添加不通过，谢谢）
    
    Github:  https://github.com/AnyLifeZLB/FaceVerificationSDK
-   1：N 人脸检索迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
+  
 
 ## 常见问题
    常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/questions.md
    只是人脸识别不需要活体检测是不需要申请授权的，直接永久使用。
+
+    [Important]   1：N 人脸检索迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
 
 
 <div align=center>

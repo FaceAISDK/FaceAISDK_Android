@@ -46,9 +46,9 @@ class Verify11Activity : AppCompatActivity() {
 
         val yourUniQueFaceId = intent.getStringExtra(FaceApplication.USER_ID_KEY)
 
-        // 0 ,前置摄像头       1，后置摄像头    部分外接摄像头支持可能是1
-        val cameraXFragment = CameraXAnalyzeFragment.newInstance(CAMERA_ORIGINAL,getSharedPreferences(
-            "faceVerify", Context.MODE_PRIVATE).getInt("cameraFlag",0))
+        // 0 ,前置摄像头       1，后置摄像头    部分外接USB摄像头支持可能是1
+        val cameraLensFacing=getSharedPreferences("faceVerify", Context.MODE_PRIVATE).getInt("cameraFlag",0)
+        val cameraXFragment = CameraXAnalyzeFragment.newInstance(CAMERA_ORIGINAL,cameraLensFacing)
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_camerax, cameraXFragment).commit()
