@@ -71,11 +71,8 @@ class Verify11Activity : AppCompatActivity() {
             override fun analyze(imageProxy: ImageProxy) {
                 if (this@Verify11Activity.isDestroyed || this@Verify11Activity.isFinishing) return
 
-                //第二个参数i 是指圆直径R-margin 为边长的正方形区域为分析区域,是为了剪裁圆形所在正方形框内的图像进行分析
-//                faceVerifyUtils.goVerify(imageProxy, face_cover.margin);
-
                 //3.给人脸识别 活体检测引擎喂数据流 imageProxy
-                faceVerifyUtils.goVerify(imageProxy, 2)
+                faceVerifyUtils.goVerify(imageProxy, 0)
 
             }
 
@@ -102,7 +99,7 @@ class Verify11Activity : AppCompatActivity() {
             .setVerifyTimeOut(15)      //活体检测支持设置超时时间 9-16 秒
             .setMotionStepSize(1)      //随机动作验证活体的步骤个数，支持1-2个步骤
 
-//            .setGraphicOverlay(faceTips)//正式环境请去除设置
+            .setGraphicOverlay(faceTips)//正式环境请去除设置
 
             .setProcessCallBack(object : ProcessCallBack() {
                 override fun onCompleted(isMatched: Boolean) {
@@ -152,7 +149,6 @@ class Verify11Activity : AppCompatActivity() {
                 }
 
                 //静默活体检测得分大于0.85 可以认为是真人
-                //静默活体检测&炫光活体检测Alpha 版本已经发布，抢先体验请发送邮件
                 override fun onSilentAntiSpoofing(scoreValue: Float) {
                     runOnUiThread {
                         silent_Score.text = "静默活体可靠系数：$scoreValue"
@@ -164,6 +160,8 @@ class Verify11Activity : AppCompatActivity() {
 
         faceVerifyUtils.setDetectorParams(faceProcessBuilder)
     }
+
+
 
 
     /**
@@ -236,12 +234,6 @@ class Verify11Activity : AppCompatActivity() {
                     VoicePlayer.getInstance().play(R.raw.nod_head)
                     tips_view.text = "请缓慢上下点头"
                 }
-
-//                ALIVE_DETECT_TYPE_ENUM.NO_MOUSE -> tips_view_2.text = "请勿遮挡嘴巴"
-//                ALIVE_DETECT_TYPE_ENUM.NO_NOSE -> tips_view_2.text = "请勿遮挡鼻子"
-//                ALIVE_DETECT_TYPE_ENUM.NO_EYE -> tips_view_2.text = "请勿遮挡眼睛"
-//                ALIVE_DETECT_TYPE_ENUM.LAND_MARK_ALL -> tips_view_2.text = ""
-
             }
         }
     }

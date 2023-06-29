@@ -1,6 +1,6 @@
 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
-Offline Android Face Detection &amp; Recognition And Alive Detect SDK 
+On Device Offline Android Face Detection &amp; Recognition And Alive Detect SDK 
 
 离线版Android人脸检测，人脸识别和活体检测SDK
 

@@ -23,8 +23,10 @@ import java.io.File
 
 /**
  * 1：N 的人脸识别比对
- * 预计616 会迁移到 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
- * 以便支持千张级别的离线识别秒级搜索 ，正式版本请发送邮件联系
+ *
+ * 1：N 迁移到 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
+ *
+ * 以便支持千张级别的离线识别1秒级搜索 ，正式版本请发送邮件联系
  *
  */
 class Verify1NActivity : AppCompatActivity() {
@@ -53,7 +55,7 @@ class Verify1NActivity : AppCompatActivity() {
             override fun analyze(imageProxy: ImageProxy) {
                 if (!this@Verify1NActivity.isDestroyed &&!this@Verify1NActivity.isFinishing) {
                     //如果设备有红外传感器，可以做一个标志触发，不需要一直检测
-                    faceDetectorUtils.goVerify(imageProxy, face_cover.margin)
+                    faceDetectorUtils.goVerify(imageProxy, 0) //第二个参数目前固定0
                 }
             }
 
@@ -77,7 +79,7 @@ class Verify1NActivity : AppCompatActivity() {
         // 1:N 比对 设置 setFaceLibFolder，1：1 比对设置BaseBitmap
         // 两个都设置优先1：1 识别， 都不设置报错。 后期会独立1：N 识别到新的工程
         val faceProcessBuilder = FaceProcessBuilder.Builder(this)
-            .setThreshold(0.85f) //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
+            .setThreshold(0.81f) //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
             .setFaceLibFolder(FaceApplication.BASE_FACE_PATH + FaceApplication.DIR_1N_VALUE) //N 底片库文件夹路径
             .setLiveCheck(true) //是否需要活体检测，需要发送邮件，详情参考ReadMe
             .setProcessCallBack(object : ProcessCallBack() {
