@@ -31,14 +31,14 @@ On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detecti
 
 ## 接入使用
  
-    #### 3.8.9 更新说明
+    #### 3.9.1 更新说明
 
     * 支持平板横屏模式，支持部分外接USB摄像头
     * 1：N 人脸检索 迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android 
 
     注：CPU 建议64位 ARM® Cortex®-A53™1.8GHz以上配置，外接摄像头请切换为标志1
     //Gradle
-    implementation "io.github.anylifezlb:Face-Verification:3.9.0"
+    implementation "io.github.anylifezlb:Face-Verification:3.9.1"
     
     ``` 
     //更多说明请看代码和下载Demo体验
