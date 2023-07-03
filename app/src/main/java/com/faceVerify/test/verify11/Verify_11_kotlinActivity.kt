@@ -26,11 +26,12 @@ import kotlinx.android.synthetic.main.activity_verify_11.*
 import java.io.File
 
 /**
- * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo
- * 静默活体检测 版本已经发布，抢先体验请发送邮件
+ * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Kotlin Demo*
+ *
+ * 1：N 人脸检索迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
  *
  */
-class Verify11Activity : AppCompatActivity() {
+class Verify_11_kotlinActivity : AppCompatActivity() {
 
     private var faceVerifyUtils: FaceVerifyUtils = FaceVerifyUtils()
 
@@ -46,8 +47,9 @@ class Verify11Activity : AppCompatActivity() {
         val yourUniQueFaceId = intent.getStringExtra(FaceApplication.USER_ID_KEY)
 
         // 0 ,前置摄像头       1，后置摄像头    部分外接USB摄像头支持可能是1
-        val cameraLensFacing=getSharedPreferences("faceVerify", Context.MODE_PRIVATE).getInt("cameraFlag",0)
-        val cameraXFragment = CameraXAnalyzeFragment.newInstance(CAMERA_ORIGINAL,cameraLensFacing)
+        val cameraLensFacing =
+            getSharedPreferences("faceVerify", Context.MODE_PRIVATE).getInt("cameraFlag", 0)
+        val cameraXFragment = CameraXAnalyzeFragment.newInstance(CAMERA_ORIGINAL, cameraLensFacing)
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_camerax, cameraXFragment).commit()
@@ -68,7 +70,7 @@ class Verify11Activity : AppCompatActivity() {
         cameraXFragment.setOnAnalyzerListener(object : CameraXAnalyzeFragment.onAnalyzeData {
 
             override fun analyze(imageProxy: ImageProxy) {
-                if (this@Verify11Activity.isDestroyed || this@Verify11Activity.isFinishing) return
+                if (this@Verify_11_kotlinActivity.isDestroyed || this@Verify_11_kotlinActivity.isFinishing) return
 
                 //3.给人脸识别 活体检测引擎喂数据流 imageProxy
                 faceVerifyUtils.goVerify(imageProxy, 0)
@@ -108,9 +110,13 @@ class Verify11Activity : AppCompatActivity() {
                             tips_view.text = "核验已通过，与底片为同一人！ "
                             face_cover.setTipText("核验已通过，与底片为同一人！");
 
-                            Toast.makeText(this@Verify11Activity, "验证通过", Toast.LENGTH_LONG).show();
+                            Toast.makeText(
+                                this@Verify_11_kotlinActivity,
+                                "验证通过",
+                                Toast.LENGTH_LONG
+                            ).show();
                             Handler(Looper.getMainLooper()).postDelayed(
-                                { this@Verify11Activity.finish() }, 1000  //时间根据业务需求自由修改
+                                { this@Verify_11_kotlinActivity.finish() }, 1000  //时间根据业务需求自由修改
                             )
 
                             VoicePlayer.getInstance().play(R.raw.verify_success)
@@ -119,7 +125,7 @@ class Verify11Activity : AppCompatActivity() {
                             tips_view.text = "核验不通过，与底片不符！ "
                             face_cover.setTipText("核验不通过，与底片不符！ ");
 
-                            AlertDialog.Builder(this@Verify11Activity)
+                            AlertDialog.Builder(this@Verify_11_kotlinActivity)
                                 .setMessage("核验不通过，与底片不符！ ")
                                 .setCancelable(false)
                                 .setPositiveButton(
@@ -161,8 +167,6 @@ class Verify11Activity : AppCompatActivity() {
     }
 
 
-
-
     /**
      * 根据业务和设计师UI交互修改你的 UI，Demo 仅供参考
      *
@@ -171,13 +175,13 @@ class Verify11Activity : AppCompatActivity() {
      */
     private fun showAliveDetectTips(actionCode: Int) {
 
-        if (this@Verify11Activity.isDestroyed || this@Verify11Activity.isFinishing) return
+        if (this@Verify_11_kotlinActivity.isDestroyed || this@Verify_11_kotlinActivity.isFinishing) return
 
         runOnUiThread {
             when (actionCode) {
 
                 VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT -> {
-                    android.app.AlertDialog.Builder(this@Verify11Activity)
+                    android.app.AlertDialog.Builder(this@Verify_11_kotlinActivity)
                         .setMessage("检测超时了！")
                         .setCancelable(false)
                         .setPositiveButton(
@@ -194,7 +198,7 @@ class Verify11Activity : AppCompatActivity() {
                     tips_view.text = "多次切换画面或无人脸"
                     face_cover.setTipText("多次切换画面或无人脸");
 
-                    android.app.AlertDialog.Builder(this@Verify11Activity)
+                    android.app.AlertDialog.Builder(this@Verify_11_kotlinActivity)
                         .setMessage("多次切换画面或无人脸，停止识别。\n识别过程请保持人脸在画面中")
                         .setCancelable(false)
                         .setPositiveButton("知道了") { dialog1: DialogInterface?, which: Int ->
@@ -208,36 +212,38 @@ class Verify11Activity : AppCompatActivity() {
 
                 VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE -> tips_view.text = "画面没有检测到人脸"
                 VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED -> tips_view.text = "活体检测失败了"
-                VERIFY_DETECT_TIPS_ENUM.ACTION_OK ->{
+                VERIFY_DETECT_TIPS_ENUM.ACTION_OK -> {
                     VoicePlayer.getInstance().play(R.raw.face_camera)
                     tips_view.text = "请保持正对屏幕"
                 }
 
-                ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE ->{
+                ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE -> {
                     VoicePlayer.getInstance().play(R.raw.open_mouse)
                     tips_view.text = "请张嘴"
                 }
+
                 ALIVE_DETECT_TYPE_ENUM.SMILE -> {
                     tips_view.text = "请微笑"
                     VoicePlayer.getInstance().play(R.raw.smile)
                 }
+
                 ALIVE_DETECT_TYPE_ENUM.BLINK -> {
                     VoicePlayer.getInstance().play(R.raw.blink)
                     tips_view.text = "请轻眨眼"
                 }
+
                 ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD -> {
                     VoicePlayer.getInstance().play(R.raw.shake_head)
                     tips_view.text = "请缓慢左右摇头"
                 }
-                ALIVE_DETECT_TYPE_ENUM.NOD_HEAD ->{
+
+                ALIVE_DETECT_TYPE_ENUM.NOD_HEAD -> {
                     VoicePlayer.getInstance().play(R.raw.nod_head)
                     tips_view.text = "请缓慢上下点头"
                 }
             }
         }
     }
-
-
 
 
     /**

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:customAttr="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    xmlns:customAttr="http://schemas.android.com/apk/res-auto"
     tools:context=".verify1N.Verify1NActivity">
 
 
@@ -19,13 +18,12 @@
         android:id="@+id/face_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        customAttr:circle_margin="20dp"
-        customAttr:tip_text_size="20sp"
-        customAttr:tip_text_color="@color/colorPrimary"
-        customAttr:progress_start_color="@color/blue_sky"
+        customAttr:circle_margin="22dp"
         customAttr:progress_end_color="@color/green"
+        customAttr:progress_start_color="@color/green2"
         customAttr:show_progress="true"
-        />
+        customAttr:tip_text_color="@color/colorPrimary"
+        customAttr:tip_text_size="20sp" />
 
 
     <TextView
@@ -33,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginTop="88dp"
         android:background="@color/blue"
         android:gravity="center"
         android:paddingLeft="18dp"
@@ -41,7 +40,6 @@
         android:paddingBottom="5dp"
         android:text="请正对屏幕，保持人脸在圆框内"
         android:textColor="@color/green"
-        android:layout_marginTop="88dp"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,23 +47,23 @@
 
     <TextView
         android:id="@+id/silent_Score"
-        android:layout_margin="33dp"
-        android:padding="9dp"
-        android:textSize="16sp"
-        android:textColor="@color/green"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="33dp"
+        android:padding="9dp"
+        android:textColor="@color/blue_sky"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintRight_toRightOf="parent" />
 
 
     <ImageView
         android:id="@+id/back"
-        android:layout_margin="15dp"
-        android:padding="9dp"
         android:layout_width="47dp"
         android:layout_height="47dp"
+        android:layout_margin="15dp"
+        android:padding="9dp"
         android:src="@drawable/ic_baseline_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -73,10 +71,10 @@
 
     <com.AI.FaceVerify.graphic.FaceTipsOverlay
         android:id="@+id/faceTips"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

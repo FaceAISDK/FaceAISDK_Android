@@ -35,9 +35,15 @@
         </activity>
 
         <activity
-            android:name=".verify11.Verify11Activity"
+            android:name=".verify11.Verify_11_kotlinActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <activity
+            android:name=".verify11.Verify_11_javaActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
         <activity
             android:name=".verify1N.Verify1NActivity"
             android:exported="false"

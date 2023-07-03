@@ -19,7 +19,8 @@ import com.faceVerify.test.FaceApplication.Companion.USER_ID_KEY
 import com.faceVerify.test.utils.AboutUsActivity
 import com.faceVerify.test.utils.AddBaseImageActivity
 import com.faceVerify.test.utils.VoicePlayer
-import com.faceVerify.test.verify11.Verify11Activity
+import com.faceVerify.test.verify11.Verify_11_javaActivity
+import com.faceVerify.test.verify11.Verify_11_kotlinActivity
 import com.faceVerify.test.verify1N.Verify1NActivity
 import kotlinx.android.synthetic.main.activity_navi.*
 import pub.devrel.easypermissions.EasyPermissions
@@ -28,13 +29,13 @@ import java.io.File
 
 /**
  *
- * Demo 仅仅是演示如何接入SDK，根据业务场景用户自行修改符合需求
+ * Demo 提供java 和 Kotlin 接入演示 ，仅仅是演示如何接入SDK，根据业务场景用户自行修改符合需求
  *
- * 静默活体检测&炫光活体检测Alpha 版本已经发布，抢先体验请发送邮件
+ * 1：N 人脸检索迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
  *
  * 更多请发邮件 anylife.zlb@gmail.com
- * 或加微信 HaoNan19990322 （请标注人脸识别定制，否则添加不通过，谢谢）交流
  *
+ * 或加微信 HaoNan19990322 （请标注人脸识别定制，否则添加不通过，谢谢）交流
  *
  * 2022.07.29
  */
@@ -53,7 +54,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
             val file = File(BASE_FACE_PATH+ DIR_11_VALUE, yourUniQueFaceId)
             if (AiUtil.compressPath(this@NaviActivity, Uri.fromFile(file)) != null) {
                 startActivity(
-                    Intent(this@NaviActivity, Verify11Activity::class.java)
+                    Intent(this@NaviActivity, Verify_11_javaActivity::class.java)
                         .putExtra(USER_ID_KEY, yourUniQueFaceId)
                 )
             } else {
