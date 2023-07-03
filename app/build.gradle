@@ -44,11 +44,15 @@ android {
 
 
 dependencies {
-
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+
+
 
     //人脸识别 活体检测 SDK 依赖
     implementation 'io.github.anylifezlb:Face-Verification:3.9.1'
+
+
+
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
     implementation 'pub.devrel:easypermissions:3.0.0'

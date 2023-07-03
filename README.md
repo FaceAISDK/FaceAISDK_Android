@@ -25,7 +25,7 @@ On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detecti
 
    【1:1】 移动考勤真人校验，机场/卡口人证对齐，免密登录，酒店入驻、刷脸支付、刷脸解锁、真人校验
 
-   【1:N】 智能门锁，考勤机，物业管理业主出入凭证等，（暂未优化1：N 识别速度！SM-9700百张底片最差5s左右，最好50ms）
+   【1:N】 智能门锁，考勤机，通缉人员行踪搜索，智慧校园、景区、工地、社区、酒店等，（千张人脸仅仅耗时200 Ms ，三星N9700测试）
 
     注：1：N 人脸检索迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
 
@@ -34,7 +34,7 @@ On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detecti
     #### 3.9.1 更新说明
 
     * 支持平板横屏模式，支持部分外接USB摄像头
-    * 1：N 人脸检索 迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android 
+    * 1：N 人脸检索 迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android  效果显著
 
     注：CPU 建议64位 ARM® Cortex®-A53™1.8GHz以上配置，外接摄像头请切换为标志1
     //Gradle
