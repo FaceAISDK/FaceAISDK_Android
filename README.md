@@ -9,9 +9,10 @@ On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detecti
 ## 当前版本说明 2023-07-07
 目前的版本是4.X，技术实现经历了大版本重构，在使用方式 API 接口没有大改变，但是包名引入路径有修改。
 
-本次迭代1：1 简化了接入流程实现1小时接入，动作活体可以选1-2个随机动作步骤； 1：N识别极大的提升了识别搜索速率和精度，万张人脸检索识别速度在三星N9700速度小于1秒。
+本次迭代1：1 简化了接入流程实现1小时接入，动作活体可以选1-2个随机动作步骤； 1：N识别极大的提升了识别搜索速率和精度，千张人脸检索识别速度在三星N9700速度小于1秒。
 
 Gradle引入方式改为：
+
   implementation 'io.github.anylifezlb:FaceRecognition:1.0.0'
 
 废弃Face-Verification，老版本只维护到3.x.y 建议使用方尽快迁移到新重构版本，VIP用户特别是使用1：N检索识别功能的用户请尽快迁移到新版本
@@ -25,22 +26,12 @@ SDK包含动作活体、静默活体检测，1：1人脸识别以及1：N人脸�
 
 SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53  1.8GHz x4 + ARM Mali T860 图形处理器运行流畅稳定
 
-实验室测试效果能覆盖95% 的中高低端机器，识别成功率>99% ；特殊DIY系统或特殊定制硬件，外接USB摄像头等如有问题请先提Issues附带系统版本，设备型号，错误log等信息；或发邮件到anylife.zlb@gmail.com ，VIP用户添加微信ID：18707611416
+实验室测试效果能覆盖95% 的中高低端机器，识别成功率>99% ；特殊DIY系统或特殊定制硬件，外接USB摄像头等如有问题请先提Issues附带系统版本，设备型号，错误log等信息；
+或发邮件到anylife.zlb@gmail.com ，VIP用户添加微信ID：18707611416
 
 
 
-
-
-
-
-
-改一下图
-  
-  ![image](https://user-images.githubusercontent.com/15169396/222224246-b83fca54-6cfb-4924-98a6-809b11da8761.png)
-
-
-
-
+![FaceVerificationSDK](https://github.com/AnyLifeZLB/Android-Architecture/assets/15169396/0740b2f1-3973-487c-bade-4158efa3da87)
 
 
 
@@ -92,10 +83,10 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
     更多使用说明下载参考本Repo和下载Demo体验，里面有比较详尽的使用方法，其中 
 
 
-    改一下文件目录结构
-    * NaviActivity Demo 演示导航页面
-    * Verify11Activity 人脸检测识别，活体检测页面（ 1：1）
-    * AddBaseImageActivity 更换底片页面，仅供参考建议业务方使用自拍裁剪后使用本程序处理获取高质量底片
+  
+    * NaviActivity  Demo 演示导航页面
+    * /verify/目录  1:1 人脸检测识别，活体检测页面
+    * /verify/目录  1:N 人脸识别搜索页面，人脸库管理
     * 1：N 人脸检索可以独立依赖，体积更小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
 
     不含活体检测不需要license完全免费，包含活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请，内容包括
@@ -109,7 +100,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
    微信或相机扫码后选择在浏览器中打开点击下载安装体验验证是否符合你的业务需求
 
 <div align=center>
-<img src="https://user-images.githubusercontent.com/15169396/210045090-60c073df-ddbd-4747-8e24-f0dce1eccb58.png" width = 33% height = 33% />
+<img src="https://user-images.githubusercontent.com/15169396/210045090-60c073df-ddbd-4747-8e24-f0dce1eccb58.png" width = 30% height = 30% />
 </div>
 
 ## 服务定制
@@ -117,12 +108,12 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
    如果 SDK 不能匹配你的应用场景需要特殊定制化，请发邮件到anylife.zlb@gmail.com
    也可以加微信 HaoNan19990322 （请标注为 人脸识别定制，否则添加不通过，谢谢）
    
-   Github:  https://github.com/AnyLifeZLB/FaceVerificationSDK
+   欢迎关注Fork+Star获取最新动态 Github:  https://github.com/AnyLifeZLB/FaceVerificationSDK
   
 
 ## 常见问题
    常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/questions.md
-   只是人脸识别不需要活体检测是不需要申请授权的，直接永久使用。
+   只是人脸识别不需要活体检测是不需要申请授权的，直接永久使用。未明事宜请联系
 
 
 

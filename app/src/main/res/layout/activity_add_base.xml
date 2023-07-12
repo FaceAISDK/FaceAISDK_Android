@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         customAttr:tip_text_size="20sp"
+        customAttr:show_progress="true"
         customAttr:tip_text_color="@color/colorPrimary"
         customAttr:circle_margin="24dp" />
 

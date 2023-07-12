@@ -25,7 +25,7 @@ import java.io.File
  *
  * Demo 提供java 和 Kotlin 接入演示 ，仅仅是演示如何接入SDK，根据业务场景用户自行修改符合需求
  *
- * 1：N 人脸检索迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
+ * 1：N 人脸识别检索可以独立引入 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
  *
  * 更多请发邮件 anylife.zlb@gmail.com
  *

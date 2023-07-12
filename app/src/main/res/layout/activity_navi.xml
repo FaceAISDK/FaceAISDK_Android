@@ -124,7 +124,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="19dp"
-        android:text="关于我们,查看更多V3.9.0"
+        android:text="关于我们,查看更多 V4.0.0"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:layout_marginBottom="33dp"

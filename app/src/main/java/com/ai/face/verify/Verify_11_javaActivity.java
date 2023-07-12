@@ -8,8 +8,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.ai.face.FaceApplication;
 import com.ai.face.R;
 import com.ai.face.core.base.view.CameraXAnalyzeFragment;
@@ -20,6 +22,7 @@ import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus.*;
 import com.ai.face.utils.VoicePlayer;
+
 import java.io.File;
 
 
@@ -69,7 +72,6 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
 
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-            //CAMERA
             if (faceVerifyUtils != null)
                 faceVerifyUtils.goVerify(imageProxy, faceCoverView.getMargin());
         });
@@ -88,7 +90,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(getApplication())
                 .setThreshold(0.81f)       //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
                 .setBaseBitmap(baseBitmap) //底片,请录入的时候保证底片质量
-                .setLiveCheck(true)        //是否需要活体检测，需要发送邮件，详情参考ReadMe
+                .setLiveCheck(false)        //是否需要活体检测，需要发送邮件，详情参考ReadMe
                 .setVerifyTimeOut(16)      //活体检测支持设置超时时间 9-16 秒
                 .setMotionStepSize(1)      //随机动作验证活体的步骤个数，支持1-2个步骤
                 .setGraphicOverlay(faceTipsOverlay)//正式环境请去除设置
@@ -123,8 +125,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                                 //各种形式的提示，根据业务需求选择
                                 tipsTextView.setText("核验已通过，与底片为同一人！ ");
 
-                                Toast.makeText(getBaseContext(),
-                                        "验证通过", Toast.LENGTH_LONG).show();
+//                                Toast.makeText(getBaseContext(), "验证通过", Toast.LENGTH_LONG).show();
 
                                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                                     @Override

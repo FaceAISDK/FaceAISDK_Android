@@ -17,6 +17,7 @@ class FaceApplication : Application() {
         CACHE_BASE_FACE_DIR = cacheDir.path + "/faceVerify"  //1:1 人脸识别目录
         CACHE_SEARCH_FACE_DIR = filesDir.path + "/faceSearch"    //1:N 人脸搜索目录
 
+        //这次重构没把这步骤放到SDK，出错添加一下先。下版本删除
         val file= File(CACHE_SEARCH_FACE_DIR)
         if (!file.exists()) file.mkdirs()
 

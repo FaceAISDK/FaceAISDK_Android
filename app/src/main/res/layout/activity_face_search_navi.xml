@@ -46,7 +46,7 @@
         android:textSize="16sp"
         android:layout_marginTop="33dp"
         app:layout_constraintTop_toBottomOf="@+id/copyFaceImages"
-        android:text="增删改人脸" />
+        android:text="人脸库浏览和编辑人脸" />
 
 
     <TextView
@@ -59,7 +59,7 @@
         android:textSize="16sp"
         android:layout_marginTop="33dp"
         app:layout_constraintTop_toBottomOf="@+id/editFaceImage"
-        android:text="录入人脸（手机用前置Camera）" />
+        android:text="录入你的人脸（切换到前置Camera）" />
 
     <TextView
         android:id="@+id/change_camera"

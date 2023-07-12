@@ -28,7 +28,7 @@ import java.io.IOException
 import java.io.InputStream
 
 /**
- * 演示导航Navi，目前支持千张图片1秒级搜索，后续聚焦降低App体积和精确度
+ * 人脸识别搜索 演示导航Navi，目前支持千张图片1秒级搜索，后续聚焦降低App体积和精确度
  *
  *
  */

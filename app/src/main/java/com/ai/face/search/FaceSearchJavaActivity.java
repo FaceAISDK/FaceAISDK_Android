@@ -23,7 +23,6 @@ import java.io.File;
  */
 public class FaceSearchJavaActivity extends AppCompatActivity {
     private ActivityFaceSearchBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +34,7 @@ public class FaceSearchJavaActivity extends AppCompatActivity {
             startActivity(new Intent(this, FaceImageEditActivity.class));
         });
 
-
         SharedPreferences sharedPref = getSharedPreferences("faceVerify", Context.MODE_PRIVATE);
-
 
         // 1. Camera 的初始化
         int cameraLens = sharedPref.getInt("cameraFlag", sharedPref.getInt("cameraFlag", 0));
@@ -56,8 +53,8 @@ public class FaceSearchJavaActivity extends AppCompatActivity {
         // 2.各种参数的初始化设置
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(getApplication())
                 .setLifecycleOwner(this)
-                .setThreshold(0.81f)         //识别成功阈值设置，范围仅限 0.7-0.9！建议0.8+
-                .setLicenceKey("yourLicense")   //申请的License
+                .setThreshold(0.85f)         //识别成功阈值设置，范围仅限 0.7-0.9！建议0.8+
+                .setLicenceKey("yourLicense key")   //申请的License
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setProcessCallBack(new SearchProcessCallBack() {
                     @Override
@@ -127,7 +124,6 @@ public class FaceSearchJavaActivity extends AppCompatActivity {
             }
         }
     }
-
 
     /**
      * 销毁，停止
