@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".utils.AddBaseImageActivity">
+    android:orientation="vertical">
 
 
     <androidx.fragment.app.FragmentContainerView
@@ -14,13 +13,29 @@
         android:layout_height="match_parent"
         customAttr:circle_margin="15dp" />
 
-    <com.AI.FaceVerify.view.FaceCoverView
+    <com.ai.face.core.base.view.FaceCoverView
         android:id="@+id/face_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         customAttr:tip_text_size="20sp"
         customAttr:tip_text_color="@color/colorPrimary"
-        customAttr:circle_margin="44dp" />
+        customAttr:circle_margin="24dp" />
+
+    <TextView
+        android:id="@+id/tips_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:background="@color/blue"
+        android:gravity="center_horizontal"
+        android:paddingLeft="18dp"
+        android:paddingTop="5dp"
+        android:paddingRight="18dp"
+        android:paddingBottom="5dp"
+        android:layout_centerHorizontal="true"
+        android:text="请正对屏幕，保持人脸在圆框内"
+        android:textColor="@color/green"
+        android:textSize="16sp" />
 
 
     <ImageView

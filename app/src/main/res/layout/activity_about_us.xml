@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/black_overlay"
+    android:background="@color/blue_sky"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".utils.AboutUsActivity">
-
-
+    android:layout_height="match_parent">
 
 
     <ImageView
@@ -20,8 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-
     <TextView
         android:id="@+id/wechat"
         android:layout_width="match_parent"
@@ -29,10 +24,11 @@
         android:layout_marginTop="77dp"
         android:gravity="center"
         android:padding="19dp"
-        android:text="微信WeChat:      HaoNan19990322"
+        android:text="微信WeChat:   HaoNan19990322"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/email"
@@ -41,7 +37,7 @@
         android:layout_marginTop="66dp"
         android:gravity="center"
         android:padding="19dp"
-        android:text="邮箱Email:     anylife.zlb@gmail.com"
+        android:text="邮箱Email: anylife.zlb@gmail.com"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@+id/wechat" />
@@ -70,18 +66,17 @@
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/email" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="19dp"
         android:layout_marginTop="99dp"
-        android:text="1:N 识别后期迁移到 https://github.com/AnyLifeZLB/FaceSearchSDK_Android"
+        android:text="1:N 识别可独立依赖 https://github.com/AnyLifeZLB/FaceSearchSDK_Android"
         android:textColor="@android:color/white"
         android:textSize="13sp"
         app:layout_constraintTop_toBottomOf="@+id/more_about_me" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

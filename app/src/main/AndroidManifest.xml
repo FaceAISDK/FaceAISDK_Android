@@ -5,14 +5,17 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature android:name="android.hardware.camera" />
 
-    <!-- 仅仅是SDK 收集异常奔溃等信息用，SDK 所有能力都是离线识别不需要网络-->
+    <!-- 仅仅是SDK 收集异常奔溃等信息用，SDK 所有能力都是离线识别 不需要网络-->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <!-- 演示提示用 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
 
     <application
         android:name=".FaceApplication"
@@ -34,29 +37,37 @@
             </intent-filter>
         </activity>
 
+
         <activity
-            android:name=".verify11.Verify_11_kotlinActivity"
+            android:name=".verify.Verify_11_javaActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+
+        <activity
+            android:name=".AboutUsActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
-            android:name=".verify11.Verify_11_javaActivity"
+            android:name=".verify.AddBaseImageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
-        <activity
-            android:name=".verify1N.Verify1NActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".utils.AddBaseImageActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
-            android:name=".utils.AboutUsActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:name=".search.FaceSearchJavaActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".search.FaceImageEditActivity"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".search.SearchNaviActivity"
+            android:exported="false">
+        </activity>
 
     </application>
 

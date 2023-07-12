@@ -11,8 +11,8 @@
     <!-- A CardView that contains a TextView -->
     <androidx.cardview.widget.CardView
         android:id="@+id/face_verify_card"
-        android:layout_width="155dp"
-        android:layout_height="77dp"
+        android:layout_width="160dp"
+        android:layout_height="80dp"
         app:cardCornerRadius="4dp"
         app:cardBackgroundColor="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/update_base_image"
@@ -26,9 +26,9 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:padding="7dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:padding="5dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/baseline_face_retouching_natural_24" />
 
@@ -50,8 +50,8 @@
     <!-- A CardView that contains a TextView -->
     <androidx.cardview.widget.CardView
         android:id="@+id/update_base_image"
-        android:layout_width="155dp"
-        android:layout_height="77dp"
+        android:layout_width="160dp"
+        android:layout_height="80dp"
         app:cardCornerRadius="4dp"
         app:cardBackgroundColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,9 +65,9 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:padding="9dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:padding="6dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_baseline_arrow_back_24" />
 
@@ -92,42 +92,30 @@
 
 
     <TextView
-        android:id="@+id/verify1n_add"
+        android:id="@+id/verify1n"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="66dp"
+        android:layout_marginTop="99dp"
         android:padding="9dp"
         android:gravity="center"
-        android:text="1:N 人脸识别添加你的底片"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="14sp"
+        android:text="1:N人脸识别检索演示导航"
+        android:textColor="@android:color/white"
+        android:textSize="19sp"
         app:layout_constraintTop_toBottomOf="@+id/update_base_image" />
 
 
     <TextView
-        android:id="@+id/verify1n_add_30"
+        android:id="@+id/change_camera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:padding="9dp"
+        android:layout_gravity="bottom"
         android:gravity="center"
-        android:text="导入内置30张测试人脸"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@+id/verify1n_add" />
-
-    <TextView
-        android:id="@+id/verify1n"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:padding="9dp"
-        android:gravity="center"
-        android:text="1:N 人脸识别检索(大容量查看README配置)"
         android:textColor="@android:color/white"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/verify1n_add_30" />
+        android:textSize="16sp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="33dp"
+        app:layout_constraintTop_toBottomOf="@+id/verify1n"
+        android:text="点击切换前后摄像头" />
 
 
     <TextView
@@ -139,21 +127,10 @@
         android:text="关于我们,查看更多V3.9.0"
         android:textColor="@android:color/white"
         android:textSize="16sp"
-        android:layout_marginBottom="@dimen/dp_40"
+        android:layout_marginBottom="33dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <TextView
-        android:id="@+id/change_camera"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="16sp"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="28dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="点击切换前后摄像头" />
+
 
 
 

@@ -4,10 +4,10 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33     //可以定制配合降级
 
     defaultConfig {
-        applicationId "com.faceVerify.test123"
+        applicationId "com.ai.face.verifyPub"
         minSdkVersion 21
         targetSdkVersion 31
 
@@ -33,29 +33,32 @@ android {
         }
     }
 
-
     lint {
         abortOnError false
         checkReleaseBuilds false
     }
 
-    namespace 'com.faceVerify.test'
+    buildFeatures {
+        viewBinding true
+    }
+
+    namespace 'com.ai.face'
 }
 
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-
-
-    //人脸识别 活体检测 SDK 依赖
-    implementation 'io.github.anylifezlb:Face-Verification:3.9.1'
-
-
-
+    // 人脸识别 活体检测 SDK 依赖
+    implementation 'io.github.anylifezlb:FaceRecognition:0.3.3'
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
     implementation 'pub.devrel:easypermissions:3.0.0'
+
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    implementation 'com.airbnb.android:lottie:6.0.0'
+    implementation 'com.github.princekin-f:EasyFloat:2.0.4'
+
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.8'
@@ -70,7 +73,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-
 
 }
 

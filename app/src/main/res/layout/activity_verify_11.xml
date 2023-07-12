@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".verify1N.Verify1NActivity">
+    android:orientation="vertical">
 
 
     <androidx.fragment.app.FragmentContainerView
@@ -14,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.AI.FaceVerify.view.FaceCoverView
+    <com.ai.face.core.base.view.FaceCoverView
         android:id="@+id/face_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -69,10 +68,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <com.AI.FaceVerify.graphic.FaceTipsOverlay
+    <com.ai.face.faceVerify.graphic.FaceTipsOverlay
         android:id="@+id/faceTips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
