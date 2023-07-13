@@ -51,7 +51,12 @@ public class FaceSearchJavaActivity extends AppCompatActivity {
 
 
         // 2.各种参数的初始化设置
-        SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
+        //getApplication() 要解决参数转换异常的问题
+        //getApplication() 要解决参数转换异常的问题
+        //getApplication() 要解决参数转换异常的问题
+
+
+        SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(getApplication())
                 .setLifecycleOwner(this)
                 .setThreshold(0.85f)         //识别成功阈值设置，范围仅限 0.7-0.9！建议0.8+
                 .setLicenceKey("yourLicense key")   //申请的License
