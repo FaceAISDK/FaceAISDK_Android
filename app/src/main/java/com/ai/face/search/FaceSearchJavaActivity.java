@@ -52,9 +52,7 @@ public class FaceSearchJavaActivity extends AppCompatActivity {
 
         // 2.各种参数的初始化设置
         //getApplication() 要解决参数转换异常的问题
-        //getApplication() 要解决参数转换异常的问题
-        //getApplication() 要解决参数转换异常的问题
-
+        //getApplication() 要解决参数转换异常的问题，有问题VIP 用户联系
 
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(getApplication())
                 .setLifecycleOwner(this)
