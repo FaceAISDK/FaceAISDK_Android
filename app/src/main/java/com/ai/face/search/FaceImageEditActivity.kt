@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ai.face.FaceApplication.Companion.CACHE_SEARCH_FACE_DIR
 import com.ai.face.R
-import com.ai.face.core.base.utils.FaceFileProviderUtils
+import com.ai.face.base.utils.FaceFileProviderUtils
 import com.ai.face.faceSearch.search.FaceSearchImagesManger
 import com.ai.face.faceSearch.utils.BitmapUtils
 import com.ai.face.search.SearchNaviActivity.Companion.copyManyTestFaceImages

@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.ai.face.R;
-import com.ai.face.core.base.view.CameraXAnalyzeFragment;
+import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.databinding.ActivityFaceSearchBinding;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
@@ -38,7 +38,7 @@ public class FaceSearchJavaActivity extends AppCompatActivity {
 
         // 1. Camera 的初始化
         int cameraLens = sharedPref.getInt("cameraFlag", sharedPref.getInt("cameraFlag", 0));
-        CameraXAnalyzeFragment cameraXFragment = CameraXAnalyzeFragment.newInstance(cameraLens);
+        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
 
@@ -51,7 +51,7 @@ public class FaceSearchJavaActivity extends AppCompatActivity {
 
 
         // 2.各种参数的初始化设置
-        SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(getApplication())
+        SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
                 .setThreshold(0.85f)         //识别成功阈值设置，范围仅限 0.7-0.9！建议0.8+
                 .setLicenceKey("yourLicense key")   //申请的License

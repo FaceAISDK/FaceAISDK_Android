@@ -106,10 +106,8 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
             }
         }
 
-
         VoicePlayer.getInstance().init(this)
     }
-
 
 
 
@@ -118,11 +116,8 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
      *
      */
     private fun checkNeededPermission() {
-        val perms = arrayOf(
-            Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
+        val perms = arrayOf(Manifest.permission.CAMERA)
+
         if (EasyPermissions.hasPermissions(this, *perms)) {
         } else {
             EasyPermissions.requestPermissions(this, "相机和读取相册都仅仅是为了完成人脸识别所必需，请授权！", 11, *perms)
@@ -140,6 +135,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {}
+
 
     /**
      * 当用户点击了不再提醒的时候的处理方式

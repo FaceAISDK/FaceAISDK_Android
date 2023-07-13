@@ -15,7 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.ai.face.R;
 import com.ai.face.base.utils.DataConvertUtils;
-import com.ai.face.core.base.view.CameraXAnalyzeFragment;
+import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.faceVerify.baseImage.BaseImageCallBack;
 import com.ai.face.faceVerify.baseImage.BaseImageDispose;
 
@@ -72,7 +72,7 @@ public class AddBaseImageActivity extends AppCompatActivity {
             }
         });
 
-        CameraXAnalyzeFragment cameraXFragment = CameraXAnalyzeFragment.newInstance(getSharedPreferences("faceVerify", Context.MODE_PRIVATE).getInt("cameraFlag",0));
+        CameraXFragment cameraXFragment = CameraXFragment.newInstance(getSharedPreferences("faceVerify", Context.MODE_PRIVATE).getInt("cameraFlag",0));
 
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             index++;

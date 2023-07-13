@@ -7,22 +7,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.ai.face.FaceApplication;
 import com.ai.face.R;
-import com.ai.face.core.base.view.CameraXAnalyzeFragment;
-import com.ai.face.core.base.view.FaceCoverView;
+import com.ai.face.base.view.CameraXFragment;
+import com.ai.face.base.view.FaceCoverView;
 import com.ai.face.faceVerify.graphic.FaceTipsOverlay;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus.*;
 import com.ai.face.utils.VoicePlayer;
-
 import java.io.File;
 
 
@@ -35,7 +31,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     private TextView tipsTextView, scoreText;
     private FaceTipsOverlay faceTipsOverlay;
     private FaceCoverView faceCoverView;
-    private FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
+    private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +51,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
         // 0 ,前置摄像头       1，后置摄像头    部分外接USB摄像头支持可能是1
         int cameraLensFacing = getSharedPreferences("faceVerify", Context.MODE_PRIVATE).getInt("cameraFlag", 0);
 
-        CameraXAnalyzeFragment cameraXFragment = CameraXAnalyzeFragment.newInstance(cameraLensFacing);
+        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
@@ -87,10 +83,10 @@ public class Verify_11_javaActivity extends AppCompatActivity {
      */
     private void initFaceVerify(Bitmap baseBitmap) {
 
-        FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(getApplication())
+        FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setThreshold(0.81f)       //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
                 .setBaseBitmap(baseBitmap) //底片,请录入的时候保证底片质量
-                .setLiveCheck(false)        //是否需要活体检测，需要发送邮件，详情参考ReadMe
+                .setLiveCheck(true)        //是否需要活体检测，需要发送邮件，详情参考ReadMe
                 .setVerifyTimeOut(16)      //活体检测支持设置超时时间 9-16 秒
                 .setMotionStepSize(1)      //随机动作验证活体的步骤个数，支持1-2个步骤
                 .setGraphicOverlay(faceTipsOverlay)//正式环境请去除设置
@@ -124,8 +120,6 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                             if (isMatched) {
                                 //各种形式的提示，根据业务需求选择
                                 tipsTextView.setText("核验已通过，与底片为同一人！ ");
-
-//                                Toast.makeText(getBaseContext(), "验证通过", Toast.LENGTH_LONG).show();
 
                                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                                     @Override

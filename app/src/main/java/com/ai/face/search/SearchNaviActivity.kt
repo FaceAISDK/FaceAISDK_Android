@@ -138,7 +138,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
                 .setDragEnable(false)
                 .setLayout(R.layout.float_loading) {
                     val entry: LottieAnimationView = it.findViewById(R.id.entry)
-                    entry.setAnimation(R.raw.waiting)
+                    entry.setAnimation(R.raw.loading2)
                     entry.loop(true)
                     entry.playAnimation()
                 }

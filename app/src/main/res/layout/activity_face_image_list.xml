@@ -6,6 +6,7 @@
     android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context="com.ai.face.search.FaceImageEditActivity">
 
 

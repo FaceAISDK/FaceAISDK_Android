@@ -46,8 +46,8 @@ class FaceApplication : Application() {
     }
 
 
-    public companion object {
-        lateinit var CACHE_BASE_FACE_DIR: String  //1：1 人脸识别目录
+    companion object {
+        lateinit var CACHE_BASE_FACE_DIR: String   //1：1 人脸识别目录
         lateinit var USER_ID_KEY: String
         lateinit var FACE_DIR_KEY: String
         lateinit var CACHE_SEARCH_FACE_DIR: String  //1:N 人脸搜索目录
