@@ -66,14 +66,13 @@ class FaceImageEditActivity : AppCompatActivity() {
             AlertDialog.Builder(this@FaceImageEditActivity)
                 .setTitle("确定要删除" + File(faceImageList[i]).name)
                 .setMessage("删除后对应的人将无法被程序识别")
-                .setPositiveButton("确定") { dialog: DialogInterface?, which: Int ->
+                .setPositiveButton("确定") { _: DialogInterface?, _: Int ->
                     //删除一张照片
-                    FaceSearchImagesManger.c.getInstance(application)
-                        ?.deleteFaceImage(faceImageList[i])
+                    FaceSearchImagesManger.c.getInstance(application)?.deleteFaceImage(faceImageList[i])
                     loadImageList()
                     faceImageListAdapter.notifyDataSetChanged()
                 }
-                .setNegativeButton("取消") { dialog: DialogInterface?, which: Int -> }
+                .setNegativeButton("取消") { _: DialogInterface?, _: Int -> }
                 .show()
             false
         }
@@ -170,10 +169,12 @@ class FaceImageEditActivity : AppCompatActivity() {
 
         btnOK.setOnClickListener { v: View? ->
             if (!TextUtils.isEmpty(editText.text.toString())) {
-                val name = editText.text.toString()
+                val name = editText.text.toString()+".jpg"
+
                 Toast.makeText(baseContext, "处理中...", Toast.LENGTH_LONG).show()
                 //Kotlin 混淆操作后协程操作失效了，因为是异步操作只能等一下
                 CoroutineScope(Dispatchers.IO).launch {
+
                     FaceSearchImagesManger.c.getInstance(application)
                         ?.insertOrUpdateFaceImage(bitmap, CACHE_SEARCH_FACE_DIR+File.separatorChar+name)
                     delay(300)

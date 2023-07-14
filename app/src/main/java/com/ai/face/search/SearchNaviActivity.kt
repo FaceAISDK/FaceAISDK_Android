@@ -90,11 +90,21 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
 
         binding.editFaceImage.setOnClickListener {
-            startActivity(Intent(baseContext, FaceImageEditActivity::class.java).putExtra("isAdd",false))
+            startActivity(
+                Intent(baseContext, FaceImageEditActivity::class.java).putExtra(
+                    "isAdd",
+                    false
+                )
+            )
         }
 
         binding.addFaceImage.setOnClickListener {
-            startActivity(Intent(baseContext, FaceImageEditActivity::class.java).putExtra("isAdd",true))
+            startActivity(
+                Intent(baseContext, FaceImageEditActivity::class.java).putExtra(
+                    "isAdd",
+                    true
+                )
+            )
         }
 
     }
@@ -132,6 +142,8 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
 
         fun showAppFloat(context: Context) {
+
+            if (EasyFloat.getFloatView("speed")?.isShown == true) return
             EasyFloat.with(context)
                 .setTag("speed")
                 .setGravity(Gravity.CENTER, 0, 0)

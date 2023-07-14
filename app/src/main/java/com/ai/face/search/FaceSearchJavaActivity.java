@@ -11,6 +11,7 @@ import com.ai.face.R;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.databinding.ActivityFaceSearchBinding;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
+import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.bumptech.glide.Glide;
@@ -19,7 +20,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import java.io.File;
 
 /**
- * 应多位用户要求，默认使用java 版本演示怎么快速接入SDK
+ * 应多位用户要求，默认使用java 版本演示怎么快速接入SDK。JAVA FIRST
+ *
  */
 public class FaceSearchJavaActivity extends AppCompatActivity {
     private ActivityFaceSearchBinding binding;
@@ -51,9 +53,6 @@ public class FaceSearchJavaActivity extends AppCompatActivity {
 
 
         // 2.各种参数的初始化设置
-        //getApplication() 要解决参数转换异常的问题
-        //getApplication() 要解决参数转换异常的问题，有问题VIP 用户联系
-
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(getApplication())
                 .setLifecycleOwner(this)
                 .setThreshold(0.85f)         //识别成功阈值设置，范围仅限 0.7-0.9！建议0.8+

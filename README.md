@@ -1,15 +1,16 @@
 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
-On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detection & Anti Spoofing SDK 离线版Android人脸检测，人脸识别和活体检测反作弊 SDK,包含1：1對比和1：N檢索識別
+On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detection & Anti Spoofing SDK 离线版Android人脸检测，人脸识别和活体检测反作弊 SDK,包含1:1人脸對比和1:N搜索识别
 
 <div align=center>
 <img src="http://user-images.githubusercontent.com/15169396/182627098-0ca24289-641b-4593-bf7c-72b09c4bf94e.jpeg" width = 10% height = 10% />
 </div>
 
 ## 当前版本说明 2023-07-07
-目前的版本是4.X，技术实现经历了大版本重构，在使用方式 API 接口没有大改变，但是包名引入路径有修改。
+ FaceVerification经历了大版本重构，在使用方式 API 接口没有大改变，但是包名引入路径有修改，请按照Demo 方式修改。
 
-本次迭代1：1 简化了接入流程实现1小时接入，动作活体可以选1-2个随机动作步骤； 1：N识别极大的提升了识别搜索速率和精度，千张人脸检索识别速度在三星N9700速度小于1秒。
+- 本次迭代1：1 简化了接入流程实现1小时接入，动作活体可以选1-2个随机动作步骤； 
+- 1：N识别极大的提升了识别搜索速率和精度，千张人脸检索识别速度在三星N9700速度小于1秒。
 
 Gradle引入方式改为：
 
