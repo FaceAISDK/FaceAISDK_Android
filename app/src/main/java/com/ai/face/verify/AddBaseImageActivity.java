@@ -115,17 +115,11 @@ public class AddBaseImageActivity extends AppCompatActivity {
         editText.setVisibility(View.GONE); //face id, 1:1 写死，实际业务自行修改
 
         btnOK.setOnClickListener(v -> {
-
-            if (!TextUtils.isEmpty(editText.getText().toString())) {
                 String yourUniQueFaceId = "18707611416"; //face id, 1:1 写死，实际业务自行修改
-
                 //添加新的底片，业务需要处理是新加还是修改！！自行处理
                 baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, yourUniQueFaceId);
                 dialog.dismiss();
                 finish();
-            }
-
-
         });
 
         btnCancel.setOnClickListener(v -> {
