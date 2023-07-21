@@ -4,7 +4,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 33     //可以定制配合降级
+    compileSdkVersion 33     //VIP 可以定制配合降级
 
     defaultConfig {
         applicationId "com.ai.face.verifyPub"
@@ -50,7 +50,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     // 人脸识别 活体检测 SDK 依赖
-    implementation 'io.github.anylifezlb:FaceRecognition:1.0.0'
+    implementation 'io.github.anylifezlb:FaceRecognition:1.0.1'
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
     implementation 'pub.devrel:easypermissions:3.0.0'
@@ -67,7 +67,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.15.1'
     kapt 'com.github.bumptech.glide:compiler:4.13.0'
 
-    //Demo 为了收集Crash 开了网络权限
+    //Demo 为了收集Crash 开了网络权限,SDK 本身不需要任何网络服务，完全是离线运行
     implementation 'com.tencent.bugly:crashreport:4.1.9'
 
     // App compat and UI  things

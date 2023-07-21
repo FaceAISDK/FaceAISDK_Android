@@ -11,7 +11,6 @@ import com.ai.face.R;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.databinding.ActivityFaceSearchBinding;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
-import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.bumptech.glide.Glide;
@@ -55,8 +54,8 @@ public class FaceSearchJavaActivity extends AppCompatActivity {
         // 2.各种参数的初始化设置
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(getApplication())
                 .setLifecycleOwner(this)
-                .setThreshold(0.85f)         //识别成功阈值设置，范围仅限 0.7-0.9！建议0.8+
-                .setLicenceKey("yourLicense key")   //申请的License
+                .setThreshold(0.85f)               //识别成功阈值设置，范围仅限 0.7-0.9！建议0.8+
+                .setLicenceKey("yourLicense key")  //合作的VIP定制客户群体需要
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setProcessCallBack(new SearchProcessCallBack() {
                     @Override

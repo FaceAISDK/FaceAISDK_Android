@@ -1,6 +1,6 @@
 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
-On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detection & Anti Spoofing SDK 离线版Android人脸检测，人脸识别和活体检测反作弊 SDK,包含1:1人脸對比和1:N搜索识别
+On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detection & Anti Spoofing SDK 离线版Android人脸检测，人脸识别和活体检测反作弊 SDK,包含1:1人脸對比和1:N检索识别
 
 <div align=center>
 <img src="http://user-images.githubusercontent.com/15169396/182627098-0ca24289-641b-4593-bf7c-72b09c4bf94e.jpeg" width = 10% height = 10% />
@@ -10,13 +10,16 @@ On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detecti
  FaceVerification经历了大版本重构，在使用方式 API 接口没有大改变，但是包名引入路径有修改，请按照Demo 方式修改。
 
 - 本次迭代1：1 简化了接入流程实现1小时接入，动作活体可以选1-2个随机动作步骤； 
-- 1：N识别极大的提升了识别搜索速率和精度，千张人脸检索识别速度在三星N9700速度小于1秒。
+- 1：N识别极大的提升了识别搜索速率和精度，千张人脸检索识别速度在三星N9700速度小于1秒,硬件配置好可支持万张。
 
 Gradle引入方式改为：
 
   implementation 'io.github.anylifezlb:FaceRecognition:1.0.0'
 
 废弃Face-Verification，老版本只维护到3.x.y 建议使用方尽快迁移到新重构版本，VIP用户特别是使用1：N检索识别功能的用户请尽快迁移到新版本
+
+
+ 建议[Fork] + [Star] 关注订阅#  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 以便获取最新更新消息
 
 
 ## 简要说明
@@ -114,7 +117,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
 
 ## 常见问题
    常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/questions.md
-   只是人脸识别不需要活体检测是不需要申请授权的，直接永久使用。未明事宜请联系
+   只是1:1 人脸识别不含活体检测是不需要申请授权的，直接永久使用；1：N需要授权，未明事宜请联系
 
 
 

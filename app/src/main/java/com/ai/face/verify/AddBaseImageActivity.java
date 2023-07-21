@@ -99,7 +99,6 @@ public class AddBaseImageActivity extends AppCompatActivity {
         final AlertDialog dialog = builder.create();
         View dialogView = View.inflate(this, R.layout.dialog_confirm_base, null);
 
-
         //设置对话框布局
         dialog.setView(dialogView);
         dialog.setCanceledOnTouchOutside(false);
@@ -113,6 +112,7 @@ public class AddBaseImageActivity extends AppCompatActivity {
         EditText editText = dialogView.findViewById(R.id.edit_text);
 
         editText.requestFocus();
+        editText.setVisibility(View.GONE); //face id, 1:1 写死，实际业务自行修改
 
         btnOK.setOnClickListener(v -> {
 
