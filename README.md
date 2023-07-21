@@ -14,7 +14,7 @@ On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detecti
 
 Gradle引入方式改为：
 
-  implementation 'io.github.anylifezlb:FaceRecognition:1.0.0'
+  implementation 'io.github.anylifezlb:FaceRecognition:1.0.2'
 
 废弃Face-Verification，老版本只维护到3.x.y 建议使用方尽快迁移到新重构版本，VIP用户特别是使用1：N检索识别功能的用户请尽快迁移到新版本
 
