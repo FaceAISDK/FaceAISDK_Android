@@ -2,7 +2,7 @@
 buildscript {
 
     ext {
-        kotlin_version = "1.7.20"
+        kotlin_version = "1.7.20"  //看看是否兼容支持 140
         java_version = JavaVersion.VERSION_1_8
         dokka_version = '1.4.10.2'
     }
