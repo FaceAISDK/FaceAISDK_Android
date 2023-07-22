@@ -14,7 +14,7 @@ On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detecti
 
 Gradle引入方式改为：
 
-  implementation 'io.github.anylifezlb:FaceRecognition:1.0.2'
+  implementation 'io.github.anylifezlb:FaceRecognition:1.x.y'
 
 废弃Face-Verification，老版本只维护到3.x.y 建议使用方尽快迁移到新重构版本，VIP用户特别是使用1：N检索识别功能的用户请尽快迁移到新版本
 
@@ -49,9 +49,9 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
 
 ## 接入使用
 
-    //Gradle
-    implementation 'io.github.anylifezlb:FaceRecognition:1.0.0'
-    
+    //Gradle 
+    implementation 'io.github.anylifezlb:FaceRecognition:1.x.0'
+    //https://central.sonatype.com/artifact/io.github.anylifezlb/FaceRecognition 查询最新版
     ``` 
     //更多说明请看代码和下载Demo体验
     

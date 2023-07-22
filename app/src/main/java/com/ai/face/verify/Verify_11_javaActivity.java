@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,11 +48,14 @@ public class Verify_11_javaActivity extends AppCompatActivity {
         tipsTextView = findViewById(R.id.tips_view);
         faceCoverView = findViewById(R.id.face_cover);
         faceTipsOverlay = findViewById(R.id.faceTips);
+        findViewById(R.id.back).setOnClickListener(v -> {
+            Verify_11_javaActivity.this.finish();
+        });
 
-        // 0 ,前置摄像头       1，后置摄像头    部分外接USB摄像头支持可能是1
+
         int cameraLensFacing = getSharedPreferences("faceVerify", Context.MODE_PRIVATE).getInt("cameraFlag", 0);
-
-        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing);
+        // 1. Camera 的初始化。第一个参数0/1 指定前后摄像头； 第二个参数linearZoom [0.1f,1.0f] 指定焦距，默认0.1
+        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing,0.12f);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
@@ -126,7 +130,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                                     public void run() {
                                         Verify_11_javaActivity.this.finish();
                                     }
-                                }, 1000);
+                                }, 1500);
 
                                 VoicePlayer.getInstance().play(R.raw.verify_success);
 

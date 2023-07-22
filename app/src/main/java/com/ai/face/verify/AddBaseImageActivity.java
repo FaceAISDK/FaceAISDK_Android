@@ -3,6 +3,7 @@ package com.ai.face.verify;
 import static com.ai.face.FaceApplication.CACHE_BASE_FACE_DIR;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -33,46 +34,45 @@ public class AddBaseImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_base);
-
-        setTitle("底图添加");
+        setTitle("1:1人脸底图添加");
 
         tipsTextView = findViewById(R.id.tips_view);
+        findViewById(R.id.back).setOnClickListener(v -> {
+            this.finish();
+        });
+
         baseImageDispose = new BaseImageDispose(getBaseContext(), new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showConfirmDialog(bitmap);
-                    }
-                });
+                runOnUiThread(() -> showConfirmDialog(bitmap));
             }
 
             @Override
             public void onProcessTips(int actionCode) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        switch (actionCode) {
-                            case NO_FACE:
-                                tipsTextView.setText("未检测到人脸");
-                                break;
-                            case MANY_FACE:
-                                tipsTextView.setText("多张人脸出现");
-                                break;
-                            case SMALL_FACE:
-                                tipsTextView.setText("靠近一点");
-                                break;
-                            case AlIGN_FAILED:
-                                tipsTextView.setText("图像校准失败");
-                                break;
-                        }
+                runOnUiThread(() -> {
+                    switch (actionCode) {
+                        case NO_FACE:
+                            tipsTextView.setText("未检测到人脸");
+                            break;
+                        case MANY_FACE:
+                            tipsTextView.setText("多张人脸出现");
+                            break;
+                        case SMALL_FACE:
+                            tipsTextView.setText("靠近一点");
+                            break;
+                        case AlIGN_FAILED:
+                            tipsTextView.setText("图像校准失败");
+                            break;
                     }
                 });
             }
         });
 
-        CameraXFragment cameraXFragment = CameraXFragment.newInstance(getSharedPreferences("faceVerify", Context.MODE_PRIVATE).getInt("cameraFlag",0));
+        SharedPreferences sharedPref = getSharedPreferences("faceVerify", Context.MODE_PRIVATE);
+
+        // 1. Camera 的初始化。第一个参数0/1 指定前后摄像头； 第二个参数linearZoom [0.1f,1.0f] 指定焦距，默认0.1
+        int cameraLens = sharedPref.getInt("cameraFlag", sharedPref.getInt("cameraFlag", 0));
+        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens,0.13f);
 
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             index++;
