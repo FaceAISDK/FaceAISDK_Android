@@ -42,7 +42,7 @@
         android:layout_marginTop="7dp"
         android:background="@color/helloColor"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:gravity="center"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"

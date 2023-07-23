@@ -64,7 +64,6 @@ public class FaceSearchJavaActivity extends AppCompatActivity {
                 .setProcessCallBack(new SearchProcessCallBack() {
                     @Override
                     public void onMostSimilar(String similar) {
-                        binding.searchTips.setVisibility(View.VISIBLE);
                         binding.searchTips.setText(similar);
                         Glide.with(getBaseContext())
                                 .load(CACHE_SEARCH_FACE_DIR + File.separatorChar + similar)
@@ -100,7 +99,6 @@ public class FaceSearchJavaActivity extends AppCompatActivity {
      */
     private void showPrecessTips(int code) {
         binding.image.setImageResource(R.mipmap.ic_launcher);
-        binding.searchTips.setVisibility(View.VISIBLE);
         switch (code) {
             default:
                 binding.searchTips.setText("提示码："+code);
@@ -128,9 +126,7 @@ public class FaceSearchJavaActivity extends AppCompatActivity {
 
             case NO_MATCHED: {
                 //本次摄像头预览帧无匹配而已，会快速取下一帧进行分析检索
-                binding.searchTips.setText("");
-                binding.searchTips.setVisibility(View.INVISIBLE);
-
+                binding.searchTips.setText("暂无匹配人脸");
                 break;
             }
 
