@@ -88,7 +88,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     private void initFaceVerify(Bitmap baseBitmap) {
 
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                .setThreshold(0.81f)       //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
+                .setThreshold(0.82f)       //threshold（阈值）设置，范围仅限 [0.8,0.9]，默认0.8
                 .setBaseBitmap(baseBitmap) //底片,请录入的时候保证底片质量
                 .setLiveCheck(true)        //是否需要活体检测，需要发送邮件，详情参考ReadMe
                 .setVerifyTimeOut(16)      //活体检测支持设置超时时间 9-16 秒
@@ -132,7 +132,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                                     }
                                 }, 1500);
 
-                                VoicePlayer.getInstance().play(R.raw.verify_success);
+                                VoicePlayer.getInstance().addPayList(R.raw.verify_success);
 
                             } else {
                                 tipsTextView.setText("核验不通过，与底片不符！ ");
@@ -143,7 +143,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                                         .setPositiveButton("知道了", (dialogInterface, i) -> finish())
                                         .show();
 
-                                VoicePlayer.getInstance().play(R.raw.verify_failed);
+                                VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
                             }
                         });
                     }
@@ -200,37 +200,37 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_OK: {
-                        VoicePlayer.getInstance().play(R.raw.face_camera);
+                        VoicePlayer.getInstance().addPayList(R.raw.face_camera);
                         tipsTextView.setText("请保持正对屏幕");
                     }
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE: {
-                        VoicePlayer.getInstance().play(R.raw.open_mouse);
+                        VoicePlayer.getInstance().addPayList(R.raw.open_mouse);
                         tipsTextView.setText("请张嘴");
                     }
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.SMILE: {
                         tipsTextView.setText("请微笑");
-                        VoicePlayer.getInstance().play(R.raw.smile);
+                        VoicePlayer.getInstance().addPayList(R.raw.smile);
                     }
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.BLINK: {
-                        VoicePlayer.getInstance().play(R.raw.blink);
+                        VoicePlayer.getInstance().addPayList(R.raw.blink);
                         tipsTextView.setText("请轻眨眼");
                     }
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD: {
-                        VoicePlayer.getInstance().play(R.raw.shake_head);
+                        VoicePlayer.getInstance().addPayList(R.raw.shake_head);
                         tipsTextView.setText("请缓慢左右摇头");
                     }
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.NOD_HEAD: {
-                        VoicePlayer.getInstance().play(R.raw.nod_head);
+                        VoicePlayer.getInstance().addPayList(R.raw.nod_head);
                         tipsTextView.setText("请缓慢上下点头");
                     }
                     break;

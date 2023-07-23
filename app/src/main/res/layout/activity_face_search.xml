@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         customAttr:tip_text_size="20sp"
+        customAttr:show_progress="false"
         customAttr:tip_text_color="@color/colorPrimary"
         customAttr:circle_margin="24dp" />
 
@@ -33,19 +34,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
         android:id="@+id/searchTips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
-        android:background="@color/blue"
+        android:background="@color/helloColor"
         android:textColor="@color/white"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:gravity="center"
-        android:paddingTop="3dp"
-        android:paddingBottom="3dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="11dp"
+        android:paddingRight="11dp"
         android:text="init"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

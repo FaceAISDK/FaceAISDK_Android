@@ -1,38 +1,31 @@
 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
-On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detection & Anti Spoofing SDK 离线版Android人脸检测，人脸识别和活体检测反作弊 SDK,包含1:1人脸對比和1:N检索识别
+On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detection & Anti Spoofing SDK 
+离线版Android人脸检测，人脸识别和活体检测反作弊 SDK,包含1:1人脸對比 和 1:N检索识别两个主题功能
 
 <div align=center>
 <img src="http://user-images.githubusercontent.com/15169396/182627098-0ca24289-641b-4593-bf7c-72b09c4bf94e.jpeg" width = 10% height = 10% />
 </div>
 
 ## 当前版本说明 2023-07-07
- FaceVerification经历了大版本重构，在使用方式 API 接口没有大改变，但是包名引入路径有修改，请按照Demo 方式修改。
+ FaceVerification经历了**大版本重构**，在使用方式 API 接口没有大改变，但是包名引入路径有修改，请按照Demo 方式修改。
 
 - 本次迭代1：1 简化了接入流程实现1小时接入，动作活体可以选1-2个随机动作步骤； 
 - 1：N识别极大的提升了识别搜索速率和精度，千张人脸检索识别速度在三星N9700速度小于1秒,硬件配置好可支持万张。
+- 所以的测试验证都是在手机或平板上进行，如果你的设备是定制设备或外接摄像头可能需要兼容适配
 
-Gradle引入方式改为：
-
-  implementation 'io.github.anylifezlb:FaceRecognition:1.x.y'
-
-废弃Face-Verification，老版本只维护到3.x.y 建议使用方尽快迁移到新重构版本，VIP用户特别是使用1：N检索识别功能的用户请尽快迁移到新版本
-
-
- 建议[Fork] + [Star] 关注订阅#  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 以便获取最新更新消息
-
+ 建议[Fork] + [Star] 关注订阅#  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 以便获取最新更新
 
 ## 简要说明
 
-SDK包含动作活体、静默活体检测，1：1人脸识别以及1：N人脸识别查找，**所有处理都在设备终端离线执行，SDK本身不用联网，不收集人脸信息更具隐私安全**
+SDK包含动作活体、静默活体检测，1：1人脸识别以及1：N人脸识别检索，**所有处理都在设备终端离线执行，SDK本身不用联网，不收集人脸信息更具隐私安全**
 
-其中活体检测支持张嘴，微笑，眨眼，摇头，点头 随机两种组合验证（摇头点头也可拆分为左右上下4个动作），低端机离线验证速度正常。
+其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（摇头点头也可拆分为左右上下4个动作），低端机离线验证速度正常。
 
 SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53  1.8GHz x4 + ARM Mali T860 图形处理器运行流畅稳定
 
-实验室测试效果能覆盖95% 的中高低端机器，识别成功率>99% ；特殊DIY系统或特殊定制硬件，外接USB摄像头等如有问题请先提Issues附带系统版本，设备型号，错误log等信息；
+实验室测试效果能覆盖95% 的中高低端机器，识别成功率>99%；**特殊DIY系统或特殊定制硬件，外接USB摄像头等**如有问题请先提Issues附带系统版本、设备型号、错误log等信息；
 或发邮件到anylife.zlb@gmail.com ，VIP用户添加微信ID：18707611416
-
 
 
 ![FaceVerificationSDK](https://github.com/AnyLifeZLB/Android-Architecture/assets/15169396/0740b2f1-3973-487c-bade-4158efa3da87)
@@ -49,30 +42,26 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
 
 ## 接入使用
 
-    //Gradle 
-    implementation 'io.github.anylifezlb:FaceRecognition:1.x.0'
-    //https://central.sonatype.com/artifact/io.github.anylifezlb/FaceRecognition 查询最新版
+    //1.首先Gradle 中引入依赖 
+    implementation 'io.github.anylifezlb:FaceRecognition:1.x.y'
+
+    //2.Camera相机的初始化。第一个参数0/1 指定前后摄像头；第二个参数linearZoom [0.1f,1.0f] 指定焦距，默认0.1
+    CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing,0.12f);
+
     ``` 
-    //更多说明请看代码和下载Demo体验
+    //3.人脸识别过程中各种参数的初始化。（更多说明请Github Clone代码体验,）
     
             FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                .setThreshold(0.8f)                 //threshold（阈值）设置，范围仅限 0.7-0.9，默认0.8
+                .setThreshold(0.8f)                 //threshold（阈值）设置，范围仅限 [0.8-0.9]，默认0.8
                 .setBaseBitmap(baseBitmap)          //1：1 底片「底片请设置为正脸无遮挡，并如Demo裁剪为仅含人脸」
-                .setFaceLibFolder(BASE_FACE_DIR_1N) //1：N 底片库目录
                 .setLiveCheck(true)                 //是否需要活体检测，需要发送邮件，详情参考ReadMe
                 .setVerifyTimeOut(10)               //活体检测支持设置超时时间 9-16 秒
                 .setMotionStepSize(1)               //随机动作验证活体的步骤个数，支持1-2个步骤
                 .setProcessCallBack(new ProcessCallBack() {
                     @Override
                     public void onCompleted(boolean isMatched) {
-                         //only 1：1 人脸识别检测会有Callback
+                         //1：1 人脸识别匹配成功
                     }
-
-                    @Override
-                    public void onMostSimilar(String imagePath){
-                        //only 1：N 人脸识别检测会有Callback
-                    }
-
                     @Override
                     public void onProcessTips(int actionCode) {
                         showAliveDetectTips(actionCode);
@@ -86,7 +75,6 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
    
     更多使用说明下载参考本Repo和下载Demo体验，里面有比较详尽的使用方法，其中 
 
-
   
     * NaviActivity  Demo 演示导航页面
     * /verify/目录  1:1 人脸检测识别，活体检测页面
@@ -95,7 +83,6 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
 
     不含活体检测不需要license完全免费，包含活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请，内容包括
     APP简要描述，App名称 ，包名 ，功能主页截屏和 下载链接5项内容。
-
 
 
 ## Demo 下载体验

@@ -49,7 +49,7 @@
         android:layout_marginTop="66dp"
         android:gravity="center"
         android:padding="19dp"
-        android:text="长按可以复制 "
+        android:text="长按可以复制联系方式"
         android:textColor="@android:color/darker_gray"
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@+id/email" />
@@ -62,7 +62,7 @@
         android:gravity="center"
         android:padding="19dp"
         android:layout_marginTop="123dp"
-        android:text="联系我们,查看更多"
+        android:text="联系我们,查看更多（GitHub主页）"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/email" />
@@ -73,7 +73,7 @@
         android:gravity="center"
         android:padding="19dp"
         android:layout_marginTop="99dp"
-        android:text="1:N 识别可独立依赖 https://github.com/AnyLifeZLB/FaceSearchSDK_Android"
+        android:text="1:N 识别可独立依赖 https://github.com/AnyLifeZLB/FaceSearchSDK_Android  独立库的功能，性能和兼容性指标都在手机 Pad 上进行验证，如为定制设备可能不兼容需要联系定制"
         android:textColor="@android:color/white"
         android:textSize="13sp"
         app:layout_constraintTop_toBottomOf="@+id/more_about_me" />

@@ -2,10 +2,14 @@ package com.ai.face.search;
 
 import static com.ai.face.FaceApplication.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.*;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import com.ai.face.R;
 import com.ai.face.base.view.CameraXFragment;
@@ -54,12 +58,13 @@ public class FaceSearchJavaActivity extends AppCompatActivity {
         // 2.各种参数的初始化设置
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(getApplication())
                 .setLifecycleOwner(this)
-                .setThreshold(0.85f)               //识别成功阈值设置，范围仅限 0.7-0.9！建议0.8+
+                .setThreshold(0.82f)               //识别成功阈值设置，范围仅限 [0.8 , 0.9] 建议0.8+
                 .setLicenceKey("yourLicense key")  //合作的VIP定制客户群体需要
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setProcessCallBack(new SearchProcessCallBack() {
                     @Override
                     public void onMostSimilar(String similar) {
+                        binding.searchTips.setVisibility(View.VISIBLE);
                         binding.searchTips.setText(similar);
                         Glide.with(getBaseContext())
                                 .load(CACHE_SEARCH_FACE_DIR + File.separatorChar + similar)
@@ -94,10 +99,17 @@ public class FaceSearchJavaActivity extends AppCompatActivity {
      * @param code
      */
     private void showPrecessTips(int code) {
-        binding.image.setImageResource(R.mipmap.ic_launcher_foreground);
-        binding.searchTips.setText("提示码：$code");
-
+        binding.image.setImageResource(R.mipmap.ic_launcher);
+        binding.searchTips.setVisibility(View.VISIBLE);
         switch (code) {
+            default:
+                binding.searchTips.setText("提示码："+code);
+                break;
+
+            case THRESHOLD_ERROR :
+                binding.searchTips.setText("识别阈值Threshold范围为0.8-0.9");
+                break;
+
             case MASK_DETECTION:
                 binding.searchTips.setText("请摘下口罩"); //默认无
                 break;
@@ -115,12 +127,15 @@ public class FaceSearchJavaActivity extends AppCompatActivity {
                 break;
 
             case NO_MATCHED: {
-                binding.searchTips.setText("没有匹配项");
+                //本次摄像头预览帧无匹配而已，会快速取下一帧进行分析检索
+                binding.searchTips.setText("");
+                binding.searchTips.setVisibility(View.INVISIBLE);
+
                 break;
             }
 
             case SEARCHING: {
-                binding.searchTips.setText("");
+                binding.searchTips.setText("搜索中");
                 break;
             }
         }

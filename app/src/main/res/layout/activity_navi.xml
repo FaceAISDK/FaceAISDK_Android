@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_sky"
+    android:background="@color/helloColor"
     android:paddingTop="100dp"
     tools:context=".NaviActivity">
 
     <!-- A CardView that contains a TextView -->
     <androidx.cardview.widget.CardView
         android:id="@+id/face_verify_card"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="80dp"
         app:cardCornerRadius="4dp"
+        android:layout_marginLeft="29dp"
+        android:layout_marginRight="11dp"
         app:cardBackgroundColor="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/update_base_image"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
-                android:text="人脸识别"
+                android:text="1:1人脸识别"
                 android:textColor="#2DCC18"
                 android:textSize="14sp" />
 
@@ -50,9 +52,12 @@
     <!-- A CardView that contains a TextView -->
     <androidx.cardview.widget.CardView
         android:id="@+id/update_base_image"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="80dp"
         app:cardCornerRadius="4dp"
+        android:layout_marginRight="29dp"
+        android:layout_marginLeft="11dp"
+
         app:cardBackgroundColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/face_verify_card"
@@ -87,20 +92,22 @@
     </androidx.cardview.widget.CardView>
 
 
-
-
-
-
     <TextView
         android:id="@+id/verify1n"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="99dp"
-        android:padding="9dp"
+        android:layout_marginTop="49dp"
+        android:background="@color/white"
         android:gravity="center"
-        android:text="1:N人脸识别检索演示导航"
-        android:textColor="@android:color/white"
-        android:textSize="19sp"
+        android:layout_marginLeft="29dp"
+        android:layout_marginRight="29dp"
+        android:paddingTop="19dp"
+        android:paddingBottom="19dp"
+        android:text="1:N 人脸检索识别演示"
+        android:textColor="@color/green"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/update_base_image" />
 
 
@@ -114,7 +121,7 @@
         android:textSize="16sp"
         android:layout_marginTop="25dp"
         android:layout_marginBottom="33dp"
-        app:layout_constraintTop_toBottomOf="@+id/verify1n"
+        app:layout_constraintBottom_toTopOf="@+id/more_about_me"
         android:text="点击切换前后摄像头" />
 
 
@@ -124,7 +131,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="19dp"
-        android:text="关于我们,查看更多 V4.0.0"
+        android:text="关于我们,查看更多（重构v1.x.y)"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:layout_marginBottom="33dp"

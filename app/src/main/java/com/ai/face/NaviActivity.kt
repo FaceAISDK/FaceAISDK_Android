@@ -53,7 +53,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
                         .putExtra(USER_ID_KEY, yourUniQueFaceId)
                 )
             } else {
-                Toast.makeText(this@NaviActivity, "请先录入人脸底片", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@NaviActivity, "请先录入人脸底片", Toast.LENGTH_LONG).show()
                 startActivity(
                     Intent(this@NaviActivity, AddBaseImageActivity::class.java)
                         .putExtra(USER_ID_KEY, yourUniQueFaceId)
