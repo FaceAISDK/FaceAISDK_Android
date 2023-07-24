@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ai.face.FaceApplication.Companion.CACHE_BASE_FACE_DIR
 import com.ai.face.FaceApplication.Companion.FACE_DIR_KEY
 import com.ai.face.FaceApplication.Companion.USER_ID_KEY
+import com.ai.face.base.utils.DeviceFingerprint
 import com.ai.face.search.SearchNaviActivity
 import com.ai.face.verify.AddBaseImageActivity
 import com.ai.face.utils.VoicePlayer
@@ -83,6 +84,9 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         more_about_me.setOnClickListener {
             startActivity(Intent(this@NaviActivity, AboutUsActivity::class.java))
         }
+
+        //用于绑定设备授权查看
+        device_info.text="设备指纹:"+DeviceFingerprint.getDeviceFingerprint()
 
 
         change_camera.setOnClickListener {

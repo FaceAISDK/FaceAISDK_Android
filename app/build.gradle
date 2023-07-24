@@ -18,8 +18,19 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
             debuggable false
+            jniDebuggable false
+            minifyEnabled true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+
+        debug {
+            debuggable true
+            jniDebuggable true
+            minifyEnabled true
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -46,11 +57,25 @@ android {
 }
 
 
+//依赖有冲突需要统一依赖
+configurations.all {
+    resolutionStrategy {
+        force 'com.airbnb.android:lottie:6.0.0'
+    }
+}
+
+
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     // 人脸识别 活体检测 SDK 依赖
-    implementation 'io.github.anylifezlb:FaceRecognition:1.0.6'
+    implementation 'io.github.anylifezlb:FaceRecognition:1.0.8'
+
+
+    //独立版本的1：N 识别依赖就可以了，体积小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
+    //implementation 'io.github.anylifezlb:FaceSearchSDK:1.0.6'
+
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
     implementation 'pub.devrel:easypermissions:3.0.0'

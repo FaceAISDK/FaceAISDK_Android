@@ -29,7 +29,8 @@ import java.io.InputStream
 
 /**
  * 人脸识别搜索 演示导航Navi，目前支持千张图片1秒级搜索，后续聚焦降低App体积和精确度
- *
+ * 测试验证人脸库图片位于/assert 目录，更多的人脸图片请使用Ai 生成
+ * 或者http://biometrics.idealtest.org/dbDetailForUser.do?id=9#/datasetDetail/8 下载
  *
  */
 class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
@@ -44,10 +45,10 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         checkNeededPermission()
 
-        //
+        //提供java 和 Kotlin 两种演示版本
         binding.faceSearch.setOnClickListener {
             startActivity(
-                Intent(this@SearchNaviActivity, FaceSearchJavaActivity::class.java)
+                Intent(this@SearchNaviActivity, FaceSearchKTActivity::class.java)
             )
         }
 
@@ -140,9 +141,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
     companion object {
 
-
         fun showAppFloat(context: Context) {
-
             if (EasyFloat.getFloatView("speed")?.isShown == true) return
             EasyFloat.with(context)
                 .setTag("speed")

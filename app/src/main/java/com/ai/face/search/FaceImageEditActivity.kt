@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.lzf.easyfloat.EasyFloat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -79,15 +80,19 @@ class FaceImageEditActivity : AppCompatActivity() {
 
         faceImageListAdapter.setEmptyView(R.layout.empty_layout)
 
+        //不要多次重复复制会闪退，演示不防护了
         faceImageListAdapter.emptyLayout?.setOnClickListener { v: View? ->
             Toast.makeText(baseContext, "复制中...", Toast.LENGTH_LONG).show()
+            SearchNaviActivity.showAppFloat(baseContext)
+
             CoroutineScope(Dispatchers.IO).launch {
                 copyManyTestFaceImages(application)
                 delay(800)
+
                 MainScope().launch {
-                    //Kotlin 混淆操作后协程操作失效了，因为是异步操作只能等一下
                     loadImageList()
                     faceImageListAdapter.notifyDataSetChanged()
+                    EasyFloat.dismiss("speed")
                 }
             }
         }

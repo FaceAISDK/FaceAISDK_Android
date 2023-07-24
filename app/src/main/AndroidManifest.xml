@@ -53,6 +53,11 @@
             android:exported="false" />
 
         <activity
+            android:name=".search.FaceSearchKTActivity"
+            android:exported="false" />
+
+
+        <activity
             android:name=".search.FaceImageEditActivity"
             android:exported="false">
         </activity>

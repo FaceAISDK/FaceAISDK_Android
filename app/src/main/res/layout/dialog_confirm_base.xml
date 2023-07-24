@@ -45,6 +45,7 @@
                 android:textColorHint="@color/colorPrimary"
                 android:textColor="@color/green"
                 android:focusable="true"
+                android:singleLine="true"
                 android:focusableInTouchMode="true"
                 />
 

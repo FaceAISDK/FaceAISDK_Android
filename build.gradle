@@ -2,10 +2,24 @@
 buildscript {
 
     ext {
-        kotlin_version = "1.7.20"  //看看是否兼容支持 140
+        kotlin_version = "1.7.20"
         java_version = JavaVersion.VERSION_1_8
-        dokka_version = '1.4.10.2'
     }
+
+
+    //如果和你的项目中Kotlin 依赖不一致。 强制统一项目中的Kotlin 版本依赖
+    ConfigurationContainer container = project.configurations
+    container.all { Configuration conf ->
+        ResolutionStrategy rs = conf.resolutionStrategy
+        rs.eachDependency { details ->
+            def requested = details.requested
+            if (requested.group == "org.jetbrains.kotlin") {
+                //统一内部 kotlin 库的版本
+                details.useVersion("$kotlin_version")
+            }
+        }
+    }
+
 
     repositories {
         google()
@@ -18,8 +32,8 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
         classpath 'com.huawei.agconnect:agcp:1.4.2.300'
-
     }
+
 }
 
 

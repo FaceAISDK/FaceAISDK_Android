@@ -139,7 +139,16 @@
 
 
 
-
+    <TextView
+        android:id="@+id/device_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="11dp"
+        android:text="关于我们,查看更多（重构v1.x.y)"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
