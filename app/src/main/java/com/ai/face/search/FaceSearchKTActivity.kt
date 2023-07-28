@@ -48,10 +48,10 @@ class FaceSearchKTActivity : AppCompatActivity() {
         }
 
 
-        // 2.各种参数的初始化设置
+        // 2.各种参数的初始化设置，（硬件加速等仅VIP用户）
         val faceProcessBuilder = SearchProcessBuilder.Builder(application)
             .setLifecycleOwner(this)
-            .setThreshold(0.82f) //识别成功阈值设置，范围仅限 [0.8 , 0.9] 建议0.8+
+            .setThreshold(0.82f) //阈值设置，范围限 [0.8 , 0.9] 识别可信度，也是识别灵敏度
             .setLicenceKey("yourLicense key") //合作的VIP定制客户群体需要
             .setFaceLibFolder(FaceApplication.CACHE_SEARCH_FACE_DIR) //内部存储目录中保存N 个图片库的目录
             .setProcessCallBack(object : SearchProcessCallBack() {
@@ -96,7 +96,7 @@ class FaceSearchKTActivity : AppCompatActivity() {
             SearchProcessTipsCode.FACE_DIR_EMPTY -> binding.searchTips.text = "人脸库为空"
             SearchProcessTipsCode.NO_MATCHED -> {
                 //本次摄像头预览帧无匹配而已，会快速取下一帧进行分析检索
-                binding.searchTips.text = "暂无匹配人脸"
+                binding.searchTips.text = "Searching"
             }
 
             SearchProcessTipsCode.SEARCHING -> {
@@ -114,4 +114,5 @@ class FaceSearchKTActivity : AppCompatActivity() {
         super.onDestroy()
         FaceSearchEngine.Companion().instance.stopSearchProcess()
     }
+
 }

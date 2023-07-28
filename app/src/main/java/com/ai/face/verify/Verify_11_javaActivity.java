@@ -87,11 +87,11 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     private void initFaceVerify(Bitmap baseBitmap) {
 
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                .setThreshold(0.82f)       //threshold（阈值）设置，范围仅限 [0.8,0.9]，默认0.8
+                .setThreshold(0.82f)       //阈值设置，范围限 [0.8 , 0.9] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap) //底片,请录入的时候保证底片质量
                 .setLiveCheck(true)        //是否需要活体检测，需要发送邮件，详情参考ReadMe
                 .setVerifyTimeOut(16)      //活体检测支持设置超时时间 9-16 秒
-                .setMotionStepSize(1)      //随机动作验证活体的步骤个数，支持1-2个步骤
+                .setMotionStepSize(2)      //随机动作验证活体的步骤个数，支持1-2个步骤
                 .setGraphicOverlay(faceTipsOverlay)//正式环境请去除设置
                 .setProcessCallBack(new ProcessCallBack() {
                     @Override

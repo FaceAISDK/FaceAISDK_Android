@@ -66,11 +66,12 @@ configurations.all {
 
 
 
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     // 人脸识别 活体检测 SDK 依赖
-    implementation 'io.github.anylifezlb:FaceRecognition:1.0.8'
+    implementation 'io.github.anylifezlb:FaceRecognition:1.0.8.Vanxx'
 
 
     //独立版本的1：N 识别依赖就可以了，体积小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android

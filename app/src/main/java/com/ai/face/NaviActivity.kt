@@ -4,9 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ai.face.FaceApplication.Companion.CACHE_BASE_FACE_DIR
@@ -74,7 +72,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
 
-        verify1n.setOnClickListener {
+        verify_1_n.setOnClickListener {
                 startActivity(
                     Intent(this@NaviActivity, SearchNaviActivity::class.java)
                 )
