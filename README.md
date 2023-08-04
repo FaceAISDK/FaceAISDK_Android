@@ -7,18 +7,19 @@ On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detecti
 <img src="http://user-images.githubusercontent.com/15169396/182627098-0ca24289-641b-4593-bf7c-72b09c4bf94e.jpeg" width = 10% height = 10% />
 </div>
 
-## 当前版本说明 2023-07-07
- FaceVerification经历了**大版本重构**，在使用方式 API 接口没有大改变，但是包名引入路径有修改，请按照Demo 方式修改。
+## 当前版本说明 2023-08-01
+ FaceVerification**大版本重构**，在使用方式 API 接口没有大改变，但是包名引入路径有修改，请按照Demo 方式修改。
 
 - 本次迭代1：1 简化了接入流程实现1小时接入，动作活体可以选1-2个随机动作步骤； 
 - 1：N识别极大的提升了识别搜索速率和精度，千张人脸检索识别速度在三星N9700速度小于1秒,硬件配置好可支持万张。
+- 支持M：N 识别，在人脸检测环节调整了灵敏度
 - 所以的测试验证都是在手机或平板上进行，如果你的设备是定制设备或外接摄像头可能需要兼容适配
 
  建议[Fork] + [Star] 关注订阅#  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 以便获取最新更新
 
 ## 简要说明
 
-SDK包含动作活体、静默活体检测，1：1人脸识别以及1：N人脸识别检索，**所有处理都在设备终端离线执行，SDK本身不用联网，不收集人脸信息更具隐私安全**
+SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N人脸识别检索](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Face_1:1_1:N_M:N.md)，**所有处理都在设备终端离线执行，SDK本身不用联网，不收集人脸信息更具隐私安全**
 
 其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（摇头点头也可拆分为左右上下4个动作），低端机离线验证速度正常。
 
@@ -32,13 +33,15 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
 
 
 
-## 使用场景
+## [使用场景和区别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Face_1:1_1:N_M:N.md)
 
    【1:1】 移动考勤真人校验，App免密登录，酒店入驻、刷脸支付、刷脸解锁、真人校验
 
    【1:N】 智能门锁，考勤机，通缉人员行踪搜索，智慧校园、景区、工地、社区、酒店等，（千张人脸仅仅耗时200 Ms ，三星N9700测试）
 
-    注：1：N 人脸检索可以独立依赖，体积更小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
+   【M:N】 公安布控等
+
+    注：1：N & M:N 人脸检索可以独立依赖，体积更小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
 
 ## 接入使用
 
@@ -52,7 +55,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
     //3.人脸识别过程中各种参数的初始化。（更多说明请Github Clone代码体验,）
     
             FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                .setThreshold(0.8f)                 //threshold（阈值）设置，范围仅限 [0.8-0.9]，默认0.8
+                .setThreshold(0.88f)                //threshold（阈值）设置，范围仅限[0.8-0.95]，默认0.85
                 .setBaseBitmap(baseBitmap)          //1：1 底片「底片请设置为正脸无遮挡，并如Demo裁剪为仅含人脸」
                 .setLiveCheck(true)                 //是否需要活体检测，需要发送邮件，详情参考ReadMe
                 .setVerifyTimeOut(10)               //活体检测支持设置超时时间 9-16 秒
@@ -63,8 +66,8 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
                          //1：1 人脸识别匹配成功
                     }
                     @Override
-                    public void onProcessTips(int actionCode) {
-                        showAliveDetectTips(actionCode);
+                    public void onMostSimilar(String similar) {
+                         //人脸检索识别
                     }
                 })
                 .create();
@@ -78,8 +81,8 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
   
     * NaviActivity  Demo 演示导航页面
     * /verify/目录  1:1 人脸检测识别，活体检测页面
-    * /search/目录  1:N 人脸识别搜索页面，人脸库管理
-    * 1：N 人脸检索可以独立依赖，体积更小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
+    * /search/目录  1:N 和 M：N 人脸识别搜索页面，人脸库管理
+    * 1：N 和 M：N人脸检索可以独立依赖，体积更小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
 
     不含活体检测不需要license完全免费，包含活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请，内容包括
     APP简要描述，App名称 ，包名 ，功能主页截屏和 下载链接5项内容。
@@ -104,7 +107,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
 
 ## 常见问题
    常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/questions.md
-   只是1:1 人脸识别不含活体检测是不需要申请授权的，直接永久使用；1：N需要授权，未明事宜请联系
+   只是1:1 人脸识别不含活体检测是不需要申请授权的，直接永久使用；1：N，M：N需要授权，未明事宜请联系
 
 
 

@@ -78,7 +78,7 @@ public class AddBaseImageActivity extends AppCompatActivity {
             index++;
             //什么Bitmap,保存为最终形态吧
             if(index%33==0){
-                baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy,1));
+                baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy,10,false));
             }
         });
 

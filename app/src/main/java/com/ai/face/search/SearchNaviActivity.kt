@@ -45,10 +45,15 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         checkNeededPermission()
 
-        //提供java 和 Kotlin 两种演示版本
-        binding.faceSearch.setOnClickListener {
+        binding.faceSearch1n.setOnClickListener {
             startActivity(
-                Intent(this@SearchNaviActivity, FaceSearchKTActivity::class.java)
+                Intent(this@SearchNaviActivity, FaceSearch1NActivity::class.java)
+            )
+        }
+
+        binding.faceSearchMn.setOnClickListener {
+            startActivity(
+                Intent(this@SearchNaviActivity, FaceSearchMNActivity::class.java)
             )
         }
 

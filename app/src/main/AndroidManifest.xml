@@ -49,12 +49,17 @@
 
 
         <activity
-            android:name=".search.FaceSearchJavaActivity"
+            android:name=".search.FaceSearch1NActivity"
             android:exported="false" />
 
         <activity
-            android:name=".search.FaceSearchKTActivity"
+            android:name=".search.FaceSearch1NKTActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".search.FaceSearchMNActivity"
+            android:exported="false"
+            android:launchMode="singleTop" />
 
 
         <activity

@@ -26,9 +26,9 @@ import java.io.File
  *
  * 1：N 人脸识别检索可以独立引入 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
  *
- * 更多请发邮件 anylife.zlb@gmail.com
+ * 更多请发邮件 anylife.zlb@gmail.com 或 微信 HaoNan19990322 交流（请备注 人脸识别定制，否则添加不通）
  *
- * 或加微信 HaoNan19990322 （请标注人脸识别定制，否则添加不通过，谢谢）交流
+ * 一个在线人脸图片对比工具 https://facecomparison.toolpie.com/
  *
  * 2022.07.29
  */
@@ -73,11 +73,12 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
 
         verify_1_n.setOnClickListener {
-                startActivity(
-                    Intent(this@NaviActivity, SearchNaviActivity::class.java)
-                )
+                startActivity(Intent(this@NaviActivity, SearchNaviActivity::class.java))
         }
 
+        verify_m_n.setOnClickListener {
+            startActivity(Intent(this@NaviActivity, SearchNaviActivity::class.java))
+        }
 
         more_about_me.setOnClickListener {
             startActivity(Intent(this@NaviActivity, AboutUsActivity::class.java))
@@ -85,7 +86,6 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         //用于绑定设备授权查看
         device_info.text="设备指纹:"+DeviceFingerprint.getDeviceFingerprint()
-
 
         change_camera.setOnClickListener {
             val sharedPref = getSharedPreferences(
@@ -110,7 +110,6 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         VoicePlayer.getInstance().init(this)
     }
-
 
 
     /**

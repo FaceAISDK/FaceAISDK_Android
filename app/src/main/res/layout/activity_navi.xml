@@ -122,7 +122,7 @@
         android:layout_marginRight="29dp"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:text="N:M 人脸检索识别(VIP)"
+        android:text="N:M 人脸检索识别演示"
         android:textColor="@color/yellow"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"

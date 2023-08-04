@@ -13,7 +13,6 @@ import com.ai.face.faceSearch.search.FaceSearchEngine
 import com.ai.face.faceSearch.search.SearchProcessBuilder
 import com.ai.face.faceSearch.search.SearchProcessCallBack
 import com.ai.face.faceSearch.search.SearchProcessTipsCode
-import com.ai.face.search.FaceImageEditActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -23,7 +22,7 @@ import java.io.File
  * Kotlin Test
  *
  */
-class FaceSearchKTActivity : AppCompatActivity() {
+class FaceSearch1NKTActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFaceSearchBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +50,7 @@ class FaceSearchKTActivity : AppCompatActivity() {
         // 2.各种参数的初始化设置，（硬件加速等仅VIP用户）
         val faceProcessBuilder = SearchProcessBuilder.Builder(application)
             .setLifecycleOwner(this)
-            .setThreshold(0.82f) //阈值设置，范围限 [0.8 , 0.9] 识别可信度，也是识别灵敏度
+            .setThreshold(0.82f) //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
             .setLicenceKey("yourLicense key") //合作的VIP定制客户群体需要
             .setFaceLibFolder(FaceApplication.CACHE_SEARCH_FACE_DIR) //内部存储目录中保存N 个图片库的目录
             .setProcessCallBack(object : SearchProcessCallBack() {
@@ -88,7 +87,7 @@ class FaceSearchKTActivity : AppCompatActivity() {
         binding.image.setImageResource(R.mipmap.ic_launcher)
         when (code) {
             SearchProcessTipsCode.THRESHOLD_ERROR -> binding.searchTips.text =
-                "识别阈值Threshold范围为0.8-0.9"
+                "识别阈值Threshold范围为0.8-0.95"
 
             SearchProcessTipsCode.MASK_DETECTION -> binding.searchTips.text = "请摘下口罩" //默认无
             SearchProcessTipsCode.NO_LIVE_FACE -> binding.searchTips.text = "未检测到人脸"

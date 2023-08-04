@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,53 +13,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-
-    <com.ai.face.base.view.FaceCoverView
-        android:id="@+id/face_cover"
+    <com.ai.face.search.GraphicOverlay
+        android:id="@+id/graphicOverlay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        customAttr:tip_text_size="20sp"
-        customAttr:show_progress="false"
-        android:visibility="gone"
-        customAttr:tip_text_color="@color/colorPrimary"
-        customAttr:circle_margin="24dp" />
-
-
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="66dp"
-        android:layout_height="66dp"
-        android:layout_margin="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"/>
 
 
     <TextView
         android:id="@+id/searchTips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:background="@color/helloColor"
-        android:textColor="@color/white"
-        android:textSize="16sp"
+        android:layout_marginTop="27dp"
+        android:textColor="@color/yellow"
+        android:textSize="17sp"
         android:gravity="center"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:paddingLeft="11dp"
-        android:paddingRight="11dp"
-        android:text="init"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
     <TextView
         android:id="@+id/tips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/half_grey"
-        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:textSize="13sp"
         android:gravity="center"
         android:layout_marginBottom="22dp"
         android:text="点击管理人脸库"
