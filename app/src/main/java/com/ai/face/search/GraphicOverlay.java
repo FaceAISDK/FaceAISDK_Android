@@ -12,6 +12,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.faceSearch.utils.RectLabel;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class GraphicOverlay extends View {
             if (!TextUtils.isEmpty(rectLabel.getLabel())) {
                 textPaint.setColor(Color.GREEN);
                 rectPaint.setColor(Color.GREEN);
-                textPaint.setTextSize(40.0f);
+                textPaint.setTextSize(44.0f);
                 textPaint.setTypeface(Typeface.DEFAULT);
                 canvas.drawText(rectLabel.getLabel(), rectLabel.getRect().left + 22.0f, rectLabel.getRect().top + 55.0f, textPaint);
             }
@@ -66,10 +67,10 @@ public class GraphicOverlay extends View {
 
     }
 
-    public void drawRect(List<RectLabel> rectLabels, float scaleX, float scaleY) {
+    public void drawRect(List<RectLabel> rectLabels, CameraXFragment cameraXFragment) {
         this.rectFList = adjustBoundingRect(rectLabels);
-        this.scaleX = scaleX;
-        this.scaleY = scaleY;
+        this.scaleX = cameraXFragment.getScaleX();
+        this.scaleY = cameraXFragment.getScaleY();
         postInvalidate();
         requestLayout();
     }

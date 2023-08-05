@@ -15,15 +15,11 @@
         android:layout_height="match_parent" />
 
 
-    <com.ai.face.base.view.FaceCoverView
-        android:id="@+id/face_cover"
+    <com.ai.face.search.GraphicOverlay
+        android:id="@+id/graphicOverlay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        customAttr:tip_text_size="20sp"
-        customAttr:show_progress="false"
-        android:visibility="gone"
-        customAttr:tip_text_color="@color/colorPrimary"
-        customAttr:circle_margin="24dp" />
+        android:layout_height="match_parent"/>
+
 
 
     <ImageView

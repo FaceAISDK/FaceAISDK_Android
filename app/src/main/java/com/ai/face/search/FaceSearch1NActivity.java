@@ -10,16 +10,20 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.CameraSelector;
+
 import com.ai.face.R;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.databinding.ActivityFaceSearchBinding;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
+import com.ai.face.faceSearch.utils.RectLabel;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import java.io.File;
+import java.util.List;
 
 /**
  * 应多位用户要求，默认使用java 版本演示怎么快速接入SDK。JAVA FIRST
@@ -60,6 +64,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 .setThreshold(0.82f) //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
                 .setLicenceKey("yourLicense key")  //合作的VIP定制客户群体需要
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
+                .setImageFlipped(cameraLens == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {
                     @Override
                     public void onMostSimilar(String similar) {
@@ -75,6 +80,15 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                     @Override
                     public void onProcessTips(int i) {
                         showPrecessTips(i);
+                    }
+
+                    @Override
+                    public void onFaceDetect(List<RectLabel> rectLabels) {
+                        binding.graphicOverlay.drawRect(rectLabels, cameraXFragment);
+
+                        if(!rectLabels.isEmpty()) {
+                            binding.searchTips.setText("");
+                        }
                     }
 
                     @Override
@@ -123,16 +137,15 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 binding.searchTips.setText("人脸库为空");
                 break;
 
-            case NO_MATCHED: {
+            case NO_MATCHED:
                 //本次摄像头预览帧无匹配而已，会快速取下一帧进行分析检索
                 binding.searchTips.setText("Searching");
                 break;
-            }
 
-            case SEARCHING: {
-                binding.searchTips.setText("搜索中");
+            case SEARCHING:
+                binding.searchTips.setText("");
                 break;
-            }
+
         }
     }
 

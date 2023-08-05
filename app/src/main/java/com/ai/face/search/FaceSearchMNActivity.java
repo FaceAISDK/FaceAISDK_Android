@@ -6,6 +6,7 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.MASK_DETECTION;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_LIVE_FACE;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_MATCHED;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCHING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
 
 import android.content.Context;
@@ -75,7 +76,7 @@ public class FaceSearchMNActivity extends AppCompatActivity {
                     //人脸搜索匹配成功后白框变绿框，并标记处Label
                     @Override
                     public void onFaceDetect(List<RectLabel> rectLabels) {
-                        binding.graphicOverlay.drawRect(rectLabels, cameraX.getScaleX(), cameraX.getScaleY());
+                        binding.graphicOverlay.drawRect(rectLabels, cameraX);
 
                         if(!rectLabels.isEmpty()) {
                             binding.searchTips.setText("");
@@ -95,7 +96,7 @@ public class FaceSearchMNActivity extends AppCompatActivity {
                 }).create();
 
 
-        //3.初始化引擎，是个耗时耗资源操作
+        //3.初始化r引擎
         FaceSearchEngine.Companion.getInstance().initSearchParams(faceProcessBuilder);
     }
 
@@ -130,9 +131,13 @@ public class FaceSearchMNActivity extends AppCompatActivity {
                 binding.searchTips.setText("人脸库为空");
                 break;
 
-            case NO_MATCHED: {
+            case NO_MATCHED:
                 //本次摄像头预览帧无匹配而已，会快速取下一帧进行分析检索
                 binding.searchTips.setText("没有匹配项");
+                break;
+
+            case SEARCHING: {
+                binding.searchTips.setText("");
                 break;
             }
 

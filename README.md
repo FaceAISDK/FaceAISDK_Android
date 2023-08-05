@@ -1,7 +1,7 @@
 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
 On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detection & Anti Spoofing SDK 
-离线版Android人脸检测，人脸识别和活体检测反作弊 SDK,包含1:1人脸對比 和 1:N检索识别两个主题功能
+离线版Android人脸检测，人脸识别和活体检测反作弊 SDK,包含1:1人脸對比 和 1:N （M：N）检索识别两个主题功能
 
 <div align=center>
 <img src="http://user-images.githubusercontent.com/15169396/182627098-0ca24289-641b-4593-bf7c-72b09c4bf94e.jpeg" width = 10% height = 10% />
@@ -13,7 +13,7 @@ On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detecti
 - 本次迭代1：1 简化了接入流程实现1小时接入，动作活体可以选1-2个随机动作步骤； 
 - 1：N识别极大的提升了识别搜索速率和精度，千张人脸检索识别速度在三星N9700速度小于1秒,硬件配置好可支持万张。
 - 支持M：N 识别，在人脸检测环节调整了灵敏度
-- 所以的测试验证都是在手机或平板上进行，如果你的设备是定制设备或外接摄像头可能需要兼容适配
+- 所有的测试验证都是在手机或平板上进行，如果你的设备是定制设备或外接摄像头可能需要兼容适配
 
  建议[Fork] + [Star] 关注订阅#  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 以便获取最新更新
 

@@ -65,15 +65,11 @@ configurations.all {
 }
 
 
-
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     // 人脸识别 活体检测 SDK 依赖
-    implementation 'io.github.anylifezlb:FaceRecognition:1.0.9'
-
-    implementation 'io.github.lucksiege:pictureselector:v3.11.1' //升级到新依赖，没有冲突，老的不行
+    implementation 'io.github.anylifezlb:FaceRecognition:1.0.9.beta1'
 
 
     //独立版本的1：N 识别依赖就可以了，体积小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android

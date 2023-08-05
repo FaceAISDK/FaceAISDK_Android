@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageProxy
 import com.ai.face.FaceApplication
 import com.ai.face.R
@@ -52,6 +53,7 @@ class FaceSearch1NKTActivity : AppCompatActivity() {
             .setLifecycleOwner(this)
             .setThreshold(0.82f) //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
             .setLicenceKey("yourLicense key") //合作的VIP定制客户群体需要
+            .setImageFlipped(cameraLens == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
             .setFaceLibFolder(FaceApplication.CACHE_SEARCH_FACE_DIR) //内部存储目录中保存N 个图片库的目录
             .setProcessCallBack(object : SearchProcessCallBack() {
                 override fun onMostSimilar(similar: String) {
@@ -99,8 +101,9 @@ class FaceSearch1NKTActivity : AppCompatActivity() {
             }
 
             SearchProcessTipsCode.SEARCHING -> {
-                binding.searchTips.text = "搜索中"
+                binding.searchTips.text = ""
             }
+
 
             else -> binding.searchTips.text = "提示码：$code"
         }
