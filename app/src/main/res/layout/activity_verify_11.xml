@@ -20,7 +20,7 @@
         customAttr:circle_margin="22dp"
         customAttr:progress_end_color="@color/green"
         customAttr:progress_start_color="@color/green2"
-        customAttr:show_progress="true"
+        customAttr:show_progress="false"
         customAttr:tip_text_color="@color/colorPrimary"
         customAttr:tip_text_size="20sp" />
 

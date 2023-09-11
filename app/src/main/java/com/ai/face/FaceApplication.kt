@@ -2,6 +2,7 @@ package com.ai.face
 
 import android.app.Application
 import android.content.res.Configuration
+import com.tencent.bugly.crashreport.CrashReport
 import java.io.File
 
 /**
@@ -23,6 +24,12 @@ class FaceApplication : Application() {
 
         USER_ID_KEY = "AI_BASE_FACE_NAME"
         FACE_DIR_KEY = "BASE_FACE_DIR"
+
+
+
+
+        //Crash 收集
+        CrashReport.initCrashReport(this, "36fade54d8", true)
     }
 
 

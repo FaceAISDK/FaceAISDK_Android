@@ -76,8 +76,7 @@ public class AddBaseImageActivity extends AppCompatActivity {
 
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             index++;
-            //什么Bitmap,保存为最终形态吧
-            if(index%33==0){
+            if(index%33==0){ //让程序响应慢一点
                 baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy,10,false));
             }
         });

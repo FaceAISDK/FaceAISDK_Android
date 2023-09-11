@@ -1,14 +1,14 @@
 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
-On Device OffLine Android Face Detection &amp; Recognition And  Liveness Detection & Anti Spoofing SDK 
-离线版Android人脸检测，人脸识别和活体检测反作弊 SDK,包含1:1人脸對比 和 1:N （M：N）检索识别两个主题功能
+On Device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK 
+离线版设备端 Android人脸检测、人脸识别、活体检测反作弊以及1:N/M:N人脸 SDK（SDK面向软件开发工程人员，破解灰色行业勿扰！）
 
 <div align=center>
 <img src="http://user-images.githubusercontent.com/15169396/182627098-0ca24289-641b-4593-bf7c-72b09c4bf94e.jpeg" width = 10% height = 10% />
 </div>
 
-## 当前版本说明 2023-08-01
- FaceVerification**大版本重构**，在使用方式 API 接口没有大改变，但是包名引入路径有修改，请按照Demo 方式修改。
+## 当前版本说明 2023-06-01
+ FaceVerification**大版本重构**，在使用方式 API 接口没有大改变，但是包名引入路径有修改，请参考最新Demo 方式修改。
 
 - 本次迭代1：1 简化了接入流程实现1小时接入，动作活体可以选1-2个随机动作步骤； 
 - 1：N识别极大的提升了识别搜索速率和精度，千张人脸检索识别速度在三星N9700速度小于1秒,硬件配置好可支持万张。
@@ -37,19 +37,19 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
 
    【1:1】 移动考勤真人校验，App免密登录，酒店入驻、刷脸支付、刷脸解锁、真人校验
 
-   【1:N】 智能门锁，考勤机，通缉人员行踪搜索，智慧校园、景区、工地、社区、酒店等，（千张人脸仅仅耗时200 Ms ，三星N9700测试）
+   【1:N】 智能门锁，考勤机，通缉人员行踪搜索，智慧校园、景区、工地、社区、酒店等
 
-   【M:N】 公安布控等
+   【M:N】 公安布控，人群追踪 监控等等
 
     注：1：N & M:N 人脸检索可以独立依赖，体积更小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
 
 ## 接入使用
 
     //1.首先Gradle 中引入依赖 
-    implementation 'io.github.anylifezlb:FaceRecognition:1.x.y'
+    implementation 'io.github.anylifezlb:FaceRecognition:1.x.y'  //最新 1.1.0    +++根据提示升级
 
     //2.Camera相机的初始化。第一个参数0/1 指定前后摄像头；第二个参数linearZoom [0.1f,1.0f] 指定焦距，默认0.1
-    CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing,0.12f);
+    CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing,0.2f);
 
     ``` 
     //3.人脸识别过程中各种参数的初始化。（更多说明请Github Clone代码体验,）
@@ -84,14 +84,14 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
     * /search/目录  1:N 和 M：N 人脸识别搜索页面，人脸库管理
     * 1：N 和 M：N人脸检索可以独立依赖，体积更小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
 
-    不含活体检测不需要license完全免费，包含活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请，内容包括
-    APP简要描述，App名称 ，包名 ，功能主页截屏和 下载链接5项内容。
+    不含活体检测不需要license完全免费，包含活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请
+    内容包括App名称、简要描述、包名 、下载链接4项内容。
 
 
 ## Demo 下载体验
 
    最新版体验下载地址： https://www.pgyer.com/faceVerify  
-   微信或相机扫码后选择在浏览器中打开点击下载安装体验验证是否符合你的业务需求
+   微信或相机扫码后选择在浏览器中打开点击下载安装，验证是否符合你的业务需求
 
 <div align=center>
 <img src="https://user-images.githubusercontent.com/15169396/210045090-60c073df-ddbd-4747-8e24-f0dce1eccb58.png" width = 30% height = 30% />
@@ -108,6 +108,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
 ## 常见问题
    常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/questions.md
    只是1:1 人脸识别不含活体检测是不需要申请授权的，直接永久使用；1：N，M：N需要授权，未明事宜请联系
+   所有的开发测试都在手机和平板进行，特殊定制硬件如RK3288 等适配需要兼容适配
 
 
 

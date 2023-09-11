@@ -48,7 +48,7 @@ public class FaceSearchMNActivity extends AppCompatActivity {
 
         // 1. Camera 的初始化
         int cameraLens = sharedPref.getInt("cameraFlag", sharedPref.getInt("cameraFlag", 0));
-        CameraXFragment cameraX = CameraXFragment.newInstance(cameraLens, 0.1f);
+        CameraXFragment cameraX = CameraXFragment.newInstance(cameraLens, 0.3f); //参数1，前后摄像头 2是焦距
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraX)
                 .commit();
 
