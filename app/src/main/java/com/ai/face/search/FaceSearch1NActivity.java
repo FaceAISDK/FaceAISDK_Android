@@ -87,7 +87,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                         binding.graphicOverlay.drawRect(rectLabels, cameraXFragment);
 
                         if(!rectLabels.isEmpty()) {
-                            binding.searchTips.setText("");
+//                            binding.searchTips.setText("");
                         }
                     }
 

@@ -24,6 +24,7 @@ import com.ai.face.R
 import com.ai.face.base.utils.FaceFileProviderUtils
 import com.ai.face.faceSearch.search.FaceSearchImagesManger
 import com.ai.face.faceSearch.utils.BitmapUtils
+import com.ai.face.faceVerify.baseImage.BaseImageDispose
 import com.ai.face.search.SearchNaviActivity.Companion.copyManyTestFaceImages
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -207,7 +208,11 @@ class FaceImageEditActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            val bitmap = BitmapUtils.a.getFixedBitmap(currentPhotoPath!!, contentResolver)
+            var bitmap = BitmapUtils.a.getFixedBitmap(currentPhotoPath!!, contentResolver)
+
+            //裁剪人脸，并压缩大小，        防止人脸录入 OOM 闪退 ， 1:N 搜索成功暂停0.5秒
+            bitmap= BaseImageDispose(baseContext).cropFaceBitmap(bitmap)
+
             //加一个确定ID的操作
             showConfirmDialog(bitmap)
         }
@@ -238,7 +243,7 @@ class FaceImageEditActivity : AppCompatActivity() {
         return true
     }
 
-    var currentPhotoPath: String? = null
+    private var currentPhotoPath: String? = null
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
