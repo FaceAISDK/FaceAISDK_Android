@@ -1,6 +1,10 @@
 package com.ai.face.verify;
 
 import static com.ai.face.FaceApplication.CACHE_BASE_FACE_DIR;
+import static com.ai.face.base.baseImage.BaseImageCallBack.AlIGN_FAILED;
+import static com.ai.face.base.baseImage.BaseImageCallBack.MANY_FACE;
+import static com.ai.face.base.baseImage.BaseImageCallBack.NO_FACE;
+import static com.ai.face.base.baseImage.BaseImageCallBack.SMALL_FACE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,10 +19,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.ai.face.R;
+import com.ai.face.base.baseImage.BaseImageCallBack;
+import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.base.view.CameraXFragment;
-import com.ai.face.faceVerify.baseImage.BaseImageCallBack;
-import com.ai.face.faceVerify.baseImage.BaseImageDispose;
 
 
 /**

@@ -75,7 +75,7 @@ public class FaceSearchMNActivity extends AppCompatActivity {
                     //人脸检测成功后画白框，此时还没有标签字段
                     //人脸搜索匹配成功后白框变绿框，并标记处Label
                     @Override
-                    public void onFaceDetect(List<RectLabel> rectLabels) {
+                    public void onFaceMatched(List<RectLabel> rectLabels) {
                         binding.graphicOverlay.drawRect(rectLabels, cameraX);
 
                         if(!rectLabels.isEmpty()) {

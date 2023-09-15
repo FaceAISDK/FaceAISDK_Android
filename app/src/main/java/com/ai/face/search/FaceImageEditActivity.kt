@@ -21,10 +21,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ai.face.FaceApplication.Companion.CACHE_SEARCH_FACE_DIR
 import com.ai.face.R
+import com.ai.face.base.baseImage.BaseImageDispose
 import com.ai.face.base.utils.FaceFileProviderUtils
 import com.ai.face.faceSearch.search.FaceSearchImagesManger
 import com.ai.face.faceSearch.utils.BitmapUtils
-import com.ai.face.faceVerify.baseImage.BaseImageDispose
 import com.ai.face.search.SearchNaviActivity.Companion.copyManyTestFaceImages
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -156,6 +156,15 @@ class FaceImageEditActivity : AppCompatActivity() {
      * @param bitmap
      */
     private fun showConfirmDialog(bitmap: Bitmap) {
+
+        var bitmapCrop=BaseImageDispose(baseContext).cropFaceBitmap(bitmap)
+
+        if(bitmapCrop==null){
+            Toast.makeText(this,"没有检测到人脸",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"没有检测到人脸",Toast.LENGTH_LONG).show()
+            return
+        }
+
         val builder = androidx.appcompat.app.AlertDialog.Builder(this)
         val dialog = builder.create()
         val dialogView = View.inflate(this, R.layout.dialog_confirm_base, null)
@@ -202,7 +211,7 @@ class FaceImageEditActivity : AppCompatActivity() {
     }
 
     /**
-     * 处理自拍
+     * 处理自拍 录入人脸
      *
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

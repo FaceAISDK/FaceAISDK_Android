@@ -83,12 +83,9 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFaceDetect(List<RectLabel> rectLabels) {
+                    public void onFaceMatched(List<RectLabel> rectLabels) {
+                        // 1:N 仅仅用来演示画人脸框位置
                         binding.graphicOverlay.drawRect(rectLabels, cameraXFragment);
-
-                        if(!rectLabels.isEmpty()) {
-//                            binding.searchTips.setText("");
-                        }
                     }
 
                     @Override
