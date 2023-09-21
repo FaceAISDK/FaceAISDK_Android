@@ -1,11 +1,14 @@
-#  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
-
-On Device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK 
-离线版设备端 Android人脸检测、人脸识别、活体检测反作弊以及1:N/M:N人脸 SDK（SDK面向软件开发工程人员，破解灰色行业勿扰！）
-
 <div align=center>
 <img src="http://user-images.githubusercontent.com/15169396/182627098-0ca24289-641b-4593-bf7c-72b09c4bf94e.jpeg" width = 10% height = 10% />
 </div>
+
+
+#  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
+
+On-device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK 
+设备端离线 Android人脸检测、人脸识别、活体检测反作弊以及1:N / M:N人脸 SDK（SDK面向软件开发工程人员，破解灰色行业勿扰）
+
+![设备端离线机器学习优点](res/img.png)
 
 ## 当前版本说明 2023-06-01
  FaceVerification**大版本重构**，在使用方式 API 接口没有大改变，但是包名引入路径有修改，请参考最新Demo 方式修改。
@@ -39,7 +42,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
 
    【1:N】 智能门锁，考勤机，通缉人员行踪搜索，智慧校园、景区、工地、社区、酒店等
 
-   【M:N】 公安布控，人群追踪 监控等等
+   【M:N】 公安布控，人群追踪 监控等等 (Demo 测试可使用图片 res/M:N_Test.png)
 
     注：1：N & M:N 人脸检索可以独立依赖，体积更小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
 
