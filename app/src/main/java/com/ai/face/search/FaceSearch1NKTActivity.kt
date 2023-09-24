@@ -43,13 +43,14 @@ class FaceSearch1NKTActivity : AppCompatActivity() {
         cameraXFragment.setOnAnalyzerListener { imageProxy: ImageProxy ->
             //可以加个红外检测之类的，有人靠近再启动检索服务，不然机器老化快
             if (!isDestroyed && !isFinishing) {
-                FaceSearchEngine.Companion().instance.runSearch(imageProxy, 0)
+                //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像
+                FaceSearchEngine.Companion().instance.runSearch(imageProxy, 10)
             }
         }
 
 
         // 2.各种参数的初始化设置，（硬件加速等仅VIP用户）
-        val faceProcessBuilder = SearchProcessBuilder.Builder(application)
+        val faceProcessBuilder = SearchProcessBuilder.Builder(this)
             .setLifecycleOwner(this)
             .setThreshold(0.82f) //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
             .setLicenceKey("yourLicense key") //合作的VIP定制客户群体需要

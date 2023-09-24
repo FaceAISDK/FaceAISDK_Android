@@ -7,13 +7,12 @@ On Device Offline Android Face Detection 、Recognition 、Liveness Detection An
 <img src="http://user-images.githubusercontent.com/15169396/182627098-0ca24289-641b-4593-bf7c-72b09c4bf94e.jpeg" width = 10% height = 10% />
 </div>
 
-## 当前版本说明 2023-06-01
- FaceVerification**大版本重构**，在使用方式 API 接口没有大改变，但是包名引入路径有修改，请参考最新Demo 方式修改。
+## 当前版本说明 V1.2.2
 
-- 本次迭代1：1 简化了接入流程实现1小时接入，动作活体可以选1-2个随机动作步骤； 
-- 1：N识别极大的提升了识别搜索速率和精度，千张人脸检索识别速度在三星N9700速度小于1秒,硬件配置好可支持万张。
-- 支持M：N 识别，在人脸检测环节调整了灵敏度
-- 所有的测试验证都是在手机或平板上进行，如果你的设备是定制设备或外接摄像头可能需要兼容适配
+- 识别画面人脸大小灵敏度122*122
+- M:N 搜索优化
+- 防止高端手机人脸录入处理bitmap OOM内存溢出闪退
+- 1:N 搜索成功暂停0.5秒
 
  建议[Fork] + [Star] 关注订阅#  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 以便获取最新更新
 
@@ -46,7 +45,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
 ## 接入使用
 
     //1.首先Gradle 中引入依赖 
-    implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //最新 1.2.1 ？根据提示升级新版
+    implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //最新 1.2.2 ？根据提示升级新版
 
     //2.Camera相机的初始化。第一个参数0/1 指定前后摄像头；第二个参数linearZoom [0.1f,1.0f] 指定焦距，默认0.1
     CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing,0.2f);

@@ -50,7 +50,7 @@ public class GraphicOverlay extends View {
         super.onDraw(canvas);
 
         for (RectLabel rectLabel : rectFList) {
-            rectPaint.setColor(Color.WHITE);
+            rectPaint.setColor(Color.MAGENTA);
 
             if (!TextUtils.isEmpty(rectLabel.getLabel())) {
                 textPaint.setColor(Color.GREEN);

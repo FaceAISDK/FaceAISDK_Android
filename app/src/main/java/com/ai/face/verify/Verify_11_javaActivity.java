@@ -52,7 +52,9 @@ public class Verify_11_javaActivity extends AppCompatActivity {
         });
 
 
-        int cameraLensFacing = getSharedPreferences("faceVerify", Context.MODE_PRIVATE).getInt("cameraFlag", 0);
+        int cameraLensFacing = getSharedPreferences("faceVerify", Context.MODE_PRIVATE)
+                .getInt("cameraFlag", 0);
+
         // 1. Camera 的初始化。第一个参数0/1 指定前后摄像头； 第二个参数linearZoom [0.1f,1.0f] 指定焦距，默认0.1
         CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing,0.12f);
 
@@ -72,6 +74,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             if (faceVerifyUtils != null)
+                //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像
                 faceVerifyUtils.goVerify(imageProxy, faceCoverView.getMargin());
         });
     }
