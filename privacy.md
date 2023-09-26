@@ -9,4 +9,4 @@ also include  1:N，M：N face search
 
 其中摄像头权限是人脸识别必须的权限,不会收集额外的信息。
 
-![image](https://github.com/AnyLifeZLB/FaceVerificationSDK/assets/15169396/530ead69-e727-46b4-9f46-ccaaa821aefe)
+![image](https://github.com/AnyLifeZLB/FaceVerificationSDK/assets/15169396/542db3b1-6e98-4676-b343-7be839078642)
