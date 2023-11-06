@@ -28,16 +28,15 @@ import java.util.List;
 /**
  * 应多位用户要求，默认使用java 版本演示怎么快速接入SDK。JAVA FIRST
  *
+ * 1：N 和 M：N 人脸检索迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
  */
 public class FaceSearch1NActivity extends AppCompatActivity {
     private ActivityFaceSearchBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityFaceSearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         binding.tips.setOnClickListener(v -> {
             startActivity(new Intent(this, FaceImageEditActivity.class));
         });

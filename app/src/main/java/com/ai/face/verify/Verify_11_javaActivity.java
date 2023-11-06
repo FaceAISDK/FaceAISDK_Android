@@ -23,9 +23,9 @@ import java.io.File;
 
 
 /**
- * 1：1 的人脸识别 + 动作活体检测 SDK JAVA  Demo*
+ * 1：1 的人脸识别 + 动作活体检测 SDK JAVA  Demo
  * <p>
- * 1：N 人脸检索迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
+ * 1：N 和 M：N 人脸检索迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
  */
 public class Verify_11_javaActivity extends AppCompatActivity {
     private TextView tipsTextView, scoreText;
@@ -39,7 +39,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_verify_11);  //1:n 对比
 
-        setTitle("1:1 人脸识别");
+        setTitle("1:1活体检测人脸识别");
 
         String yourUniQueFaceId = getIntent().getStringExtra(FaceApplication.USER_ID_KEY);
 
@@ -62,10 +62,9 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
 
 
-        //要对比的人脸底片，业务方自行处理
+        //1:1 人脸对比，摄像头和预留的人脸底片对比。（动作活体人脸检测完成后开始1:1比对）
+        //如果仅仅需要活体检测，可以把App logo Bitmap 当参数传入并忽略对比结果
         File file = new File(FaceApplication.CACHE_BASE_FACE_DIR, yourUniQueFaceId);
-
-        //预留的底图，缓存在本地私有目录
         Bitmap baseBitmap = BitmapFactory.decodeFile(file.getPath());
 
         //1.初始化引擎，各种参数配置
@@ -85,24 +84,24 @@ public class Verify_11_javaActivity extends AppCompatActivity {
      * <p>
      * 活体检测的使用需要你发送邮件申请，简要描述App名称，包名和功能简介到 anylife.zlb@gmail.com
      *
-     * @param baseBitmap 底片
+     * @param baseBitmap 1:1 人脸识别对比的底片，如果仅仅需要活体检测，可以把App logo Bitmap 当参数传入并忽略对比结果
      */
     private void initFaceVerify(Bitmap baseBitmap) {
 
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setThreshold(0.85f)       //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
-                .setBaseBitmap(baseBitmap) //底片,请录入的时候保证底片质量
+                .setBaseBitmap(baseBitmap) //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
                 .setLiveCheck(true)        //是否需要活体检测，需要发送邮件，详情参考ReadMe
                 .setVerifyTimeOut(16)      //活体检测支持设置超时时间 9-16 秒
-                .setMotionStepSize(1)      //随机动作验证活体的步骤个数，支持1-2个步骤
+                .setMotionStepSize(2)      //随机动作验证活体的步骤个数，支持1-2个步骤
                 .setGraphicOverlay(faceTipsOverlay)//正式环境请去除设置
                 .setProcessCallBack(new ProcessCallBack() {
                     @Override
                     public void onFailed(int i) {
-
+                        //预留防护
                     }
 
-                    //静默活体检测得分大于0.85 可以认为是真人
+                    //静默活体检测得分大于0.85 可以认为是真人，结合动作活体一起使用
                     @Override
                     public void onSilentAntiSpoofing(float scoreValue) {
                         runOnUiThread(() -> {
@@ -110,11 +109,13 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                         });
                     }
 
+                    //人脸识别活体检测过程中的各种提示
                     @Override
                     public void onProcessTips(int i) {
                         showAliveDetectTips(i);
                     }
 
+                    //动作活体检测时间限制倒计时
                     @Override
                     public void onTimeOutStart(float time) {
                         faceCoverView.startCountDown(time);
@@ -122,6 +123,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
                     @Override
                     public void onCompleted(boolean isMatched) {
+                        //1:1 人脸识别对比的结果，是同一个人还是非同一个人
                         runOnUiThread(() -> {
                             if (isMatched) {
                                 //各种形式的提示，根据业务需求选择
@@ -168,7 +170,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                 switch (actionCode) {
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT: {
                         new AlertDialog.Builder(this)
-                                .setMessage("检测超时了")
+                                .setMessage("活体检测超时了")
                                 .setCancelable(false)
                                 .setPositiveButton("知道了", (dialogInterface, i) -> faceVerifyUtils.retryVerify()
                                 ).show();
@@ -198,7 +200,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:
-                        tipsTextView.setText(" 活体检测失败了");
+                        tipsTextView.setText("动作活体检测失败了");
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_OK: {

@@ -7,7 +7,7 @@ On Device Offline Android Face Detection 、Recognition 、Liveness Detection An
 <img src="http://user-images.githubusercontent.com/15169396/182627098-0ca24289-641b-4593-bf7c-72b09c4bf94e.jpeg" width = 10% height = 10% />
 </div>
 
-## 当前版本说明 V1.2.2
+## 当前版本说明 V1.2.6
 
 - 识别画面人脸大小灵敏度122*122
 - M:N 搜索优化
@@ -45,7 +45,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
 ## 接入使用
 
     //1.首先Gradle 中引入依赖 
-    implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //最新 1.2.2 ？根据提示升级新版
+    implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //最新 1.2.6 ？根据提示升级新版
 
     //2.Camera相机的初始化。第一个参数0/1 指定前后摄像头；第二个参数linearZoom [0.1f,1.0f] 指定焦距，默认0.1
     CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing,0.2f);
