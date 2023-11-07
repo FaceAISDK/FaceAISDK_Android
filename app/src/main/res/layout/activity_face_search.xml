@@ -15,10 +15,25 @@
         android:layout_height="match_parent" />
 
 
+    <!-- Custom your Face Verify UI-->
+
     <com.ai.face.search.GraphicOverlay
         android:id="@+id/graphicOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+
+    <com.ai.face.base.view.FaceCoverView
+        android:id="@+id/face_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        customAttr:circle_margin="22dp"
+        customAttr:progress_end_color="@color/green"
+        customAttr:progress_start_color="@color/green2"
+        customAttr:show_progress="false"
+        customAttr:tip_text_color="@color/colorPrimary"
+        customAttr:tip_text_size="20sp" />
+
 
 
 

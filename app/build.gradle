@@ -12,7 +12,7 @@ android {
         targetSdkVersion 31
 
         versionCode 17
-        versionName "1.0.0"
+        versionName "1.2.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -68,12 +68,21 @@ configurations.all {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-    // 人脸识别 活体检测 SDK 依赖
-    implementation 'io.github.anylifezlb:FaceRecognition:1.2.1'
+    // 人脸识别 活体检测 以及人脸检索 SDK 依赖
+    implementation 'io.github.anylifezlb:FaceRecognition:1.2.6'  //依赖合适的版本，VIP 定制版请联系指定
 
 
     //1:N (M:N)识别依赖独立版本的就可以了，体积小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
     //implementation 'io.github.anylifezlb:FaceSearchSDK:1.x.xxxxxxxxxx'
+
+
+
+
+
+
+
+
+
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖

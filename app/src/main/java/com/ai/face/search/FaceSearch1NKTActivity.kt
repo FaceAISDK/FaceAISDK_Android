@@ -21,7 +21,7 @@ import java.io.File
 
 /**
  * Kotlin Test
- *
+ * 1：N 和 M：N 人脸检索迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
  */
 class FaceSearch1NKTActivity : AppCompatActivity() {
 
@@ -33,8 +33,8 @@ class FaceSearch1NKTActivity : AppCompatActivity() {
         binding.tips.setOnClickListener { v: View? ->
             startActivity(Intent(this, FaceImageEditActivity::class.java))
         }
-        val sharedPref = getSharedPreferences("faceVerify", MODE_PRIVATE)
 
+        val sharedPref = getSharedPreferences("faceVerify", MODE_PRIVATE)
         // 1. Camera 的初始化。第一个参数0/1 指定前后摄像头； 第二个参数linearZoom [0.1f,1.0f] 指定焦距，默认0.1
         val cameraLens = sharedPref.getInt("cameraFlag", sharedPref.getInt("cameraFlag", 0))
         val cameraXFragment = CameraXFragment.newInstance(cameraLens, 0.11f)
@@ -43,13 +43,13 @@ class FaceSearch1NKTActivity : AppCompatActivity() {
         cameraXFragment.setOnAnalyzerListener { imageProxy: ImageProxy ->
             //可以加个红外检测之类的，有人靠近再启动检索服务，不然机器老化快
             if (!isDestroyed && !isFinishing) {
-                FaceSearchEngine.Companion().instance.runSearch(imageProxy, 0)
+                //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像
+                FaceSearchEngine.Companion().instance.runSearch(imageProxy, 10)
             }
         }
 
-
         // 2.各种参数的初始化设置，（硬件加速等仅VIP用户）
-        val faceProcessBuilder = SearchProcessBuilder.Builder(application)
+        val faceProcessBuilder = SearchProcessBuilder.Builder(this)
             .setLifecycleOwner(this)
             .setThreshold(0.82f) //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
             .setLicenceKey("yourLicense key") //合作的VIP定制客户群体需要
@@ -88,23 +88,13 @@ class FaceSearch1NKTActivity : AppCompatActivity() {
     private fun showPrecessTips(code: Int) {
         binding.image.setImageResource(R.mipmap.ic_launcher)
         when (code) {
-            SearchProcessTipsCode.THRESHOLD_ERROR -> binding.searchTips.text =
-                "识别阈值Threshold范围为0.8-0.95"
-
+            SearchProcessTipsCode.SEARCHING -> binding.searchTips.text = ""
+            SearchProcessTipsCode.NO_MATCHED -> binding.searchTips.text = "Searching"
             SearchProcessTipsCode.MASK_DETECTION -> binding.searchTips.text = "请摘下口罩" //默认无
             SearchProcessTipsCode.NO_LIVE_FACE -> binding.searchTips.text = "未检测到人脸"
             SearchProcessTipsCode.EMGINE_INITING -> binding.searchTips.text = "初始化中"
             SearchProcessTipsCode.FACE_DIR_EMPTY -> binding.searchTips.text = "人脸库为空"
-            SearchProcessTipsCode.NO_MATCHED -> {
-                //本次摄像头预览帧无匹配而已，会快速取下一帧进行分析检索
-                binding.searchTips.text = "Searching"
-            }
-
-            SearchProcessTipsCode.SEARCHING -> {
-                binding.searchTips.text = ""
-            }
-
-
+            SearchProcessTipsCode.THRESHOLD_ERROR -> binding.searchTips.text = "识别阈值范围为0.8-0.95"
             else -> binding.searchTips.text = "提示码：$code"
         }
     }

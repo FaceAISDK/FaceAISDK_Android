@@ -29,6 +29,8 @@ import java.util.List;
 
 /**
  * 应多位用户要求，默认使用java 版本演示怎么快速接入SDK
+ *
+ * 1：N 和 M：N 人脸检索迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
  */
 public class FaceSearchMNActivity extends AppCompatActivity {
     private ActivityFaceSearchMnBinding binding;
@@ -56,6 +58,7 @@ public class FaceSearchMNActivity extends AppCompatActivity {
         cameraX.setOnAnalyzerListener(imageProxy -> {
             //可以加个红外检测之类的，有人靠近再启动检索服务，不然机器老化快
             if (!isDestroyed() && !isFinishing()) {
+                //MN 检索，第二个参数就不要裁剪了
                 FaceSearchEngine.Companion.getInstance().runSearch(imageProxy, 0);
             }
         });
