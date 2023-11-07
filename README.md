@@ -8,7 +8,7 @@
 On-device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK 
 设备端离线 Android人脸检测、人脸识别、活体检测反作弊以及1:N / M:N人脸 SDK（SDK面向软件开发工程人员，破解灰色行业勿扰，谢谢）
 
-![设备端离线机器学习优点](res/img.png)
+![设备端离线机器学习优点](res/img_1.png)
 
 ## 当前版本说明 V1.2.6
 - 识别画面人脸大小灵敏度122*122
