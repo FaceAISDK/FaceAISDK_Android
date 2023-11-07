@@ -2,18 +2,15 @@
 <img src="http://user-images.githubusercontent.com/15169396/182627098-0ca24289-641b-4593-bf7c-72b09c4bf94e.jpeg" width = 10% height = 10% />
 </div>
 
-## 当前版本说明 V1.2.6
 
 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
 On-device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK 
-设备端离线 Android人脸检测、人脸识别、活体检测反作弊以及1:N / M:N人脸 SDK（SDK面向软件开发工程人员，破解灰色行业勿扰）
+设备端离线 Android人脸检测、人脸识别、活体检测反作弊以及1:N / M:N人脸 SDK（SDK面向软件开发工程人员，破解灰色行业勿扰，谢谢）
 
 ![设备端离线机器学习优点](res/img.png)
 
-## 当前版本说明 2023-06-01
- FaceVerification**大版本重构**，在使用方式 API 接口没有大改变，但是包名引入路径有修改，请参考最新Demo 方式修改。
-
+## 当前版本说明 V1.2.6
 - 识别画面人脸大小灵敏度122*122
 - M:N 搜索优化
 - 防止高端手机人脸录入处理bitmap OOM内存溢出闪退
