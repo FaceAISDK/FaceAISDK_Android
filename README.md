@@ -20,7 +20,7 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
 ## 简要说明
 
-SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N人脸识别检索](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Face_1:1_1:N_M:N.md)，**所有处理都在设备终端离线执行，SDK本身不用联网，不收集人脸信息更具隐私安全**
+SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N人脸识别检索](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Face_1:1_1:N_M:N.md)，**所有处理都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息或其他资料更具隐私安全**
 
 其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（摇头点头也可拆分为左右上下4个动作），低端机离线验证速度正常。
 
@@ -29,8 +29,6 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
 实验室测试效果能覆盖95% 的中高低端机器，识别成功率>99%；**特殊DIY系统或特殊定制硬件，外接USB摄像头等**如有问题请先提Issues附带系统版本、设备型号、错误log等信息；
 或发邮件到anylife.zlb@gmail.com ，VIP用户添加微信ID：18707611416
 
-
-![FaceVerificationSDK](https://github.com/AnyLifeZLB/Android-Architecture/assets/15169396/0740b2f1-3973-487c-bade-4158efa3da87)
 
 
 ## [使用场景和区别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Face_1:1_1:N_M:N.md)

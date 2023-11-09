@@ -24,7 +24,6 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://developer.huawei.com/repo/' }
     }
     
     dependencies {
@@ -40,7 +39,6 @@ buildscript {
 
 allprojects {
     repositories {
-
         mavenCentral()
         google()
 
@@ -50,8 +48,6 @@ allprojects {
             name "aliyunmaven"
             url "https://maven.aliyun.com/nexus/content/groups/public/"
         }
-
-        maven { url 'https://developer.huawei.com/repo/'}
     }
 
 }
