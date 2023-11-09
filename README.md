@@ -3,9 +3,9 @@
 </div>
 
 
-#  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
+# [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
-On-device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK 
+On_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK 
 设备端离线 Android人脸检测、人脸识别、活体检测反作弊以及1:N / M:N人脸 SDK（SDK面向软件开发工程人员，破解灰色行业勿扰，谢谢）
 
 ![设备端离线机器学习优点](res/img_1.png)
@@ -31,7 +31,6 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
 
 
 ![FaceVerificationSDK](https://github.com/AnyLifeZLB/Android-Architecture/assets/15169396/0740b2f1-3973-487c-bade-4158efa3da87)
-
 
 
 ## [使用场景和区别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Face_1:1_1:N_M:N.md)
