@@ -14,6 +14,7 @@ import com.ai.face.base.utils.DeviceFingerprint
 import com.ai.face.search.SearchNaviActivity
 import com.ai.face.verify.AddBaseImageActivity
 import com.ai.face.utils.VoicePlayer
+import com.ai.face.verify.LivenessDetectionActivity
 import com.ai.face.verify.Verify_11_javaActivity
 import kotlinx.android.synthetic.main.activity_navi.*
 import pub.devrel.easypermissions.EasyPermissions
@@ -53,11 +54,11 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
                 )
             } else {
                 Toast.makeText(this@NaviActivity, "请先录入人脸底片", Toast.LENGTH_LONG).show()
-                startActivity(
-                    Intent(this@NaviActivity, AddBaseImageActivity::class.java)
-                        .putExtra(USER_ID_KEY, yourUniQueFaceId)
-                        .putExtra(FACE_DIR_KEY, CACHE_BASE_FACE_DIR)
-                )
+//                startActivity(
+//                    Intent(this@NaviActivity, AddBaseImageActivity::class.java)
+//                        .putExtra(USER_ID_KEY, yourUniQueFaceId)
+//                        .putExtra(FACE_DIR_KEY, CACHE_BASE_FACE_DIR)
+//                )
             }
         }
 
@@ -72,11 +73,15 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
 
-        verify_1_n.setOnClickListener {
-                startActivity(Intent(this@NaviActivity, SearchNaviActivity::class.java))
+        liveness_detection.setOnClickListener {
+                startActivity(Intent(this@NaviActivity, LivenessDetectionActivity::class.java))
         }
 
-        verify_m_n.setOnClickListener {
+        face_search_1_n.setOnClickListener {
+            startActivity(Intent(this@NaviActivity, SearchNaviActivity::class.java))
+        }
+
+        face_search_m_n.setOnClickListener {
             startActivity(Intent(this@NaviActivity, SearchNaviActivity::class.java))
         }
 

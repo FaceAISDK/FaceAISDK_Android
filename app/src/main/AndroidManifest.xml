@@ -49,6 +49,10 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
+        <activity
+            android:name=".verify.LivenessDetectionActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
             android:name=".search.FaceSearch1NActivity"

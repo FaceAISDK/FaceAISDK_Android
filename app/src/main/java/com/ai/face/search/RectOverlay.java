@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * 仅供参考，UI样式可以自行设计。甚至SurfaceView 改造
  */
-public class GraphicOverlay extends View {
+public class RectOverlay extends View {
     private static final String TAG = "GraphicOverlay";
     private final Paint rectPaint = new Paint();
     private float scaleX = 1.0f;
@@ -29,7 +29,7 @@ public class GraphicOverlay extends View {
     private final Paint textPaint = new Paint();
     private List<RectLabel> rectFList = new ArrayList<>();   //List<RectF>
 
-    public GraphicOverlay(Context context, @Nullable AttributeSet attrs) {
+    public RectOverlay(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 

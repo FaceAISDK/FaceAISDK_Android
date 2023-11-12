@@ -93,7 +93,7 @@
 
 
     <TextView
-        android:id="@+id/verify_1_n"
+        android:id="@+id/face_search_1_n"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="55dp"
@@ -111,8 +111,9 @@
         app:layout_constraintTop_toBottomOf="@+id/update_base_image" />
 
 
+
     <TextView
-        android:id="@+id/verify_m_n"
+        android:id="@+id/face_search_m_n"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="33dp"
@@ -127,7 +128,25 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/verify_1_n" />
+        app:layout_constraintTop_toBottomOf="@+id/face_search_1_n" />
+
+    <TextView
+        android:id="@+id/liveness_detection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:layout_marginLeft="29dp"
+        android:layout_marginRight="29dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:text="人脸活体检测"
+        android:textColor="@color/yellow"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/face_search_m_n" />
 
     <TextView
         android:id="@+id/change_camera"
