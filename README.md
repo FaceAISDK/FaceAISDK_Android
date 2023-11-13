@@ -6,11 +6,12 @@
 # [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
 On_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK 
-设备端离线 Android人脸检测、人脸识别、活体检测反作弊以及1:N / M:N人脸 SDK（SDK面向软件开发工程人员，破解灰色行业勿扰，谢谢）
+设备端离线 Android人脸检测、人脸识别、活体检测反作弊以及1:N / M:N人脸搜索 SDK （SDK面向软件开发工程人员，破解灰色行业勿扰，谢谢）
 
 ![设备端离线机器学习优点](img.png)
 
-## 当前版本说明 V1.3.2
+## 当前版本说明 V1.3.3
+- 新加两张人脸图（Bitmap）对比相似度
 - 单独出人脸活体检测流程，通过返回人脸Bitmap
 - 1:N 搜索成功暂停0.5秒
 
@@ -42,7 +43,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
 ## 接入使用
 
     //1.首先Gradle 中引入依赖 
-    implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //最新 1.2.6 ？根据提示升级新版
+    implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //最新 1.3.3？根据Gralde提示升级新版
 
     //2.Camera相机的初始化。第一个参数0/1 指定前后摄像头；第二个参数linearZoom [0.1f,1.0f] 指定焦距，默认0.1
     CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing,0.2f);
@@ -98,7 +99,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
    如果 SDK 不能匹配你的应用场景需要特殊定制化，请发邮件到anylife.zlb@gmail.com
    也可以加微信 HaoNan19990322 （请标注为 人脸识别定制，否则添加不通过，谢谢）
    
-   欢迎关注Fork+Star获取最新动态 Github:  https://github.com/AnyLifeZLB/FaceVerificationSDK
+   欢迎关注Fork+Star获取最新动态  Github:  https://github.com/AnyLifeZLB/FaceVerificationSDK
   
 
 ## 常见问题

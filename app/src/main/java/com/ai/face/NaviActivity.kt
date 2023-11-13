@@ -5,12 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ai.face.FaceApplication.Companion.CACHE_BASE_FACE_DIR
 import com.ai.face.FaceApplication.Companion.FACE_DIR_KEY
 import com.ai.face.FaceApplication.Companion.USER_ID_KEY
 import com.ai.face.base.utils.DeviceFingerprint
+import com.ai.face.faceVerify.verify.VerifyUtils
 import com.ai.face.search.SearchNaviActivity
 import com.ai.face.verify.AddBaseImageActivity
 import com.ai.face.utils.VoicePlayer
@@ -42,6 +44,15 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         setContentView(R.layout.activity_navi)
 
         checkNeededPermission()
+
+
+        //测试两张人脸是否相同  model.jpg
+        val value= VerifyUtils.evaluateFaceSimi(baseContext,
+            VerifyUtils.getBitmapFromAssert(baseContext,"model_1.png"),
+            VerifyUtils.getBitmapFromAssert(baseContext,"model.jpg"))
+
+        Log.d("VerifyUtils", "value:  $value")
+
 
         face_verify_card.setOnClickListener {
 
