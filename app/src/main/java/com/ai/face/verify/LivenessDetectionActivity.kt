@@ -65,12 +65,11 @@ class LivenessDetectionActivity : AppCompatActivity() {
             .setProcessCallBack(object : ProcessCallBack() {
                 override fun onAliveCheckPass(isPass: Boolean, bitmap: Bitmap) {
                     runOnUiThread {
-                        Toast.makeText(this@LivenessDetectionActivity, "isPass: $isPass",Toast.LENGTH_LONG).show()
                         Glide.with(baseContext)
                             .load(bitmap)
                             .skipMemoryCache(true)
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .transform(RoundedCorners(11))
+                            .transform(RoundedCorners(10))
                             .into(binding.callBack)
                     }
                 }

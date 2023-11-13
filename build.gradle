@@ -43,6 +43,7 @@ allprojects {
 
         maven { url "https://jitpack.io" }
 
+        //多放一个国内的依赖托管镜像源，工程师可以根据公司的网络屏蔽情况自行替换
         maven {
             name "aliyunmaven"
             url "https://maven.aliyun.com/nexus/content/groups/public/"
