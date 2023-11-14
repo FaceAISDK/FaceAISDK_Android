@@ -77,7 +77,7 @@ dependencies {
     //implementation 'io.github.anylifezlb:FaceSearchSDK:1.x.xxxxxxxxxx'
 
 
-
+    // Unable to install mediapipe-model-maker
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
