@@ -2,10 +2,9 @@
 buildscript {
 
     ext {
-        kotlin_version = "1.7.20"
+        kotlin_version = "1.8.10"
         java_version = JavaVersion.VERSION_1_8
     }
-
 
     //如果和你的项目中Kotlin 依赖不一致。 强制统一项目中的Kotlin 版本依赖
     ConfigurationContainer container = project.configurations
@@ -29,11 +28,9 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:7.3.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+//        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
     }
-
 }
-
 
 
 allprojects {

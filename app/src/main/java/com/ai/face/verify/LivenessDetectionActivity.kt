@@ -71,6 +71,8 @@ class LivenessDetectionActivity : AppCompatActivity() {
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .transform(RoundedCorners(10))
                             .into(binding.callBack)
+                        binding.coverView.setTipText("活体检测完成")
+
                     }
                 }
 
@@ -140,7 +142,7 @@ class LivenessDetectionActivity : AppCompatActivity() {
                     AlertDialog.Builder(this@LivenessDetectionActivity)
                         .setMessage("多次切换画面或无人脸，停止识别。\n识别过程请保持人脸在画面中")
                         .setCancelable(false)
-                        .setPositiveButton("去查看") { dialog1: DialogInterface?, which: Int ->
+                        .setPositiveButton("去查看") { _: DialogInterface?, _: Int ->
                             finish()
                         }
                         .show()
@@ -154,9 +156,10 @@ class LivenessDetectionActivity : AppCompatActivity() {
                 }
 
                 VERIFY_DETECT_TIPS_ENUM.ACTION_NO_BASE_IMG -> {
-                    Toast.makeText(this,"没有设置底片",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "没有设置底片", Toast.LENGTH_LONG).show()
                     binding.coverView.setTipText("没有设置底片")
                 }
+
                 ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE -> binding.coverView.setTipText("请张嘴")
                 ALIVE_DETECT_TYPE_ENUM.SMILE -> binding.coverView.setTipText("请微笑")
                 ALIVE_DETECT_TYPE_ENUM.BLINK -> binding.coverView.setTipText("请轻眨眼")
@@ -170,7 +173,6 @@ class LivenessDetectionActivity : AppCompatActivity() {
                 ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE -> {
                     binding.coverView.setTipText("检测通过，请正对摄像头")
                     VoicePlayer.getInstance().addPayList(R.raw.liveness_dection_done)
-
                 }
 
             }

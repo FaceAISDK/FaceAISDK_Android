@@ -12,13 +12,13 @@ import com.ai.face.FaceApplication.Companion.CACHE_BASE_FACE_DIR
 import com.ai.face.FaceApplication.Companion.FACE_DIR_KEY
 import com.ai.face.FaceApplication.Companion.USER_ID_KEY
 import com.ai.face.base.utils.DeviceFingerprint
+import com.ai.face.databinding.ActivityNaviBinding
 import com.ai.face.faceVerify.verify.VerifyUtils
 import com.ai.face.search.SearchNaviActivity
 import com.ai.face.verify.AddBaseImageActivity
 import com.ai.face.utils.VoicePlayer
 import com.ai.face.verify.LivenessDetectionActivity
 import com.ai.face.verify.Verify_11_javaActivity
-import kotlinx.android.synthetic.main.activity_navi.*
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import java.io.File
@@ -36,15 +36,15 @@ import java.io.File
  * 2022.07.29
  */
 class NaviActivity : AppCompatActivity(), PermissionCallbacks {
+    private lateinit var viewBinding: ActivityNaviBinding
 
     private var yourUniQueFaceId = "18707611416"  //微信号
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_navi)
-
+        viewBinding=ActivityNaviBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
         checkNeededPermission()
-
 
         //测试两张人脸是否相同  model.jpg
         val value= VerifyUtils.evaluateFaceSimi(baseContext,
@@ -53,9 +53,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         Log.d("VerifyUtils", "value:  $value")
 
-
-        face_verify_card.setOnClickListener {
-
+        viewBinding.faceVerifyCard.setOnClickListener {
             //可以自己录一张人脸底片，业务方可以根据自己的要求改写testBaseImgName 处理
             val file = File(CACHE_BASE_FACE_DIR, yourUniQueFaceId)
             if (BitmapFactory.decodeFile(file.path) != null) {
@@ -65,17 +63,12 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
                 )
             } else {
                 Toast.makeText(this@NaviActivity, "请先录入人脸底片", Toast.LENGTH_LONG).show()
-//                startActivity(
-//                    Intent(this@NaviActivity, AddBaseImageActivity::class.java)
-//                        .putExtra(USER_ID_KEY, yourUniQueFaceId)
-//                        .putExtra(FACE_DIR_KEY, CACHE_BASE_FACE_DIR)
-//                )
             }
         }
 
 
         //添加1：1人脸识别底片
-        update_base_image.setOnClickListener {
+        viewBinding.updateBaseImage.setOnClickListener {
             startActivity(
                 Intent(this@NaviActivity, AddBaseImageActivity::class.java)
                     .putExtra(USER_ID_KEY, yourUniQueFaceId)
@@ -83,27 +76,26 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
             )
         }
 
-
-        liveness_detection.setOnClickListener {
+        viewBinding.livenessDetection.setOnClickListener {
                 startActivity(Intent(this@NaviActivity, LivenessDetectionActivity::class.java))
         }
 
-        face_search_1_n.setOnClickListener {
+        viewBinding.faceSearch1N.setOnClickListener {
             startActivity(Intent(this@NaviActivity, SearchNaviActivity::class.java))
         }
 
-        face_search_m_n.setOnClickListener {
+        viewBinding.faceSearchMN.setOnClickListener {
             startActivity(Intent(this@NaviActivity, SearchNaviActivity::class.java))
         }
 
-        more_about_me.setOnClickListener {
+        viewBinding.moreAboutMe.setOnClickListener {
             startActivity(Intent(this@NaviActivity, AboutUsActivity::class.java))
         }
 
         //用于绑定设备授权查看
-        device_info.text="设备指纹:"+DeviceFingerprint.getDeviceFingerprint()
+        viewBinding.deviceInfo.text="设备指纹:"+DeviceFingerprint.getDeviceFingerprint()
 
-        change_camera.setOnClickListener {
+        viewBinding.changeCamera.setOnClickListener {
             val sharedPref = getSharedPreferences(
                 "faceVerify", Context.MODE_PRIVATE)
 
@@ -151,7 +143,9 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
-    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {}
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+
+    }
 
 
     /**

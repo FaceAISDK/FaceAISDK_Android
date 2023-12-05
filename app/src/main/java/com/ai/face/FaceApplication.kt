@@ -15,7 +15,7 @@ class FaceApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         //init your custom params
-        CACHE_BASE_FACE_DIR = cacheDir.path + "/faceVerify"  //1:1 人脸识别目录
+        CACHE_BASE_FACE_DIR = cacheDir.path + "/faceVerify"      //1:1 人脸识别目录
         CACHE_SEARCH_FACE_DIR = filesDir.path + "/faceSearch"    //1:N 人脸搜索目录
 
         //这次重构没把这步骤放到SDK，出错添加一下先。下版本删除

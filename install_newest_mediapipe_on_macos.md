@@ -42,21 +42,25 @@ ERROR: No matching distribution found for mediapipe>=0.10.0
   ```
    the result is :
       macosx-10.9-x86_64
-      10.16
+      10.16  
    oh,my God ! why ??
 
 [run below commands on terminal and you will see the difference:](https://eclecticlight.co/2020/08/13/macos-version-numbering-isnt-so-simple/)
-SYSTEM_VERSION_COMPAT=1 cat /System/Library/CoreServices/SystemVersion.plist
-SYSTEM_VERSION_COMPAT=0 cat /System/Library/CoreServices/SystemVersion.plist
+
+SYSTEM_VERSION_COMPAT=1 cat /System/Library/CoreServices/SystemVersion.plist  
+SYSTEM_VERSION_COMPAT=0 cat /System/Library/CoreServices/SystemVersion.plist  
 
    
 ## Step 2 
 run below commands on terminal
 export SYSTEM_VERSION_COMPAT=0
 
+You could also add this to your .bash_profile or other shell environment file if you have one, to do this automatically for you.
+
+
 OK , you can download newest version now 
 
 pip3 install mediapipe-model-maker==newestVersion
 
-Goooooood luck!
+Goooooooooooood  luck!
 

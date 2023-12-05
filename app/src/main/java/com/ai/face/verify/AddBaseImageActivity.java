@@ -1,16 +1,10 @@
 package com.ai.face.verify;
 
 import static com.ai.face.FaceApplication.CACHE_BASE_FACE_DIR;
-import static com.ai.face.base.baseImage.BaseImageCallBack.AlIGN_FAILED;
-import static com.ai.face.base.baseImage.BaseImageCallBack.MANY_FACE;
-import static com.ai.face.base.baseImage.BaseImageCallBack.NO_FACE;
-import static com.ai.face.base.baseImage.BaseImageCallBack.SMALL_FACE;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,7 +17,6 @@ import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.base.view.CameraXFragment;
-
 
 /**
  * 修改底图,实际业务可以调用系统相机拍照后再调用API 处理

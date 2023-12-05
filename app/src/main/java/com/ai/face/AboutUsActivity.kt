@@ -8,16 +8,18 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.ai.face.R
-import kotlinx.android.synthetic.main.activity_about_us.*
+import com.ai.face.databinding.ActivityAboutUsBinding
 
 
 class AboutUsActivity : AppCompatActivity() {
+    private lateinit var viewBinding: ActivityAboutUsBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about_us)
+        viewBinding=ActivityAboutUsBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
 
-        more_about_me.setOnClickListener {
+        viewBinding.moreAboutMe.setOnClickListener {
             val uri = Uri.parse("https://github.com/AnyLifeZLB/FaceVerificationSDK")
             val intent = Intent(Intent.ACTION_VIEW)
             intent.addCategory(Intent.CATEGORY_BROWSABLE)
@@ -25,11 +27,11 @@ class AboutUsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        back.setOnClickListener{
+        viewBinding.back.setOnClickListener{
             this.finish()
         }
 
-        wechat.setOnLongClickListener{
+        viewBinding.wechat.setOnLongClickListener{
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             // Creates a new text clip to put on the clipboard
             val clip: ClipData = ClipData.newPlainText("wechat", "HaoNan19990322")
@@ -41,7 +43,7 @@ class AboutUsActivity : AppCompatActivity() {
             return@setOnLongClickListener true
         }
 
-        email.setOnLongClickListener{
+        viewBinding.email.setOnLongClickListener{
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             // Creates a new text clip to put on the clipboard
             val clip: ClipData = ClipData.newPlainText("email", "anylife.zlb@gmail.com")
