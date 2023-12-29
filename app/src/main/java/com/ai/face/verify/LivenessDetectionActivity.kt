@@ -30,7 +30,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 class LivenessDetectionActivity : AppCompatActivity() {
 
     private var faceDetectorUtils: FaceVerifyUtils = FaceVerifyUtils()
-
     private lateinit var binding: ActivityLivenessDetectionBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,15 +42,11 @@ class LivenessDetectionActivity : AppCompatActivity() {
 
         val cameraXFragment =
             CameraXFragment.newInstance(
-                getSharedPreferences(
-                    "faceVerify", Context.MODE_PRIVATE
-                ).getInt("cameraFlag", 0)
+                getSharedPreferences("faceVerify", Context.MODE_PRIVATE).getInt("cameraFlag", 0)
             )
-
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_camerax, cameraXFragment).commit()
-
 
         val faceProcessBuilder = FaceProcessBuilder
             .Builder(this@LivenessDetectionActivity)
@@ -60,7 +55,7 @@ class LivenessDetectionActivity : AppCompatActivity() {
             .setLiveCheck(true)   //是否需要活体检测，需要发送邮件，详情参考 ReadMe
             .setVerifyTimeOut(12)
             .setGraphicOverlay(binding.faceTips)
-            .setMotionStepSize(2)
+            .setMotionStepSize(2) //动作活体检测几个步骤
             .setLicenceKey("Y29tLkFJLnRlc3Q=")
             .setProcessCallBack(object : ProcessCallBack() {
                 override fun onAliveCheckPass(isPass: Boolean, bitmap: Bitmap) {
@@ -78,7 +73,6 @@ class LivenessDetectionActivity : AppCompatActivity() {
 
                 override fun onProcessTips(actionCode: Int) {
                     showAliveDetectTips(actionCode)
-                    Log.e("AI", "onProcessTips: $actionCode");
                 }
 
                 override fun onTimeOutStart(second: Float) {
@@ -93,10 +87,8 @@ class LivenessDetectionActivity : AppCompatActivity() {
 
             })
             .create()
-
-
+        
         faceDetectorUtils.setDetectorParams(faceProcessBuilder)
-
 
         cameraXFragment.setOnAnalyzerListener(object : onAnalyzeData {
             override fun analyze(imageProxy: ImageProxy) {

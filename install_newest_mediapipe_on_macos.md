@@ -3,7 +3,7 @@
 yes ,when I first time try install mediapipe-model-maker,it can only install 0.1.0.2 ,
 but 0.2.1.3 is the newest at 2023,11,14; what the problem ? my macos version is 13.6.1 
 
-so I Post a issues to google/mediaPipe https://github.com/google/mediapipe/issues/4945
+So I Post a issues to google/mediaPipe https://github.com/google/mediapipe/issues/4945
 
 Maybe it is a Small probability event，I can not find method to resolve it
 
@@ -55,12 +55,11 @@ SYSTEM_VERSION_COMPAT=0 cat /System/Library/CoreServices/SystemVersion.plist
 run below commands on terminal
 export SYSTEM_VERSION_COMPAT=0
 
-You could also add this to your .bash_profile or other shell environment file if you have one, to do this automatically for you.
-
+You could also add this to your. bash_profile or other shell environment file if you have one, to do this automatically for you.
 
 OK , you can download newest version now 
 
 pip3 install mediapipe-model-maker==newestVersion
 
-Goooooooooooood  luck!
+Goooooooooooood  Luck!
 

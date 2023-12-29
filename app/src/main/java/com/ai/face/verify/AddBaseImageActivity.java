@@ -83,8 +83,7 @@ public class AddBaseImageActivity extends AppCompatActivity {
 
     }
 
-
-
+    
     /**
      * 确认是否保存底图
      *

@@ -64,8 +64,11 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
         //1:1 人脸对比，摄像头和预留的人脸底片对比。（动作活体人脸检测完成后开始1:1比对）
         //如果仅仅需要活体检测，可以把App logo Bitmap 当参数传入并忽略对比结果
+        //人脸底图要经过BaseImageDispose saveBaseImage处理，不是随便一张图能当底图！！！
+
         File file = new File(FaceApplication.CACHE_BASE_FACE_DIR, yourUniQueFaceId);
         Bitmap baseBitmap = BitmapFactory.decodeFile(file.getPath());
+
 
         //1.初始化引擎，各种参数配置
         initFaceVerify(baseBitmap);
