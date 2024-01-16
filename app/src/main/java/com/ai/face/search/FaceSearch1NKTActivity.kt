@@ -51,7 +51,7 @@ class FaceSearch1NKTActivity : AppCompatActivity() {
         // 2.各种参数的初始化设置，（硬件加速等仅VIP用户）
         val faceProcessBuilder = SearchProcessBuilder.Builder(this)
             .setLifecycleOwner(this)
-            .setThreshold(0.82f) //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
+            .setThreshold(0.8f) //阈值设置，范围限 [0.75 , 0.95] 识别可信度，也是识别灵敏度
             .setLicenceKey("yourLicense key") //合作的VIP定制客户群体需要
             .setImageFlipped(cameraLens == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
             .setFaceLibFolder(FaceApplication.CACHE_SEARCH_FACE_DIR) //内部存储目录中保存N 个图片库的目录
