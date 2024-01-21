@@ -43,8 +43,10 @@ public class FaceSearch1NActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = getSharedPreferences("faceVerify", Context.MODE_PRIVATE);
 
-        // 1. Camera 的初始化。第一个参数0/1 指定前后摄像头； 第二个参数linearZoom [0.1f,1.0f] 指定焦距，默认0.1
-        int cameraLens = sharedPref.getInt("cameraFlag", sharedPref.getInt("cameraFlag", 0));
+        // 1. Camera 的初始化。第二个参数0/1 指定前后摄像头；
+        int cameraLens = sharedPref.getInt("cameraFlag", sharedPref.getInt("cameraFlag", 1));
+
+        // 第二个参数linearZoom [0.1f,1.0f] 指定焦距，默认0.1
         CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens,0.11f);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();

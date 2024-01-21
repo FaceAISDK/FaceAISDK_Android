@@ -10,7 +10,7 @@ android {
         applicationId "com.ai.face.verifyPub"
         minSdk 21
         targetSdk 33
-        versionCode 17
+        versionCode 19
         versionName "1.3.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

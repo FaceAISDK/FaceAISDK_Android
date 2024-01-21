@@ -16,7 +16,6 @@
 
 
     <!-- Custom your Face Verify UI-->
-
     <com.ai.face.search.RectOverlay
         android:id="@+id/graphicOverlay"
         android:layout_width="match_parent"
@@ -31,10 +30,9 @@
         customAttr:progress_end_color="@color/green"
         customAttr:progress_start_color="@color/green2"
         customAttr:show_progress="false"
+        android:visibility="invisible"
         customAttr:tip_text_color="@color/colorPrimary"
         customAttr:tip_text_size="20sp" />
-
-
 
 
     <ImageView
