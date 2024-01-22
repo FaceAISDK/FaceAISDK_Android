@@ -141,6 +141,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
                                 if(silentScoreValue<0.9){
                                     Toast.makeText(Verify_11_javaActivity.this, "静默活体得分低："+silentScoreValue, Toast.LENGTH_LONG).show();
+                                    Toast.makeText(Verify_11_javaActivity.this, "静默活体得分低："+silentScoreValue, Toast.LENGTH_LONG).show();
                                 }
 
 
