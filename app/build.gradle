@@ -10,8 +10,8 @@ android {
         applicationId "com.ai.face.verifyPub"
         minSdk 21
         targetSdk 33
-        versionCode 17
-        versionName "1.3.5"
+        versionCode 18
+        versionName "1.4.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -57,7 +57,7 @@ android {
 
 //依赖有冲突需要统一依赖,可以参考下面方式处理
 def camera_version = "1.2.3"
-configurations.all {
+configurations.configureEach {
     resolutionStrategy {
         force   "androidx.camera:camera-core:$camera_version",
                 "androidx.camera:camera-camera2:$camera_version",

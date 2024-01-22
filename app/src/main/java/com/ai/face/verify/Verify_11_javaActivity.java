@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.ai.face.FaceApplication;
@@ -32,6 +34,8 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     private FaceTipsOverlay faceTipsOverlay;
     private FaceCoverView faceCoverView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
+
+    private float silentScoreValue=0f; //静默活体的分数，动作活体可能有高清屏幕录制欺骗，加一个静默检测录屏，翻拍等
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +79,11 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
 
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-            if (faceVerifyUtils != null)
-                //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像
-                faceVerifyUtils.goVerify(imageProxy, faceCoverView.getMargin());
+             //防止在识别过程中关闭页面导致Crash
+             if (!isDestroyed() && !isFinishing()&&faceVerifyUtils != null) {
+                   //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像和指定识别区域
+                   faceVerifyUtils.goVerify(imageProxy, faceCoverView.getMargin());
+             }
         });
     }
 
@@ -92,7 +98,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     private void initFaceVerify(Bitmap baseBitmap) {
 
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                .setThreshold(0.81f)       //阈值设置，范围限 [0.75 , 0.95] 识别可信度，也是识别灵敏度
+                .setThreshold(0.8f)        //阈值设置，范围限 [0.75 , 0.95] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap) //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
                 .setLiveCheck(true)        //是否需要活体检测，需要发送邮件，详情参考ReadMe
                 .setVerifyTimeOut(16)      //活体检测支持设置超时时间 9-16 秒
@@ -104,12 +110,14 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                         //预留防护
                     }
 
-                    //静默活体检测得分大于0.85 可以认为是真人，结合动作活体一起使用
+                    //静默活体检测得分大于0.9 可以认为是真人，结合动作活体一起使用
                     @Override
                     public void onSilentAntiSpoofing(float scoreValue) {
                         runOnUiThread(() -> {
                             scoreText.setText("静默活体可靠系数：" + scoreValue);
                         });
+
+                        silentScoreValue=scoreValue;
                     }
 
                     //人脸识别活体检测过程中的各种提示
@@ -129,9 +137,14 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                         //1:1 人脸识别对比的结果，是同一个人还是非同一个人
                         runOnUiThread(() -> {
                             if (isMatched) {
-                                //各种形式的提示，根据业务需求选择
-                                tipsTextView.setText("核验已通过，与底片为同一人！ ");
 
+
+                                if(silentScoreValue<0.9){
+                                    Toast.makeText(Verify_11_javaActivity.this, "静默活体得分低："+silentScoreValue, Toast.LENGTH_LONG).show();
+                                }
+
+
+                                tipsTextView.setText("核验已通过，与底片为同一人！ ");
                                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
@@ -140,23 +153,18 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                                 }, 1500);
 
                                 VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-
                             } else {
                                 tipsTextView.setText("核验不通过，与底片不符！ ");
-
                                 new AlertDialog.Builder(Verify_11_javaActivity.this)
                                         .setMessage("核验不通过，与底片不符！ ")
                                         .setCancelable(false)
                                         .setPositiveButton("知道了", (dialogInterface, i) -> finish())
                                         .show();
-
                                 VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
                             }
                         });
                     }
-
                 }).create();
-
 
         faceVerifyUtils.setDetectorParams(faceProcessBuilder);
     }
@@ -255,8 +263,19 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         faceVerifyUtils.destroyProcess();
-        faceCoverView.destroyView();
+        faceCoverView.destroyView();  //停止动画,回收资源
     }
+
+
+    /**
+     * 暂停识别，防止切屏识别，如果你需要退后台不能识别的话
+     *
+     */
+    protected void  onPause() {
+        super.onPause();
+        faceVerifyUtils.pauseProcess();
+    }
+
 
 }
 

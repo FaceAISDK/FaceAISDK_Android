@@ -34,3 +34,18 @@
    1:1 人脸识别含有活体检测功能费用 5K，不限终端个数种类，永久有效。
    1:N /M:N人脸搜索识别功能都需要申请license授权，根据终端个数和种类费用8K，永久有效。
    所有授权都是绑定App包名和签名进行，价格差异在于是否要定制特性开发
+
+### 9.调整Target SDK 后依赖冲突怎么处理？
+   如App 目录下的代码处理
+   `
+   //依赖有冲突需要统一依赖,可以参考下面方式处理
+   def camera_version = "1.2.3"
+   configurations.configureEach {
+   resolutionStrategy {
+   force   "androidx.camera:camera-core:$camera_version",
+   "androidx.camera:camera-camera2:$camera_version",
+   "androidx.camera:camera-lifecycle:$camera_version",
+   "androidx.camera:camera-view:$camera_version"
+   }
+   }
+   `
