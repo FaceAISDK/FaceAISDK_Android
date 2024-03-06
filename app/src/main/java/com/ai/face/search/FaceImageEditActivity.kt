@@ -43,13 +43,15 @@ import java.util.Locale
 import java.util.UUID
 
 /**
- * 增删改 编辑人脸图片
+ * 增删改 编辑人脸图片,演示怎样使用SDK API进行人脸的增删改查
  * 仅仅是测试验证和演示，不是SDK 接入的一部分
  *
  */
 class FaceImageEditActivity : AppCompatActivity() {
+
     private val faceImageList: MutableList<String> = ArrayList()
     private lateinit var faceImageListAdapter: FaceImageListAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +73,8 @@ class FaceImageEditActivity : AppCompatActivity() {
                 .setTitle("确定要删除" + File(faceImageList[i]).name)
                 .setMessage("删除后对应的人将无法被程序识别")
                 .setPositiveButton("确定") { _: DialogInterface?, _: Int ->
-                    FaceSearchImagesManger.c.getInstance(application)?.deleteFaceImage(faceImageList[i])
+                    FaceSearchImagesManger.c.getInstance(application)
+                        ?.deleteFaceImage(faceImageList[i])
                     loadImageList()
                     faceImageListAdapter.notifyDataSetChanged()
                 }
@@ -98,7 +101,7 @@ class FaceImageEditActivity : AppCompatActivity() {
             }
         }
 
-        if(intent.extras?.getBoolean("isAdd") == true){
+        if (intent.extras?.getBoolean("isAdd") == true) {
             dispatchTakePictureIntent()
         }
 
@@ -106,6 +109,8 @@ class FaceImageEditActivity : AppCompatActivity() {
 
     /**
      * 加载本地管理的人脸库图片
+     * 本演示Demo图片人脸放在filesDir.path + "/faceSearch" 是为了简化不想管理权限申请，放在此目录的数据卸载App会一起清除
+     * 建议App 接入的时候根据情况自身处理存储目录管理
      *
      */
     private fun loadImageList() {
@@ -158,11 +163,10 @@ class FaceImageEditActivity : AppCompatActivity() {
      */
     private fun showConfirmDialog(bitmap: Bitmap) {
 
-        var bitmapCrop=BaseImageDispose(baseContext).cropFaceBitmap(bitmap)
+        var bitmapCrop = BaseImageDispose(baseContext).cropFaceBitmap(bitmap)
 
-        if(bitmapCrop==null){
-            Toast.makeText(this,"没有检测到人脸",Toast.LENGTH_LONG).show()
-            Toast.makeText(this,"没有检测到人脸",Toast.LENGTH_LONG).show()
+        if (bitmapCrop == null) {
+            Toast.makeText(this, "没有检测到人脸", Toast.LENGTH_LONG).show()
             return
         }
 
@@ -185,13 +189,16 @@ class FaceImageEditActivity : AppCompatActivity() {
 
         btnOK.setOnClickListener { v: View? ->
             if (!TextUtils.isEmpty(editText.text.toString())) {
-                val name = editText.text.toString()+".jpg"
+                val name = editText.text.toString() + ".jpg"
 
                 Toast.makeText(baseContext, "处理中...", Toast.LENGTH_LONG).show()
                 //Kotlin 混淆操作后协程操作失效了，因为是异步操作只能等一下
                 CoroutineScope(Dispatchers.IO).launch {
                     FaceSearchImagesManger.c.getInstance(application)
-                        ?.insertOrUpdateFaceImage(bitmap, CACHE_SEARCH_FACE_DIR+File.separatorChar+name)
+                        ?.insertOrUpdateFaceImage(
+                            bitmap,
+                            CACHE_SEARCH_FACE_DIR + File.separatorChar + name
+                        )
                     delay(300)
                     MainScope().launch {
                         loadImageList()
@@ -199,7 +206,7 @@ class FaceImageEditActivity : AppCompatActivity() {
                     }
                 }
                 dialog.dismiss()
-            }else{
+            } else {
                 Toast.makeText(baseContext, "请确认ID 名字", Toast.LENGTH_LONG).show()
             }
         }
@@ -220,7 +227,7 @@ class FaceImageEditActivity : AppCompatActivity() {
             var bitmap = BitmapUtils.a.getFixedBitmap(currentPhotoPath!!, contentResolver)
 
             //裁剪人脸，并压缩大小，        防止人脸录入 OOM 闪退 ， 1:N 搜索成功暂停0.5秒
-            bitmap= BaseImageDispose(baseContext).cropFaceBitmap(bitmap)
+            bitmap = BaseImageDispose(baseContext).cropFaceBitmap(bitmap)
 
             //加一个确定ID的操作
             showConfirmDialog(bitmap)
@@ -243,7 +250,6 @@ class FaceImageEditActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -269,7 +275,10 @@ class FaceImageEditActivity : AppCompatActivity() {
         return image
     }
 
-
+    /**
+     * 准备去拍照
+     *
+     */
     private fun dispatchTakePictureIntent() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         // Ensure that there's a camera activity to handle the intent

@@ -55,7 +55,7 @@ android {
 
 
 
-//依赖有冲突需要统一依赖,可以参考下面方式处理
+//主工程和SDK 中的依赖有冲突需要统一依赖,可以参考下面方式处理
 def camera_version = "1.2.3"
 configurations.configureEach {
     resolutionStrategy {
@@ -67,15 +67,19 @@ configurations.configureEach {
 }
 
 
+// github 无法访问，挂梯子也无效 ？参考 https://github.com/maxiaof/github-hosts
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     // 人脸识别 活体检测 以及人脸检索 SDK 依赖
-    implementation 'io.github.anylifezlb:FaceRecognition:1.4.5'  //依赖合适的版本，VIP 定制版请联系指定
+    implementation 'io.github.anylifezlb:FaceRecognition:1.5.0'  // 依赖合适/最新的版本，VIP 定制版请联系指定
 
 
     //1:N (M:N)人脸识别依赖独立版本的就可以了，体积小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
     //implementation 'io.github.anylifezlb:FaceSearchSDK:1.x.xxxxxxxxxx'
+
+
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖

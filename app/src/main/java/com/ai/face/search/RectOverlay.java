@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 仅供参考，UI样式可以自行设计。甚至SurfaceView 改造
+ * Demo 中的交互仅供参考，UI样式用户可以自行设计改造。甚至SurfaceView 改造
+ *
  */
 public class RectOverlay extends View {
     private static final String TAG = "GraphicOverlay";

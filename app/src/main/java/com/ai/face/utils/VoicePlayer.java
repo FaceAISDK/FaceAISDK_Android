@@ -8,6 +8,10 @@ import androidx.annotation.RawRes;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * 播报提示语音
+ *
+ */
 public class VoicePlayer {
     private MediaPlayer mMediaPlayer;
     private Context mContext;

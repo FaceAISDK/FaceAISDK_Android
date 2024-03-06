@@ -41,7 +41,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_verify_11);  //1:n 对比
+        setContentView(R.layout.activity_verify_11);
 
         setTitle("1:1活体检测人脸识别");
 
@@ -138,12 +138,10 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             if (isMatched) {
 
-
                                 if(silentScoreValue<0.9){
                                     Toast.makeText(Verify_11_javaActivity.this, "静默活体得分低："+silentScoreValue, Toast.LENGTH_LONG).show();
                                     Toast.makeText(Verify_11_javaActivity.this, "静默活体得分低："+silentScoreValue, Toast.LENGTH_LONG).show();
                                 }
-
 
                                 tipsTextView.setText("核验已通过，与底片为同一人！ ");
                                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
@@ -192,7 +190,6 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
                     case VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY: {
                         tipsTextView.setText("多次切换画面或无人脸");
-//                        faceCoverView.setTipText("多次切换画面或无人脸");
 
                         new AlertDialog.Builder(this)
                                 .setMessage("多次切换画面或无人脸，停止识别。\n识别过程请保持人脸在画面中")
@@ -259,12 +256,13 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
     /**
      * 资源释放
+     *
      */
     @Override
     protected void onDestroy() {
         super.onDestroy();
         faceVerifyUtils.destroyProcess();
-        faceCoverView.destroyView();  //停止动画,回收资源
+        faceCoverView.destroyView();
     }
 
 

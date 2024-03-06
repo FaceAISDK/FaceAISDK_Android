@@ -53,10 +53,10 @@ class LivenessDetectionActivity : AppCompatActivity() {
             .setThreshold(0.79f)  //threshold（阈值）设置，范围仅限 0.75-0.95，默认0.8
             .setBaseBitmap(null)  //底片,没有底片说明只需要活体检测，不需要1:1 人脸对比
             .setLiveCheck(true)   //是否需要活体检测，需要发送邮件，详情参考 ReadMe
-            .setVerifyTimeOut(12)
+            .setVerifyTimeOut(15)
             .setGraphicOverlay(binding.faceTips)
             .setMotionStepSize(2) //动作活体检测几个步骤
-            .setLicenceKey("Y29tLkFJLnRlc3Q=")
+            .setLicenceKey("Y29tLkFJLnRlc3Q=") //试用版，不要直接集成到正式APP
             .setProcessCallBack(object : ProcessCallBack() {
                 override fun onAliveCheckPass(isPass: Boolean, bitmap: Bitmap) {
                     runOnUiThread {

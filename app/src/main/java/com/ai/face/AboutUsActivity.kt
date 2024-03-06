@@ -48,13 +48,12 @@ class AboutUsActivity : AppCompatActivity() {
             // Creates a new text clip to put on the clipboard
             val clip: ClipData = ClipData.newPlainText("email", "anylife.zlb@gmail.com")
 
-            // Set the clipboard's primary clip.
+            // Set the clipboard's primary clip. 复制
             clipboard.setPrimaryClip(clip)
             Toast.makeText(this,"已经复制",Toast.LENGTH_SHORT).show()
 
             return@setOnLongClickListener true
         }
-
 
     }
 }
