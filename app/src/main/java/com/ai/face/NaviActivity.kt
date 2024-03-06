@@ -27,7 +27,7 @@ import java.io.File
  *
  * Demo 提供java 和 Kotlin 接入演示 ，仅仅是演示如何接入SDK，根据业务场景用户自行修改符合需求
  *
- * 1：N 人脸识别检索可以独立引入 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
+ * 1：N（M：N） 人脸识别检索可以独立引入 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
  *
  * 更多请发邮件 anylife.zlb@gmail.com 或 微信 HaoNan19990322 交流（请备注 人脸识别定制，否则添加不通）
  *
@@ -46,12 +46,15 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         setContentView(viewBinding.root)
         checkNeededPermission()
 
+
         //测试两张人脸是否相同  model.jpg
         val value= VerifyUtils.evaluateFaceSimi(baseContext,
             VerifyUtils.getBitmapFromAssert(baseContext,"model_1.png"),
             VerifyUtils.getBitmapFromAssert(baseContext,"model.jpg"))
 
-        Log.d("VerifyUtils", "value:  $value")
+        Log.d("VerifyUtils", "测试两张人脸是否相同，value:  $value")
+
+
 
         viewBinding.faceVerifyCard.setOnClickListener {
             //可以自己录一张人脸底片，业务方可以根据自己的要求改写testBaseImgName 处理

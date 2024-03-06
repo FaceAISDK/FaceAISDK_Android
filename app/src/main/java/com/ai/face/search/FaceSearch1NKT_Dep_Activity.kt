@@ -22,8 +22,12 @@ import java.io.File
 /**
  * Kotlin Test
  * 1：N 和 M：N 人脸检索迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
+ *
+ * @DeprecatedSinceKotlin
+ *
+ *
  */
-class FaceSearch1NKTActivity : AppCompatActivity() {
+class FaceSearch1NKT_Dep_Activity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFaceSearchBinding
     override fun onCreate(savedInstanceState: Bundle?) {

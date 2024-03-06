@@ -10,8 +10,9 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
 ![设备端离线机器学习优点](img.png)
 
-## 当前版本说明 V1.4.5
+## 当前版本说明 V1.5.0
 - 识别阈值设置范围调整为[0.75-0.95]
+- 整理Demo代码，添加说明
 
  建议[Fork] + [Star] 关注订阅#  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 以便获取最新更新
 
@@ -41,7 +42,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
 ## 接入使用
 
     //1.首先Gradle 中引入依赖 
-    implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //最新 1.4.5？根据Gralde提示升级新版
+    implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //最新 1.5.0？根据Gralde提示升级新版
 
     //2.Camera相机的初始化。第一个参数0/1 指定前后摄像头；第二个参数linearZoom [0.1f,1.0f] 指定焦距，默认0.1
     CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing,0.2f);
@@ -54,7 +55,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
                 .setBaseBitmap(baseBitmap)          //1：1 底片「底片请设置为正脸无遮挡，并如Demo裁剪为仅含人脸」
                 .setLiveCheck(true)                 //是否需要活体检测，需要发送邮件，详情参考ReadMe
                 .setVerifyTimeOut(10)               //活体检测支持设置超时时间 9-16 秒
-                .setMotionStepSize(1)               //随机动作验证活体的步骤个数，支持1-2个步骤
+                .setMotionStepSize(2)               //随机动作验证活体的步骤个数，支持1-2个步骤
                 .setProcessCallBack(new ProcessCallBack() {
                     @Override
                     public void onCompleted(boolean isMatched) {
@@ -80,7 +81,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
     * 1：N 和 M：N人脸检索可以独立依赖，体积更小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
 
     不含活体检测不需要license完全免费，包含活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请
-    内容包括App名称、简要描述、包名 、下载链接4项内容。
+    内容包括App名称、简要描述、包名（applicationId）3项内容。
 
 
 ## Demo 下载体验

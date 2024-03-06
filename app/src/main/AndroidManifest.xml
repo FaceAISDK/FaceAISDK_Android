@@ -6,7 +6,6 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature android:name="android.hardware.camera" />
 
-
     <!-- 仅仅是SDK 收集异常奔溃等信息用，SDK 所有能力都是离线识别 不需要网络-->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -34,9 +33,12 @@
             </intent-filter>
         </activity>
 
+
+        <!-- multiprocess 多进程，几乎不会做多进程，只是先验证！-->
         <activity
             android:name=".verify.Verify_11_javaActivity"
             android:exported="false"
+            android:multiprocess="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
@@ -59,7 +61,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".search.FaceSearch1NKTActivity"
+            android:name=".search.FaceSearch1NKT_Dep_Activity"
             android:exported="false" />
 
         <activity

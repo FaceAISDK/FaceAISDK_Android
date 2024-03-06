@@ -117,7 +117,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 break;
 
             case THRESHOLD_ERROR :
-                binding.searchTips.setText("识别阈值Threshold范围为0.8-0.95");
+                binding.searchTips.setText("识别阈值Threshold范围为0.75-0.95");
                 break;
 
             case MASK_DETECTION:

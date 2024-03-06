@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * 仅供参考，UI样式可以自行设计。甚至SurfaceView 改造
  *
- * 前后摄像头的位置适配还不一样处理，演示就这样吧，VIP 支持定制
+ * Demo 中的交互仅供参考，UI样式用户可以自行设计改造。甚至SurfaceView 改造
  *
  */
 
