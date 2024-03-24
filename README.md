@@ -10,9 +10,9 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
 ![设备端离线机器学习优点](img.png)
 
-## 当前版本说明 V1.5.0
-- 识别阈值设置范围调整为[0.75-0.95]
-- 整理Demo代码，添加说明
+## 当前版本说明 V1.6.0
+- 支持自定义双目摄像头搜索
+- 解决错误识别问题和其他BUG
 
  建议[Fork] + [Star] 关注订阅#  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 以便获取最新更新
 
@@ -42,8 +42,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
 ## 接入使用
 
     //1.首先Gradle 中引入依赖 
-    implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //最新 1.5.0？根据Gralde提示升级新版
-
+    implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //升级1.6 以上版本，老版本不维护
     //2.Camera相机的初始化。第一个参数0/1 指定前后摄像头；第二个参数linearZoom [0.1f,1.0f] 指定焦距，默认0.1
     CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing,0.2f);
 
