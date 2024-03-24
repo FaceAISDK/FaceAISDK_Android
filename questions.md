@@ -60,7 +60,10 @@ anylife.zlb@gmail.com
    }
    `
    
-### 11.
+### 11.开发环境和Gradle 插件版本是怎样的？
+  开发环境 Android Studio Iguana | 2023.2.1
+  gradle插件版本 7.4.2  gradle 版本 7.5 
+
 
 
 
