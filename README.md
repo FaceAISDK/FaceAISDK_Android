@@ -10,7 +10,7 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
 ![设备端离线机器学习优点](img.png)
 
-## 当前版本说明 V1.6.0
+## 当前版本说明 V1.8.0
 - 支持自定义双目摄像头搜索
 - 解决错误识别问题和其他BUG
 
