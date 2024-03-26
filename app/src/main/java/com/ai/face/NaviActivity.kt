@@ -33,6 +33,9 @@ import java.io.File
  *
  * 一个在线人脸图片对比工具 https://facecomparison.toolpie.com/
  *
+ * 定期清理 Demo 在Bugly 的Bug:  https://bugly.qq.com/v2/crash-reporting/crashes/36fade54d8?pid=1
+ *
+ *
  * 2022.07.29
  */
 class NaviActivity : AppCompatActivity(), PermissionCallbacks {

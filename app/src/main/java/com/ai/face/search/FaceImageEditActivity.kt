@@ -75,7 +75,7 @@ class FaceImageEditActivity : AppCompatActivity() {
                 .setTitle("确定要删除" + File(faceImageList[i]).name)
                 .setMessage("删除后对应的人将无法被程序识别")
                 .setPositiveButton("确定") { _: DialogInterface?, _: Int ->
-                    FaceSearchImagesManger.ILil.getInstance(application)
+                    FaceSearchImagesManger.IL1Iii.getInstance(application)
                         ?.deleteFaceImage(faceImageList[i])
                     loadImageList()
                     faceImageListAdapter.notifyDataSetChanged()
@@ -196,7 +196,7 @@ class FaceImageEditActivity : AppCompatActivity() {
                 Toast.makeText(baseContext, "处理中...", Toast.LENGTH_LONG).show()
                 //Kotlin 混淆操作后协程操作失效了，因为是异步操作只能等一下
                 CoroutineScope(Dispatchers.IO).launch {
-                    FaceSearchImagesManger.ILil.getInstance(application)
+                    FaceSearchImagesManger.IL1Iii.getInstance(application)
                         ?.insertOrUpdateFaceImage(
                             bitmap,
                             CACHE_SEARCH_FACE_DIR + File.separatorChar + name
@@ -226,12 +226,12 @@ class FaceImageEditActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            var bitmap = BitmapUtils.Object.getFixedBitmap(currentPhotoPath!!, contentResolver)
+            var bitmap = BitmapUtils.Companion().getFixedBitmap(currentPhotoPath!!, contentResolver)
 
-            //裁剪人脸，并压缩大小，        防止人脸录入 OOM 闪退 ， 1:N 搜索成功暂停0.5秒
+            //裁剪人脸，并压缩大小，防止人脸录入 OOM 闪退，1:N 搜索成功暂停0.5秒
             bitmap = BaseImageDispose(baseContext).cropFaceBitmap(bitmap)
 
-            //加一个确定ID的操作
+            //加一个确定ID的操作，ID不要再确认了
             showConfirmDialog(bitmap)
         }
     }

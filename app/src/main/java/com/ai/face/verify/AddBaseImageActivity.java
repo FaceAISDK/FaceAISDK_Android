@@ -107,7 +107,7 @@ public class AddBaseImageActivity extends AppCompatActivity {
         EditText editText = dialogView.findViewById(R.id.edit_text);
 
         editText.requestFocus();
-        editText.setVisibility(View.GONE); //face id, 1:1 写死，实际业务自行修改
+        editText.setVisibility(View.GONE);  //face id, 1:1 写死，实际业务自行修改
 
         btnOK.setOnClickListener(v -> {
                 String yourUniQueFaceId = "18707611416"; //face id, 1:1 写死，实际业务自行修改

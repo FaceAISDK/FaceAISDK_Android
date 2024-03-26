@@ -11,7 +11,7 @@ android {
         minSdk 21
         targetSdk 33
         versionCode 18
-        versionName "1.5.0"
+        versionName "1.8.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -54,7 +54,7 @@ android {
 }
 
 
-
+//根据Compile SDK 不同，各自项目依赖体系不一样
 //主工程和SDK 中的依赖有冲突需要统一依赖,可以参考下面方式处理
 def camera_version = "1.2.3"
 configurations.configureEach {
@@ -73,10 +73,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     // 人脸识别 活体检测 以及人脸检索 SDK 依赖
-    implementation 'io.github.anylifezlb:FaceRecognition:1.8.0'  //请依赖1.6 以上版本，老版本不维护
-
     //1:N (M:N)人脸识别依赖独立版本的就可以了，体积小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
-    //implementation 'io.github.anylifezlb:FaceSearchSDK:2.x.xxxxxxxxxx'
+    implementation 'io.github.anylifezlb:FaceRecognition:1.8.2'  //请依赖1.6 以上版本，老版本不维护
+
 
 
 
