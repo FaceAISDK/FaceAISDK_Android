@@ -98,7 +98,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     private void initFaceVerify(Bitmap baseBitmap) {
 
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                .setThreshold(0.8f)        //阈值设置，范围限 [0.75 , 0.95] 识别可信度，也是识别灵敏度
+                .setThreshold(0.88f)        //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap) //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
                 .setLiveCheck(true)        //是否需要活体检测，需要发送邮件，详情参考ReadMe
                 .setVerifyTimeOut(16)      //活体检测支持设置超时时间 9-16 秒

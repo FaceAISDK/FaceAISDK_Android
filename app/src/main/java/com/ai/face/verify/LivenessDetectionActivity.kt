@@ -50,7 +50,7 @@ class LivenessDetectionActivity : AppCompatActivity() {
 
         val faceProcessBuilder = FaceProcessBuilder
             .Builder(this@LivenessDetectionActivity)
-            .setThreshold(0.79f)  //threshold（阈值）设置，范围仅限 0.75-0.95，默认0.8
+            .setThreshold(0.85f)  //threshold（阈值）设置，范围仅限 0.8-0.95，默认0.8
             .setBaseBitmap(null)  //底片,没有底片说明只需要活体检测，不需要1:1 人脸对比
             .setLiveCheck(true)   //是否需要活体检测，需要发送邮件，详情参考 ReadMe
             .setVerifyTimeOut(15)

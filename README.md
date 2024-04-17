@@ -10,9 +10,9 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
 ![设备端离线机器学习优点](img.png)
 
-## 当前版本说明 V1.8.2
-- 支持自定义双目摄像头搜索
-- 解决错误识别问题和其他BUG
+## 当前版本说明 V1.8.8
+- 支持自定义摄像头(自行相机方向旋转管理)和双目摄像头搜索
+- 性能优化，人脸搜索速度加快；同时高配硬件支持多次过滤搜索结果
 
  建议[Fork] + [Star] 关注订阅#  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 以便获取最新更新
 
@@ -50,7 +50,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
     //3.人脸识别过程中各种参数的初始化。（更多说明请Github Clone代码体验,）
     
             FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                .setThreshold(0.8f)                 //threshold（阈值）设置，范围仅限[0.75-0.95]，默认0.8
+                .setThreshold(0.88f)                //threshold（阈值）设置，范围仅限[0.8-0.95]，默认0.85
                 .setBaseBitmap(baseBitmap)          //1：1 底片「底片请设置为正脸无遮挡，并如Demo裁剪为仅含人脸」
                 .setLiveCheck(true)                 //是否需要活体检测，需要发送邮件，详情参考ReadMe
                 .setVerifyTimeOut(10)               //活体检测支持设置超时时间 9-16 秒

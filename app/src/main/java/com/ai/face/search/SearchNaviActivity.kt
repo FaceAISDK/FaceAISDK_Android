@@ -1,12 +1,15 @@
 package com.ai.face.search
 
 import android.Manifest
+import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.Toast
@@ -113,6 +116,21 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             )
         }
 
+
+        AlertDialog.Builder(this@SearchNaviActivity)
+            .setTitle("提示")
+            .setMessage("1：N & M:N 人脸检索可以下载独立版本，体积更小，速度更快，长期维护。\n去快速下载？")
+            .setPositiveButton("快速下载") { _: DialogInterface?, _: Int ->
+
+                val uri = Uri.parse("https://www.pgyer.com/FaceSearchSDK")
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.addCategory(Intent.CATEGORY_BROWSABLE)
+                intent.data = uri
+                startActivity(intent)
+            }
+            .setNegativeButton("以后") { _: DialogInterface?, _: Int -> }
+            .show()
+
     }
 
     /**
@@ -123,7 +141,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         val perms = arrayOf(Manifest.permission.CAMERA)
         if (EasyPermissions.hasPermissions(this, *perms)) {
         } else {
-            EasyPermissions.requestPermissions(this, "请授权相机使用权限！", 11, *perms)
+            EasyPermissions.requestPermissions(this, "请授权相机使用权限才能采集人脸图像！", 11, *perms)
         }
     }
 
