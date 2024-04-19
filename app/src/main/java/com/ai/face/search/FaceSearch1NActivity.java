@@ -115,6 +115,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
             default:
                 binding.searchTips.setText("提示码："+code);
                 break;
+            // 识别到多人脸    ！！
 
             case THRESHOLD_ERROR :
                 binding.searchTips.setText("识别阈值Threshold范围为0.8-0.95");

@@ -92,19 +92,20 @@
     </androidx.cardview.widget.CardView>
 
 
+
     <TextView
-        android:id="@+id/face_search_1_n"
+        android:id="@+id/liveness_detection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="44dp"
         android:background="@color/white"
         android:gravity="center"
         android:layout_marginLeft="29dp"
         android:layout_marginRight="29dp"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:text="1:N 人脸检索识别演示"
-        android:textColor="@color/yellow"
+        android:text="仅人脸活体检测"
+        android:textColor="#2DCC18"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -113,40 +114,25 @@
 
 
     <TextView
-        android:id="@+id/face_search_m_n"
+        android:id="@+id/face_search_1_n"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="60dp"
         android:background="@color/white"
         android:gravity="center"
         android:layout_marginLeft="29dp"
         android:layout_marginRight="29dp"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:text="N:M 人脸检索识别演示"
+        android:text="1:N(M:N)人脸检索识别演示"
         android:textColor="@color/yellow"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/face_search_1_n" />
+        app:layout_constraintTop_toBottomOf="@+id/liveness_detection" />
 
-    <TextView
-        android:id="@+id/liveness_detection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="33dp"
-        android:background="@color/white"
-        android:gravity="center"
-        android:layout_marginLeft="29dp"
-        android:layout_marginRight="29dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:text="人脸活体检测"
-        android:textColor="@color/yellow"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/face_search_m_n" />
+
+
 
     <TextView
         android:id="@+id/change_camera"

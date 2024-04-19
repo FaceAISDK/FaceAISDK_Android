@@ -90,9 +90,6 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
             startActivity(Intent(this@NaviActivity, SearchNaviActivity::class.java))
         }
 
-        viewBinding.faceSearchMN.setOnClickListener {
-            startActivity(Intent(this@NaviActivity, SearchNaviActivity::class.java))
-        }
 
         viewBinding.moreAboutMe.setOnClickListener {
             startActivity(Intent(this@NaviActivity, AboutUsActivity::class.java))

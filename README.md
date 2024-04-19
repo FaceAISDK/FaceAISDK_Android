@@ -80,7 +80,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
     * 1：N 和 M：N人脸检索可以独立依赖，体积更小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
 
     不含活体检测不需要license完全免费，包含活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请
-    内容包括App名称、简要描述、包名（applicationId）3项内容。
+    内容包括App名称、简要描述和要申请1:1/1:N/M:N哪种类型、包名（applicationId）3项内容。
 
 
 ## Demo 下载体验
