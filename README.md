@@ -22,10 +22,10 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N
 
 其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（摇头点头也可拆分为左右上下4个动作），低端机离线验证速度正常。
 
-SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53  1.8GHz x4 + ARM Mali T860 图形处理器运行流畅稳定
+SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率1080p以上，帧率大于30，无拖影。
 
 实验室测试效果能覆盖95% 的中高低端机器，识别成功率>99%；**特殊DIY系统或特殊定制硬件，外接USB摄像头等**如有问题请先提Issues附带系统版本、设备型号、错误log等信息；
-或发邮件到anylife.zlb@gmail.com ，VIP用户添加微信ID：18707611416
+或发邮件到anylife.zlb@gmail.com ，VIP用户添加微信ID：HaoNan19990322
 
 
 
@@ -80,7 +80,7 @@ SDK支持Android 5+，实验室设备2016年低配置魅蓝Note3 ARM Cortex-A53 
     * 1：N 和 M：N人脸检索可以独立依赖，体积更小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
 
     不含活体检测不需要license完全免费，包含活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请
-    内容包括App名称、简要描述和要申请1:1/1:N/M:N哪种类型、包名（applicationId）3项内容。
+    内容包括App名称、简要描述和要申请  1:1 / 1:N / M:N 哪种类型、包名（applicationId）3项内容。
 
 
 ## Demo 下载体验

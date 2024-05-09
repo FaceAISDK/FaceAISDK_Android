@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:customAttr="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    android:layout_height="match_parent">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_camerax"
@@ -20,10 +20,9 @@
         customAttr:circle_margin="22dp"
         customAttr:progress_end_color="@color/green"
         customAttr:progress_start_color="@color/green2"
-        customAttr:show_progress="false"
+        customAttr:show_progress="true"
         customAttr:tip_text_color="@color/colorPrimary"
         customAttr:tip_text_size="20sp" />
-
 
     <TextView
         android:id="@+id/tips_view"

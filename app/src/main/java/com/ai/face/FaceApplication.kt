@@ -28,9 +28,8 @@ class FaceApplication : Application() {
 
         //Crash 收集
         CrashReport.initCrashReport(this, "36fade54d8", true)
+
     }
-
-
 
 
 

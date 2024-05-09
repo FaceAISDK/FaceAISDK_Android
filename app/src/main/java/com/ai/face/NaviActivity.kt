@@ -41,7 +41,7 @@ import java.io.File
 class NaviActivity : AppCompatActivity(), PermissionCallbacks {
     private lateinit var viewBinding: ActivityNaviBinding
 
-    private var yourUniQueFaceId = "18707611416"  //微信号
+    private var yourUniQueFaceId = "18707611416"  //用户人脸ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +56,6 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
             VerifyUtils.getBitmapFromAssert(baseContext,"model.jpg"))
 
         Log.d("VerifyUtils", "测试两张人脸是否相同，value:  $value")
-
 
 
         viewBinding.faceVerifyCard.setOnClickListener {
