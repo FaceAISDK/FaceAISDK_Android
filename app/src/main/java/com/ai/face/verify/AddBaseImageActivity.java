@@ -69,7 +69,7 @@ public class AddBaseImageActivity extends AppCompatActivity {
 
         // 1. Camera 的初始化。第一个参数0/1 指定前后摄像头； 第二个参数linearZoom [0.1f,1.0f] 指定焦距，默认0.1
         int cameraLens = sharedPref.getInt("cameraFlag", sharedPref.getInt("cameraFlag", 0));
-        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens,0.13f);
+        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens,0.09f);
 
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             index++;

@@ -107,6 +107,7 @@
         android:text="仅人脸活体检测"
         android:textColor="#2DCC18"
         android:textSize="16sp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/update_base_image" />
@@ -124,6 +125,7 @@
         android:layout_marginRight="29dp"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
+        android:visibility="invisible"
         android:text="1:N(M:N)人脸检索识别演示"
         android:textColor="@color/yellow"
         android:textSize="16sp"
@@ -154,6 +156,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="19dp"
+        android:visibility="invisible"
         android:text="关于我们,查看更多（重构v1.x.y)"
         android:textColor="@android:color/white"
         android:textSize="16sp"

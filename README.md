@@ -98,7 +98,6 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
    也可以加微信 HaoNan19990322 （请标注为 人脸识别 ，否则会自动忽略添加，谢谢）
    
    欢迎关注Fork+Star获取最新动态  Github:  https://github.com/AnyLifeZLB/FaceVerificationSDK
-  
 
 ## 常见问题
    常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/questions.md
