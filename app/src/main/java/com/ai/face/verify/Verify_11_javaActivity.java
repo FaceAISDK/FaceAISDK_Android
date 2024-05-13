@@ -113,6 +113,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                 .setThreshold(0.88f)         //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap)   //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
                 .setLiveCheck(needLiveCheck) //是否需要活体检测（包含动作和静默）,开通需要发送邮件，参考ReadMe
+                .setSilentAliveThreshold(0.88f)  //静默活体阈值 [0.88,0.99]
                 .setMotionStepSize(1)        //随机动作验证活体的步骤个数[0-2]，0个没有动作活体只有静默活体
                 .setVerifyTimeOut(12)        //活体检测支持设置超时时间 [9,16] 秒
                 .setGraphicOverlay(faceTipsOverlay)//正式环境请去除设置
