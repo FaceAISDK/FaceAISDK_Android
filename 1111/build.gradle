@@ -1,0 +1,55 @@
+
+buildscript {
+
+    ext {
+        kotlin_version = "1.8.10"
+        java_version = JavaVersion.VERSION_1_8
+    }
+
+    //如果和你的项目中Kotlin 依赖不一致。 强制统一项目中的Kotlin 版本依赖
+    ConfigurationContainer container = project.configurations
+    container.all { Configuration conf ->
+        ResolutionStrategy rs = conf.resolutionStrategy
+        rs.eachDependency { details ->
+            def requested = details.requested
+            if (requested.group == "org.jetbrains.kotlin") {
+                //统一内部 kotlin 库的版本
+                details.useVersion("$kotlin_version")
+            }
+        }
+    }
+
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+    
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.3.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+    }
+}
+
+
+allprojects {
+    repositories {
+        mavenCentral()
+        google()
+
+        maven { url "https://jitpack.io" }
+
+        //多放一个国内的依赖托管镜像源，工程师可以根据公司的网络屏蔽情况自行替换
+        maven {
+            name "aliyunmaven"
+            url "https://maven.aliyun.com/nexus/content/groups/public/"
+        }
+    }
+
+}
+
+
+tasks.register('clean', Delete) {
+    delete rootProject.buildDir
+}

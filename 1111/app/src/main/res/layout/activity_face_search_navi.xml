@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="com.ai.face.search.SearchNaviActivity">
+
+
+    <TextView
+        android:id="@+id/face_search_1n"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:textColor="@color/yellow"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="1:N 离线检索" />
+
+
+    <TextView
+        android:id="@+id/face_search_mn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:textColor="@color/yellow"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/face_search_1n"
+        android:text="M:N 离线检索" />
+
+
+
+    <TextView
+        android:id="@+id/copyFaceImages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:layout_marginTop="33dp"
+        app:layout_constraintTop_toBottomOf="@+id/face_search_mn"
+        android:text="App内置200张AI头像导入" />
+
+
+
+    <TextView
+        android:id="@+id/editFaceImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:padding="5dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/copyFaceImages"
+        android:text="人脸库浏览和编辑人脸" />
+
+
+    <TextView
+        android:id="@+id/addFaceImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:padding="5dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/editFaceImage"
+        android:text="录入你的人脸（切换到前置Camera）" />
+
+    <TextView
+        android:id="@+id/change_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:padding="6dp"
+        android:visibility="visible"
+        android:layout_marginTop="60dp"
+        app:layout_constraintTop_toBottomOf="@+id/addFaceImage"
+        android:text="点击切换摄像头" />
+
+
+
+
+    <TextView
+        android:id="@+id/tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="10sp"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="35dp"
+        android:text="-  人脸搜索演示DEMO  -" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/bg"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

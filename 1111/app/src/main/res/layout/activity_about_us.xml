@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/blue_sky"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_margin="15dp"
+        android:padding="9dp"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:src="@drawable/ic_baseline_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/wechat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="77dp"
+        android:gravity="center"
+        android:padding="19dp"
+        android:text="微信WeChat:   HaoNan19990322"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="66dp"
+        android:gravity="center"
+        android:padding="19dp"
+        android:text="邮箱Email: anylife.zlb@gmail.com"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="@+id/wechat" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="66dp"
+        android:gravity="center"
+        android:padding="19dp"
+        android:text="长按可以复制联系方式"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="@+id/email" />
+
+
+    <TextView
+        android:id="@+id/more_about_me"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="19dp"
+        android:layout_marginTop="123dp"
+        android:text="联系我们,查看更多（GitHub主页）"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/email" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="19dp"
+        android:layout_marginTop="99dp"
+        android:text="1:N 识别可独立依赖 https://github.com/AnyLifeZLB/FaceSearchSDK_Android  独立库的功能，性能和兼容性指标都在手机 Pad 上进行验证，如为定制设备可能不兼容需要联系定制"
+        android:textColor="@android:color/white"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@+id/more_about_me" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
