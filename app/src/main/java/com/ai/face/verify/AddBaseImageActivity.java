@@ -20,6 +20,7 @@ import com.ai.face.base.view.CameraXFragment;
 
 /**
  * 修改底图,实际业务可以调用系统相机拍照后再调用API 处理
+ * 准备增加人脸质量检测（VIP）
  *
  */
 public class AddBaseImageActivity extends AppCompatActivity {
@@ -38,6 +39,8 @@ public class AddBaseImageActivity extends AppCompatActivity {
             this.finish();
         });
 
+
+        //准备增加人脸质量检测（VIP）
         baseImageDispose = new BaseImageDispose(getBaseContext(), new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap) {
@@ -47,6 +50,8 @@ public class AddBaseImageActivity extends AppCompatActivity {
             @Override
             public void onProcessTips(int actionCode) {
                 runOnUiThread(() -> {
+
+                    //准备增加人脸质量检测（VIP） 不合格的给提示
                     switch (actionCode) {
                         case NO_FACE:
                             tipsTextView.setText("未检测到人脸");

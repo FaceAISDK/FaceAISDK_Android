@@ -1,4 +1,7 @@
-
+# V1.9.0
+- 去除  processCallBack.onCompleted 回调
+- 增加  processCallBack.onVerifyMatched(boolean,matchedBitmap) 回调（VIP）
+- 增加  人脸质量检测 （VIP）
 
 # V 1.8.0
 - 性能优化，解决BUG
