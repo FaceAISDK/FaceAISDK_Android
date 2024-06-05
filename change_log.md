@@ -3,6 +3,10 @@
 - 增加  processCallBack.onVerifyMatched(boolean,matchedBitmap) 回调（VIP）
 - 增加  人脸质量检测 （VIP）
 
+# V1.8.13
+- 重新命名 FaceProcessBuilder 中的字段名称，准备国际化改造
+- 性能优化，升级内核
+
 # V 1.8.0
 - 性能优化，解决BUG
 - 解决基础版本SDK 重试问题

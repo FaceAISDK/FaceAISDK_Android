@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ImageProxy
@@ -18,6 +17,7 @@ import com.ai.face.faceVerify.verify.FaceVerifyUtils
 import com.ai.face.faceVerify.verify.ProcessCallBack
 import com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM
 import com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM
+import com.ai.face.faceVerify.verify.alive.LivenessDetection
 import com.ai.face.utils.VoicePlayer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -52,10 +52,11 @@ class LivenessDetectionActivity : AppCompatActivity() {
             .Builder(this@LivenessDetectionActivity)
             .setThreshold(0.85f)  //threshold（阈值）设置，范围仅限 0.8-0.95，默认0.8
             .setBaseBitmap(null)  //底片,没有底片说明只需要活体检测，不需要1:1 人脸对比
-            .setLiveCheck(true)   //是否需要活体检测，需要发送邮件，详情参考 ReadMe
+            .setLivenessDetection(true)   //是否需要活体检测，需要发送邮件，详情参考 ReadMe
+            .setLivenessDetectionMode(LivenessDetection.FAST)
             .setVerifyTimeOut(15)
             .setGraphicOverlay(binding.faceTips)
-            .setMotionStepSize(2) //动作活体检测几个步骤
+            .setLivenessStepSize(2) //动作活体检测几个步骤
             .setLicenceKey("Y29tLkFJLnRlc3Q=") //试用版，不要直接集成到正式APP
             .setProcessCallBack(object : ProcessCallBack() {
                 override fun onAliveCheckPass(isPass: Boolean, bitmap: Bitmap) {

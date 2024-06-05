@@ -10,9 +10,10 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
 ![设备端离线机器学习优点](img.png)
 
-## 当前版本说明 V1.8.8
+## 当前版本说明 V1.8.13
 - 支持自定义摄像头(自行相机方向旋转管理)和双目摄像头搜索
 - 性能优化，人脸搜索速度加快；同时高配硬件支持多次过滤搜索结果
+- 动作活体检测支持快速模式和精确模式
 
  建议[Fork] + [Star] 以便获取最新更新 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
  SDK 演示目前仅仅托管在GitHub，其他镜像版本大概率不是最新的，请移步到GitHub 更新最新的演示代码
@@ -23,7 +24,7 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N
 
 其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（摇头点头也可拆分为左右上下4个动作），低端机离线验证速度正常。
 
-SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率1080p以上，帧率大于30，无拖影。
+SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率720p以上，帧率大于30并且无拖影。
 
 实验室测试效果能覆盖95% 的中高低端机器，识别成功率>99%；**特殊DIY系统或特殊定制硬件，外接USB摄像头等**如有问题请先提Issues附带系统版本、设备型号、错误log等信息；
 或发邮件到anylife.zlb@gmail.com ，VIP用户添加微信ID：HaoNan19990322
@@ -53,7 +54,8 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
             FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setThreshold(0.88f)                //threshold（阈值）设置，范围仅限[0.8-0.95]，默认0.85
                 .setBaseBitmap(baseBitmap)          //1：1 底片「底片请设置为正脸无遮挡，并如Demo裁剪为仅含人脸」
-                .setLiveCheck(true)                 //是否需要活体检测，需要发送邮件，详情参考ReadMe
+                .setLiveNessDetection(true)         //是否需要活体检测，需要发送邮件，详情参考ReadMe
+                .setLiveNessDetectionMode(FAST)     //活体检测模式，快速还是准确（仅动作活体，建议高配硬件用准确模式）
                 .setVerifyTimeOut(10)               //活体检测支持设置超时时间 9-16 秒
                 .setMotionStepSize(2)               //随机动作验证活体的步骤个数，支持1-2个步骤
                 .setProcessCallBack(new ProcessCallBack() {
@@ -99,6 +101,9 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
    也可以加微信 HaoNan19990322 （请标注为 人脸识别 ，否则会自动忽略添加，谢谢）
    
    欢迎关注Fork+Star获取最新动态  Github:  https://github.com/AnyLifeZLB/FaceVerificationSDK
+
+## SDK 升级
+   SDK 会持续更新，建议参考更新Log 后决定是否更新依赖升级，一般升级是兼容性无缝升级，如果发现API 有更改可以更新本SDK 接入Demo 后参考修改你的代码
 
 ## 常见问题
    常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/questions.md

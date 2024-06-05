@@ -2,7 +2,6 @@
 package com.ai.face.verify;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +23,7 @@ import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus.*;
+import com.ai.face.faceVerify.verify.alive.LivenessDetection;
 import com.ai.face.utils.VoicePlayer;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -50,7 +49,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     private static final float silentPassScore = 0.92f; //静默活体分数通过的阈值
     private float silentScoreValue = 0f; //静默活体的分数
     //字段拆分出来，照顾Free 用户
-    private final boolean needLiveCheck=true; //是否需要活体检测，不需要的话最终识别结果不用考虑静默活体分数
+    private final boolean livenessCheck =true; //是否需要活体检测，不需要的话最终识别结果不用考虑静默活体分数
     private Boolean isVerifyMatched = null; //先取一个中性的null, 真实只有true 和 false
 
 
@@ -111,12 +110,13 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     private void initFaceVerify(Bitmap baseBitmap) {
 
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                .setThreshold(0.88f)             //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
-                .setBaseBitmap(baseBitmap)       //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
-                .setLiveCheck(needLiveCheck)     //是否需要活体检测（包含动作和静默）,开通需要发送邮件，参考ReadMe
-                .setSilentAliveThreshold(0.88f)  //静默活体阈值 [0.88,0.99]
-                .setMotionStepSize(1)            //随机动作验证活体的步骤个数[0-2]，0个没有动作活体只有静默活体
-                .setVerifyTimeOut(12)            //活体检测支持设置超时时间 [9,16] 秒
+                .setThreshold(0.88f)                  //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
+                .setBaseBitmap(baseBitmap)            //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
+                .setLivenessDetection(livenessCheck)  //是否需要活体检测（包含动作和静默）,开通需要发送邮件，参考ReadMe
+                .setLivenessStepSize(1)               //随机动作验证活体的步骤个数[0-2]，0个没有动作活体只有静默活体
+                .setLivenessDetectionMode(LivenessDetection.FAST)  //硬件配置低用FAST动作活体模式，否则用精确模式
+                .setSilentLivenessThreshold(0.91f)    //静默活体阈值 [0.88,0.99]
+                .setVerifyTimeOut(12)                 //活体检测支持设置超时时间 [9,16] 秒
                 .setGraphicOverlay(faceTipsOverlay)//正式环境请去除设置
                 .setProcessCallBack(new ProcessCallBack() {
                     //静默活体检测得分大于0.9 可以认为是真人，可结合动作活体一起使用
@@ -169,7 +169,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     private void playVerifyResult() {
 
         //不需要活体检测，忽略分数,下版本放到SDK 内部处理
-        if(!needLiveCheck){
+        if(!livenessCheck){
             silentScoreValue=1.0f;
         }
 
