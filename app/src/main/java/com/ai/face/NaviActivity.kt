@@ -31,9 +31,7 @@ import java.io.File
  *
  * 更多请发邮件 anylife.zlb@gmail.com 或 微信 HaoNan19990322 交流（请备注 人脸识别定制，否则添加不通）
  *
- * 一个在线人脸图片对比工具 https://facecomparison.toolpie.com/
  *
- * 定期清理 Demo 在Bugly 的Bug:  https://bugly.qq.com/v2/crash-reporting/crashes/36fade54d8?pid=1
  *
  *
  * 2022.07.29
@@ -50,12 +48,16 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         checkNeededPermission()
 
 
+        //一个在线人脸图片对比工具 https://facecomparison.toolpie.com/
         //测试两张人脸是否相同  model.jpg
         val value= VerifyUtils.evaluateFaceSimi(baseContext,
             VerifyUtils.getBitmapFromAssert(baseContext,"model_1.png"),
             VerifyUtils.getBitmapFromAssert(baseContext,"model.jpg"))
 
         Log.d("VerifyUtils", "测试两张人脸是否相同，value:  $value")
+
+
+
 
 
         viewBinding.faceVerifyCard.setOnClickListener {

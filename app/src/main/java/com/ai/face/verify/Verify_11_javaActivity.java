@@ -1,4 +1,3 @@
-
 package com.ai.face.verify;
 
 import android.content.Context;
@@ -9,11 +8,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.ai.face.FaceApplication;
 import com.ai.face.R;
 import com.ai.face.base.view.CameraXFragment;
@@ -26,7 +23,6 @@ import com.ai.face.faceVerify.verify.VerifyStatus.*;
 import com.ai.face.faceVerify.verify.alive.LivenessDetection;
 import com.ai.face.utils.VoicePlayer;
 import com.google.android.material.snackbar.Snackbar;
-
 import java.io.File;
 
 
@@ -42,10 +38,9 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     private TextView tipsTextView, scoreText;
     private FaceTipsOverlay faceTipsOverlay;
     private FaceCoverView faceCoverView;
-
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
 
-    //RGB 镜头 1080p， 固定 30 帧，无拖影，RGB 镜头建议是宽动态
+    //RGB 镜头 720p， 固定 30 帧，无拖影，RGB 镜头建议是宽动态
     private static final float silentPassScore = 0.92f; //静默活体分数通过的阈值
     private float silentScoreValue = 0f; //静默活体的分数
     //字段拆分出来，照顾Free 用户
@@ -117,7 +112,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                 .setLivenessDetectionMode(LivenessDetection.FAST)  //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(0.91f)    //静默活体阈值 [0.88,0.99]
                 .setVerifyTimeOut(12)                 //活体检测支持设置超时时间 [9,16] 秒
-                .setGraphicOverlay(faceTipsOverlay)//正式环境请去除设置
+                .setGraphicOverlay(faceTipsOverlay)   //正式环境请去除设置
                 .setProcessCallBack(new ProcessCallBack() {
                     //静默活体检测得分大于0.9 可以认为是真人，可结合动作活体一起使用
                     @Override
@@ -131,9 +126,8 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                     }
 
 
-                    //onCompleted --- rename --->  onVerifyMatched
                     @Override
-                    public void onVerifyMatched(boolean isMatched) {
+                    public void onVerifyMatched(boolean isMatched,Bitmap vipBitmap) {
                         isVerifyMatched = isMatched;
                         playVerifyResult();
                     }

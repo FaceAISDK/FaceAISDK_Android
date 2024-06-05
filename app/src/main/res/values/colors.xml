@@ -6,7 +6,7 @@
     <color name="colorAccent">#0B4D46</color>
 
     <color name="white">#FFFFFFFF</color>
-    <color name="yellow">#F7AF46</color>
+    <color name="yellow">#C2995C</color>
     <color name="red">#E91E63</color>
     <color name="green">#58E35E</color>
     <color name="green2">#37B13C</color>
@@ -14,7 +14,7 @@
     <color name="blue">#334141</color>
 
 
-    <color name="blue_sky">#0B4D46</color>
+    <color name="blue_sky">#AA0B4D46</color>
 
     <color name="helloColor">#8C663F</color>
 

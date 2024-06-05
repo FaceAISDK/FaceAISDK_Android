@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/yellow"
     android:paddingTop="100dp"
     tools:context=".NaviActivity">
 
@@ -42,7 +42,7 @@
                 android:gravity="center"
                 android:text="1:1人脸识别"
                 android:textColor="#2DCC18"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
@@ -84,7 +84,7 @@
                 android:gravity="center"
                 android:text="更换底片"
                 android:textColor="#2DCC18"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 app:layout_constraintTop_toBottomOf="@+id/update_base_image" />
 
         </LinearLayout>
@@ -126,8 +126,8 @@
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         android:visibility="visible"
-        android:text="1:N(M:N)人脸检索识别演示"
-        android:textColor="@color/yellow"
+        android:text="1:N &amp; M:N人脸检索识别演示"
+        android:textColor="@color/red"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -143,8 +143,8 @@
         android:layout_gravity="bottom"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
-        android:layout_marginTop="25dp"
+        android:textSize="18sp"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="33dp"
         app:layout_constraintBottom_toTopOf="@+id/more_about_me"
         android:text="点击切换前后摄像头" />
@@ -157,9 +157,9 @@
         android:gravity="center"
         android:padding="19dp"
         android:visibility="visible"
-        android:text="关于我们,查看更多（重构v1.x.y)"
+        android:text="关于我们,查看更多"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textSize="17sp"
         android:layout_marginBottom="33dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
