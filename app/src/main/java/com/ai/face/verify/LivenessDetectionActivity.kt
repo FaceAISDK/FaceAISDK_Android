@@ -24,7 +24,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
 /**
- * 人脸活体检测
+ * 人脸活体检测,更齐全的参考{@link #Verify_11_javaActivity}
+ *
  *
  */
 class LivenessDetectionActivity : AppCompatActivity() {
@@ -50,14 +51,13 @@ class LivenessDetectionActivity : AppCompatActivity() {
 
         val faceProcessBuilder = FaceProcessBuilder
             .Builder(this@LivenessDetectionActivity)
-            .setThreshold(0.85f)  //threshold（阈值）设置，范围仅限 0.8-0.95，默认0.8
-            .setBaseBitmap(null)  //底片,没有底片说明只需要活体检测，不需要1:1 人脸对比
+            .setThreshold(0.85f)          //threshold（阈值）设置，范围仅限 0.8-0.95，默认0.8
+            .setBaseBitmap(null)          //底片,没有底片说明只需要活体检测，不需要1:1 人脸对比
             .setLivenessDetection(true)   //是否需要活体检测，需要发送邮件，详情参考 ReadMe
+            .setLivenessStepSize(2)       //动作活体检测几个步骤
             .setLivenessDetectionMode(LivenessDetection.FAST)
             .setVerifyTimeOut(15)
             .setGraphicOverlay(binding.faceTips)
-            .setLivenessStepSize(2) //动作活体检测几个步骤
-            .setLicenceKey("Y29tLkFJLnRlc3Q=") //试用版，不要直接集成到正式APP
             .setProcessCallBack(object : ProcessCallBack() {
                 override fun onAliveCheckPass(isPass: Boolean, bitmap: Bitmap) {
                     runOnUiThread {
@@ -68,7 +68,6 @@ class LivenessDetectionActivity : AppCompatActivity() {
                             .transform(RoundedCorners(10))
                             .into(binding.callBack)
                         binding.coverView.setTipText("活体检测完成")
-
                     }
                 }
 
@@ -102,7 +101,6 @@ class LivenessDetectionActivity : AppCompatActivity() {
         binding.back.setOnClickListener {
             finish()
         }
-
 
     }
 

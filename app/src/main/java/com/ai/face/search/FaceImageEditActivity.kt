@@ -46,8 +46,6 @@ import java.util.UUID
  * 增删改 编辑人脸图片,演示怎样使用SDK API进行人脸的增删改查
  * 仅仅是测试验证和演示，不是SDK 接入的一部分
  *
- * 将会使用JAVA 重构
- *
  */
 class FaceImageEditActivity : AppCompatActivity() {
 

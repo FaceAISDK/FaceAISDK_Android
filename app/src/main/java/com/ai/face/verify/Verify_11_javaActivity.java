@@ -44,7 +44,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     private static final float silentPassScore = 0.92f; //静默活体分数通过的阈值
     private float silentScoreValue = 0f; //静默活体的分数
     //字段拆分出来，照顾Free 用户
-    private final boolean livenessCheck =true; //是否需要活体检测，不需要的话最终识别结果不用考虑静默活体分数
+    private final boolean livenessCheck = true; //是否需要活体检测，不需要的话最终识别结果不用考虑静默活体分数
     private Boolean isVerifyMatched = null; //先取一个中性的null, 真实只有true 和 false
 
 
@@ -52,8 +52,8 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_11);
-        setTitle("1:1人脸识别with 活体检测");
-        rootView=findViewById(R.id.rootView);
+        setTitle("1:1人脸识别with活体检测");
+        rootView = findViewById(R.id.rootView);
         scoreText = findViewById(R.id.silent_Score);
         tipsTextView = findViewById(R.id.tips_view);
         faceCoverView = findViewById(R.id.face_cover);
@@ -108,7 +108,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                 .setThreshold(0.88f)                  //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap)            //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
                 .setLivenessDetection(livenessCheck)  //是否需要活体检测（包含动作和静默）,开通需要发送邮件，参考ReadMe
-                .setLivenessStepSize(1)               //随机动作验证活体的步骤个数[0-2]，0个没有动作活体只有静默活体
+                .setLivenessStepSize(2)               //随机动作验证活体的步骤个数[0-2]，0个没有动作活体只有静默活体
                 .setLivenessDetectionMode(LivenessDetection.FAST)  //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(0.91f)    //静默活体阈值 [0.88,0.99]
                 .setVerifyTimeOut(12)                 //活体检测支持设置超时时间 [9,16] 秒
@@ -117,9 +117,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                     //静默活体检测得分大于0.9 可以认为是真人，可结合动作活体一起使用
                     @Override
                     public void onSilentAntiSpoofing(float scoreValue) {
-                        runOnUiThread(() -> {
-                            scoreText.setText("静默活体可靠得分：" + scoreValue);
-                        });
+                        runOnUiThread(() -> scoreText.setText("静默活体可靠得分：" + scoreValue));
 
                         silentScoreValue = scoreValue;
                         playVerifyResult();
@@ -163,8 +161,8 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     private void playVerifyResult() {
 
         //不需要活体检测，忽略分数,下版本放到SDK 内部处理
-        if(!livenessCheck){
-            silentScoreValue=1.0f;
+        if (!livenessCheck) {
+            silentScoreValue = 1.0f;
         }
 
         //1:1 人脸识别对比的结果，是同一个人还是非同一个人
@@ -211,12 +209,12 @@ public class Verify_11_javaActivity extends AppCompatActivity {
      * <p>
      * 添加声音提示和动画提示定制也在这里根据返回码进行定制
      */
-    boolean isSnakeBarShow=false;
+    boolean isSnakeBarShow = false;
+
     private void showAliveDetectTips(int actionCode) {
         if (!isDestroyed() && !isFinishing()) {
             runOnUiThread(() -> {
                 switch (actionCode) {
-
 
                     //5次相比阈值太低就判断为非同一人
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:
@@ -232,16 +230,14 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                         tipsTextView.setText("动作活体检测失败了");
                         break;
 
-                    case VERIFY_DETECT_TIPS_ENUM.ACTION_OK: {
+                    case VERIFY_DETECT_TIPS_ENUM.ACTION_OK:
                         VoicePlayer.getInstance().addPayList(R.raw.face_camera);
                         tipsTextView.setText("请保持正对屏幕");
-                    }
                     break;
 
-                    case ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE: {
+                    case ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
                         VoicePlayer.getInstance().addPayList(R.raw.open_mouse);
                         tipsTextView.setText("请张嘴");
-                    }
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.SMILE: {
@@ -256,53 +252,50 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                     }
                     break;
 
-                    case ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD: {
+                    case ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD:
                         VoicePlayer.getInstance().addPayList(R.raw.shake_head);
                         tipsTextView.setText("请缓慢左右摇头");
-                    }
+
                     break;
 
-                    case ALIVE_DETECT_TYPE_ENUM.NOD_HEAD: {
+                    case ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
                         VoicePlayer.getInstance().addPayList(R.raw.nod_head);
                         tipsTextView.setText("请缓慢上下点头");
-                    }
+
                     break;
 
-
-                    case VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT: {
+                    case VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT:
                         new AlertDialog.Builder(this)
                                 .setMessage("活体检测超时了")
                                 .setCancelable(false)
                                 .setPositiveButton("重试一次", (dialogInterface, i) -> faceVerifyUtils.retryVerify()
                                 ).show();
-                    }
-
                     break;
 
-                    case VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY: {
+                    case VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
                         tipsTextView.setText("多次切换画面或无人脸");
                         new AlertDialog.Builder(this)
                                 .setMessage("多次切换画面或无人脸，停止识别。\n识别过程请保持人脸在画面中")
                                 .setCancelable(false)
                                 .setPositiveButton("知道了", (dialogInterface, i) -> finish())
                                 .show();
-                    }
+
                     break;
 
-                    //请远一点,交互业务自行实现仅供参考
+                    //请远一点,交互业务自行实现，本处理仅供参考
                     case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE:
-                        if(isSnakeBarShow) return;
-                        Snackbar.make(rootView, "请离屏幕远一点!", Snackbar.LENGTH_SHORT).setCallback(new Snackbar.Callback(){
+                        if (isSnakeBarShow) return;
+                        Snackbar.make(rootView, "请离屏幕远一点!", Snackbar.LENGTH_SHORT).setCallback(new Snackbar.Callback() {
                             @Override
                             public void onShown(Snackbar sb) {
                                 super.onShown(sb);
-                                isSnakeBarShow=true;
+                                isSnakeBarShow = true;
                             }
 
                             @Override
                             public void onDismissed(Snackbar transientBottomBar, int event) {
                                 super.onDismissed(transientBottomBar, event);
-                                isSnakeBarShow=false;
+                                isSnakeBarShow = false;
                             }
                         }).show();
 

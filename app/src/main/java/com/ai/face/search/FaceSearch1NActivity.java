@@ -7,6 +7,7 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERRO
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -67,8 +68,9 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setImageFlipped(cameraLens == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {
+
                     @Override
-                    public void onMostSimilar(String similar) {
+                    public void onMostSimilar(String similar,float score, Bitmap bitmap) {
                         binding.searchTips.setText(similar);
                         Glide.with(getBaseContext())
                                 .load(CACHE_SEARCH_FACE_DIR + File.separatorChar + similar)

@@ -6,14 +6,14 @@
 # [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
 On_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK 
-设备端离线 Android人脸检测、人脸识别、活体检测反作弊以及1:N / M:N人脸搜索 SDK （SDK面向软件开发工程人员，破解灰色行业勿扰，谢谢）
+设备端离线 Android人脸检测、人脸识别、活体检测反作弊以及1:N / M:N人脸搜索 SDK 
 
 ![设备端离线机器学习优点](img.png)
 
-## 当前版本说明 V1.8.13
+## 当前版本说明 V1.8.14
 - 支持自定义摄像头(自行相机方向旋转管理)和双目摄像头搜索
 - 性能优化，人脸搜索速度加快；同时高配硬件支持多次过滤搜索结果
-- 动作活体检测支持快速模式和精确模式
+- 动作活体检测支持快速模式和精确模式(高配硬件后期会开启默认匹配)
 
  建议[Fork] + [Star] 以便获取最新更新 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
  SDK 演示目前仅仅托管在GitHub，其他镜像版本大概率不是最新的，请移步到GitHub 更新最新的演示代码
@@ -83,17 +83,18 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
     * 1：N 和 M：N人脸检索可以独立依赖，体积更小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
 
     不含活体检测不需要license完全免费，包含活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 申请
-    内容包括App名称、简要描述和要申请  1:1 / 1:N / M:N 哪种类型、包名（applicationId）3项内容。
+    内容包括App名称、包名（applicationId）、签名证书SHA1和简要描述和要申请  1:1 / 1:N / M:N 哪种类型、4项内容。
 
 
 ## Demo 下载体验
 
-   最新版体验下载地址： https://www.pgyer.com/faceVerify  
-   微信或相机扫码后选择在浏览器中打开点击下载安装，验证是否符合你的业务需求
+   扫码后选择在浏览器中打开点击下载安装，或直接输入地址 https://www.pgyer.com/faceVerify
 
 <div align=center>
 <img src="https://user-images.githubusercontent.com/15169396/210045090-60c073df-ddbd-4747-8e24-f0dce1eccb58.png" width = 30% height = 30% />
 </div>
+  
+   注：1:N，M:N 人脸搜索Demo 可单独下载小体积体验包：https://www.pgyer.com/FaceSearchSDK
 
 ## 服务定制
 

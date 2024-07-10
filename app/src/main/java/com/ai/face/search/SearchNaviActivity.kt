@@ -80,15 +80,15 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         binding.changeCamera.setOnClickListener {
             val sharedPref = getSharedPreferences("faceVerify", Context.MODE_PRIVATE)
 
-            if (sharedPref.getInt("cameraFlag", 0) == 1) {
-                sharedPref.edit().putInt("cameraFlag", 0).apply()
+            if (sharedPref.getInt("cameraFlag", 1) == 1) {
+                sharedPref.edit().putInt("cameraFlag", 0).commit()
                 Toast.makeText(
                     baseContext,
                     "已切换前置摄像头",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                sharedPref.edit().putInt("cameraFlag", 1).apply()
+                sharedPref.edit().putInt("cameraFlag", 1).commit()
                 Toast.makeText(
                     baseContext,
                     "已切换后置/外接摄像头",
@@ -118,9 +118,9 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
 
         AlertDialog.Builder(this@SearchNaviActivity)
-            .setTitle("提示")
-            .setMessage("1：N & M:N 人脸检索可以下载独立版本，体积更小，速度更快，长期维护。\n去快速下载？")
-            .setPositiveButton("快速下载") { _: DialogInterface?, _: Int ->
+            .setTitle("温馨提示")
+            .setMessage("1：N & M:N 人脸检索建议下载独立版本。独立版含最新更新，体积小速度快")
+            .setPositiveButton("快速安装") { _: DialogInterface?, _: Int ->
 
                 val uri = Uri.parse("https://www.pgyer.com/FaceSearchSDK")
                 val intent = Intent(Intent.ACTION_VIEW)
@@ -128,7 +128,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
                 intent.data = uri
                 startActivity(intent)
             }
-            .setNegativeButton("以后") { _: DialogInterface?, _: Int -> }
+            .setNegativeButton("以后再说") { _: DialogInterface?, _: Int -> }
             .show()
 
     }
@@ -141,7 +141,12 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         val perms = arrayOf(Manifest.permission.CAMERA)
         if (EasyPermissions.hasPermissions(this, *perms)) {
         } else {
-            EasyPermissions.requestPermissions(this, "请授权相机使用权限才能采集人脸图像！", 11, *perms)
+            EasyPermissions.requestPermissions(
+                this,
+                "请授权相机使用权限才能采集人脸图像！",
+                11,
+                *perms
+            )
         }
     }
 

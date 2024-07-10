@@ -24,9 +24,7 @@ import java.util.List;
  * Demo 中的交互仅供参考，UI样式用户可以自行设计改造。甚至SurfaceView 改造
  *
  */
-
 public class RectOverlay extends View {
-    private static final String TAG = "GraphicOverlay";
     private final Paint rectPaint = new Paint();
     private float scaleX = 1.0f;
     private float scaleY = 1.0f;
@@ -91,7 +89,6 @@ public class RectOverlay extends View {
         List<RectLabel> labels = new ArrayList<>();
         int padding = 10;
 
-        //调整一点
         for (RectLabel rectLabel : rectLabels) {
             Rect rect = new Rect(
                     translateX(rectLabel.getRect().left)  ,
