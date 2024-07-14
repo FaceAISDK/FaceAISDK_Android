@@ -45,7 +45,7 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
     //1.首先Gradle 中引入依赖 
     implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //目前仅维护1.6 以上版本，请及时升级
-    //2.Camera相机的初始化。第一个参数0/1 指定前后摄像头；第二个参数linearZoom [0.01f,1.0f] 指定焦距，默认0.1
+    //2.Camera相机的初始化。第一个参数0/1 指定前后摄像头；第二个参数linearZoom [0.01f,1.0f] 指定焦距，默认0.01
     CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing,0.2f);
 
     ``` 

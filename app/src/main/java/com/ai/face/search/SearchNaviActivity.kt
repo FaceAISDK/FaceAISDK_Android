@@ -120,15 +120,14 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         AlertDialog.Builder(this@SearchNaviActivity)
             .setTitle("温馨提示")
             .setMessage("1：N & M:N 人脸检索建议下载独立版本。独立版含最新更新，体积小速度快")
-            .setNegativeButton("以后再说吧") { _: DialogInterface?, _: Int ->
-
+            .setNegativeButton("下载体验") { _: DialogInterface?, _: Int ->
                 val uri = Uri.parse("https://www.pgyer.com/FaceSearchSDK")
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.addCategory(Intent.CATEGORY_BROWSABLE)
                 intent.data = uri
                 startActivity(intent)
             }
-            .setPositiveButton("快速安装") { _: DialogInterface?, _: Int -> }
+            .setPositiveButton("以后再说吧") { _: DialogInterface?, _: Int -> }
             .show()
 
     }

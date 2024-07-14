@@ -51,10 +51,10 @@ public class FaceSearchMNActivity extends AppCompatActivity {
 
         /**
          * 1. Camera 的初始化。第一个参数0/1 指定前后摄像头；
-         * 第二个参数linearZoom [0.01f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
+         * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
          */
         int cameraLens = sharedPref.getInt("cameraFlag", sharedPref.getInt("cameraFlag", 0));
-        CameraXFragment cameraX = CameraXFragment.newInstance(cameraLens, 0.3f); //参数1，前后摄像头 2是焦距
+        CameraXFragment cameraX = CameraXFragment.newInstance(cameraLens, 0.01f); //参数1，前后摄像头 2是焦距
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraX)
                 .commit();
 

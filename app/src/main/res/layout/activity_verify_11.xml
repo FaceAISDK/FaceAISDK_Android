@@ -17,7 +17,7 @@
         android:id="@+id/face_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        customAttr:circle_margin="22dp"
+        customAttr:circle_margin="15dp"
         customAttr:progress_end_color="@color/green"
         customAttr:progress_start_color="@color/green2"
         customAttr:show_progress="true"

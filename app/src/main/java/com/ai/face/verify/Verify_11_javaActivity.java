@@ -69,9 +69,9 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
         /**
          * 1. Camera 的初始化。第一个参数0/1 指定前后摄像头；
-         * 第二个参数linearZoom [0.01f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
+         * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
          */
-        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.09f);
+        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.01f);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();

@@ -1,5 +1,9 @@
-# V1.9.0
-- 去除  processCallBack.onCompleted 回调
+# V1.8.15
+- 升级项目TargetSDK = 34
+- 升级相机管理，TargetSDK<28 的朋友请强制指定版本 
+
+# V1.8.14
+- 免费版本的录入人脸的质量也提升同VIP 版本
 - 增加  processCallBack.onVerifyMatched(boolean,matchedBitmap) 回调（VIP）
 - 增加  人脸质量检测 （VIP）
 

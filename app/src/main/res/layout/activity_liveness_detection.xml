@@ -18,7 +18,7 @@
         android:id="@+id/coverView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        customAttr:circle_margin="20dp"
+        customAttr:circle_margin="15dp"
         customAttr:progress_end_color="@color/red"
         customAttr:progress_start_color="@color/yellow"
         customAttr:show_progress="true"
