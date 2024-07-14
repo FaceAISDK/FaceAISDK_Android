@@ -96,8 +96,6 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
             startActivity(Intent(this@NaviActivity, AboutUsActivity::class.java))
         }
 
-        //用于绑定设备授权查看
-        viewBinding.deviceInfo.text="设备指纹:"+DeviceFingerprint.getDeviceFingerprint()
 
         viewBinding.changeCamera.setOnClickListener {
             val sharedPref = getSharedPreferences(

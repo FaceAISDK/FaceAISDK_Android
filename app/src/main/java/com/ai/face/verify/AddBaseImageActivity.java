@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.CameraControl;
+
 import com.ai.face.R;
 import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
@@ -65,15 +67,21 @@ public class AddBaseImageActivity extends AppCompatActivity {
                         case AlIGN_FAILED:
                             tipsTextView.setText("图像校准失败");
                             break;
+
+                        //更多？
                     }
                 });
             }
         });
 
         SharedPreferences sharedPref = getSharedPreferences("faceVerify", Context.MODE_PRIVATE);
-
-        // 1. Camera 的初始化。第一个参数0/1 指定前后摄像头； 第二个参数linearZoom [0.1f,1.0f] 指定焦距，默认0.1
         int cameraLens = sharedPref.getInt("cameraFlag", sharedPref.getInt("cameraFlag", 0));
+
+
+        /**
+         * 1. Camera 的初始化。第一个参数0/1 指定前后摄像头；
+         * 第二个参数linearZoom [0.01f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
+         */
         CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens,0.09f);
 
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {

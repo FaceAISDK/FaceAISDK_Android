@@ -120,7 +120,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         AlertDialog.Builder(this@SearchNaviActivity)
             .setTitle("温馨提示")
             .setMessage("1：N & M:N 人脸检索建议下载独立版本。独立版含最新更新，体积小速度快")
-            .setPositiveButton("快速安装") { _: DialogInterface?, _: Int ->
+            .setNegativeButton("以后再说吧") { _: DialogInterface?, _: Int ->
 
                 val uri = Uri.parse("https://www.pgyer.com/FaceSearchSDK")
                 val intent = Intent(Intent.ACTION_VIEW)
@@ -128,7 +128,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
                 intent.data = uri
                 startActivity(intent)
             }
-            .setNegativeButton("以后再说") { _: DialogInterface?, _: Int -> }
+            .setPositiveButton("快速安装") { _: DialogInterface?, _: Int -> }
             .show()
 
     }
@@ -177,7 +177,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
                 .setDragEnable(false)
                 .setLayout(R.layout.float_loading) {
                     val entry: LottieAnimationView = it.findViewById(R.id.entry)
-                    entry.setAnimation(R.raw.loading2)
+                    entry.setAnimation(R.raw.loading)
                     entry.loop(true)
                     entry.playAnimation()
                 }

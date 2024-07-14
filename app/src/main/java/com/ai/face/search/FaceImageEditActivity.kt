@@ -60,7 +60,7 @@ class FaceImageEditActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         val mRecyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        val gridLayoutManager: LinearLayoutManager = GridLayoutManager(this, 2)
+        val gridLayoutManager: LinearLayoutManager = GridLayoutManager(this, 3)
         mRecyclerView.layoutManager = gridLayoutManager
         loadImageList()
 

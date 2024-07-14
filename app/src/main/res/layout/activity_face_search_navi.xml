@@ -64,7 +64,7 @@
         android:padding="5dp"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/copyFaceImages"
-        android:text="人脸库浏览和编辑人脸" />
+        android:text="人脸库管理（增删操作）" />
 
 
     <TextView
@@ -78,7 +78,7 @@
         android:padding="5dp"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/editFaceImage"
-        android:text="录入你的人脸（切换到前置Camera）" />
+        android:text="拍照录入一张人脸图片" />
 
     <TextView
         android:id="@+id/change_camera"
@@ -92,7 +92,7 @@
         android:visibility="visible"
         android:layout_marginTop="60dp"
         app:layout_constraintTop_toBottomOf="@+id/addFaceImage"
-        android:text="点击切换摄像头" />
+        android:text="切换前后摄像头" />
 
 
 

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.CameraControl;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.ai.face.FaceApplication;
 import com.ai.face.R;
@@ -66,8 +67,10 @@ public class Verify_11_javaActivity extends AppCompatActivity {
         int cameraLensFacing = getSharedPreferences("faceVerify", Context.MODE_PRIVATE)
                 .getInt("cameraFlag", 0);
 
-        // 1. Camera 的初始化。第一个参数0/1 指定前后摄像头；
-        // 第二个参数linearZoom [0.1f,1.0f] 指定焦距，默认0.1。根据你的设备和场景选择合适的值
+        /**
+         * 1. Camera 的初始化。第一个参数0/1 指定前后摄像头；
+         * 第二个参数linearZoom [0.01f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
+         */
         CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.09f);
 
         getSupportFragmentManager().beginTransaction()
@@ -81,6 +84,10 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
         File file = new File(FaceApplication.CACHE_BASE_FACE_DIR, yourUniQueFaceId);
         Bitmap baseBitmap = BitmapFactory.decodeFile(file.getPath());
+
+        //要校验底片是否合格,是否闭眼，是否正脸（VIP）
+
+
 
         //1.初始化引擎，各种参数配置
         initFaceVerify(baseBitmap);
