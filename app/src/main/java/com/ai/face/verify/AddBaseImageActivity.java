@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraControl;
@@ -29,6 +31,9 @@ public class AddBaseImageActivity extends AppCompatActivity {
     private TextView tipsTextView;
     private BaseImageDispose baseImageDispose;
     private long index = 1;
+    private int indexPeriod;
+
+    private boolean isAliveCheck=false; //是否要真人，还是拍个照片也行
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +46,14 @@ public class AddBaseImageActivity extends AppCompatActivity {
             this.finish();
         });
 
+        if(isAliveCheck){
+            indexPeriod=5;
+        } else {
+            indexPeriod = 33;
+        }
 
-        //准备增加人脸质量检测（VIP）
-        baseImageDispose = new BaseImageDispose(getBaseContext(), new BaseImageCallBack() {
+        //第一个参数是否开启静默活体检测
+        baseImageDispose = new BaseImageDispose(isAliveCheck,getBaseContext(), new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap) {
                 runOnUiThread(() -> showConfirmDialog(bitmap));
@@ -68,7 +78,18 @@ public class AddBaseImageActivity extends AppCompatActivity {
                             tipsTextView.setText("图像校准失败");
                             break;
 
-                        //更多？
+                        case REAL_HUMAN:
+                            tipsTextView.setText("活体检验通过");
+                            break;
+
+                        case NOT_REAL_HUMAN: //仅仅开启了活体检测的有
+                            tipsTextView.setText("非真正人脸");
+
+                            //业务逻辑自己处理
+                            Toast.makeText(getBaseContext(),"请真人录制人脸",Toast.LENGTH_LONG).show();
+                            AddBaseImageActivity.this.finish();
+                            break;
+
                     }
                 });
             }
@@ -84,9 +105,11 @@ public class AddBaseImageActivity extends AppCompatActivity {
          */
         CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens,0.01f);
 
+
+
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             index++;
-            if(index%33==0){ //让程序响应慢一点
+            if(index%indexPeriod==0){ // %的值得大可以让流程更慢
                 baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy,10,false));
             }
         });
@@ -125,7 +148,9 @@ public class AddBaseImageActivity extends AppCompatActivity {
         btnOK.setOnClickListener(v -> {
                 String yourUniQueFaceId = "18707611416"; //face id, 1:1 写死，实际业务自行修改
                 //添加新的底片，业务需要处理是新加还是修改！！自行处理
-                baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, yourUniQueFaceId);
+
+                //你可以用你自己的保存方法
+                baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, yourUniQueFaceId,444);
                 dialog.dismiss();
                 finish();
         });
