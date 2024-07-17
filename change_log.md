@@ -1,6 +1,7 @@
 # V1.8.15
 - 升级项目TargetSDK = 34
 - 升级相机管理，TargetSDK<28 的朋友请强制指定版本 
+- 新加录入人脸是返回高清人脸图和原图 onCompletedVIP(Bitmap bitmap, Bitmap bitmap1) {
 
 # V1.8.14
 - 免费版本的录入人脸的质量也提升同VIP 版本

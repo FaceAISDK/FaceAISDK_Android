@@ -24,7 +24,8 @@ import com.ai.face.base.view.CameraXFragment;
 
 /**
  * 修改底图,实际业务可以调用系统相机拍照后再调用API 处理
- * 准备增加人脸质量检测（VIP）
+ * 人脸照片返回高清人脸图，同时返回原图（VIP）
+ *
  *
  */
 public class AddBaseImageActivity extends AppCompatActivity {
@@ -46,6 +47,7 @@ public class AddBaseImageActivity extends AppCompatActivity {
             this.finish();
         });
 
+        // 根据自己业务需求指定丢帧参数
         if(isAliveCheck){
             indexPeriod=5;
         } else {
@@ -54,9 +56,17 @@ public class AddBaseImageActivity extends AppCompatActivity {
 
         //第一个参数是否开启静默活体检测
         baseImageDispose = new BaseImageDispose(isAliveCheck,getBaseContext(), new BaseImageCallBack() {
+
             @Override
             public void onCompleted(Bitmap bitmap) {
                 runOnUiThread(() -> showConfirmDialog(bitmap));
+            }
+
+            //人脸照片返回高清人脸图，同时返回原图（VIP），15 beta 3 公测中
+            @Override
+            public void onCompletedVIP(Bitmap bitmap, Bitmap bitmap1) {
+                //可以断点看看清晰度
+                super.onCompletedVIP(bitmap, bitmap1);
             }
 
             @Override

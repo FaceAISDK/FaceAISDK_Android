@@ -131,6 +131,11 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                     }
 
 
+                    /**
+                     * 1:1 人脸识别对比完成
+                     * @param isMatched 是否匹配（大于setThreshold）
+                     * @param vipBitmap 通过时候的快照，VIP用户返回
+                     */
                     @Override
                     public void onVerifyMatched(boolean isMatched,Bitmap vipBitmap) {
                         isVerifyMatched = isMatched;

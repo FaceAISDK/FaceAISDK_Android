@@ -227,6 +227,7 @@ class FaceImageEditActivity : AppCompatActivity() {
             var bitmap = BitmapUtils.Companion().getFixedBitmap(currentPhotoPath!!, contentResolver)
 
             //裁剪人脸，并压缩大小，防止人脸录入 OOM 闪退，1:N 搜索成功暂停0.5秒
+            //平板电脑会有问题，待修复！！！
             bitmap = BaseImageDispose(baseContext).cropFaceBitmap(bitmap)
 
             //加一个确定ID的操作，ID不要再确认了
