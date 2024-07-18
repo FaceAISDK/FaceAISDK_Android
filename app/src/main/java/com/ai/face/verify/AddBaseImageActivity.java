@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +28,13 @@ import com.ai.face.base.view.CameraXFragment;
  * 修改底图,实际业务可以调用系统相机拍照后再调用API 处理
  * 人脸照片返回高清人脸图，同时返回原图（VIP）
  *
+ *
+ * OpenCV
+ * 1.人脸角度提示
+ * 2.人脸完整度提示
+ * 3.闭眼提示
+ * 4.特征点遮挡提示（待开发）
+ * 5.高清人脸图和原图输出（Beta 试点中）
  *
  */
 public class AddBaseImageActivity extends AppCompatActivity {
@@ -76,30 +85,34 @@ public class AddBaseImageActivity extends AppCompatActivity {
                     //准备增加人脸质量检测（VIP） 不合格的给提示
                     switch (actionCode) {
                         case NO_FACE:
-                            tipsTextView.setText("未检测到人脸");
+                            showTempTips("未检测到人脸");
+//                            tipsTextView.setText("未检测到人脸");
                             break;
                         case MANY_FACE:
-                            tipsTextView.setText("多张人脸出现");
+                            showTempTips("多张人脸出现");
+//                            tipsTextView.setText("多张人脸出现");
                             break;
                         case SMALL_FACE:
-                            tipsTextView.setText("靠近一点");
+                            showTempTips("请靠近一点");
+//                            tipsTextView.setText("靠近一点");
                             break;
                         case AlIGN_FAILED:
-                            tipsTextView.setText("图像校准失败");
+                            showTempTips("图像校准失败");
+//                            tipsTextView.setText("图像校准失败");
                             break;
 
                         case REAL_HUMAN:
-                            tipsTextView.setText("活体检验通过");
+                            showTempTips("活体检验通过");
+//                            tipsTextView.setText("活体检验通过");
                             break;
 
                         case NOT_REAL_HUMAN: //仅仅开启了活体检测的有
-                            tipsTextView.setText("非真正人脸");
+//                            tipsTextView.setText("非真正人脸");
+                            showTempTips("非真正人脸");
 
                             //业务逻辑自己处理
-                            Toast.makeText(getBaseContext(),"请真人录制人脸",Toast.LENGTH_LONG).show();
                             AddBaseImageActivity.this.finish();
                             break;
-
                     }
                 });
             }
@@ -128,6 +141,41 @@ public class AddBaseImageActivity extends AppCompatActivity {
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
 
     }
+
+
+    /**
+     * 准备加语音提示
+     * @param tips 提示语
+     */
+    private void showTempTips(String tips) {
+        countDownTimer.cancel();
+        tipsTextView.setText(tips);
+        tipsTextView.setVisibility(View.VISIBLE);
+        countDownTimer.start();
+    }
+
+
+    /**
+     * 封装成一个Lib ，倒计时显示库
+     */
+    CountDownTimer countDownTimer = new CountDownTimer(1000L * 2, 1000L) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+            // your logic for tick
+            Log.e("countDownTimer", "onTick()" + millisUntilFinished);
+        }
+
+        @Override
+        public void onFinish() {
+            // your logic for finish
+            Log.e("countDownTimer", "onFinish()");
+            runOnUiThread(() -> {
+                tipsTextView.setText("");
+                tipsTextView.setVisibility(View.INVISIBLE);
+            });
+        }
+    };
+
 
     
     /**

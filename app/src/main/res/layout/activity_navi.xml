@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
-                android:text="更换底片"
+                android:text="人脸录入"
                 android:textColor="#2DCC18"
                 android:textSize="15sp"
                 app:layout_constraintTop_toBottomOf="@+id/update_base_image" />

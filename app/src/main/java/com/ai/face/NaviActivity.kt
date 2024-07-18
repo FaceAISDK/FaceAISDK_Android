@@ -50,14 +50,12 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         //一个在线人脸图片对比工具 https://facecomparison.toolpie.com/
         //测试两张人脸是否相同  model.jpg
+
         val value= VerifyUtils.evaluateFaceSimi(baseContext,
             VerifyUtils.getBitmapFromAssert(baseContext,"model_1.png"),
             VerifyUtils.getBitmapFromAssert(baseContext,"model.jpg"))
 
         Log.d("VerifyUtils", "测试两张人脸是否相同，value:  $value")
-
-
-
 
 
         viewBinding.faceVerifyCard.setOnClickListener {

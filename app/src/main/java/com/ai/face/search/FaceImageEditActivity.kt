@@ -163,7 +163,8 @@ class FaceImageEditActivity : AppCompatActivity() {
      */
     private fun showConfirmDialog(bitmap: Bitmap) {
 
-        var bitmapCrop = BaseImageDispose(baseContext).cropFaceBitmap(bitmap)
+        //裁剪掉周边，保存人脸的部分
+        val bitmapCrop = BaseImageDispose(baseContext).cropFaceBitmap(bitmap)
 
         if (bitmapCrop == null) {
             Toast.makeText(this, "没有检测到人脸", Toast.LENGTH_LONG).show()
