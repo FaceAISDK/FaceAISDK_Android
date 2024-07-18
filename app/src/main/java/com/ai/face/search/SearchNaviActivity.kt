@@ -100,7 +100,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         binding.editFaceImage.setOnClickListener {
             startActivity(
-                Intent(baseContext, FaceImageEditActivity::class.java).putExtra(
+                Intent(baseContext, FaceSearchImageEditActivity::class.java).putExtra(
                     "isAdd",
                     false
                 )
@@ -109,7 +109,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         binding.addFaceImage.setOnClickListener {
             startActivity(
-                Intent(baseContext, FaceImageEditActivity::class.java).putExtra(
+                Intent(baseContext, FaceSearchImageEditActivity::class.java).putExtra(
                     "isAdd",
                     true
                 )

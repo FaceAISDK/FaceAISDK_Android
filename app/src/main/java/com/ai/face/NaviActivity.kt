@@ -11,11 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ai.face.FaceApplication.Companion.CACHE_BASE_FACE_DIR
 import com.ai.face.FaceApplication.Companion.FACE_DIR_KEY
 import com.ai.face.FaceApplication.Companion.USER_ID_KEY
-import com.ai.face.base.utils.DeviceFingerprint
 import com.ai.face.databinding.ActivityNaviBinding
 import com.ai.face.faceVerify.verify.VerifyUtils
 import com.ai.face.search.SearchNaviActivity
-import com.ai.face.verify.AddBaseImageActivity
+import com.ai.face.addFaceImage.AddFaceImageActivity
 import com.ai.face.utils.VoicePlayer
 import com.ai.face.verify.LivenessDetectionActivity
 import com.ai.face.verify.Verify_11_javaActivity
@@ -64,7 +63,8 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
             if (BitmapFactory.decodeFile(file.path) != null) {
                 startActivity(
                     Intent(this@NaviActivity, Verify_11_javaActivity::class.java)
-                        .putExtra(USER_ID_KEY, yourUniQueFaceId)
+                        .putExtra(USER_ID_KEY, yourUniQueFaceId)     //1:1 底片人脸ID
+                        .putExtra(FACE_DIR_KEY, CACHE_BASE_FACE_DIR) //保存路径
                 )
             } else {
                 Toast.makeText(this@NaviActivity, "请先录入人脸底片", Toast.LENGTH_LONG).show()
@@ -75,7 +75,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         //添加1：1人脸识别底片
         viewBinding.updateBaseImage.setOnClickListener {
             startActivity(
-                Intent(this@NaviActivity, AddBaseImageActivity::class.java)
+                Intent(this@NaviActivity, AddFaceImageActivity::class.java)
                     .putExtra(USER_ID_KEY, yourUniQueFaceId)
                     .putExtra(FACE_DIR_KEY, CACHE_BASE_FACE_DIR)
             )

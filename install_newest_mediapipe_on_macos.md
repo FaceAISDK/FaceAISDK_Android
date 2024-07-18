@@ -8,7 +8,7 @@ So I Post a issues to google/mediaPipe https://github.com/google/mediapipe/issue
 Maybe it is a Small probability event，I can not find method to resolve it
 
 
-## Logs
+##  Logs
 
 OS Platform and Distribution
 macos Ventura 13.3.1 (a) (22E772610a

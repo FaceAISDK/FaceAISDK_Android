@@ -44,7 +44,7 @@ public class FaceSearchMNActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.tips.setOnClickListener(v -> {
-            startActivity(new Intent(this, FaceImageEditActivity.class));
+            startActivity(new Intent(this, FaceSearchImageEditActivity.class));
         });
 
         SharedPreferences sharedPref = getSharedPreferences("faceVerify", Context.MODE_PRIVATE);

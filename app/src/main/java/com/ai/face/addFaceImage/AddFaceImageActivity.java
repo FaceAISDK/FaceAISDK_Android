@@ -1,11 +1,16 @@
-package com.ai.face.verify;
+package com.ai.face.addFaceImage;
 
-import static com.ai.face.FaceApplication.CACHE_BASE_FACE_DIR;
+
+import static com.ai.face.FaceApplication.FACE_DIR_KEY;
+import static com.ai.face.FaceApplication.USER_ID_KEY;
+
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,31 +29,34 @@ import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.base.view.CameraXFragment;
 
+import java.io.ByteArrayOutputStream;
+
 /**
  * 修改底图,实际业务可以调用系统相机拍照后再调用API 处理
  * 人脸照片返回高清人脸图，同时返回原图（VIP）
- *
- *
+ * <p>
+ * <p>
  * OpenCV
  * 1.人脸角度提示
  * 2.人脸完整度提示
  * 3.闭眼提示
  * 4.特征点遮挡提示（待开发）
  * 5.高清人脸图和原图输出（Beta 试点中）
- *
  */
-public class AddBaseImageActivity extends AppCompatActivity {
+public class AddFaceImageActivity extends AppCompatActivity {
     private TextView tipsTextView;
     private BaseImageDispose baseImageDispose;
     private long index = 1;
     private int indexPeriod;
 
-    private boolean isAliveCheck=false; //是否要真人，还是拍个照片也行
+    private boolean isAliveCheck = false; //是否要真人来录制人脸，还是别人代拍一张照片也行？防止作弊
+
+    private String pathName, fileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_base);
+        setContentView(R.layout.activity_add_face_image);
         setTitle("1:1人脸底图添加");
 
         tipsTextView = findViewById(R.id.tips_view);
@@ -56,16 +64,18 @@ public class AddBaseImageActivity extends AppCompatActivity {
             this.finish();
         });
 
+        fileName = getIntent().getStringExtra(USER_ID_KEY);
+        pathName = getIntent().getStringExtra(FACE_DIR_KEY);
+
         // 根据自己业务需求指定丢帧参数
-        if(isAliveCheck){
-            indexPeriod=5;
+        if (isAliveCheck) {
+            indexPeriod = 5;
         } else {
             indexPeriod = 33;
         }
 
         //第一个参数是否开启静默活体检测
-        baseImageDispose = new BaseImageDispose(isAliveCheck,getBaseContext(), new BaseImageCallBack() {
-
+        baseImageDispose = new BaseImageDispose(isAliveCheck, getBaseContext(), new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap) {
                 runOnUiThread(() -> showConfirmDialog(bitmap));
@@ -86,32 +96,23 @@ public class AddBaseImageActivity extends AppCompatActivity {
                     switch (actionCode) {
                         case NO_FACE:
                             showTempTips("未检测到人脸");
-//                            tipsTextView.setText("未检测到人脸");
                             break;
                         case MANY_FACE:
                             showTempTips("多张人脸出现");
-//                            tipsTextView.setText("多张人脸出现");
                             break;
                         case SMALL_FACE:
                             showTempTips("请靠近一点");
-//                            tipsTextView.setText("靠近一点");
                             break;
                         case AlIGN_FAILED:
                             showTempTips("图像校准失败");
-//                            tipsTextView.setText("图像校准失败");
                             break;
 
                         case REAL_HUMAN:
                             showTempTips("活体检验通过");
-//                            tipsTextView.setText("活体检验通过");
                             break;
 
                         case NOT_REAL_HUMAN: //仅仅开启了活体检测的有
-//                            tipsTextView.setText("非真正人脸");
                             showTempTips("非真正人脸");
-
-                            //业务逻辑自己处理
-                            AddBaseImageActivity.this.finish();
                             break;
                     }
                 });
@@ -126,14 +127,12 @@ public class AddBaseImageActivity extends AppCompatActivity {
          * 1. Camera 的初始化。第一个参数0/1 指定前后摄像头；
          * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
          */
-        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens,0.01f);
-
-
+        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens, 0.01f);
 
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             index++;
-            if(index%indexPeriod==0){ // %的值得大可以让流程更慢
-                baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy,10,false));
+            if (index % indexPeriod == 0) { // %的值得大可以让流程更慢
+                baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy, 10, false));
             }
         });
 
@@ -145,6 +144,7 @@ public class AddBaseImageActivity extends AppCompatActivity {
 
     /**
      * 准备加语音提示
+     *
      * @param tips 提示语
      */
     private void showTempTips(String tips) {
@@ -161,14 +161,11 @@ public class AddBaseImageActivity extends AppCompatActivity {
     CountDownTimer countDownTimer = new CountDownTimer(1000L * 2, 1000L) {
         @Override
         public void onTick(long millisUntilFinished) {
-            // your logic for tick
             Log.e("countDownTimer", "onTick()" + millisUntilFinished);
         }
 
         @Override
         public void onFinish() {
-            // your logic for finish
-            Log.e("countDownTimer", "onFinish()");
             runOnUiThread(() -> {
                 tipsTextView.setText("");
                 tipsTextView.setVisibility(View.INVISIBLE);
@@ -177,7 +174,6 @@ public class AddBaseImageActivity extends AppCompatActivity {
     };
 
 
-    
     /**
      * 确认是否保存底图
      *
@@ -198,19 +194,33 @@ public class AddBaseImageActivity extends AppCompatActivity {
         Button btnOK = dialogView.findViewById(R.id.btn_ok);
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
 
-        EditText editText = dialogView.findViewById(R.id.edit_text);
 
+        EditText editText = dialogView.findViewById(R.id.edit_text);
         editText.requestFocus();
-        editText.setVisibility(View.GONE);  //face id, 1:1 写死，实际业务自行修改
+        if (TextUtils.isEmpty(fileName)) {
+            editText.setVisibility(View.VISIBLE);
+        } else {
+            editText.setVisibility(View.GONE);
+        }
 
         btnOK.setOnClickListener(v -> {
-                String yourUniQueFaceId = "18707611416"; //face id, 1:1 写死，实际业务自行修改
-                //添加新的底片，业务需要处理是新加还是修改！！自行处理
-
-                //你可以用你自己的保存方法
-                baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, yourUniQueFaceId,444);
+            if (!TextUtils.isEmpty(fileName)) {
+                baseImageDispose.saveBaseImage(bitmap, pathName, fileName, 456);
                 dialog.dismiss();
                 finish();
+            } else if (!TextUtils.isEmpty(editText.getText().toString())) {
+                dialog.dismiss();
+                Intent intent = new Intent();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] bitmapByte = baos.toByteArray();
+                intent.putExtra("picture_data", bitmapByte);
+                intent.putExtra("picture_name", editText.getText().toString());
+                setResult(RESULT_OK, intent);
+                finish();
+            } else {
+                Toast.makeText(getBaseContext(), "请输入人脸名称", Toast.LENGTH_SHORT).show();
+            }
         });
 
         btnCancel.setOnClickListener(v -> {
@@ -221,7 +231,6 @@ public class AddBaseImageActivity extends AppCompatActivity {
         });
 
         dialog.setCanceledOnTouchOutside(false);
-
         dialog.show();
     }
 

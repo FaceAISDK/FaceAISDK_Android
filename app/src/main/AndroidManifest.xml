@@ -47,7 +47,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
-            android:name=".verify.AddBaseImageActivity"
+            android:name=".addFaceImage.AddFaceImageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
@@ -68,7 +68,7 @@
 
 
         <activity
-            android:name=".search.FaceImageEditActivity"
+            android:name=".search.FaceSearchImageEditActivity"
             android:exported="false">
         </activity>
 
