@@ -68,7 +68,7 @@
 
 
         <activity
-            android:name=".search.FaceSearchImageEditActivity"
+            android:name=".search.FaceSearchImageMangerActivity"
             android:exported="false">
         </activity>
 

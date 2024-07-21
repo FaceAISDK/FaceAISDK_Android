@@ -3,17 +3,12 @@ package com.ai.face.search
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Bitmap
+import android.content.res.Configuration
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
-import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,26 +18,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ai.face.FaceApplication.Companion.CACHE_SEARCH_FACE_DIR
 import com.ai.face.R
 import com.ai.face.addFaceImage.AddFaceImageActivity
-import com.ai.face.base.baseImage.BaseImageDispose
-import com.ai.face.base.utils.FaceFileProviderUtils
+import com.ai.face.databinding.ActivityFaceImageMangerBinding
 import com.ai.face.faceSearch.search.FaceSearchImagesManger
-import com.ai.face.faceSearch.utils.BitmapUtils
 import com.ai.face.search.SearchNaviActivity.Companion.copyManyTestFaceImages
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.lzf.easyfloat.EasyFloat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
-import java.io.IOException
 import java.util.Arrays
 import java.util.Locale
-import java.util.UUID
 
 /**
  * 增删改 编辑人脸图片,演示怎样使用SDK API进行人脸的增删改查
@@ -52,31 +42,42 @@ import java.util.UUID
  * 需要使用SDK 的API 操作增删改，不能直接插入目录就以为可以搜索
  *
  */
-class FaceSearchImageEditActivity : AppCompatActivity() {
+class FaceSearchImageMangerActivity : AppCompatActivity() {
 
     private val faceImageList: MutableList<String> = ArrayList()
     private lateinit var faceImageListAdapter: FaceImageListAdapter
+    private lateinit var binding: ActivityFaceImageMangerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_face_image_list)
-        setSupportActionBar(findViewById(R.id.toolbar))
+
+        binding = ActivityFaceImageMangerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        val mRecyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        val gridLayoutManager: LinearLayoutManager = GridLayoutManager(this, 3)
-        mRecyclerView.layoutManager = gridLayoutManager
+
+        var num = 3
+        val mConfiguration: Configuration = this.resources.configuration //获取设置的配置信息
+        val ori: Int = mConfiguration.orientation //获取屏幕方向
+        if (ori == Configuration.ORIENTATION_LANDSCAPE) {
+            num = 5
+        }
+
+        val gridLayoutManager: LinearLayoutManager = GridLayoutManager(this, num)
+        binding.recyclerView.layoutManager = gridLayoutManager
         loadImageList()
 
         faceImageListAdapter = FaceImageListAdapter(faceImageList)
-        mRecyclerView.adapter = faceImageListAdapter
+        binding.recyclerView.adapter = faceImageListAdapter
         faceImageListAdapter.setOnItemLongClickListener { _, _, i ->
-            AlertDialog.Builder(this@FaceSearchImageEditActivity)
+            AlertDialog.Builder(this@FaceSearchImageMangerActivity)
                 .setTitle("确定要删除" + File(faceImageList[i]).name)
                 .setMessage("删除后对应的人将无法被程序识别")
                 .setPositiveButton("确定") { dialog: DialogInterface?, which: Int ->
                     //删除一张照片
-                    FaceSearchImagesManger.IL1Iii.getInstance(application)
+                    FaceSearchImagesManger.getInstance(application)
                         ?.deleteFaceImage(faceImageList[i])
 
                     loadImageList()
@@ -103,9 +104,10 @@ class FaceSearchImageEditActivity : AppCompatActivity() {
         }
 
         //直接添加照片
-        if(intent.extras?.getBoolean("isAdd") == true){
+        if (intent.extras?.getBoolean("isAdd") == true) {
             startActivityForResult(
-                Intent(baseContext, AddFaceImageActivity::class.java),REQUEST_ADD_FACE_IMAGE)
+                Intent(baseContext, AddFaceImageActivity::class.java), REQUEST_ADD_FACE_IMAGE
+            )
         }
 
     }
@@ -156,7 +158,6 @@ class FaceSearchImageEditActivity : AppCompatActivity() {
     }
 
 
-
     /**
      * 录入人脸返回了
      *
@@ -166,12 +167,15 @@ class FaceSearchImageEditActivity : AppCompatActivity() {
         if (requestCode == REQUEST_ADD_FACE_IMAGE && resultCode == RESULT_OK) {
 
             val bis = data?.getByteArrayExtra("picture_data")
-            val faceName=data?.getStringExtra("picture_name")+".jpg"
+            val faceName = data?.getStringExtra("picture_name") + ".jpg"
             val bitmap = BitmapFactory.decodeByteArray(bis, 0, bis!!.size)
 
             CoroutineScope(Dispatchers.IO).launch {
-                FaceSearchImagesManger.IL1Iii.getInstance(application)
-                    ?.insertOrUpdateFaceImage(bitmap, CACHE_SEARCH_FACE_DIR+File.separatorChar+faceName)
+                FaceSearchImagesManger.getInstance(application)
+                    ?.insertOrUpdateFaceImage(
+                        bitmap,
+                        CACHE_SEARCH_FACE_DIR + File.separatorChar + faceName
+                    )
                 delay(300)
                 MainScope().launch {
                     loadImageList()
@@ -187,7 +191,8 @@ class FaceSearchImageEditActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_add -> {
                 startActivityForResult(
-                    Intent(baseContext, AddFaceImageActivity::class.java),REQUEST_ADD_FACE_IMAGE)
+                    Intent(baseContext, AddFaceImageActivity::class.java), REQUEST_ADD_FACE_IMAGE
+                )
                 true
             }
 
@@ -195,6 +200,7 @@ class FaceSearchImageEditActivity : AppCompatActivity() {
                 finish()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

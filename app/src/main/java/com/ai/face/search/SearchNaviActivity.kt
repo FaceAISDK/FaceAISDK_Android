@@ -100,7 +100,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         binding.editFaceImage.setOnClickListener {
             startActivity(
-                Intent(baseContext, FaceSearchImageEditActivity::class.java).putExtra(
+                Intent(baseContext, FaceSearchImageMangerActivity::class.java).putExtra(
                     "isAdd",
                     false
                 )
@@ -109,7 +109,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         binding.addFaceImage.setOnClickListener {
             startActivity(
-                Intent(baseContext, FaceSearchImageEditActivity::class.java).putExtra(
+                Intent(baseContext, FaceSearchImageMangerActivity::class.java).putExtra(
                     "isAdd",
                     true
                 )
@@ -117,18 +117,18 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
 
-        AlertDialog.Builder(this@SearchNaviActivity)
-            .setTitle("温馨提示")
-            .setMessage("1：N & M:N 人脸检索建议下载独立版本。独立版含最新更新，体积小速度快")
-            .setNegativeButton("下载体验") { _: DialogInterface?, _: Int ->
-                val uri = Uri.parse("https://www.pgyer.com/FaceSearchSDK")
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.addCategory(Intent.CATEGORY_BROWSABLE)
-                intent.data = uri
-                startActivity(intent)
-            }
-            .setPositiveButton("以后再说吧") { _: DialogInterface?, _: Int -> }
-            .show()
+//        AlertDialog.Builder(this@SearchNaviActivity)
+//            .setTitle("温馨提示")
+//            .setMessage("1：N & M:N 人脸检索建议下载独立版本。独立版含最新更新，体积小速度快")
+//            .setNegativeButton("下载体验") { _: DialogInterface?, _: Int ->
+//                val uri = Uri.parse("https://www.pgyer.com/FaceSearchSDK")
+//                val intent = Intent(Intent.ACTION_VIEW)
+//                intent.addCategory(Intent.CATEGORY_BROWSABLE)
+//                intent.data = uri
+//                startActivity(intent)
+//            }
+//            .setPositiveButton("以后再说吧") { _: DialogInterface?, _: Int -> }
+//            .show()
 
     }
 
@@ -193,7 +193,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             val subFaceFiles = context.assets.list("")
             if (subFaceFiles != null) {
                 for (index in subFaceFiles.indices) {
-                    FaceSearchImagesManger.IL1Iii.getInstance(context)?.insertOrUpdateFaceImage(
+                    FaceSearchImagesManger.getInstance(context)?.insertOrUpdateFaceImage(
                         getBitmapFromAsset(
                             assetManager,
                             subFaceFiles[index]

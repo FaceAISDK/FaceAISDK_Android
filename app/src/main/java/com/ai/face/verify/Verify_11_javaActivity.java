@@ -71,7 +71,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
          * 1. Camera 的初始化。第一个参数0/1 指定前后摄像头；
          * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
          */
-        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.01f);
+        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.1f);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
@@ -84,9 +84,6 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
         File file = new File(FaceApplication.CACHE_BASE_FACE_DIR, yourUniQueFaceId);
         Bitmap baseBitmap = BitmapFactory.decodeFile(file.getPath());
-
-        //要校验底片是否合格,是否闭眼，是否正脸（VIP）
-
 
 
         //1.初始化引擎，各种参数配置

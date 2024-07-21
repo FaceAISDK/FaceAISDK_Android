@@ -46,10 +46,10 @@
         android:gravity="center"
         android:padding="5dp"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:layout_marginTop="33dp"
         app:layout_constraintTop_toBottomOf="@+id/face_search_mn"
-        android:text="App内置200张AI头像导入" />
+        android:text="快速导入200张AI人脸" />
 
 
 
@@ -60,9 +60,9 @@
         android:layout_gravity="bottom"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:padding="5dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintTop_toBottomOf="@+id/copyFaceImages"
         android:text="人脸库管理（增删操作）" />
 
@@ -74,11 +74,11 @@
         android:layout_gravity="bottom"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:padding="5dp"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/editFaceImage"
-        android:text="拍照录入一张人脸图片" />
+        android:text="快速录入一张人脸图" />
 
     <TextView
         android:id="@+id/change_camera"
@@ -97,23 +97,25 @@
 
 
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/bg"/>
+
+
+
     <TextView
         android:id="@+id/tips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="10sp"
+        android:textSize="13sp"
         android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="15dp"
         android:text="-  人脸搜索演示DEMO  -" />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/bg"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
