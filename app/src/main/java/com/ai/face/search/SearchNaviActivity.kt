@@ -193,7 +193,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             val subFaceFiles = context.assets.list("")
             if (subFaceFiles != null) {
                 for (index in subFaceFiles.indices) {
-                    FaceSearchImagesManger.getInstance(context)?.insertOrUpdateFaceImage(
+                    FaceSearchImagesManger.Companion().getInstance(context)?.insertOrUpdateFaceImage(
                         getBitmapFromAsset(
                             assetManager,
                             subFaceFiles[index]

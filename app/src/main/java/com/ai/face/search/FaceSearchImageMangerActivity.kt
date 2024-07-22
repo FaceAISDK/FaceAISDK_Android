@@ -75,9 +75,9 @@ class FaceSearchImageMangerActivity : AppCompatActivity() {
             AlertDialog.Builder(this@FaceSearchImageMangerActivity)
                 .setTitle("确定要删除" + File(faceImageList[i]).name)
                 .setMessage("删除后对应的人将无法被程序识别")
-                .setPositiveButton("确定") { dialog: DialogInterface?, which: Int ->
+                .setPositiveButton("确定") { _: DialogInterface?, _: Int ->
                     //删除一张照片
-                    FaceSearchImagesManger.getInstance(application)
+                    FaceSearchImagesManger.Companion().getInstance(application)
                         ?.deleteFaceImage(faceImageList[i])
 
                     loadImageList()
@@ -171,7 +171,7 @@ class FaceSearchImageMangerActivity : AppCompatActivity() {
             val bitmap = BitmapFactory.decodeByteArray(bis, 0, bis!!.size)
 
             CoroutineScope(Dispatchers.IO).launch {
-                FaceSearchImagesManger.getInstance(application)
+                FaceSearchImagesManger.Companion().getInstance(application)
                     ?.insertOrUpdateFaceImage(
                         bitmap,
                         CACHE_SEARCH_FACE_DIR + File.separatorChar + faceName

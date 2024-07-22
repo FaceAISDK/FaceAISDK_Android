@@ -47,7 +47,7 @@
         android:padding="5dp"
         android:textColor="@android:color/white"
         android:textSize="14sp"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="39dp"
         app:layout_constraintTop_toBottomOf="@+id/face_search_mn"
         android:text="快速导入200张AI人脸" />
 
@@ -60,7 +60,7 @@
         android:layout_gravity="bottom"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="18sp"
+        android:textSize="19sp"
         android:padding="5dp"
         android:layout_marginTop="28dp"
         app:layout_constraintTop_toBottomOf="@+id/copyFaceImages"
