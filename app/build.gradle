@@ -12,7 +12,7 @@ android {
         minSdk 21
         targetSdk 34
         versionCode 20
-        versionName "1.8.8.15"
+        versionName "1.8.18"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -77,7 +77,7 @@ dependencies {
 
     // 人脸识别 活体检测 以及人脸检索 SDK 依赖
     // 1:N (M:N)人脸识别依赖独立版本，体积小速度更快  https://github.com/AnyLifeZLB/FaceSearchSDK_Android
-    implementation 'io.github.anylifezlb:FaceRecognition:1.8.17.alpha1'  //目前仅维护1.6 以上版本
+    implementation 'io.github.anylifezlb:FaceRecognition:1.8.18'  //目前仅维护1.6 以上版本
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
