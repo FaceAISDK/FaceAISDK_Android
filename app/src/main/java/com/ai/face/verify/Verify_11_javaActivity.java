@@ -14,6 +14,7 @@ import androidx.camera.core.CameraControl;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.ai.face.FaceApplication;
 import com.ai.face.R;
+import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.base.view.FaceCoverView;
 import com.ai.face.faceVerify.graphic.FaceTipsOverlay;
@@ -84,6 +85,10 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
         File file = new File(FaceApplication.CACHE_BASE_FACE_DIR, yourUniQueFaceId);
         Bitmap baseBitmap = BitmapFactory.decodeFile(file.getPath());
+
+
+//        //baseBitmap 就是 你的人脸底图,这是注册人脸的方式
+//        new BaseImageDispose(this).saveBaseImage(baseBitmap,FaceApplication.CACHE_BASE_FACE_DIR, yourUniQueFaceId,400);
 
 
         //1.初始化引擎，各种参数配置

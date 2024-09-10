@@ -205,7 +205,7 @@ public class AddFaceImageActivity extends AppCompatActivity {
 
         btnOK.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(fileName)) {
-                baseImageDispose.saveBaseImage(bitmap, pathName, fileName, 456);
+                baseImageDispose.saveBaseImage(bitmap, pathName, fileName, 400);
                 dialog.dismiss();
                 finish();
             } else if (!TextUtils.isEmpty(editText.getText().toString())) {
