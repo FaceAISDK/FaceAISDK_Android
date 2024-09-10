@@ -87,7 +87,8 @@ public class Verify_11_javaActivity extends AppCompatActivity {
         Bitmap baseBitmap = BitmapFactory.decodeFile(file.getPath());
 
 
-//        //baseBitmap 就是 你的人脸底图,这是注册人脸的方式
+//        //baseBitmap 就是 你的人脸底图,可以同步到你自己的服务器，
+//        //这是注册人脸的方式
 //        new BaseImageDispose(this).saveBaseImage(baseBitmap,FaceApplication.CACHE_BASE_FACE_DIR, yourUniQueFaceId,400);
 
 
