@@ -20,7 +20,7 @@ import com.ai.face.databinding.ActivityFaceSearchBinding;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
-import com.ai.face.faceSearch.utils.RectLabel;
+import com.ai.face.faceSearch.utils.FaceSearchResult;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -89,9 +89,9 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFaceMatched(List<RectLabel> rectLabels) {
+                    public void onFaceMatched(List<FaceSearchResult> result, Bitmap contextBitmap) {
                         // 1:N 仅仅用来演示画人脸框位置
-                        binding.graphicOverlay.drawRect(rectLabels, cameraXFragment);
+                        binding.graphicOverlay.drawRect(result, cameraXFragment);
                     }
 
                     @Override

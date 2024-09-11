@@ -12,6 +12,7 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERRO
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,9 +25,10 @@ import com.ai.face.databinding.ActivityFaceSearchMnBinding;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
-import com.ai.face.faceSearch.utils.RectLabel;
+import com.ai.face.faceSearch.utils.FaceSearchResult;
 
 import java.util.List;
+
 
 /**
  * 应多位用户要求，默认使用java 版本演示怎么快速接入SDK
@@ -81,10 +83,10 @@ public class FaceSearchMNActivity extends AppCompatActivity {
                     //人脸检测成功后画白框，此时还没有标签字段
                     //人脸搜索匹配成功后白框变绿框，并标记出对应的人脸ID Label（建议用唯一ID 命名人脸图片）
                     @Override
-                    public void onFaceMatched(List<RectLabel> rectLabels) {
-                        binding.graphicOverlay.drawRect(rectLabels, cameraX);
+                    public void onFaceMatched(List<FaceSearchResult> result, Bitmap contextBitmap) {
+                        binding.graphicOverlay.drawRect(result, cameraX);
 
-                        if(!rectLabels.isEmpty()) {
+                        if(!result.isEmpty()) {
                             binding.searchTips.setText("");
                         }
                     }

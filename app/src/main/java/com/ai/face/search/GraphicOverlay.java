@@ -13,25 +13,23 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.ai.face.base.view.CameraXFragment;
-import com.ai.face.faceSearch.utils.RectLabel;
+import com.ai.face.faceSearch.utils.FaceSearchResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 仅供参考，UI样式可以自行设计。甚至SurfaceView 改造
- *
- * Demo 中的交互仅供参考，UI样式用户可以自行设计改造。甚至SurfaceView 改造
- *
  */
-public class RectOverlay extends View {
+public class GraphicOverlay extends View {
+    private static final String TAG = "GraphicOverlay";
     private final Paint rectPaint = new Paint();
     private float scaleX = 1.0f;
     private float scaleY = 1.0f;
     private final Paint textPaint = new Paint();
-    private List<RectLabel> rectFList = new ArrayList<>();   //List<RectF>
+    private List<FaceSearchResult> rectFList = new ArrayList<>();
 
-    public RectOverlay(Context context, @Nullable AttributeSet attrs) {
+    public GraphicOverlay(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -51,25 +49,22 @@ public class RectOverlay extends View {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        for (RectLabel rectLabel : rectFList) {
-            rectPaint.setColor(Color.MAGENTA);
-
-            if (!TextUtils.isEmpty(rectLabel.getLabel())) {
-                textPaint.setColor(Color.GREEN);
+        for (FaceSearchResult rectLabel : rectFList) {
+            rectPaint.setColor(Color.WHITE);
+            if (!TextUtils.isEmpty(rectLabel.getFaceName())) {
                 rectPaint.setColor(Color.GREEN);
                 textPaint.setTextSize(44.0f);
                 textPaint.setTypeface(Typeface.DEFAULT);
-                canvas.drawText(rectLabel.getLabel(), rectLabel.getRect().left + 22.0f, rectLabel.getRect().top + 55.0f, textPaint);
+                textPaint.setColor(Color.GREEN);
+                canvas.drawText(rectLabel.getFaceName().replace(".jpg","  ")+rectLabel.getFaceScore(), rectLabel.getRect().left + 22.0f, rectLabel.getRect().top + 55.0f, textPaint);
             }
-
             rectPaint.setStrokeWidth(3.0f);
             rectPaint.setStyle(Paint.Style.STROKE);
             canvas.drawRect(rectLabel.getRect(), rectPaint);
         }
-
     }
 
-    public void drawRect(List<RectLabel> rectLabels, CameraXFragment cameraXFragment) {
+    public void drawRect(List<FaceSearchResult> rectLabels, CameraXFragment cameraXFragment) {
         this.rectFList = adjustBoundingRect(rectLabels);
         this.scaleX = cameraXFragment.getScaleX();
         this.scaleY = cameraXFragment.getScaleY();
@@ -85,11 +80,12 @@ public class RectOverlay extends View {
         return (int) (scaleY * y);
     }
 
-    private List<RectLabel> adjustBoundingRect(List<RectLabel> rectLabels) {
-        List<RectLabel> labels = new ArrayList<>();
+    private List<FaceSearchResult> adjustBoundingRect(List<FaceSearchResult> rectLabels) {
+        List<FaceSearchResult> labels = new ArrayList<>();
         int padding = 10;
 
-        for (RectLabel rectLabel : rectLabels) {
+        //调整一点，有点偏差的处理。Rect 框问题。
+        for (FaceSearchResult rectLabel : rectLabels) {
             Rect rect = new Rect(
                     translateX(rectLabel.getRect().left)  ,
                     translateY(rectLabel.getRect().top) - padding,
@@ -97,12 +93,10 @@ public class RectOverlay extends View {
                     translateY(rectLabel.getRect().bottom) + padding
             );
 
-            labels.add(new RectLabel(rect, rectLabel.getLabel()));
+            labels.add(new FaceSearchResult(rect, rectLabel.getFaceName(),rectLabel.getFaceScore()));
         }
+
         return labels;
     }
-
-
-
 
 }
