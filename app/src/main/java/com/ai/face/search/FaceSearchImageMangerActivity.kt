@@ -14,8 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.ai.face.FaceApplication.Companion.CACHE_SEARCH_FACE_DIR
+import com.ai.face.MyFaceApplication.CACHE_SEARCH_FACE_DIR
 import com.ai.face.R
 import com.ai.face.addFaceImage.AddFaceImageActivity
 import com.ai.face.databinding.ActivityFaceImageMangerBinding
@@ -40,6 +39,9 @@ import java.util.Locale
  *                     ?.insertOrUpdateFaceImage
  *
  * 需要使用SDK 的API 操作增删改，不能直接插入目录就以为可以搜索
+ *
+ *
+ * 建议使用Java 编写，很多用户不太熟悉Kotlin
  *
  */
 class FaceSearchImageMangerActivity : AppCompatActivity() {

@@ -8,9 +8,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.ai.face.FaceApplication.Companion.CACHE_BASE_FACE_DIR
-import com.ai.face.FaceApplication.Companion.FACE_DIR_KEY
-import com.ai.face.FaceApplication.Companion.USER_ID_KEY
+import com.ai.face.MyFaceApplication.CACHE_BASE_FACE_DIR
+import com.ai.face.MyFaceApplication.FACE_DIR_KEY
+import com.ai.face.MyFaceApplication.USER_ID_KEY
 import com.ai.face.databinding.ActivityNaviBinding
 import com.ai.face.faceVerify.verify.VerifyUtils
 import com.ai.face.search.SearchNaviActivity
@@ -26,11 +26,7 @@ import java.io.File
  *
  * Demo 提供java 和 Kotlin 接入演示 ，仅仅是演示如何接入SDK，根据业务场景用户自行修改符合需求
  *
- * 1：N（M：N） 人脸识别检索可以独立引入 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
- *
  * 更多请发邮件 anylife.zlb@gmail.com 或 微信 HaoNan19990322 交流（请备注 人脸识别定制，否则添加不通）
- *
- *
  *
  *
  * 2022.07.29

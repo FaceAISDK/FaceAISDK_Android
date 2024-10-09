@@ -1,8 +1,8 @@
 package com.ai.face.addFaceImage;
 
 
-import static com.ai.face.FaceApplication.FACE_DIR_KEY;
-import static com.ai.face.FaceApplication.USER_ID_KEY;
+import static com.ai.face.MyFaceApplication.FACE_DIR_KEY;
+import static com.ai.face.MyFaceApplication.USER_ID_KEY;
 
 import android.content.Context;
 import android.content.Intent;
@@ -32,9 +32,9 @@ import com.ai.face.base.view.CameraXFragment;
 import java.io.ByteArrayOutputStream;
 
 /**
- * 修改底图,实际业务可以调用系统相机拍照后再调用API 处理
- * 人脸照片返回高清人脸图，同时返回原图（VIP）
- * <p>
+ * 插入添加一张人脸图，1：1 和 1:N 都是用这个
+ *
+ *
  * <p>
  * OpenCV
  * 1.人脸角度提示
@@ -42,6 +42,8 @@ import java.io.ByteArrayOutputStream;
  * 3.闭眼提示
  * 4.特征点遮挡提示（待开发）
  * 5.高清人脸图和原图输出（Beta 试点中）
+ *
+ *
  */
 public class AddFaceImageActivity extends AppCompatActivity {
     private TextView tipsTextView;
@@ -67,7 +69,7 @@ public class AddFaceImageActivity extends AppCompatActivity {
         fileName = getIntent().getStringExtra(USER_ID_KEY);
         pathName = getIntent().getStringExtra(FACE_DIR_KEY);
 
-        // 根据自己业务需求指定丢帧参数
+        // 根据自己业务需求指定丢帧参数，Demo 仅供参考
         if (isAliveCheck) {
             indexPeriod = 5;
         } else {
@@ -134,6 +136,7 @@ public class AddFaceImageActivity extends AppCompatActivity {
             if (index % indexPeriod == 0) { // %的值得大可以让流程更慢
                 baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy, 10, false));
             }
+
         });
 
         getSupportFragmentManager().beginTransaction()

@@ -4,7 +4,6 @@ plugins {
     id("com.google.devtools.ksp").version("1.8.10-1.0.9")
 }
 
-
 android {
     compileSdk 34
     defaultConfig {
@@ -12,10 +11,9 @@ android {
         minSdk 21
         targetSdk 34
         versionCode 20
-        versionName "1.8.20"
+        versionName "1.8.25"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
             debuggable false
@@ -24,7 +22,6 @@ android {
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-
         debug {
             debuggable true
             jniDebuggable true
@@ -33,7 +30,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     android {
         defaultConfig {
             ndk {
@@ -41,23 +37,26 @@ android {
             }
         }
     }
-
     lint {
         abortOnError false
         checkReleaseBuilds false
     }
-
     buildFeatures {
         viewBinding true
     }
-
     namespace 'com.ai.face'
 }
 
 
+
+
+
+
+
+
 //根据Compile SDK 不同，各自项目依赖体系不一样
 //主工程和SDK 中的依赖有冲突需要统一依赖,可以参考下面方式处理
-//比如TargetSDK 还是28的camera_version降低到 1.2.3
+//比如TargetSDK 还是28的camera_version降低到 1.2.3，否决建议升级到最新的稳定版本
 def camera_version = "1.2.3"
 configurations.configureEach {
     resolutionStrategy {
@@ -69,15 +68,15 @@ configurations.configureEach {
 }
 
 
-// GitHub 无法访问，挂梯子也无效 ？参考 https://github.com/maxiaof/github-hosts
 
+
+// GitHub 无法访问，挂梯子也无效 ？参考 https://github.com/maxiaof/github-hosts
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-
     // 人脸识别 活体检测 以及人脸检索 SDK 依赖
     // 1:N (M:N)人脸识别依赖独立版本，体积小速度更快  https://github.com/AnyLifeZLB/FaceSearchSDK_Android
-    implementation 'io.github.anylifezlb:FaceRecognition:1.8.23'  //目前仅维护1.6 以上版本
+    implementation 'io.github.anylifezlb:FaceRecognition:1.8.25'  //目前仅维护1.6 以上版本
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖

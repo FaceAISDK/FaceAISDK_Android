@@ -52,8 +52,9 @@ SYSTEM_VERSION_COMPAT=0 cat /System/Library/CoreServices/SystemVersion.plist
 
    
 ## Step 2 
-run below commands on terminal
-export SYSTEM_VERSION_COMPAT=0
+run below commands on terminal  
+
+> export SYSTEM_VERSION_COMPAT=0
 
 You could also add this to your. bash_profile or other shell environment file if you have one, to do this automatically for you.
 

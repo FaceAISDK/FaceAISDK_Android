@@ -24,7 +24,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
 /**
- * 人脸活体检测,更齐全的参考{@link #Verify_11_javaActivity}
+ * 人脸活体检测,如果Kotlin 不熟悉更齐全的可以参考{@link #Verify_11_javaActivity}
  *
  *
  */

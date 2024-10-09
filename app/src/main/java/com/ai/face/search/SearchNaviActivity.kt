@@ -1,20 +1,17 @@
 package com.ai.face.search
 
 import android.Manifest
-import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.ai.face.FaceApplication.Companion.CACHE_SEARCH_FACE_DIR
+import com.ai.face.MyFaceApplication.CACHE_SEARCH_FACE_DIR
 import com.ai.face.R
 import com.ai.face.databinding.ActivityFaceSearchNaviBinding
 import com.ai.face.faceSearch.search.FaceSearchImagesManger
@@ -33,7 +30,6 @@ import java.io.InputStream
 /**
  * 人脸识别搜索 演示导航Navi，目前支持千张图片1秒级搜索，后续聚焦降低App体积和精确度
  * 测试验证人脸库图片位于/assert 目录，更多的人脸图片请使用Ai 生成
- * 或者http://biometrics.idealtest.org/dbDetailForUser.do?id=9#/datasetDetail/8 下载
  *
  */
 class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {

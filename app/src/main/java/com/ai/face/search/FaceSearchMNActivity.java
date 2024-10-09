@@ -1,6 +1,6 @@
 package com.ai.face.search;
 
-import static com.ai.face.FaceApplication.CACHE_SEARCH_FACE_DIR;
+import static com.ai.face.MyFaceApplication.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.MASK_DETECTION;

@@ -1,6 +1,6 @@
 package com.ai.face.search;
 
-import static com.ai.face.FaceApplication.CACHE_SEARCH_FACE_DIR;
+import static com.ai.face.MyFaceApplication.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.*;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
 
@@ -67,7 +67,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         // 2.各种参数的初始化设置
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
-                .setThreshold(0.85f) //阈值设置，范围限 [0.80 , 0.95] 识别可信度，也是识别灵敏度
+                .setThreshold(0.81f) //阈值设置，范围限 [0.80 , 0.95] 识别可信度，也是识别灵敏度
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setImageFlipped(cameraLens == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {

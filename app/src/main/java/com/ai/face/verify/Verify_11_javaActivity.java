@@ -12,9 +12,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraControl;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import com.ai.face.FaceApplication;
+import com.ai.face.MyFaceApplication;
 import com.ai.face.R;
-import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.base.view.FaceCoverView;
 import com.ai.face.faceVerify.graphic.FaceTipsOverlay;
@@ -30,10 +29,7 @@ import java.io.File;
 
 /**
  * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo 代码，用户根据自己业务情况参考
- * <p>
- * <p>
- * 1：N & M：N 人脸检索迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
- * 体积更小，反应速度更快
+ *
  */
 public class Verify_11_javaActivity extends AppCompatActivity {
     private ConstraintLayout rootView;
@@ -81,9 +77,9 @@ public class Verify_11_javaActivity extends AppCompatActivity {
         //1:1 人脸对比，摄像头和预留的人脸底片对比。（动作活体人脸检测完成后开始1:1比对）
         //如果仅仅需要活体检测，可以把App logo Bitmap 当参数传入并忽略对比结果
         //人脸底图要经过BaseImageDispose saveBaseImage处理，不是随便一张图能当底图！！！
-        String yourUniQueFaceId = getIntent().getStringExtra(FaceApplication.USER_ID_KEY);
+        String yourUniQueFaceId = getIntent().getStringExtra(MyFaceApplication.USER_ID_KEY);
 
-        File file = new File(FaceApplication.CACHE_BASE_FACE_DIR, yourUniQueFaceId);
+        File file = new File(MyFaceApplication.CACHE_BASE_FACE_DIR, yourUniQueFaceId);
         Bitmap baseBitmap = BitmapFactory.decodeFile(file.getPath());
 
 
@@ -252,7 +248,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
                     case ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
                         VoicePlayer.getInstance().addPayList(R.raw.open_mouse);
-                        tipsTextView.setText("请张嘴");
+                        tipsTextView.setText("请张张嘴");
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.SMILE: {
@@ -263,7 +259,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
                     case ALIVE_DETECT_TYPE_ENUM.BLINK: {
                         VoicePlayer.getInstance().addPayList(R.raw.blink);
-                        tipsTextView.setText("请轻眨眼");
+                        tipsTextView.setText("请眨眨眼");
                     }
                     break;
 
