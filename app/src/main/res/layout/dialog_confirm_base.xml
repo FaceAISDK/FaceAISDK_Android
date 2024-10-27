@@ -31,10 +31,9 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="center"
-                android:text="请保存无墨镜，无口罩的正脸图"
+                android:text="请保存无墨镜/口罩/帽子的正脸图"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp" />
-
 
 
             <ImageView

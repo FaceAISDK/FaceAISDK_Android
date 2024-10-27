@@ -3,15 +3,17 @@ package com.ai.face.addFaceImage;
 
 import static com.ai.face.MyFaceApplication.FACE_DIR_KEY;
 import static com.ai.face.MyFaceApplication.USER_ID_KEY;
-
+import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
+import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
+import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_LEFT;
+import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_RIGHT;
+import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_UP;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,43 +23,30 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.core.CameraControl;
-
 import com.ai.face.R;
 import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.base.view.CameraXFragment;
-
 import java.io.ByteArrayOutputStream;
 
 /**
- * 插入添加一张人脸图，1：1 和 1:N 都是用这个
- *
- * 待完善
  * 1.人脸角度提示
- * 2.人脸完整度提示
+ * 2.人脸完整度提示 （待开发）
  * 3.闭眼提示
- * 4.特征点遮挡提示（待开发）
- * 5.高清人脸图和原图输出（Beta 试点中）
- *
- *
+ * 4.特征点遮挡提示 （待开发）
+ * 5.活体检测
  */
 public class AddFaceImageActivity extends AppCompatActivity {
     private TextView tipsTextView;
     private BaseImageDispose baseImageDispose;
-    private long index = 1;
-    private int indexPeriod;
-
-    private boolean isAliveCheck = false; //是否要真人来录制人脸，还是别人代拍一张照片也行？防止作弊
-
     private String pathName, fileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_face_image);
-        setTitle("1:1人脸底图添加");
+        setTitle("Add Face Image");
 
         tipsTextView = findViewById(R.id.tips_view);
         findViewById(R.id.back).setOnClickListener(v -> {
@@ -67,33 +56,32 @@ public class AddFaceImageActivity extends AppCompatActivity {
         fileName = getIntent().getStringExtra(USER_ID_KEY);
         pathName = getIntent().getStringExtra(FACE_DIR_KEY);
 
-        // 根据自己业务需求指定丢帧参数，Demo 仅供参考
-        if (isAliveCheck) {
-            indexPeriod = 5;
-        } else {
-            indexPeriod = 33;
-        }
-
-        //第一个参数是否开启静默活体检测
-        baseImageDispose = new BaseImageDispose(isAliveCheck, getBaseContext(), new BaseImageCallBack() {
+        baseImageDispose = new BaseImageDispose(true, getBaseContext(), new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap) {
                 runOnUiThread(() -> showConfirmDialog(bitmap));
             }
 
-            //人脸照片返回高清人脸图，同时返回原图（VIP），15 beta 3 公测中
-            @Override
-            public void onCompletedVIP(Bitmap bitmap, Bitmap bitmap1) {
-                //可以断点看看清晰度
-                super.onCompletedVIP(bitmap, bitmap1);
-            }
-
             @Override
             public void onProcessTips(int actionCode) {
                 runOnUiThread(() -> {
-
-                    //准备增加人脸质量检测（VIP） 不合格的给提示
                     switch (actionCode) {
+                        case HEAD_CENTER:
+                            tipsTextView.setText("保持正脸不要晃动"); //2秒后确认图像
+                            break;
+                        case HEAD_LEFT:
+                            tipsTextView.setText("脸偏左");
+                            break;
+                        case HEAD_RIGHT:
+                            tipsTextView.setText("脸偏右");
+                            break;
+                        case HEAD_UP:
+                            tipsTextView.setText("请勿抬头");
+                            break;
+                        case HEAD_DOWN:
+                            tipsTextView.setText("请勿低头");
+                            break;
+
                         case NO_FACE:
                             showTempTips("未检测到人脸");
                             break;
@@ -106,13 +94,8 @@ public class AddFaceImageActivity extends AppCompatActivity {
                         case AlIGN_FAILED:
                             showTempTips("图像校准失败");
                             break;
-
-                        case REAL_HUMAN:
-                            showTempTips("活体检验通过");
-                            break;
-
-                        case NOT_REAL_HUMAN: //仅仅开启了活体检测的有
-                            showTempTips("非真正人脸");
+                        case NOT_REAL_HUMAN:
+                            showTempTips("非真正人脸"); //对着照片录入质量不高
                             break;
                     }
                 });
@@ -120,21 +103,13 @@ public class AddFaceImageActivity extends AppCompatActivity {
         });
 
         SharedPreferences sharedPref = getSharedPreferences("faceVerify", Context.MODE_PRIVATE);
+
+        // 1. Camera 的初始化。第一个参数0/1 指定前后摄像头； 第二个参数linearZoom [0.001f,1.0f] 指定焦距，默认0.1
         int cameraLens = sharedPref.getInt("cameraFlag", sharedPref.getInt("cameraFlag", 0));
-
-
-        /**
-         * 1. Camera 的初始化。第一个参数0/1 指定前后摄像头；
-         * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
-         */
-        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens, 0.1f);
+        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens, 0.001f);
 
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-            index++;
-            if (index % indexPeriod == 0) { // %的值得大可以让流程更慢
-                baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy, 10, false));
-            }
-
+            baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy, 10, false));
         });
 
         getSupportFragmentManager().beginTransaction()
@@ -143,36 +118,10 @@ public class AddFaceImageActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * 准备加语音提示
-     *
-     * @param tips 提示语
-     */
     private void showTempTips(String tips) {
-        countDownTimer.cancel();
         tipsTextView.setText(tips);
-        tipsTextView.setVisibility(View.VISIBLE);
-        countDownTimer.start();
     }
 
-
-    /**
-     * 封装成一个Lib ，倒计时显示库
-     */
-    CountDownTimer countDownTimer = new CountDownTimer(1000L * 2, 1000L) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-            Log.e("countDownTimer", "onTick()" + millisUntilFinished);
-        }
-
-        @Override
-        public void onFinish() {
-            runOnUiThread(() -> {
-                tipsTextView.setText("");
-                tipsTextView.setVisibility(View.INVISIBLE);
-            });
-        }
-    };
 
 
     /**
@@ -189,13 +138,10 @@ public class AddFaceImageActivity extends AppCompatActivity {
         dialog.setView(dialogView);
         dialog.setCanceledOnTouchOutside(false);
         ImageView basePreView = dialogView.findViewById(R.id.preview);
-
         basePreView.setImageBitmap(bitmap);
 
         Button btnOK = dialogView.findViewById(R.id.btn_ok);
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
-
-
         EditText editText = dialogView.findViewById(R.id.edit_text);
         editText.requestFocus();
         if (TextUtils.isEmpty(fileName)) {
@@ -219,15 +165,13 @@ public class AddFaceImageActivity extends AppCompatActivity {
                 intent.putExtra("picture_name", editText.getText().toString());
                 setResult(RESULT_OK, intent);
                 finish();
-            } else {
+            }else {
                 Toast.makeText(getBaseContext(), "请输入人脸名称", Toast.LENGTH_SHORT).show();
             }
         });
 
         btnCancel.setOnClickListener(v -> {
-            index = 1;
             dialog.dismiss();
-            //太快了，可以延迟一点重试
             baseImageDispose.retry();
         });
 
@@ -236,3 +180,4 @@ public class AddFaceImageActivity extends AppCompatActivity {
     }
 
 }
+

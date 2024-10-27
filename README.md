@@ -10,7 +10,7 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
 ![设备端离线机器学习优点](assert/whyOfflineSDK.png)
 
-## 当前版本说明 V1.8.26 (仅仅维护1.8.30以上版本)
+## 当前版本说明 V1.8.26 (仅仅维护1.8.20以上版本)
 - 修复高清人脸带来的BUG，修复试用版随机闪退问题
 - 1:N 人脸识别添加确认机制，提高识别精确度
 - 动作活体检测提供快速和精确模式以便不同场景使用
@@ -36,11 +36,10 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
    【1:1】 移动考勤真人校验，App免密登录，酒店入驻、刷脸支付、刷脸解锁、真人校验
 
-   【1:N】 智能门锁，考勤机，通缉人员行踪搜索，智慧校园、景区、工地、社区、酒店等
+   【1:N】 小区门禁，公司门禁，智能门锁，智慧校园、景区、工地、社区、酒店等
 
-   【M:N】 公安布控，人群追踪 监控等等 (Demo 测试可使用图片 M:N_Test.png)
+   【M:N】 公安布控，人群追踪 监控等等 (人脸搜索 Demo 测试可使用图片 face_search_test.jpg)
 
-    注：1：N & M:N 人脸检索可以独立依赖，体积更小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
 
 ## 接入使用
 
