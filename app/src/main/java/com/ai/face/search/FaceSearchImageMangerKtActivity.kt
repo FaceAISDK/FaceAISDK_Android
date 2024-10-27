@@ -19,11 +19,13 @@ import com.ai.face.R
 import com.ai.face.addFaceImage.AddFaceImageActivity
 import com.ai.face.databinding.ActivityFaceImageMangerBinding
 import com.ai.face.faceSearch.search.FaceSearchImagesManger
-import com.ai.face.search.SearchNaviActivity.Companion.copyManyTestFaceImages
+import com.ai.face.search.CopyFaceImageUtils.Companion.copyTestImage
+import com.ai.face.search.CopyFaceImageUtils.Companion.showAppFloat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.lzf.easyfloat.EasyFloat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -35,16 +37,16 @@ import java.util.Locale
 
 /**
  * 增删改 编辑人脸图片,演示怎样使用SDK API进行人脸的增删改查
- * FaceSearchImagesManger.IL1Iii.getInstance(application)
- *                     ?.insertOrUpdateFaceImage
+ * FaceSearchImagesManger.IL1Iii
+ *        .getInstance(application).insertOrUpdateFaceImage
  *
  * 需要使用SDK 的API 操作增删改，不能直接插入目录就以为可以搜索
  *
  *
- * 建议使用Java 编写，很多用户不太熟悉Kotlin
+ * 后期将用Java 编写，很多用户不太熟悉Kotlin
  *
  */
-class FaceSearchImageMangerActivity : AppCompatActivity() {
+class FaceSearchImageMangerKtActivity : AppCompatActivity() {
 
     private val faceImageList: MutableList<String> = ArrayList()
     private lateinit var faceImageListAdapter: FaceImageListAdapter
@@ -61,8 +63,7 @@ class FaceSearchImageMangerActivity : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
 
         var num = 3
-        val mConfiguration: Configuration = this.resources.configuration //获取设置的配置信息
-        val ori: Int = mConfiguration.orientation //获取屏幕方向
+        val ori: Int = this.resources.configuration.orientation //获取屏幕方向
         if (ori == Configuration.ORIENTATION_LANDSCAPE) {
             num = 5
         }
@@ -74,13 +75,13 @@ class FaceSearchImageMangerActivity : AppCompatActivity() {
         faceImageListAdapter = FaceImageListAdapter(faceImageList)
         binding.recyclerView.adapter = faceImageListAdapter
         faceImageListAdapter.setOnItemLongClickListener { _, _, i ->
-            AlertDialog.Builder(this@FaceSearchImageMangerActivity)
+            AlertDialog.Builder(this@FaceSearchImageMangerKtActivity)
                 .setTitle("确定要删除" + File(faceImageList[i]).name)
                 .setMessage("删除后对应的人将无法被程序识别")
                 .setPositiveButton("确定") { _: DialogInterface?, _: Int ->
                     //删除一张照片
-                    FaceSearchImagesManger.Companion().getInstance(application)
-                        ?.deleteFaceImage(faceImageList[i])
+                    FaceSearchImagesManger.IL1Iii.getInstance(application)
+                            .deleteFaceImage(faceImageList[i])
 
                     loadImageList()
                     faceImageListAdapter.notifyDataSetChanged()
@@ -91,18 +92,8 @@ class FaceSearchImageMangerActivity : AppCompatActivity() {
         }
 
         faceImageListAdapter.setEmptyView(R.layout.empty_layout)
-
         faceImageListAdapter.emptyLayout?.setOnClickListener { v: View? ->
-            Toast.makeText(baseContext, "复制中...", Toast.LENGTH_LONG).show()
-            CoroutineScope(Dispatchers.IO).launch {
-                copyManyTestFaceImages(application)
-                delay(800)
-                MainScope().launch {
-                    //Kotlin 混淆操作后协程操作失效了，因为是异步操作只能等一下
-                    loadImageList()
-                    faceImageListAdapter.notifyDataSetChanged()
-                }
-            }
+            copyFaceTestImage()
         }
 
         //直接添加照片
@@ -111,8 +102,27 @@ class FaceSearchImageMangerActivity : AppCompatActivity() {
                 Intent(baseContext, AddFaceImageActivity::class.java), REQUEST_ADD_FACE_IMAGE
             )
         }
-
     }
+
+
+    /**
+     *
+     */
+    private fun copyFaceTestImage() {
+        Toast.makeText(baseContext, "复制验证图...", Toast.LENGTH_LONG).show()
+        showAppFloat(baseContext)
+
+        copyTestImage(application, object : CopyFaceImageUtils.Companion.Callback {
+            override fun onSuccess() {
+                EasyFloat.hide("speed")
+                loadImageList()
+                faceImageListAdapter.notifyDataSetChanged()
+            }
+
+            override fun onFailed(msg: String) {}
+        })
+    }
+
 
     /**
      * 加载图片
@@ -151,11 +161,11 @@ class FaceSearchImageMangerActivity : AppCompatActivity() {
 
     class FaceImageListAdapter(results: MutableList<String>) :
         BaseQuickAdapter<String, BaseViewHolder>(R.layout.adapter_face_image_list_item, results) {
-        override fun convert(helper: BaseViewHolder, item: String) {
+        override fun convert(holder: BaseViewHolder, item: String) {
             Glide.with(context).load(item)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into((helper.getView<View>(R.id.image) as ImageView))
+                .into((holder.getView<View>(R.id.image) as ImageView))
         }
     }
 
@@ -173,11 +183,10 @@ class FaceSearchImageMangerActivity : AppCompatActivity() {
             val bitmap = BitmapFactory.decodeByteArray(bis, 0, bis!!.size)
 
             CoroutineScope(Dispatchers.IO).launch {
-                FaceSearchImagesManger.Companion().getInstance(application)
-                    ?.insertOrUpdateFaceImage(
-                        bitmap,
-                        CACHE_SEARCH_FACE_DIR + File.separatorChar + faceName
-                    )
+                var imagePath=CACHE_SEARCH_FACE_DIR + File.separatorChar + faceName
+                FaceSearchImagesManger.IL1Iii.getInstance(application)
+                    .insertOrUpdateFaceImage(bitmap,imagePath)
+
                 delay(300)
                 MainScope().launch {
                     loadImageList()
@@ -195,6 +204,12 @@ class FaceSearchImageMangerActivity : AppCompatActivity() {
                 startActivityForResult(
                     Intent(baseContext, AddFaceImageActivity::class.java), REQUEST_ADD_FACE_IMAGE
                 )
+                true
+            }
+
+            R.id.action_add_many->{
+                //批量添加很多张测试验证人脸图
+                copyFaceTestImage()
                 true
             }
 

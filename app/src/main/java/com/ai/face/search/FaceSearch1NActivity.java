@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * 应多位用户要求，默认使用java 版本演示怎么快速接入SDK。JAVA FIRST
  *
- * 1：N 和 M：N 人脸检索迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
+ * .setNeedMultiValidate(true) //是否需要确认机制防止误识别，开启会影响低配置设备的识别速度
  */
 public class FaceSearch1NActivity extends AppCompatActivity {
     private ActivityFaceSearchBinding binding;
@@ -67,16 +67,28 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         // 2.各种参数的初始化设置
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
-                .setThreshold(0.81f) //阈值设置，范围限 [0.80 , 0.95] 识别可信度，也是识别灵敏度
+                .setThreshold(0.85f) //阈值设置，范围限 [0.80 , 0.95] 识别可信度，也是识别灵敏度
+                .setNeedMultiValidate(true) //是否需要确认机制防止误识别，开启会影响低配置设备的识别速度
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setImageFlipped(cameraLens == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {
-
+                    /**
+                     * 匹配到的大于 Threshold的所有结果
+                     * @param result
+                     * @param contextBitmap
+                     */
                     @Override
-                    public void onMostSimilar(String similar,float score, Bitmap bitmap) {
-                        binding.searchTips.setText(similar);
+                    public void onFaceMatched(List<FaceSearchResult> result, Bitmap contextBitmap) {
+                        // 1:N 仅仅用来演示画人脸框位置
+                        binding.graphicOverlay.drawRect(result, cameraXFragment);
+                    }
+
+                    //最像的结果
+                    @Override
+                    public void onMostSimilar(String faceID,float score, Bitmap bitmap) {
+                        binding.searchTips.setText(faceID);
                         Glide.with(getBaseContext())
-                                .load(CACHE_SEARCH_FACE_DIR + File.separatorChar + similar)
+                                .load(CACHE_SEARCH_FACE_DIR + File.separatorChar + faceID)
                                 .skipMemoryCache(true)
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .transform(new RoundedCorners(11))
@@ -88,11 +100,6 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                         showPrecessTips(i);
                     }
 
-                    @Override
-                    public void onFaceMatched(List<FaceSearchResult> result, Bitmap contextBitmap) {
-                        // 1:N 仅仅用来演示画人脸框位置
-                        binding.graphicOverlay.drawRect(result, cameraXFragment);
-                    }
 
                     @Override
                     public void onLog(String log) {
@@ -120,7 +127,6 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 binding.searchTips.setText("提示码："+code);
                 break;
             // 识别到多人脸    ！！
-
             case THRESHOLD_ERROR :
                 binding.searchTips.setText("识别阈值Threshold范围为0.8-0.95");
                 break;

@@ -75,8 +75,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     // 人脸识别 活体检测 以及人脸检索 SDK 依赖
-    // 1:N (M:N)人脸识别依赖独立版本，体积小速度更快  https://github.com/AnyLifeZLB/FaceSearchSDK_Android
-    implementation 'io.github.anylifezlb:FaceRecognition:1.8.25'  //目前仅维护1.6 以上版本
+    // 目前仅维护1.8.30 以上版本
+    implementation 'io.github.anylifezlb:FaceRecognition:1.8.26.beta'
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
@@ -91,14 +91,9 @@ dependencies {
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
     ksp("com.github.bumptech.glide:ksp:4.16.0")
-
-//    implementation 'com.android.support:design:28.0.0'
     implementation 'com.google.android.material:material:1.12.0'
-
-
     // Demo 为了收集Crash 开了网络权限,SDK 本身不需要任何网络服务，完全是离线运行
     implementation 'com.tencent.bugly:crashreport:4.1.9.3'
-
     // App compat and UI  things
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

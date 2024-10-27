@@ -32,8 +32,7 @@ public class MyFaceApplication extends Application {
         if (!file.exists()) file.mkdirs();
 
 
-
-        //Crash 收集，仅仅是Demo 需要
+        //Crash 收集，仅仅是Demo 需要。这不是SDK 的一部分
         CrashReport.initCrashReport(this, "36fade54d8", true);
     }
 

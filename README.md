@@ -8,12 +8,13 @@
 On_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK 
 设备端离线 Android人脸检测、人脸识别、活体检测反作弊以及1:N / M:N人脸搜索 SDK 
 
-![设备端离线机器学习优点](img.png)
+![设备端离线机器学习优点](assert/whyOfflineSDK.png)
 
-## 当前版本说明 V1.8.25
+## 当前版本说明 V1.8.26 (仅仅维护1.8.30以上版本)
 - 修复高清人脸带来的BUG，修复试用版随机闪退问题
-- 开放更多基础功能
+- 1:N 人脸识别添加确认机制，提高识别精确度
 - 动作活体检测提供快速和精确模式以便不同场景使用
+- 准备国际化，支持中英语言版本提示
 
  建议[Fork] + [Star] 以便获取最新更新 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
  SDK 演示目前仅仅托管在GitHub，其他镜像版本大概率不是最新的，请移步到GitHub 更新最新的演示代码
@@ -52,20 +53,20 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
     //3.人脸识别过程中各种参数的初始化。（更多说明请Github Clone代码体验,）
     
             FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                .setThreshold(0.88f)                //threshold（阈值）设置，范围仅限[0.8-0.95]，默认0.85
+                .setThreshold(0.88f)                //threshold（阈值）设置，范围仅限[0.85-0.95]，默认0.88
                 .setBaseBitmap(baseBitmap)          //1：1 底片「底片请设置为正脸无遮挡，并如Demo裁剪为仅含人脸」
                 .setLiveNessDetection(true)         //是否需要活体检测，需要发送邮件，详情参考ReadMe
                 .setLiveNessDetectionMode(FAST)     //活体检测模式，快速还是准确（仅动作活体，建议高配硬件用准确模式）
-                .setVerifyTimeOut(10)               //活体检测支持设置超时时间 9-16 秒
+                .setVerifyTimeOut(16)               //活体检测支持设置超时时间 9-22 秒
                 .setMotionStepSize(2)               //随机动作验证活体的步骤个数，支持1-2个步骤
                 .setProcessCallBack(new ProcessCallBack() {
                     @Override
                     public void onCompleted(boolean isMatched) {
-                         //1：1 人脸识别匹配成功
+                         // 1：1 人脸识别匹配成功
                     }
                     @Override
                     public void onMostSimilar(String similar) {
-                         //人脸检索识别
+                         // 人脸检索识别
                     }
                 })
                 .create();
@@ -80,7 +81,6 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
     * NaviActivity  Demo 演示导航页面
     * /verify/目录  1:1 人脸检测识别，活体检测页面
     * /search/目录  1:N 和 M：N 人脸识别搜索页面，人脸库管理
-    * 1：N 和 M：N人脸检索可以独立依赖，体积更小 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
 
     不含活体检测不需要license完全免费，包含活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 确认授权
     内容包括App名称、包名（applicationId）、签名证书SHA1和简要描述和要申请  1:1 / 1:N / M:N 哪种类型、4项内容。
@@ -94,7 +94,6 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 <img src="https://user-images.githubusercontent.com/15169396/210045090-60c073df-ddbd-4747-8e24-f0dce1eccb58.png" width = 30% height = 30% />
 </div>
   
-   注：1:N，M:N 人脸搜索Demo 可单独下载小体积体验包：https://www.pgyer.com/FaceSearchSDK
 
 ## 服务定制
 

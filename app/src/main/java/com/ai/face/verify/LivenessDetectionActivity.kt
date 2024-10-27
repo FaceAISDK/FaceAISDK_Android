@@ -24,8 +24,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
 /**
- * 人脸活体检测,如果Kotlin 不熟悉更齐全的可以参考{@link #Verify_11_javaActivity}
+ * 人脸活体检测
  *
+ * 如果Kotlin不熟悉 可以参考（活体检测+人脸识别）{@link #Verify_11_javaActivity}
  *
  */
 class LivenessDetectionActivity : AppCompatActivity() {
@@ -56,7 +57,7 @@ class LivenessDetectionActivity : AppCompatActivity() {
             .setLivenessDetection(true)   //是否需要活体检测，需要发送邮件，详情参考 ReadMe
             .setLivenessStepSize(2)       //动作活体检测几个步骤
             .setLivenessDetectionMode(LivenessDetection.FAST)
-            .setVerifyTimeOut(15)
+            .setVerifyTimeOut(16)         //9-22
             .setGraphicOverlay(binding.faceTips)
             .setProcessCallBack(object : ProcessCallBack() {
                 override fun onAliveCheckPass(isPass: Boolean, bitmap: Bitmap) {

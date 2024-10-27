@@ -34,9 +34,7 @@ import java.io.ByteArrayOutputStream;
 /**
  * 插入添加一张人脸图，1：1 和 1:N 都是用这个
  *
- *
- * <p>
- * OpenCV
+ * 待完善
  * 1.人脸角度提示
  * 2.人脸完整度提示
  * 3.闭眼提示

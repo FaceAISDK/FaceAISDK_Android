@@ -87,7 +87,6 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 //        //这是注册人脸的方式
 //        new BaseImageDispose(this).saveBaseImage(baseBitmap,FaceApplication.CACHE_BASE_FACE_DIR, yourUniQueFaceId,400);
 
-
         //1.初始化引擎，各种参数配置
         initFaceVerify(baseBitmap);
 
@@ -117,7 +116,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                 .setLivenessStepSize(2)               //随机动作验证活体的步骤个数[0-2]，0个没有动作活体只有静默活体
                 .setLivenessDetectionMode(LivenessDetection.FAST)  //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(0.91f)    //静默活体阈值 [0.88,0.99]
-                .setVerifyTimeOut(12)                 //活体检测支持设置超时时间 [9,16] 秒
+                .setVerifyTimeOut(16)                 //活体检测支持设置超时时间 [9,22] 秒
                 .setGraphicOverlay(faceTipsOverlay)   //正式环境请去除设置
                 .setProcessCallBack(new ProcessCallBack() {
                     //静默活体检测得分大于0.9 可以认为是真人，可结合动作活体一起使用

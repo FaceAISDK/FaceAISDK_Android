@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/yellow"
+    android:background="@color/colorAccent"
     android:paddingTop="100dp"
     tools:context=".NaviActivity">
 
@@ -28,11 +28,11 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:padding="5dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:padding="4dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/baseline_face_retouching_natural_24" />
+                android:src="@drawable/band_image" />
 
             <TextView
                 android:id="@+id/face_verify"
@@ -70,11 +70,11 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:padding="6dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:padding="10dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_baseline_arrow_back_24" />
+                android:src="@drawable/ic_add_face" />
 
             <TextView
                 android:id="@+id/change_base_img"
@@ -113,7 +113,6 @@
         app:layout_constraintTop_toBottomOf="@+id/update_base_image" />
 
 
-
     <TextView
         android:id="@+id/face_search_1_n"
         android:layout_width="match_parent"
@@ -126,14 +125,12 @@
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         android:visibility="visible"
-        android:text="1:N &amp; M:N人脸检索识别演示"
+        android:text="1:N &amp; M:N人脸搜索识别"
         android:textColor="@color/red"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/liveness_detection" />
-
-
 
 
     <TextView
@@ -162,7 +159,6 @@
         android:textSize="17sp"
         android:layout_marginBottom="33dp"
         app:layout_constraintBottom_toBottomOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

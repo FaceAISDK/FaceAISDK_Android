@@ -7,4 +7,12 @@
         app:showAsAction="ifRoom"
         android:title="Add">
     </item>
+
+
+    <item
+        android:id="@+id/action_add_many"
+        android:icon="@drawable/copy_many"
+        app:showAsAction="ifRoom"
+        android:title="Add_Many">
+    </item>
 </menu>

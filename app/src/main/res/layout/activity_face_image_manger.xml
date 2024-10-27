@@ -23,7 +23,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="长按删除人脸，点击右上角编辑人脸"
+        android:text="长按删除人脸，点击右上角图标添加人脸"
         android:gravity="center"
         android:padding="5dp"
         android:textSize="14sp"

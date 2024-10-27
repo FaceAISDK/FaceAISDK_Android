@@ -73,7 +73,7 @@ public class FaceSearchMNActivity extends AppCompatActivity {
         // 2.各种参数的初始化设置 （M：N 建议阈值放低）
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
-                .setThreshold(0.80f)            //识别成功阈值设置，范围仅限 0.8-0.95！默认0.8
+                .setThreshold(0.81f)            //识别成功阈值设置，范围仅限 0.8-0.95！默认0.8
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setSearchType(SearchProcessBuilder.SearchType.N_SEARCH_M) //1:N 搜索
                 .setImageFlipped(cameraLens == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
