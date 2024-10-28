@@ -10,7 +10,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 播报提示语音,播放自己录制的语音文件
- *
  */
 public class VoicePlayer {
     private MediaPlayer mMediaPlayer;
@@ -63,15 +62,15 @@ public class VoicePlayer {
         if (mContext == null) {
             return;
         }
-        if (mAudioList.size() == 0) {
+        if (mAudioList.isEmpty()) {
             stop();
             mAudioList.add(rawId);
             mMediaPlayer = MediaPlayer.create(mContext, mAudioList.get(0));
-            if (mAudioList.size() >= 1) {
+            if (!mAudioList.isEmpty()) {
                 mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mediaPlayer) {
-                        if (mAudioList.size() == 0) {
+                        if (mAudioList.isEmpty()) {
                             return;
                         }
                         mAudioList.remove(0);
@@ -80,7 +79,7 @@ public class VoicePlayer {
                         }
                         mMediaPlayer.setOnCompletionListener(null);
                         mMediaPlayer.release();
-                        if (mAudioList.size() > 0) {
+                        if (!mAudioList.isEmpty()) {
                             mMediaPlayer = MediaPlayer.create(mContext, mAudioList.get(0));
                             mMediaPlayer.setOnCompletionListener(this);
                             mMediaPlayer.start();

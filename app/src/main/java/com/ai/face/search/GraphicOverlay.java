@@ -37,10 +37,10 @@ public class GraphicOverlay extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
-        if (width < height){
-            super.onMeasure(widthMeasureSpec,heightMeasureSpec);
-        }else{
-            super.onMeasure(heightMeasureSpec,widthMeasureSpec);
+        if (width < height) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        } else {
+            super.onMeasure(heightMeasureSpec, widthMeasureSpec);
         }
     }
 
@@ -56,7 +56,7 @@ public class GraphicOverlay extends View {
                 textPaint.setTextSize(44.0f);
                 textPaint.setTypeface(Typeface.DEFAULT);
                 textPaint.setColor(Color.GREEN);
-                canvas.drawText(rectLabel.getFaceName().replace(".jpg","  ")+rectLabel.getFaceScore(), rectLabel.getRect().left + 22.0f, rectLabel.getRect().top + 55.0f, textPaint);
+                canvas.drawText(rectLabel.getFaceName().replace(".jpg", "  ") + rectLabel.getFaceScore(), rectLabel.getRect().left + 22.0f, rectLabel.getRect().top + 55.0f, textPaint);
             }
             rectPaint.setStrokeWidth(3.0f);
             rectPaint.setStyle(Paint.Style.STROKE);
@@ -87,13 +87,13 @@ public class GraphicOverlay extends View {
         //调整一点，有点偏差的处理。Rect 框问题。
         for (FaceSearchResult rectLabel : rectLabels) {
             Rect rect = new Rect(
-                    translateX(rectLabel.getRect().left)  ,
+                    translateX(rectLabel.getRect().left),
                     translateY(rectLabel.getRect().top) - padding,
-                    translateX(rectLabel.getRect().right) ,
+                    translateX(rectLabel.getRect().right),
                     translateY(rectLabel.getRect().bottom) + padding
             );
 
-            labels.add(new FaceSearchResult(rect, rectLabel.getFaceName(),rectLabel.getFaceScore()));
+            labels.add(new FaceSearchResult(rect, rectLabel.getFaceName(), rectLabel.getFaceScore()));
         }
 
         return labels;

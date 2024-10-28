@@ -2,6 +2,7 @@ package com.ai.face.search;
 
 import static com.ai.face.MyFaceApplication.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.*;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.ONLY_ONE_FACE;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
 
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraControl;
@@ -24,16 +26,18 @@ import com.ai.face.faceSearch.utils.FaceSearchResult;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+
 import java.io.File;
 import java.util.List;
 
 /**
  * 应多位用户要求，默认使用java 版本演示怎么快速接入SDK。JAVA FIRST
- *
- * .setNeedMultiValidate(true) //是否需要确认机制防止误识别，开启会影响低配置设备的识别速度
+ * <p>
+ * .setNeedMultiValidate(true) //是否需要确认机制防止误识别，开启会影响低配设备的识别速度
  */
 public class FaceSearch1NActivity extends AppCompatActivity {
     private ActivityFaceSearchBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +55,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
          * 1. Camera 的初始化。第一个参数0/1 指定前后摄像头；
          * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
          */
-        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens,0.01f);
+        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens, 0.01f);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
 
@@ -85,7 +89,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
 
                     //最像的结果
                     @Override
-                    public void onMostSimilar(String faceID,float score, Bitmap bitmap) {
+                    public void onMostSimilar(String faceID, float score, Bitmap bitmap) {
                         binding.searchTips.setText(faceID);
                         Glide.with(getBaseContext())
                                 .load(CACHE_SEARCH_FACE_DIR + File.separatorChar + faceID)
@@ -124,10 +128,16 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         binding.image.setImageResource(R.mipmap.ic_launcher);
         switch (code) {
             default:
-                binding.searchTips.setText("提示码："+code);
+                binding.searchTips.setText("提示码：" + code);
                 break;
-            // 识别到多人脸    ！！
-            case THRESHOLD_ERROR :
+//            case ONLY_ONE_FACE: //镜头前仅有一个人
+//
+//                break;
+            case TOO_MUCH_FACE:
+                Toast.makeText(this, "镜头前有多个人", Toast.LENGTH_SHORT).show();
+                break;
+
+            case THRESHOLD_ERROR:
                 binding.searchTips.setText("识别阈值Threshold范围为0.8-0.95");
                 break;
 

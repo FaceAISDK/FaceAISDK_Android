@@ -8,7 +8,7 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/entry"
-        android:layout_width="333dp"
-        android:layout_height="333dp"/>
+        android:layout_width="222dp"
+        android:layout_height="222dp"/>
 
 </FrameLayout>

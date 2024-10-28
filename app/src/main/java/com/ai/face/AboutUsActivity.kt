@@ -16,7 +16,7 @@ class AboutUsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding=ActivityAboutUsBinding.inflate(layoutInflater)
+        viewBinding = ActivityAboutUsBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
         viewBinding.moreAboutMe.setOnClickListener {
@@ -27,11 +27,11 @@ class AboutUsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        viewBinding.back.setOnClickListener{
+        viewBinding.back.setOnClickListener {
             this.finish()
         }
 
-        viewBinding.wechat.setOnLongClickListener{
+        viewBinding.wechat.setOnLongClickListener {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             // Creates a new text clip to put on the clipboard
             val clip: ClipData = ClipData.newPlainText("wechat", "HaoNan19990322")
@@ -39,18 +39,18 @@ class AboutUsActivity : AppCompatActivity() {
             // Set the clipboard's primary clip.
             clipboard.setPrimaryClip(clip)
 
-            Toast.makeText(this,"已经复制",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "已经复制", Toast.LENGTH_SHORT).show()
             return@setOnLongClickListener true
         }
 
-        viewBinding.email.setOnLongClickListener{
+        viewBinding.email.setOnLongClickListener {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             // Creates a new text clip to put on the clipboard
             val clip: ClipData = ClipData.newPlainText("email", "anylife.zlb@gmail.com")
 
             // Set the clipboard's primary clip. 复制
             clipboard.setPrimaryClip(clip)
-            Toast.makeText(this,"已经复制",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "已经复制", Toast.LENGTH_SHORT).show()
 
             return@setOnLongClickListener true
         }

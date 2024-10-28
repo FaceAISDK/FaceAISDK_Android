@@ -42,7 +42,6 @@ import java.util.Locale
  *
  * 需要使用SDK 的API 操作增删改，不能直接插入目录就以为可以搜索
  *
- *
  * 后期将用Java 编写，很多用户不太熟悉Kotlin
  *
  */
@@ -81,7 +80,7 @@ class FaceSearchImageMangerKtActivity : AppCompatActivity() {
                 .setPositiveButton("确定") { _: DialogInterface?, _: Int ->
                     //删除一张照片
                     FaceSearchImagesManger.IL1Iii.getInstance(application)
-                            .deleteFaceImage(faceImageList[i])
+                        .deleteFaceImage(faceImageList[i])
 
                     loadImageList()
                     faceImageListAdapter.notifyDataSetChanged()
@@ -183,9 +182,9 @@ class FaceSearchImageMangerKtActivity : AppCompatActivity() {
             val bitmap = BitmapFactory.decodeByteArray(bis, 0, bis!!.size)
 
             CoroutineScope(Dispatchers.IO).launch {
-                var imagePath=CACHE_SEARCH_FACE_DIR + File.separatorChar + faceName
+                var imagePath = CACHE_SEARCH_FACE_DIR + File.separatorChar + faceName
                 FaceSearchImagesManger.IL1Iii.getInstance(application)
-                    .insertOrUpdateFaceImage(bitmap,imagePath)
+                    .insertOrUpdateFaceImage(bitmap, imagePath)
 
                 delay(300)
                 MainScope().launch {
@@ -207,7 +206,7 @@ class FaceSearchImageMangerKtActivity : AppCompatActivity() {
                 true
             }
 
-            R.id.action_add_many->{
+            R.id.action_add_many -> {
                 //批量添加很多张测试验证人脸图
                 copyFaceTestImage()
                 true

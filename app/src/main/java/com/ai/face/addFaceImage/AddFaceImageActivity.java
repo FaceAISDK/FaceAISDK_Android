@@ -8,6 +8,8 @@ import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_LEFT;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_RIGHT;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_UP;
+import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.TILT_HEAD;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,11 +25,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.ai.face.R;
 import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.base.view.CameraXFragment;
+
 import java.io.ByteArrayOutputStream;
 
 /**
@@ -69,6 +73,11 @@ public class AddFaceImageActivity extends AppCompatActivity {
                         case HEAD_CENTER:
                             tipsTextView.setText("保持正脸不要晃动"); //2秒后确认图像
                             break;
+
+                        case TILT_HEAD:
+                            tipsTextView.setText("请勿歪头");
+                            break;
+
                         case HEAD_LEFT:
                             tipsTextView.setText("脸偏左");
                             break;
@@ -123,7 +132,6 @@ public class AddFaceImageActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * 确认是否保存底图
      *
@@ -165,7 +173,7 @@ public class AddFaceImageActivity extends AppCompatActivity {
                 intent.putExtra("picture_name", editText.getText().toString());
                 setResult(RESULT_OK, intent);
                 finish();
-            }else {
+            } else {
                 Toast.makeText(getBaseContext(), "请输入人脸名称", Toast.LENGTH_SHORT).show();
             }
         });

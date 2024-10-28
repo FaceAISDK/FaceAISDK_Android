@@ -88,7 +88,7 @@ class LivenessDetectionActivity : AppCompatActivity() {
 
             })
             .create()
-        
+
         faceDetectorUtils.setDetectorParams(faceProcessBuilder)
 
         cameraXFragment.setOnAnalyzerListener(object : onAnalyzeData {

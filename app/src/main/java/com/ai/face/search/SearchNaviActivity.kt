@@ -75,12 +75,13 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             })
         }
 
-        binding.back.setOnClickListener{
+        binding.back.setOnClickListener {
             finish()
         }
 
         binding.mN1.setOnClickListener {
-            val uri = Uri.parse("https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Introduce_11_1N_MN.md")
+            val uri =
+                Uri.parse("https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Introduce_11_1N_MN.md")
             val intent = Intent(Intent.ACTION_VIEW)
             intent.addCategory(Intent.CATEGORY_BROWSABLE)
             intent.data = uri
@@ -161,7 +162,6 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
      * 当用户点击了不再提醒的时候的处理方式
      */
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {}
-
 
 
 }

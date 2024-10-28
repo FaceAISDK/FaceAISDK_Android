@@ -8,10 +8,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraControl;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.ai.face.MyFaceApplication;
 import com.ai.face.R;
 import com.ai.face.base.view.CameraXFragment;
@@ -24,12 +26,12 @@ import com.ai.face.faceVerify.verify.VerifyStatus.*;
 import com.ai.face.faceVerify.verify.alive.LivenessDetection;
 import com.ai.face.utils.VoicePlayer;
 import com.google.android.material.snackbar.Snackbar;
+
 import java.io.File;
 
 
 /**
  * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo 代码，用户根据自己业务情况参考
- *
  */
 public class Verify_11_javaActivity extends AppCompatActivity {
     private ConstraintLayout rootView;
@@ -135,7 +137,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                      * @param vipBitmap 通过时候的快照，VIP用户返回
                      */
                     @Override
-                    public void onVerifyMatched(boolean isMatched,Bitmap vipBitmap) {
+                    public void onVerifyMatched(boolean isMatched, Bitmap vipBitmap) {
                         isVerifyMatched = isMatched;
                         playVerifyResult();
                     }
@@ -243,12 +245,12 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_OK:
                         VoicePlayer.getInstance().addPayList(R.raw.face_camera);
                         tipsTextView.setText("请保持正对屏幕");
-                    break;
+                        break;
 
                     case ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
                         VoicePlayer.getInstance().addPayList(R.raw.open_mouse);
                         tipsTextView.setText("请张张嘴");
-                    break;
+                        break;
 
                     case ALIVE_DETECT_TYPE_ENUM.SMILE: {
                         tipsTextView.setText("请微笑");
@@ -266,13 +268,13 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                         VoicePlayer.getInstance().addPayList(R.raw.shake_head);
                         tipsTextView.setText("请缓慢左右摇头");
 
-                    break;
+                        break;
 
                     case ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
                         VoicePlayer.getInstance().addPayList(R.raw.nod_head);
                         tipsTextView.setText("请缓慢上下点头");
 
-                    break;
+                        break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT:
                         new AlertDialog.Builder(this)
@@ -280,7 +282,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                                 .setCancelable(false)
                                 .setPositiveButton("重试一次", (dialogInterface, i) -> faceVerifyUtils.retryVerify()
                                 ).show();
-                    break;
+                        break;
 
                     case VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
                         tipsTextView.setText("多次切换画面或无人脸");
@@ -290,7 +292,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                                 .setPositiveButton("知道了", (dialogInterface, i) -> finish())
                                 .show();
 
-                    break;
+                        break;
 
                     //请远一点,交互业务自行实现，本处理仅供参考
                     case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE:

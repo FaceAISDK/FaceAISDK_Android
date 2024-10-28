@@ -23,11 +23,9 @@ import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import java.io.File
 
 /**
- *
  * Demo 提供java 和 Kotlin 接入演示 ，仅仅是演示如何接入SDK，根据业务场景用户自行修改符合需求
  *
  * 更多请发邮件 anylife.zlb@gmail.com 或 微信 HaoNan19990322 交流（请备注 人脸识别定制，否则添加不通）
- *
  *
  * 2022.07.29
  */
@@ -38,7 +36,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding=ActivityNaviBinding.inflate(layoutInflater)
+        viewBinding = ActivityNaviBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         checkNeededPermission()
 
@@ -46,9 +44,11 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         //一个在线人脸图片对比工具 https://facecomparison.toolpie.com/
         //测试两张人脸是否相同  model.jpg
 
-        val value= VerifyUtils.evaluateFaceSimi(baseContext,
-            VerifyUtils.getBitmapFromAssert(baseContext,"model_1.png"),
-            VerifyUtils.getBitmapFromAssert(baseContext,"model.jpg"))
+        val value = VerifyUtils.evaluateFaceSimi(
+            baseContext,
+            VerifyUtils.getBitmapFromAssert(baseContext, "model_1.png"),
+            VerifyUtils.getBitmapFromAssert(baseContext, "model.jpg")
+        )
 
         Log.d("VerifyUtils", "测试两张人脸是否相同，value:  $value")
 
@@ -78,7 +78,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
         viewBinding.livenessDetection.setOnClickListener {
-                startActivity(Intent(this@NaviActivity, LivenessDetectionActivity::class.java))
+            startActivity(Intent(this@NaviActivity, LivenessDetectionActivity::class.java))
         }
 
         viewBinding.faceSearch1N.setOnClickListener {
@@ -93,17 +93,18 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         viewBinding.changeCamera.setOnClickListener {
             val sharedPref = getSharedPreferences(
-                "faceVerify", Context.MODE_PRIVATE)
+                "faceVerify", Context.MODE_PRIVATE
+            )
 
-            if(sharedPref.getInt("cameraFlag",0)==1){
-                sharedPref.edit().putInt("cameraFlag",0).apply()
+            if (sharedPref.getInt("cameraFlag", 0) == 1) {
+                sharedPref.edit().putInt("cameraFlag", 0).apply()
                 Toast.makeText(
                     baseContext,
                     "已切换前置摄像头",
                     Toast.LENGTH_LONG
                 ).show()
-            }else{
-                sharedPref.edit().putInt("cameraFlag",1).apply()
+            } else {
+                sharedPref.edit().putInt("cameraFlag", 1).apply()
                 Toast.makeText(
                     baseContext,
                     "已切换后置/外接摄像头",
@@ -125,7 +126,12 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         if (EasyPermissions.hasPermissions(this, *perms)) {
         } else {
-            EasyPermissions.requestPermissions(this, "相机和读取相册都仅仅是为了完成人脸识别所必需，请授权！", 11, *perms)
+            EasyPermissions.requestPermissions(
+                this,
+                "相机和读取相册都仅仅是为了完成人脸识别所必需，请授权！",
+                11,
+                *perms
+            )
         }
     }
 

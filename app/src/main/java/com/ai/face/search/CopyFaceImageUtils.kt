@@ -32,19 +32,18 @@ class CopyFaceImageUtils {
 
         interface Callback {
             fun onSuccess()
-            fun onFailed(msg:String)
+            fun onFailed(msg: String)
         }
 
         /**
-         * 提供一个包含CallBack 的方法给Java 调用，没有协程序=
+         * 提供一个包含CallBack 的方法给Java 调用，java没有协程序=
          *
          * @param context
          */
-        fun copyTestImage(context: Application,callBack: Callback){
+        fun copyTestImage(context: Application, callBack: Callback) {
             CoroutineScope(Dispatchers.IO).launch {
                 copyAssertTestFaceImages(context)
                 delay(800)
-                callBack.onSuccess()
                 MainScope().launch {
                     callBack.onSuccess()
                 }

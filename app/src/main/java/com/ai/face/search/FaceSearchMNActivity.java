@@ -32,8 +32,6 @@ import java.util.List;
 
 /**
  * 应多位用户要求，默认使用java 版本演示怎么快速接入SDK
- *
- * 1：N 和 M：N 人脸检索迁移到了 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
  */
 public class FaceSearchMNActivity extends AppCompatActivity {
     private ActivityFaceSearchMnBinding binding;
@@ -51,7 +49,7 @@ public class FaceSearchMNActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = getSharedPreferences("faceVerify", Context.MODE_PRIVATE);
 
-        /**
+        /*
          * 1. Camera 的初始化。第一个参数0/1 指定前后摄像头；
          * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
          */
@@ -86,7 +84,7 @@ public class FaceSearchMNActivity extends AppCompatActivity {
                     public void onFaceMatched(List<FaceSearchResult> result, Bitmap contextBitmap) {
                         binding.graphicOverlay.drawRect(result, cameraX);
 
-                        if(!result.isEmpty()) {
+                        if (!result.isEmpty()) {
                             binding.searchTips.setText("");
                         }
                     }

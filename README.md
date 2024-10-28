@@ -10,10 +10,11 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
 ![设备端离线机器学习优点](assert/whyOfflineSDK.png)
 
-## 当前版本说明 V1.8.26 (仅仅维护1.8.20以上版本)
+## 当前版本说明 V1.8.30 (仅仅维护1.8.20以上版本)
 - 修复高清人脸带来的BUG，修复试用版随机闪退问题
-- 1:N 人脸识别添加确认机制，提高识别精确度
+- 1:N 人脸识别添加确认机制，提高搜索匹配精确度
 - 动作活体检测提供快速和精确模式以便不同场景使用
+- 录入人脸的时候 检测人脸的是否正脸
 - 准备国际化，支持中英语言版本提示
 
  建议[Fork] + [Star] 以便获取最新更新 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
@@ -44,7 +45,7 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 ## 接入使用
 
     //1.首先Gradle 中引入依赖 
-    implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //目前仅维护1.6 以上版本，请及时升级
+    implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //目前仅维护1.8.20 以上版本，请及时升级
     //2.Camera相机的初始化。第一个参数0/1 指定前后摄像头；第二个参数linearZoom [0.01f,1.0f] 指定焦距，默认0.01
     CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing,0.2f);
 
@@ -101,8 +102,17 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
    
    欢迎关注Fork+Star获取最新动态  Github:  https://github.com/AnyLifeZLB/FaceVerificationSDK
 
-## SDK 升级
-   SDK 会持续更新，建议参考更新Log 后决定是否更新依赖升级，一般升级是兼容性无缝升级，如果发现API 有更改可以更新本SDK 接入Demo 后参考修改你的代码
+## 提升接入效率，提高SDK识别准确率
+   ### 提升接入效率
+     - 1.去蒲公英下载APK Demo 体验SDK 的基本功能，看看是否满足业务需求；人脸搜索可以一键倒入200+张人脸图再录入你自己的
+     - 2.更新GitHub 最新的代码，花1天左右时间熟悉SDK API 和对应的注释备注，断点调试一下基本功能；熟悉后再接入到主工程
+     - 3.欲速则不达，熟悉后再接入到主工程试用匹配业务功能。有新需求可以GitHub 提issues或者邮件 微信联系
+
+
+   ### 提高SDK准确率
+     - 1.试用建议的设备配置和摄像头
+     - 2.录入高质量的人脸图（证件照输入目前优化中）
+     - 3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩
 
 ## 常见问题
    常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/questions.md
