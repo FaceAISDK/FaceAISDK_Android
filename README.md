@@ -10,12 +10,10 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
 ![设备端离线机器学习优点](assert/whyOfflineSDK.png)
 
-## 当前版本说明 V1.8.30 (仅仅维护1.8.20以上版本)
+## 当前版本说明 V1.8.33 (仅仅维护1.8.20以上版本)
 - 修复高清人脸带来的BUG，修复试用版随机闪退问题
 - 1:N 人脸识别添加确认机制，提高搜索匹配精确度
-- 动作活体检测提供快速和精确模式以便不同场景使用
-- 录入人脸的时候 检测人脸的是否正脸
-- 准备国际化，支持中英语言版本提示
+- 修复大尺寸照片中人脸过小导致的人脸入库失败问题
 
  建议[Fork] + [Star] 以便获取最新更新 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
  SDK 演示目前仅仅托管在GitHub，其他镜像版本大概率不是最新的，请移步到GitHub 更新最新的演示代码
@@ -29,7 +27,7 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N
 SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率720p以上，帧率大于30并且无拖影。
 
 实验室测试效果能覆盖95% 的中高低端机器，识别成功率>99%；**特殊DIY系统或特殊定制硬件，外接USB摄像头等**如有问题请先提Issues附带系统版本、设备型号、错误log等信息；
-或发邮件到anylife.zlb@gmail.com ，VIP用户添加微信ID：HaoNan19990322
+或发邮件到anylife.zlb@gmail.com ，VIP用户添加 微信：HaoNan19990322 / WhatsApp: +8618707611416
 
 
 

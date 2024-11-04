@@ -16,7 +16,7 @@
         android:padding="9dp"
         android:layout_marginTop="19dp"
         android:layout_marginStart="15dp"
-        android:src="@drawable/ic_baseline_arrow_back_24"
+        android:src="@drawable/ic_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

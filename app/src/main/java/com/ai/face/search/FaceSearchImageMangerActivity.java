@@ -1,6 +1,5 @@
 package com.ai.face.search;
 
-
 import static com.ai.face.MyFaceApplication.CACHE_SEARCH_FACE_DIR;
 
 import android.app.AlertDialog;
@@ -23,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ai.face.R;
 import com.ai.face.addFaceImage.AddFaceImageActivity;
+import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -30,8 +30,6 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.lzf.easyfloat.EasyFloat;
 
 import org.jetbrains.annotations.NotNull;
-
-import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -70,18 +68,13 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
         faceImageListAdapter = new FaceImageListAdapter(faceImageList);
         mRecyclerView.setAdapter(faceImageListAdapter);
         faceImageListAdapter.setOnItemLongClickListener((adapter, view, i) -> {
-            new AlertDialog.Builder(this)
-                    .setTitle("确定要删除" + new File(faceImageList.get(i)).getName())
-                    .setMessage("删除后对应的人将无法被程序识别")
-                    .setPositiveButton("确定", (dialog, which) -> {
-                        //删除一张照片
-                        FaceSearchImagesManger.IL1Iii.getInstance(getApplication())
-                                .deleteFaceImage(faceImageList.get(i));
+            new AlertDialog.Builder(this).setTitle("确定要删除" + new File(faceImageList.get(i)).getName()).setMessage("删除后对应的人将无法被程序识别").setPositiveButton("确定", (dialog, which) -> {
+                //删除一张照片
+                FaceSearchImagesManger.IL1Iii.getInstance(getApplication()).deleteFaceImage(faceImageList.get(i));
 
-                        loadImageList();
-                        faceImageListAdapter.notifyDataSetChanged();
-                    })
-                    .setNegativeButton("取消", null).show();
+                loadImageList();
+                faceImageListAdapter.notifyDataSetChanged();
+            }).setNegativeButton("取消", null).show();
 
             return false;
         });
@@ -90,7 +83,7 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
         faceImageListAdapter.getEmptyLayout().setOnClickListener(v -> copyFaceTestImage());
 
         //添加单张人脸照片
-        if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean("isAdd")) {
+        if (getIntent().getExtras().getBoolean("isAdd")) {
             startActivityForResult(new Intent(getBaseContext(), AddFaceImageActivity.class), REQUEST_ADD_FACE_IMAGE);
         }
 
@@ -106,23 +99,20 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
             String faceName = data.getStringExtra("picture_name") + ".jpg";
             Bitmap bitmap = BitmapFactory.decodeByteArray(bis, 0, bis.length);
 
-            Toast.makeText(getBaseContext(), "添加照片", Toast.LENGTH_SHORT).show();
-            FaceSearchImagesManger.IL1Iii.getInstance(getApplication()).insertOrUpdateFaceImage(bitmap, CACHE_SEARCH_FACE_DIR + File.separatorChar + faceName);
 
             String filePathName = CACHE_SEARCH_FACE_DIR + File.separatorChar + faceName;
-            FaceSearchImagesManger.IL1Iii.getInstance(getApplication())
-                    .insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
-                        @Override
-                        public void onSuccess() {
-                            loadImageList();
-                            faceImageListAdapter.notifyDataSetChanged();
-                        }
+            FaceSearchImagesManger.IL1Iii.getInstance(getApplication()).insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
+                @Override
+                public void onSuccess() {
+                    loadImageList();
+                    faceImageListAdapter.notifyDataSetChanged();
+                }
 
-                        @Override
-                        public void onFailed(@NotNull String msg) {
-                        }
-
-                    });
+                @Override
+                public void onFailed(@NotNull String msg) {
+                    Toast.makeText(getBaseContext(), "人脸图入库失败：：" + msg, Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
     }
@@ -139,12 +129,9 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
             Arrays.sort(subFaceFiles, new Comparator<File>() {
                 public int compare(File f1, File f2) {
                     long diff = f1.lastModified() - f2.lastModified();
-                    if (diff > 0)
-                        return -1;
-                    else if (diff == 0)
-                        return 0;
-                    else
-                        return 1;
+                    if (diff > 0) return -1;
+                    else if (diff == 0) return 0;
+                    else return 1;
                 }
 
                 public boolean equals(Object obj) {
@@ -159,37 +146,40 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
                     String filePath = value.getPath();
                     if (filename.trim().toLowerCase().endsWith(".jpg")) {
                         faceImageList.add(filePath);
-                    } else if (filename.trim().toLowerCase().endsWith(".png")) {
+                    } else if (filename.trim().toUpperCase().endsWith(".png")) {
                         faceImageList.add(filePath);
-                    } else if (filename.trim().toLowerCase().endsWith(".jpeg")) {
+                    } else if (filename.trim().toUpperCase().endsWith(".jpeg")) {
                         faceImageList.add(filePath);
                     }
                 }
             }
+
+            Toast.makeText(getBaseContext(), "人脸库容量：" + faceImageList.size(), Toast.LENGTH_SHORT).show();
+
         }
     }
 
 
     /**
-     * 快速拷贝一些测试图，模拟人脸库有多张人脸
+     *
      */
     private void copyFaceTestImage() {
         Toast.makeText(getBaseContext(), "复制验证图...", Toast.LENGTH_LONG).show();
         CopyFaceImageUtils.Companion.showAppFloat(getBaseContext());
 
-        CopyFaceImageUtils.Companion.copyTestImage(getApplication(),
-                new CopyFaceImageUtils.Companion.Callback() {
-                    @Override
-                    public void onSuccess() {
-                        EasyFloat.hide("speed");
-                        loadImageList();
-                        faceImageListAdapter.notifyDataSetChanged();
-                    }
+        CopyFaceImageUtils.Companion.copyTestImage(getApplication(), new CopyFaceImageUtils.Companion.Callback() {
+            @Override
+            public void onSuccess() {
+                EasyFloat.hide("speed");
+                loadImageList();
+                faceImageListAdapter.notifyDataSetChanged();
+            }
 
-                    @Override
-                    public void onFailed(@NotNull String msg) {
-                    }
-                });
+            @Override
+            public void onFailed(@NotNull String msg) {
+                Toast.makeText(getBaseContext(), "人脸图入库失败：：" + msg, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -198,8 +188,7 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             //添加一张
             case R.id.action_add:
-                startActivityForResult(new Intent(getBaseContext(), AddFaceImageActivity.class)
-                        , REQUEST_ADD_FACE_IMAGE);
+                startActivityForResult(new Intent(getBaseContext(), AddFaceImageActivity.class), REQUEST_ADD_FACE_IMAGE);
                 break;
 
             case R.id.action_add_many:
@@ -231,10 +220,7 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
 
         @Override
         protected void convert(BaseViewHolder helper, String faceImagePath) {
-            Glide.with(getBaseContext()).load(faceImagePath)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into((ImageView) helper.getView(R.id.face_image));
+            Glide.with(getBaseContext()).load(faceImagePath).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).into((ImageView) helper.getView(R.id.face_image));
         }
     }
 

@@ -17,7 +17,7 @@
         android:background="?attr/colorPrimary"
         app:subtitleTextColor="#FFF"
         app:titleTextColor="#FFF"
-        app:title="人脸编辑"
+        app:title="人脸库管理"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -28,8 +28,7 @@
         android:padding="5dp"
         android:textSize="14sp"
         android:background="#CDB48D"
-        android:textColor="@color/white"
-        />
+        android:textColor="@color/white" />
 
 
     <androidx.recyclerview.widget.RecyclerView

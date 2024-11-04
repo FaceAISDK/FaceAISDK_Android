@@ -11,7 +11,7 @@ android {
         minSdk 21
         targetSdk 34
         versionCode 20
-        versionName "1.8.30.beta"
+        versionName "1.8.32"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -47,7 +47,6 @@ android {
     namespace 'com.ai.face'
 }
 
-
 //根据Compile SDK 不同，各自项目依赖体系不一样
 //主工程和SDK 中的依赖有冲突需要统一依赖,可以参考下面方式处理
 //比如TargetSDK 还是28的camera_version降低到 1.2.3，否决建议升级到最新的稳定版本
@@ -66,16 +65,16 @@ configurations.configureEach {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
+
     // 人脸识别 活体检测 以及人脸检索 SDK 依赖. 更新SDK Clean 工程
     // 目前仅维护1.8.20 以上版本。
-    implementation 'io.github.anylifezlb:FaceRecognition:1.8.31'
+    implementation 'io.github.anylifezlb:FaceRecognition:1.8.33'
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation 'com.airbnb.android:lottie:6.0.0'
     implementation 'com.github.princekin-f:EasyFloat:2.0.4'
-
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.3.2"
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.8'

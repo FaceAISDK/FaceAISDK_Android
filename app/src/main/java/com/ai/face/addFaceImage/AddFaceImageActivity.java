@@ -1,6 +1,5 @@
 package com.ai.face.addFaceImage;
 
-
 import static com.ai.face.MyFaceApplication.FACE_DIR_KEY;
 import static com.ai.face.MyFaceApplication.USER_ID_KEY;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
@@ -35,11 +34,15 @@ import com.ai.face.base.view.CameraXFragment;
 import java.io.ByteArrayOutputStream;
 
 /**
- * 1.人脸角度提示
- * 2.人脸完整度提示 （待开发）
- * 3.闭眼提示
- * 4.特征点遮挡提示 （待开发）
- * 5.活体检测
+ * 添加一张规范的人脸图并裁剪为SDK需要的正方形。
+ *
+ * 其他系统的录入的人脸请自行保证人脸规范，否则会导致识别错误
+ *
+ *  -  1. 尽量使用较高配置设备和摄像头，光线不好带上补光灯
+ *  -  2. 录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
+ *  -  3. 光线环境好，检测的人脸化浓妆或佩戴墨镜 口罩 帽子等遮盖
+ *  -  4. 人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
+ *
  */
 public class AddFaceImageActivity extends AppCompatActivity {
     private TextView tipsTextView;
@@ -71,40 +74,39 @@ public class AddFaceImageActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     switch (actionCode) {
                         case HEAD_CENTER:
-                            tipsTextView.setText("保持正脸不要晃动"); //2秒后确认图像
+                            tipsTextView.setText(R.string.keep_face_tips); //2秒后确认图像
                             break;
 
                         case TILT_HEAD:
-                            tipsTextView.setText("请勿歪头");
+                            tipsTextView.setText(R.string.no_tilt_head_tips);
                             break;
 
                         case HEAD_LEFT:
-                            tipsTextView.setText("脸偏左");
+                            tipsTextView.setText(R.string.head_turn_left_tips);
                             break;
                         case HEAD_RIGHT:
-                            tipsTextView.setText("脸偏右");
+                            tipsTextView.setText(R.string.head_turn_right_tips);
                             break;
                         case HEAD_UP:
-                            tipsTextView.setText("请勿抬头");
+                            tipsTextView.setText(R.string.no_look_up_tips);
                             break;
                         case HEAD_DOWN:
-                            tipsTextView.setText("请勿低头");
+                            tipsTextView.setText(R.string.no_look_down_tips);
                             break;
-
                         case NO_FACE:
-                            showTempTips("未检测到人脸");
+                            tipsTextView.setText(R.string.no_face_detected_tips);
                             break;
                         case MANY_FACE:
-                            showTempTips("多张人脸出现");
+                            tipsTextView.setText(R.string.multiple_faces_tips);
                             break;
                         case SMALL_FACE:
-                            showTempTips("请靠近一点");
+                            tipsTextView.setText(R.string.come_closer_tips);
                             break;
                         case AlIGN_FAILED:
-                            showTempTips("图像校准失败");
+                            tipsTextView.setText(R.string.align_face_error_tips);
                             break;
                         case NOT_REAL_HUMAN:
-                            showTempTips("非真正人脸"); //对着照片录入质量不高
+                            tipsTextView.setText(R.string.not_real_face);
                             break;
                     }
                 });
@@ -118,7 +120,7 @@ public class AddFaceImageActivity extends AppCompatActivity {
         CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens, 0.001f);
 
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-            baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy, 10, false));
+            baseImageDispose.dispose(DataConvertUtils. imageProxy2Bitmap(imageProxy, 10, false));
         });
 
         getSupportFragmentManager().beginTransaction()
@@ -127,15 +129,10 @@ public class AddFaceImageActivity extends AppCompatActivity {
     }
 
 
-    private void showTempTips(String tips) {
-        tipsTextView.setText(tips);
-    }
-
 
     /**
      * 确认是否保存底图
      *
-     * @param bitmap
      */
     private void showConfirmDialog(Bitmap bitmap) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -174,7 +171,7 @@ public class AddFaceImageActivity extends AppCompatActivity {
                 setResult(RESULT_OK, intent);
                 finish();
             } else {
-                Toast.makeText(getBaseContext(), "请输入人脸名称", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Input Face Name", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.Gravity
 import com.ai.face.MyFaceApplication.CACHE_SEARCH_FACE_DIR
 import com.ai.face.R
@@ -13,7 +14,6 @@ import com.airbnb.lottie.LottieAnimationView
 import com.lzf.easyfloat.EasyFloat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -22,7 +22,15 @@ import java.io.IOException
 import java.io.InputStream
 
 /**
- * 拷贝200 百张工程目录Assert下的人脸测试图（AI生成）
+ * 拷贝200 百张工程目录Assert下的人脸测试图
+ *
+ * 人脸图要求：
+ * 1.尽量使用较高配置设备和摄像头，光线不好带上补光灯
+ * 2.录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
+ * 3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩帽子等
+ * 4.人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
+ *
+ * 调用insertOrUpdateFaceImage 如果不能保证人脸品质要先调用API裁剪检测出人脸
  *
  * 封装Utils供Java 代码调用。使用Kotlin 协程能极大的简化代码结构
  */
@@ -32,21 +40,22 @@ class CopyFaceImageUtils {
 
         interface Callback {
             fun onSuccess()
-            fun onFailed(msg: String)
+            fun onFailed(msg:String)
         }
 
         /**
-         * 提供一个包含CallBack 的方法给Java 调用，java没有协程序=
+         * 提供一个包含CallBack 的方法给Java 调用，没有协程序=
          *
          * @param context
          */
-        fun copyTestImage(context: Application, callBack: Callback) {
+        fun copyTestImage(context: Application,callBack: Callback){
             CoroutineScope(Dispatchers.IO).launch {
                 copyAssertTestFaceImages(context)
                 delay(800)
-                MainScope().launch {
+                launch(Dispatchers.Main) {
                     callBack.onSuccess()
                 }
+
             }
         }
 
@@ -73,20 +82,47 @@ class CopyFaceImageUtils {
          * 拷贝Assert 目录下的图片到App 指定目录，所涉及的人脸全为AI生成
          *
          */
-        suspend fun copyAssertTestFaceImages(context: Application) = withContext(Dispatchers.IO) {
+        private suspend fun copyAssertTestFaceImages(context: Application) = withContext(Dispatchers.IO) {
             val assetManager = context.assets
             val subFaceFiles = context.assets.list("")
             if (subFaceFiles != null) {
                 for (index in subFaceFiles.indices) {
-                    FaceSearchImagesManger.IL1Iii.getInstance(context).insertOrUpdateFaceImage(
-                        getBitmapFromAsset(
-                            assetManager,
-                            subFaceFiles[index]
-                        ), CACHE_SEARCH_FACE_DIR + File.separatorChar + subFaceFiles[index]
+                    val originBitmap=getBitmapFromAsset(
+                        assetManager,
+                        subFaceFiles[index]
                     )
+
+                    if(originBitmap!=null){
+
+                        //不需再要先剪裁一次人脸，insertOrUpdateFaceImage里面会检测裁剪人脸
+//                        val  cropBitmap=BaseImageDispose(context).cropFaceBitmap(originBitmap)
+//                        if(cropBitmap==null){
+//                            Log.e("Add Face", "cropFaceBitmap 失败 ")
+//                        }
+
+
+                        val fileName=CACHE_SEARCH_FACE_DIR + File.separatorChar + subFaceFiles[index]
+
+                        FaceSearchImagesManger.IL1Iii.getInstance(context).insertOrUpdateFaceImage(
+                            originBitmap, fileName,object :FaceSearchImagesManger.Callback {
+                                override fun onSuccess() {
+                                    Log.d("Add Face","Add Face success"+subFaceFiles[index]);
+                                }
+
+                                override fun onFailed(msg: String) {
+                                    Log.d("Add Face","Add Face onFailed"+subFaceFiles[index]);
+                                }
+
+                            }
+                        )
+                    }else{
+                        Log.e("Add Face","获取Assert 目录文件图片失败 : "+subFaceFiles[index]);
+                    }
+
                 }
             }
         }
+
 
 
         private fun getBitmapFromAsset(assetManager: AssetManager, strName: String): Bitmap? {

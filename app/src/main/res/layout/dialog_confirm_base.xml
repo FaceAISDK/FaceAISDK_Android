@@ -17,13 +17,13 @@
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="55dp"
                 android:background="@color/white"
                 android:gravity="center"
                 android:text="保存此人脸图 ？"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/textView2"

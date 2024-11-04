@@ -63,7 +63,7 @@
         android:layout_height="47dp"
         android:layout_margin="15dp"
         android:padding="9dp"
-        android:src="@drawable/ic_baseline_arrow_back_24"
+        android:src="@drawable/ic_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

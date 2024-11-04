@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.core.CameraControl;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.ai.face.MyFaceApplication;
@@ -25,7 +24,6 @@ import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus.*;
 import com.ai.face.faceVerify.verify.alive.LivenessDetection;
 import com.ai.face.utils.VoicePlayer;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 
@@ -47,12 +45,13 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     private final boolean livenessCheck = true; //是否需要活体检测，不需要的话最终识别结果不用考虑静默活体分数
     private Boolean isVerifyMatched = null; //先取一个中性的null, 真实只有true 和 false
 
+    private int faceSearchViewMargin = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_11);
-        setTitle("1:1人脸识别with活体检测");
+        setTitle("1:1 face verify");
         rootView = findViewById(R.id.rootView);
         scoreText = findViewById(R.id.silent_Score);
         tipsTextView = findViewById(R.id.tips_view);
@@ -62,31 +61,33 @@ public class Verify_11_javaActivity extends AppCompatActivity {
             Verify_11_javaActivity.this.finish();
         });
 
+        faceSearchViewMargin = faceCoverView.getMargin() / 2;
 
         int cameraLensFacing = getSharedPreferences("faceVerify", Context.MODE_PRIVATE)
                 .getInt("cameraFlag", 0);
 
-        /**
-         * 1. Camera 的初始化。第一个参数0/1 指定前后摄像头；
+        /*
+         * 1. Camera 的初始化。
+         * 第一个参数0/1 指定前后摄像头；
          * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
+         * 焦距拉远一点，人才会靠近屏幕，才会减轻杂乱背景的影响。定制设备的摄像头自行调教此参数
          */
-        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.1f);
+        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.005f);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
 
 
-        //1:1 人脸对比，摄像头和预留的人脸底片对比。（动作活体人脸检测完成后开始1:1比对）
-        //如果仅仅需要活体检测，可以把App logo Bitmap 当参数传入并忽略对比结果
+        //1:1 人脸对比，摄像头实时采集的人脸和预留的人脸底片对比。（动作活体人脸检测完成后开始1:1比对）
         //人脸底图要经过BaseImageDispose saveBaseImage处理，不是随便一张图能当底图！！！
         String yourUniQueFaceId = getIntent().getStringExtra(MyFaceApplication.USER_ID_KEY);
 
         File file = new File(MyFaceApplication.CACHE_BASE_FACE_DIR, yourUniQueFaceId);
+        //baseBitmap 就是你要进行1:1 人脸识别对比的底图
         Bitmap baseBitmap = BitmapFactory.decodeFile(file.getPath());
 
 
-//        //baseBitmap 就是 你的人脸底图,可以同步到你自己的服务器，
-//        //这是注册人脸的方式
+        //这是注册人脸的方式
 //        new BaseImageDispose(this).saveBaseImage(baseBitmap,FaceApplication.CACHE_BASE_FACE_DIR, yourUniQueFaceId,400);
 
         //1.初始化引擎，各种参数配置
@@ -95,8 +96,8 @@ public class Verify_11_javaActivity extends AppCompatActivity {
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             //防止在识别过程中关闭页面导致Crash
             if (!isDestroyed() && !isFinishing() && faceVerifyUtils != null) {
-                //第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪点人脸区域
-                faceVerifyUtils.goVerify(imageProxy, faceCoverView.getMargin());
+                //第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
+                faceVerifyUtils.goVerify(imageProxy, faceSearchViewMargin);
             }
         });
     }
@@ -124,8 +125,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                     //静默活体检测得分大于0.9 可以认为是真人，可结合动作活体一起使用
                     @Override
                     public void onSilentAntiSpoofing(float scoreValue) {
-                        runOnUiThread(() -> scoreText.setText("静默活体可靠得分：" + scoreValue));
-
+                        runOnUiThread(() -> scoreText.setText("静默活体可靠性分数：" + scoreValue));
                         silentScoreValue = scoreValue;
                         playVerifyResult();
                     }
@@ -137,7 +137,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                      * @param vipBitmap 通过时候的快照，VIP用户返回
                      */
                     @Override
-                    public void onVerifyMatched(boolean isMatched, Bitmap vipBitmap) {
+                    public void onVerifyMatched(boolean isMatched, float similar, Bitmap vipBitmap) {
                         isVerifyMatched = isMatched;
                         playVerifyResult();
                     }
@@ -151,7 +151,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                     //人脸识别活体检测过程中的各种提示
                     @Override
                     public void onProcessTips(int i) {
-                        showAliveDetectTips(i);
+                        showFaceVerifyTips(i);
                     }
 
                     //动作活体检测时间限制倒计时
@@ -186,14 +186,14 @@ public class Verify_11_javaActivity extends AppCompatActivity {
             } else {
 
                 if (silentScoreValue > silentPassScore && isVerifyMatched) {
-                    tipsTextView.setText("核验已通过，与底片为同一人！ ");
+                    tipsTextView.setText("Success ");
                     VoicePlayer.getInstance().addPayList(R.raw.verify_success);
 
                     //关闭页面时间业务自己根据实际情况定
                     new Handler(Looper.getMainLooper()).postDelayed(Verify_11_javaActivity.this::finish, 1500);
                 } else {
                     if (!isVerifyMatched) {
-                        tipsTextView.setText("核验不通过，与底片不符！ ");
+                        tipsTextView.setText("Failed！ ");
                         VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
 
                         new AlertDialog.Builder(Verify_11_javaActivity.this)
@@ -223,7 +223,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
      */
     boolean isSnakeBarShow = false;
 
-    private void showAliveDetectTips(int actionCode) {
+    private void showFaceVerifyTips(int actionCode) {
         if (!isDestroyed() && !isFinishing()) {
             runOnUiThread(() -> {
                 switch (actionCode) {
@@ -234,7 +234,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
-                        tipsTextView.setText("画面没有检测到人脸");
+                        tipsTextView.setText(R.string.no_face_detected_tips);
                         break;
 
 
@@ -267,13 +267,11 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                     case ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD:
                         VoicePlayer.getInstance().addPayList(R.raw.shake_head);
                         tipsTextView.setText("请缓慢左右摇头");
-
                         break;
 
                     case ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
                         VoicePlayer.getInstance().addPayList(R.raw.nod_head);
                         tipsTextView.setText("请缓慢上下点头");
-
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT:
@@ -294,23 +292,12 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
                         break;
 
-                    //请远一点,交互业务自行实现，本处理仅供参考
                     case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE:
-                        if (isSnakeBarShow) return;
-                        Snackbar.make(rootView, "请离屏幕远一点!", Snackbar.LENGTH_SHORT).setCallback(new Snackbar.Callback() {
-                            @Override
-                            public void onShown(Snackbar sb) {
-                                super.onShown(sb);
-                                isSnakeBarShow = true;
-                            }
+                        tipsTextView.setText("请远离屏幕一点");
+                        break;
 
-                            @Override
-                            public void onDismissed(Snackbar transientBottomBar, int event) {
-                                super.onDismissed(transientBottomBar, event);
-                                isSnakeBarShow = false;
-                            }
-                        }).show();
-
+                    case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL:
+                        tipsTextView.setText(R.string.come_closer_tips);
                         break;
 
                 }

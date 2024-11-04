@@ -41,27 +41,21 @@
         </activity>
 
 
-        <!-- multiprocess 多进程，几乎不会做多进程，只是先验证！-->
         <activity
             android:name=".verify.Verify_11_javaActivity"
-            android:exported="false"
-            android:multiprocess="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:exported="false"/>
 
         <activity
             android:name=".AboutUsActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:exported="false" />
 
         <activity
             android:name=".addFaceImage.AddFaceImageActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:exported="false" />
 
         <activity
             android:name=".verify.LivenessDetectionActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:exported="false"/>
 
         <activity
             android:name=".search.FaceSearch1NActivity"
