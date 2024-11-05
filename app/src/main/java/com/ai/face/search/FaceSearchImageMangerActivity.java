@@ -101,6 +101,14 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
 
 
             String filePathName = CACHE_SEARCH_FACE_DIR + File.separatorChar + faceName;
+
+            /*
+             *  人脸图要求：
+             *  1.尽量使用较高配置设备和摄像头，光线不好带上补光灯
+             *  2.录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
+             *  3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩帽子等
+             *  4.人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
+             */
             FaceSearchImagesManger.IL1Iii.getInstance(getApplication()).insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
                 @Override
                 public void onSuccess() {
@@ -161,13 +169,16 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
 
 
     /**
+     * 快速复制工程目录 ./app/src/main/assert目录下200+张 人脸图入库
+     * 人脸图规范要求 大于 300*300的光线充足无遮挡的正面人脸如（./images/face_example.jpg)
+     *
      *
      */
     private void copyFaceTestImage() {
         Toast.makeText(getBaseContext(), "复制验证图...", Toast.LENGTH_LONG).show();
         CopyFaceImageUtils.Companion.showAppFloat(getBaseContext());
 
-        CopyFaceImageUtils.Companion.copyTestImage(getApplication(), new CopyFaceImageUtils.Companion.Callback() {
+        CopyFaceImageUtils.Companion.copyTestFaceImage(getApplication(), new CopyFaceImageUtils.Companion.Callback() {
             @Override
             public void onSuccess() {
                 EasyFloat.hide("speed");

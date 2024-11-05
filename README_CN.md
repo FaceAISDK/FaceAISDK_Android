@@ -5,8 +5,8 @@
 
 # [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
-On_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK 
-设备端离线 Android人脸检测、人脸识别、活体检测反作弊以及1:N / M:N人脸搜索 SDK 
+On_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK
+设备端离线 Android人脸检测、人脸识别、活体检测反作弊以及1:N / M:N人脸搜索 SDK
 
 ![设备端离线机器学习优点](images/whyOfflineSDK.png)
 
@@ -15,8 +15,8 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 - 1:N 人脸识别添加确认机制，提高搜索匹配精确度
 - 修复大尺寸照片中人脸过小导致的人脸入库失败问题
 
- 建议[Fork] + [Star] 以便获取最新更新 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
- SDK 演示目前仅仅托管在GitHub，其他镜像版本大概率不是最新的，请移步到GitHub 更新最新的演示代码
+建议[Fork] + [Star] 以便获取最新更新 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
+SDK 演示目前仅仅托管在GitHub，其他镜像版本大概率不是最新的，请移步到GitHub 更新最新的演示代码
 
 ## 简要说明
 
@@ -33,11 +33,11 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
 ## [使用场景和区别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Face_1:1_1:N_M:N.md)
 
-   【1:1】 移动考勤真人校验，App免密登录，酒店入驻、刷脸支付、刷脸解锁、真人校验
+【1:1】 移动考勤真人校验，App免密登录，酒店入驻、刷脸支付、刷脸解锁、真人校验
 
-   【1:N】 小区门禁，公司门禁，智能门锁，智慧校园、景区、工地、社区、酒店等
+【1:N】 小区门禁，公司门禁，智能门锁，智慧校园、景区、工地、社区、酒店等
 
-   【M:N】 公安布控，人群追踪 监控等等 (人脸搜索 Demo 测试可使用图片 face_search_test.jpg)
+【M:N】 公安布控，人群追踪 监控等等 (人脸搜索 Demo 测试可使用图片 face_search_test.jpg)
 
 
 ## 接入使用
@@ -86,35 +86,36 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
 ## Demo 下载体验
 
-   扫码后选择在浏览器中打开点击下载安装，或直接输入地址 https://www.pgyer.com/faceVerify
+扫码后选择在浏览器中打开点击下载安装，或直接输入地址 https://www.pgyer.com/faceVerify
 
 <div align=center>
 <img src="https://user-images.githubusercontent.com/15169396/210045090-60c073df-ddbd-4747-8e24-f0dce1eccb58.png" width = 30% height = 30% />
 </div>
-  
+
 
 ## 服务定制
 
-   如果 SDK 不能匹配你的应用场景需要特殊定制化，请发邮件到anylife.zlb@gmail.com
-   也可以加微信 HaoNan19990322 （请标注为 人脸识别 ，否则会自动忽略添加，谢谢）
-   
-   欢迎关注Fork+Star获取最新动态  Github:  https://github.com/AnyLifeZLB/FaceVerificationSDK
+如果 SDK 不能匹配你的应用场景需要特殊定制化，请发邮件到anylife.zlb@gmail.com
+也可以加微信 HaoNan19990322 （请标注为 人脸识别 ，否则会自动忽略添加，谢谢）
+
+欢迎关注Fork+Star获取最新动态  Github:  https://github.com/AnyLifeZLB/FaceVerificationSDK
 
 ## 提升接入效率，提高SDK识别准确率
-   ### 提升接入效率
+### 提升接入效率
      - 1.去蒲公英下载APK Demo 体验SDK 的基本功能，看看是否满足业务需求；人脸搜索可以一键倒入200+张人脸图再录入你自己的
      - 2.更新GitHub 最新的代码，花1天左右时间熟悉SDK API 和对应的注释备注，断点调试一下基本功能；熟悉后再接入到主工程
-     - 3.欲速则不达，一定要先跑成功SDK 接入Demo。熟悉后再接入到主工程验证匹配业务功能。有问题可以GitHub 提issues
+     - 3.欲速则不达，熟悉后再接入到主工程试用匹配业务功能。有新需求可以GitHub 提issues或者邮件 微信联系
 
-   ### 提高SDK识别准确率
+
+### 提高SDK准确率
      - 1.试用建议的设备配置和摄像头
-     - 2.录入高质量的人脸图，如（images/face_example.jpg）（证件照输入目前优化中）
+     - 2.录入高质量的人脸图（证件照输入目前优化中）
      - 3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩
 
 ## 常见问题
-   常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/questions.md
-   只是1:1 人脸识别不含活体检测是不需要申请授权的，直接永久使用；1：N，M：N需要授权，未明事宜请联系
-   所有的开发测试都在手机和平板进行，特殊定制硬件如RK3288 等适配需要兼容适配
+常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/questions.md
+只是1:1 人脸识别不含活体检测是不需要申请授权的，直接永久使用；1：N，M：N需要授权，未明事宜请联系
+所有的开发测试都在手机和平板进行，特殊定制硬件如RK3288 等适配需要兼容适配
 
 
 

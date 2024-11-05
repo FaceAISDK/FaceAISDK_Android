@@ -29,7 +29,14 @@ import java.io.File;
 
 
 /**
- * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo 代码，用户根据自己业务情况参考
+ * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo 代码
+ *
+ * 人脸图要求：
+ * 1.尽量使用较高配置设备和摄像头，光线不好带上补光灯
+ * 2.录入高质量的人脸图，人脸清晰，背景纯色（证件照输入目前优化中）
+ * 3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩帽子等
+ * 4.人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色
+ *
  */
 public class Verify_11_javaActivity extends AppCompatActivity {
     private ConstraintLayout rootView;
@@ -96,7 +103,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             //防止在识别过程中关闭页面导致Crash
             if (!isDestroyed() && !isFinishing() && faceVerifyUtils != null) {
-                //第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
+                //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
                 faceVerifyUtils.goVerify(imageProxy, faceSearchViewMargin);
             }
         });
@@ -193,7 +200,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                     new Handler(Looper.getMainLooper()).postDelayed(Verify_11_javaActivity.this::finish, 1500);
                 } else {
                     if (!isVerifyMatched) {
-                        tipsTextView.setText("Failed！ ");
+                        tipsTextView.setText("Failed ！");
                         VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
 
                         new AlertDialog.Builder(Verify_11_javaActivity.this)
@@ -221,8 +228,6 @@ public class Verify_11_javaActivity extends AppCompatActivity {
      * <p>
      * 添加声音提示和动画提示定制也在这里根据返回码进行定制
      */
-    boolean isSnakeBarShow = false;
-
     private void showFaceVerifyTips(int actionCode) {
         if (!isDestroyed() && !isFinishing()) {
             runOnUiThread(() -> {

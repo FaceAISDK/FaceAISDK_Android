@@ -1,34 +1,18 @@
 package com.ai.face.search
 
 import android.Manifest
-import android.app.Application
 import android.content.Context
 import android.content.Intent
-import android.content.res.AssetManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.view.Gravity
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.ai.face.MyFaceApplication.CACHE_SEARCH_FACE_DIR
-import com.ai.face.R
 import com.ai.face.databinding.ActivityFaceSearchNaviBinding
-import com.ai.face.faceSearch.search.FaceSearchImagesManger
-import com.ai.face.search.CopyFaceImageUtils.Companion.copyTestImage
+import com.ai.face.search.CopyFaceImageUtils.Companion.copyTestFaceImage
 import com.ai.face.search.CopyFaceImageUtils.Companion.showAppFloat
-import com.airbnb.lottie.LottieAnimationView
 import com.lzf.easyfloat.EasyFloat
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
-import java.io.File
-import java.io.IOException
-import java.io.InputStream
 
 /**
  * 人脸识别搜索 演示导航Navi，目前支持千张图片1秒级搜索，后续聚焦降低App体积和精确度
@@ -66,11 +50,10 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             Toast.makeText(baseContext, "复制验证图...", Toast.LENGTH_LONG).show()
             showAppFloat(baseContext)
 
-            copyTestImage(application, object : CopyFaceImageUtils.Companion.Callback {
+            copyTestFaceImage(application, object : CopyFaceImageUtils.Companion.Callback {
                 override fun onSuccess() {
                     EasyFloat.hide("speed")
                 }
-
                 override fun onFailed(msg: String) {}
             })
         }

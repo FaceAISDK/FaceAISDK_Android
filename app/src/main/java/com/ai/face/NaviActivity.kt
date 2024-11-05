@@ -27,7 +27,7 @@ import java.io.File
  *
  * 更多请发邮件 anylife.zlb@gmail.com 或 微信 HaoNan19990322 交流（请备注 人脸识别定制，否则添加不通）
  *
- * 2022.07.29
+ * 2022.07.29 （哪位大佬有空用Java 改写这代码）
  */
 class NaviActivity : AppCompatActivity(), PermissionCallbacks {
     private lateinit var viewBinding: ActivityNaviBinding

@@ -68,7 +68,7 @@ dependencies {
 
     // 人脸识别 活体检测 以及人脸检索 SDK 依赖. 更新SDK Clean 工程
     // 目前仅维护1.8.20 以上版本。
-    implementation 'io.github.anylifezlb:FaceRecognition:1.8.33'
+    implementation 'io.github.anylifezlb:FaceRecognition:1.8.34'
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖

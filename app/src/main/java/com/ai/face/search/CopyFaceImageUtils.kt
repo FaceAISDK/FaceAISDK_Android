@@ -30,7 +30,6 @@ import java.io.InputStream
  * 3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩帽子等
  * 4.人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
  *
- * 调用insertOrUpdateFaceImage 如果不能保证人脸品质要先调用API裁剪检测出人脸
  *
  * 封装Utils供Java 代码调用。使用Kotlin 协程能极大的简化代码结构
  */
@@ -44,11 +43,13 @@ class CopyFaceImageUtils {
         }
 
         /**
-         * 提供一个包含CallBack 的方法给Java 调用，没有协程序=
+         * 快速复制工程目录 ./app/src/main/assert目录下200+张 人脸图入库
+         * 人脸图规范要求 大于 300*300的光线充足无遮挡的正面人脸如（./images/face_example.jpg)
          *
          * @param context
+         * @param callBack
          */
-        fun copyTestImage(context: Application,callBack: Callback){
+        fun copyTestFaceImage(context: Application, callBack: Callback){
             CoroutineScope(Dispatchers.IO).launch {
                 copyAssertTestFaceImages(context)
                 delay(800)
@@ -103,6 +104,13 @@ class CopyFaceImageUtils {
 
                         val fileName=CACHE_SEARCH_FACE_DIR + File.separatorChar + subFaceFiles[index]
 
+                        /**
+                         *  人脸图要求：
+                         *  1.尽量使用较高配置设备和摄像头，光线不好带上补光灯
+                         *  2.录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
+                         *  3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩帽子等
+                         *  4.人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
+                         */
                         FaceSearchImagesManger.IL1Iii.getInstance(context).insertOrUpdateFaceImage(
                             originBitmap, fileName,object :FaceSearchImagesManger.Callback {
                                 override fun onSuccess() {
