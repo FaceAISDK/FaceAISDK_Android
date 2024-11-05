@@ -31,19 +31,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="55dp"
         android:background="@color/blue"
         android:gravity="center"
         android:paddingLeft="11dp"
         android:paddingTop="5dp"
         android:paddingRight="11dp"
         android:paddingBottom="5dp"
-        android:text="请正对屏幕，保持人脸在圆框内"
+        android:text="请正对屏幕"
         android:textColor="@color/green"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- UI 设计仅供参考 -->
+    <TextView
+        android:id="@+id/second_tips_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textColor="@color/blue_sky"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tips_view" />
 
     <TextView
         android:id="@+id/silent_Score"

@@ -2,6 +2,7 @@
     <string name="app_name">人脸识别</string>
     <string name="sdk_init">SDK Init</string>
     <string name="no_mask_please">请勿佩戴口罩</string>
+    <string name="face_verifying">识别中</string>
 
     <!--添加人脸-->
     <string name="keep_face_tips">保持正脸不要晃动</string>
@@ -13,12 +14,12 @@
     <string name="no_face_detected_tips">未检测到人脸</string>
     <string name="multiple_faces_tips">多张人脸出现</string>
     <string name="come_closer_tips">请靠近一点</string>
+    <string name="far_away_tips">请远离屏幕一点</string>
     <string name="align_face_error_tips">图像校准失败</string>
     <string name="not_real_face">非真人 人脸图</string>
 
     <!--1:N 人脸搜索-->
     <string name="no_matched_face">无匹配人脸</string>
     <string name="face_dir_empty">人脸库为空</string>
-
 
 </resources>

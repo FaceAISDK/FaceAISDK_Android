@@ -32,7 +32,14 @@ import java.util.List;
 
 /**
  * 1:N 人脸搜索「1:N face search」
- * <p>
+ *
+ * 怎么提高人脸搜索的精确度 ？<a href="https://github.com/AnyLifeZLB/FaceVerificationSDK/issues/42">...</a>
+ * 尽量使用较高配置设备和摄像头，光线不好带上补光灯
+ * 录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
+ * 光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩帽子等
+ * 人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
+ *
+ *
  * 系统相机跑久了也会性能下降，建议测试前重启系统，定时重启
  * .setNeedMultiValidate(true) //是否需要确认机制防止误识别，开启会影响低配设备的识别速度
  */
@@ -77,7 +84,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
                 .setThreshold(0.88f) //阈值设置，范围限 [0.80 , 0.95] 识别可信度，也是识别灵敏度
-                .setNeedMultiValidate(true) //是否需要确认机制防止误识别，开启会影响低配置设备的识别速度
+                .setNeedMultiValidate(false) //是否需要确认机制防止误识别，低配置设备影响搜索速度
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setImageFlipped(cameraLens == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {
@@ -135,7 +142,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
             default:
                 binding.searchTips.setText("Tips Code：" + code);
                 break;
-            case FACE_TOO_SMALL: //镜头前仅有一个人
+            case FACE_TOO_SMALL:
                 binding.searchTips.setText(R.string.come_closer_tips);
 
                 break;

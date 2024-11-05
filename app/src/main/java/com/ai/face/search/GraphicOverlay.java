@@ -53,12 +53,13 @@ public class GraphicOverlay extends View {
             rectPaint.setColor(Color.WHITE);
             if (!TextUtils.isEmpty(rectLabel.getFaceName())) {
                 rectPaint.setColor(Color.GREEN);
-                textPaint.setTextSize(44.0f);
+                textPaint.setTextSize(45.0f);
                 textPaint.setTypeface(Typeface.DEFAULT);
                 textPaint.setColor(Color.GREEN);
-                canvas.drawText(rectLabel.getFaceName().replace(".jpg", "  ") + rectLabel.getFaceScore(), rectLabel.getRect().left + 22.0f, rectLabel.getRect().top + 55.0f, textPaint);
+                String faceId=rectLabel.getFaceName().replace(".jpg", "");
+                canvas.drawText(rectLabel.getFaceScore()+" ≈ "+faceId, rectLabel.getRect().left + 22.0f, rectLabel.getRect().top + 55.0f, textPaint);
             }
-            rectPaint.setStrokeWidth(3.0f);
+            rectPaint.setStrokeWidth(4.0f);
             rectPaint.setStyle(Paint.Style.STROKE);
             canvas.drawRect(rectLabel.getRect(), rectPaint);
         }

@@ -40,7 +40,7 @@ import java.io.File;
  */
 public class Verify_11_javaActivity extends AppCompatActivity {
     private ConstraintLayout rootView;
-    private TextView tipsTextView, scoreText;
+    private TextView tipsTextView, secondTipsTextView,scoreText;
     private FaceTipsOverlay faceTipsOverlay;
     private FaceCoverView faceCoverView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
@@ -62,6 +62,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
         rootView = findViewById(R.id.rootView);
         scoreText = findViewById(R.id.silent_Score);
         tipsTextView = findViewById(R.id.tips_view);
+        secondTipsTextView=findViewById(R.id.second_tips_view);
         faceCoverView = findViewById(R.id.face_cover);
         faceTipsOverlay = findViewById(R.id.faceTips);
         findViewById(R.id.back).setOnClickListener(v -> {
@@ -141,7 +142,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                     /**
                      * 1:1 人脸识别对比完成
                      * @param isMatched 是否匹配（大于setThreshold）
-                     * @param vipBitmap 通过时候的快照，VIP用户返回
+                     * @param vipBitmap 匹配完成的时候人脸实时图，仅仅VIP用户返回
                      */
                     @Override
                     public void onVerifyMatched(boolean isMatched, float similar, Bitmap vipBitmap) {
@@ -235,7 +236,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
                     //5次相比阈值太低就判断为非同一人
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:
-                        tipsTextView.setText("人脸识别中...");
+                        tipsTextView.setText(R.string.face_verifying);
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
@@ -248,34 +249,34 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_OK:
-                        VoicePlayer.getInstance().addPayList(R.raw.face_camera);
+                        VoicePlayer.getInstance().play(R.raw.face_camera);
                         tipsTextView.setText("请保持正对屏幕");
                         break;
 
                     case ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
-                        VoicePlayer.getInstance().addPayList(R.raw.open_mouse);
+                        VoicePlayer.getInstance().play(R.raw.open_mouse);
                         tipsTextView.setText("请张张嘴");
                         break;
 
                     case ALIVE_DETECT_TYPE_ENUM.SMILE: {
                         tipsTextView.setText("请微笑");
-                        VoicePlayer.getInstance().addPayList(R.raw.smile);
+                        VoicePlayer.getInstance().play(R.raw.smile);
                     }
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.BLINK: {
-                        VoicePlayer.getInstance().addPayList(R.raw.blink);
+                        VoicePlayer.getInstance().play(R.raw.blink);
                         tipsTextView.setText("请眨眨眼");
                     }
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD:
-                        VoicePlayer.getInstance().addPayList(R.raw.shake_head);
+                        VoicePlayer.getInstance().play(R.raw.shake_head);
                         tipsTextView.setText("请缓慢左右摇头");
                         break;
 
                     case ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
-                        VoicePlayer.getInstance().addPayList(R.raw.nod_head);
+                        VoicePlayer.getInstance().play(R.raw.nod_head);
                         tipsTextView.setText("请缓慢上下点头");
                         break;
 
@@ -297,12 +298,17 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
                         break;
 
+                    // <!-- UI 设计仅供参考 -->
                     case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE:
-                        tipsTextView.setText("请远离屏幕一点");
+                        secondTipsTextView.setText(R.string.far_away_tips);
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL:
-                        tipsTextView.setText(R.string.come_closer_tips);
+                        secondTipsTextView.setText(R.string.come_closer_tips);
+                        break;
+
+                    case VERIFY_DETECT_TIPS_ENUM.FACE_SIZE_FIT:
+                        secondTipsTextView.setText("");
                         break;
 
                 }
