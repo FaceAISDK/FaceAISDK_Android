@@ -38,7 +38,7 @@
         android:paddingTop="5dp"
         android:paddingRight="11dp"
         android:paddingBottom="5dp"
-        android:text="请正对屏幕"
+        android:text="@string/keep_face_visible"
         android:textColor="@color/green"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"

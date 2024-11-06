@@ -23,16 +23,14 @@ import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import java.io.File
 
 /**
- * Demo 提供java 和 Kotlin 接入演示 ，仅仅是演示如何接入SDK，根据业务场景用户自行修改符合需求
+ * SDK 接入演示Demo，请先熟悉本Demo跑通住流程后再集成到你的主工程验证业务
  *
- * 更多请发邮件 anylife.zlb@gmail.com 或 微信 HaoNan19990322 交流（请备注 人脸识别定制，否则添加不通）
  *
- * 2022.07.29 （哪位大佬有空用Java 改写这代码）
  */
 class NaviActivity : AppCompatActivity(), PermissionCallbacks {
     private lateinit var viewBinding: ActivityNaviBinding
 
-    private var yourUniQueFaceId = "18707611416"  //用户人脸ID
+    private var yourUniQueFaceId = "18707611416"  //用户人脸ID，Face ID（unique）eg account
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +48,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
             VerifyUtils.getBitmapFromAssert(baseContext, "model.jpg")
         )
 
-        Log.d("VerifyUtils", "测试两张人脸是否相同，value:  $value")
+        Log.d("VerifyUtils", "two face similarity value:  $value")
 
 
         viewBinding.faceVerifyCard.setOnClickListener {
@@ -63,7 +61,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
                         .putExtra(FACE_DIR_KEY, CACHE_BASE_FACE_DIR) //保存路径
                 )
             } else {
-                Toast.makeText(this@NaviActivity, "请先录入人脸底片", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@NaviActivity, R.string.add_a_face_image, Toast.LENGTH_LONG).show()
             }
         }
 
@@ -100,14 +98,14 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
                 sharedPref.edit().putInt("cameraFlag", 0).apply()
                 Toast.makeText(
                     baseContext,
-                    "已切换前置摄像头",
+                    "Front camera",
                     Toast.LENGTH_LONG
                 ).show()
             } else {
                 sharedPref.edit().putInt("cameraFlag", 1).apply()
                 Toast.makeText(
                     baseContext,
-                    "已切换后置/外接摄像头",
+                    "Back/USB Camera",
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -124,11 +122,10 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
     private fun checkNeededPermission() {
         val perms = arrayOf(Manifest.permission.CAMERA)
 
-        if (EasyPermissions.hasPermissions(this, *perms)) {
-        } else {
+        if (!EasyPermissions.hasPermissions(this, *perms)) {
             EasyPermissions.requestPermissions(
                 this,
-                "相机和读取相册都仅仅是为了完成人脸识别所必需，请授权！",
+                "SDK Demo 相机和读取相册都仅仅是为了完成人脸识别所必需，请授权！",
                 11,
                 *perms
             )
@@ -154,7 +151,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
      * 当用户点击了不再提醒的时候的处理方式
      */
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        Toast.makeText(this, "不授权无法使用App啊", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Please Oauth Permission,请授权才能正常演示", Toast.LENGTH_SHORT).show()
     }
 
 }

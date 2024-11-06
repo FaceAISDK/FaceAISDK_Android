@@ -132,31 +132,27 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                 .setProcessCallBack(new ProcessCallBack() {
                     //静默活体检测得分大于0.9 可以认为是真人，可结合动作活体一起使用
                     @Override
-                    public void onSilentAntiSpoofing(float scoreValue) {
-                        runOnUiThread(() -> scoreText.setText("静默活体可靠性分数：" + scoreValue));
-                        silentScoreValue = scoreValue;
-                        playVerifyResult();
+                    public void onSilentAntiSpoofing(float silentAntiSpoofing) {
+                        runOnUiThread(() -> scoreText.setText("silentAntiSpoofing Score：" + silentAntiSpoofing));
+                        silentScoreValue = silentAntiSpoofing;
+                        showVerifyResult(0);
                     }
 
 
                     /**
                      * 1:1 人脸识别对比完成
-                     * @param isMatched 是否匹配（大于setThreshold）
-                     * @param vipBitmap 匹配完成的时候人脸实时图，仅仅VIP用户返回
+                     * @param isMatched   true匹配成功（大于setThreshold）； false 与底片不是同一人
+                     * @param similarity  匹配的相似度
+                     * @param vipBitmap   匹配完成的时候人脸实时图，仅仅授权VIP用户会返回
                      */
                     @Override
-                    public void onVerifyMatched(boolean isMatched, float similar, Bitmap vipBitmap) {
+                    public void onVerifyMatched(boolean isMatched, float similarity, Bitmap vipBitmap) {
                         isVerifyMatched = isMatched;
-                        playVerifyResult();
+                        showVerifyResult(similarity);
                     }
 
 
-                    @Override
-                    public void onFailed(int i) {
-                        //预留防护
-                    }
-
-                    //人脸识别活体检测过程中的各种提示
+                    //人脸识别，活体检测过程中的各种提示
                     @Override
                     public void onProcessTips(int i) {
                         showFaceVerifyTips(i);
@@ -166,6 +162,12 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                     @Override
                     public void onTimeOutStart(float time) {
                         faceCoverView.startCountDown(time);
+                    }
+
+
+                    @Override
+                    public void onFailed(int i) {
+                        //预留防护
                     }
 
                 }).create();
@@ -178,7 +180,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
      * 动作活体要有人配合必须，必须先动作再1：1 匹配
      * 静默活体不需要人配合可以和1:1 同时进行但要注意不确定谁先返回的问题
      */
-    private void playVerifyResult() {
+    private void showVerifyResult(float similarity) {
 
         //不需要活体检测，忽略分数,下版本放到SDK 内部处理
         if (!livenessCheck) {
@@ -190,32 +192,32 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
             if (isVerifyMatched == null || silentScoreValue == 0f) {
                 //必须要两个值都有才能判断
-                Log.d("playVerifyResult", "等待状态 D silentScoreValue=" + silentScoreValue + " isVerifyMatched=" + isVerifyMatched);
+                Log.d("playVerifyResult", "Waiting Status. silentScoreValue=" + silentScoreValue + " isVerifyMatched=" + isVerifyMatched);
             } else {
 
                 if (silentScoreValue > silentPassScore && isVerifyMatched) {
-                    tipsTextView.setText("Success ");
+                    tipsTextView.setText("Success,similarity= "+similarity);
                     VoicePlayer.getInstance().addPayList(R.raw.verify_success);
 
                     //关闭页面时间业务自己根据实际情况定
                     new Handler(Looper.getMainLooper()).postDelayed(Verify_11_javaActivity.this::finish, 1500);
                 } else {
                     if (!isVerifyMatched) {
-                        tipsTextView.setText("Failed ！");
+                        tipsTextView.setText("Failed ！ similarity="+similarity);
                         VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
 
                         new AlertDialog.Builder(Verify_11_javaActivity.this)
-                                .setMessage("1:1 人脸识别不通过，与底片不符！ ")
+                                .setMessage(R.string.face_verify_failed)
                                 .setCancelable(false)
-                                .setPositiveButton("知道了", (dialogInterface, i) -> finish())
-                                .setNegativeButton("重试", (dialog, which) -> faceVerifyUtils.retryVerify())
+                                .setPositiveButton(R.string.confirm, (dialogInterface, i) -> finish())
+                                .setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify())
                                 .show();
                     } else {
-                        tipsTextView.setText("静默活体得分过低");
+                        tipsTextView.setText(R.string.silent_anti_spoofing_error);
                         new AlertDialog.Builder(Verify_11_javaActivity.this)
-                                .setMessage("静默活体得分过低！ ")
+                                .setMessage(R.string.silent_anti_spoofing_error)
                                 .setCancelable(false)
-                                .setPositiveButton("知道了", (dialogInterface, i) -> finish())
+                                .setPositiveButton(R.string.confirm, (dialogInterface, i) -> finish())
                                 .show();
                     }
                 }
@@ -245,60 +247,61 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:
-                        tipsTextView.setText("动作活体检测失败了");
+                        tipsTextView.setText(R.string.motion_liveness_detection_failed);
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_OK:
                         VoicePlayer.getInstance().play(R.raw.face_camera);
-                        tipsTextView.setText("请保持正对屏幕");
+                        tipsTextView.setText(R.string.keep_face_visible);
                         break;
 
                     case ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
                         VoicePlayer.getInstance().play(R.raw.open_mouse);
-                        tipsTextView.setText("请张张嘴");
+                        tipsTextView.setText(R.string.repeat_open_close_mouse);
                         break;
 
                     case ALIVE_DETECT_TYPE_ENUM.SMILE: {
-                        tipsTextView.setText("请微笑");
+                        tipsTextView.setText(R.string.motion_smile);
                         VoicePlayer.getInstance().play(R.raw.smile);
                     }
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.BLINK: {
                         VoicePlayer.getInstance().play(R.raw.blink);
-                        tipsTextView.setText("请眨眨眼");
+                        tipsTextView.setText(R.string.motion_blink_eye);
                     }
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD:
                         VoicePlayer.getInstance().play(R.raw.shake_head);
-                        tipsTextView.setText("请缓慢左右摇头");
+                        tipsTextView.setText(R.string.motion_shake_head);
                         break;
 
                     case ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
                         VoicePlayer.getInstance().play(R.raw.nod_head);
-                        tipsTextView.setText("请缓慢上下点头");
+                        tipsTextView.setText(R.string.motion_node_head);
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT:
                         new AlertDialog.Builder(this)
-                                .setMessage("活体检测超时了")
+                                .setMessage(R.string.motion_liveness_detection_time_out)
                                 .setCancelable(false)
-                                .setPositiveButton("重试一次", (dialogInterface, i) -> faceVerifyUtils.retryVerify()
+                                .setPositiveButton(R.string.retry, (dialogInterface, i) -> faceVerifyUtils.retryVerify()
                                 ).show();
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
-                        tipsTextView.setText("多次切换画面或无人脸");
+                        tipsTextView.setText(R.string.no_face_or_repeat_switch_screen);
                         new AlertDialog.Builder(this)
-                                .setMessage("多次切换画面或无人脸，停止识别。\n识别过程请保持人脸在画面中")
+                                .setMessage(R.string.stop_verify_tips)
                                 .setCancelable(false)
-                                .setPositiveButton("知道了", (dialogInterface, i) -> finish())
+                                .setPositiveButton(R.string.confirm, (dialogInterface, i) -> finish())
                                 .show();
 
                         break;
 
-                    // <!-- UI 设计仅供参考 -->
+                    // 单独使用一个textview 提示，防止上一个提示被覆盖。
+                    // 也可以自行记住上个状态，FACE_SIZE_FIT 中恢复上一个提示
                     case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE:
                         secondTipsTextView.setText(R.string.far_away_tips);
                         break;

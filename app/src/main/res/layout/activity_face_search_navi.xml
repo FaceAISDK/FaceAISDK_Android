@@ -50,7 +50,7 @@
                 android:layout_alignParentBottom="true"
                 android:gravity="end"
                 android:paddingEnd="5dp"
-                android:text="1:N人脸识别"
+                android:text="@string/face_search_1fromN"
                 android:padding="2dp"
                 android:background="@color/half_grey"
                 android:textColor="@color/white"
@@ -90,8 +90,8 @@
                 android:layout_alignParentBottom="true"
                 android:gravity="end"
                 android:paddingEnd="5dp"
-                android:text="M:N人脸搜索"
-                android:textColor="@color/white"
+                android:text="@string/face_search_MfromN"
+                android:textColor="@color/green"
                 android:background="@color/half_grey"
                 android:textSize="16sp"
                 android:padding="2dp"/>
@@ -130,7 +130,7 @@
         android:padding="10dp"
         android:layout_marginTop="48dp"
         app:layout_constraintTop_toBottomOf="@+id/face_search_mn"
-        android:text="人脸库管理" />
+        android:text="@string/face_image_manger" />
 
 
     <TextView
@@ -147,7 +147,7 @@
         android:padding="10dp"
         android:layout_marginTop="30dp"
         app:layout_constraintTop_toBottomOf="@+id/editFaceImage"
-        android:text="人脸录入" />
+        android:text="@string/add_a_face_image" />
 
     <TextView
         android:id="@+id/change_camera"
@@ -161,7 +161,7 @@
         android:visibility="visible"
         android:layout_marginTop="60dp"
         app:layout_constraintTop_toBottomOf="@+id/addFaceImage"
-        android:text="切换前后摄像头" />
+        android:text="@string/switch_camera" />
 
 
     <TextView

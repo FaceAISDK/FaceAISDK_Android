@@ -47,7 +47,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         //验证复制图片
         binding.copyFaceImages.setOnClickListener {
             binding.copyFaceImages.isClickable = false
-            Toast.makeText(baseContext, "复制验证图...", Toast.LENGTH_LONG).show()
+            Toast.makeText(baseContext, "Copying...", Toast.LENGTH_LONG).show()
             showAppFloat(baseContext)
 
             copyTestFaceImage(application, object : CopyFaceImageUtils.Companion.Callback {
@@ -78,14 +78,14 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
                 sharedPref.edit().putInt("cameraFlag", 0).commit()
                 Toast.makeText(
                     baseContext,
-                    "已切换前置摄像头",
+                    "Front camera now",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
                 sharedPref.edit().putInt("cameraFlag", 1).commit()
                 Toast.makeText(
                     baseContext,
-                    "已切换后置/外接摄像头",
+                    "Back/USB Camera",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -123,7 +123,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         } else {
             EasyPermissions.requestPermissions(
                 this,
-                "请授权相机使用权限才能采集人脸图像！",
+                "Camera Permission to add face image！",
                 11,
                 *perms
             )
