@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">Face verify</string>
+    <string name="app_name">Face Verify</string>
     <string name="sdk_init">SDK Init</string>
     <string name="no_mask_please">No mask</string>
-    <string name="face_verifying">face verifying</string>
-    <string name="confirm">I know</string>
-    <string name="retry">retry</string>
+    <string name="face_verifying">Face verifying</string>
+    <string name="confirm">Done</string>
+    <string name="retry">Retry</string>
     <!--添加人脸 add face image-->
     <string name="keep_face_tips">Face the camera and keep your face visible</string>
     <string name="no_tilt_head_tips">Do not tile head</string>
@@ -44,7 +44,7 @@
     <string name="face_verify_1vs1">1:1 Face Verify </string>
     <string name="add_face_image">Add face Image</string>
     <string name="only_motion_liveness_detection">Only motion liveness detection</string>
-    <string name="face_search_navi">1:N &amp; M:N Face Search </string>
+    <string name="face_search_navi">1:N &amp; M:N  Face Search </string>
     <string name="switch_camera">Switch front,back/USB camera </string>
     <string name="about_us">About US</string>
 

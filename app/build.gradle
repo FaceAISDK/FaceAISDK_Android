@@ -50,15 +50,16 @@ android {
 //根据Compile SDK 不同，各自项目依赖体系不一样
 //主工程和SDK 中的依赖有冲突需要统一依赖,可以参考下面方式处理
 //比如TargetSDK 还是28的camera_version降低到 1.2.3，否决建议升级到最新的稳定版本
-def camera_version = "1.2.3"
-configurations.configureEach {
-    resolutionStrategy {
-        force "androidx.camera:camera-core:$camera_version",
-                "androidx.camera:camera-camera2:$camera_version",
-                "androidx.camera:camera-lifecycle:$camera_version",
-                "androidx.camera:camera-view:$camera_version"
-    }
-}
+
+//def camera_version = "1.2.3"
+//configurations.configureEach {
+//    resolutionStrategy {
+//        force "androidx.camera:camera-core:$camera_version",
+//                "androidx.camera:camera-camera2:$camera_version",
+//                "androidx.camera:camera-lifecycle:$camera_version",
+//                "androidx.camera:camera-view:$camera_version"
+//    }
+//}
 
 
 // GitHub 无法访问，挂梯子也无效 ？参考 https://github.com/maxiaof/github-hosts
@@ -68,7 +69,7 @@ dependencies {
 
     // 人脸识别 活体检测 以及人脸检索 SDK 依赖. 更新SDK Clean 工程
     // 目前仅维护1.8.20 以上版本。
-    implementation 'io.github.anylifezlb:FaceRecognition:1.8.40'
+    implementation 'io.github.anylifezlb:FaceRecognition:1.8.40.alpha1'
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖

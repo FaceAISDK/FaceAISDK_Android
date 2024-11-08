@@ -196,7 +196,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
             } else {
 
                 if (silentScoreValue > silentPassScore && isVerifyMatched) {
-                    tipsTextView.setText("Success,similarity= "+similarity);
+                    tipsTextView.setText("Successful,similarity= "+similarity);
                     VoicePlayer.getInstance().addPayList(R.raw.verify_success);
 
                     //关闭页面时间业务自己根据实际情况定
@@ -210,7 +210,9 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                                 .setMessage(R.string.face_verify_failed)
                                 .setCancelable(false)
                                 .setPositiveButton(R.string.confirm, (dialogInterface, i) -> finish())
-                                .setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify())
+                                .setNegativeButton(R.string.retry, (dialog, which) -> {
+                                    faceVerifyUtils.retryVerify();
+                                })
                                 .show();
                     } else {
                         tipsTextView.setText(R.string.silent_anti_spoofing_error);
@@ -286,7 +288,9 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                         new AlertDialog.Builder(this)
                                 .setMessage(R.string.motion_liveness_detection_time_out)
                                 .setCancelable(false)
-                                .setPositiveButton(R.string.retry, (dialogInterface, i) -> faceVerifyUtils.retryVerify()
+                                .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
+                                    faceVerifyUtils.retryVerify();
+                                 }
                                 ).show();
                         break;
 
