@@ -10,7 +10,10 @@ import android.os.Bundle
 import android.widget.Toast
 import com.ai.face.databinding.ActivityAboutUsBinding
 
-
+/**
+ *
+ *
+ */
 class AboutUsActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityAboutUsBinding
 
@@ -31,15 +34,19 @@ class AboutUsActivity : AppCompatActivity() {
             this.finish()
         }
 
+        viewBinding.whatapp.setOnLongClickListener {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip: ClipData = ClipData.newPlainText("WhatApp", "+8618707611416")
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(this, "Copied", Toast.LENGTH_SHORT).show()
+            return@setOnLongClickListener true
+        }
+
         viewBinding.wechat.setOnLongClickListener {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            // Creates a new text clip to put on the clipboard
             val clip: ClipData = ClipData.newPlainText("wechat", "HaoNan19990322")
-
-            // Set the clipboard's primary clip.
             clipboard.setPrimaryClip(clip)
-
-            Toast.makeText(this, "已经复制", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Copied", Toast.LENGTH_SHORT).show()
             return@setOnLongClickListener true
         }
 
@@ -50,7 +57,7 @@ class AboutUsActivity : AppCompatActivity() {
 
             // Set the clipboard's primary clip. 复制
             clipboard.setPrimaryClip(clip)
-            Toast.makeText(this, "已经复制", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Copied", Toast.LENGTH_SHORT).show()
 
             return@setOnLongClickListener true
         }

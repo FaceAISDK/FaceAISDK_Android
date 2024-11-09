@@ -19,6 +19,7 @@
     <string name="align_face_error_tips">图像校准失败</string>
     <string name="not_real_face">非真人 人脸图</string>
     <string name="add_a_face_image">请先录入人脸底片</string>
+    <string name="long_press_copy_msg">提示：长按复制联系信息</string>
 
     <!--1:N 人脸搜索 face search-->
     <string name="no_matched_face">无匹配人脸</string>

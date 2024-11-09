@@ -212,6 +212,9 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                                 .setPositiveButton(R.string.confirm, (dialogInterface, i) -> finish())
                                 .setNegativeButton(R.string.retry, (dialog, which) -> {
                                     faceVerifyUtils.retryVerify();
+                                    //重新初始化数据，ReInit data.
+                                    silentScoreValue = 0f; //静默活体的分数
+                                    isVerifyMatched = null; //先取一个中性的null, 真实只有true 和 false
                                 })
                                 .show();
                     } else {
@@ -290,7 +293,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                                 .setCancelable(false)
                                 .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                     faceVerifyUtils.retryVerify();
-                                 }
+                                }
                                 ).show();
                         break;
 

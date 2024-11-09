@@ -170,10 +170,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:gravity="center"
-        android:padding="6dp"
-        android:text="1:N,M:N,1:1 人脸识别区别"
+        android:padding="7dp"
+        android:text="About 1:N,M:N, 1:1 说明"
         android:textColor="@android:color/white"
-        android:textSize="12sp"
+        android:textSize="11sp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

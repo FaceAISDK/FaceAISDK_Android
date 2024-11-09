@@ -114,7 +114,6 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
 ## 常见问题
 常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/questions.md
-只是1:1 人脸识别不含活体检测是不需要申请授权的，直接永久使用；1：N，M：N需要授权，未明事宜请联系
 所有的开发测试都在手机和平板进行，特殊定制硬件如RK3288 等适配需要兼容适配
 
 

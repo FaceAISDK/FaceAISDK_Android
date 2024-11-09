@@ -24,7 +24,7 @@
         android:layout_marginTop="77dp"
         android:gravity="center"
         android:padding="19dp"
-        android:text="微信WeChat:   HaoNan19990322"
+        android:text="微信 WeChat:   HaoNan19990322"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="parent" />
@@ -37,11 +37,23 @@
         android:layout_marginTop="66dp"
         android:gravity="center"
         android:padding="19dp"
-        android:text="邮箱Email: anylife.zlb@gmail.com"
+        android:text="邮箱 Email: anylife.zlb@gmail.com"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@+id/wechat" />
 
+
+    <TextView
+        android:id="@+id/whatapp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="66dp"
+        android:gravity="center"
+        android:padding="19dp"
+        android:text="What App：+8618707611416"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="@+id/email" />
 
     <TextView
         android:layout_width="match_parent"
@@ -52,7 +64,7 @@
         android:text="长按可以复制联系方式"
         android:textColor="@android:color/darker_gray"
         android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="@+id/email" />
+        app:layout_constraintTop_toTopOf="@+id/whatapp" />
 
 
     <TextView
@@ -62,7 +74,7 @@
         android:gravity="center"
         android:padding="19dp"
         android:layout_marginTop="123dp"
-        android:text="联系我们,查看更多（GitHub主页）"
+        android:text="About US，关于我们（GitHub Page）"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/email" />

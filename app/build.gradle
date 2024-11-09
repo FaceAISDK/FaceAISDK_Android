@@ -11,7 +11,7 @@ android {
         minSdk 21
         targetSdk 34
         versionCode 20
-        versionName "1.8.32"
+        versionName "1.8.40"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -48,18 +48,18 @@ android {
 }
 
 //根据Compile SDK 不同，各自项目依赖体系不一样
+
 //主工程和SDK 中的依赖有冲突需要统一依赖,可以参考下面方式处理
 //比如TargetSDK 还是28的camera_version降低到 1.2.3，否决建议升级到最新的稳定版本
-
-//def camera_version = "1.2.3"
-//configurations.configureEach {
-//    resolutionStrategy {
-//        force "androidx.camera:camera-core:$camera_version",
-//                "androidx.camera:camera-camera2:$camera_version",
-//                "androidx.camera:camera-lifecycle:$camera_version",
-//                "androidx.camera:camera-view:$camera_version"
-//    }
-//}
+def camera_version = "1.2.3"
+configurations.configureEach {
+    resolutionStrategy {
+        force "androidx.camera:camera-core:$camera_version",
+                "androidx.camera:camera-camera2:$camera_version",
+                "androidx.camera:camera-lifecycle:$camera_version",
+                "androidx.camera:camera-view:$camera_version"
+    }
+}
 
 
 // GitHub 无法访问，挂梯子也无效 ？参考 https://github.com/maxiaof/github-hosts

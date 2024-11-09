@@ -5,6 +5,8 @@
     <string name="face_verifying">Face verifying</string>
     <string name="confirm">Done</string>
     <string name="retry">Retry</string>
+    <string name="long_press_copy_msg">Tips:Long press to copy msg</string>
+
     <!--添加人脸 add face image-->
     <string name="keep_face_tips">Face the camera and keep your face visible</string>
     <string name="no_tilt_head_tips">Do not tile head</string>
@@ -50,7 +52,7 @@
 
     <!--1:N and M:N face search-->
     <string name="face_image_manger">Face images manger</string>
-    <string name="face_search_1fromN">1:N Face Search</string>
-    <string name="face_search_MfromN">M:N Face Search</string>
+    <string name="face_search_1fromN">1:N face search</string>
+    <string name="face_search_MfromN">M:N face search</string>
 
 </resources>
