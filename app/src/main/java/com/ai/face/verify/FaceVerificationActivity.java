@@ -6,13 +6,9 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.ai.face.MyFaceApplication;
 import com.ai.face.R;
 import com.ai.face.base.view.CameraXFragment;
@@ -22,51 +18,43 @@ import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus.*;
-import com.ai.face.faceVerify.verify.alive.LivenessDetection;
+import com.ai.face.faceVerify.verify.liveness.LivenessDetectionMode;
+import com.ai.face.faceVerify.verify.liveness.LivenessType;
 import com.ai.face.utils.VoicePlayer;
-
 import java.io.File;
-
 
 /**
  * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo 代码
- *
+ * <p>
  * 人脸图要求：
  * 1.尽量使用较高配置设备和摄像头，光线不好带上补光灯
  * 2.录入高质量的人脸图，人脸清晰，背景纯色（证件照输入目前优化中）
  * 3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩帽子等
  * 4.人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色
- *
  */
-public class Verify_11_javaActivity extends AppCompatActivity {
-    private ConstraintLayout rootView;
-    private TextView tipsTextView, secondTipsTextView,scoreText;
+public class FaceVerificationActivity extends AppCompatActivity {
+    private TextView tipsTextView, secondTipsTextView, scoreText;
     private FaceTipsOverlay faceTipsOverlay;
     private FaceCoverView faceCoverView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
+    private int faceSearchViewMargin = 0;
 
     //RGB 镜头 720p， 固定 30 帧，无拖影，RGB 镜头建议是宽动态
-    private static final float silentPassScore = 0.92f; //静默活体分数通过的阈值
-    private float silentScoreValue = 0f; //静默活体的分数
-    //字段拆分出来，照顾Free 用户
-    private final boolean livenessCheck = true; //是否需要活体检测，不需要的话最终识别结果不用考虑静默活体分数
-    private Boolean isVerifyMatched = null; //先取一个中性的null, 真实只有true 和 false
+    private final float silentLivenessPassScore = 0.92f; //静默活体分数通过的阈值
 
-    private int faceSearchViewMargin = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verify_11);
+        setContentView(R.layout.activity_face_verification);
         setTitle("1:1 face verify");
-        rootView = findViewById(R.id.rootView);
         scoreText = findViewById(R.id.silent_Score);
         tipsTextView = findViewById(R.id.tips_view);
-        secondTipsTextView=findViewById(R.id.second_tips_view);
+        secondTipsTextView = findViewById(R.id.second_tips_view);
         faceCoverView = findViewById(R.id.face_cover);
         faceTipsOverlay = findViewById(R.id.faceTips);
         findViewById(R.id.back).setOnClickListener(v -> {
-            Verify_11_javaActivity.this.finish();
+            FaceVerificationActivity.this.finish();
         });
 
         faceSearchViewMargin = faceCoverView.getMargin() / 2;
@@ -121,36 +109,27 @@ public class Verify_11_javaActivity extends AppCompatActivity {
     private void initFaceVerify(Bitmap baseBitmap) {
 
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                .setThreshold(0.88f)                  //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
-                .setBaseBitmap(baseBitmap)            //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
-                .setLivenessDetection(livenessCheck)  //是否需要活体检测（包含动作和静默）,开通需要发送邮件，参考ReadMe
-                .setLivenessStepSize(2)               //随机动作验证活体的步骤个数[0-2]，0个没有动作活体只有静默活体
-                .setLivenessDetectionMode(LivenessDetection.FAST)  //硬件配置低用FAST动作活体模式，否则用精确模式
-                .setSilentLivenessThreshold(0.91f)    //静默活体阈值 [0.88,0.99]
+                .setThreshold(0.88f)                    //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
+                .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
+                .setLivenessType(LivenessType.SILENT_MOTION)  //活体检测可以有静默活体，动作活体或者组合也可以不需要活体NONE
+                .setLivenessDetectionMode(LivenessDetectionMode.ACCURACY)//硬件配置低用FAST动作活体模式，否则用精确模式
+                .setSilentLivenessThreshold(silentLivenessPassScore)     //静默活体阈值 [0.88,0.99]
+                .setMotionLivenessStepSize(2)         //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setVerifyTimeOut(16)                 //活体检测支持设置超时时间 [9,22] 秒
                 .setGraphicOverlay(faceTipsOverlay)   //正式环境请去除设置
                 .setProcessCallBack(new ProcessCallBack() {
-                    //静默活体检测得分大于0.9 可以认为是真人，可结合动作活体一起使用
-                    @Override
-                    public void onSilentAntiSpoofing(float silentAntiSpoofing) {
-                        runOnUiThread(() -> scoreText.setText("silentAntiSpoofing Score：" + silentAntiSpoofing));
-                        silentScoreValue = silentAntiSpoofing;
-                        showVerifyResult(0);
-                    }
-
 
                     /**
-                     * 1:1 人脸识别对比完成
+                     * 1:1 人脸识别对比结束
+                     *
                      * @param isMatched   true匹配成功（大于setThreshold）； false 与底片不是同一人
-                     * @param similarity  匹配的相似度
-                     * @param vipBitmap   匹配完成的时候人脸实时图，仅仅授权VIP用户会返回
+                     * @param similarity  与底片匹配的相似度值
+                     * @param vipBitmap   识别完成的时候人脸实时图，仅授权用户会返回。可以拿这张图和你的服务器再次严格匹配
                      */
                     @Override
-                    public void onVerifyMatched(boolean isMatched, float similarity, Bitmap vipBitmap) {
-                        isVerifyMatched = isMatched;
-                        showVerifyResult(similarity);
+                    public void onVerifyMatched(boolean isMatched, float similarity, float silentLivenessScore, Bitmap vipBitmap) {
+                        showVerifyResult(isMatched, similarity, silentLivenessScore);
                     }
-
 
                     //人脸识别，活体检测过程中的各种提示
                     @Override
@@ -167,7 +146,7 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailed(int i) {
-                        //预留防护
+                        //预留
                     }
 
                 }).create();
@@ -177,55 +156,39 @@ public class Verify_11_javaActivity extends AppCompatActivity {
 
     /**
      * 检测1:1 人脸识别是否通过
-     * 动作活体要有人配合必须，必须先动作再1：1 匹配
-     * 静默活体不需要人配合可以和1:1 同时进行但要注意不确定谁先返回的问题
+     *
+     * 动作活体要有动作配合，必须先动作匹配通过再1：1 匹配
+     * 静默活体不需要人配合，如果不需要静默活体检测，分数直接会被赋值 1.0
      */
-    private void showVerifyResult(float similarity) {
-
-        //不需要活体检测，忽略分数,下版本放到SDK 内部处理
-        if (!livenessCheck) {
-            silentScoreValue = 1.0f;
-        }
-
-        //1:1 人脸识别对比的结果，是同一个人还是非同一个人
+    private void showVerifyResult(boolean isVerifyMatched, float similarity, float silentLivenessScore) {
         runOnUiThread(() -> {
+            scoreText.setText("SilentLivenessScore:"+silentLivenessScore);
 
-            if (isVerifyMatched == null || silentScoreValue == 0f) {
-                //必须要两个值都有才能判断
-                Log.d("playVerifyResult", "Waiting Status. silentScoreValue=" + silentScoreValue + " isVerifyMatched=" + isVerifyMatched);
+            if (silentLivenessScore < silentLivenessPassScore) {
+                tipsTextView.setText(R.string.silent_anti_spoofing_error);
+                new AlertDialog.Builder(FaceVerificationActivity.this)
+                        .setMessage(R.string.silent_anti_spoofing_error)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.confirm, (dialogInterface, i) -> finish())
+                        .show();
+            } else if (isVerifyMatched) {
+                tipsTextView.setText("Successful,similarity= " + similarity);
+                VoicePlayer.getInstance().addPayList(R.raw.verify_success);
+
+                //关闭页面时间业务自己根据实际情况定
+                new Handler(Looper.getMainLooper()).postDelayed(FaceVerificationActivity.this::finish, 1000);
             } else {
+                tipsTextView.setText("Failed ！ similarity=" + similarity);
+                VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
+                new AlertDialog.Builder(FaceVerificationActivity.this)
+                        .setMessage(R.string.face_verify_failed)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.confirm, (dialogInterface, i) -> finish())
+                        .setNegativeButton(R.string.retry, (dialog, which) -> {
+                            faceVerifyUtils.retryVerify();
+                        })
+                        .show();
 
-                if (silentScoreValue > silentPassScore && isVerifyMatched) {
-                    tipsTextView.setText("Successful,similarity= "+similarity);
-                    VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-
-                    //关闭页面时间业务自己根据实际情况定
-                    new Handler(Looper.getMainLooper()).postDelayed(Verify_11_javaActivity.this::finish, 1500);
-                } else {
-                    if (!isVerifyMatched) {
-                        tipsTextView.setText("Failed ！ similarity="+similarity);
-                        VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
-
-                        new AlertDialog.Builder(Verify_11_javaActivity.this)
-                                .setMessage(R.string.face_verify_failed)
-                                .setCancelable(false)
-                                .setPositiveButton(R.string.confirm, (dialogInterface, i) -> finish())
-                                .setNegativeButton(R.string.retry, (dialog, which) -> {
-                                    faceVerifyUtils.retryVerify();
-                                    //重新初始化数据，ReInit data.
-                                    silentScoreValue = 0f; //静默活体的分数
-                                    isVerifyMatched = null; //先取一个中性的null, 真实只有true 和 false
-                                })
-                                .show();
-                    } else {
-                        tipsTextView.setText(R.string.silent_anti_spoofing_error);
-                        new AlertDialog.Builder(Verify_11_javaActivity.this)
-                                .setMessage(R.string.silent_anti_spoofing_error)
-                                .setCancelable(false)
-                                .setPositiveButton(R.string.confirm, (dialogInterface, i) -> finish())
-                                .show();
-                    }
-                }
             }
         });
     }
@@ -292,8 +255,8 @@ public class Verify_11_javaActivity extends AppCompatActivity {
                                 .setMessage(R.string.motion_liveness_detection_time_out)
                                 .setCancelable(false)
                                 .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
-                                    faceVerifyUtils.retryVerify();
-                                }
+                                            faceVerifyUtils.retryVerify();
+                                        }
                                 ).show();
                         break;
 

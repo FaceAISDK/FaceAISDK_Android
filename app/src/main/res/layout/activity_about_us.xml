@@ -22,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="77dp"
-        android:gravity="center"
+        android:layout_marginLeft="66dp"
+        android:gravity="left"
         android:padding="19dp"
         android:text="微信 WeChat:   HaoNan19990322"
         android:textColor="@android:color/white"
@@ -35,7 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="66dp"
-        android:gravity="center"
+        android:layout_marginLeft="66dp"
+        android:gravity="left"
         android:padding="19dp"
         android:text="邮箱 Email: anylife.zlb@gmail.com"
         android:textColor="@android:color/white"
@@ -48,20 +50,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="66dp"
-        android:gravity="center"
+        android:layout_marginLeft="66dp"
+        android:gravity="left"
         android:padding="19dp"
-        android:text="What App：+8618707611416"
+        android:text="What App ：  +8618707611416"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@+id/email" />
 
     <TextView
+        android:id="@+id/copy_tips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="66dp"
         android:gravity="center"
         android:padding="19dp"
-        android:text="长按可以复制联系方式"
+        android:text="@string/long_press_copy_msg"
         android:textColor="@android:color/darker_gray"
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@+id/whatapp" />
@@ -71,13 +75,13 @@
         android:id="@+id/more_about_me"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="23dp"
         android:gravity="center"
         android:padding="19dp"
-        android:layout_marginTop="123dp"
         android:text="About US，关于我们（GitHub Page）"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 

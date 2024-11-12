@@ -5,6 +5,8 @@
     <string name="face_verifying">识别中</string>
     <string name="confirm">知道了</string>
     <string name="retry">重试</string>
+    <string name="long_press_copy_msg">提示：长按复制联系信息</string>
+
     <!--添加人脸 add face image-->
     <string name="keep_face_tips">保持正脸不要晃动</string>
     <string name="no_tilt_head_tips">请勿歪头</string>
@@ -19,7 +21,6 @@
     <string name="align_face_error_tips">图像校准失败</string>
     <string name="not_real_face">非真人 人脸图</string>
     <string name="add_a_face_image">请先录入人脸底片</string>
-    <string name="long_press_copy_msg">提示：长按复制联系信息</string>
 
     <!--1:N 人脸搜索 face search-->
     <string name="no_matched_face">无匹配人脸</string>
@@ -35,8 +36,8 @@
     <string name="repeat_open_close_mouse">请重复张嘴，闭嘴</string>
     <string name="motion_smile">请微笑 </string>
     <string name="motion_blink_eye">请眨眨眼 </string>
-    <string name="motion_shake_head">请缓慢左右摇头</string>
-    <string name="motion_node_head">请缓上下点 </string>
+    <string name="motion_shake_head">请左右摇头</string>
+    <string name="motion_node_head">请上下点头 </string>
     <string name="motion_liveness_detection_time_out">活体检测超时了 </string>
     <string name="no_face_or_repeat_switch_screen">多次切换画面或无人脸 </string>
     <string name="stop_verify_tips">停止识别,识别过程请保持人脸在画面中 </string>

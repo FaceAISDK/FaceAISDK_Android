@@ -16,8 +16,7 @@ import com.ai.face.faceVerify.verify.VerifyUtils
 import com.ai.face.search.SearchNaviActivity
 import com.ai.face.addFaceImage.AddFaceImageActivity
 import com.ai.face.utils.VoicePlayer
-import com.ai.face.verify.LivenessDetectionActivity
-import com.ai.face.verify.Verify_11_javaActivity
+import com.ai.face.verify.FaceVerificationActivity
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import java.io.File
@@ -40,7 +39,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
 
         //一个在线人脸图片对比工具 https://facecomparison.toolpie.com/
-        //测试两张人脸是否相同  model.jpg
+        //测试两张静态人脸是否相同  model.jpg
 
         val value = VerifyUtils.evaluateFaceSimi(
             baseContext,
@@ -56,7 +55,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
             val file = File(CACHE_BASE_FACE_DIR, yourUniQueFaceId)
             if (BitmapFactory.decodeFile(file.path) != null) {
                 startActivity(
-                    Intent(this@NaviActivity, Verify_11_javaActivity::class.java)
+                    Intent(this@NaviActivity, FaceVerificationActivity::class.java)
                         .putExtra(USER_ID_KEY, yourUniQueFaceId)     //1:1 底片人脸ID
                         .putExtra(FACE_DIR_KEY, CACHE_BASE_FACE_DIR) //保存路径
                 )
@@ -76,7 +75,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
         viewBinding.livenessDetection.setOnClickListener {
-            startActivity(Intent(this@NaviActivity, LivenessDetectionActivity::class.java))
+//            startActivity(Intent(this@NaviActivity, LivenessDetectionActivity::class.java))
         }
 
         viewBinding.faceSearch1N.setOnClickListener {

@@ -42,7 +42,7 @@
 
 
         <activity
-            android:name=".verify.Verify_11_javaActivity"
+            android:name=".verify.FaceVerificationActivity"
             android:exported="false"/>
 
         <activity

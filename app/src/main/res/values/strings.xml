@@ -5,7 +5,7 @@
     <string name="face_verifying">Face verifying</string>
     <string name="confirm">Done</string>
     <string name="retry">Retry</string>
-    <string name="long_press_copy_msg">Tips:Long press to copy msg</string>
+    <string name="long_press_copy_msg">Tips: Long press to copy msg</string>
 
     <!--添加人脸 add face image-->
     <string name="keep_face_tips">Face the camera and keep your face visible</string>
@@ -16,7 +16,7 @@
     <string name="no_look_down_tips">Do not look down</string>
     <string name="no_face_detected_tips">No face detected</string>
     <string name="multiple_faces_tips">Multiple faces</string>
-    <string name="come_closer_tips">Please come close</string>
+    <string name="come_closer_tips">Please come closer</string>
     <string name="far_away_tips">Please far away screen</string>
     <string name="align_face_error_tips">Align face error</string>
     <string name="not_real_face">Not real human face</string>
