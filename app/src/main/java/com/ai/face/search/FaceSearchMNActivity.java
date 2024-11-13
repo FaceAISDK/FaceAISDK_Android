@@ -154,7 +154,7 @@ public class FaceSearchMNActivity extends AppCompatActivity {
                 break;
 
             case FACE_DIR_EMPTY:
-                //大多数粉丝大概的撒
+                //人脸库没有录入照片
                 binding.searchTips.setText(R.string.face_dir_empty);
                 break;
 

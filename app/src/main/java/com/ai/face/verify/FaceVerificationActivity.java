@@ -31,15 +31,15 @@ import java.io.File;
  * 2.录入高质量的人脸图，人脸清晰，背景纯色（证件照输入目前优化中）
  * 3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩帽子等
  * 4.人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色
+ *
  */
 public class FaceVerificationActivity extends AppCompatActivity {
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private FaceTipsOverlay faceTipsOverlay;
     private FaceCoverView faceCoverView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
-    private int faceSearchViewMargin = 0;
 
-    //RGB 镜头 720p， 固定 30 帧，无拖影，RGB 镜头建议是宽动态
+    //静默活体检测要求 RGB 镜头 720p， 固定 30 帧，无拖影，RGB 镜头建议是宽动态
     private final float silentLivenessPassScore = 0.92f; //静默活体分数通过的阈值
 
 
@@ -57,7 +57,6 @@ public class FaceVerificationActivity extends AppCompatActivity {
             FaceVerificationActivity.this.finish();
         });
 
-        faceSearchViewMargin = faceCoverView.getMargin() / 2;
 
         int cameraLensFacing = getSharedPreferences("faceVerify", Context.MODE_PRIVATE)
                 .getInt("cameraFlag", 0);
@@ -93,7 +92,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
             //防止在识别过程中关闭页面导致Crash
             if (!isDestroyed() && !isFinishing() && faceVerifyUtils != null) {
                 //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
-                faceVerifyUtils.goVerify(imageProxy, faceSearchViewMargin);
+                faceVerifyUtils.goVerify(imageProxy, faceCoverView.getMargin());
             }
         });
     }
@@ -112,7 +111,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .setThreshold(0.88f)                    //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
                 .setLivenessType(LivenessType.SILENT_MOTION)  //活体检测可以有静默活体，动作活体或者组合也可以不需要活体NONE
-                .setLivenessDetectionMode(LivenessDetectionMode.ACCURACY)//硬件配置低用FAST动作活体模式，否则用精确模式
+                .setLivenessDetectionMode(LivenessDetectionMode.FAST)//硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(silentLivenessPassScore)     //静默活体阈值 [0.88,0.99]
                 .setMotionLivenessStepSize(2)         //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setVerifyTimeOut(16)                 //活体检测支持设置超时时间 [9,22] 秒
@@ -120,7 +119,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .setProcessCallBack(new ProcessCallBack() {
 
                     /**
-                     * 1:1 人脸识别对比结束
+                     * 1:1 人脸识别 活体检测 对比结束
                      *
                      * @param isMatched   true匹配成功（大于setThreshold）； false 与底片不是同一人
                      * @param similarity  与底片匹配的相似度值
@@ -137,10 +136,10 @@ public class FaceVerificationActivity extends AppCompatActivity {
                         showFaceVerifyTips(i);
                     }
 
-                    //动作活体检测时间限制倒计时
+                    //动作活体检测时间限制倒计时百分比
                     @Override
-                    public void onTimeOutStart(float time) {
-                        faceCoverView.startCountDown(time);
+                    public void onTimeCountDown(float percent) {
+                        faceCoverView.startCountDown(percent);
                     }
 
 
@@ -297,7 +296,6 @@ public class FaceVerificationActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         faceVerifyUtils.destroyProcess();
-        faceCoverView.destroyView();
     }
 
 

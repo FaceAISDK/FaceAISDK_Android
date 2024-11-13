@@ -85,7 +85,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         // 2.各种参数的初始化设置
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
-                .setThreshold(0.88f) //阈值设置，范围限 [0.80 , 0.95] 识别可信度，也是识别灵敏度
+                .setThreshold(0.88f) //阈值设置，范围限 [0.85 , 0.95] 识别可信度，也是识别灵敏度
                 .setNeedMultiValidate(false) //是否需要确认机制防止误识别，低配置设备影响搜索速度
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setImageFlipped(cameraLens == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
@@ -157,7 +157,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 break;
 
             case MASK_DETECTION:
-                binding.searchTips.setText(R.string.no_mask_please); //默认无
+                binding.searchTips.setText(R.string.no_mask_please);
                 break;
 
             case NO_LIVE_FACE:
@@ -169,7 +169,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 break;
 
             case FACE_DIR_EMPTY:
-                //大多数粉丝大概的撒
+                //人脸库没有录入照片
                 binding.searchTips.setText(R.string.face_dir_empty);
                 break;
 

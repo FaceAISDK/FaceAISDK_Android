@@ -57,7 +57,7 @@ public class GraphicOverlay extends View {
                 textPaint.setTypeface(Typeface.DEFAULT);
                 textPaint.setColor(Color.GREEN);
                 String faceId=rectLabel.getFaceName().replace(".jpg", "");
-                canvas.drawText(rectLabel.getFaceScore()+" ≈ "+faceId, rectLabel.getRect().left + 22.0f, rectLabel.getRect().top + 55.0f, textPaint);
+                canvas.drawText(faceId+" ≈ "+rectLabel.getFaceScore(), rectLabel.getRect().left + 22.0f, rectLabel.getRect().top + 55.0f, textPaint);
             }
             rectPaint.setStrokeWidth(4.0f);
             rectPaint.setStyle(Paint.Style.STROKE);

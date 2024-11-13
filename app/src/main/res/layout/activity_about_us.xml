@@ -22,12 +22,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="77dp"
-        android:layout_marginLeft="66dp"
+        android:layout_marginLeft="50dp"
         android:gravity="left"
         android:padding="19dp"
         android:text="微信 WeChat:   HaoNan19990322"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textSize="15sp"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -36,12 +36,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="66dp"
-        android:layout_marginLeft="66dp"
+        android:layout_marginLeft="50dp"
         android:gravity="left"
         android:padding="19dp"
         android:text="邮箱 Email: anylife.zlb@gmail.com"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textSize="15sp"
         app:layout_constraintTop_toTopOf="@+id/wechat" />
 
 
@@ -50,12 +50,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="66dp"
-        android:layout_marginLeft="66dp"
+        android:layout_marginLeft="50dp"
         android:gravity="left"
         android:padding="19dp"
         android:text="What App ：  +8618707611416"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textSize="15sp"
         app:layout_constraintTop_toTopOf="@+id/email" />
 
     <TextView
@@ -67,7 +67,7 @@
         android:padding="19dp"
         android:text="@string/long_press_copy_msg"
         android:textColor="@android:color/darker_gray"
-        android:textSize="16sp"
+        android:textSize="15sp"
         app:layout_constraintTop_toTopOf="@+id/whatapp" />
 
 

@@ -42,7 +42,7 @@
                 android:gravity="center"
                 android:text="@string/face_verify_1vs1"
                 android:textColor="#2DCC18"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -83,7 +83,7 @@
                 android:gravity="center"
                 android:text="@string/add_face_image"
                 android:textColor="#2DCC18"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/update_base_image" />
 
         </LinearLayout>
