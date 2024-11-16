@@ -8,18 +8,18 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.ai.face.MyFaceApplication.BASE_FACE_DIR_KEY
 import com.ai.face.MyFaceApplication.CACHE_BASE_FACE_DIR
-import com.ai.face.MyFaceApplication.FACE_DIR_KEY
-import com.ai.face.MyFaceApplication.USER_ID_KEY
+import com.ai.face.MyFaceApplication.USER_FACE_ID_KEY
+import com.ai.face.addFaceImage.AddFaceImageActivity
 import com.ai.face.databinding.ActivityNaviBinding
 import com.ai.face.faceVerify.verify.VerifyUtils
 import com.ai.face.search.SearchNaviActivity
-import com.ai.face.addFaceImage.AddFaceImageActivity
 import com.ai.face.utils.VoicePlayer
 import com.ai.face.verify.FaceVerificationActivity
+import com.tencent.bugly.crashreport.CrashReport
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
-import java.io.File
 
 /**
  * SDK 接入演示Demo，请先熟悉本Demo跑通住流程后再集成到你的主工程验证业务
@@ -38,9 +38,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         checkNeededPermission()
 
 
-        //一个在线人脸图片对比工具 https://facecomparison.toolpie.com/
-        //测试两张静态人脸是否相同  model.jpg
-
+        //测试两张静态人脸图是否同一人
         val value = VerifyUtils.evaluateFaceSimi(
             baseContext,
             VerifyUtils.getBitmapFromAssert(baseContext, "model_1.png"),
@@ -51,13 +49,13 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
 
         viewBinding.faceVerifyCard.setOnClickListener {
-            //可以自己录一张人脸底片，业务方可以根据自己的要求改写testBaseImgName 处理
-            val file = File(CACHE_BASE_FACE_DIR, yourUniQueFaceId)
-            if (BitmapFactory.decodeFile(file.path) != null) {
+            //1:1 人脸识别先录一张人脸底片
+            var baseFacePath=CACHE_BASE_FACE_DIR+yourUniQueFaceId
+            if (BitmapFactory.decodeFile(baseFacePath) != null) {
                 startActivity(
                     Intent(this@NaviActivity, FaceVerificationActivity::class.java)
-                        .putExtra(USER_ID_KEY, yourUniQueFaceId)     //1:1 底片人脸ID
-                        .putExtra(FACE_DIR_KEY, CACHE_BASE_FACE_DIR) //保存路径
+                        .putExtra(USER_FACE_ID_KEY, yourUniQueFaceId)     //1:1 底片人脸ID
+                        .putExtra(BASE_FACE_DIR_KEY, CACHE_BASE_FACE_DIR) //保存目录
                 )
             } else {
                 Toast.makeText(this@NaviActivity, R.string.add_a_face_image, Toast.LENGTH_LONG).show()
@@ -69,8 +67,8 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         viewBinding.updateBaseImage.setOnClickListener {
             startActivity(
                 Intent(this@NaviActivity, AddFaceImageActivity::class.java)
-                    .putExtra(USER_ID_KEY, yourUniQueFaceId)
-                    .putExtra(FACE_DIR_KEY, CACHE_BASE_FACE_DIR)
+                    .putExtra(USER_FACE_ID_KEY, yourUniQueFaceId)
+                    .putExtra(BASE_FACE_DIR_KEY, CACHE_BASE_FACE_DIR)
             )
         }
 
@@ -111,6 +109,10 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
         VoicePlayer.getInstance().init(this)
+
+
+        //Crash 收集，仅仅是Demo 需要。这不是SDK 的一部分
+        CrashReport.initCrashReport(this, "36fade54d8", true)
     }
 
 

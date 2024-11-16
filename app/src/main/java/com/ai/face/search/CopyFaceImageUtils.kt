@@ -102,7 +102,7 @@ class CopyFaceImageUtils {
 //                        }
 
 
-                        val fileName=CACHE_SEARCH_FACE_DIR + File.separatorChar + subFaceFiles[index]
+                        val fileName=CACHE_SEARCH_FACE_DIR + subFaceFiles[index]
 
                         /**
                          *  人脸图要求：

@@ -100,7 +100,7 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
             Bitmap bitmap = BitmapFactory.decodeByteArray(bis, 0, bis.length);
 
 
-            String filePathName = CACHE_SEARCH_FACE_DIR + File.separatorChar + faceName;
+            String filePathName = CACHE_SEARCH_FACE_DIR + faceName;
 
             /*
              *  人脸图要求：

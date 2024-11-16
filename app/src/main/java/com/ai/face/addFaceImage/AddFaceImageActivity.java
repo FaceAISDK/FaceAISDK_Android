@@ -1,14 +1,13 @@
 package com.ai.face.addFaceImage;
 
-import static com.ai.face.MyFaceApplication.FACE_DIR_KEY;
-import static com.ai.face.MyFaceApplication.USER_ID_KEY;
+import static com.ai.face.MyFaceApplication.BASE_FACE_DIR_KEY;
+import static com.ai.face.MyFaceApplication.USER_FACE_ID_KEY;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_LEFT;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_RIGHT;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_UP;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.TILT_HEAD;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -60,8 +59,8 @@ public class AddFaceImageActivity extends AppCompatActivity {
             this.finish();
         });
 
-        fileName = getIntent().getStringExtra(USER_ID_KEY);
-        pathName = getIntent().getStringExtra(FACE_DIR_KEY);
+        fileName = getIntent().getStringExtra(USER_FACE_ID_KEY);
+        pathName = getIntent().getStringExtra(BASE_FACE_DIR_KEY);
 
         baseImageDispose = new BaseImageDispose(true, getBaseContext(), new BaseImageCallBack() {
             @Override

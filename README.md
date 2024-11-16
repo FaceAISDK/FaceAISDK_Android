@@ -2,6 +2,8 @@
 <img src="http://user-images.githubusercontent.com/15169396/182627098-0ca24289-641b-4593-bf7c-72b09c4bf94e.jpeg" width = 10% height = 10% />
 </div>
 
+## 已经解决试用版本集成闪退问题！！
+## 已经解决试用版本集成闪退问题！！
 
 # [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
@@ -11,6 +13,7 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 ![设备端离线机器学习优点](images/whyOfflineSDK.png)
 
 ## 当前版本说明 V1.8.50 (仅仅维护1.8.20以上版本)
+- 解决试用版本SDK集成闪退问题 ！！！
 - 加快1:N 人脸搜索速度，性能优化
 - 重新封装完善动作活体 静默活体，简化调用
 - 修复大尺寸照片中人脸过小导致的人脸入库失败问题
@@ -20,7 +23,7 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
 ## 简要说明
 
-SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N人脸识别检索](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Face_1:1_1:N_M:N.md)，**所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
+SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N人脸识别检索](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Introduce_11_1N_MN.md)，**所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
 
 其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（摇头点头也可拆分为左右上下4个动作），低端机离线验证速度正常。
 

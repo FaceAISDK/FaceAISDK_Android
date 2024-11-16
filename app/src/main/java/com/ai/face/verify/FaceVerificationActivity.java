@@ -6,11 +6,17 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.ai.face.MyFaceApplication;
 import com.ai.face.R;
+import com.ai.face.base.baseImage.AddFaceUtils;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.base.view.FaceCoverView;
 import com.ai.face.faceVerify.graphic.FaceTipsOverlay;
@@ -18,10 +24,12 @@ import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus.*;
+import com.ai.face.faceVerify.verify.VerifyUtils;
 import com.ai.face.faceVerify.verify.liveness.LivenessDetectionMode;
 import com.ai.face.faceVerify.verify.liveness.LivenessType;
 import com.ai.face.utils.VoicePlayer;
-import java.io.File;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo 代码
@@ -31,14 +39,15 @@ import java.io.File;
  * 2.录入高质量的人脸图，人脸清晰，背景纯色（证件照输入目前优化中）
  * 3.光线环境好，检测的人脸无遮挡，无浓妆或佩戴墨镜口罩帽子等
  * 4.人脸照片要求300*300 以上 裁剪好的仅含人脸的正方形照片，背景纯色
- *
  */
 public class FaceVerificationActivity extends AppCompatActivity {
+
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private FaceTipsOverlay faceTipsOverlay;
     private FaceCoverView faceCoverView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
 
+    private CameraXFragment cameraXFragment;
     //静默活体检测要求 RGB 镜头 720p， 固定 30 帧，无拖影，RGB 镜头建议是宽动态
     private final float silentLivenessPassScore = 0.92f; //静默活体分数通过的阈值
 
@@ -67,45 +76,56 @@ public class FaceVerificationActivity extends AppCompatActivity {
          * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
          * 焦距拉远一点，人才会靠近屏幕，才会减轻杂乱背景的影响。定制设备的摄像头自行调教此参数
          */
-        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.005f);
+        cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.005f);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
 
 
         //1:1 人脸对比，摄像头实时采集的人脸和预留的人脸底片对比。（动作活体人脸检测完成后开始1:1比对）
-        //人脸底图要经过BaseImageDispose saveBaseImage处理，不是随便一张图能当底图！！！
-        String yourUniQueFaceId = getIntent().getStringExtra(MyFaceApplication.USER_ID_KEY);
-
-        File file = new File(MyFaceApplication.CACHE_BASE_FACE_DIR, yourUniQueFaceId);
-        //baseBitmap 就是你要进行1:1 人脸识别对比的底图
-        Bitmap baseBitmap = BitmapFactory.decodeFile(file.getPath());
-
-
-        //这是注册人脸的方式
-//        new BaseImageDispose(this).saveBaseImage(baseBitmap,FaceApplication.CACHE_BASE_FACE_DIR, yourUniQueFaceId,400);
-
-        //1.初始化引擎，各种参数配置
-        initFaceVerify(baseBitmap);
-
-        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-            //防止在识别过程中关闭页面导致Crash
-            if (!isDestroyed() && !isFinishing() && faceVerifyUtils != null) {
-                //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
-                faceVerifyUtils.goVerify(imageProxy, faceCoverView.getMargin());
+        String yourUniQueFaceId = getIntent().getStringExtra(MyFaceApplication.USER_FACE_ID_KEY);
+        String yourFacePath = MyFaceApplication.CACHE_BASE_FACE_DIR + yourUniQueFaceId;
+        //2.先去Path 路径读取有没有faceID 对应的人脸，如果没有从网络其他地方同步
+        Bitmap baseBitmap = BitmapFactory.decodeFile(yourFacePath);
+        if (baseBitmap != null) {
+            //3.初始化引擎，各种参数配置
+            initFaceVerification(baseBitmap);
+        } else {
+            //人脸图的裁剪和保存最好提前完成，如果不是本SDK 录入的人脸可能人脸不标准
+            //这里可能从网络等地方获取，业务方自行决定，为了方便模拟我们放在Assert 目录
+            Bitmap remoteBitmap = VerifyUtils.getBitmapFromAssert(this, "yourFace.jpg");
+            if (remoteBitmap==null){
+                Toast.makeText(getBaseContext(),R.string.add_a_face_image,Toast.LENGTH_LONG).show();
+                tipsTextView.setText(R.string.add_a_face_image);
+                return;
             }
-        });
+            //人脸照片可能不是规范的正方形，非人脸区域过大甚至无人脸 多个人脸等情况，需要裁剪等处理
+            AddFaceUtils.ILil.getInstance(getApplication())
+                    .disposeBaseFaceImage(remoteBitmap, yourFacePath, new AddFaceUtils.Callback() {
+                        @Override
+                        public void onSuccess(@NonNull Bitmap cropedBitmap) {
+                            initFaceVerification(cropedBitmap);
+                        }
+
+                        @Override
+                        public void onFailed(@NotNull String msg) {
+                            Log.e("ttt", msg);
+                            Toast.makeText(getBaseContext(),msg,Toast.LENGTH_LONG).show();
+                        }
+                    });
+        }
+
     }
 
 
     /**
      * 初始化认证引擎
      * <p>
-     * 活体检测的使用需要你发送邮件申请，简要描述App名称，包名和功能简介到 anylife.zlb@gmail.com
+     * 活体检测的使用需要你发送邮件申请，简要描述App名称，包名 签名SHA1和功能简介到 anylife.zlb@gmail.com
      *
      * @param baseBitmap 1:1 人脸识别对比的底片，如果仅仅需要活体检测，可以把App logo Bitmap 当参数传入并忽略对比结果
      */
-    private void initFaceVerify(Bitmap baseBitmap) {
+    private void initFaceVerification(Bitmap baseBitmap) {
 
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setThreshold(0.88f)                    //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
@@ -151,18 +171,29 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 }).create();
 
         faceVerifyUtils.setDetectorParams(faceProcessBuilder);
+
+        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
+            //防止在识别过程中关闭页面导致Crash
+            if (!isDestroyed() && !isFinishing()) {
+                //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
+                faceVerifyUtils.goVerify(imageProxy, faceCoverView.getMargin());
+            }
+        });
+
+
     }
 
     /**
      * 检测1:1 人脸识别是否通过
-     *
+     * <p>
      * 动作活体要有动作配合，必须先动作匹配通过再1：1 匹配
      * 静默活体不需要人配合，如果不需要静默活体检测，分数直接会被赋值 1.0
      */
     private void showVerifyResult(boolean isVerifyMatched, float similarity, float silentLivenessScore) {
         runOnUiThread(() -> {
-            scoreText.setText("SilentLivenessScore:"+silentLivenessScore);
+            scoreText.setText("SilentLivenessScore:" + silentLivenessScore);
 
+            //1.静默活体分数判断
             if (silentLivenessScore < silentLivenessPassScore) {
                 tipsTextView.setText(R.string.silent_anti_spoofing_error);
                 new AlertDialog.Builder(FaceVerificationActivity.this)
@@ -171,12 +202,12 @@ public class FaceVerificationActivity extends AppCompatActivity {
                         .setPositiveButton(R.string.confirm, (dialogInterface, i) -> finish())
                         .show();
             } else if (isVerifyMatched) {
+                //2.和底片同一人
                 tipsTextView.setText("Successful,similarity= " + similarity);
                 VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-
-                //关闭页面时间业务自己根据实际情况定
                 new Handler(Looper.getMainLooper()).postDelayed(FaceVerificationActivity.this::finish, 1000);
             } else {
+                //3.和底片不是同一个人
                 tipsTextView.setText("Failed ！ similarity=" + similarity);
                 VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
                 new AlertDialog.Builder(FaceVerificationActivity.this)

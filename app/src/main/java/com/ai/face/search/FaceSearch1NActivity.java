@@ -106,7 +106,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap) {
                         binding.searchTips.setText(faceID);
                         Glide.with(getBaseContext())
-                                .load(CACHE_SEARCH_FACE_DIR + File.separatorChar + faceID)
+                                .load(CACHE_SEARCH_FACE_DIR + faceID)
                                 .skipMemoryCache(true)
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .transform(new RoundedCorners(11))
