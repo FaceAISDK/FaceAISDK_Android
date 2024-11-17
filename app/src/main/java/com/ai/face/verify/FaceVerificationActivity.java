@@ -46,7 +46,6 @@ public class FaceVerificationActivity extends AppCompatActivity {
     private FaceTipsOverlay faceTipsOverlay;
     private FaceCoverView faceCoverView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
-
     private CameraXFragment cameraXFragment;
     //静默活体检测要求 RGB 镜头 720p， 固定 30 帧，无拖影，RGB 镜头建议是宽动态
     private final float silentLivenessPassScore = 0.92f; //静默活体分数通过的阈值
@@ -102,11 +101,12 @@ public class FaceVerificationActivity extends AppCompatActivity {
             //人脸照片可能不是规范的正方形，非人脸区域过大甚至无人脸 多个人脸等情况，需要裁剪等处理
             AddFaceUtils.ILil.getInstance(getApplication())
                     .disposeBaseFaceImage(remoteBitmap, yourFacePath, new AddFaceUtils.Callback() {
+                        //从图片中裁剪识别人脸成功
                         @Override
                         public void onSuccess(@NonNull Bitmap cropedBitmap) {
                             initFaceVerification(cropedBitmap);
                         }
-
+                        //识别的错误信息
                         @Override
                         public void onFailed(@NotNull String msg) {
                             Log.e("ttt", msg);

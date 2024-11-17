@@ -1,7 +1,8 @@
 <div align=center>
-<img src="http://user-images.githubusercontent.com/15169396/182627098-0ca24289-641b-4593-bf7c-72b09c4bf94e.jpeg" width = 10% height = 10% />
+<img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 10% height = 10% />
 </div>
 
+![img.png](img.png)
 ## 已经解决试用版本集成闪退问题！！
 ## 已经解决试用版本集成闪退问题！！
 
@@ -12,14 +13,15 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
 ![设备端离线机器学习优点](images/whyOfflineSDK.png)
 
-## 当前版本说明 V1.8.50 (仅仅维护1.8.20以上版本)
+## 当前版本说明 V1.8.50 (建议升级到最新版本)
 - 解决试用版本SDK集成闪退问题 ！！！
 - 加快1:N 人脸搜索速度，性能优化
 - 重新封装完善动作活体 静默活体，简化调用
 - 修复大尺寸照片中人脸过小导致的人脸入库失败问题
 
  建议[Fork] + [Star] 以便获取最新更新 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
- SDK 演示目前仅仅托管在GitHub，其他镜像版本大概率不是最新的，请移步到GitHub 更新最新的演示代码
+
+ SDK 接入演示代码目前仅托管在GitHub，国内镜像不是最新的，请移步到GitHub 更新最新的演示代码
 
 ## 简要说明
 
@@ -45,46 +47,26 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
 ## 接入使用
 
-    //1.首先Gradle 中引入依赖 
-    implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //目前仅维护1.8.20 以上版本，请及时升级
-    //2.Camera相机的初始化。第一个参数0/1 指定前后摄像头；第二个参数linearZoom [0.01f,1.0f] 指定焦距，默认0.01
-    CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing,0.2f);
+-  1.首先Gradle 中引入依赖 
+```
+    implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //目前仅维护1.8.50 以上版本，请及时升级
+```
 
-    ``` 
-    //3.人脸识别过程中各种参数的初始化。（更多说明请Github Clone代码体验,）
-    
-            FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                .setThreshold(0.88f)                //threshold（阈值）设置，范围仅限[0.85-0.95]，默认0.88
-                .setBaseBitmap(baseBitmap)          //1：1 底片「底片请设置为正脸无遮挡，并如Demo裁剪为仅含人脸」
-                .setLiveNessDetection(true)         //是否需要活体检测，需要发送邮件，详情参考ReadMe
-                .setLiveNessDetectionMode(FAST)     //活体检测模式，快速还是准确（仅动作活体，建议高配硬件用准确模式）
-                .setVerifyTimeOut(16)               //活体检测支持设置超时时间 9-22 秒
-                .setMotionStepSize(2)               //随机动作验证活体的步骤个数，支持1-2个步骤
-                .setProcessCallBack(new ProcessCallBack() {
-                    @Override
-                    public void onCompleted(boolean isMatched) {
-                         // 1：1 人脸识别匹配成功
-                    }
-                    @Override
-                    public void onMostSimilar(String similar) {
-                         // 人脸检索识别
-                    }
-                })
-                .create();
-
-        faceDetectorUtils.setDetectorParams(faceProcessBuilder);
-    ```
-
+-  2.更新本SDK 接入演示代码到最新，**熟悉后**Copy Demo代码到你的主工程
+-  3.解决SDK 中三分依赖和主工程的冲突，比如CameraX 的版本
+-  4.调整JDK版本到java 11 以上。查看Preferences-Build-Gradle-JDK 的版本为 11+
+-  5.集成过程中的问题可以GitHub 提issues 或者发送邮件，VIP 微信一对一对接集成开发
    
-    更多使用说明下载参考本Repo和下载Demo体验，里面有比较详尽的使用方法，其中 
+    更多使用说明下载参考本Repo和下载Demo体验，里面有比较详尽的使用方法， 熟悉后大概2小时可集成完毕 
 
+   其中
   
     * NaviActivity  Demo 演示导航页面
     * /verify/目录  1:1 人脸检测识别，活体检测页面
     * /search/目录  1:N 和 M：N 人脸识别搜索页面，人脸库管理
 
-    不含活体检测不需要license完全免费，包含活体检测的使用需要你发送邮件到anylife.zlb@gmail.com 确认授权
-    内容包括App名称、包名（applicationId）、签名证书SHA1和简要描述和要申请  1:1 / 1:N / M:N 哪种类型、4项内容。
+    1:1人脸识别不含活体检测不需要license授权，活体检测和人脸搜索的使用需要你发送邮件到anylife.zlb@gmail.com 确认授权
+    内容包括App名称、包名（applicationId）、签名证书SHA1和简要描述和要申请  1:1 / 1:N / M:N 哪种类型、5项内容。
 
 
 ## Demo 下载体验

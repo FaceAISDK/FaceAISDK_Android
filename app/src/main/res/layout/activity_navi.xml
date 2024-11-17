@@ -32,7 +32,7 @@
                 android:layout_height="45dp"
                 android:padding="4dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/band_image" />
+                android:src="@drawable/logo" />
 
             <TextView
                 android:id="@+id/face_verify"
@@ -69,8 +69,8 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="43dp"
+                android:layout_height="43dp"
                 android:padding="10dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_add_face" />
@@ -125,8 +125,8 @@
         android:paddingBottom="15dp"
         android:visibility="visible"
         android:text="@string/face_search_navi"
-        android:textColor="@color/red"
-        android:textSize="16sp"
+        android:textColor="@color/green"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/liveness_detection" />
@@ -141,7 +141,7 @@
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="33dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/more_about_me"
         android:text="@string/switch_camera" />
 
@@ -156,7 +156,21 @@
         android:text="@string/about_us"
         android:textColor="@android:color/white"
         android:textSize="17sp"
-        android:layout_marginBottom="33dp"
+        android:layout_marginBottom="44dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="9dp"
+        android:visibility="visible"
+        android:text="- V1.8.50已经修复试用版本集成闪退问题 -"
+        android:textColor="@android:color/white"
+        android:textSize="11sp"
+        android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 

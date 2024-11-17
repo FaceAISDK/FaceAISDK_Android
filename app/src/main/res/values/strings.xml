@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Face Verify</string>
+    <string name="app_name">FaceAI Demo</string>
     <string name="sdk_init">SDK Init</string>
     <string name="no_mask_please">No mask</string>
     <string name="face_verifying">Face verifying</string>

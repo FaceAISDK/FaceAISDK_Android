@@ -30,10 +30,10 @@ public class MyFaceApplication extends Application {
         CACHE_SEARCH_FACE_DIR = getFilesDir().getPath() + "/faceSearch/";  //人脸搜索人脸库目录，自行决定放在哪里
 
 
-        //初始化创建1:N（M：N） 人脸搜索目录，人脸图集放在这里
-        //不要直接文件操作把人脸图放到这个目录，这样不能搜索，要通过SDK 的API 进行人脸的增删改查
-        File file = new File(CACHE_SEARCH_FACE_DIR);
-        if (!file.exists()) file.mkdirs();
+//        //初始化创建1:N（M：N） 人脸搜索目录，人脸图集放在这里
+//        //不要直接文件操作把人脸图放到这个目录，这样不能搜索，要通过SDK 的API 进行人脸的增删改查
+//        File file = new File(CACHE_SEARCH_FACE_DIR);
+//        if (!file.exists()) file.mkdirs();
 
     }
 

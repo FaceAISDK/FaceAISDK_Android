@@ -8,18 +8,18 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.ai.face.databinding.ActivityAboutUsBinding
+import com.ai.face.databinding.ActivityAboutFaceAppBinding
 
 /**
  *
  *
  */
-class AboutUsActivity : AppCompatActivity() {
-    private lateinit var viewBinding: ActivityAboutUsBinding
+class AboutFaceAppActivity : AppCompatActivity() {
+    private lateinit var viewBinding: ActivityAboutFaceAppBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityAboutUsBinding.inflate(layoutInflater)
+        viewBinding = ActivityAboutFaceAppBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
         viewBinding.moreAboutMe.setOnClickListener {

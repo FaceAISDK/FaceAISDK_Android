@@ -1,10 +1,13 @@
 
 buildscript {
 
+    //准备升级Kotlin 的版本
     ext {
         kotlin_version = "1.8.10"
-        java_version = JavaVersion.VERSION_1_8
+        java_version = JavaVersion.VERSION_11
     }
+
+
 
     //如果和你的项目中Kotlin 依赖不一致。 强制统一项目中的Kotlin 版本依赖
     ConfigurationContainer container = project.configurations

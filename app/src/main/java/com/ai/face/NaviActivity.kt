@@ -82,7 +82,7 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
 
 
         viewBinding.moreAboutMe.setOnClickListener {
-            startActivity(Intent(this@NaviActivity, AboutUsActivity::class.java))
+            startActivity(Intent(this@NaviActivity, AboutFaceAppActivity::class.java))
         }
 
 

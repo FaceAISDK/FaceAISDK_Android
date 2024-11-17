@@ -67,9 +67,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
 
-    // 人脸识别 活体检测 以及人脸检索 SDK 依赖. 更新SDK Clean 工程
-    // 试用版本请升级到1.8.50 以上版本，试用版本有个Bug 一直报错
-    implementation 'io.github.anylifezlb:FaceRecognition:1.8.49.alpha2'
+    // 人脸识别 试用版本请升级到1.8.50 以上版本。https://github.com/AnyLifeZLB/FaceVerificationSDK
+    // JDK==11，更多查看主页Readme 或者发送邮件到anylife.zlb@gmail.com
+    implementation 'io.github.anylifezlb:FaceRecognition:1.8.50'
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
