@@ -1,8 +1,7 @@
 <div align=center>
-<img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 10% height = 10% />
+<img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17% height = 17% />
 </div>
 
-![img.png](img.png)
 ## 已经解决试用版本集成闪退问题！！
 ## 已经解决试用版本集成闪退问题！！
 
@@ -13,7 +12,7 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
 ![设备端离线机器学习优点](images/whyOfflineSDK.png)
 
-## 当前版本说明 V1.8.50 (建议升级到最新版本)
+## 当前版本说明 V1.8.51 (建议升级到最新版本)
 - 解决试用版本SDK集成闪退问题 ！！！
 - 加快1:N 人脸搜索速度，性能优化
 - 重新封装完善动作活体 静默活体，简化调用
@@ -49,7 +48,7 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
 -  1.首先Gradle 中引入依赖 
 ```
-    implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //目前仅维护1.8.50 以上版本，请及时升级
+    implementation 'io.github.anylifezlb:FaceRecognition:1.?.?'  //及时升级到最新
 ```
 
 -  2.更新本SDK 接入演示代码到最新，**熟悉后**Copy Demo代码到你的主工程
