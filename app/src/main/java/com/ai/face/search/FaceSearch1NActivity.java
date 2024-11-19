@@ -1,6 +1,6 @@
 package com.ai.face.search;
 
-import static com.ai.face.MyFaceApplication.CACHE_SEARCH_FACE_DIR;
+import static com.ai.face.FaceAIApplication.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.*;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.ONLY_ONE_FACE;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,11 +24,11 @@ import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
+import com.ai.face.faceVerify.verify.VerifyUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -71,15 +72,6 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
 
-        //建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率720p以上，帧率大于30并且无拖影。
-        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-
-            //可以加个红外检测之类的，有人靠近再启动人脸搜索检索服务，不然机器性能下降机器老化快
-            if (!isDestroyed() && !isFinishing()) {
-                //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像
-                FaceSearchEngine.Companion.getInstance().runSearch(imageProxy, 0);
-            }
-        });
 
 
         // 2.各种参数的初始化设置
@@ -129,6 +121,30 @@ public class FaceSearch1NActivity extends AppCompatActivity {
 
         //3.初始化引擎，是个耗时耗资源操作
         FaceSearchEngine.Companion.getInstance().initSearchParams(faceProcessBuilder);
+
+
+        // 4.从摄像头中取数据实时搜索
+        // 建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率720p以上，帧率大于30并且无拖影。
+        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
+
+            //可以加个红外检测之类的，有人靠近再启动人脸搜索检索服务，不然机器性能下降机器老化快
+            if (!isDestroyed() && !isFinishing()) {
+                //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像
+                FaceSearchEngine.Companion.getInstance().runSearch(imageProxy, 0);
+            }
+        });
+
+
+
+        //其他方式搜索，把数据转为Bitmap 去搜索
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //5.静态人脸图搜索(对应的),延迟1秒是为了防止引擎初始化没有完成
+//                Bitmap searchBmp= VerifyUtils.getBitmapFromAssert(FaceSearch1NActivity.this, "v3_0835054.jpg");
+//                FaceSearchEngine.Companion.getInstance().runSearch(searchBmp);
+            }
+        },1000);
 
     }
 

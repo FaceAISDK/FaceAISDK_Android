@@ -6,7 +6,7 @@ import android.app.Application;
  * 不要直接使用File Api 直接往文件目录插入图片，要使用SDK 提供的APi写入数据，图片还需要向量化
  *
  */
-public class MyFaceApplication extends Application {
+public class FaceAIApplication extends Application {
     //intent KEY
     public static final String USER_FACE_ID_KEY = "USER_FACE_ID_KEY"; //1:1 face verify ID KEY
     public static final String BASE_FACE_DIR_KEY = "BASE_FACE_DIR_KEY";    //1:1 face verify dir KEY

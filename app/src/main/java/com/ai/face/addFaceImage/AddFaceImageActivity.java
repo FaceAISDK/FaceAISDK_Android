@@ -1,7 +1,7 @@
 package com.ai.face.addFaceImage;
 
-import static com.ai.face.MyFaceApplication.BASE_FACE_DIR_KEY;
-import static com.ai.face.MyFaceApplication.USER_FACE_ID_KEY;
+import static com.ai.face.FaceAIApplication.BASE_FACE_DIR_KEY;
+import static com.ai.face.FaceAIApplication.USER_FACE_ID_KEY;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_LEFT;

@@ -140,6 +140,7 @@
         android:gravity="center"
         android:textColor="@android:color/white"
         android:textSize="18sp"
+        android:padding="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/more_about_me"
@@ -151,27 +152,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="19dp"
+        android:padding="11dp"
         android:visibility="visible"
         android:text="@string/about_us"
         android:textColor="@android:color/white"
-        android:textSize="17sp"
-        android:layout_marginBottom="44dp"
+        android:textSize="14sp"
+        android:layout_marginBottom="11dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="9dp"
-        android:visibility="visible"
-        android:text="- V1.8.50已经修复试用版本集成闪退问题 -"
-        android:textColor="@android:color/white"
-        android:textSize="11sp"
-        android:layout_marginBottom="1dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

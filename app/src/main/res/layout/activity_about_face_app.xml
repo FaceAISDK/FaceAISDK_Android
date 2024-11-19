@@ -78,7 +78,7 @@
         android:layout_marginBottom="23dp"
         android:gravity="center"
         android:padding="19dp"
-        android:text="About US，关于我们（GitHub Page）"
+        android:text="About us，关于我们"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent" />

@@ -20,7 +20,7 @@
     <string name="far_away_tips">请远离屏幕一点</string>
     <string name="align_face_error_tips">图像校准失败</string>
     <string name="not_real_face">非真人 人脸图</string>
-    <string name="add_a_face_image">请先录入人脸底片</string>
+    <string name="add_a_face_image">录入人脸照片</string>
 
     <!--1:N 人脸搜索 face search-->
     <string name="no_matched_face">无匹配人脸</string>
@@ -48,7 +48,7 @@
     <string name="only_motion_liveness_detection">仅人脸活体检测</string>
     <string name="face_search_navi">1:N &amp; M:N人脸搜索识别 </string>
     <string name="switch_camera">切换前后摄像头 </string>
-    <string name="about_us">关于我们,查看更多</string>
+    <string name="about_us">- 关于我们 -</string>
 
     <!--1:N and M:N face search-->
     <string name="face_image_manger">人脸库管理</string>

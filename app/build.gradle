@@ -23,7 +23,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            debuggable true
+            debuggable true  //Debug 包可以体验所有的功能，不用授权
             jniDebuggable true
             minifyEnabled true
             zipAlignEnabled true
@@ -79,12 +79,15 @@ dependencies {
 
     // 人脸识别 试用版本请升级到1.8.50 以上版本。https://github.com/AnyLifeZLB/FaceVerificationSDK
     // JDK==11，更多查看主页Readme 或者发送邮件到anylife.zlb@gmail.com
-    implementation 'io.github.anylifezlb:FaceRecognition:1.8.51'
+    implementation 'io.github.anylifezlb:FaceRecognition:1.8.51.search'
+
+
+
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
     implementation 'pub.devrel:easypermissions:3.0.0'
-    implementation 'com.airbnb.android:lottie:6.0.0'
+    implementation 'com.airbnb.android:lottie:6.5.0'
     implementation 'com.github.princekin-f:EasyFloat:2.0.4'
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.3.2"

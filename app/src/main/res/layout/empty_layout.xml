@@ -18,7 +18,7 @@
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="暂无人脸，点击添加\n(Assets测试人脸由Ai生成)"
+        android:text="人脸库目录暂无人脸\n点击右上角按钮单次/批量添加"
         android:gravity="center"
         android:padding="3dp"
         android:textSize="16sp"

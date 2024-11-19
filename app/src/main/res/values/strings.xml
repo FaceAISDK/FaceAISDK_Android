@@ -20,7 +20,7 @@
     <string name="far_away_tips">Please far away screen</string>
     <string name="align_face_error_tips">Align face error</string>
     <string name="not_real_face">Not real human face</string>
-    <string name="add_a_face_image">Add a face image first</string>
+    <string name="add_a_face_image">Add a face image </string>
 
     <!--1:N 人脸搜索 face search-->
     <string name="no_matched_face">No matched face</string>
@@ -48,7 +48,7 @@
     <string name="only_motion_liveness_detection">Only motion liveness detection</string>
     <string name="face_search_navi">1:N &amp; M:N  Face Search </string>
     <string name="switch_camera">Switch front,back/USB camera </string>
-    <string name="about_us">About US</string>
+    <string name="about_us">- About us - </string>
 
     <!--1:N and M:N face search-->
     <string name="face_image_manger">Face images manger</string>

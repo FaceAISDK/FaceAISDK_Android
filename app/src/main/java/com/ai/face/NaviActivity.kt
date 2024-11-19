@@ -8,9 +8,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.ai.face.MyFaceApplication.BASE_FACE_DIR_KEY
-import com.ai.face.MyFaceApplication.CACHE_BASE_FACE_DIR
-import com.ai.face.MyFaceApplication.USER_FACE_ID_KEY
+import com.ai.face.FaceAIApplication.BASE_FACE_DIR_KEY
+import com.ai.face.FaceAIApplication.CACHE_BASE_FACE_DIR
+import com.ai.face.FaceAIApplication.USER_FACE_ID_KEY
 import com.ai.face.addFaceImage.AddFaceImageActivity
 import com.ai.face.databinding.ActivityNaviBinding
 import com.ai.face.faceVerify.verify.VerifyUtils

@@ -7,7 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.Gravity
-import com.ai.face.MyFaceApplication.CACHE_SEARCH_FACE_DIR
+import com.ai.face.FaceAIApplication.CACHE_SEARCH_FACE_DIR
 import com.ai.face.R
 import com.ai.face.faceSearch.search.FaceSearchImagesManger
 import com.airbnb.lottie.LottieAnimationView

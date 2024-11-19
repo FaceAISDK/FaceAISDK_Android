@@ -1,6 +1,6 @@
 package com.ai.face.search;
 
-import static com.ai.face.MyFaceApplication.CACHE_SEARCH_FACE_DIR;
+import static com.ai.face.FaceAIApplication.CACHE_SEARCH_FACE_DIR;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -108,6 +108,7 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
              *  2.录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
              *  3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩帽子等
              *  4.人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
+             *
              */
             FaceSearchImagesManger.IL1Iii.getInstance(getApplication()).insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
                 @Override

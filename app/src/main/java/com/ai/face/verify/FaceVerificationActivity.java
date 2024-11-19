@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ai.face.MyFaceApplication;
+import com.ai.face.FaceAIApplication;
 import com.ai.face.R;
 import com.ai.face.base.baseImage.AddFaceUtils;
 import com.ai.face.base.view.CameraXFragment;
@@ -82,8 +82,8 @@ public class FaceVerificationActivity extends AppCompatActivity {
 
 
         //1:1 人脸对比，摄像头实时采集的人脸和预留的人脸底片对比。（动作活体人脸检测完成后开始1:1比对）
-        String yourUniQueFaceId = getIntent().getStringExtra(MyFaceApplication.USER_FACE_ID_KEY);
-        String yourFacePath = MyFaceApplication.CACHE_BASE_FACE_DIR + yourUniQueFaceId;
+        String yourUniQueFaceId = getIntent().getStringExtra(FaceAIApplication.USER_FACE_ID_KEY);
+        String yourFacePath = FaceAIApplication.CACHE_BASE_FACE_DIR + yourUniQueFaceId;
         //2.先去Path 路径读取有没有faceID 对应的人脸，如果没有从网络其他地方同步
         Bitmap baseBitmap = BitmapFactory.decodeFile(yourFacePath);
         if (baseBitmap != null) {
