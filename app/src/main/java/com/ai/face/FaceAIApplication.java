@@ -19,7 +19,7 @@ public class FaceAIApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //初始化人脸识别 人脸搜索存储目录，放哪里根据你的业务定
+        //初始化人脸识别 人脸搜索存储目录，放哪里根据你的业务定,注意可能需要存储权限
         CACHE_BASE_FACE_DIR = getCacheDir().getPath() + "/faceVerify/";    //1:1 人脸识别目录
         CACHE_SEARCH_FACE_DIR = getFilesDir().getPath() + "/faceSearch/";  //人脸搜索人脸库目录，自行决定放在哪里
     }

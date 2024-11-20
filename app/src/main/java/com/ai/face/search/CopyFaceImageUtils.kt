@@ -95,11 +95,6 @@ class CopyFaceImageUtils {
                     if(originBitmap!=null){
 
                         //不需再要先剪裁一次人脸，insertOrUpdateFaceImage里面会检测裁剪人脸
-//                        val  cropBitmap=BaseImageDispose(context).cropFaceBitmap(originBitmap)
-//                        if(cropBitmap==null){
-//                            Log.e("Add Face", "cropFaceBitmap 失败 ")
-//                        }
-
 
                         val fileName=CACHE_SEARCH_FACE_DIR + subFaceFiles[index]
 

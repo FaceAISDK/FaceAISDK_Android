@@ -121,6 +121,8 @@ class NaviActivity : AppCompatActivity(), PermissionCallbacks {
      *
      */
     private fun checkNeededPermission() {
+        //自行管理你的存储 相机权限
+        //存储照片在某些目录需要,Manifest.permission.WRITE_EXTERNAL_STORAGE
         val perms = arrayOf(Manifest.permission.CAMERA)
 
         if (!EasyPermissions.hasPermissions(this, *perms)) {
