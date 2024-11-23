@@ -2,8 +2,7 @@
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17% height = 17% />
 </div>
 
-## 已经解决试用版本集成闪退问题！！
-## 已经解决试用版本集成闪退问题！！
+## 已经解决试用版集成闪退问题！！  
 
 # [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
