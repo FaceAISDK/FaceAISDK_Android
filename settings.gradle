@@ -1,1 +1,2 @@
-include ':app'
+include ':appMain'
+include ':faceAILib'
