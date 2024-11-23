@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR
 import com.ai.face.addFaceImage.AddFaceImageActivity
-import com.ai.face.databinding.ActivityNaviBinding
+import com.ai.face.databinding.ActivityFaceAiNaviBinding
 import com.ai.face.search.SearchNaviActivity
 import com.ai.face.utils.VoicePlayer
 import com.ai.face.verify.FaceVerificationActivity
@@ -24,20 +24,19 @@ import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
  *
  */
 class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
-    private lateinit var viewBinding: ActivityNaviBinding
+    private lateinit var viewBinding: ActivityFaceAiNaviBinding
 
     private var yourUniQueFaceId = "18707611416"  //用户人脸ID，Face ID（unique）eg account
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityNaviBinding.inflate(layoutInflater)
+        viewBinding = ActivityFaceAiNaviBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         checkNeededPermission()
 
-
         //人脸图保存路径初始化
         FaceAIConfig.init(this)
-
+        //语音提示
         VoicePlayer.getInstance().init(this)
 
 

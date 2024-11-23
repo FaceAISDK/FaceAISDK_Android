@@ -56,7 +56,7 @@ android {
 //主工程和SDK 中的依赖有冲突需要统一依赖,可以参考下面方式处理
 //比如TargetSDK 还是28的camera_version降低到 1.2.3（最后支持TargetSDK 28）
 
-def camera_version = "1.2.3" //建议新工程升级到最新版本1.4.0 以上
+def camera_version = "1.4.0" //建议新工程升级到最新版本1.4.0 以上
 configurations.configureEach {
     resolutionStrategy {
         force "androidx.camera:camera-core:$camera_version",

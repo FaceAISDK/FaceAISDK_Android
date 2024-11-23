@@ -11,7 +11,7 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
 ![设备端离线机器学习优点](images/whyOfflineSDK.png)
 
-## 当前版本说明 V1.8.51 (建议升级到最新版本)
+## 当前版本说明 V1.8.60 (建议升级到最新版本)
 - 解决试用版本SDK集成闪退问题 ！！！
 - 加快1:N 人脸搜索速度，性能优化
 - 重新封装完善动作活体 静默活体，简化调用

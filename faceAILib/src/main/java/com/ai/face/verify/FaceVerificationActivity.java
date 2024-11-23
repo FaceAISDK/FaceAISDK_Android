@@ -135,8 +135,8 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .setThreshold(0.88f)                    //阈值设置，范围限 [0.85,0.95] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
                 .setLivenessType(LivenessType.SILENT_MOTION)  //活体检测可以有静默活体，动作活体或者组合也可以不需要活体NONE
-                .setLivenessDetectionMode(LivenessDetectionMode.FAST)//硬件配置低用FAST动作活体模式，否则用精确模式
-                .setSilentLivenessThreshold(silentLivenessPassScore)     //静默活体阈值 [0.88,0.99]
+                .setLivenessDetectionMode(LivenessDetectionMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
+                .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.99]
                 .setMotionLivenessStepSize(2)         //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setVerifyTimeOut(16)                 //活体检测支持设置超时时间 [9,22] 秒
                 .setGraphicOverlay(faceTipsOverlay)   //正式环境请去除设置
@@ -164,12 +164,6 @@ public class FaceVerificationActivity extends AppCompatActivity {
                     @Override
                     public void onTimeCountDown(float percent) {
                         faceCoverView.startCountDown(percent);
-                    }
-
-
-                    @Override
-                    public void onFailed(int i) {
-                        //预留
                     }
 
                 }).create();
@@ -289,6 +283,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                                 .setMessage(R.string.motion_liveness_detection_time_out)
                                 .setCancelable(false)
                                 .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
+                                    //建议控制重试次数，一般2次没成功基本不用重试了，设备配置太低或环境因素
                                             faceVerifyUtils.retryVerify();
                                         }
                                 ).show();

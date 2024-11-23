@@ -21,13 +21,15 @@ import java.io.IOException
 import java.io.InputStream
 
 /**
- * 拷贝200 百张工程目录Assert下的人脸测试图
+ * 拷贝200张工程目录Assert下的人脸测试图方便你验证效果
+ *
+ * warming：不要直接使用File 操作保存人脸，要用SDK API 处理人脸图入库
  *
  * 人脸图要求：
  * 1.尽量使用较高配置设备和摄像头，光线不好带上补光灯
  * 2.录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
  * 3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩帽子等
- * 4.人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
+ * 4.人脸照片要求300*300（人脸部分区域大于200*200）裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
  *
  *
  * 封装Utils供Java 代码调用。使用Kotlin 协程能极大的简化代码结构
@@ -93,18 +95,9 @@ class CopyFaceImageUtils {
                     )
 
                     if(originBitmap!=null){
-
-                        //不需再要先剪裁一次人脸，insertOrUpdateFaceImage里面会检测裁剪人脸
-
                         val fileName=CACHE_SEARCH_FACE_DIR + subFaceFiles[index]
 
-                        /**
-                         *  人脸图要求：
-                         *  1.尽量使用较高配置设备和摄像头，光线不好带上补光灯
-                         *  2.录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
-                         *  3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩帽子等
-                         *  4.人脸照片要求300*300（人脸部分区域大于200*200） 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
-                         */
+                        //insertOrUpdateFaceImage里面会检测裁剪人脸，图像处理；插入失败请看onFailed log
                         FaceSearchImagesManger.IL1Iii.getInstance(context).insertOrUpdateFaceImage(
                             originBitmap, fileName,object :FaceSearchImagesManger.Callback {
                                 override fun onSuccess() {
