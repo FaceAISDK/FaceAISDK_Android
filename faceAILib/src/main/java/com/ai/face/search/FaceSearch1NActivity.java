@@ -80,17 +80,14 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 .setImageFlipped(cameraLens == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {
                     /**
-                     * 匹配到的大于 Threshold的所有结果
-                     * @param result
-                     * @param contextBitmap
+                     * 匹配到的大于 Threshold的所有结果，如有多个很相似的人场景允许的话可以弹框让用户选择
                      */
                     @Override
                     public void onFaceMatched(List<FaceSearchResult> result, Bitmap contextBitmap) {
-                        // 1:N 仅仅用来演示画人脸框位置
                         binding.graphicOverlay.drawRect(result, cameraXFragment);
                     }
 
-                    //最像的结果
+                    //人脸搜索最像的结果
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap) {
                         binding.searchTips.setText(faceID);
@@ -133,7 +130,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
 
 
 
-        //其他方式搜索，把数据转为Bitmap 去搜索
+        //其他方式搜索，把数据转为Bitmap 去搜索。延时1秒是为了让引擎初始化完毕
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

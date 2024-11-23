@@ -81,7 +81,8 @@ class CopyFaceImageUtils {
 
 
         /**
-         * 拷贝Assert 目录下的图片到App 指定目录，所涉及的人脸全为AI生成
+         * 把工程目录Assert 下的图片插入到App 指定人脸搜索库
+         * 你也可以参考把服务器网络图片下载后插入到人脸搜索库
          *
          */
         private suspend fun copyAssertTestFaceImages(context: Application) = withContext(Dispatchers.IO) {
@@ -89,15 +90,18 @@ class CopyFaceImageUtils {
             val subFaceFiles = context.assets.list("")
             if (subFaceFiles != null) {
                 for (index in subFaceFiles.indices) {
+                    //网络图下载后转为Bitmap 一样的处理方式
                     val originBitmap=getBitmapFromAsset(
                         assetManager,
                         subFaceFiles[index]
                     )
 
                     if(originBitmap!=null){
+                        //本地库保存的路径
                         val fileName=CACHE_SEARCH_FACE_DIR + subFaceFiles[index]
 
-                        //insertOrUpdateFaceImage里面会检测裁剪人脸，图像处理；插入失败请看onFailed log
+                        //insertOrUpdateFaceImage 处理人脸图入库，里面会检测裁剪人脸，图像量化处理；
+                        // 插入失败请看onFailed log
                         FaceSearchImagesManger.IL1Iii.getInstance(context).insertOrUpdateFaceImage(
                             originBitmap, fileName,object :FaceSearchImagesManger.Callback {
                                 override fun onSuccess() {
@@ -119,7 +123,9 @@ class CopyFaceImageUtils {
         }
 
 
-
+        /**
+         * 读取Assert 目录的测试验证人脸图
+         */
         private fun getBitmapFromAsset(assetManager: AssetManager, strName: String): Bitmap? {
             val istr: InputStream
             var bitmap: Bitmap?
