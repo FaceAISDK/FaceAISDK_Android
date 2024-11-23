@@ -1,57 +1,53 @@
-
-buildscript {
-
-    //准备升级Kotlin 的版本
-    ext {
-        kotlin_version = "1.8.10"
-        java_version = JavaVersion.VERSION_11
-    }
-
-
-
-    //如果和你的项目中Kotlin 依赖不一致。 强制统一项目中的Kotlin 版本依赖
-    ConfigurationContainer container = project.configurations
-    container.configureEach { Configuration conf ->
-        ResolutionStrategy rs = conf.resolutionStrategy
-        rs.eachDependency { details ->
-            def requested = details.requested
-            if (requested.group == "org.jetbrains.kotlin") {
-                //统一内部 kotlin 库的版本
-                details.useVersion("$kotlin_version")
-            }
-        }
-    }
-
-
-    repositories {
-        google()
-        mavenCentral()
-    }
-    
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-
-
 allprojects {
     repositories {
         mavenCentral()
         google()
 
+
+        //多放几个国内的依赖托管镜像源，工程师可以根据公司的网络屏蔽情况自行替换
+        maven {url "https://maven.aliyun.com/nexus/content/groups/public/"}
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url "https://jitpack.io" }
 
-        //多放一个国内的依赖托管镜像源，工程师可以根据公司的网络屏蔽情况自行替换
-        maven {
-            name "aliyunmaven"
-            url "https://maven.aliyun.com/nexus/content/groups/public/"
-        }
+    }
+}
+
+
+
+
+buildscript {
+
+    //FaceAILib 的java version 和Kotlin 配置
+    ext {
+        kotlin_version = "1.8.10"
+        java_version = JavaVersion.VERSION_11
     }
 
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+
+
+//   //如果和你的项目中Kotlin 依赖不一致。 强制统一项目中的Kotlin 版本依赖
+//    ConfigurationContainer container = project.configurations
+//    container.configureEach { Configuration conf ->
+//        ResolutionStrategy rs = conf.resolutionStrategy
+//        rs.eachDependency { details ->
+//            def requested = details.requested
+//            if (requested.group == "org.jetbrains.kotlin") {
+//                //统一内部 kotlin 库的版本
+//                details.useVersion("$kotlin_version")
+//            }
+//        }
+//    }
+
 }
 
 
-tasks.register('clean', Delete) {
-    delete rootProject.buildDir
-}

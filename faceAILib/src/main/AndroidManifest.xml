@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera" />
+    <!-- 演示提示用 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- 语音提示 -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
+
+    <application>
+
+        <activity
+            android:name=".FaceAINaviActivity"
+            android:configChanges="orientation"
+            android:exported="false">
+        </activity>
+
+
+        <activity
+            android:name=".verify.FaceVerificationActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".AboutFaceAppActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".addFaceImage.AddFaceImageActivity"
+            android:exported="false" />
+
+
+        <activity
+            android:name=".search.FaceSearch1NActivity"
+            android:exported="false" />
+
+
+        <activity
+            android:name=".search.FaceSearchMNActivity"
+            android:exported="false"
+            android:launchMode="singleTop" />
+
+
+        <activity
+            android:name=".search.FaceSearchImageMangerActivity"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".search.SearchNaviActivity"
+            android:exported="false">
+        </activity>
+
+
+    </application>
+
+</manifest>

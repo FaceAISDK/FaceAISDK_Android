@@ -2,8 +2,7 @@
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17% height = 17% />
 </div>
 
-## 已经解决试用版本集成闪退问题！！
-## 已经解决试用版本集成闪退问题！！
+## 已经解决试用版集成闪退问题！！  
 
 # [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
@@ -94,11 +93,15 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
      - 1.试用建议的设备配置和摄像头
      - 2.录入高质量的人脸图，如（images/face_example.jpg）（证件照输入目前优化中）
      - 3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩
+     - 4.人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡
 
 ## 常见问题
    常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/questions.md  
    所有的开发测试都在手机和平板进行，特殊定制硬件如RK3288 等适配需要兼容适配
 
 
-
+## 快速接入
+   Demo 以main主工程 --> faceAiLib 的方式演示，熟悉本SDK 接入Demo 后可以先Copy faceAiLib到你主工程先跑起来
+   再根据业务情况修改完善。熟悉后大约2小时就能集成成功，可大大降低公司研发投入实现降本增效（笑）。
+   快速集成详情见：
 
