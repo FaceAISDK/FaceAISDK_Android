@@ -1,5 +1,5 @@
 <div align=center>
-<img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17% height = 17% />
+<img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 20% height = 20% />
 </div>
 
 ## 已经解决试用版集成闪退问题！！  
@@ -12,6 +12,7 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 ![设备端离线机器学习优点](images/whyOfflineSDK.png)
 
 ## 当前版本说明 V1.8.60 (建议升级到最新版本)
+- 解决动作活体重构后出现不能识别通过问题
 - 解决试用版本SDK集成闪退问题 ！！！
 - 加快1:N 人脸搜索速度，性能优化
 - 重新封装完善动作活体 静默活体，简化调用
@@ -19,13 +20,16 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
  建议[Fork] + [Star] 以便获取最新更新 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
 
- SDK 接入演示代码目前仅托管在GitHub，国内镜像不是最新的，请移步到GitHub 更新最新的演示代码
+ **SDK 接入代码仓库，及时更新使用最新版** https://github.com/AnyLifeZLB/FaceVerificationSDK  
+ 国内代码托管地址(不方便翻墙请邮件联系获取最新代码) https://gitee.com/onDeviceAI/FaceVerificationSDK
+
+
 
 ## 简要说明
 
 SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N人脸识别检索](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Introduce_11_1N_MN.md)，**所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
 
-其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（摇头点头也可拆分为左右上下4个动作），低端机离线验证速度正常。
+其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），低端机离线验证速度正常。
 
 SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率720p以上，帧率大于30并且无拖影。
 
@@ -36,11 +40,11 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
 ## [使用场景和区别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Face_1:1_1:N_M:N.md)
 
-   【1:1】 移动考勤真人校验，App免密登录，酒店入驻、刷脸支付、刷脸解锁、真人校验
+   【1:1】 移动考勤真人校验、App免密登录、刷脸支付、刷脸解锁、真人校验
 
-   【1:N】 小区门禁，公司门禁，智能门锁，智慧校园、景区、工地、社区、酒店等
+   【1:N】 小区门禁、公司门禁、智能门锁、智慧校园、景区、工地、社区、酒店等
 
-   【M:N】 公安布控，人群追踪 监控等等 (人脸搜索 Demo 测试可使用图片 face_search_test.jpg)
+   【M:N】 公安布控，人群追踪 监控等等 (测试效果可使用 MN_face_search_test.jpg 模拟)
 
 
 ## 接入使用
@@ -58,14 +62,11 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
     更多使用说明下载参考本Repo和下载Demo体验，里面有比较详尽的使用方法， 熟悉后大概2小时可集成完毕 
 
    其中
-  
-    * NaviActivity  Demo 演示导航页面
+    * appMain 主工程，faceAILib 是人脸识别相关源码
+    * /FaceAI/NaviActivity  Demo 演示导航页面
     * /verify/目录  1:1 人脸检测识别，活体检测页面
     * /search/目录  1:N 和 M：N 人脸识别搜索页面，人脸库管理
-
-    1:1人脸识别不含活体检测不需要license授权，活体检测和人脸搜索的使用需要你发送邮件到anylife.zlb@gmail.com 确认授权
-    内容包括App名称、包名（applicationId）、签名证书SHA1和简要描述和要申请  1:1 / 1:N / M:N 哪种类型、5项内容。
-
+    * /addFaceImage 识别和搜索共用的添加人脸照片
 
 ## Demo 下载体验
 
@@ -81,19 +82,19 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
    如果 SDK 不能匹配你的应用场景需要特殊定制化，请发邮件到anylife.zlb@gmail.com
    也可以加微信 HaoNan19990322 （请标注为 人脸识别 ，否则会自动忽略添加，谢谢）
    
-   欢迎关注Fork+Star获取最新动态  Github:  https://github.com/AnyLifeZLB/FaceVerificationSDK
+   欢迎关注Fork+Star获取最新动态，提出使用建议等 https://github.com/AnyLifeZLB/FaceVerificationSDK
 
 ## 提升接入效率，提高SDK识别准确率
    ### 提升接入效率
-     - 1.去蒲公英下载APK Demo 体验SDK 的基本功能，看看是否满足业务需求；人脸搜索可以一键倒入200+张人脸图再录入你自己的
-     - 2.更新GitHub 最新的代码，花1天左右时间熟悉SDK API 和对应的注释备注，断点调试一下基本功能；熟悉后再接入到主工程
-     - 3.欲速则不达，一定要先跑成功SDK 接入Demo。熟悉后再接入到主工程验证匹配业务功能。有问题可以GitHub 提issues
+      1.去蒲公英下载APK Demo 体验SDK 的基本功能，看看是否满足业务需求；人脸搜索可以一键导入200+张人脸图再录入你自己的
+      2.更新GitHub 最新的代码，花1天左右时间熟悉SDK API 和对应的注释备注，断点调试一下基本功能；熟悉后再接入到主工程
+      3.欲速则不达，一定要先跑成功SDK 接入Demo。熟悉后再接入到主工程验证匹配业务功能。有问题可以GitHub 提issues
 
    ### 提高SDK识别准确率
-     - 1.试用建议的设备配置和摄像头
-     - 2.录入高质量的人脸图，如（images/face_example.jpg）（证件照输入目前优化中）
-     - 3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩
-     - 4.人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡
+      1.试用建议的设备配置和摄像头
+      2.录入高质量的人脸图，如（images/face_example.jpg）（证件照输入目前优化中）
+      3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩
+      4.人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡
 
 ## 常见问题
    常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/questions.md  
@@ -102,6 +103,6 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
 ## 快速接入
    Demo 以main主工程 --> faceAiLib 的方式演示，熟悉本SDK 接入Demo 后可以先Copy faceAiLib到你主工程先跑起来
-   再根据业务情况修改完善。熟悉后大约2小时就能集成成功，可大大降低公司研发投入实现降本增效（笑）。
+   再根据业务情况修改完善。熟悉后大约2小时就能集成成功，可大大降低公司研发投入实现降本增效。
 
 

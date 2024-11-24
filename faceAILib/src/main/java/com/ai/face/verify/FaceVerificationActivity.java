@@ -58,7 +58,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_face_verification);
+        setContentView(R.layout.activity_face_verification);//建议背景白色可以补充光照不足
         setTitle("1:1 face verify");
         scoreText = findViewById(R.id.silent_Score);
         tipsTextView = findViewById(R.id.tips_view);
@@ -79,7 +79,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
          * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
          * 焦距拉远一点，人才会靠近屏幕，才会减轻杂乱背景的影响。定制设备的摄像头自行调教此参数
          */
-        cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.005f);
+        cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.001f);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
@@ -97,12 +97,13 @@ public class FaceVerificationActivity extends AppCompatActivity {
             //人脸图的裁剪和保存最好提前完成，如果不是本SDK 录入的人脸可能人脸不标准
             //这里可能从网络等地方获取，业务方自行决定，为了方便模拟我们放在Assert 目录
             Bitmap remoteBitmap = VerifyUtils.getBitmapFromAssert(this, "yourFace.pngtest");
-            if (remoteBitmap==null){
-                Toast.makeText(getBaseContext(),R.string.add_a_face_image,Toast.LENGTH_LONG).show();
+            if (remoteBitmap == null) {
+                Toast.makeText(getBaseContext(), R.string.add_a_face_image, Toast.LENGTH_LONG).show();
                 tipsTextView.setText(R.string.add_a_face_image);
                 return;
             }
             //人脸照片可能不是规范的正方形，非人脸区域过大甚至无人脸 多个人脸等情况，需要SDK内部裁剪等处理
+            //（检测人脸照片质量使用 checkFaceQuality方法，处理类同checkFaceQuality）
             AddFaceUtils.ILil.getInstance(getApplication())
                     .disposeBaseFaceImage(remoteBitmap, yourFacePath, new AddFaceUtils.Callback() {
                         //从图片中裁剪识别人脸成功
@@ -110,11 +111,12 @@ public class FaceVerificationActivity extends AppCompatActivity {
                         public void onSuccess(@NonNull Bitmap cropedBitmap) {
                             initFaceVerification(cropedBitmap);
                         }
+
                         //识别的错误信息
                         @Override
-                        public void onFailed(@NotNull String msg) {
+                        public void onFailed(@NotNull String msg,int errorCode) {
                             Log.e("ttt", msg);
-                            Toast.makeText(getBaseContext(),msg,Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
                         }
                     });
         }
@@ -130,18 +132,16 @@ public class FaceVerificationActivity extends AppCompatActivity {
      * @param baseBitmap 1:1 人脸识别对比的底片，如果仅仅需要活体检测，可以把App logo Bitmap 当参数传入并忽略对比结果
      */
     private void initFaceVerification(Bitmap baseBitmap) {
-
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                .setThreshold(0.88f)                    //阈值设置，范围限 [0.85,0.95] 识别可信度，也是识别灵敏度
+                .setThreshold(0.85f)                    //阈值设置，范围限 [0.8,0.95] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
                 .setLivenessType(LivenessType.SILENT_MOTION)  //活体检测可以有静默活体，动作活体或者组合也可以不需要活体NONE
                 .setLivenessDetectionMode(LivenessDetectionMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.99]
                 .setMotionLivenessStepSize(2)         //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
-                .setVerifyTimeOut(16)                 //活体检测支持设置超时时间 [9,22] 秒
+                .setVerifyTimeOut(15)                 //活体检测支持设置超时时间 [9,22] 秒
                 .setGraphicOverlay(faceTipsOverlay)   //正式环境请去除设置
                 .setProcessCallBack(new ProcessCallBack() {
-
                     /**
                      * 1:1 人脸识别 活体检测 对比结束
                      *
@@ -165,8 +165,8 @@ public class FaceVerificationActivity extends AppCompatActivity {
                     public void onTimeCountDown(float percent) {
                         faceCoverView.startCountDown(percent);
                     }
-
                 }).create();
+
 
         faceVerifyUtils.setDetectorParams(faceProcessBuilder);
 
@@ -227,6 +227,8 @@ public class FaceVerificationActivity extends AppCompatActivity {
      * <p>
      * 添加声音提示和动画提示定制也在这里根据返回码进行定制
      */
+    int retryTime = 0;
+
     private void showFaceVerifyTips(int actionCode) {
         if (!isDestroyed() && !isFinishing()) {
             runOnUiThread(() -> {
@@ -283,8 +285,14 @@ public class FaceVerificationActivity extends AppCompatActivity {
                                 .setMessage(R.string.motion_liveness_detection_time_out)
                                 .setCancelable(false)
                                 .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
-                                    //建议控制重试次数，一般2次没成功基本不用重试了，设备配置太低或环境因素
-                                            faceVerifyUtils.retryVerify();
+                                            retryTime++;
+                                            //建议控制重试次数，一般2次没成功基本不用重试了，设备配置太低或环境因素
+                                            if (retryTime > 1) {
+                                                //记得按钮名字改一下
+                                                FaceVerificationActivity.this.finish();
+                                            } else {
+                                                faceVerifyUtils.retryVerify();
+                                            }
                                         }
                                 ).show();
                         break;

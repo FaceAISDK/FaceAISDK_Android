@@ -65,7 +65,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
          * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
          * 焦距拉远一点，人才会靠近屏幕，才会减轻杂乱背景的影响。定制设备的摄像头自行调教此参数
          */
-        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens, 0.005f);
+        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens, 0.001f);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
 

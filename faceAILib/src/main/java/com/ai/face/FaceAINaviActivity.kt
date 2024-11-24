@@ -21,7 +21,6 @@ import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 /**
  * SDK 接入演示Demo，请先熟悉本Demo跑通住流程后再集成到你的主工程验证业务
  *
- *
  */
 class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
     private lateinit var viewBinding: ActivityFaceAiNaviBinding

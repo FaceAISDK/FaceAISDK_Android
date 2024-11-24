@@ -34,7 +34,8 @@ import com.ai.face.base.view.CameraXFragment;
 import java.io.ByteArrayOutputStream;
 
 /**
- * 添加一张规范的人脸图并裁剪为SDK需要的正方形。
+ * 添加一张规范的人脸图并裁剪为SDK需要的正方形，1:1 和1:N 公共的添加人脸图
+ * 注意保存的方式有点差异
  *
  * 其他系统的录入的人脸请自行保证人脸规范，否则会导致识别错误
  *
@@ -158,10 +159,12 @@ public class AddFaceImageActivity extends AppCompatActivity {
 
         btnOK.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(fileName)) {
+                //1:1 人脸识别保存人脸底图
                 baseImageDispose.saveBaseImage(bitmap, pathName, fileName, 400);
                 dialog.dismiss();
                 finish();
             } else if (!TextUtils.isEmpty(editText.getText().toString())) {
+                //1:N ，M：N 人脸搜索保存人脸看
                 dialog.dismiss();
                 Intent intent = new Intent();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();

@@ -7,18 +7,19 @@ android {
     compileSdk 33
 
     defaultConfig {
+        //应用包名
         applicationId "com.ai.face.verifyPub"
 
         minSdk 21
         targetSdk 33
         versionCode 20
-        versionName "1.8.54"
+        versionName "1.8.60"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled true
             zipAlignEnabled true
             shrinkResources true

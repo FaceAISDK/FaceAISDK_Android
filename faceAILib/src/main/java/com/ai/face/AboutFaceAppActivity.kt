@@ -11,7 +11,7 @@ import android.widget.Toast
 import com.ai.face.databinding.ActivityAboutFaceAppBinding
 
 /**
- *
+ * 关于我们
  *
  */
 class AboutFaceAppActivity : AppCompatActivity() {
