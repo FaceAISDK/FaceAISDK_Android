@@ -89,6 +89,7 @@ anylife.zlb@gmail.com。
    如果你要自行管理摄像头接入，画面方向 旋转管理可以参考 https://github.com/AnyLifeZLB/BinocularCameraFaceSearch
 
 
-
+### 15.uniApp 插件支持
+    暂无，有兴趣打包发布插件者请联系我
 
 
