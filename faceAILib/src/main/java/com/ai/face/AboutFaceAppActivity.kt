@@ -23,7 +23,7 @@ class AboutFaceAppActivity : AppCompatActivity() {
         setContentView(viewBinding.root)
 
         viewBinding.moreAboutMe.setOnClickListener {
-            val uri = Uri.parse("https://github.com/AnyLifeZLB/FaceVerificationSDK")
+            val uri = Uri.parse("https://mp.weixin.qq.com/s/z3ZOvuZy2DeITZ7pZ1qV9Q")
             val intent = Intent(Intent.ACTION_VIEW)
             intent.addCategory(Intent.CATEGORY_BROWSABLE)
             intent.data = uri

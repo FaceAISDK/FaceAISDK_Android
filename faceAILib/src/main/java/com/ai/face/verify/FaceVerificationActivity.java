@@ -147,7 +147,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                      *
                      * @param isMatched   true匹配成功（大于setThreshold）； false 与底片不是同一人
                      * @param similarity  与底片匹配的相似度值
-                     * @param vipBitmap   识别完成的时候人脸实时图，仅授权用户会返回。可以拿这张图和你的服务器再次严格匹配
+                     * @param vipBitmap   识别完成的时候人脸实时图，仅授权用户会返回。可以拿这张图存档案和你的服务器再次严格匹配
                      */
                     @Override
                     public void onVerifyMatched(boolean isMatched, float similarity, float silentLivenessScore, Bitmap vipBitmap) {

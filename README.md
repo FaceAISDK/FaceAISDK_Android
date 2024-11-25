@@ -27,7 +27,7 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
 ## 简要说明
 
-SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N人脸识别检索](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Introduce_11_1N_MN.md)，**所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
+SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N人脸识别检索](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/Introduce_11_1N_MN.md)，**所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
 
 其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），低端机离线验证速度正常。
 
@@ -38,7 +38,7 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
 
 
-## [使用场景和区别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Face_1:1_1:N_M:N.md)
+## [使用场景和区别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/Introduce_11_1N_MN.md)
 
    【1:1】 移动考勤真人校验、App免密登录、刷脸支付、刷脸解锁、真人校验
 
@@ -63,10 +63,10 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
    其中
     * appMain 主工程，faceAILib 是人脸识别相关源码
-    * /FaceAI/NaviActivity  Demo 演示导航页面
-    * /verify/目录  1:1 人脸检测识别，活体检测页面
-    * /search/目录  1:N 和 M：N 人脸识别搜索页面，人脸库管理
-    * /addFaceImage 识别和搜索共用的添加人脸照片
+    * /FaceAI/NaviActivity   Demo 演示导航页面
+    * /verify/*      1:1人脸检测识别，活体检测页面
+    * /search/*      1:N和M：N人脸搜索页面,人脸库管理
+    * /addFaceImage  识别和搜索共用的添加人脸照片
 
 ## Demo 下载体验
 
@@ -97,7 +97,7 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
       4.人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡
 
 ## 常见问题
-   常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/questions.md  
+   常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/questions.md
    所有的开发测试都在手机和平板进行，特殊定制硬件如RK3288 等适配需要兼容适配
 
 
