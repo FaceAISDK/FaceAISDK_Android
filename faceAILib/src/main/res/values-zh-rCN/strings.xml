@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">FaceAI Demo</string>
+    <string name="sdk_init">SDK Init</string>
+    <string name="no_mask_please">请勿佩戴口罩</string>
+    <string name="face_verifying">识别中</string>
+    <string name="confirm">知道了</string>
+    <string name="retry">重试</string>
+    <string name="long_press_copy_msg">提示：长按复制联系信息</string>
+
+    <!--添加人脸 add face image-->
+    <string name="keep_face_tips">保持正脸不要晃动</string>
+    <string name="no_tilt_head_tips">请勿歪头</string>
+    <string name="head_turn_left_tips">脸偏左</string>
+    <string name="head_turn_right_tips">脸偏右</string>
+    <string name="no_look_up_tips">请勿抬头</string>
+    <string name="no_look_down_tips">请勿低头</string>
+    <string name="no_face_detected_tips">未检测到人脸</string>
+    <string name="multiple_faces_tips">多张人脸出现</string>
+    <string name="come_closer_tips">请靠近一点</string>
+    <string name="far_away_tips">请远离屏幕一点</string>
+    <string name="align_face_error_tips">图像校准失败</string>
+    <string name="not_real_face">非真人 人脸图</string>
+    <string name="add_a_face_image">录入人脸照片</string>
+
+    <!--1:N 人脸搜索 face search-->
+    <string name="no_matched_face">无匹配人脸</string>
+    <string name="face_dir_empty">人脸库为空</string>
+
+    <!--1:1 人脸识别 face verify-->
+    <string name="face_verify_failed">1:1 人脸识别不通过，与底片不符！</string>
+    <string name="silent_anti_spoofing_error">静默活体得分过低</string>
+
+    <!--Motion liveness detection-->
+    <string name="motion_liveness_detection_failed">动作活体检测失败了 </string>
+    <string name="keep_face_visible">正对屏幕，识别中..</string>
+    <string name="repeat_open_close_mouse">请重复张嘴，闭嘴</string>
+    <string name="motion_smile">请微笑 </string>
+    <string name="motion_blink_eye">请眨眨眼 </string>
+    <string name="motion_shake_head">请左右摇头</string>
+    <string name="motion_node_head">请上下点头 </string>
+    <string name="motion_liveness_detection_time_out">活体检测超时了 </string>
+    <string name="no_face_or_repeat_switch_screen">多次切换画面或无人脸 </string>
+    <string name="stop_verify_tips">停止识别,识别过程请保持人脸在画面中 </string>
+
+    <!--Navi activity-->
+    <string name="face_verify_1vs1">1:1人脸识别 </string>
+    <string name="add_face_image">人脸底图录入</string>
+    <string name="only_motion_liveness_detection">仅人脸活体检测</string>
+    <string name="face_search_navi">1:N &amp; M:N人脸搜索识别 </string>
+    <string name="switch_camera">切换前后摄像头 </string>
+    <string name="about_us">- 关于我们 -</string>
+
+    <!--1:N and M:N face search-->
+    <string name="face_image_manger">人脸库管理</string>
+    <string name="face_search_1fromN">1:N 人脸搜索</string>
+    <string name="face_search_MfromN">M:N 人脸搜索</string>
+
+
+</resources>

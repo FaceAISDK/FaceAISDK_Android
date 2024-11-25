@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">FaceAI Demo</string>
+    <string name="sdk_init">SDK Init</string>
+    <string name="no_mask_please">No mask</string>
+    <string name="face_verifying">Face verifying</string>
+    <string name="confirm">Done</string>
+    <string name="retry">Retry</string>
+    <string name="long_press_copy_msg">Tips: Long press to copy msg</string>
+
+    <!--添加人脸 add face image-->
+    <string name="keep_face_tips">Face the camera and keep your face visible</string>
+    <string name="no_tilt_head_tips">Do not tile head</string>
+    <string name="head_turn_left_tips">Dead turn left too more</string>
+    <string name="head_turn_right_tips">Dead turn right too more</string>
+    <string name="no_look_up_tips">Do not look up</string>
+    <string name="no_look_down_tips">Do not look down</string>
+    <string name="no_face_detected_tips">No face detected</string>
+    <string name="multiple_faces_tips">Multiple faces</string>
+    <string name="come_closer_tips">Please come closer</string>
+    <string name="far_away_tips">Please far away screen</string>
+    <string name="align_face_error_tips">Align face error</string>
+    <string name="not_real_face">Not real human face</string>
+    <string name="add_a_face_image">Add a face image </string>
+
+    <!--1:N 人脸搜索 face search-->
+    <string name="no_matched_face">No matched face</string>
+    <string name="face_dir_empty">Face dir empty</string>
+
+    <!--1:1 人脸识别 face verify-->
+    <string name="face_verify_failed">Face verify failed！</string>
+    <string name="silent_anti_spoofing_error">Silent anti spoofing error</string>
+
+    <!--Motion liveness detection-->
+    <string name="motion_liveness_detection_failed">Motion liveness detection failed</string>
+    <string name="keep_face_visible">Face the camera,verifying..</string>
+    <string name="repeat_open_close_mouse">Repeat open close mouse</string>
+    <string name="motion_smile">Please smile </string>
+    <string name="motion_blink_eye">Please blink eye</string>
+    <string name="motion_shake_head">Please shake head</string>
+    <string name="motion_node_head">Please node head </string>
+    <string name="motion_liveness_detection_time_out">Motion liveness detection time out </string>
+    <string name="no_face_or_repeat_switch_screen">No face or repeat switch screen </string>
+    <string name="stop_verify_tips">Stop verify,keep your face visible </string>
+
+    <!--Navi activity-->
+    <string name="face_verify_1vs1">1:1 Face Verify </string>
+    <string name="add_face_image">Add face Image</string>
+    <string name="only_motion_liveness_detection">Only motion liveness detection</string>
+    <string name="face_search_navi">1:N &amp; M:N  Face Search </string>
+    <string name="switch_camera">Switch front,back/USB camera </string>
+    <string name="about_us">- About us - </string>
+
+    <!--1:N and M:N face search-->
+    <string name="face_image_manger">Face images manger</string>
+    <string name="face_search_1fromN">1:N face search</string>
+    <string name="face_search_MfromN">M:N face search</string>
+
+</resources>

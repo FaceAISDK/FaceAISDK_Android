@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/face_lib_main_color"
+    tools:context="com.ai.face.search.SearchNaviActivity">
+
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:padding="9dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginStart="15dp"
+        android:src="@drawable/ic_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!-- A CardView that contains a TextView -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/face_search_1n"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginTop="19dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/face_search_mn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/back">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg"
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/face_verify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="end"
+                android:paddingEnd="5dp"
+                android:text="@string/face_search_1fromN"
+                android:padding="2dp"
+                android:background="@color/half_grey"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <!-- A CardView that contains a TextView -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/face_search_mn"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        app:cardCornerRadius="4dp"
+        android:layout_marginRight="29dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="19dp"
+        app:cardBackgroundColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/face_search_1n"
+        app:layout_constraintTop_toBottomOf="@+id/back">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/change_base_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentBottom="true"
+                android:gravity="end"
+                android:paddingEnd="5dp"
+                android:text="@string/face_search_MfromN"
+                android:textColor="@color/green"
+                android:background="@color/half_grey"
+                android:textSize="16sp"
+                android:padding="2dp"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/copyFaceImages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="导入200张测试人脸图"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+    <TextView
+        android:id="@+id/editFaceImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:gravity="center"
+        android:textColor="#2DCC18"
+        android:layout_marginLeft="29dp"
+        android:layout_marginRight="29dp"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintTop_toBottomOf="@+id/face_search_mn"
+        android:text="@string/face_image_manger" />
+
+
+    <TextView
+        android:id="@+id/addFaceImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:gravity="center"
+        android:layout_marginLeft="29dp"
+        android:layout_marginRight="29dp"
+        android:textColor="#2DCC18"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/editFaceImage"
+        android:text="@string/add_a_face_image" />
+
+    <TextView
+        android:id="@+id/change_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:padding="6dp"
+        android:visibility="visible"
+        android:layout_marginTop="60dp"
+        app:layout_constraintTop_toBottomOf="@+id/addFaceImage"
+        android:text="@string/switch_camera" />
+
+
+    <TextView
+        android:id="@+id/m_n_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:padding="7dp"
+        android:text="About 1:N,M:N, 1:1 说明"
+        android:textColor="@android:color/white"
+        android:textSize="11sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

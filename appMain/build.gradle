@@ -1,0 +1,45 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.example.mainapp'
+    compileSdk 33
+
+    defaultConfig {
+        //应用包名
+        applicationId "com.ai.face.verifyPub"
+
+        minSdk 21
+        targetSdk 33
+        versionCode 20
+        versionName "1.8.60"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+
+dependencies {
+    implementation project(':faceAILib')
+
+    // Demo 为了收集 Crash
+    implementation 'com.tencent.bugly:crashreport:4.1.9.3'
+
+    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+}
+
