@@ -138,7 +138,8 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .setLivenessType(LivenessType.SILENT_MOTION)  //活体检测可以有静默活体，动作活体或者组合也可以不需要活体NONE
                 .setLivenessDetectionMode(LivenessDetectionMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.99]
-                .setMotionLivenessStepSize(2)         //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
+                .setMotionLivenessStepSize(2)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
+//                .setExceptMotionLivelessType(oneOfLive) //不要微笑 摇头 眨眼某个动作活体类型
                 .setVerifyTimeOut(15)                 //活体检测支持设置超时时间 [9,22] 秒
                 .setGraphicOverlay(faceTipsOverlay)   //正式环境请去除设置
                 .setProcessCallBack(new ProcessCallBack() {
