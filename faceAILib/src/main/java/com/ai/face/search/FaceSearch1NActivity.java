@@ -125,7 +125,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
             //可以加个红外检测之类的，有人靠近再启动人脸搜索检索服务，不然机器性能下降机器老化快
             if (!isDestroyed() && !isFinishing()) {
                 //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像
-//                FaceSearchEngine.Companion.getInstance().runSearch(imageProxy, 0);
+                FaceSearchEngine.Companion.getInstance().runSearch(imageProxy, 0);
             }
         });
 
@@ -134,8 +134,8 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         //其他方式搜索，把数据转为Bitmap 去搜索。延时1秒是为了让引擎初始化完毕
         new Handler().postDelayed(() -> {
             //5.静态人脸图搜索(对应的),延迟1秒是为了防止引擎初始化没有完成
-            Bitmap searchBmp= VerifyUtils.getBitmapFromAssert(FaceSearch1NActivity.this, "v3_0835054.jpg");
-            FaceSearchEngine.Companion.getInstance().runSearch(searchBmp);
+//            Bitmap searchBmp= VerifyUtils.getBitmapFromAssert(FaceSearch1NActivity.this, "v3_0835054.jpg");
+//            FaceSearchEngine.Companion.getInstance().runSearch(searchBmp);
         },1000);
 
 

@@ -26,10 +26,11 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        findViewById(R.id.goFaceAILib).setOnClickListener(view -> startActivity(new Intent(WelcomeActivity.this, FaceAINaviActivity.class)));
+        findViewById(R.id.goFaceAILib).setOnClickListener(view ->
+                startActivity(new Intent(WelcomeActivity.this, FaceAINaviActivity.class)));
 
         LottieAnimationView startFaceAILib= findViewById(R.id.goFaceAILib);
-        startFaceAILib.setAnimation(R.raw.loading);
+        startFaceAILib.setAnimation(com.ai.face.R.raw.loading);
         startFaceAILib.loop(false);
         startFaceAILib.setSpeed(4f);
         startFaceAILib.playAnimation();
@@ -48,7 +49,6 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onAnimationRepeat(@NonNull Animator animation) {}
         });
-
 
 
         //Crash 收集，仅仅是Demo 需要。这不是SDK 的一部分
