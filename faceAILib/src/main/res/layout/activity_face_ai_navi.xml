@@ -13,7 +13,7 @@
         android:id="@+id/face_verify_card"
         android:layout_width="0dp"
         android:layout_height="80dp"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="5dp"
         android:layout_marginLeft="29dp"
         android:layout_marginRight="11dp"
         app:cardBackgroundColor="@color/white"
@@ -54,7 +54,7 @@
         android:id="@+id/update_base_image"
         android:layout_width="0dp"
         android:layout_height="80dp"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="5dp"
         android:layout_marginRight="29dp"
         android:layout_marginLeft="11dp"
         app:cardBackgroundColor="@color/white"
@@ -91,12 +91,10 @@
     </androidx.cardview.widget.CardView>
 
 
-
-
     <TextView
         android:id="@+id/face_search_1_n"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="50dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/bg_btn"
         android:gravity="center"

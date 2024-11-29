@@ -30,7 +30,7 @@
         android:layout_marginEnd="11dp"
         android:layout_marginTop="19dp"
         app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="5dp"
         app:layout_constraintEnd_toStartOf="@+id/face_search_mn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/back">
@@ -66,7 +66,7 @@
         android:id="@+id/face_search_mn"
         android:layout_width="0dp"
         android:layout_height="80dp"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="5dp"
         android:layout_marginRight="29dp"
         android:layout_marginLeft="11dp"
         android:layout_marginTop="19dp"

@@ -11,7 +11,7 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
 ![设备端离线机器学习优点](images/whyOfflineSDK.png)
 
-## 当前版本说明 V1.8.60 (建议升级到最新版本)
+## 当前版本说明 V1.8.62 (建议升级到最新版本)
 - 解决动作活体重构后出现不能识别通过问题
 - 解决试用版本SDK集成闪退问题 ！！！
 - 加快1:N 人脸搜索速度，性能优化
@@ -62,10 +62,10 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
     更多使用说明下载参考本Repo和下载Demo体验，里面有比较详尽的使用方法， 熟悉后大概2小时可集成完毕 
 
    其中
-    * appMain 主工程，faceAILib 是人脸识别相关源码
-    * /FaceAI/NaviActivity  Demo 演示导航页面
-    * /verify/*  1:1 人脸检测识别，活体检测页面
-    * /search/*  1:N 和 M：N 人脸识别搜索页面，人脸库管理
+    * appMain     主工程，faceAILib 是人脸识别相关源码
+    * faceAILib   人脸识别Lib module模块
+    * /verify/*   1:1 人脸检测识别，活体检测页面
+    * /search/*   1:N 和 M：N 人脸识别搜索页面，人脸库管理
     * /addFaceImage 识别和搜索共用的添加人脸照片
 
 ## Demo 下载体验

@@ -42,7 +42,6 @@ import org.jetbrains.annotations.NotNull;
  * 4.人脸照片要求300*300 以上 裁剪好的仅含人脸的正方形照片，背景纯色
  */
 public class FaceVerificationActivity extends AppCompatActivity {
-    //intent KEY
     public static final String USER_FACE_ID_KEY = "USER_FACE_ID_KEY"; //1:1 face verify ID KEY
     public static final String BASE_FACE_DIR_KEY = "BASE_FACE_DIR_KEY";    //1:1 face verify dir KEY
 
@@ -140,7 +139,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.99]
                 .setMotionLivenessStepSize(2)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
 //                .setExceptMotionLivelessType(oneOfLive) //不要微笑 摇头 眨眼某个动作活体类型
-                .setVerifyTimeOut(15)                 //活体检测支持设置超时时间 [9,22] 秒
+                .setVerifyTimeOut(16)                 //活体检测支持设置超时时间 [9,22] 秒
                 .setGraphicOverlay(faceTipsOverlay)   //正式环境请去除设置
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
@@ -234,8 +233,6 @@ public class FaceVerificationActivity extends AppCompatActivity {
         if (!isDestroyed() && !isFinishing()) {
             runOnUiThread(() -> {
                 switch (actionCode) {
-
-                    //5次相比阈值太低就判断为非同一人
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:
                         tipsTextView.setText(R.string.face_verifying);
                         break;
@@ -243,7 +240,6 @@ public class FaceVerificationActivity extends AppCompatActivity {
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
                         tipsTextView.setText(R.string.no_face_detected_tips);
                         break;
-
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:
                         tipsTextView.setText(R.string.motion_liveness_detection_failed);
@@ -345,7 +341,6 @@ public class FaceVerificationActivity extends AppCompatActivity {
         super.onPause();
         faceVerifyUtils.pauseProcess();
     }
-
 
 }
 
