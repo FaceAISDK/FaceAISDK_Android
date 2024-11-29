@@ -22,6 +22,7 @@ import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
+import com.ai.face.faceVerify.verify.VerifyUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -131,14 +132,12 @@ public class FaceSearch1NActivity extends AppCompatActivity {
 
 
         //其他方式搜索，把数据转为Bitmap 去搜索。延时1秒是为了让引擎初始化完毕
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //5.静态人脸图搜索(对应的),延迟1秒是为了防止引擎初始化没有完成
-                Bitmap searchBmp= VerifyUtils.getBitmapFromAssert(FaceSearch1NActivity.this, "v3_0835054.jpg");
-                FaceSearchEngine.Companion.getInstance().runSearch(searchBmp);
-            }
+        new Handler().postDelayed(() -> {
+            //5.静态人脸图搜索(对应的),延迟1秒是为了防止引擎初始化没有完成
+            Bitmap searchBmp= VerifyUtils.getBitmapFromAssert(FaceSearch1NActivity.this, "v3_0835054.jpg");
+            FaceSearchEngine.Companion.getInstance().runSearch(searchBmp);
         },1000);
+
 
     }
 
@@ -163,7 +162,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 break;
 
             case THRESHOLD_ERROR:
-                binding.searchTips.setText(R.string.threshold_scope_tips);
+                binding.searchTips.setText(R.string.search_threshold_scope_tips);
                 break;
 
             case MASK_DETECTION:

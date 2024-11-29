@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FaceAI Demo</string>
+<!--    <string name="app_name">FaceAI Demo</string>-->
     <string name="sdk_init">SDK Init</string>
     <string name="no_mask_please">No mask</string>
     <string name="face_verifying">Face verifying</string>
@@ -54,5 +54,6 @@
     <string name="face_image_manger">Face images manger</string>
     <string name="face_search_1fromN">1:N face search</string>
     <string name="face_search_MfromN">M:N face search</string>
+    <string name="search_threshold_scope_tips">Threshold should in [0.85,0.95]</string>
 
 </resources>
