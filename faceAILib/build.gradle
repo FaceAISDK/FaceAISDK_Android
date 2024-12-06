@@ -56,7 +56,7 @@ configurations.configureEach {
 dependencies {
     // 人脸识别 试用版本请升级到1.8.60 以上版本。https://github.com/AnyLifeZLB/FaceVerificationSDK
     // JDK==11+，更多查看主页Readme 或者发送邮件到anylife.zlb@gmail.com
-    implementation 'io.github.anylifezlb:FaceRecognition:1.8.62'
+    implementation 'io.github.anylifezlb:FaceRecognition:1.8.63'
 
 
 
