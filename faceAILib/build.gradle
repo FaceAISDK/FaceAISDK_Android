@@ -13,21 +13,7 @@ android {
         targetSdk 33
         versionCode 20
         versionName "1.8.56"
-    }
-    buildTypes {
-        release {
-            debuggable false
-            minifyEnabled true
-            zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-        //Debug 包可以体验所有的功能，不用授权
-        debug {
-            debuggable true
-            minifyEnabled true
-            zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
@@ -68,11 +54,10 @@ configurations.configureEach {
 
 // GitHub 无法访问，挂梯子也无效 ？参考 https://github.com/maxiaof/github-hosts
 dependencies {
+    // 人脸识别 试用版本请升级到1.8.60 以上版本。https://github.com/AnyLifeZLB/FaceVerificationSDK
+    // JDK==11+，更多查看主页Readme 或者发送邮件到anylife.zlb@gmail.com
+    implementation 'io.github.anylifezlb:FaceRecognition:1.8.63'
 
-
-    // 人脸识别 试用版本请升级到1.8.50 以上版本。https://github.com/AnyLifeZLB/FaceVerificationSDK
-    // JDK==11，更多查看主页Readme 或者发送邮件到anylife.zlb@gmail.com
-    implementation 'io.github.anylifezlb:FaceRecognition:1.8.60.faceAI'
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖

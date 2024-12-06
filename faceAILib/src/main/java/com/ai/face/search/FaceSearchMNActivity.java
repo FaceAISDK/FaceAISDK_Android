@@ -138,7 +138,7 @@ public class FaceSearchMNActivity extends AppCompatActivity {
                 break;
 
             case THRESHOLD_ERROR:
-                binding.searchTips.setText(R.string.threshold_scope_tips);
+                binding.searchTips.setText(R.string.search_threshold_scope_tips);
                 break;
 
             case MASK_DETECTION:
