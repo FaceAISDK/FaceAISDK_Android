@@ -13,8 +13,8 @@ public class FaceAIConfig {
     public static String CACHE_SEARCH_FACE_DIR; //1：N 人脸识别人脸图片存储目录
 
     public static  void init(Context context) {
-        //初始化人脸识别 人脸搜索存储目录，放哪里根据你的业务定
-        //注意可能需要存储权限,Demo 为了简化演示配置的目录不要申请存储权限
+        //初始化人脸识别 人脸搜索存储目录，VIP 用户支持自定义存储目录
+        //内部私有空间，其他应用不可以访问，卸载应用人脸图一起卸载了 https://developer.android.com/training/data-storage?hl=zh-cn
         CACHE_BASE_FACE_DIR = context.getCacheDir().getPath() + "/faceVerify/";    //1:1 人脸识别目录
         CACHE_SEARCH_FACE_DIR = context.getFilesDir().getPath() + "/faceSearch/";  //人脸搜索人脸库目录，自行决定放在哪里
     }

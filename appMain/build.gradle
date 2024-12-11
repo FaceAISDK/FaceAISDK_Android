@@ -13,9 +13,15 @@ android {
         minSdk 21
         targetSdk 33
         versionCode 20
-        versionName "1.8.60"
+        versionName "1.8.66"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a','x86_64'
+        }
+
     }
 
     buildTypes {

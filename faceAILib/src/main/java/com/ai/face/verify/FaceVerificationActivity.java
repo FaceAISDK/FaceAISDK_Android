@@ -95,7 +95,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
         } else {
             //人脸图的裁剪和保存最好提前完成，如果不是本SDK 录入的人脸可能人脸不标准
             //这里可能从网络等地方获取，业务方自行决定，为了方便模拟我们放在Assert 目录
-            Bitmap remoteBitmap = VerifyUtils.getBitmapFromAssert(this, "yourFace.pngtest");
+            Bitmap remoteBitmap = VerifyUtils.getBitmapFromAssert(this, "XXyourFace.pngtest");
             if (remoteBitmap == null) {
                 Toast.makeText(getBaseContext(), R.string.add_a_face_image, Toast.LENGTH_LONG).show();
                 tipsTextView.setText(R.string.add_a_face_image);
@@ -165,6 +165,16 @@ public class FaceVerificationActivity extends AppCompatActivity {
                     public void onTimeCountDown(float percent) {
                         faceCoverView.startCountDown(percent);
                     }
+
+                    /**
+                     * 发送严重错误，会中断业务流程
+                     *
+                     */
+                    @Override
+                    public void onFailed(int code,String message) {
+                        Toast.makeText(getBaseContext(),"onFailed错误："+message,Toast.LENGTH_LONG).show();
+                    }
+
                 }).create();
 
 
@@ -296,10 +306,15 @@ public class FaceVerificationActivity extends AppCompatActivity {
 
                     case VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
                         tipsTextView.setText(R.string.no_face_or_repeat_switch_screen);
+
+                        //处理方式可以参考超时Timeout
                         new AlertDialog.Builder(this)
                                 .setMessage(R.string.stop_verify_tips)
                                 .setCancelable(false)
-                                .setPositiveButton(R.string.confirm, (dialogInterface, i) -> finish())
+                                .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
+                                    //finish();  //是finish 还是retryVerify根据你的业务自己定
+                                    faceVerifyUtils.retryVerify();
+                                })
                                 .show();
 
                         break;
@@ -310,10 +325,12 @@ public class FaceVerificationActivity extends AppCompatActivity {
                         secondTipsTextView.setText(R.string.far_away_tips);
                         break;
 
+                    //人脸太小了，靠近一点摄像头
                     case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL:
                         secondTipsTextView.setText(R.string.come_closer_tips);
                         break;
 
+                    //检测到正常的人脸，尺寸大小OK
                     case VERIFY_DETECT_TIPS_ENUM.FACE_SIZE_FIT:
                         secondTipsTextView.setText("");
                         break;
