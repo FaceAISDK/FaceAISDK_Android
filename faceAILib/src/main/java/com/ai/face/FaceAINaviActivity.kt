@@ -5,18 +5,21 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR
 import com.ai.face.addFaceImage.AddFaceImageActivity
 import com.ai.face.databinding.ActivityFaceAiNaviBinding
 import com.ai.face.search.SearchNaviActivity
+import com.ai.face.utils.SystemUtil
 import com.ai.face.utils.VoicePlayer
 import com.ai.face.verify.FaceVerificationActivity
 import com.ai.face.verify.FaceVerificationActivity.BASE_FACE_DIR_KEY
 import com.ai.face.verify.FaceVerificationActivity.USER_FACE_ID_KEY
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
+
 
 /**
  * SDK 接入演示Demo，请先熟悉本Demo跑通住流程后再集成到你的主工程验证业务
@@ -38,9 +41,7 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
         //语音提示
         VoicePlayer.getInstance().init(this)
 
-
-
-        //测试两张静态人脸图是否同一人
+        //测试两张静态人脸图是否同一人，静态图对比的时候要先识别裁剪出图片中的人脸
 //        val value = VerifyUtils.evaluateFaceSimi(
 //            baseContext,
 //            VerifyUtils.getBitmapFromAssert(baseContext, "model_1.png"),
@@ -117,6 +118,8 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
             }
         }
 
+        showSystemParameter()
+
     }
 
 
@@ -159,6 +162,14 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
      */
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         Toast.makeText(this, "Please Oauth Permission,请授权才能正常演示", Toast.LENGTH_SHORT).show()
+    }
+
+
+    private fun showSystemParameter() {
+        val TAG = "系统参数："
+        Log.e(TAG, "手机厂商：" + SystemUtil.getDeviceBrand())
+        Log.e(TAG, "手机型号：" + SystemUtil.getSystemModel())
+        Log.e(TAG, "Android系统版本号：" + SystemUtil.getSystemVersion())
     }
 
 }
