@@ -2,7 +2,8 @@
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 20% height = 20% />
 </div>
 
-## 已经解决试用版集成闪退问题！！  
+## 已解决试用版集成闪退问题！！   
+
 
 # [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
@@ -103,6 +104,7 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
 ## 快速接入
    Demo 以main主工程 --> faceAiLib 的方式演示，熟悉本SDK 接入Demo 后可以先Copy faceAiLib到你主工程先跑起来
-   再根据业务情况修改完善。熟悉后大约2小时就能集成成功，丰富产品功能同时可大大降低公司研发投入实现降本增效。
+   再根据业务情况修改完善。  
+   熟悉后大约2小时就能集成成功，丰富产品功能同时可大大降低公司研发投入实现降本增效。
 
 

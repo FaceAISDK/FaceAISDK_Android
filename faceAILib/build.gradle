@@ -12,7 +12,7 @@ android {
         minSdk 21
         targetSdk 33
         versionCode 20
-        versionName "1.8.56"
+        versionName "1.8.60"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -27,7 +27,7 @@ android {
     android {
         defaultConfig {
             ndk {
-                abiFilters 'armeabi-v7a', 'arm64-v8a'
+                abiFilters 'armeabi-v7a', 'arm64-v8a','x86_64'
             }
         }
     }
@@ -35,12 +35,13 @@ android {
     buildFeatures {
         viewBinding true
     }
+
 }
 
 //根据Compile SDK 不同，各自项目依赖体系不一样
 //主工程和SDK 中的依赖有冲突需要统一依赖,可以参考下面方式处理
 //比如TargetSDK 还是28的camera_version降低到 1.2.3（最后支持TargetSDK 28）
-
+//更多错误请自行Google，百度搜索解决方法，集成问题不是SDK内部原因，谢谢
 def camera_version = "1.4.0" //建议新工程升级到最新版本1.4.0 以上
 configurations.configureEach {
     resolutionStrategy {

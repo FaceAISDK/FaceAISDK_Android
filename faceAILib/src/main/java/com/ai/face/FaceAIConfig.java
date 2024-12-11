@@ -14,9 +14,12 @@ public class FaceAIConfig {
 
     public static  void init(Context context) {
         //初始化人脸识别 人脸搜索存储目录，VIP 用户支持自定义存储目录
-        //内部私有空间，其他应用不可以访问，卸载应用人脸图一起卸载了 https://developer.android.com/training/data-storage?hl=zh-cn
+        //内部私有空间，其他应用不可以访问，卸载应用人脸图一起卸载了
+        // https://developer.android.com/training/data-storage?hl=zh-cn
+        // Warming: 目前仅能存储在context.getCacheDir() 或者context.getFilesDir()
+        // 否则会提示无法找到人脸，VIP 可解除限制
         CACHE_BASE_FACE_DIR = context.getCacheDir().getPath() + "/faceVerify/";    //1:1 人脸识别目录
-        CACHE_SEARCH_FACE_DIR = context.getFilesDir().getPath() + "/faceSearch/";  //人脸搜索人脸库目录，自行决定放在哪里
+        CACHE_SEARCH_FACE_DIR = context.getFilesDir().getPath() + "/faceSearch/";  //人脸搜索人脸库目录
     }
 
 

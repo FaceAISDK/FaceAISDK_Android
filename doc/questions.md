@@ -49,9 +49,11 @@ anylife.zlb@gmail.com。
    
 
 ### 10.调整Target SDK 后依赖冲突怎么处理？或者外部依赖的版本需要强制为某个版本怎么处理
-   如App 目录下的代码处理
-   `
-   //依赖有冲突需要统一依赖,可以参考下面方式处理,其他依赖类似处理就行
+   根据Compile SDK 不同，各自项目依赖体系不一样
+   主工程和SDK 中的依赖有冲突需要统一依赖,可以参考下面方式处理
+   比如TargetSDK 还是28的camera_version降低到 1.2.3（最后支持TargetSDK 28）
+   更多错误请自行Google，百度搜索解决方法，集成问题不是SDK内部原因，谢谢
+   ```
    def camera_version = "1.2.3"
    configurations.configureEach {
    resolutionStrategy {
@@ -61,15 +63,16 @@ anylife.zlb@gmail.com。
    "androidx.camera:camera-view:$camera_version"
    }
    }
-   `
+   ```
    
 ### 11.集成SDK开发环境和Gradle 插件版本是怎样的？
   开发环境 Android Studio Iguana | 2024.2.1
   gradle插件版本 7.4.2  gradle 版本 7.5 
   **java 11**  kotlin 7.2
+  开发者可以自行升高到高版本，完成调整。但是一般不能直接降级，特殊定制请联系
 
 ### 12.是否可以使用在金融，强安全场景
-  SDK没有达到100% 的准确度，不建议使用在金融 强安全等严格要求领域，建议的场景如下：
+  SDK没有达到100% 的准确度，***不建议***使用在金融 军事强安全等严格要求领域，建议的场景如下：
 
   【1:1】 移动考勤真人校验，App免密登录，酒店入驻、刷脸解锁、真人校验
   【1:N】 智能门锁，小区门禁，公司门禁，智慧校园、景区、工地、社区、酒店等
@@ -85,8 +88,8 @@ anylife.zlb@gmail.com。
    如果你要自行管理摄像头接入，画面方向 旋转管理可以参考 https://github.com/AnyLifeZLB/BinocularCameraFaceSearch
 
 
-### 15.uniApp 插件支持
-    暂无，有兴趣打包发布插件者请联系我
+### 15.uniApp 插件市场支持
+    暂无，有兴趣打包发布插件者请联系我。开发人员也可以根据uniApp官方推荐方式自行集成
 
 ### 16.X86，X86_64 位CPU 支持
     考虑到X86 系列Android 设备的市场占有率和SDK 体积问题，暂时没有打包支持，特殊需要请联系

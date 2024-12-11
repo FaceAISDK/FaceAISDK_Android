@@ -22,7 +22,6 @@ import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
-import com.ai.face.faceVerify.verify.VerifyUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -148,7 +147,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
      * @param code
      */
     private void showPrecessTips(int code) {
-        binding.image.setImageResource(R.drawable.logo);
+        binding.image.setImageResource(R.drawable.face_logo);
         switch (code) {
             default:
                 binding.searchTips.setText("Tips Code：" + code);
