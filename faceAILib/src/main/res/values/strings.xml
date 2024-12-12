@@ -47,6 +47,7 @@
     <string name="add_face_image">Add face Image</string>
     <string name="only_motion_liveness_detection">Only motion liveness detection</string>
     <string name="face_search_navi">1:N &amp; M:N  Face Search </string>
+    <string name="two_face_image_verify">two face image 1:1 verify</string>
     <string name="switch_camera">Switch front,back/USB camera </string>
     <string name="about_us">- About us - </string>
 

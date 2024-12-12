@@ -46,6 +46,7 @@
     <string name="add_face_image">人脸底图录入</string>
     <string name="only_motion_liveness_detection">仅人脸活体检测</string>
     <string name="face_search_navi">1:N &amp; M:N人脸搜索识别 </string>
+    <string name="two_face_image_verify">静态人脸图1:1对比 </string>
     <string name="switch_camera">切换前后摄像头 </string>
     <string name="about_us">- 关于我们 -</string>
 

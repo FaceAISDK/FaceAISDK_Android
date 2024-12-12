@@ -17,6 +17,7 @@ import com.ai.face.utils.VoicePlayer
 import com.ai.face.verify.FaceVerificationActivity
 import com.ai.face.verify.FaceVerificationActivity.BASE_FACE_DIR_KEY
 import com.ai.face.verify.FaceVerificationActivity.USER_FACE_ID_KEY
+import com.ai.face.verify.TwoFaceImageVerifyActivity
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 
@@ -40,14 +41,6 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
         FaceAIConfig.init(this)
         //语音提示
         VoicePlayer.getInstance().init(this)
-
-        //测试两张静态人脸图是否同一人，静态图对比的时候要先识别裁剪出图片中的人脸
-//        val value = VerifyUtils.evaluateFaceSimi(
-//            baseContext,
-//            VerifyUtils.getBitmapFromAssert(baseContext, "model_1.png"),
-//            VerifyUtils.getBitmapFromAssert(baseContext, "model.jpg")
-//        )
-//        Log.d("VerifyUtils", "two face similarity value:  $value")
 
 
         viewBinding.faceVerifyCard.setOnLongClickListener {
@@ -93,6 +86,14 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         viewBinding.moreAboutMe.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, AboutFaceAppActivity::class.java))
+        }
+
+
+        //两张人脸图 对比
+        viewBinding.twoFaceVerify.setOnClickListener {
+            startActivity(
+                Intent(this@FaceAINaviActivity, TwoFaceImageVerifyActivity::class.java)
+            )
         }
 
 

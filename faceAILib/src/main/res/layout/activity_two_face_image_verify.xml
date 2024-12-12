@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="11dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".verify.TwoFaceImageVerifyActivity">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:layout_margin="1dp"
+        android:padding="9dp"
+        android:src="@drawable/ic_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        app:layout_constraintStart_toStartOf="@+id/image1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/back"
+        android:text="请点击对应图片区域添加照片"/>
+
+
+    <TextView
+        android:id="@+id/image1"
+        android:layout_width="0dp"
+        android:layout_height="222dp"
+        android:layout_margin="6dp"
+        android:text="  Image 1"
+        android:background="@color/half_grey"
+        app:layout_constraintEnd_toStartOf="@+id/image2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tips" />
+
+
+    <TextView
+        android:id="@+id/image2"
+        android:layout_width="0dp"
+        android:layout_height="222dp"
+        android:layout_margin="6dp"
+        android:text="  Image 2"
+        android:background="@color/half_grey"
+        app:layout_constraintStart_toEndOf="@+id/image1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tips" />
+
+    <TextView
+        android:id="@+id/go_verify"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:background="@color/half_grey"
+        app:layout_constraintStart_toStartOf="@+id/image1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image2"
+        android:text="人脸相似度对比"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

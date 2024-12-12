@@ -24,6 +24,11 @@
             android:exported="false">
         </activity>
 
+        <activity
+            android:name=".verify.TwoFaceImageVerifyActivity"
+            android:configChanges="orientation"
+            android:exported="false">
+        </activity>
 
         <activity
             android:name=".verify.FaceVerificationActivity"

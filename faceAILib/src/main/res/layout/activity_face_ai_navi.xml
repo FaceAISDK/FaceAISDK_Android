@@ -92,6 +92,23 @@
 
 
     <TextView
+        android:id="@+id/two_face_verify"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/bg_btn"
+        android:gravity="center"
+        android:layout_marginLeft="29dp"
+        android:layout_marginRight="29dp"
+        android:visibility="visible"
+        android:text="@string/two_face_image_verify"
+        android:textColor="@color/green"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/face_verify_card" />
+
+    <TextView
         android:id="@+id/face_search_1_n"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -102,11 +119,11 @@
         android:layout_marginRight="29dp"
         android:visibility="visible"
         android:text="@string/face_search_navi"
-        android:textColor="@color/green"
+        android:textColor="@color/red"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/face_verify_card" />
+        app:layout_constraintTop_toBottomOf="@+id/two_face_verify" />
 
 
     <TextView
