@@ -57,7 +57,7 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
 -  2.更新本SDK 接入演示代码到最新，**熟悉后**Copy Demo代码到你的主工程
 -  3.解决SDK 中三分依赖和主工程的冲突，比如CameraX 的版本
--  4.调整JDK版本到java 11 以上。查看Preferences-Build-Gradle-JDK 的版本为 11+
+-  4.调整JDK版本到java 17 以上。查看Preferences-Build-Gradle-JDK 的版本为 17+
 -  5.集成过程中的问题可以GitHub 提issues或者发送邮件 
    
     更多使用说明下载参考本Repo和下载Demo体验，里面有比较详尽的使用方法， 熟悉后大概2小时可集成完毕 

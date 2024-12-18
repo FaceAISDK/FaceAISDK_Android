@@ -19,7 +19,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ai.face.BuildConfig
-import com.ai.face.base.baseImage.AddFaceUtils
+import com.ai.face.base.baseImage.FaceAIUtils
 import com.ai.face.databinding.ActivityTwoFaceImageVerifyBinding
 import com.ai.face.faceVerify.verify.VerifyUtils
 import com.ai.face.utils.fileUtils.MyFileUtils
@@ -169,7 +169,7 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
 
         view.background = BitmapDrawable(resources, bitmap)
 
-        AddFaceUtils.ILil.getInstance(application).checkFaceQuality(bitmap,object : AddFaceUtils.Callback{
+        FaceAIUtils.Companion.getInstance(application).checkFaceQuality(bitmap,object : FaceAIUtils.Callback{
             override fun onSuccess(bitmap: Bitmap) {
                 bitmapMap[view.tag.toString()] = bitmap
             }

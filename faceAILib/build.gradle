@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id("com.google.devtools.ksp").version("1.8.10-1.0.9")
+    id("com.google.devtools.ksp").version("2.0.0-1.0.21")
 }
 
 android {
@@ -12,16 +12,16 @@ android {
         minSdk 21
         targetSdk 33
         versionCode 20
-        versionName "1.8.60"
+        versionName "1.8.66"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
     android {
@@ -57,13 +57,13 @@ configurations.configureEach {
 dependencies {
     // 人脸识别 试用版本请升级到1.8.60 以上版本。https://github.com/AnyLifeZLB/FaceVerificationSDK
     // JDK==11+，更多查看主页Readme 或者发送邮件到anylife.zlb@gmail.com
-    implementation 'io.github.anylifezlb:FaceRecognition:1.8.66'
+    implementation 'io.github.anylifezlb:FaceRecognition:1.8.66.new2'
 
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
 
-    //选照片，使用详情 参考 https://github.com/javakam/FileOperator
+    //选照片，使用详情见 https://github.com/javakam/FileOperator
     implementation 'com.github.javakam:file.core:3.9.8@aar'      //核心库必选(Core library required)
     implementation 'com.github.javakam:file.selector:3.9.8@aar'  //文件选择器(File selector)
     implementation 'com.github.javakam:file.compressor:3.9.8@aar'//图片压缩,修改自Luban(Image compression, based on Luban)

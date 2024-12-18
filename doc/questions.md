@@ -68,7 +68,7 @@ anylife.zlb@gmail.com。
 ### 11.集成SDK开发环境和Gradle 插件版本是怎样的？
   开发环境 Android Studio Iguana | 2024.2.1
   gradle插件版本 7.4.2  gradle 版本 7.5 
-  **java 11**  kotlin 7.2
+  **java 17**  kotlin 7.2
   开发者可以自行升高到高版本，完成调整。但是一般不能直接降级，特殊定制请联系
 
 ### 12.是否可以使用在金融，强安全场景
