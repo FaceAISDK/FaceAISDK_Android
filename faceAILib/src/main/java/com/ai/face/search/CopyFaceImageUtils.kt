@@ -95,6 +95,7 @@ class CopyFaceImageUtils {
                         //本地库保存的路径
                         val fileName=CACHE_SEARCH_FACE_DIR + faceFiles[index]
 
+
                         //insertOrUpdateFaceImage 处理人脸图入库，里面会检测裁剪人脸，图像量化处理；
                         // 插入失败请看onFailed log
                         FaceSearchImagesManger.Companion.getInstance(context).insertOrUpdateFaceImage(

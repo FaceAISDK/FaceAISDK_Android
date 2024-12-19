@@ -81,7 +81,7 @@ anylife.zlb@gmail.com。
 ### 13.能通过File 操作直接把人脸照片放到制定目录就开始人脸搜索吗？
 
     不行，必须要通过SDK 的API进行，因为要提取人脸特征值和建立搜索库索引才能快速搜索
-    如FaceSearchImagesManger.IL1Iii.getInstance().insertOrUpdateFaceImage()
+    如FaceSearchImagesManger.Companion.getInstance().insertOrUpdateFaceImage()
 
 ### 14.自定义摄像头（方向旋转，相机管理等），双目摄像头是否可以使用？
    支持自定义摄像头，可以在子线程持续输入bitmap 实时预览帧作为参数进行SDK 的调用。
@@ -92,4 +92,4 @@ anylife.zlb@gmail.com。
     暂无，有兴趣打包发布插件者请联系我。开发人员也可以根据uniApp官方推荐方式自行集成
 
 ### 16.X86，X86_64 位CPU 支持
-    考虑到X86 系列Android 设备的市场占有率和SDK 体积问题，暂时没有打包支持，特殊需要请联系
+    X86_64已经打包支持；考虑到X86 系列Android 设备的市场占有率和SDK 体积问题，特殊需要请联系

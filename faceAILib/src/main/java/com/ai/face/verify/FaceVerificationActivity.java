@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ai.face.R;
 import com.ai.face.base.baseImage.AddFaceUtils;
+import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.base.view.FaceCoverView;
 import com.ai.face.faceVerify.graphic.FaceTipsOverlay;
@@ -103,8 +104,8 @@ public class FaceVerificationActivity extends AppCompatActivity {
             }
             //人脸照片可能不是规范的正方形，非人脸区域过大甚至无人脸 多个人脸等情况，需要SDK内部裁剪等处理
             //（检测人脸照片质量使用 checkFaceQuality方法，处理类同checkFaceQuality）
-            AddFaceUtils.ILil.getInstance(getApplication())
-                    .disposeBaseFaceImage(remoteBitmap, yourFacePath, new AddFaceUtils.Callback() {
+            FaceAIUtils.Companion.getInstance(getApplication())
+                    .disposeBaseFaceImage(remoteBitmap, yourFacePath, new FaceAIUtils.Callback() {
                         //从图片中裁剪识别人脸成功
                         @Override
                         public void onSuccess(@NonNull Bitmap cropedBitmap) {

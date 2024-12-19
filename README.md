@@ -12,7 +12,7 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
 
 ![设备端离线机器学习优点](images/whyOfflineSDK.png)
 
-## 当前版本说明 V1.8.65 (建议升级到最新版本)
+## 当前版本说明 V1.8.70 (建议升级到最新版本)
 - 支持X86_64 Chrome OS
 - 解决动作活体重构后出现不能识别通过问题
 - 加快1:N 人脸搜索速度，性能优化

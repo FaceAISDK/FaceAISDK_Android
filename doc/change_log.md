@@ -1,10 +1,15 @@
-# V1.8.0
-- 内测中...
 
+# V1.8.70
+- java version 从 11升级到17
+- kotlin version 升级到 2.0.0
+- 升级 com.google.devtools.ksp 到 2.0.0-1.0.21
+- FaceSearchImagesManger.IL1Iii.getInstance 调用方式改为 FaceSearchImagesManger.Companion.getInstance
+- AddFaceUtils.ILil.getInstance 调用方式改为 FaceAIUtils.Companion.getInstance
+
+# V1.8.60
+- 支持X86_64 Chrome OS
 - 解决动作活体重构后出现不能识别通过问题
-- 解决试用版本SDK集成闪退问题 ！！！
-- 添加照片质量检测接口
-- 优化1:1 人脸识别体验问题
+- 提升活体检测体验友善度
 
 # V1.8.50
 - 修复试用版本闪退问题

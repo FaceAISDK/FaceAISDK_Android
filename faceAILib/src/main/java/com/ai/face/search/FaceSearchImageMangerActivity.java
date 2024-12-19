@@ -70,7 +70,7 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
         faceImageListAdapter.setOnItemLongClickListener((adapter, view, i) -> {
             new AlertDialog.Builder(this).setTitle("确定要删除" + new File(faceImageList.get(i)).getName()).setMessage("删除后对应的人将无法被程序识别").setPositiveButton("确定", (dialog, which) -> {
                 //删除一张照片
-                FaceSearchImagesManger.IL1Iii.getInstance(getApplication()).deleteFaceImage(faceImageList.get(i));
+                FaceSearchImagesManger.Companion.getInstance(getApplication()).deleteFaceImage(faceImageList.get(i));
 
                 loadImageList();
                 faceImageListAdapter.notifyDataSetChanged();
@@ -99,7 +99,6 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
             String faceName = data.getStringExtra("picture_name") + ".jpg";
             Bitmap bitmap = BitmapFactory.decodeByteArray(bis, 0, bis.length);
 
-
             String filePathName = CACHE_SEARCH_FACE_DIR + faceName;
 
             /*
@@ -110,7 +109,7 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
              *  4.人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
              *
              */
-            FaceSearchImagesManger.IL1Iii.getInstance(getApplication()).insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
+            FaceSearchImagesManger.Companion.getInstance(getApplication()).insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
                 @Override
                 public void onSuccess() {
                     loadImageList();

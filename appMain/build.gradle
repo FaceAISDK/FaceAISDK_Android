@@ -13,7 +13,7 @@ android {
         minSdk 21
         targetSdk 33
         versionCode 20
-        versionName "1.8.66"
+        versionName "1.8.67"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -36,16 +36,15 @@ android {
     buildTypes {
         debug {
             minifyEnabled true
-            zipAlignEnabled true
             shrinkResources true
             signingConfig signingConfigs.release
         }
 
         release {
             minifyEnabled true
-            zipAlignEnabled true
             shrinkResources true
             signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
     }

@@ -67,7 +67,7 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
 
         viewBinding.goVerify.setOnClickListener {
             // 不能两张图直接比较，要先经过 checkFaceQuality 检测裁剪图片中的人脸
-            // AddFaceUtils.ILil.getInstance(application).checkFaceQuality(
+            // FaceAIUtils.Companion.getInstance(application).checkFaceQuality(
            val simi=VerifyUtils.evaluateFaceSimi(
                 baseContext,
                 bitmapMap[viewBinding.image1.tag],
