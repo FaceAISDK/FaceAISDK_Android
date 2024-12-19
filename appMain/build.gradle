@@ -11,9 +11,9 @@ android {
         applicationId "com.ai.face.verifyPub"
 
         minSdk 21
-        targetSdk 33
+        targetSdk 33  //target SDK 还是28 的请参考question.md 文档说明
         versionCode 20
-        versionName "1.8.67"
+        versionName "1.8.70"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

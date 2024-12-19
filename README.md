@@ -2,13 +2,20 @@
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 20% height = 20% />
 </div>
 
-## 已解决试用版集成闪退问题！！   
+## 已解决试用版集成闪退问题！欢迎集成使用   
+## 
 
 
 # [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
-On_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK 
-设备端离线 Android人脸质量检测、人脸识别、活体检测反作弊以及1:N / M:N人脸搜索 SDK。 
+On_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK  
+
+设备端可离线不联网 Android 人脸识别、活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可极简快速的集成调用。  
+
+<div align=center>
+<img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 22% height = 22% />
+</div>
+
 
 ![设备端离线机器学习优点](images/whyOfflineSDK.png)
 
@@ -22,7 +29,7 @@ On_device Offline Android Face Detection 、Recognition 、Liveness Detection An
  建议[Fork] + [Star] 以便获取最新更新 #  [FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
 
  **SDK 接入代码仓库，及时更新使用最新版** https://github.com/AnyLifeZLB/FaceVerificationSDK  
- 国内代码托管地址(不方便翻墙请邮件联系获取最新代码) https://gitee.com/onDeviceAI/FaceVerificationSDK
+ 国内代码托管地址Gitee:https://gitee.com/onDeviceAI/FaceVerificationSDK (不方便翻墙请邮件联系获取最新代码)
 
 
 
@@ -35,17 +42,17 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N
 SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率720p以上，帧率大于30并且无拖影。
 
 实验室测试效果能覆盖95% 的中高低端机器，识别成功率>99%；**特殊DIY系统或特殊定制硬件，外接USB摄像头等**如有问题请先提Issues附带系统版本、设备型号、错误log等信息；
-或发邮件到anylife.zlb@gmail.com ，VIP用户添加 微信：HaoNan19990322 / WhatsApp: +8618707611416
+或发邮件到 anylife.zlb@gmail.com ，VIP用户添加 微信：HaoNan19990322 / WhatsApp: +8618707611416
 
 
 
-## [使用场景和区别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Face_1:1_1:N_M:N.md)
+## [使用场景和区别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/Introduce_11_1N_MN.md)
 
    【1:1】 移动考勤真人校验、App免密登录、刷脸支付、刷脸解锁、真人校验
 
    【1:N】 小区门禁、公司门禁、智能门锁、智慧校园、景区、工地、社区、酒店等
 
-   【M:N】 公安布控，人群追踪 监控等等 (测试效果可使用 MN_face_search_test.jpg 模拟)
+   【M:N】 公安布控、人群追踪 监控等等 (测试效果可使用 MN_face_search_test.jpg 模拟)
 
 
 ## 接入使用
@@ -57,16 +64,16 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
 -  2.更新本SDK 接入演示代码到最新，**熟悉后**Copy Demo代码到你的主工程
 -  3.解决SDK 中三分依赖和主工程的冲突，比如CameraX 的版本
--  4.调整JDK版本到java 17 以上。查看Preferences-Build-Gradle-JDK 的版本为 17+
+-  4.调整JDK版本到java 17 以上。Android Studio设置Preferences-Build-Gradle-JDK的版本为 17+
 -  5.集成过程中的问题可以GitHub 提issues或者发送邮件 
    
     更多使用说明下载参考本Repo和下载Demo体验，里面有比较详尽的使用方法， 熟悉后大概2小时可集成完毕 
 
    其中
-    * appMain     主工程，faceAILib 是人脸识别相关源码
-    * faceAILib   人脸识别Lib module模块
-    * /verify/*   1:1 人脸检测识别，活体检测页面
-    * /search/*   1:N 和 M：N 人脸识别搜索页面，人脸库管理
+    * appMain      主工程，faceAILib 是人脸识别相关源码
+    * faceAILib    人脸识别Lib module模块
+    * /verify/*    1:1 人脸检测识别，活体检测页面
+    * /search/*    1:N 和 M：N 人脸识别搜索页面，人脸库管理
     * /addFaceImage 识别和搜索共用的添加人脸照片
 
 ## Demo 下载体验
@@ -94,11 +101,11 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
    ### 提高SDK识别准确率
       1.使用建议的设备配置和摄像头
       2.录入高质量的人脸图，如（images/face_example.jpg）（证件照输入目前优化中）
-      3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩
+      3.光线环境好，检测的人脸无遮挡，没有化浓妆 或 佩戴墨镜、口罩
       4.人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡
 
 ## 常见问题
-   常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/questions.md  
+   常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/questions.md  
    所有的开发测试都在手机和平板进行，特殊定制硬件如RK3288 等适配需要兼容适配
 
 

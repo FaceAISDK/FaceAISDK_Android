@@ -48,11 +48,12 @@ anylife.zlb@gmail.com。
    如果你要自行管理摄像头接入，画面方向 旋转管理可以参考 https://github.com/AnyLifeZLB/BinocularCameraFaceSearch
    
 
-### 10.调整Target SDK 后依赖冲突怎么处理？或者外部依赖的版本需要强制为某个版本怎么处理
+### 10.调整Target SDK （如target SDK 28）后依赖冲突怎么处理？或者外部依赖的版本需要强制为某个版本怎么处理
    根据Compile SDK 不同，各自项目依赖体系不一样
    主工程和SDK 中的依赖有冲突需要统一依赖,可以参考下面方式处理
-   比如TargetSDK 还是28的camera_version降低到 1.2.3（最后支持TargetSDK 28）
+   比如TargetSDK 还是 28 的camera_version降低到 1.2.3（最后支持TargetSDK 28）
    更多错误请自行Google，百度搜索解决方法，集成问题不是SDK内部原因，谢谢
+
    ```
    def camera_version = "1.2.3"
    configurations.configureEach {
