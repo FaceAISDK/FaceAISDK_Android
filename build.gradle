@@ -3,18 +3,13 @@ allprojects {
         mavenCentral()
         google()
 
-
         //多放几个国内的依赖托管镜像源，工程师可以根据公司的网络屏蔽情况自行替换
         maven {url "https://maven.aliyun.com/nexus/content/groups/public/"}
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url "https://jitpack.io" }
-
     }
 }
-
-
-
 
 buildscript {
 

@@ -11,8 +11,6 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 33 //target SDK 还是28 的请参考question.md 文档说明
-        versionCode 20
-        versionName "1.8.67"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -30,6 +28,7 @@ android {
                 abiFilters 'armeabi-v7a', 'arm64-v8a','x86_64'
             }
         }
+
     }
 
     buildFeatures {
@@ -38,31 +37,18 @@ android {
 
 }
 
-//根据Compile SDK 不同，各自项目依赖体系不一样
-//主工程和SDK 中的依赖有冲突需要统一依赖,可以参考下面方式处理
-//比如TargetSDK 还是28的camera_version降低到 1.2.3（最后支持TargetSDK 28）
-//更多错误请自行Google，百度搜索解决方法，集成问题不是SDK内部原因，谢谢
-def camera_version = "1.4.0" //建议新工程升级到最新版本1.4.0 以上
-configurations.configureEach {
-    resolutionStrategy {
-        force "androidx.camera:camera-core:$camera_version",
-                "androidx.camera:camera-camera2:$camera_version",
-                "androidx.camera:camera-lifecycle:$camera_version",
-                "androidx.camera:camera-view:$camera_version"
-    }
-}
-
-
 // GitHub 无法访问，挂梯子也无效 ？参考 https://github.com/maxiaof/github-hosts
 dependencies {
     // 人脸识别 试用版本请升级到1.8.60 以上版本。https://github.com/AnyLifeZLB/FaceVerificationSDK
-    // JDK==11+，更多查看主页Readme 或者发送邮件到anylife.zlb@gmail.com
-    implementation 'io.github.anylifezlb:FaceRecognition:1.8.67'
+    // JDK==17+，更多查看主页Readme 或者发送邮件到anylife.zlb@gmail.com
+    implementation 'io.github.anylifezlb:FaceAISDK:1.8.67.FaceAISDK' //新的依赖方式改了后缀
+
+    //implementation 'io.github.anylifezlb:FaceRecognition:1.8.67' //老的 FaceRecognition
+
 
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
-
     //选照片，使用详情见 https://github.com/javakam/FileOperator
     implementation 'com.github.javakam:file.core:3.9.8@aar'      //核心库必选(Core library required)
     implementation 'com.github.javakam:file.selector:3.9.8@aar'  //文件选择器(File selector)

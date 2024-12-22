@@ -54,6 +54,8 @@ anylife.zlb@gmail.com。
    比如TargetSDK 还是 28 的camera_version降低到 1.2.3（最后支持TargetSDK 28）
    更多错误请自行Google，百度搜索解决方法，集成问题不是SDK内部原因，谢谢
 
+   **以下代码配置应该放到主模块build.gradle里面**
+
    ```
    def camera_version = "1.2.3"
    configurations.configureEach {

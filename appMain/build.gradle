@@ -57,6 +57,22 @@ android {
 }
 
 
+//根据Compile SDK 不同，各自项目依赖体系不一样
+//主工程和SDK 中的依赖有冲突需要统一依赖,可以参考下面方式处理
+//比如TargetSDK 还是28的camera_version降低到 1.2.3（最后支持TargetSDK 28）
+//更多错误请自行Google，百度搜索解决方法，集成问题不是SDK内部原因，谢谢
+def camera_version = "1.2.3" //建议新工程升级到最新版本1.4.1 以上
+configurations.configureEach {
+    resolutionStrategy {
+        force "androidx.camera:camera-core:$camera_version",
+                "androidx.camera:camera-camera2:$camera_version",
+                "androidx.camera:camera-lifecycle:$camera_version",
+                "androidx.camera:camera-view:$camera_version"
+    }
+}
+
+
+
 dependencies {
 
     //在你的项目主工程依赖faceAILib，熟悉了SDK 接入源码后再根据你的业务修改实现
