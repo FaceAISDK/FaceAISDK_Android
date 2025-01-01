@@ -10,7 +10,7 @@
 
 On_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK  
 
-FaceAI SDK是设备端可离线不联网Android 人脸识别、活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别搜索功能。  
+FaceAI SDK是设备端可离线不联网Android 人脸识别、活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别，人脸搜索功能。  
 
 <div align=center>
 <img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 22% height = 22% />
@@ -20,12 +20,8 @@ FaceAI SDK是设备端可离线不联网Android 人脸识别、活体检测、�
 ![设备端离线机器学习优点](https://github.com/user-attachments/assets/06b0d254-964f-4277-9198-9d5fa920d95c)
 
 
-## 当前版本说明 V1.8.70 (建议升级到最新版本)
-- 支持X86_64 Chrome OS
-- 解决动作活体重构后出现不能识别通过问题
-- 加快1:N 人脸搜索速度，性能优化
-- 重新封装完善动作活体 静默活体，简化调用
-- 修复大尺寸照片中人脸过小导致的人脸入库失败问题
+## 当前版本说明 V1.8.80 (建议升级到最新版本)
+- 依赖降级到java 11，kotlin 1.9.20
 
  建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
 
@@ -65,7 +61,7 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
 *   3.解决项目工程中的第三方依赖库和主工程的冲突比如CameraX的版本等，Target SDK不同导致的冲突
 
-*   4.调整JDK版本到java 17 以上。Android Studio设置Preferences-Build-Gradle-JDK的版本为 17+
+*   4.调整JDK版本到java 11 以上。Android Studio设置Preferences-Build-Gradle-JDK的版本为 11+
 
 *   5.集成过程中的问题可以GitHub 提issues或者详细描述你遇到的问题发邮件到<anylife.zlb@gmail.com>
 
