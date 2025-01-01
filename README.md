@@ -67,8 +67,8 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
 *   5.集成过程中的问题可以GitHub 提issues或者详细描述你遇到的问题发邮件到<anylife.zlb@gmail.com>
 
-    目前SDK默认使用java11. kotlin 1.9.20 打包，如果你的项目较老还在使用java1.8 
-    kapt, kotlin-android-extensions导致集成冲突，请联系降级处理
+    目前SDK默认使用java11. kotlin 1.7.20 打包，如果你的项目较老还在使用
+    kapt, kotlin-android-extensions导致集成冲突，建议尽快升级项目或者VIP联系定制
 
     更多使用说明下载SDK源码工程代码到Android Studio 以及下载Demo APK到手机体验
     里面有详尽的注释说明和使用方法介绍，SDK源码熟悉完成后大概2小时可集成到你的主工程
