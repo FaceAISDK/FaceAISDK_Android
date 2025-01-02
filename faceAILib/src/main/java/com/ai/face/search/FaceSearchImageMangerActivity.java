@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,7 +43,7 @@ import java.util.Objects;
  * 人脸库管理,增删 查，批量添加测试数据
  */
 public class FaceSearchImageMangerActivity extends AppCompatActivity {
-    private List<String> faceImageList = new ArrayList();
+    private List<ImageBean> faceImageList = new ArrayList();
     private FaceImageListAdapter faceImageListAdapter;
 
     public static final int REQUEST_ADD_FACE_IMAGE = 10086;
@@ -68,9 +69,13 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
         faceImageListAdapter = new FaceImageListAdapter(faceImageList);
         mRecyclerView.setAdapter(faceImageListAdapter);
         faceImageListAdapter.setOnItemLongClickListener((adapter, view, i) -> {
-            new AlertDialog.Builder(this).setTitle("确定要删除" + new File(faceImageList.get(i)).getName()).setMessage("删除后对应的人将无法被程序识别").setPositiveButton("确定", (dialog, which) -> {
+            ImageBean imageBean=faceImageList.get(i);
+
+            new AlertDialog.Builder(this).setTitle("确定要删除"
+                    + imageBean.name).setMessage("删除后对应的人将无法被程序识别").setPositiveButton("确定", (dialog, which) -> {
+
                 //删除一张照片
-                FaceSearchImagesManger.Companion.getInstance(getApplication()).deleteFaceImage(faceImageList.get(i));
+                FaceSearchImagesManger.Companion.getInstance(getApplication()).deleteFaceImage(imageBean.path);
 
                 loadImageList();
                 faceImageListAdapter.notifyDataSetChanged();
@@ -153,11 +158,11 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
                     String filename = value.getName();
                     String filePath = value.getPath();
                     if (filename.trim().toLowerCase().endsWith(".jpg")) {
-                        faceImageList.add(filePath);
+                        faceImageList.add(new ImageBean(filePath,filename));
                     } else if (filename.trim().toUpperCase().endsWith(".png")) {
-                        faceImageList.add(filePath);
+                        faceImageList.add(new ImageBean(filePath,filename));
                     } else if (filename.trim().toUpperCase().endsWith(".jpeg")) {
-                        faceImageList.add(filePath);
+                        faceImageList.add(new ImageBean(filePath,filename));
                     }
                 }
             }
@@ -216,14 +221,17 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
     /**
      * 简单的适配器写法
      */
-    public class FaceImageListAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-        public FaceImageListAdapter(List<String> data) {
+    public class FaceImageListAdapter extends BaseQuickAdapter<ImageBean, BaseViewHolder> {
+        public FaceImageListAdapter(List<ImageBean> data) {
             super(R.layout.adapter_face_image_list_item, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, String faceImagePath) {
-            Glide.with(getBaseContext()).load(faceImagePath).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).into((ImageView) helper.getView(R.id.face_image));
+        protected void convert(BaseViewHolder helper, ImageBean imageBean) {
+            Glide.with(getBaseContext()).load(imageBean.path).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).into((ImageView) helper.getView(R.id.face_image));
+
+            TextView faceName=(TextView)helper.getView(R.id.face_name);
+            faceName.setText(imageBean.name);
         }
     }
 
