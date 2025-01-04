@@ -22,8 +22,7 @@ android {
     android {
         defaultConfig {
             ndk {
-                //x86_64 是为了是为了适配chrome os
-                abiFilters 'armeabi-v7a','arm64-v8a','x86_64'
+                abiFilters 'armeabi-v7a','arm64-v8a'
             }
         }
 
@@ -38,9 +37,9 @@ android {
 // GitHub 无法访问，挂梯子也无效 ？参考 https://github.com/maxiaof/github-hosts
 dependencies {
     // 人脸识别 试用版本请升级到1.8.60 以上版本。https://github.com/AnyLifeZLB/FaceVerificationSDK
-    implementation 'io.github.anylifezlb:FaceAISDK:1.8.82' //新的依赖方式改了后缀
+    implementation 'io.github.anylifezlb:FaceAISDK:1.8.83' //新的依赖方式改了后缀
 
-    //implementation 'io.github.anylifezlb:FaceRecognition:1.8.82' //老的 FaceRecognition
+    //implementation 'io.github.anylifezlb:FaceRecognition:1.8.83' //老的 FaceRecognition
 
 
 

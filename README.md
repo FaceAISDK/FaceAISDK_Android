@@ -20,10 +20,11 @@ FaceAI SDK是设备端可离线不联网Android 人脸识别、活体检测、�
 ![设备端离线机器学习优点](https://github.com/user-attachments/assets/06b0d254-964f-4277-9198-9d5fa920d95c)
 
 
-## 当前版本说明 V1.8.82 (建议升级到最新版本)
-- 依赖降级到kotlin 1.7.20，java 11
+## 当前版本说明 V1.8.83 (建议升级到最新版本)
+
+- 解决引入X86_64 CPU 支持导致的闪退问题！  
+- 依赖降级到kotlin 1.7.20，java 11  
 - 降级依赖，防止和使用kotlin-android-extensions 等老项目冲突
-- 
 
  建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
 
@@ -114,7 +115,7 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 1.  使用高配置硬件参数设备和摄像头抗干扰强
 2.  录入高质量的人脸图，如（images/face\_example.jpg）（证件照输入目前优化中）
 3.  光线环境好，检测的人脸无遮挡，没有化浓妆 或 佩戴墨镜、口罩
-4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡
+4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
 
 
 

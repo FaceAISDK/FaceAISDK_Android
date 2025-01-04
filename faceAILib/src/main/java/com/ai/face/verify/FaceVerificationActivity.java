@@ -11,11 +11,9 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.ai.face.R;
 import com.ai.face.base.baseImage.AddFaceUtils;
 import com.ai.face.base.baseImage.FaceAIUtils;
@@ -30,7 +28,6 @@ import com.ai.face.faceVerify.verify.VerifyUtils;
 import com.ai.face.faceVerify.verify.liveness.LivenessDetectionMode;
 import com.ai.face.faceVerify.verify.liveness.LivenessType;
 import com.ai.face.utils.VoicePlayer;
-
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -139,7 +136,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .setLivenessDetectionMode(LivenessDetectionMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.99]
                 .setMotionLivenessStepSize(2)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
-//                .setExceptMotionLivelessType(oneOfLive) //不要微笑 摇头 眨眼某个动作活体类型
+                .setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //活体去除微笑,或设置其他某种
                 .setVerifyTimeOut(16)                 //活体检测支持设置超时时间 [9,22] 秒
                 .setGraphicOverlay(faceTipsOverlay)   //正式环境请去除设置
                 .setProcessCallBack(new ProcessCallBack() {

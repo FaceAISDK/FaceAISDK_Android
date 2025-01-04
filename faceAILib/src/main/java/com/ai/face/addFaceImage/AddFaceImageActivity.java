@@ -64,7 +64,10 @@ public class AddFaceImageActivity extends AppCompatActivity {
         fileName = getIntent().getStringExtra(USER_FACE_ID_KEY);
         pathName = getIntent().getStringExtra(BASE_FACE_DIR_KEY);
 
-        baseImageDispose = new BaseImageDispose(true, getBaseContext(), new BaseImageCallBack() {
+        /**
+         * BaseImageDispose 第一个参数是否启用活体检测，录入照片没必要，部分定制
+         */
+        baseImageDispose = new BaseImageDispose(false, getBaseContext(), new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap) {
                 runOnUiThread(() -> showConfirmDialog(bitmap));
