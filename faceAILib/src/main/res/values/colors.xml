@@ -9,6 +9,7 @@
     <color name="green2">#37B13C</color>
     <color name="blue">#334141</color>
     <color name="blue_sky">#AA0B4D46</color>
+    <color name="half_blue_sky">#160B4D46</color>
     <color name="helloColor">#6817023D</color>
 
 </resources>

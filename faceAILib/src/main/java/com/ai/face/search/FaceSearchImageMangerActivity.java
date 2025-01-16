@@ -1,6 +1,7 @@
 package com.ai.face.search;
 
 import static com.ai.face.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
+import static com.ai.face.addFaceImage.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -54,8 +55,7 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_face_image_manger);
         setSupportActionBar(findViewById(R.id.toolbar));
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
+
 
         int spanCount = 3;
         int ori = getResources().getConfiguration().orientation; //获取屏幕方向
@@ -63,13 +63,14 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
             spanCount = 5;
         }
         LinearLayoutManager gridLayoutManager = new GridLayoutManager(this, spanCount);
+        RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         loadImageList();
 
         faceImageListAdapter = new FaceImageListAdapter(faceImageList);
         mRecyclerView.setAdapter(faceImageListAdapter);
         faceImageListAdapter.setOnItemLongClickListener((adapter, view, i) -> {
-            ImageBean imageBean=faceImageList.get(i);
+            ImageBean imageBean = faceImageList.get(i);
 
             new AlertDialog.Builder(this).setTitle("确定要删除"
                     + imageBean.name).setMessage("删除后对应的人将无法被程序识别").setPositiveButton("确定", (dialog, which) -> {
@@ -89,7 +90,9 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
 
         //添加单张人脸照片
         if (getIntent().getExtras().getBoolean("isAdd")) {
-            startActivityForResult(new Intent(getBaseContext(), AddFaceImageActivity.class), REQUEST_ADD_FACE_IMAGE);
+            Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
+            addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
+            startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
         }
 
     }
@@ -158,11 +161,11 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
                     String filename = value.getName();
                     String filePath = value.getPath();
                     if (filename.trim().toLowerCase().endsWith(".jpg")) {
-                        faceImageList.add(new ImageBean(filePath,filename));
+                        faceImageList.add(new ImageBean(filePath, filename));
                     } else if (filename.trim().toUpperCase().endsWith(".png")) {
-                        faceImageList.add(new ImageBean(filePath,filename));
+                        faceImageList.add(new ImageBean(filePath, filename));
                     } else if (filename.trim().toUpperCase().endsWith(".jpeg")) {
-                        faceImageList.add(new ImageBean(filePath,filename));
+                        faceImageList.add(new ImageBean(filePath, filename));
                     }
                 }
             }
@@ -176,8 +179,6 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
     /**
      * 快速复制工程目录 ./app/src/main/assert目录下200+张 人脸图入库
      * 人脸图规范要求 大于 300*300的光线充足无遮挡的正面人脸如（./images/face_example.jpg)
-     *
-     *
      */
     private void copyFaceTestImage() {
         Toast.makeText(getBaseContext(), "复制验证图...", Toast.LENGTH_LONG).show();
@@ -203,7 +204,9 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();//添加一张
         if (itemId == R.id.action_add) {
-            startActivityForResult(new Intent(getBaseContext(), AddFaceImageActivity.class), REQUEST_ADD_FACE_IMAGE);
+            Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
+            addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
+            startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
         } else if (itemId == R.id.action_add_many) {//批量添加很多张测试验证人脸图
             copyFaceTestImage();
         } else if (itemId == android.R.id.home) {
@@ -230,7 +233,7 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
         protected void convert(BaseViewHolder helper, ImageBean imageBean) {
             Glide.with(getBaseContext()).load(imageBean.path).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).into((ImageView) helper.getView(R.id.face_image));
 
-            TextView faceName=(TextView)helper.getView(R.id.face_name);
+            TextView faceName = (TextView) helper.getView(R.id.face_name);
             faceName.setText(imageBean.name);
         }
     }

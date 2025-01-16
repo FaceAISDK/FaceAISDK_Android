@@ -5,6 +5,11 @@
     <string name="confirm">知道了</string>
     <string name="retry">重试</string>
     <string name="long_press_copy_msg">提示：长按复制联系信息</string>
+    <string name="share_faceai_sdk">分享人脸识别SDK </string>
+    <string name="share_faceai_sdk_content">Android 可离线设备端，实时人脸识别 活体检测，人脸搜索 FaceAI SDK.
+        \nAPK下载：https://www.pgyer.com/faceVerify
+        \n介绍说明：https://mp.weixin.qq.com/s/_ro9zBfzAmkpazL-QAPi9w
+        \n\nSDK 接入源码：https://github.com/AnyLifeZLB/FaceVerificationSDK </string>
 
     <!--添加人脸 add face image-->
     <string name="keep_face_tips">保持正脸不要晃动</string>
@@ -42,10 +47,12 @@
     <string name="stop_verify_tips">停止识别,识别过程请保持人脸在画面中 </string>
 
     <!--Navi activity-->
+    <string name="binocular_camera_demo">双目摄像头演示</string>
     <string name="face_verify_1vs1">1:1人脸识别 </string>
     <string name="add_face_image">人脸底图录入</string>
     <string name="only_motion_liveness_detection">仅人脸活体检测</string>
     <string name="face_search_navi">1:N &amp; M:N人脸搜索识别 </string>
+    <string name="face_search">人脸搜索 </string>
     <string name="two_face_image_verify">静态人脸图1:1对比 </string>
     <string name="switch_camera">切换前后摄像头 </string>
     <string name="about_us">- 关于我们 -</string>

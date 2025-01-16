@@ -45,33 +45,24 @@ import java.io.ByteArrayOutputStream;
  *  -  4. 人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
  *
  */
-public  class AddFaceImageActivity extends AppCompatActivity {
-    public static String ADD_FACE_IMAGE_TYPE_KEY="ADD_FACE_IMAGE_TYPE_KEY";
+public class AddFaceImageActivityCopy extends AppCompatActivity {
     private TextView tipsTextView;
     private BaseImageDispose baseImageDispose;
-    private String faceID,faceSaveDir,addFaceImageType;
-
-    //是1:1 还是1:N 人脸搜索添加人脸
-    public enum AddFaceImageTypeEnum
-    {
-        FACE_VERIFY,FACE_SEARCH;
-    }
+    private String pathName, fileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_face_image);
+        setTitle("Add Face Image");
 
         tipsTextView = findViewById(R.id.tips_view);
         findViewById(R.id.back).setOnClickListener(v -> {
             this.finish();
         });
 
-        addFaceImageType=getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
-        faceID = getIntent().getStringExtra(USER_FACE_ID_KEY);
-
-        //1:1 人脸识别的人脸保存目录；（人脸搜索的保存在管理页面）
-        faceSaveDir = getIntent().getStringExtra(BASE_FACE_DIR_KEY);
+        fileName = getIntent().getStringExtra(USER_FACE_ID_KEY);
+        pathName = getIntent().getStringExtra(BASE_FACE_DIR_KEY);
 
         /**
          * BaseImageDispose 第一个参数是否启用活体检测，录入照片没必要，部分定制SDK 会需要
@@ -144,7 +135,7 @@ public  class AddFaceImageActivity extends AppCompatActivity {
 
 
     /**
-     * 确认是否保存人脸底图
+     * 确认是否保存底图
      *
      */
     private void showConfirmDialog(Bitmap bitmap) {
@@ -162,31 +153,32 @@ public  class AddFaceImageActivity extends AppCompatActivity {
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
         EditText editText = dialogView.findViewById(R.id.edit_text);
         editText.requestFocus();
-        editText.setText(faceID);
-        btnOK.setOnClickListener(v -> {
-           faceID=editText.getText().toString();
+        //指定了名字添加1:1 人脸底片
+        if (TextUtils.isEmpty(fileName)) {
+            editText.setVisibility(View.VISIBLE);
+        } else {
+            editText.setVisibility(View.GONE);
+        }
 
-             if (!TextUtils.isEmpty(faceID)) {
-                 if (addFaceImageType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
-                     Toast.makeText(getBaseContext(), "Add 1:1 Face Image Finish", Toast.LENGTH_SHORT).show();
-                     //1:1 人脸识别保存人脸底图
-                     baseImageDispose.saveBaseImage(bitmap, faceSaveDir, faceID, 400);
-                     dialog.dismiss();
-                     finish();
-                 } else{
-                     //1:N ，M：N 人脸搜索保存人脸看
-                     dialog.dismiss();
-                     Intent intent = new Intent();
-                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                     byte[] bitmapByte = baos.toByteArray();
-                     intent.putExtra("picture_data", bitmapByte);
-                     intent.putExtra("picture_name", editText.getText().toString());
-                     setResult(RESULT_OK, intent);
-                     finish();
-                 }
+        btnOK.setOnClickListener(v -> {
+            if (!TextUtils.isEmpty(fileName)) {
+                //1:1 人脸识别保存人脸底图
+                baseImageDispose.saveBaseImage(bitmap, pathName, fileName, 400);
+                dialog.dismiss();
+                finish();
+            } else if (!TextUtils.isEmpty(editText.getText().toString())) {
+                //1:N ，M：N 人脸搜索保存人脸看
+                dialog.dismiss();
+                Intent intent = new Intent();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] bitmapByte = baos.toByteArray();
+                intent.putExtra("picture_data", bitmapByte);
+                intent.putExtra("picture_name", editText.getText().toString());
+                setResult(RESULT_OK, intent);
+                finish();
             } else {
-                Toast.makeText(getBaseContext(), "Input FaceID Name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Input Face Name", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.ai.face.search.FaceSearchImageMangerActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:subtitleTextColor="#FFF"
+        app:title="@string/face_verify_1vs1"
+        app:titleTextColor="#FFF"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#CDB48D"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="模拟刷脸登陆多帐号来演示1:1 人脸识别功能"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+
+    <LinearLayout
+        android:id="@+id/add_faceid_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="22dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="77dp"
+            android:layout_height="77dp"
+            android:background="@drawable/person_add_24" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="4dp"
+            android:text="Add Face"
+            android:textColor="@color/face_lib_main_color"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/half_blue_sky"
+        android:scrollbarSize="3dp"
+        android:paddingTop="9dp"
+        android:paddingBottom="9dp"
+        android:scrollbarThumbVertical="@color/green"
+        android:scrollbars="horizontal" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/center_banner_constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/my_mini_program_view">
+        <ImageView
+            android:id="@+id/center_banner_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/verify_tips"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="h,1068:308"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>
