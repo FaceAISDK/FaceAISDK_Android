@@ -10,7 +10,7 @@
         <item name="colorAccent">@color/face_lib_main_color</item>
 
         <item name="buttonBarPositiveButtonStyle">@style/positiveBtnStyle</item>
-        <item name="buttonBarNegativeButtonStyle">@style/negativeBtnstyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/negativeBtnStyle</item>
     </style>
 
 
@@ -20,7 +20,7 @@
     </style>
 
     <!--取消按钮样式-->
-    <style name="negativeBtnstyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+    <style name="negativeBtnStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">@color/red</item>
     </style>
 

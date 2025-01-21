@@ -1,12 +1,12 @@
 package com.ai.face.addFaceImage;
 
+import static com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_LEFT;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_RIGHT;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_UP;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.TILT_HEAD;
-import static com.ai.face.verify.FaceVerificationActivity.BASE_FACE_DIR_KEY;
 import static com.ai.face.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 
 import android.content.Context;
@@ -49,7 +49,7 @@ public  class AddFaceImageActivity extends AppCompatActivity {
     public static String ADD_FACE_IMAGE_TYPE_KEY="ADD_FACE_IMAGE_TYPE_KEY";
     private TextView tipsTextView;
     private BaseImageDispose baseImageDispose;
-    private String faceID,faceSaveDir,addFaceImageType;
+    private String faceID,addFaceImageType;
 
     //是1:1 还是1:N 人脸搜索添加人脸
     public enum AddFaceImageTypeEnum
@@ -63,15 +63,10 @@ public  class AddFaceImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_face_image);
 
         tipsTextView = findViewById(R.id.tips_view);
-        findViewById(R.id.back).setOnClickListener(v -> {
-            this.finish();
-        });
+        findViewById(R.id.back).setOnClickListener(v -> this.finish());
 
         addFaceImageType=getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
         faceID = getIntent().getStringExtra(USER_FACE_ID_KEY);
-
-        //1:1 人脸识别的人脸保存目录；（人脸搜索的保存在管理页面）
-        faceSaveDir = getIntent().getStringExtra(BASE_FACE_DIR_KEY);
 
         /**
          * BaseImageDispose 第一个参数是否启用活体检测，录入照片没必要，部分定制SDK 会需要
@@ -89,7 +84,6 @@ public  class AddFaceImageActivity extends AppCompatActivity {
                         case HEAD_CENTER:
                             tipsTextView.setText(R.string.keep_face_tips); //2秒后确认图像
                             break;
-
                         case TILT_HEAD:
                             tipsTextView.setText(R.string.no_tilt_head_tips);
                             break;
@@ -129,6 +123,7 @@ public  class AddFaceImageActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("faceVerify", Context.MODE_PRIVATE);
 
         // 1. Camera 的初始化。第一个参数0/1 指定前后摄像头； 第二个参数linearZoom [0.001f,1.0f] 指定焦距，默认0.1
+        // 默认前置摄像头，CameraSelector.LENS_FACING_FRONT
         int cameraLens = sharedPref.getInt("cameraFlag", sharedPref.getInt("cameraFlag", 0));
         CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens, 0.001f);
 
@@ -170,11 +165,11 @@ public  class AddFaceImageActivity extends AppCompatActivity {
                  if (addFaceImageType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
                      Toast.makeText(getBaseContext(), "Add 1:1 Face Image Finish", Toast.LENGTH_SHORT).show();
                      //1:1 人脸识别保存人脸底图
-                     baseImageDispose.saveBaseImage(bitmap, faceSaveDir, faceID, 400);
+                     baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, faceID, 400);
                      dialog.dismiss();
                      finish();
                  } else{
-                     //1:N ，M：N 人脸搜索保存人脸看
+                     //1:N ，M：N 人脸搜索保存人脸
                      dialog.dismiss();
                      Intent intent = new Intent();
                      ByteArrayOutputStream baos = new ByteArrayOutputStream();

@@ -2,8 +2,8 @@ package com.ai.face.verify;
 
 import static com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR;
 import static com.ai.face.addFaceImage.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
-import static com.ai.face.verify.FaceVerificationActivity.BASE_FACE_DIR_KEY;
 import static com.ai.face.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
+
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +12,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.ai.face.R;
 import com.ai.face.addFaceImage.AddFaceImageActivity;
 import com.ai.face.search.ImageBean;
@@ -25,6 +27,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,10 +36,12 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * 提示怎么样使用人脸识别，参考其他App
+ * 1:1 人脸识别引导说明页面
+ * <p>
+ * 包含怎么添加人脸照片，人脸活体检测，人脸识别
  */
 public class FaceVerifyWelcomeActivity extends AppCompatActivity {
-    private List<ImageBean> faceImageList = new ArrayList();
+    private final List<ImageBean> faceImageList = new ArrayList<>();
     private FaceImageListAdapter faceImageListAdapter;
 
 
@@ -51,7 +56,7 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
         addFaceView.setOnClickListener(view -> startActivity(
                 new Intent(FaceVerifyWelcomeActivity.this, AddFaceImageActivity.class)
                         .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_VERIFY.name())
-                        .putExtra(BASE_FACE_DIR_KEY, CACHE_BASE_FACE_DIR)));
+        ));
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);//设置为横向滑动
@@ -76,17 +81,13 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
             return false;
         });
 
-
         faceImageListAdapter.setOnItemClickListener((adapter, view, i) -> startActivity(
                 new Intent(getBaseContext(), FaceVerificationActivity.class)
                         .putExtra(USER_FACE_ID_KEY, faceImageList.get(i).name) //1:1 底片人脸ID
-                        .putExtra(BASE_FACE_DIR_KEY, CACHE_BASE_FACE_DIR) //保存目录
         ));
 
-
-        faceImageListAdapter.setEmptyView(R.layout.empty_layout);
+        faceImageListAdapter.setEmptyView(R.layout.verify_empty_layout);
         faceImageListAdapter.getEmptyLayout().setOnClickListener(v -> addFaceView.performClick());
-
     }
 
 
@@ -116,6 +117,7 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
                     else if (diff == 0) return 0;
                     else return 1;
                 }
+
                 public boolean equals(Object obj) {
                     return true;
                 }
@@ -147,9 +149,8 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
         protected void convert(BaseViewHolder helper, ImageBean imageBean) {
             Glide.with(getBaseContext()).load(imageBean.path).skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .transform(new CenterCrop(),new RoundedCorners(15))
+                    .transform(new CenterCrop(), new RoundedCorners(15))
                     .into((ImageView) helper.getView(R.id.face_image));
-
             TextView faceName = helper.getView(R.id.face_name);
             faceName.setText(imageBean.name);
         }
@@ -159,7 +160,7 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            finish(); //关闭页面
         }
         return super.onOptionsItemSelected(item);
     }

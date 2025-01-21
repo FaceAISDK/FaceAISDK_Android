@@ -1,9 +1,9 @@
 #  服务政策
   SDK 在低配早期魅蓝Note3（Android7） 华为P8（Android6），以及最新高配旗舰机型三星S24，小米15和小米pad 7pro
-  经过严格测试验证；大厂生产的标准Android 系统设备目前反馈运行良好
+  经过严格测试验证；大厂生产的标准Android 系统设备目前反馈运行良好。如果你是定制的Android系统/开发板/USB双目摄像头  
+  请先检测是否能正常运行，有问题也可以联系我们解答。
   
   SDK 不读取任何敏感信息，严格限制运行获取权限，充分保护用户的隐私权限，不联网就能工作更不会收集上传人脸关键信息。
-
 
 ### 0.特殊定制硬件配置板子支持程度
   FaceAI SDK通用版本的开发适配都是基于手机和平板进行的，有着标准的摄像头外设；为了保证通用版本最大的兼容性，识别过程以一种通用的方式进行，
@@ -23,7 +23,8 @@
    ```
       FaceSearchEngine.Companion.getInstance().runSearch(searchBmp);
    ``` 
-   双目摄像头请采集RGB Camera预览数据缠绕标准通用版本SDK ，如果想使用IR红外Camera 进行活体检测请联系获取定制版本SDK
+   双目摄像头请采集RGB Camera预览数据传入标准通用版本SDK ，如果想使用IR红外Camera 进行活体检测请联系获取定制版本SDK
+   关于Android 外接USB摄像头 https://source.android.com/docs/core/camera/external-usb-cameras?hl=zh-cn
 
 ### 4.人脸识别1:N 搜索是否能支持N>万人以上
    本SDK 目前已经支持万人以上,大容量人脸库搜索速度快，也支持分库搜索
@@ -48,7 +49,7 @@
    
 ### 7.除了支持Android 手机和平板，其他Android 设备是否支持？
    其他基于Android的定制设备只要是符合Google规范没有魔改一般是支持的，可能部分外接摄像头种类不支持需要定制兼容，需邮寄定制硬件调试。
-   目前支持的Android 系统版本为Android8+ ，其他低版本Android 系统可以根据Demo案例使用强制降级依赖CameraX 和 TFLite
+   目前支持的Android 系统版本为Android5+ ，其他低版本Android 系统可以根据Demo案例使用强制降级依赖CameraX 和 TFLite
 
 ### 8.授权说明？
    **Debug 调试包可以体验所有的功能，不用授权**

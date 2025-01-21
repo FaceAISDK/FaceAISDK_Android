@@ -44,7 +44,7 @@ import java.util.Objects;
  * 人脸库管理,增删 查，批量添加测试数据
  */
 public class FaceSearchImageMangerActivity extends AppCompatActivity {
-    private List<ImageBean> faceImageList = new ArrayList();
+    private final List<ImageBean> faceImageList = new ArrayList<>();
     private FaceImageListAdapter faceImageListAdapter;
 
     public static final int REQUEST_ADD_FACE_IMAGE = 10086;

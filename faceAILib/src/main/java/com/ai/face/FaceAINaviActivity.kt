@@ -8,16 +8,10 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR
-import com.ai.face.addFaceImage.AddFaceImageActivity
-import com.ai.face.addFaceImage.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY
 import com.ai.face.databinding.ActivityFaceAiNaviBinding
 import com.ai.face.search.SearchNaviActivity
 import com.ai.face.utils.SystemUtil
 import com.ai.face.utils.VoicePlayer
-import com.ai.face.verify.FaceVerificationActivity
-import com.ai.face.verify.FaceVerificationActivity.BASE_FACE_DIR_KEY
-import com.ai.face.verify.FaceVerificationActivity.USER_FACE_ID_KEY
 import com.ai.face.verify.FaceVerifyWelcomeActivity
 import com.ai.face.verify.TwoFaceImageVerifyActivity
 import pub.devrel.easypermissions.EasyPermissions
@@ -30,7 +24,6 @@ import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
  */
 class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
     private lateinit var viewBinding: ActivityFaceAiNaviBinding
-    private var yourUniQueFaceId = "18707611416"  //用户人脸ID，Face ID（unique）eg account
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,12 +36,6 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
         //语音提示
         VoicePlayer.getInstance().init(this)
 
-        viewBinding.faceVerifyCard.setOnLongClickListener {
-            startActivity(
-                Intent(this@FaceAINaviActivity, FaceVerifyWelcomeActivity::class.java)
-            )
-            true
-        }
 
         //分享
         viewBinding.shareLayout.setOnClickListener {
@@ -59,33 +46,22 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
             startActivity(intent)
         }
 
+        //1:1 人脸识别
         viewBinding.faceVerifyCard.setOnClickListener {
-
             startActivity(Intent(baseContext, FaceVerifyWelcomeActivity::class.java))
-
         }
 
 
-        //添加1：1人脸识别底片
+        //1:N/M：N 人脸搜索
         viewBinding.faceSearch.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, SearchNaviActivity::class.java))
-
-//            startActivity(
-//                Intent(this@FaceAINaviActivity, AddFaceImageActivity::class.java)
-//                    .putExtra(USER_FACE_ID_KEY, yourUniQueFaceId)
-//                    .putExtra(
-//                        ADD_FACE_IMAGE_TYPE_KEY,
-//                        AddFaceImageActivity.AddFaceImageTypeEnum.FACE_VERIFY.name
-//                    )
-//                    .putExtra(BASE_FACE_DIR_KEY, CACHE_BASE_FACE_DIR)
-//            )
         }
 
 
+        //双目摄像头，仅仅对VIP 开放，需要适配硬件
         viewBinding.binocularCamera.setOnClickListener {
-            Toast.makeText(this, "VIP Function", Toast.LENGTH_SHORT)
+            Toast.makeText(this, "定制 VIP Function", Toast.LENGTH_SHORT)
                 .show()
-//            startActivity(Intent(this@FaceAINaviActivity, SearchNaviActivity::class.java))
         }
 
         viewBinding.moreAboutMe.setOnClickListener {
@@ -93,7 +69,7 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
 
-        //两张人脸图 对比
+        //两张静态人脸图中人脸相似度 对比
         viewBinding.twoFaceVerify.setOnClickListener {
             startActivity(
                 Intent(this@FaceAINaviActivity, TwoFaceImageVerifyActivity::class.java)
@@ -105,7 +81,6 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
             val sharedPref = getSharedPreferences(
                 "faceVerify", Context.MODE_PRIVATE
             )
-
             if (sharedPref.getInt("cameraFlag", 0) == 1) {
                 sharedPref.edit().putInt("cameraFlag", 0).apply()
                 Toast.makeText(
@@ -124,7 +99,6 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
         showSystemParameter()
-
     }
 
 
