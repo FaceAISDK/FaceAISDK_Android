@@ -8,15 +8,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR
-import com.ai.face.addFaceImage.AddFaceImageActivity
 import com.ai.face.databinding.ActivityFaceAiNaviBinding
 import com.ai.face.search.SearchNaviActivity
 import com.ai.face.utils.SystemUtil
 import com.ai.face.utils.VoicePlayer
-import com.ai.face.verify.FaceVerificationActivity
-import com.ai.face.verify.FaceVerificationActivity.BASE_FACE_DIR_KEY
-import com.ai.face.verify.FaceVerificationActivity.USER_FACE_ID_KEY
+import com.ai.face.verify.FaceVerifyWelcomeActivity
 import com.ai.face.verify.TwoFaceImageVerifyActivity
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
@@ -28,8 +24,6 @@ import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
  */
 class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
     private lateinit var viewBinding: ActivityFaceAiNaviBinding
-
-    private var yourUniQueFaceId = "18707611416"  //用户人脸ID，Face ID（unique）eg account
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,53 +37,39 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
         VoicePlayer.getInstance().init(this)
 
 
-        viewBinding.faceVerifyCard.setOnLongClickListener {
-            startActivity(
-                Intent(this@FaceAINaviActivity, FaceVerificationActivity::class.java)
-                    .putExtra(USER_FACE_ID_KEY, yourUniQueFaceId)     //1:1 底片人脸ID
-                    .putExtra(BASE_FACE_DIR_KEY, CACHE_BASE_FACE_DIR) //保存目录
-            )
-            true
+        //分享
+        viewBinding.shareLayout.setOnClickListener {
+            val intent = Intent()
+            intent.setAction(Intent.ACTION_SEND)
+            intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_faceai_sdk_content))
+            intent.setType("text/plain")
+            startActivity(intent)
         }
 
-
+        //1:1 人脸识别
         viewBinding.faceVerifyCard.setOnClickListener {
-            //1:1 人脸识别先录一张人脸底片
-            val baseFacePath=CACHE_BASE_FACE_DIR+yourUniQueFaceId
-            if (BitmapFactory.decodeFile(baseFacePath) != null) {
-                startActivity(
-                    Intent(this@FaceAINaviActivity, FaceVerificationActivity::class.java)
-                        .putExtra(USER_FACE_ID_KEY, yourUniQueFaceId)     //1:1 底片人脸ID
-                        .putExtra(BASE_FACE_DIR_KEY, CACHE_BASE_FACE_DIR) //保存目录
-                )
-            } else {
-                Toast.makeText(this@FaceAINaviActivity, R.string.add_a_face_image, Toast.LENGTH_LONG).show()
-            }
+            startActivity(Intent(baseContext, FaceVerifyWelcomeActivity::class.java))
         }
 
 
-        //添加1：1人脸识别底片
-        viewBinding.updateBaseImage.setOnClickListener {
-            startActivity(
-                Intent(this@FaceAINaviActivity, AddFaceImageActivity::class.java)
-                    .putExtra(USER_FACE_ID_KEY, yourUniQueFaceId)
-                    .putExtra(BASE_FACE_DIR_KEY, CACHE_BASE_FACE_DIR)
-            )
-        }
-
-
-
-        viewBinding.faceSearch1N.setOnClickListener {
+        //1:N/M：N 人脸搜索
+        viewBinding.faceSearch.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, SearchNaviActivity::class.java))
         }
 
+
+        //双目摄像头，仅仅对VIP 开放，需要适配硬件
+        viewBinding.binocularCamera.setOnClickListener {
+            Toast.makeText(this, "定制 VIP Function", Toast.LENGTH_SHORT)
+                .show()
+        }
 
         viewBinding.moreAboutMe.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, AboutFaceAppActivity::class.java))
         }
 
 
-        //两张人脸图 对比
+        //两张静态人脸图中人脸相似度 对比
         viewBinding.twoFaceVerify.setOnClickListener {
             startActivity(
                 Intent(this@FaceAINaviActivity, TwoFaceImageVerifyActivity::class.java)
@@ -101,7 +81,6 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
             val sharedPref = getSharedPreferences(
                 "faceVerify", Context.MODE_PRIVATE
             )
-
             if (sharedPref.getInt("cameraFlag", 0) == 1) {
                 sharedPref.edit().putInt("cameraFlag", 0).apply()
                 Toast.makeText(
@@ -120,7 +99,6 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
         showSystemParameter()
-
     }
 
 
@@ -162,7 +140,8 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
      * 当用户点击了不再提醒的时候的处理方式
      */
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        Toast.makeText(this, "Please Oauth Permission,请授权才能正常演示", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Please Oauth Permission,请授权才能正常演示", Toast.LENGTH_SHORT)
+            .show()
     }
 
 

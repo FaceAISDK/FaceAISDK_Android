@@ -6,6 +6,12 @@
     <string name="confirm">Done</string>
     <string name="retry">Retry</string>
     <string name="long_press_copy_msg">Tips: Long press to copy msg</string>
+    <string name="share_faceai_sdk">Share FaceAI SDK </string>
+    <string name="share_faceai_sdk_content">Android On_device 1:1 Face Recognition And
+        Liveness detection；1:N M:N Face Search SDK.
+        \nAPK Download：https://www.pgyer.com/faceVerify
+        \nIntroduce：https://mp.weixin.qq.com/s/_ro9zBfzAmkpazL-QAPi9w
+        \n\nIntegrated Source Code：https://github.com/AnyLifeZLB/FaceVerificationSDK </string>
 
     <!--添加人脸 add face image-->
     <string name="keep_face_tips">Face the camera and keep your face visible</string>
@@ -43,10 +49,12 @@
     <string name="stop_verify_tips">Stop verify,keep your face visible </string>
 
     <!--Navi activity-->
+    <string name="binocular_camera_demo">Binocular Camera Demo</string>
     <string name="face_verify_1vs1">1:1 Face Verify </string>
     <string name="add_face_image">Add face Image</string>
     <string name="only_motion_liveness_detection">Only motion liveness detection</string>
     <string name="face_search_navi">1:N &amp; M:N  Face Search </string>
+    <string name="face_search">Face Search</string>
     <string name="two_face_image_verify">two face image 1:1 verify</string>
     <string name="switch_camera">Switch front,back/USB camera </string>
     <string name="about_us">- About us - </string>

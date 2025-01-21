@@ -51,6 +51,17 @@
         android:padding="9dp"
         android:src="@drawable/ic_arrow_back_24" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="47dp"
+        android:layout_toRightOf="@+id/back"
+        android:textSize="15sp"
+        android:gravity="center_vertical"
+        android:textColor="@color/green"
+        android:text="Add Face Image"
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/back"
+        />
 
 </RelativeLayout>
 

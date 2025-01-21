@@ -12,8 +12,8 @@ android {
 
         minSdk 21
         targetSdk 33  //target SDK 还是28 的请参考question.md 文档说明
-        versionCode 24
-        versionName "1.8.83"
+        versionCode 26
+        versionName "1.8.90.camera"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

@@ -5,8 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/face_lib_main_color"
-    android:paddingTop="100dp"
     tools:context=".FaceAINaviActivity">
+
+    <LinearLayout
+        android:id="@+id/share_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="15dp"
+        android:layout_margin="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_gravity="center_vertical"
+            android:padding="4dp"
+            android:src="@drawable/share" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/share_faceai_sdk"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
 
     <!-- A CardView that contains a TextView -->
     <androidx.cardview.widget.CardView
@@ -16,10 +44,11 @@
         app:cardCornerRadius="5dp"
         android:layout_marginLeft="29dp"
         android:layout_marginRight="11dp"
+        android:layout_marginTop="10dp"
         app:cardBackgroundColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/update_base_image"
+        app:layout_constraintEnd_toStartOf="@+id/face_search"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/share_layout">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,16 +80,17 @@
 
     <!-- A CardView that contains a TextView -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/update_base_image"
+        android:id="@+id/face_search"
         android:layout_width="0dp"
         android:layout_height="80dp"
         app:cardCornerRadius="5dp"
         android:layout_marginRight="29dp"
         android:layout_marginLeft="11dp"
+        android:layout_marginTop="10dp"
         app:cardBackgroundColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/face_verify_card"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/share_layout">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -81,10 +111,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
-                android:text="@string/add_face_image"
+                android:text="@string/face_search"
                 android:textColor="#2DCC18"
                 android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@+id/update_base_image" />
+                app:layout_constraintTop_toBottomOf="@+id/face_search" />
 
         </LinearLayout>
 
@@ -109,7 +139,7 @@
         app:layout_constraintTop_toBottomOf="@+id/face_verify_card" />
 
     <TextView
-        android:id="@+id/face_search_1_n"
+        android:id="@+id/binocular_camera"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="60dp"
@@ -118,7 +148,7 @@
         android:layout_marginLeft="29dp"
         android:layout_marginRight="29dp"
         android:visibility="visible"
-        android:text="@string/face_search_navi"
+        android:text="@string/binocular_camera_demo"
         android:textColor="@color/red"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"

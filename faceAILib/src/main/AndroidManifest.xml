@@ -53,11 +53,16 @@
             android:exported="false"
             android:launchMode="singleTop" />
 
-
         <activity
             android:name=".search.FaceSearchImageMangerActivity"
             android:exported="false">
         </activity>
+
+        <activity
+            android:name=".verify.FaceVerifyWelcomeActivity"
+            android:exported="false">
+        </activity>
+
 
         <activity
             android:name=".search.SearchNaviActivity"

@@ -14,6 +14,7 @@ import com.ai.face.FaceAINaviActivity;
 /**
  * 演示快速集成到你的主工程，人脸识别相关放到 FaceAILIb 里面
  * 先以子module 的形式配置到你的主工程跑起来后，再根据你的业务调整
+ *
  * 1.整体拷贝faceAILib 代码到你的主程一级目录
  * 2.settings.gradle 中 include ':faceAILib'
  * 3.调整工程一级目录root级build.gradle 的
@@ -51,8 +52,10 @@ public class WelcomeActivity extends AppCompatActivity {
         });
 
 
-        //Crash 收集，仅仅是Demo 需要。这不是SDK 的一部分
-        CrashReport.initCrashReport(this, "36fade54d8", true);
+        // 收集闪退运行日志
+        if(!BuildConfig.DEBUG){
+            CrashReport.initCrashReport(this, "36fade54d8", true);
+        }
 
     }
 }

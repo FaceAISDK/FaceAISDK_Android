@@ -6,11 +6,11 @@
 </div>
 
 
-# [关于 FaceAI SDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
+# [关于保护伞FaceAI SDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
-On_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK  
+Umbrella FaceAI SDK on_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK  
 
-FaceAI SDK是设备端可离线不联网Android 人脸识别、活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别，人脸搜索功能。  
+保护伞FaceAI SDK是设备端可离线不联网Android 人脸识别、活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别，人脸搜索功能。  
 
 <div align=center>
 <img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 22% height = 22% />
@@ -20,11 +20,11 @@ FaceAI SDK是设备端可离线不联网Android 人脸识别、活体检测、�
 ![设备端离线机器学习优点](https://github.com/user-attachments/assets/06b0d254-964f-4277-9198-9d5fa920d95c)
 
 
-## 当前版本说明 V1.8.83 (建议升级到最新版本)
-
-- 解决引入X86_64 CPU 支持导致的闪退问题！  
+## 当前版本说明 V1.8.86 (建议升级到最新版本)
+- 低配置设备延迟初始化相机，防止闪退
+- 开放 UVC 协议双目摄像头
+- 解决引入X86_64 CPU 支持Chrome OS导致的闪退问题！  
 - 依赖降级到kotlin 1.7.20，java 11  
-- 降级依赖，防止和使用kotlin-android-extensions 等老项目冲突
 
  建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
 
@@ -41,8 +41,8 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N
 
 SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率720p以上，帧率大于30并且无拖影。
 
-实验室测试效果能覆盖95% 的中高低端机器，识别成功率>99%；**特殊DIY系统或特殊定制硬件，外接USB摄像头等**如有问题请先提Issues附带系统版本、设备型号、错误log等信息；
-或发邮件到 anylife.zlb@gmail.com ，VIP用户添加 微信：HaoNan19990322 / WhatsApp: +8618707611416
+实验室测试效果能覆盖95% 的中高低端手机平板，识别成功率>99%；**特殊DIY系统/定制硬件，如USB摄像头，双目摄像头等**如有问题请先提Issues附带系统版本、设备型号、错误log等信息；
+或发邮件到 anylife.zlb@gmail.com ，VIP用户添加 微信：HaoNan19990322 或 WhatsApp: +8618707611416
 
 
 
@@ -74,6 +74,7 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
     更多使用说明下载SDK源码工程代码到Android Studio 以及下载Demo APK到手机体验
     里面有详尽的注释说明和使用方法介绍，SDK源码熟悉完成后大概2小时可集成到你的主工程
 
+
 **其中**
 
 | 模块            | 描述                       |
@@ -95,7 +96,7 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 
 ## 服务定制
 
-   如果 SDK 不能匹配你的应用场景需要特殊定制化，请发邮件到anylife.zlb@gmail.com
+   如果SDK不能匹配你的应用场景或需要**双目摄像头活体检测**特殊定制化，请发邮件到anylife.zlb@gmail.com
    也可以加微信 [HaoNan19990322 ，备注人脸识别](images/WechatIMG24.jpg)
    
    欢迎关注Fork+Star获取最新动态，提出使用建议等 https://github.com/AnyLifeZLB/FaceVerificationSDK
@@ -116,7 +117,7 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 2.  录入高质量的人脸图，如（images/face\_example.jpg）（证件照输入目前优化中）
 3.  光线环境好，检测的人脸无遮挡，没有化浓妆 或 佩戴墨镜、口罩
 4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
-
+5.  人脸搜索功能（1:N&M：N）人脸录入 不戴粗框的深色眼睛
 
 
 ## 常见问题
@@ -127,7 +128,8 @@ SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像�
 ## 快速接入
    Demo 以main主工程 --> faceAiLib 的方式演示，熟悉本SDK 接入Demo 后可以先Copy faceAiLib到你主工程先跑起来
    再根据业务情况修改完善。  
-   熟悉后大约2小时就能集成成功，丰富产品功能同时可大大降低公司研发投入实现降本增效。
+   熟悉后大约2小时就能集成成功，丰富产品功能同时可大大降低公司研发投入实现降本增效。  
 
+   
 
-![某司人脸识别App 提示UI](https://github.com/user-attachments/assets/4ccb015c-0f3e-48d4-842e-e2e34bb4af1e)
+![让子弹飞剧照-这是你吗？](https://github.com/user-attachments/assets/dfe7156f-d458-4294-aa25-70aa0216c760)
