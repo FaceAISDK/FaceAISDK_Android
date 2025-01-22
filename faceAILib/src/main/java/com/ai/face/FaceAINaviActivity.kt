@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ai.face.databinding.ActivityFaceAiNaviBinding
 import com.ai.face.search.SearchNaviActivity
+import com.ai.face.usbCamera.MultiCameraNewActivity
 import com.ai.face.utils.SystemUtil
 import com.ai.face.utils.VoicePlayer
 import com.ai.face.verify.FaceVerifyWelcomeActivity
@@ -60,6 +61,7 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         //双目摄像头，仅仅对VIP 开放，需要适配硬件
         viewBinding.binocularCamera.setOnClickListener {
+            startActivity(Intent(this@FaceAINaviActivity, MultiCameraNewActivity::class.java))
             Toast.makeText(this, "定制 VIP Function", Toast.LENGTH_SHORT)
                 .show()
         }

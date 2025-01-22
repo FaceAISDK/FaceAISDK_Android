@@ -18,6 +18,12 @@
 
     <application>
 
+
+        <activity
+            android:name=".usbCamera.MultiCameraNewActivity"
+            android:exported="false"/>
+
+
         <activity
             android:name=".FaceAINaviActivity"
             android:configChanges="orientation"

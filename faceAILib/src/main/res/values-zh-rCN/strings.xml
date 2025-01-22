@@ -1,4 +1,9 @@
 <resources>
+    <string name="device_list_dialog_title">Device</string>
+    <string name="device_list_empty_tip">Please connect a USB Camera</string>
+    <string name="device_list_cancel_button">Cancel</string>
+
+
     <string name="sdk_init">SDK Init</string>
     <string name="no_mask_please">请勿佩戴口罩</string>
     <string name="face_verifying">识别中</string>

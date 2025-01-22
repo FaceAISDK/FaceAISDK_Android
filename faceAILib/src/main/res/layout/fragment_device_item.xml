@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants">
+
+    <RadioButton
+        android:id="@+id/rbDeviceSelected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@null" />
+
+    <TextView
+        android:id="@+id/tvProductName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="2dp"
+        android:layout_toRightOf="@id/rbDeviceSelected"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        tools:text="device name" />
+
+    <TextView
+        android:id="@+id/tvDeviceName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvProductName"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@id/rbDeviceSelected"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        tools:text="/dev/usb1" />
+</RelativeLayout>
