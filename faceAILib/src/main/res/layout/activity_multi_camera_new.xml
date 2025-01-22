@@ -78,4 +78,17 @@
             android:text="Close" />
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="#CDB48D"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="USB双目摄像头暂时仅作展示，告知参数提供定制"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
