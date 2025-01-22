@@ -3,13 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="1dp"
     android:descendantFocusability="blocksDescendants">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/blue_sky"
+        android:layout_alignParentTop="true"
+        />
 
     <RadioButton
         android:id="@+id/rbDeviceSelected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
         android:background="@null" />
 
     <TextView
@@ -20,7 +29,7 @@
         android:layout_marginBottom="2dp"
         android:layout_toRightOf="@id/rbDeviceSelected"
         android:textAppearance="?attr/textAppearanceListItem"
-        android:textColor="@android:color/black"
+        android:textColor="@color/red"
         android:textSize="16sp"
         tools:text="device name" />
 
@@ -33,7 +42,7 @@
         android:layout_marginBottom="10dp"
         android:layout_toRightOf="@id/rbDeviceSelected"
         android:textAppearance="?attr/textAppearanceListItem"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@android:color/holo_blue_dark"
         android:textSize="14sp"
         tools:text="/dev/usb1" />
 </RelativeLayout>

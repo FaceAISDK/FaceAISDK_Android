@@ -284,12 +284,12 @@ public class MultiCameraNewActivity extends AppCompatActivity implements View.On
                 mCameraHelperRGB.addSurface(svCameraViewRGB.getHolder().getSurface(), false);
 
 
-                mCameraHelperRGB.setFrameCallback(new IFrameCallback() {
-                    @Override
-                    public void onFrame(ByteBuffer byteBuffer) {
-
-                    }
-                },UVCCamera.PIXEL_FORMAT_BGR);
+//                mCameraHelperRGB.setFrameCallback(new IFrameCallback() {
+//                    @Override
+//                    public void onFrame(ByteBuffer byteBuffer) {
+//
+//                    }
+//                },UVCCamera.PIXEL_FORMAT_BGR);
 
 //                mCameraHelperRGB.setFrameCallback((ByteBuffer frame) -> {
 //                    if (mCustomFPS != null) {

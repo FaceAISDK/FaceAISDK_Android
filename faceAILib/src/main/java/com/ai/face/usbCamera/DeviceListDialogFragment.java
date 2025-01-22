@@ -5,6 +5,7 @@ import android.hardware.usb.UsbDevice;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +29,8 @@ public class DeviceListDialogFragment extends DialogFragment {
     private RecyclerView rvDeviceList;
     private TextView tvEmptyTip;
 
+    private int selectIndex=-1;
+
     public DeviceListDialogFragment(ICameraHelper cameraHelper, UsbDevice usbDevice) {
         mCameraHelperWeak = new WeakReference<>(cameraHelper);
         mUsbDevice = usbDevice;
@@ -48,6 +51,18 @@ public class DeviceListDialogFragment extends DialogFragment {
         builder.setNegativeButton(R.string.device_list_cancel_button, (dialog, which) -> {
             dismiss();
         });
+
+//        builder.setPositiveButton(R.string.device_list_confirm_button, (dialog, which) -> {
+//            if(selectIndex!=-1){
+//                if (mOnDeviceItemSelectListener != null) {
+//                    mOnDeviceItemSelectListener.onItemSelect(mCameraHelperWeak.get().getDeviceList().get(selectIndex));
+//                }
+//                dismiss();
+//            }else{
+//                Toast.makeText(getContext(),"请选择设备",Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
         return builder.create();
     }
 
@@ -65,6 +80,7 @@ public class DeviceListDialogFragment extends DialogFragment {
                 rvDeviceList.setAdapter(adapter);
 
                 adapter.setOnItemClickListener((itemView, position) -> {
+                    selectIndex=position;
                     if (mOnDeviceItemSelectListener != null) {
                         mOnDeviceItemSelectListener.onItemSelect(list.get(position));
                     }
