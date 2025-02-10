@@ -6,7 +6,7 @@
 </div>
 
 
-# [关于保护伞FaceAI SDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
+# [关于「保护伞FaceAI SDK」](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
 Umbrella FaceAI SDK on_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK  
 
@@ -17,13 +17,13 @@ Umbrella FaceAI SDK on_device Offline Android Face Detection 、Recognition 、L
 </div>
 
 
-![设备端离线机器学习优点](https://github.com/user-attachments/assets/06b0d254-964f-4277-9198-9d5fa920d95c)
+![端侧设备端离线机器学习优点](https://github.com/user-attachments/assets/06b0d254-964f-4277-9198-9d5fa920d95c)
 
 
-## 当前版本说明 V1.8.86 (建议升级到最新版本)
+## 当前版本说明 V1.9.0 alpha (建议升级到最新版本)
 - 低配置设备延迟初始化相机，防止闪退
 - 开放 UVC 协议双目摄像头
-- 解决引入X86_64 CPU 支持Chrome OS导致的闪退问题！  
+- 优化SDK体验问题，大量更新完善基础服务 
 - 依赖降级到kotlin 1.7.20，java 11  
 
  建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
@@ -39,9 +39,9 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N
 
 其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），低端机离线验证速度正常。
 
-SDK支持Android 5+，建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率720p以上，帧率大于30并且无拖影。
+SDK支持Android(5，15]，建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率720p以上，帧率大于30并且无拖影。
 
-实验室测试效果能覆盖95% 的中高低端手机平板，识别成功率>99%；**特殊DIY系统/定制硬件，如USB摄像头，双目摄像头等**如有问题请先提Issues附带系统版本、设备型号、错误log等信息；
+实验室测试效果能覆盖95%的高中低端手机平板，识别成功率>99%；**特殊DIY系统/定制硬件，如USB摄像头，双目摄像头等**如有问题请先提Issues附带系统版本、设备型号、错误log等信息；
 或发邮件到 anylife.zlb@gmail.com ，VIP用户添加 微信：HaoNan19990322 或 WhatsApp: +8618707611416
 
 

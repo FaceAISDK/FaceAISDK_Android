@@ -36,11 +36,13 @@ android {
 
 // GitHub 无法访问，挂梯子也无效 ？参考 https://github.com/maxiaof/github-hosts
 dependencies {
-    // 人脸识别 试用版本请升级到1.8.60 以上版本。https://github.com/AnyLifeZLB/FaceVerificationSDK
-    implementation 'io.github.anylifezlb:FaceAISDK:1.8.90.alpha1' //新的依赖方式改了后缀
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+
+
+    // 人脸识别 试用版本请升级到1.8.90 以上版本。https://github.com/AnyLifeZLB/FaceVerificationSDK
+    implementation 'io.github.anylifezlb:FaceAISDK:1.8.90' //新的依赖方式改了后缀
 
     //implementation 'io.github.anylifezlb:FaceRecognition:1.8.90' //老的 FaceRecognition
-
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖

@@ -63,7 +63,7 @@
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="17sp"
-        android:background="@color/half_grey"
+        android:background="@color/blue_sky"
         app:layout_constraintStart_toStartOf="@+id/image1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image2"
