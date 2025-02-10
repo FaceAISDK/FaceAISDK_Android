@@ -87,7 +87,7 @@
         android:background="#CDB48D"
         android:gravity="center"
         android:padding="5dp"
-        android:text="USB双目摄像头暂时仅作展示，告知参数提供定制"
+        android:text="USB双目摄像头仅作预览展示，告知参数提供定制"
         android:textColor="@color/white"
         android:textSize="12sp" />
 

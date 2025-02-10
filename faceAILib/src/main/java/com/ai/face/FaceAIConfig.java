@@ -3,7 +3,7 @@ package com.ai.face;
 import android.content.Context;
 
 /**
- * 不要直接使用File Api 直接往文件目录插入图片，要使用SDK 提供的APi写入数据，图片还需要向量化
+ * 不要直接使用File Api 直接往文件目录插入图片，要使用SDK 提供的APi写入数据，图片还需要向量化，检测质量等操作
  *
  */
 public class FaceAIConfig {

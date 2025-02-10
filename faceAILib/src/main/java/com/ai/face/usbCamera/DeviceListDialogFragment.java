@@ -52,6 +52,8 @@ public class DeviceListDialogFragment extends DialogFragment {
             dismiss();
         });
 
+        Toast.makeText(getContext(),"请连接USB双目摄像头",Toast.LENGTH_LONG).show();
+
 //        builder.setPositiveButton(R.string.device_list_confirm_button, (dialog, which) -> {
 //            if(selectIndex!=-1){
 //                if (mOnDeviceItemSelectListener != null) {
@@ -69,7 +71,7 @@ public class DeviceListDialogFragment extends DialogFragment {
     private void initDeviceList() {
         if (mCameraHelperWeak.get() != null) {
             List<UsbDevice> list = mCameraHelperWeak.get().getDeviceList();
-            if (list == null || list.size() == 0) {
+            if (list == null || list.isEmpty()) {
                 rvDeviceList.setVisibility(View.GONE);
                 tvEmptyTip.setVisibility(View.VISIBLE);
             } else {

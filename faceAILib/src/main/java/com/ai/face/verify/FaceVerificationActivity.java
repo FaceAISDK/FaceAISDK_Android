@@ -1,6 +1,7 @@
 package com.ai.face.verify;
 
 import static com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,9 +11,11 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.ai.face.R;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.view.CameraXFragment;
@@ -81,14 +84,22 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
 
 
+        initFaceVerifyBaseBitmap();
+
+    }
+
+    /**
+     * 初始化人脸识别底图
+     */
+    private void initFaceVerifyBaseBitmap() {
         //1:1 人脸对比，摄像头实时采集的人脸和预留的人脸底片对比。（动作活体人脸检测完成后开始1:1比对）
         faceID = getIntent().getStringExtra(USER_FACE_ID_KEY);
         //2.先去Path 路径读取有没有faceID 对应的人脸，如果没有从网络其他地方同步
-        String faceFilePath=CACHE_BASE_FACE_DIR + faceID;
+        String faceFilePath = CACHE_BASE_FACE_DIR + faceID;
         Bitmap baseBitmap = BitmapFactory.decodeFile(faceFilePath);
         if (baseBitmap != null) {
             //3.初始化引擎，各种参数配置
-            initFaceVerification(baseBitmap);
+            initFaceVerificationParam(baseBitmap);
         } else {
             //人脸图的裁剪和保存最好提前完成，如果不是本SDK 录入的人脸可能人脸不标准
             //这里可能从网络等地方获取，业务方自行决定；为了方便演示我们放在Assert 目录
@@ -105,18 +116,17 @@ public class FaceVerificationActivity extends AppCompatActivity {
                         //从图片中裁剪识别人脸成功
                         @Override
                         public void onSuccess(@NonNull Bitmap cropedBitmap) {
-                            initFaceVerification(cropedBitmap);
+                            initFaceVerificationParam(cropedBitmap);
                         }
 
                         //识别的错误信息
                         @Override
                         public void onFailed(@NotNull String msg, int errorCode) {
-                            Log.e("ttt", msg);
+                            Log.e("disposeBaseFaceImage failed", msg);
                             Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
                         }
                     });
         }
-
     }
 
 
@@ -127,7 +137,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
      *
      * @param baseBitmap 1:1 人脸识别对比的底片，如果仅仅需要活体检测，可以把App logo Bitmap 当参数传入并忽略对比结果
      */
-    private void initFaceVerification(Bitmap baseBitmap) {
+    private void initFaceVerificationParam(Bitmap baseBitmap) {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setThreshold(0.85f)                    //阈值设置，范围限 [0.8,0.95] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
@@ -208,7 +218,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                         .show();
             } else if (isVerifyMatched) {
                 //2.和底片同一人
-                Toast.makeText(getBaseContext(), faceID+" Verify Success!" , Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), faceID + " Verify Success!", Toast.LENGTH_LONG).show();
                 tipsTextView.setText("Successful,similarity= " + similarity);
                 VoicePlayer.getInstance().addPayList(R.raw.verify_success);
                 new Handler(Looper.getMainLooper()).postDelayed(FaceVerificationActivity.this::finish, 2000);

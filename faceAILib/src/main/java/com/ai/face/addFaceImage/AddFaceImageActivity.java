@@ -70,8 +70,10 @@ public  class AddFaceImageActivity extends AppCompatActivity {
 
         /**
          * BaseImageDispose 第一个参数是否启用活体检测，录入照片没必要，部分定制SDK 会需要
+         *
+         * context 需要是
          */
-        baseImageDispose = new BaseImageDispose(false, getBaseContext(), new BaseImageCallBack() {
+        baseImageDispose = new BaseImageDispose(false, this, new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap) {
                 runOnUiThread(() -> showConfirmDialog(bitmap));

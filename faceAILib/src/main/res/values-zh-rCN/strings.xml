@@ -15,7 +15,8 @@
     <string name="share_faceai_sdk_content">Android 可离线设备端，实时人脸识别 活体检测，人脸搜索 FaceAI SDK.
         \nAPK下载：https://www.pgyer.com/faceVerify
         \n介绍说明：https://mp.weixin.qq.com/s/_ro9zBfzAmkpazL-QAPi9w
-        \n\nSDK 接入源码：https://github.com/AnyLifeZLB/FaceVerificationSDK </string>
+        \n\nSDK 接入源码：https://github.com/AnyLifeZLB/FaceVerificationSDK
+        \n 无法翻墙访问GitHub请发邮件获取anylife.zlb@gmail.com</string>
 
     <!--添加人脸 add face image-->
     <string name="keep_face_tips">保持正脸不要晃动</string>

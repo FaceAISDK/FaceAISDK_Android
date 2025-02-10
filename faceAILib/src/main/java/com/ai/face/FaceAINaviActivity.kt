@@ -3,7 +3,7 @@ package com.ai.face
 import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -17,6 +17,8 @@ import com.ai.face.verify.FaceVerifyWelcomeActivity
 import com.ai.face.verify.TwoFaceImageVerifyActivity
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 
 /**
@@ -53,13 +55,13 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
 
-        //1:N/M：N 人脸搜索
+        // 1:N， M：N 人脸搜索
         viewBinding.faceSearch.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, SearchNaviActivity::class.java))
         }
 
 
-        //双目摄像头，仅仅对VIP 开放，需要适配硬件
+        //双目摄像头，仅仅对VIP开放公共版本SDK暂不搭载，需要适配硬件
         viewBinding.binocularCamera.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, MultiCameraNewActivity::class.java))
             Toast.makeText(this, "定制 VIP Function", Toast.LENGTH_SHORT)
@@ -79,6 +81,7 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
 
+        //切换前后摄像头
         viewBinding.changeCamera.setOnClickListener {
             val sharedPref = getSharedPreferences(
                 "faceVerify", Context.MODE_PRIVATE
@@ -142,16 +145,20 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
      * 当用户点击了不再提醒的时候的处理方式
      */
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        Toast.makeText(this, "Please Oauth Permission,请授权才能正常演示", Toast.LENGTH_SHORT)
+        Toast.makeText(this, "Please Grant Permission To Run FaceAI SDK,请授权才能正常演示", Toast.LENGTH_SHORT)
             .show()
     }
 
 
     private fun showSystemParameter() {
         val TAG = "系统参数："
+        Log.e(TAG, "签名SHA1：" + SystemUtil.getSHA1(baseContext))
         Log.e(TAG, "手机厂商：" + SystemUtil.getDeviceBrand())
         Log.e(TAG, "手机型号：" + SystemUtil.getSystemModel())
         Log.e(TAG, "Android系统版本号：" + SystemUtil.getSystemVersion())
     }
+
+
+
 
 }

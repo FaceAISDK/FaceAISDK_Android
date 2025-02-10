@@ -40,7 +40,8 @@ public class GraphicOverlay extends View {
         if (width < height) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         } else {
-            super.onMeasure(heightMeasureSpec, widthMeasureSpec);
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+//            super.onMeasure(heightMeasureSpec, widthMeasureSpec);
         }
     }
 
@@ -56,8 +57,8 @@ public class GraphicOverlay extends View {
                 textPaint.setTextSize(45.0f);
                 textPaint.setTypeface(Typeface.DEFAULT);
                 textPaint.setColor(Color.GREEN);
-                String faceId=rectLabel.getFaceName().replace(".jpg", "");
-                canvas.drawText(faceId+" ≈ "+rectLabel.getFaceScore(), rectLabel.getRect().left + 22.0f, rectLabel.getRect().top + 55.0f, textPaint);
+                String faceId = rectLabel.getFaceName().replace(".jpg", "");
+                canvas.drawText(faceId + " ≈ " + rectLabel.getFaceScore(), rectLabel.getRect().left + 22.0f, rectLabel.getRect().top + 55.0f, textPaint);
             }
             rectPaint.setStrokeWidth(4.0f);
             rectPaint.setStyle(Paint.Style.STROKE);
@@ -83,14 +84,14 @@ public class GraphicOverlay extends View {
 
     private List<FaceSearchResult> adjustBoundingRect(List<FaceSearchResult> rectLabels) {
         List<FaceSearchResult> labels = new ArrayList<>();
-        int padding = 10;
+        int padding = 20;
 
-        //调整一点，有点偏差的处理。Rect 框问题。
+        // 画框处理后期再优化
         for (FaceSearchResult rectLabel : rectLabels) {
             Rect rect = new Rect(
-                    translateX(rectLabel.getRect().left),
+                    translateX(rectLabel.getRect().left) - padding,
                     translateY(rectLabel.getRect().top) - padding,
-                    translateX(rectLabel.getRect().right),
+                    translateX(rectLabel.getRect().right) + padding,
                     translateY(rectLabel.getRect().bottom) + padding
             );
 

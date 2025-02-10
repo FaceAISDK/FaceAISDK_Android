@@ -100,10 +100,10 @@ class CopyFaceImageUtils {
                         FaceSearchImagesManger.Companion.getInstance(context).insertOrUpdateFaceImage(
                             originBitmap, fileName,object :FaceSearchImagesManger.Callback {
                                 override fun onSuccess() {
-                                    Log.d("Add Face","Add Face successful"+faceFiles[index]);
+                                    Log.d("Add Face","Add Face successful：  "+faceFiles[index]);
                                 }
                                 override fun onFailed(msg: String) {
-                                    Log.e("Add Face","Add Face onFailed"+faceFiles[index]);
+                                    Log.e("Add Face","Add Face onFailed：  "+faceFiles[index]);
                                 }
 
                             }
