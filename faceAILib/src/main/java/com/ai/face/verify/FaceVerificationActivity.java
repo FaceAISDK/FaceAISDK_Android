@@ -45,7 +45,6 @@ public class FaceVerificationActivity extends AppCompatActivity {
     public static final String USER_FACE_ID_KEY = "USER_FACE_ID_KEY";   //1:1 face verify ID KEY
 
     private TextView tipsTextView, secondTipsTextView, scoreText;
-    private FaceTipsOverlay faceTipsOverlay;
     private FaceCoverView faceCoverView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private CameraXFragment cameraXFragment;
@@ -63,11 +62,10 @@ public class FaceVerificationActivity extends AppCompatActivity {
         tipsTextView = findViewById(R.id.tips_view);
         secondTipsTextView = findViewById(R.id.second_tips_view);
         faceCoverView = findViewById(R.id.face_cover);
-        faceTipsOverlay = findViewById(R.id.faceTips);
+
         findViewById(R.id.back).setOnClickListener(v -> {
             FaceVerificationActivity.this.finish();
         });
-
 
         int cameraLensFacing = getSharedPreferences("faceVerify", Context.MODE_PRIVATE)
                 .getInt("cameraFlag", 0);
@@ -122,7 +120,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                         //识别的错误信息
                         @Override
                         public void onFailed(@NotNull String msg, int errorCode) {
-                            Log.e("disposeBaseFaceImage failed", msg);
+                            Log.e("BaseFaceImage failed", msg);
                             Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
                         }
                     });
@@ -147,7 +145,6 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .setMotionLivenessStepSize(2)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //活体去除微笑,或设置其他某种
                 .setVerifyTimeOut(16)                 //活体检测支持设置超时时间 [9,22] 秒
-                .setGraphicOverlay(faceTipsOverlay)   //正式环境请去除设置
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
                      * 1:1 人脸识别 活体检测 对比结束

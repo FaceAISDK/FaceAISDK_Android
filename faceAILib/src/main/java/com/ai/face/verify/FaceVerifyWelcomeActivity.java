@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ai.face.R;
+import com.ai.face.UVCCameraNew.BinocularUVCCameraActivity;
 import com.ai.face.addFaceImage.AddFaceImageActivity;
 import com.ai.face.search.ImageBean;
 import com.bumptech.glide.Glide;
@@ -36,7 +37,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * 1:1 人脸识别引导说明页面
+ * 1:1 人脸识别引导说明页面,支持传统的HAL 接口的Android Camera API 摄像头 和 UVC 协议摄像头
+ * <p>
  * <p>
  * 包含怎么添加人脸照片，人脸活体检测，人脸识别
  */
@@ -44,6 +46,18 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
     private final List<ImageBean> faceImageList = new ArrayList<>();
     private FaceImageListAdapter faceImageListAdapter;
 
+    public static final String FACE_VERIFY_DATA_SOURCE_TYPE = "FACE_VERIFY_DATA_SOURCE_TYPE";
+
+    // 是常用的默认Android_HAL还是USB UVC 协议摄像头
+    private DataSourceType dataSourceType = DataSourceType.Android_HAL;
+
+    /**
+     * UVC 协议摄像头：Android 平台几乎都是这个库的拓展 https://github.com/saki4510t/UVCCamera
+     * Android_HAL 摄像头： 采用标准的 Android Camera2 API 和摄像头 HAL 接口。FaceAI SDK 底层使用CameraX 管理
+     */
+    public enum DataSourceType {
+        UVC, Android_HAL;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +71,9 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
                 new Intent(FaceVerifyWelcomeActivity.this, AddFaceImageActivity.class)
                         .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_VERIFY.name())
         ));
+
+        Bundle bundle = getIntent().getExtras();
+        dataSourceType = (DataSourceType) bundle.getSerializable(FACE_VERIFY_DATA_SOURCE_TYPE);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);//设置为横向滑动
@@ -81,10 +98,19 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
             return false;
         });
 
-        faceImageListAdapter.setOnItemClickListener((adapter, view, i) -> startActivity(
-                new Intent(getBaseContext(), FaceVerificationActivity.class)
-                        .putExtra(USER_FACE_ID_KEY, faceImageList.get(i).name) //1:1 底片人脸ID
-        ));
+        faceImageListAdapter.setOnItemClickListener((adapter, view, i) -> {
+            // 根据摄像头种类启动不同的模式
+                    if (dataSourceType.equals(DataSourceType.Android_HAL)) {
+                        startActivity(
+                                new Intent(getBaseContext(), FaceVerificationActivity.class)
+                                        .putExtra(USER_FACE_ID_KEY, faceImageList.get(i).name));
+                    } else {
+                        startActivity(
+                                new Intent(getBaseContext(), BinocularUVCCameraActivity.class)
+                                        .putExtra(USER_FACE_ID_KEY, faceImageList.get(i).name));
+                    }
+                }
+        );
 
         faceImageListAdapter.setEmptyView(R.layout.verify_empty_layout);
         faceImageListAdapter.getEmptyLayout().setOnClickListener(v -> addFaceView.performClick());

@@ -32,21 +32,21 @@
 
     <LinearLayout
         android:id="@+id/add_faceid_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_margin="22dp"
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="77dp"
-            android:layout_height="77dp"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:layout_gravity="center"
             android:background="@drawable/person_add_24" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_gravity="center"
             android:paddingLeft="4dp"
             android:text="Add Face"
             android:textColor="@color/face_lib_main_color"
