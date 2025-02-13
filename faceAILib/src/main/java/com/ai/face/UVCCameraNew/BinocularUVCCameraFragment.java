@@ -7,14 +7,10 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-
-
 import com.ai.face.FaceAIConfig;
 import com.ai.face.R;
 import com.ai.face.base.baseImage.FaceAIUtils;
@@ -118,9 +114,10 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(getContext())
                 .setThreshold(0.88f)                    //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
-                .setLivenessType(LivenessType.SILENT)   //活体检测可以有静默活体，动作活体或者组合也可以不需要活体NONE
+                .setLivenessType(LivenessType.IR_MOTION)   //IR 是指红外静默，MOTION 是有动作可以指定1-2 个
                 .setLivenessDetectionMode(LivenessDetectionMode.FAST)//硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(0.88f)      //静默活体阈值 [0.88,0.99]
+                .setMotionLivenessStepSize(1)
                 .setVerifyTimeOut(10)                   //活体检测支持设置超时时间 [9,22] 秒
                 .setProcessCallBack(new ProcessCallBack() {
 
