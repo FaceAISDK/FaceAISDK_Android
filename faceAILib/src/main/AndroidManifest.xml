@@ -20,6 +20,11 @@
             android:name=".UVCCameraNew.BinocularUVCCameraActivity"
             android:exported="true"/>
 
+
+        <activity
+            android:name=".UVCCameraNew.addFace.AddFaceUVCCameraActivity"
+            android:exported="true"/>
+
         <activity
             android:name=".FaceAINaviActivity"
             android:configChanges="orientation"

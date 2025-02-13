@@ -28,7 +28,7 @@
         android:textSize="15sp"
         android:gravity="center_vertical"
         android:textColor="@color/green"
-        android:text="UVC Camera FaceAI"
+        android:text="Add Face Image"
         android:textStyle="bold"
         android:layout_alignTop="@+id/back"
         />

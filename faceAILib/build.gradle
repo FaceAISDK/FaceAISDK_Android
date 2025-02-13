@@ -51,7 +51,7 @@ dependencies {
     implementation 'com.github.javakam:file.selector:3.9.8@aar'  //文件选择器(File selector)
     implementation 'com.github.javakam:file.compressor:3.9.8@aar'//图片压缩,修改自Luban(Image compression, based on Luban)
 
-    api 'com.github.jiangdongguo.AndroidUSBCamera:libausbc:3.3.3'
+    implementation 'com.github.jiangdongguo.AndroidUSBCamera:libausbc:3.3.3'
 
     implementation 'pub.devrel:easypermissions:3.0.0'
     api 'com.airbnb.android:lottie:6.0.0'

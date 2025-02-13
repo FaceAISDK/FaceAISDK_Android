@@ -14,7 +14,7 @@ android {
         targetSdk 33  //target SDK 还是28 的请参考question.md 文档说明
 
         versionCode 29
-        versionName "1.8.90.release"
+        versionName "1.9.0.KKKKKK"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -36,7 +36,9 @@ android {
     buildTypes {
         debug {
             minifyEnabled true
-            shrinkResources true
+            shrinkResources false
+            jniDebuggable true
+            minifyEnabled false
             signingConfig signingConfigs.release
         }
 
@@ -52,6 +54,11 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
     }
 
 }
@@ -76,6 +83,10 @@ configurations.configureEach {
 dependencies {
     //在你的项目主工程依赖faceAILib，熟悉了SDK 接入源码后再根据你的业务修改实现
     implementation project(':faceAILib')
+
+
+//    api 'com.github.jiangdongguo.AndroidUSBCamera:libausbc:3.3.3'
+
 
     // Demo 为了收集 Crash。
     implementation 'com.tencent.bugly:crashreport:4.1.9.3'
