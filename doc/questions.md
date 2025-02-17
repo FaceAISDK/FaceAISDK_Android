@@ -7,7 +7,7 @@
 
 ### 0.特殊定制硬件配置板子支持程度
   FaceAI SDK通用版本的开发适配都是基于手机和平板进行的，有着标准的摄像头外设；为了保证通用版本最大的兼容性，识别过程以一种通用的方式进行，
-  如果你的设备硬件配置有加速器支持（ GPU 和数字信号处理器DSP）以及运行较高的Android 系统，定制SDK运行的效率和准确度都会有相应的提升
+  如果你的设备硬件配置有加速器支持（ GPU 和NPU）以及运行较高的Android 系统，定制SDK运行的效率和准确度都会有相应的提升
 
 ### 1.移动端是否包含iOS 端？
    iOS 有1:1 人脸识别（含静默活体），动作活体移植中.
@@ -18,13 +18,10 @@
 ### 3.是否支持外接USB 摄像头
    如果你的系统摄像头采用标准的 Android Camera2 API 和摄像头 HIDL接口，SDK内部已经集成CameraX管理摄像头，也就是
    标准大厂生产的手机平板设备都是支持的。
-   但是门禁机，人脸识别考勤机这些硬件大都是厂家自定义的硬件设备，系统也经过裁剪，摄像头采用UVC协议的RGB,IR 双目USB摄像头
-   你也可以自行管理摄像头和切换画面角度等，获取到预览数据转为bitmap后调用SDK引擎，同时注意控制数据流背压策略防止闪退
-   ```
-      FaceSearchEngine.Companion.getInstance().runSearch(searchBmp);
-   ``` 
-   双目摄像头请采集RGB Camera预览数据传入标准通用版本SDK ，如果想使用IR红外Camera 进行活体检测请联系获取定制版本SDK
-   关于Android 外接USB摄像头 https://source.android.com/docs/core/camera/external-usb-cameras?hl=zh-cn
+   
+   目前1.9.0 以上版本已经默认支持了UVC 协议的红外双目摄像头，直接在手机上插上USB 连接摄像头就能体验
+
+   ![红外双目](https://github.com/user-attachments/assets/3e96879d-0757-409e-894b-5d1d0e80231c)
 
 ### 4.人脸识别1:N 搜索是否能支持N>万人以上
    本SDK 目前已经支持万人以上,大容量人脸库搜索速度快，也支持分库搜索
@@ -113,6 +110,7 @@
    支持自定义摄像头，可以在子线程持续输入bitmap 实时预览帧作为参数进行SDK 的调用。
    如果你要自行管理摄像头接入，画面方向 旋转管理可以参考 https://github.com/AnyLifeZLB/BinocularCameraFaceSearch
 
+   双目摄像头也已经支持
 
 ### 15.uniApp 插件市场支持
     暂无，有兴趣打包发布插件者请联系我。开发人员也可以根据uniApp官方推荐方式自行集成

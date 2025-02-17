@@ -2,9 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-    <uses-feature android:name="android.hardware.camera" />
+
     <!-- 演示提示用 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -18,11 +16,14 @@
 
     <application>
 
+        <activity
+            android:name=".UVCCameraNew.BinocularUVCCameraActivity"
+            android:exported="true"/>
+
 
         <activity
-            android:name=".usbCamera.MultiCameraNewActivity"
-            android:exported="false"/>
-
+            android:name=".UVCCameraNew.addFace.AddFaceUVCCameraActivity"
+            android:exported="true"/>
 
         <activity
             android:name=".FaceAINaviActivity"

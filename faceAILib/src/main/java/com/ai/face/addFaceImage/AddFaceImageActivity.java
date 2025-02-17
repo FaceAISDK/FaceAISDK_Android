@@ -65,12 +65,11 @@ public  class AddFaceImageActivity extends AppCompatActivity {
         tipsTextView = findViewById(R.id.tips_view);
         findViewById(R.id.back).setOnClickListener(v -> this.finish());
 
-        addFaceImageType=getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
+        addFaceImageType= getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
         faceID = getIntent().getStringExtra(USER_FACE_ID_KEY);
 
         /**
          * BaseImageDispose 第一个参数是否启用活体检测，录入照片没必要，部分定制SDK 会需要
-         *
          * context 需要是
          */
         baseImageDispose = new BaseImageDispose(false, this, new BaseImageCallBack() {
@@ -167,7 +166,7 @@ public  class AddFaceImageActivity extends AppCompatActivity {
                  if (addFaceImageType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
                      Toast.makeText(getBaseContext(), "Add 1:1 Face Image Finish", Toast.LENGTH_SHORT).show();
                      //1:1 人脸识别保存人脸底图
-                     baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, faceID, 400);
+                     baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, faceID, 300);
                      dialog.dismiss();
                      finish();
                  } else{

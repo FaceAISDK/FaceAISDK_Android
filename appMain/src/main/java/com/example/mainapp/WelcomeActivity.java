@@ -41,7 +41,7 @@ public class WelcomeActivity extends AppCompatActivity {
         LottieAnimationView startFaceAILib = findViewById(R.id.goFaceAILib);
         startFaceAILib.setAnimation(com.ai.face.R.raw.loading);
         startFaceAILib.loop(false);
-        startFaceAILib.setSpeed(4f);
+        startFaceAILib.setSpeed(5f);
         startFaceAILib.playAnimation();
 
         startFaceAILib.addAnimatorListener(new Animator.AnimatorListener() {
