@@ -7,8 +7,6 @@
     android:layout_height="match_parent">
 
 
-
-
     <ImageView
         android:id="@+id/back"
         android:layout_width="47dp"
@@ -76,7 +74,7 @@
     <!-- 可以替换成你自己的UI样式 -->
     <com.ai.face.base.view.FaceCoverView
         android:id="@+id/face_cover"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         customAttr:circle_margin="18dp"
@@ -114,8 +112,9 @@
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:textColor="@color/blue_sky"
-        android:textSize="18sp"
+        android:textColor="@color/red"
+        android:textSize="19sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tips_view" />

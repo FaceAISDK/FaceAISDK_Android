@@ -188,7 +188,8 @@ public class FaceVerificationActivity extends AppCompatActivity {
             //防止在识别过程中关闭页面导致Crash
             if (!isDestroyed() && !isFinishing()) {
                 //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
-                faceVerifyUtils.goVerify(imageProxy, faceCoverView.getMargin());
+                faceVerifyUtils.goVerifyWithImageProxy(imageProxy, faceCoverView.getMargin());
+                //自定义管理相机可以使用 goVerifyWithBitmap
             }
         });
 
@@ -224,7 +225,8 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 tipsTextView.setText("Failed ！ similarity=" + similarity);
                 VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
                 new AlertDialog.Builder(FaceVerificationActivity.this)
-                        .setMessage(R.string.face_verify_failed)
+                        .setTitle("similarity="+similarity)
+                        .setMessage( R.string.face_verify_failed)
                         .setCancelable(false)
                         .setPositiveButton(R.string.confirm, (dialogInterface, i) -> finish())
                         .setNegativeButton(R.string.retry, (dialog, which) -> {

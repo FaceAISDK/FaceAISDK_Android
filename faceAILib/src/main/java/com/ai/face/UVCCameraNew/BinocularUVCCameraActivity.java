@@ -8,6 +8,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.ai.face.R;
 
+/**
+ *
+ *
+ */
 public class BinocularUVCCameraActivity extends AppCompatActivity {
 
     @Override

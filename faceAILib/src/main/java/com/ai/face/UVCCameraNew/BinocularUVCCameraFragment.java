@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.ai.face.FaceAIConfig;
 import com.ai.face.R;
 import com.ai.face.base.baseImage.FaceAIUtils;
+import com.ai.face.base.utils.BrightnessUtil;
 import com.ai.face.base.view.FaceCoverView;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
@@ -29,7 +30,10 @@ import org.jetbrains.annotations.NotNull;
 
 
 /**
- * 打开双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
+ * 打开红外双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
+ *
+ * 如果你是单目摄像头，LiveType 不能使用IR 相关配置，需要修改Demo 的默认配置
+ *
  */
 public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragment implements ICameraStateCallBack {
 
@@ -48,7 +52,7 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
         secondTipsTextView = mViewBinding.secondTipsView;
         faceCoverView = mViewBinding.faceCover;
         mViewBinding.back.setOnClickListener(v -> requireActivity().finish());
-
+        BrightnessUtil.setBrightness(requireActivity(), 1.0f);  //屏幕光当补光灯
         openDebug(true);
     }
 
@@ -112,9 +116,9 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
      */
     void initFaceVerificationParam(Bitmap baseBitmap) {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(getContext())
-                .setThreshold(0.88f)                    //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
-                .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
-                .setLivenessType(LivenessType.IR_MOTION)   //IR 是指红外静默，MOTION 是有动作可以指定1-2 个
+                .setThreshold(0.87f)                     //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
+                .setBaseBitmap(baseBitmap)               //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
+                .setLivenessType(LivenessType.IR_MOTION)   //IR 是指红外静默，MOTION 是有动作可以指定1-2 个，单目不能用IR
                 .setLivenessDetectionMode(LivenessDetectionMode.FAST)//硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(0.88f)      //静默活体阈值 [0.88,0.99]
                 .setMotionLivenessStepSize(1)
@@ -213,12 +217,12 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
 
                     //  @@@@@@@@@@@@@@ 下面是处理IR CAMERA 问题 @@@@@@@@@@@@@@@@@@
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.IR_IMAGE_NULL:
-                        secondTipsTextView.setText(" IR_IMAGE_NULL ");
+                        secondTipsTextView.setText("请确认IR摄像头正常工作");
 
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.IR_IMAGE_NO_FACE_BUT_RGB_HAVE:
-                        secondTipsTextView.setText(" IR_IMAGE_NO_FACE_BUT_RGB_HAVE ");
+                        secondTipsTextView.setText("异常的人脸影像");
                         break;
 
 
@@ -315,7 +319,9 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        faceVerifyUtils.destroyProcess();
+        if(faceVerifyUtils!=null){
+            faceVerifyUtils.destroyProcess();
+        }
     }
 
 
@@ -339,6 +345,7 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
 
     /**
      * 双目摄像头设置数据，送数据到SDK 引擎
+     * 请同时确认RGB ，IR摄像头正常工作
      *
      * @param bitmap
      * @param type

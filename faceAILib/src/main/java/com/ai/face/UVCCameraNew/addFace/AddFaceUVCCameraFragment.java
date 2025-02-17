@@ -35,6 +35,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.ai.face.R;
 import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
+import com.ai.face.base.utils.BrightnessUtil;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.databinding.FragmentBinocularCameraAddFaceBinding;
 import com.ai.face.databinding.FragmentBinocularCameraBinding;
@@ -51,27 +52,26 @@ import java.nio.ByteBuffer;
 
 /**
  * 打开双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
+ * 添加人脸仅仅用了RGB 摄像头
  */
-public class AddFaceUVCCameraFragment
-        extends MultiCameraFragment implements ICameraStateCallBack {
+public class AddFaceUVCCameraFragment extends MultiCameraFragment implements ICameraStateCallBack {
     public static final String RBG_CAMERA = "RGB"; //RGB 摄像头名字中的关键字
     public static final String IR_CAMERA = "IR";   //IR 摄像头名字中的关键字
-    public static final int PREVIEW_WIDTH = 640, PREVIEW_HEIGHT = 480;
+    public static final int PREVIEW_WIDTH = 1280, PREVIEW_HEIGHT = 960; //请根据你的摄像头支持设定类似分辨率
 
     public MultiCameraClient.ICamera rgbCamera;
     public MultiCameraClient.ICamera irCamera;
 
-    public FragmentBinocularCameraAddFaceBinding  mViewBinding;
+    public FragmentBinocularCameraAddFaceBinding mViewBinding;
 
-    public static String ADD_FACE_IMAGE_TYPE_KEY="ADD_FACE_IMAGE_TYPE_KEY";
+    public static String ADD_FACE_IMAGE_TYPE_KEY = "ADD_FACE_IMAGE_TYPE_KEY";
     private TextView tipsTextView;
     private BaseImageDispose baseImageDispose;
-    private String faceID,addFaceImageType;
+    private String faceID, addFaceImageType;
 
     //是1:1 还是1:N 人脸搜索添加人脸
-    public enum AddFaceImageTypeEnum
-    {
-        FACE_VERIFY,FACE_SEARCH;
+    public enum AddFaceImageTypeEnum {
+        FACE_VERIFY, FACE_SEARCH;
     }
 
     public AddFaceUVCCameraFragment() {
@@ -80,12 +80,6 @@ public class AddFaceUVCCameraFragment
 
     @Override
     protected void onCameraAttached(@NonNull MultiCameraClient.ICamera camera) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            //如果你的系统还小于Android 5.0 可能getProductName 会为空，自行适配
-            Toast.makeText(getContext(), "SDK_INT<LOLLIPOP 请修改实现", Toast.LENGTH_LONG).show();
-            return;
-        }
-
         String productName = camera.getUsbDevice().getProductName();
         if (!TextUtils.isEmpty(productName) && productName.contains(RBG_CAMERA)) {
             rgbCamera = camera;
@@ -104,18 +98,6 @@ public class AddFaceUVCCameraFragment
         if (!irCamera.isCameraOpened() && !rgbCamera.isCameraOpened()) {
             mViewBinding.multiCameraTip.setVisibility(VISIBLE);
         }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            String productName = camera.getUsbDevice().getProductName();
-            if (!TextUtils.isEmpty(productName) && productName.contains(RBG_CAMERA)) {
-                rgbCamera = null;
-            }
-            if (!TextUtils.isEmpty(productName) && productName.contains(IR_CAMERA)) {
-                irCamera = null;
-            }
-        } else {
-            Toast.makeText(getContext(), "SDK_INT<LOLLIPOP 请修改实现细节", Toast.LENGTH_LONG).show();
-        }
     }
 
 
@@ -130,12 +112,12 @@ public class AddFaceUVCCameraFragment
         super.initView();
         openDebug(true);
 
+        BrightnessUtil.setBrightness(requireActivity(), 1.0f);
         addFaceInit();
     }
 
     /**
      * 确认是否保存人脸底图
-     *
      */
     private void showConfirmDialog(Bitmap bitmap) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
@@ -154,7 +136,7 @@ public class AddFaceUVCCameraFragment
         editText.requestFocus();
         editText.setText(faceID);
         btnOK.setOnClickListener(v -> {
-            faceID=editText.getText().toString();
+            faceID = editText.getText().toString();
 
             if (!TextUtils.isEmpty(faceID)) {
                 if (addFaceImageType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
@@ -163,7 +145,7 @@ public class AddFaceUVCCameraFragment
                     baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, faceID, 300);
                     dialog.dismiss();
                     requireActivity().finish();
-                } else{
+                } else {
                     //1:N ，M：N 人脸搜索保存人脸
                     dialog.dismiss();
                     Intent intent = new Intent();
@@ -190,12 +172,12 @@ public class AddFaceUVCCameraFragment
     }
 
 
-    private void addFaceInit(){
+    private void addFaceInit() {
 
-        tipsTextView=mViewBinding.tipsView;
+        tipsTextView = mViewBinding.tipsView;
         mViewBinding.back.setOnClickListener(v -> requireActivity().finish());
 
-        addFaceImageType= requireActivity().getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
+        addFaceImageType = requireActivity().getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
         faceID = requireActivity().getIntent().getStringExtra(USER_FACE_ID_KEY);
 
         /**
@@ -253,52 +235,45 @@ public class AddFaceUVCCameraFragment
     }
 
 
-
     @Override
     protected void onCameraConnected(@NonNull MultiCameraClient.ICamera camera) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            String productName = camera.getUsbDevice().getProductName();
-            Log.d("onCameraConnected", "---  发现新摄像头: --- " + productName);
+        String productName = camera.getUsbDevice().getProductName();
+        Log.d("onCameraConnected", "---  发现新摄像头: --- " + productName);
 
-            //处理 RGB Camera
-            if (!TextUtils.isEmpty(productName) && productName.contains(RBG_CAMERA)) {
-
-                camera.openCamera(mViewBinding.rgbCameraTextureView, getCameraRequest());
-                camera.setCameraStateCallBack(this);
-                camera.setRenderSize(PREVIEW_WIDTH, PREVIEW_HEIGHT);
-
-                camera.addPreviewDataCallBack((bytes, width, height, dataFormat) -> {
-//                    LogUtils.d("CAMERA","RGB: "+width+"  "+height+" "+dataFormat.name());
-                    Bitmap bitmap = DataConvertUtils.NV21Data2Bitmap(ByteBuffer.wrap(bytes), width, height, 0, 0, false);
-                    if (bitmap != null) {
-                        baseImageDispose.dispose(bitmap);
-                    }
-                });
-
-                UsbDevice device = camera.getUsbDevice();
-                if (!hasPermission(device)) {
-                    requestPermission(device);
+        //处理 RGB Camera
+        if (!TextUtils.isEmpty(productName) && productName.contains(RBG_CAMERA)) {
+            camera.openCamera(mViewBinding.rgbCameraTextureView, getCameraRequest());
+            camera.setCameraStateCallBack(this);
+            camera.setRenderSize(PREVIEW_WIDTH, PREVIEW_HEIGHT);
+            camera.addPreviewDataCallBack((bytes, width, height, dataFormat) -> {
+                Bitmap bitmap = DataConvertUtils.NV21Data2Bitmap(ByteBuffer.wrap(bytes), width, height, 0, 0, false);
+                if (bitmap != null) {
+                    baseImageDispose.dispose(bitmap);
                 }
+            });
+
+            UsbDevice device = camera.getUsbDevice();
+            if (!hasPermission(device)) {
+                requestPermission(device);
             }
-
-            //处理 IR Camera
-            if (!TextUtils.isEmpty(productName) && productName.contains(IR_CAMERA)) {
-                camera.openCamera(mViewBinding.irCameraTextureView, getCameraRequest());
-                camera.setCameraStateCallBack(this);
-                camera.setRenderSize(PREVIEW_WIDTH, PREVIEW_HEIGHT);
-                camera.addPreviewDataCallBack((bytes, width, height, dataFormat) -> {
-                    Bitmap bitmap = DataConvertUtils.NV21Data2Bitmap(ByteBuffer.wrap(bytes), width, height, 0, 0, false);
-                });
-
-                UsbDevice device = camera.getUsbDevice();
-                if (!hasPermission(device)) {
-                    requestPermission(device);
-                }
-            }
-
-        } else {
-            Toast.makeText(getContext(), "SDK_INT<LOLLIPOP 请修改实现细节吧", Toast.LENGTH_LONG).show();
         }
+
+        //处理 IR Camera
+        if (!TextUtils.isEmpty(productName) && productName.contains(IR_CAMERA)) {
+            camera.openCamera(mViewBinding.irCameraTextureView, getCameraRequest());
+            camera.setCameraStateCallBack(this);
+            camera.setRenderSize(PREVIEW_WIDTH, PREVIEW_HEIGHT);
+            camera.addPreviewDataCallBack((bytes, width, height, dataFormat) -> {
+                // 人脸录入IR 数据不用处理
+                Bitmap bitmap = DataConvertUtils.NV21Data2Bitmap(ByteBuffer.wrap(bytes), width, height, 0, 0, false);
+            });
+
+            UsbDevice device = camera.getUsbDevice();
+            if (!hasPermission(device)) {
+                requestPermission(device);
+            }
+        }
+
     }
 
 
@@ -316,8 +291,6 @@ public class AddFaceUVCCameraFragment
     }
 
 
-
-
     @Nullable
     @Override
     protected View getRootView(@NonNull LayoutInflater layoutInflater, @Nullable ViewGroup viewGroup) {
@@ -329,7 +302,7 @@ public class AddFaceUVCCameraFragment
         return new CameraRequest.Builder()
                 .setPreviewWidth(PREVIEW_WIDTH)
                 .setPreviewHeight(PREVIEW_HEIGHT)
-                .setRenderMode(CameraRequest.RenderMode.NORMAL)
+                .setRenderMode(CameraRequest.RenderMode.NORMAL) //NV21
                 .create();
     }
 

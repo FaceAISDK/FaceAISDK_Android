@@ -40,7 +40,8 @@ dependencies {
 
 
     // 人脸识别 试用版本请升级到1.8.90 以上版本。https://github.com/AnyLifeZLB/FaceVerificationSDK
-    implementation 'io.github.anylifezlb:FaceAISDK:1.9.0.beta2' //新的依赖方式改了后缀
+    implementation 'io.github.anylifezlb:FaceAISDK:1.9.0.RedBull' //新的依赖方式改了后缀
+
 
     //implementation 'io.github.anylifezlb:FaceRecognition:1.8.90' //老的 FaceRecognition
 
