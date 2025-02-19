@@ -8,54 +8,6 @@
 
 
 
-
-    <ImageView
-        android:id="@+id/back"
-        android:layout_width="47dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
-        android:padding="9dp"
-        android:src="@drawable/ic_arrow_back_24" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="47dp"
-        android:layout_toRightOf="@+id/back"
-        app:layout_constraintLeft_toRightOf="@+id/back"
-        android:textSize="15sp"
-        android:gravity="center_vertical"
-        android:textColor="@color/green"
-        android:text="UVC Camera FaceAI"
-        android:textStyle="bold"
-        android:layout_alignTop="@+id/back"
-        />
-
-
-    <com.jiangdg.ausbc.widget.AspectRatioTextureView
-        android:id="@+id/rgb_camera_texture_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <com.jiangdg.ausbc.widget.AspectRatioTextureView
-        android:id="@+id/ir_camera_texture_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_max="wrap"
-        app:layout_constraintHeight_percent="0.25"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/rgb_camera_texture_view"
-        app:layout_constraintWidth_max="wrap"
-        app:layout_constraintWidth_percent="0.25" />
-
-
     <TextView
         android:id="@+id/multi_camera_tip"
         android:layout_width="0dp"
@@ -70,6 +22,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <com.serenegiant.widget.AspectRatioSurfaceView
+        android:id="@+id/rgb_camera_texture_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:layout_constraintBottom_toBottomOf="@+id/multi_camera_tip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.serenegiant.widget.AspectRatioSurfaceView
+        android:id="@+id/ir_camera_texture_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_max="wrap"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/rgb_camera_texture_view"
+        app:layout_constraintWidth_max="wrap"
+        app:layout_constraintWidth_percent="0.25" />
 
 
 
@@ -114,8 +88,9 @@
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:textColor="@color/blue_sky"
-        android:textSize="18sp"
+        android:textColor="@color/red"
+        android:textSize="19sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tips_view" />
@@ -132,6 +107,30 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:padding="9dp"
+        android:src="@drawable/ic_arrow_back_24" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="47dp"
+        android:layout_toRightOf="@+id/back"
+        app:layout_constraintLeft_toRightOf="@+id/back"
+        android:textSize="15sp"
+        android:gravity="center_vertical"
+        android:textColor="@color/green"
+        android:text="UVC Camera FaceAI"
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/back"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

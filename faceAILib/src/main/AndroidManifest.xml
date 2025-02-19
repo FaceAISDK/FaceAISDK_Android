@@ -17,12 +17,12 @@
     <application>
 
         <activity
-            android:name=".UVCCameraNew.BinocularUVCCameraActivity"
+            android:name=".UVCCamera.BinocularUVCCameraActivity"
             android:exported="true"/>
 
 
         <activity
-            android:name=".UVCCameraNew.addFace.AddFaceUVCCameraActivity"
+            android:name=".UVCCamera.addFace.AddFaceUVCCameraActivity"
             android:exported="true"/>
 
         <activity

@@ -7,7 +7,7 @@
 
     <string name="sdk_init">SDK Init</string>
     <string name="no_mask_please">请勿佩戴口罩</string>
-    <string name="face_verifying">识别中</string>
+    <string name="face_verifying">识别中，正对屏幕</string>
     <string name="confirm">知道了</string>
     <string name="retry">重试</string>
     <string name="long_press_copy_msg">提示：长按复制联系信息</string>
