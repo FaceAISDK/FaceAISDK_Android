@@ -20,11 +20,10 @@ Umbrella FaceAI SDK on_device Offline Android Face Detection 、Recognition 、L
 ![端侧设备端离线机器学习优点](https://github.com/user-attachments/assets/06b0d254-964f-4277-9198-9d5fa920d95c)
 
 
-## 当前版本说明 V1.9.0 alpha (建议升级到最新版本)
-- 低配置设备延迟初始化相机，防止闪退
-- 开放 UVC 协议双目摄像头
-- 优化SDK体验问题，大量更新完善基础服务 
-- 依赖降级到kotlin 1.7.20，java 11  
+## 当前版本说明 V1.9.0 beta (建议升级到最新版本)
+- 优化SDK体验，支持自定义管理摄像头
+- 开放UVC协议双目红外摄像头
+- 解决2024年GitHub issues，集成问题 
 
  建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
 
@@ -37,7 +36,7 @@ Umbrella FaceAI SDK on_device Offline Android Face Detection 、Recognition 、L
 
 SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N人脸识别检索](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Introduce_11_1N_MN.md)，**所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
 
-其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），低端机离线验证速度正常。
+其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），低端机离线验证速度正常，1.9.0已经支持UVC红外双目摄像头。
 
 SDK支持Android(5，15]，建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率720p以上，帧率大于30并且无拖影。
 

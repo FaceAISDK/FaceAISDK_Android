@@ -5,10 +5,9 @@
     <string name="device_list_confirm_button">Confirm</string>
 
 
-
     <string name="sdk_init">SDK Init</string>
     <string name="no_mask_please">No mask</string>
-    <string name="face_verifying">Face verifying</string>
+    <string name="face_verifying">Verifying(face the camera)</string>
     <string name="confirm">Done</string>
     <string name="retry">Retry</string>
     <string name="long_press_copy_msg">Tips: Long press to copy msg</string>
@@ -39,7 +38,7 @@
     <string name="face_dir_empty">Face dir empty</string>
 
     <!--1:1 人脸识别 face verify-->
-    <string name="face_verify_failed">Face verify failed！</string>
+    <string name="face_verify_failed">Face verify failed！Please retry</string>
     <string name="silent_anti_spoofing_error">Silent anti spoofing error</string>
 
     <!--Motion liveness detection-->

@@ -7,7 +7,7 @@
 
     <string name="sdk_init">SDK Init</string>
     <string name="no_mask_please">请勿佩戴口罩</string>
-    <string name="face_verifying">识别中，正对屏幕</string>
+    <string name="face_verifying">识别中,正对摄像头</string>
     <string name="confirm">知道了</string>
     <string name="retry">重试</string>
     <string name="long_press_copy_msg">提示：长按复制联系信息</string>
@@ -38,7 +38,7 @@
     <string name="face_dir_empty">人脸库为空</string>
 
     <!--1:1 人脸识别 face verify-->
-    <string name="face_verify_failed">1:1 人脸识别不通过，与底片不符！</string>
+    <string name="face_verify_failed">1:1 人脸识别不通过，请重试！</string>
     <string name="silent_anti_spoofing_error">静默活体得分过低</string>
 
     <!--Motion liveness detection-->

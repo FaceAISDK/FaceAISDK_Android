@@ -157,8 +157,8 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
     private fun showSystemParameter() {
         val TAG = "系统参数："
         Log.e(TAG, "签名SHA1：" + SystemUtil.getSHA1(baseContext))
-        Log.e(TAG, "手机厂商：" + SystemUtil.getDeviceBrand())
-        Log.e(TAG, "手机型号：" + SystemUtil.getSystemModel())
+        Log.e(TAG, "设备厂商：" + SystemUtil.getDeviceBrand())
+        Log.e(TAG, "设备型号：" + SystemUtil.getSystemModel())
         Log.e(TAG, "Android系统版本号：" + SystemUtil.getSystemVersion())
     }
 

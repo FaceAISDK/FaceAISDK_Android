@@ -14,7 +14,7 @@ android {
         targetSdk 33  //target SDK 还是28 的请参考question.md 文档说明
 
         versionCode 29
-        versionName "1.9.0.KKKKKK"
+        versionName "1.9.0.0217"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -83,9 +83,6 @@ configurations.configureEach {
 dependencies {
     //在你的项目主工程依赖faceAILib，熟悉了SDK 接入源码后再根据你的业务修改实现
     implementation project(':faceAILib')
-
-
-//    api 'com.github.jiangdongguo.AndroidUSBCamera:libausbc:3.3.3'
 
 
     // Demo 为了收集 Crash。
