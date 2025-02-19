@@ -36,23 +36,17 @@ android {
 
 // GitHub 无法访问，挂梯子也无效 ？参考 https://github.com/maxiaof/github-hosts
 dependencies {
-//    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-
-
     // 人脸识别 试用版本请升级到1.8.90 以上版本。https://github.com/AnyLifeZLB/FaceVerificationSDK
-    implementation 'io.github.anylifezlb:FaceAISDK:1.9.0.RedBull' //新的依赖方式改了后缀
+    implementation 'io.github.anylifezlb:FaceAISDK:1.9.0.bd' //新的依赖方式改了后缀
 
-
-    //implementation 'io.github.anylifezlb:FaceRecognition:1.8.90' //老的 FaceRecognition
-
+    //UVC CAMERA 用lib 目录libuvccamera-1.0.9 管理
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
     //选照片，使用详情见 https://github.com/javakam/FileOperator
     implementation 'com.github.javakam:file.core:3.9.8@aar'      //核心库必选(Core library required)
     implementation 'com.github.javakam:file.selector:3.9.8@aar'  //文件选择器(File selector)
     implementation 'com.github.javakam:file.compressor:3.9.8@aar'//图片压缩,修改自Luban(Image compression, based on Luban)
-
-    implementation 'com.github.jiangdongguo.AndroidUSBCamera:libausbc:3.3.3'
 
     implementation 'pub.devrel:easypermissions:3.0.0'
     api 'com.airbnb.android:lottie:6.0.0'
@@ -69,6 +63,3 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
 }
-
-
-

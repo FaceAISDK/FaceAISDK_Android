@@ -29,12 +29,25 @@
         android:textColor="@color/white"
         android:textSize="12sp" />
 
+    <TextView
+        android:id="@+id/camera_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="7dp"
+        android:paddingLeft="11dp"
+        android:paddingRight="11dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:background="@drawable/bg_camera_mode"
+        android:text="双目摄像头(IR+RGB)"
+        android:textColor="@color/white"
+        android:textSize="10sp" />
 
     <LinearLayout
         android:id="@+id/add_faceid_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="22dp"
         android:orientation="vertical">
 
         <ImageView

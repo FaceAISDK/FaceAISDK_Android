@@ -81,7 +81,7 @@ public class FaceSearchMNActivity extends AppCompatActivity {
 
 
         // 2.各种参数的初始化设置 （M：N 建议阈值放低）
-        SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
+        SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(FaceSearchMNActivity.this)
                 .setLifecycleOwner(this)
                 .setThreshold(0.85f)            //识别成功阈值设置，范围仅限 0.85-0.95！默认0.85
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
@@ -130,7 +130,7 @@ public class FaceSearchMNActivity extends AppCompatActivity {
             default:
                 binding.searchTips.setText("Tips Code：" + code);
                 break;
-            case FACE_TOO_SMALL: //镜头前仅有一个人
+            case FACE_TOO_SMALL:
                 Toast.makeText(this, R.string.come_closer_tips, Toast.LENGTH_SHORT).show();
                 break;
             case TOO_MUCH_FACE:

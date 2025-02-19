@@ -19,9 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ai.face.R;
-import com.ai.face.UVCCameraNew.BinocularUVCCameraActivity;
-import com.ai.face.UVCCameraNew.addFace.AddFaceUVCCameraActivity;
-import com.ai.face.UVCCameraNew.addFace.AddFaceUVCCameraFragment;
+import com.ai.face.UVCCamera.BinocularUVCCameraActivity;
+import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraActivity;
+import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraFragment;
 import com.ai.face.addFaceImage.AddFaceImageActivity;
 import com.ai.face.search.ImageBean;
 import com.bumptech.glide.Glide;
@@ -70,6 +70,9 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         dataSourceType = (DataSourceType) bundle.getSerializable(FACE_VERIFY_DATA_SOURCE_TYPE);
+        if (dataSourceType.equals(DataSourceType.Android_HAL)) {
+            ((TextView)findViewById(R.id.camera_mode)).setText("系统相机模式");
+        }
 
         LinearLayout addFaceView = findViewById(R.id.add_faceid_layout);
         addFaceView.setOnClickListener(view -> {
@@ -80,12 +83,10 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
                     } else {
                         startActivity(
                                 new Intent(FaceVerifyWelcomeActivity.this, AddFaceUVCCameraActivity.class)
-                                .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceUVCCameraFragment.AddFaceImageTypeEnum.FACE_VERIFY.name()));
-
+                                        .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceUVCCameraFragment.AddFaceImageTypeEnum.FACE_VERIFY.name()));
                     }
                 }
         );
-
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);//设置为横向滑动

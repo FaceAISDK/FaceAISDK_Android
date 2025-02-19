@@ -1,4 +1,4 @@
-package com.ai.face.UVCCameraNew;
+package com.ai.face.UVCCamera;
 
 import android.os.Bundle;
 
@@ -8,10 +8,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.ai.face.R;
 
-/**
- *
- *
- */
 public class BinocularUVCCameraActivity extends AppCompatActivity {
 
     @Override
