@@ -20,7 +20,7 @@ public class FaceAIConfig {
         // Warming: 目前仅能存储在context.getCacheDir() 或者context.getFilesDir()
         // 否则会提示无法找到人脸，VIP 可解除限制
         CACHE_BASE_FACE_DIR = context.getCacheDir().getPath() + "/faceVerify/";    //1:1 人脸识别目录
-        CACHE_SEARCH_FACE_DIR = context.getFilesDir().getPath() + "/faceSearch/";  //人脸搜索人脸库目录
+        CACHE_SEARCH_FACE_DIR = context.getFilesDir().getPath() + "/faceAISearch/";  //人脸搜索人脸库目录
 
     }
 

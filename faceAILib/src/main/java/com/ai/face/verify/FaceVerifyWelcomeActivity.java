@@ -118,6 +118,7 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
                                 new Intent(getBaseContext(), FaceVerificationActivity.class)
                                         .putExtra(USER_FACE_ID_KEY, faceImageList.get(i).name));
                     } else {
+                        //USB UVC协议摄像头，双目
                         startActivity(
                                 new Intent(getBaseContext(), BinocularUVCCameraActivity.class)
                                         .putExtra(USER_FACE_ID_KEY, faceImageList.get(i).name));
