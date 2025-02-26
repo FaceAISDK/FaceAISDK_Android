@@ -20,10 +20,10 @@ Umbrella FaceAI SDK on_device Offline Android Face Detection 、Recognition 、L
 ![端侧设备端离线机器学习优点](https://github.com/user-attachments/assets/06b0d254-964f-4277-9198-9d5fa920d95c)
 
 
-## 当前版本说明 V1.0.0 (建议升级到GitHub Demo 版本)
-- 初始化提交1.0 版本
+## 当前版本说明 V1.9.0 (建议升级到GitHub Demo 版本)
+- 优化光线不佳活体检测
 - 优化SDK体验，支持自定义管理摄像头
-- 开放UVC协议双目红外摄像头
+- 完善UVC协议USB红外双目摄像头人脸识别
 
  建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
 

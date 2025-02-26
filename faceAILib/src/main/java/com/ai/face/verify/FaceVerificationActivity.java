@@ -49,7 +49,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private CameraXFragment cameraXFragment;
     //静默活体检测要求 RGB 镜头 720p， 固定 30 帧，无拖影，RGB 镜头建议是宽动态
-    private final float silentLivenessPassScore = 0.9f; //静默活体分数通过的阈值
+    private final float silentLivenessPassScore = 0.85f; //静默活体分数通过的阈值
 
     private String faceID;
 

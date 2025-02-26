@@ -28,7 +28,7 @@
         android:layout_height="match_parent"
         customAttr:circle_margin="22dp"
         customAttr:progress_end_color="@color/green"
-        customAttr:progress_start_color="@color/green2"
+        customAttr:progress_start_color="@color/green"
         customAttr:show_progress="false"
         android:visibility="invisible"
         customAttr:tip_text_color="@color/face_lib_main_color"
