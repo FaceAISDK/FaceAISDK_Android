@@ -131,7 +131,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
     /**
      * 初始化认证引擎
      * <p>
-     * 活体检测的使用需要你发送邮件申请，简要描述App名称，包名 签名SHA1和功能简介到 anylife.zlb@gmail.com
+     * 活体检测的使用需要你发送邮件申请，简要描述App名称，包名 签名SHA1和功能简介到 FaceAISDK.Service@gmail.com
      *
      * @param baseBitmap 1:1 人脸识别对比的底片，如果仅仅需要活体检测，可以把App logo Bitmap 当参数传入并忽略对比结果
      */
@@ -142,7 +142,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .setLivenessType(LivenessType.SILENT_MOTION)  //活体检测可以有静默活体，动作活体或者组合也可以不需要活体NONE
                 .setLivenessDetectionMode(LivenessDetectionMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.99]
-                .setMotionLivenessStepSize(2)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
+                .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //活体去除微笑,或设置其他某种
                 .setVerifyTimeOut(16)                 //活体检测支持设置超时时间 [9,22] 秒
                 .setProcessCallBack(new ProcessCallBack() {

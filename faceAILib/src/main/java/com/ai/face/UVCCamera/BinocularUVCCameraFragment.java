@@ -106,7 +106,7 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
     /**
      * 初始化认证引擎
      * <p>
-     * 活体检测的使用需要你发送邮件申请，简要描述App名称，包名 签名SHA1和功能简介到 anylife.zlb@gmail.com
+     * 活体检测的使用需要你发送邮件申请，简要描述App名称，包名 签名SHA1和功能简介到 FaceAISDK.Service@gmail.com
      *
      * @param baseBitmap 1:1 人脸识别对比的底片，如果仅仅需要活体检测，可以把App logo Bitmap 当参数传入并忽略对比结果
      */

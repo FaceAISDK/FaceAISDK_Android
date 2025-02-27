@@ -14,7 +14,7 @@ android {
         targetSdk 33  //target SDK 还是28 的请参考question.md 文档说明
 
         versionCode 30
-        versionName "1.9.0.0226"
+        versionName "1.9.1.alpha0227"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

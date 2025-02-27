@@ -53,7 +53,7 @@ class AboutFaceAppActivity : AppCompatActivity() {
         viewBinding.email.setOnLongClickListener {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             // Creates a new text clip to put on the clipboard
-            val clip: ClipData = ClipData.newPlainText("email", "anylife.zlb@gmail.com")
+            val clip: ClipData = ClipData.newPlainText("email", "FaceAISDK.Service@gmail.com")
 
             // Set the clipboard's primary clip. 复制
             clipboard.setPrimaryClip(clip)

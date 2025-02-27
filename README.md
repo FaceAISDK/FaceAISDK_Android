@@ -10,7 +10,7 @@
 
 Umbrella FaceAI SDK on_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK  
 
-保护伞FaceAI SDK是设备端可离线不联网Android 人脸识别、活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别，人脸搜索功能。  
+保护伞FaceAI SDK是设备端可离线不联网Android 人脸识别、动作及近红外IR活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别，人脸搜索功能。  
 
 <div align=center>
 <img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 22% height = 22% />
@@ -20,16 +20,15 @@ Umbrella FaceAI SDK on_device Offline Android Face Detection 、Recognition 、L
 ![端侧设备端离线机器学习优点](https://github.com/user-attachments/assets/06b0d254-964f-4277-9198-9d5fa920d95c)
 
 
-## 当前版本说明 V1.9.0 (建议升级到GitHub Demo 版本)
+## 当前版本说明 V1.9.0 (建议升级到GitHub Demo版本)
 - 优化光线不佳活体检测
 - 优化SDK体验，支持自定义管理摄像头
 - 完善UVC协议USB红外双目摄像头人脸识别
 
  建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
 
- **人脸识别FaceAI SDK 接入源码，请及时更新最新版本** https://github.com/AnyLifeZLB/FaceVerificationSDK  
- 国内代码托管地址Gitee:https://gitee.com/onDeviceAI/FaceVerificationSDK (不方便翻墙请邮件联系获取最新代码)
-
+ **人脸识别FaceAI SDK最新版源码唯一托管地址：** https://github.com/AnyLifeZLB/FaceVerificationSDK  
+ **国内代码托管地址Gitee不是最新: **https://gitee.com/onDeviceAI/FaceVerificationSDK (不方便翻墙请联系获取最新代码)
 
 
 ## 简要说明
@@ -41,13 +40,17 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N
 SDK支持Android(5，15]，建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率720p以上，帧率大于30并且无拖影。
 
 实验室测试效果能覆盖95%的高中低端手机平板，识别成功率>99%；**特殊DIY系统/定制硬件，如USB摄像头，双目摄像头等**如有问题请先提Issues附带系统版本、设备型号、错误log等信息；
-或发邮件到 anylife.zlb@gmail.com ，VIP用户添加 微信：HaoNan19990322 或 WhatsApp: +8618707611416
+或发邮件到 FaceAISDK.Service@gmail.com ，VIP用户添加 微信：HaoNan19990322 或 WhatsApp: +8618707611416
+
+  **SDK 工作原理简介**
+FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等参数，从系统相机、USB外接摄像头设备甚至RTSP视频流获取连续连续图像帧转为Bitmap后
+送入SDK引擎，同时监听处理SDK返回的各种错误提示和结果。你可以自定义管理视频图像来源，SDK已经演示了系统相机CameraX，USB设备，RTSP流处理。
 
 
 
 ## [使用场景和区别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/Introduce_11_1N_MN.md)
 
-   【1:1】 移动考勤真人校验、App免密登录、刷脸支付、刷脸解锁、真人校验
+   【1:1】 移动考勤签到、App免密登录、刷脸授权、刷脸解锁、真人校验
 
    【1:N】 小区门禁、公司门禁、智能门锁、智慧校园、景区、工地、社区、酒店等
 
@@ -57,7 +60,7 @@ SDK支持Android(5，15]，建议设备配置 CPU为八核64位2.4GHz以上  摄
 ## 接入使用
 
 *   1.首先Gradle 中引入依赖
-    implementation 'io.github.anylifezlb:FaceAISDK:1.？.?' //FaceAISDK 请及时升级到最新
+    implementation 'io.github.anylifezlb:FaceAISDK:1.9.?' //及时升级到github最新版
 
 *   2.更新本SDK 接入演示代码到最新版本，**熟悉后**Copy Demo代码到你的主工程
 
@@ -65,13 +68,13 @@ SDK支持Android(5，15]，建议设备配置 CPU为八核64位2.4GHz以上  摄
 
 *   4.调整JDK版本到java 11 以上。Android Studio设置Preferences-Build-Gradle-JDK的版本为 11+
 
-*   5.集成过程中的问题可以GitHub 提issues或者详细描述你遇到的问题发邮件到<anylife.zlb@gmail.com>
+*   5.集成过程中的问题可以GitHub 提issues或者详细描述你遇到的问题发邮件到<FaceAISDK.Service@gmail.com>
 
     目前SDK默认使用java11. kotlin 1.7.20 打包，如果你的项目较老还在使用
     kapt, kotlin-android-extensions导致集成冲突，建议尽快升级项目或者VIP联系定制
 
-    更多使用说明下载SDK源码工程代码到Android Studio 以及下载Demo APK到手机体验
-    里面有详尽的注释说明和使用方法介绍，SDK源码熟悉完成后大概2小时可集成到你的主工程
+    更多使用说明下载SDK源码工程代码到Android Studio 以及下载Demo APK到手机体验完整的流程和效果
+    里面有详尽的注释说明和使用方法介绍，SDK源码熟悉完成后有一定Android基础大概3小时可集成到你的主工程
 
 
 **其中**
@@ -96,7 +99,7 @@ SDK支持Android(5，15]，建议设备配置 CPU为八核64位2.4GHz以上  摄
 
 ## 服务定制
 
-   如果SDK不能匹配你的应用场景或需要**双目摄像头活体检测**特殊定制化，请发邮件到anylife.zlb@gmail.com
+   如果SDK不能匹配你的应用场景或需要**特殊双目摄像头活体检测**特殊定制化，请发邮件到FaceAISDK.Service@gmail.com  
    也可以加微信 [HaoNan19990322 ，备注人脸识别](images/WechatIMG24.jpg)
    
    欢迎关注Fork+Star获取最新动态，提出使用建议等 https://github.com/AnyLifeZLB/FaceVerificationSDK
@@ -109,20 +112,21 @@ SDK支持Android(5，15]，建议设备配置 CPU为八核64位2.4GHz以上  摄
 
 2.  更新GitHub 最新的代码，花1天左右时间熟悉SDK API 和对应的注释备注，断点调试一下基本功能；熟悉后再接入到主工程
 
-3.  欲速则不达，一定要先跑成功SDK 接入Demo。熟悉后再接入到主工程验证匹配业务功能。有问题可以GitHub 提issues
+3.  欲速则不达，一定要先跑成功SDK接入指引Demo。熟悉后再接入到主工程验证匹配业务功能；有问题可以GitHub 提issues
 
 ### 提高SDK识别准确率
 
 1.  使用高配置硬件参数设备和摄像头抗干扰强
 2.  录入高质量的人脸图，如（images/face\_example.jpg）（证件照输入目前优化中）
-3.  光线环境好，检测的人脸无遮挡，没有化浓妆 或 佩戴墨镜、口罩
+3.  光线环境好，检测的人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
 4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
-5.  人脸搜索功能（1:N&M：N）人脸录入 不戴粗框的深色眼睛
+5.  人脸搜索功能（1:N&M:N）人脸录入 不戴粗框的深色眼镜，使用宽动态抗干扰摄像头
 
 
 ## 常见问题
    常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/questions.md  
-   所有的开发测试都在手机和平板进行，特殊定制硬件如 RK3288 等适配需要兼容适配
+   所有的开发测试都在手机和平板进行，特殊定制硬件如 RK3288 等适配需要兼容适配，SDK1.9.0以上版本已经支持UVC
+   协议的USB 双目摄像头IR近红外活体，买对应的USB接口的双目摄像头插入手机USB口就能体验效果（不确定品质联系我推荐）
 
 
 ## 快速接入
