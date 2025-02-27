@@ -206,7 +206,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
         runOnUiThread(() -> {
             scoreText.setText("SilentLivenessScore:" + silentLivenessScore);
 
-            //1.静默活体分数判断
+            //1.静默活体分数判断, todo 最好SDK 自己判断
             if (silentLivenessScore < silentLivenessPassScore) {
                 tipsTextView.setText(R.string.silent_anti_spoofing_error);
                 new AlertDialog.Builder(FaceVerificationActivity.this)

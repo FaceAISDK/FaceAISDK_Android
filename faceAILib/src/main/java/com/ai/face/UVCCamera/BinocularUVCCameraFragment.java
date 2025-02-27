@@ -37,7 +37,7 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
 
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private FaceCoverView faceCoverView;
-    private final float silentLivenessPassScore = 0.85f; //静默活体分数通过的阈值
+    private final float silentLivenessThreshold=0.85f;
 
     public BinocularUVCCameraFragment() {
         // Required empty public constructor
@@ -116,7 +116,7 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
                 .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
                 .setLivenessType(LivenessType.IR_MOTION)//IR 是指红外静默，MOTION 是有动作可以指定1-2 个
                 .setLivenessDetectionMode(LivenessDetectionMode.FAST)//硬件配置低用FAST动作活体模式，否则用精确模式
-                .setSilentLivenessThreshold(silentLivenessPassScore)      //静默活体阈值 [0.88,0.99]
+                .setSilentLivenessThreshold(silentLivenessThreshold) //静默活体阈值 [0.8,0.99]
                 .setMotionLivenessStepSize(1)
                 .setVerifyTimeOut(10)                   //动作活体检测支持设置超时时间 [9,22] 秒
                 .setProcessCallBack(new ProcessCallBack() {
@@ -170,8 +170,8 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
         requireActivity().runOnUiThread(() -> {
             scoreText.setText("SilentLivenessScore:" + silentLivenessScore);
 
-            //1.静默活体分数判断
-            if (silentLivenessScore < silentLivenessPassScore) {
+            //1.静默活体分数判断 todo 最好SDK 自己判断
+            if (silentLivenessScore < silentLivenessThreshold) {
                 tipsTextView.setText(R.string.silent_anti_spoofing_error);
                 new AlertDialog.Builder(requireContext())
                         .setMessage(R.string.silent_anti_spoofing_error)

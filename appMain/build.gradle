@@ -4,17 +4,17 @@ plugins {
 
 android {
     namespace 'com.example.mainapp'
-    compileSdk 33
+    compileSdk 34 //Google Play 需要34 了
 
     defaultConfig {
         //应用包名
         applicationId "com.ai.face.verifyPub"
 
         minSdk 21
-        targetSdk 33  //target SDK 还是28 的请参考question.md 文档说明
+        targetSdk 34  //target SDK 还是28 的请参考question.md 文档说明
 
-        versionCode 30
-        versionName "1.9.1.alpha0227"
+        versionCode 31
+        versionName "1.9.0.0227"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
