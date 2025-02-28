@@ -13,8 +13,8 @@ android {
         minSdk 21
         targetSdk 34  //target SDK 还是28 的请参考question.md 文档说明
 
-        versionCode 31
-        versionName "1.9.0.0227"
+        versionCode 39
+        versionName "1.9.1.02"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -45,6 +45,8 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
+            jniDebuggable false
+            minifyEnabled true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -86,7 +88,7 @@ dependencies {
 
 
     // Demo 为了收集 Crash。
-    implementation 'com.tencent.bugly:crashreport:4.1.9.3'
+//    implementation 'com.tencent.bugly:crashreport:4.1.9.3'
 
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

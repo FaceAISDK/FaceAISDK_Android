@@ -130,7 +130,7 @@
         android:gravity="center"
         android:layout_marginLeft="29dp"
         android:layout_marginRight="29dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:text="@string/two_face_image_verify"
         android:textColor="@color/green"
         android:textSize="15sp"

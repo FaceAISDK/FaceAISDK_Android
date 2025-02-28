@@ -15,7 +15,6 @@ import com.ai.face.search.SearchNaviActivity
 import com.ai.face.utils.SystemUtil
 import com.ai.face.utils.VoicePlayer
 import com.ai.face.verify.FaceVerifyWelcomeActivity
-import com.ai.face.verify.TwoFaceImageVerifyActivity
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 
@@ -79,9 +78,7 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         //两张静态人脸图中人脸相似度 对比
         viewBinding.twoFaceVerify.setOnClickListener {
-            startActivity(
-                Intent(this@FaceAINaviActivity, TwoFaceImageVerifyActivity::class.java)
-            )
+//            startActivity(Intent(this@FaceAINaviActivity, TwoFaceImageVerifyActivity::class.java))
         }
 
 

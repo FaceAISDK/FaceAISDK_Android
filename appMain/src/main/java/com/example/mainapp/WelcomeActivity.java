@@ -1,23 +1,12 @@
 package com.example.mainapp;
 
 import android.animation.Animator;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-
 import com.airbnb.lottie.LottieAnimationView;
-import com.tencent.bugly.crashreport.CrashReport;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.ai.face.FaceAINaviActivity;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Locale;
 
 /**
  * 演示快速集成到你的主工程，人脸识别相关放到 FaceAILIb 里面
@@ -70,7 +59,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         // 收集Crash,ANR 运行日志
         if (!BuildConfig.DEBUG) {
-            CrashReport.initCrashReport(this, "36fade54d8", true);
+//            CrashReport.initCrashReport(this, "36fade54d8", true);
         }
 
 

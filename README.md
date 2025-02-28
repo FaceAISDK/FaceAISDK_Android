@@ -20,7 +20,8 @@ Umbrella FaceAI SDK on_device Offline Android Face Detection 、Recognition 、L
 ![端侧设备端离线机器学习优点](https://github.com/user-attachments/assets/06b0d254-964f-4277-9198-9d5fa920d95c)
 
 
-## 当前版本说明 V1.9.0 (建议升级到GitHub Demo版本)
+## 当前版本说明 V1.9.1 (建议升级到GitHub Demo版本)
+- 删除不需要权限，上架Google Play
 - 优化光线不佳活体检测
 - 优化SDK体验，支持自定义管理摄像头
 - 完善UVC协议USB红外双目摄像头人脸识别
