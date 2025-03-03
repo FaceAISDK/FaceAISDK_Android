@@ -145,6 +145,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //活体去除微笑,或设置其他某种
                 .setVerifyTimeOut(16)                 //活体检测支持设置超时时间 [9,22] 秒
+//                .setLicenseKey("FaceAIVIPLicense")
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
                      * 1:1 人脸识别 活体检测 对比结束

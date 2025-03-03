@@ -78,6 +78,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 .setNeedMultiValidate(false) //是否需要确认机制防止误识别，低配置设备影响搜索速度
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setImageFlipped(cameraLens == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
+//                .setLicenseKey("FaceAIVIPLicense")
                 .setProcessCallBack(new SearchProcessCallBack() {
                     /**
                      * 匹配到的大于 Threshold的所有结果，如有多个很相似的人场景允许的话可以弹框让用户选择

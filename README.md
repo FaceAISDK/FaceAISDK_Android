@@ -29,7 +29,7 @@ Umbrella FaceAI SDK on_device Offline Android Face Detection 、Recognition 、L
  建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
 
  **人脸识别FaceAI SDK最新版源码唯一托管地址：** https://github.com/AnyLifeZLB/FaceVerificationSDK  
- **国内代码托管地址Gitee不是最新: **https://gitee.com/onDeviceAI/FaceVerificationSDK (不方便翻墙请联系获取最新代码)
+ **国内代码托管地址Gitee不是最新:** https://gitee.com/onDeviceAI/FaceVerificationSDK (不方便翻墙请联系获取最新代码)
 
 
 ## 简要说明

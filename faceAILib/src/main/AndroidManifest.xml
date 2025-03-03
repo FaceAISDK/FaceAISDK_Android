@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-    <!-- 演示提示用 -->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
 
     <!-- 语音提示 -->
     <queries>

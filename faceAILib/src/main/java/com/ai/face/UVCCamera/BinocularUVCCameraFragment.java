@@ -118,6 +118,7 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
                 .setLivenessDetectionMode(LivenessDetectionMode.FAST)//硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(silentLivenessThreshold) //静默活体阈值 [0.8,0.99]
                 .setMotionLivenessStepSize(1)
+//                .setLicenseKey("FaceAIVIPLicense")
                 .setVerifyTimeOut(10)                   //动作活体检测支持设置超时时间 [9,22] 秒
                 .setProcessCallBack(new ProcessCallBack() {
 
