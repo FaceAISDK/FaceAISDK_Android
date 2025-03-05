@@ -1,9 +1,8 @@
 <img src="https://badgen.net/badge/FaceAI%20SDK/%20%E5%BF%AB%E9%80%9F%E5%AE%9E%E7%8E%B0%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%8A%9F%E8%83%BD" />
 
-
-<div align=center>
-<img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 20% height = 20% />
-</div>
+<br>
+<a href='https://play.google.com/store/apps/details?id=com.ai.face.verifyPub'><img alt='Get FaceAI On Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='80'/></a>
+<br>
 
 
 # [关于「保护伞FaceAI SDK」](https://github.com/AnyLifeZLB/FaceVerificationSDK)
@@ -13,14 +12,20 @@ Umbrella FaceAI SDK on_device Offline Android Face Detection 、Recognition 、L
 保护伞FaceAI SDK是设备端可离线不联网Android 人脸识别、动作及近红外IR活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别，人脸搜索功能。  
 
 <div align=center>
-<img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 22% height = 22% />
+<img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 20% height = 20% />
 </div>
 
 
 ![端侧设备端离线机器学习优点](https://github.com/user-attachments/assets/06b0d254-964f-4277-9198-9d5fa920d95c)
 
 
-## 当前版本说明 V1.9.2 (建议升级到GitHub Demo版本)
+
+<div align=center>
+<img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 20% height = 20% />
+</div>
+
+
+## 当前版本说明 V1.9.3 (建议升级到GitHub Demo版本)
 - 删除不需要权限，上架Google Play认证
 - 优化光线不佳活体检测和录入人脸活体校验
 - 优化SDK体验，支持自定义管理摄像头
