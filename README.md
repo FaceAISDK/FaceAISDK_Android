@@ -20,9 +20,9 @@ Umbrella FaceAI SDK on_device Offline Android Face Detection 、Recognition 、L
 ![端侧设备端离线机器学习优点](https://github.com/user-attachments/assets/06b0d254-964f-4277-9198-9d5fa920d95c)
 
 
-## 当前版本说明 V1.9.1 (建议升级到GitHub Demo版本)
-- 删除不需要权限，上架Google Play
-- 优化光线不佳活体检测
+## 当前版本说明 V1.9.2 (建议升级到GitHub Demo版本)
+- 删除不需要权限，上架Google Play认证
+- 优化光线不佳活体检测和录入人脸活体校验
 - 优化SDK体验，支持自定义管理摄像头
 - 完善UVC协议USB红外双目摄像头人脸识别
 
@@ -100,7 +100,7 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 ## 服务定制
 
-   如果SDK不能匹配你的应用场景或需要**特殊双目摄像头活体检测**特殊定制化，请发邮件到FaceAISDK.Service@gmail.com  
+   如果SDK不能匹配你的应用场景或需要**特殊双目摄像头活体检测**定制化，请发邮件到FaceAISDK.Service@gmail.com  
    也可以加微信 [HaoNan19990322 ，备注人脸识别](images/WechatIMG24.jpg)
    
    欢迎关注Fork+Star获取最新动态，提出使用建议等 https://github.com/AnyLifeZLB/FaceVerificationSDK
@@ -121,7 +121,7 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 2.  录入高质量的人脸图，如（images/face\_example.jpg）（证件照输入目前优化中）
 3.  光线环境好，检测的人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
 4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
-5.  人脸搜索功能（1:N&M:N）人脸录入 不戴粗框的深色眼镜，使用宽动态抗干扰摄像头
+5.  人脸搜索功能（1:N&M:N）人脸录入不戴粗框的深色眼镜，使用宽动态抗干扰成像清晰摄像头
 
 
 ## 常见问题
@@ -133,7 +133,7 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 ## 快速接入
    Demo 以main主工程 --> faceAiLib 的方式演示，熟悉本SDK 接入Demo 后可以先Copy faceAiLib到你主工程先跑起来
    再根据业务情况修改完善。  
-   熟悉后大约2小时就能集成成功，丰富产品功能同时可大大降低公司研发投入实现降本增效。  
+   熟悉后大约3小时就能集成成功，丰富产品功能同时可大大降低公司研发投入实现降本增效。  
    
       
 

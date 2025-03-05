@@ -8,6 +8,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.ai.face.R;
 
+/**
+ * 演示USB 双目摄像头人脸识别，活体检测
+ *
+ */
 public class BinocularUVCCameraActivity extends AppCompatActivity {
 
     @Override

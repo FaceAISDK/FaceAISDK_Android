@@ -14,7 +14,7 @@ android {
         targetSdk 34  //target SDK 还是28 的请参考question.md 文档说明
 
         versionCode 41
-        versionName "1.9.1.41"
+        versionName "1.9.2.beta1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

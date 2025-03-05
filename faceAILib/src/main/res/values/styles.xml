@@ -1,14 +1,23 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
 
     <!-- Base application theme. -->
-    <style name="FaceAIAppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorControlNormal">@android:color/white</item>
-        <item name="colorPrimary">@color/face_lib_main_color</item>
+        <item name="colorControlNormal">@color/white</item>
         <item name="colorPrimaryDark">@color/face_lib_main_color</item>
+        <item name="colorPrimary">@color/face_lib_main_color</item>
         <item name="colorAccent">@color/face_lib_main_color</item>
+        <item name="buttonBarPositiveButtonStyle">@style/positiveBtnStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/negativeBtnStyle</item>
+    </style>
 
+    <style name="FaceAITheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorPrimary">@color/face_lib_main_color</item>
+        <item name="colorAccent">@color/face_lib_main_color</item>
         <item name="buttonBarPositiveButtonStyle">@style/positiveBtnStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/negativeBtnStyle</item>
     </style>

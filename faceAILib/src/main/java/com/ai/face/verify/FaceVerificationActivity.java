@@ -1,14 +1,18 @@
 package com.ai.face.verify;
 
 import static com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR;
+import static com.ai.face.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +33,9 @@ import com.ai.face.faceVerify.verify.VerifyUtils;
 import com.ai.face.faceVerify.verify.liveness.LivenessDetectionMode;
 import com.ai.face.faceVerify.verify.liveness.LivenessType;
 import com.ai.face.utils.VoicePlayer;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -46,6 +53,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
 
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private FaceCoverView faceCoverView;
+    private ImageView baseFaceImageView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private CameraXFragment cameraXFragment;
     //静默活体检测要求 RGB 镜头 720p， 固定 30 帧，无拖影，RGB 镜头建议是宽动态
@@ -56,12 +64,14 @@ public class FaceVerificationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_face_verification);//建议背景白色可以补充光照不足
         setTitle("1:1 face verify");
         scoreText = findViewById(R.id.silent_Score);
         tipsTextView = findViewById(R.id.tips_view);
         secondTipsTextView = findViewById(R.id.second_tips_view);
         faceCoverView = findViewById(R.id.face_cover);
+        baseFaceImageView=findViewById(R.id.base_face);
 
         findViewById(R.id.back).setOnClickListener(v -> {
             FaceVerificationActivity.this.finish();
@@ -81,9 +91,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
 
-
         initFaceVerifyBaseBitmap();
-
     }
 
     /**
@@ -136,6 +144,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
      * @param baseBitmap 1:1 人脸识别对比的底片，如果仅仅需要活体检测，可以把App logo Bitmap 当参数传入并忽略对比结果
      */
     private void initFaceVerificationParam(Bitmap baseBitmap) {
+
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setThreshold(0.85f)                    //阈值设置，范围限 [0.8,0.95] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
@@ -145,7 +154,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //活体去除微笑,或设置其他某种
                 .setVerifyTimeOut(16)                 //活体检测支持设置超时时间 [9,22] 秒
-//                .setLicenseKey("FaceAIVIPLicense")
+//                .setLicenseKey("FaceAI_VIPLicense")
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
                      * 1:1 人脸识别 活体检测 对比结束
@@ -194,6 +203,12 @@ public class FaceVerificationActivity extends AppCompatActivity {
             }
         });
 
+
+
+        Glide.with(getBaseContext())
+                .load(baseBitmap)
+                .transform(new RoundedCorners(12))
+                .into(baseFaceImageView);
 
     }
 

@@ -34,6 +34,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
+
+    <!-- 可以替换成你自己的UI样式 -->
+    <com.ai.face.base.view.FaceCoverView
+        android:id="@+id/face_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        customAttr:circle_margin="18dp"
+        customAttr:progress_end_color="@color/green"
+        customAttr:progress_start_color="@color/green"
+        customAttr:show_progress="true"
+        customAttr:background_color="@color/white"
+        customAttr:tip_text_color="@color/colorPrimary"
+        customAttr:tip_text_size="20sp" />
+
     <com.serenegiant.widget.AspectRatioSurfaceView
         android:id="@+id/ir_camera_texture_view"
         android:layout_width="0dp"
@@ -45,28 +59,12 @@
         app:layout_constraintWidth_max="wrap"
         app:layout_constraintWidth_percent="0.25" />
 
-
-
-    <!-- 可以替换成你自己的UI样式 -->
-    <com.ai.face.base.view.FaceCoverView
-        android:id="@+id/face_cover"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        customAttr:circle_margin="18dp"
-        customAttr:progress_end_color="@color/green"
-        customAttr:progress_start_color="@color/green"
-        customAttr:show_progress="true"
-        customAttr:background_color="@color/half_white"
-        customAttr:tip_text_color="@color/colorPrimary"
-        customAttr:tip_text_size="20sp" />
-
     <TextView
         android:id="@+id/tips_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginTop="66dp"
+        android:layout_marginTop="6dp"
         android:background="@color/blue"
         android:gravity="center"
         android:paddingLeft="10dp"
@@ -78,7 +76,7 @@
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/base_face" />
 
     <!-- UI 设计仅供参考 -->
     <TextView
@@ -119,18 +117,14 @@
         android:padding="9dp"
         android:src="@drawable/ic_arrow_back_24" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="47dp"
-        android:layout_toRightOf="@+id/back"
-        app:layout_constraintLeft_toRightOf="@+id/back"
-        android:textSize="15sp"
-        android:gravity="center_vertical"
-        android:textColor="@color/green"
-        android:text="UVC Camera FaceAI"
-        android:textStyle="bold"
-        android:layout_alignTop="@+id/back"
-        />
+    <ImageView
+        android:id="@+id/base_face"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

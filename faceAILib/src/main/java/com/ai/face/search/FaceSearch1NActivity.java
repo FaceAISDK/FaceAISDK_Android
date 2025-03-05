@@ -96,7 +96,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                                 .load(CACHE_SEARCH_FACE_DIR + faceID)
                                 .skipMemoryCache(true)
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                .transform(new RoundedCorners(11))
+                                .transform(new RoundedCorners(12))
                                 .into(binding.image);
                     }
 

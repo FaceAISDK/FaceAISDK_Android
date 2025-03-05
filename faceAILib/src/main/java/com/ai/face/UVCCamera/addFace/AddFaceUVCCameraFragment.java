@@ -174,7 +174,6 @@ public class AddFaceUVCCameraFragment extends Fragment {
 
 
     private void addFaceInit() {
-
         tipsTextView = binding.tipsView;
         binding.back.setOnClickListener(v -> requireActivity().finish());
 
@@ -182,10 +181,10 @@ public class AddFaceUVCCameraFragment extends Fragment {
         faceID = requireActivity().getIntent().getStringExtra(USER_FACE_ID_KEY);
 
         /**
-         * BaseImageDispose 第一个参数是否启用活体检测，录入照片没必要，部分定制SDK 会需要
+         * 第一个参数是否启用活体检测，录入照片没必要，部分定制SDK 会需要
          * context 需要是
          */
-        baseImageDispose = new BaseImageDispose(false, requireContext(), new BaseImageCallBack() {
+        baseImageDispose = new BaseImageDispose(true, requireContext(), new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap) {
                 requireActivity().runOnUiThread(() -> showConfirmDialog(bitmap));
@@ -227,7 +226,9 @@ public class AddFaceUVCCameraFragment extends Fragment {
                             tipsTextView.setText(R.string.align_face_error_tips);
                             break;
                         case NOT_REAL_HUMAN:
-                            tipsTextView.setText(R.string.not_real_face);
+//                            tipsTextView.setText(R.string.not_real_face);
+                            binding.secondTipsView.setText(R.string.not_real_face);
+
                             break;
                     }
                 });

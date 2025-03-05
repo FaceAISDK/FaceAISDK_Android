@@ -2,6 +2,7 @@
 <resources>
     <color name="face_lib_main_color">#0B4D46</color>
 
+    <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="yellow">#C2995C</color>
     <color name="red">#E91E63</color>
@@ -10,5 +11,7 @@
     <color name="blue_sky">#AA0B4D46</color>
     <color name="half_blue_sky">#160B4D46</color>
     <color name="helloColor">#6817023D</color>
+    <color name="transparent">#00000000</color>
+
 
 </resources>

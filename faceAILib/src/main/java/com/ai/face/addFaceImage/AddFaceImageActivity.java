@@ -47,7 +47,8 @@ import java.io.ByteArrayOutputStream;
  */
 public  class AddFaceImageActivity extends AppCompatActivity {
     public static String ADD_FACE_IMAGE_TYPE_KEY="ADD_FACE_IMAGE_TYPE_KEY";
-    private TextView tipsTextView;
+    private TextView tipsTextView,secondTips;
+
     private BaseImageDispose baseImageDispose;
     private String faceID,addFaceImageType;
 
@@ -63,16 +64,19 @@ public  class AddFaceImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_face_image);
 
         tipsTextView = findViewById(R.id.tips_view);
+        secondTips=findViewById(R.id.second_tips_view);
+
         findViewById(R.id.back).setOnClickListener(v -> this.finish());
 
         addFaceImageType= getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
         faceID = getIntent().getStringExtra(USER_FACE_ID_KEY);
 
-        /**
-         * BaseImageDispose 第一个参数是否启用活体检测，录入照片没必要，部分定制SDK 会需要
-         * context 需要是
+        /*
+         * BaseImageDispose
+         * 第一个参数是否启用活体检测，部分定制SDK 会需要
+         * context 需要是Activity context
          */
-        baseImageDispose = new BaseImageDispose(false, this, new BaseImageCallBack() {
+        baseImageDispose = new BaseImageDispose(true, this, new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap) {
                 runOnUiThread(() -> showConfirmDialog(bitmap));
@@ -114,7 +118,9 @@ public  class AddFaceImageActivity extends AppCompatActivity {
                             tipsTextView.setText(R.string.align_face_error_tips);
                             break;
                         case NOT_REAL_HUMAN:
-                            tipsTextView.setText(R.string.not_real_face);
+//                            tipsTextView.setText(R.string.not_real_face);
+                            secondTips.setText(R.string.not_real_face);
+
                             break;
                     }
                 });

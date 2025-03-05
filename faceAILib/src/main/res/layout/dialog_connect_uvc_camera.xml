@@ -21,7 +21,7 @@
                 android:layout_height="55dp"
                 android:background="@color/white"
                 android:gravity="center"
-                android:text="是否连接好UVC协议摄像头 ？"
+                android:text="是否连接好USB摄像头 ？"
                 android:textColor="@color/face_lib_main_color"
                 android:textStyle="bold"
                 android:textSize="20sp" />
@@ -44,9 +44,9 @@
                 android:layout_margin="20dp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:text="建议宽动态高清摄像头，请咨询你的摄像头供应商确认摄像头参数"
+                android:text="建议宽动态高清UVC协议红外双目摄像头，请咨询你的摄像头供应商确认摄像头参数"
                 android:textColor="@color/face_lib_main_color"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

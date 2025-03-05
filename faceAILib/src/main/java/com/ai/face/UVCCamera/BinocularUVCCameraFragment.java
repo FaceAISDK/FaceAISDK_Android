@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,17 +27,25 @@ import com.ai.face.faceVerify.verify.VerifyUtils;
 import com.ai.face.faceVerify.verify.liveness.LivenessDetectionMode;
 import com.ai.face.faceVerify.verify.liveness.LivenessType;
 import com.ai.face.utils.VoicePlayer;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import org.jetbrains.annotations.NotNull;
 
 
 /**
- * 打开双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
+ * USB带红外双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
+ *
+ * AbstractBinocularUVCCameraFragment 是摄像头相关处理，需要购置可以插在手机上调试的红外双目摄像头可以找我推荐
+ *
+ * 默认LivenessType.IR需要你的摄像头是双目红外摄像头，如果仅仅是RGB 摄像头请使用LivenessType.SILENT_MOTION
+ *
  */
 public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragment {
 
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private FaceCoverView faceCoverView;
+    private ImageView baseFaceImageView;
     private final float silentLivenessThreshold=0.85f;
 
     public BinocularUVCCameraFragment() {
@@ -50,8 +59,9 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
         tipsTextView = binding.tipsView;
         secondTipsTextView = binding.secondTipsView;
         faceCoverView = binding.faceCover;
+        baseFaceImageView=binding.baseFace;
         binding.back.setOnClickListener(v -> requireActivity().finish());
-        BrightnessUtil.setBrightness(requireActivity(), 1.0f);  //屏幕光当补光灯
+        BrightnessUtil.setBrightness(requireActivity(), 1.0f);  //高亮白色背景屏幕光可以当补光灯
     }
 
     /**
@@ -104,21 +114,20 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
 
 
     /**
-     * 初始化认证引擎
-     * <p>
-     * 活体检测的使用需要你发送邮件申请，简要描述App名称，包名 签名SHA1和功能简介到 FaceAISDK.Service@gmail.com
+     * 初始化认证引擎，LivenessType.IR需要你的摄像头是双目红外摄像头，如果仅仅是RGB 摄像头请使用LivenessType.SILENT_MOTION
      *
-     * @param baseBitmap 1:1 人脸识别对比的底片，如果仅仅需要活体检测，可以把App logo Bitmap 当参数传入并忽略对比结果
+     *
+     * @param baseBitmap 1:1 人脸识别对比的底片
      */
     void initFaceVerificationParam(Bitmap baseBitmap) {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(getContext())
                 .setThreshold(0.87f)                    //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
-                .setLivenessType(LivenessType.IR_MOTION)//IR 是指红外静默，MOTION 是有动作可以指定1-2 个
+                .setLivenessType(LivenessType.IR)//IR 是指红外静默，MOTION 是有动作可以指定1-2 个
                 .setLivenessDetectionMode(LivenessDetectionMode.FAST)//硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(silentLivenessThreshold) //静默活体阈值 [0.8,0.99]
-                .setMotionLivenessStepSize(1)
-//                .setLicenseKey("FaceAIVIPLicense")
+                .setMotionLivenessStepSize(1) //动作活体步骤个数，需要为同时配置SILENT_MOTION 检测类型
+//                .setLicenseKey("FaceAI_VIPLicense")
                 .setVerifyTimeOut(10)                   //动作活体检测支持设置超时时间 [9,22] 秒
                 .setProcessCallBack(new ProcessCallBack() {
 
@@ -159,6 +168,11 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
                 }).create();
 
         faceVerifyUtils.setDetectorParams(faceProcessBuilder);
+
+        Glide.with(requireActivity())
+                .load(baseBitmap)
+                .transform(new RoundedCorners(12))
+                .into(baseFaceImageView);
     }
 
     /**
@@ -213,11 +227,11 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
                 switch (actionCode) {
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.IR_IMAGE_NULL:
-                        secondTipsTextView.setText("请确认IR摄像头正常工作");
+                        secondTipsTextView.setText("IR Camera Error");
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.IR_IMAGE_NO_FACE_BUT_RGB_HAVE:
-                        secondTipsTextView.setText("异常的人脸影像");
+                        secondTipsTextView.setText(R.string.not_real_face);
                         break;
 
 

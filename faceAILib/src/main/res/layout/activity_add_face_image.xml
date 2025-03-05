@@ -39,7 +39,18 @@
         android:textColor="@color/green"
         android:textSize="16sp" />
 
-
+    <TextView
+        android:id="@+id/second_tips_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/tips_view"
+        android:layout_centerHorizontal="true"
+        tools:text="非"
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:textSize="16sp" />
     <ImageView
         android:id="@+id/back"
         android:layout_width="47dp"
