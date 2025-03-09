@@ -22,6 +22,7 @@ import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
+import com.ai.face.faceVerify.verify.VerifyUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -30,14 +31,14 @@ import java.util.List;
 
 /**
  * 1:N 人脸搜索「1:N face search」
- *
+ * <p>
  * 怎么提高人脸搜索的精确度 ？<a href="https://github.com/AnyLifeZLB/FaceVerificationSDK/issues/42">...</a>
  * 尽量使用较高配置设备和摄像头，光线不好带上补光灯
  * 录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
  * 光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩帽子等
  * 人脸照片要求300*300（人脸部分区域大于200*200） 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
- *
- *
+ * <p>
+ * <p>
  * 系统相机跑久了也会性能下降，建议测试前重启系统，定时重启
  * .setNeedMultiValidate(true) //是否需要确认机制防止误识别，开启会影响低配设备的识别速度
  */
@@ -52,7 +53,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         binding.tips.setOnClickListener(v -> {
             startActivity(new Intent(this, FaceSearchImageMangerActivity.class)
-                    .putExtra("isAdd",false));
+                    .putExtra("isAdd", false));
         });
 
         SharedPreferences sharedPref = getSharedPreferences("faceVerify", Context.MODE_PRIVATE);
@@ -68,7 +69,6 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens, 0.001f);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
-
 
 
         // 2.各种参数的初始化设置
@@ -118,7 +118,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         FaceSearchEngine.Companion.getInstance().initSearchParams(faceProcessBuilder);
 
 
-        // 4.从摄像头中取数据实时搜索
+        // 4.从标准默认的HAL CameraX 摄像头中取数据实时搜索
         // 建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率720p以上，帧率大于30并且无拖影。
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
 
@@ -127,17 +127,19 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像
                 FaceSearchEngine.Companion.getInstance().runSearch(imageProxy, 0);
             }
+
         });
 
 
-
         //其他方式搜索，把数据转为Bitmap 去搜索。延时1秒是为了让引擎初始化完毕
-        new Handler().postDelayed(() -> {
-            //5.静态人脸图搜索(对应的),延迟1秒是为了防止引擎初始化没有完成
-//            Bitmap searchBmp= VerifyUtils.getBitmapFromAssert(FaceSearch1NActivity.this, "v3_0835054.jpg");
-//            FaceSearchEngine.Companion.getInstance().runSearch(searchBmp);
-        },1000);
-
+//        new Handler().postDelayed(() -> {
+//            //如果不是从标准HAL 摄像头搜索，比如从RTSP 流，USB 摄像头搜索，你可以图像帧转为bitmap 后输入引擎进行搜索
+//            //demo 为了简化，演示输入一帧Assert 图
+//            if (!isDestroyed() && !isFinishing()) {
+//                Bitmap searchBmp = VerifyUtils.getBitmapFromAssert(FaceSearch1NActivity.this, "v3_0835054.jpg");
+//                FaceSearchEngine.Companion.getInstance().runSearch(searchBmp);
+//            }
+//        }, 1000);
 
     }
 

@@ -7,7 +7,7 @@
 
 # [关于「保护伞FaceAI SDK」](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
-Umbrella FaceAI SDK on_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK  
+Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK  
 
 保护伞FaceAI SDK是设备端可离线不联网Android 人脸识别、动作及近红外IR活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别，人脸搜索功能。  
 
@@ -56,7 +56,7 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 ## [使用场景和区别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/Introduce_11_1N_MN.md)
 
-   【1:1】 移动考勤签到、App免密登录、刷脸授权、刷脸解锁、真人校验
+   【1:1】 移动考勤签到、App免密登录、刷脸授权、刷脸解锁、巡更打卡真人校验
 
    【1:N】 小区门禁、公司门禁、智能门锁、智慧校园、景区、工地、社区、酒店等
 
@@ -72,7 +72,7 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 *   3.解决项目工程中的第三方依赖库和主工程的冲突比如CameraX的版本等，Target SDK不同导致的冲突
 
-*   4.调整JDK版本到java 11 以上。Android Studio设置Preferences-Build-Gradle-JDK的版本为 11+
+*   4.调整JDK版本到java 11 以上。Android Studio设置Preferences -> Build -> Gradle -> JDK的版本为 11+
 
 *   5.集成过程中的问题可以GitHub 提issues或者详细描述你遇到的问题发邮件到<FaceAISDK.Service@gmail.com>
 
@@ -122,7 +122,7 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 ### 提高SDK识别准确率
 
-1.  使用高配置硬件参数设备和摄像头抗干扰强
+1.  使用高配置硬件参数设备和摄像头抗干扰强；保持镜头整洁干净
 2.  录入高质量的人脸图，如（images/face\_example.jpg）（证件照输入目前优化中）
 3.  光线环境好，检测的人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
 4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸

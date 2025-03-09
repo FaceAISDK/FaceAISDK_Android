@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/face_lib_main_color"
+    android:paddingTop="5dp"
     tools:context=".FaceAINaviActivity">
 
     <LinearLayout
@@ -12,15 +13,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="15dp"
-        android:layout_margin="15dp"
+        android:layout_marginEnd="20dp"
+        android:padding="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_gravity="center_vertical"
             android:padding="4dp"
             android:src="@drawable/share" />
@@ -31,6 +32,7 @@
             android:layout_gravity="center_vertical"
             android:text="@string/share_faceai_sdk"
             android:textColor="@color/white"
+            android:textStyle="italic|bold"
             android:textSize="14sp" />
 
     </LinearLayout>
@@ -40,8 +42,8 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/face_verify_card"
         android:layout_width="0dp"
-        android:layout_height="80dp"
-        app:cardCornerRadius="5dp"
+        android:layout_height="75dp"
+        app:cardCornerRadius="6dp"
         android:layout_marginLeft="29dp"
         android:layout_marginRight="11dp"
         android:layout_marginTop="10dp"
@@ -57,9 +59,9 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:padding="4dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="6dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/face_logo" />
 
@@ -71,8 +73,8 @@
                 android:gravity="center"
                 android:text="@string/face_verify_1vs1"
                 android:textStyle="bold"
-                android:textColor="@color/face_lib_main_color"
-                android:textSize="15sp" />
+                android:textColor="@color/yellow"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -83,8 +85,8 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/face_search"
         android:layout_width="0dp"
-        android:layout_height="80dp"
-        app:cardCornerRadius="5dp"
+        android:layout_height="75dp"
+        app:cardCornerRadius="6dp"
         android:layout_marginRight="29dp"
         android:layout_marginLeft="11dp"
         android:layout_marginTop="10dp"
@@ -100,9 +102,9 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:padding="10dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="9dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_add_face" />
 
@@ -114,8 +116,8 @@
                 android:gravity="center"
                 android:text="@string/face_search"
                 android:textStyle="bold"
-                android:textColor="@color/face_lib_main_color"
-                android:textSize="15sp"
+                android:textColor="@color/yellow"
+                android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/face_search" />
 
         </LinearLayout>
@@ -126,17 +128,17 @@
     <TextView
         android:id="@+id/two_face_verify"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/bg_btn"
         android:gravity="center"
         android:layout_marginLeft="29dp"
         android:layout_marginRight="29dp"
         android:visibility="visible"
         android:text="@string/two_face_image_verify"
-        android:textColor="@color/face_lib_main_color"
+        android:textColor="@color/yellow"
         android:textStyle="bold"
-        android:textSize="15sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/face_verify_card" />
@@ -144,16 +146,16 @@
     <TextView
         android:id="@+id/binocular_camera"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="60dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="44dp"
         android:background="@drawable/bg_btn"
         android:gravity="center"
         android:layout_marginLeft="29dp"
         android:layout_marginRight="29dp"
         android:visibility="visible"
         android:text="@string/binocular_camera_demo"
-        android:textColor="@color/face_lib_main_color"
-        android:textSize="15sp"
+        android:textColor="@color/yellow"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -54,7 +54,7 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
     private DataSourceType dataSourceType = DataSourceType.Android_HAL;
 
     /**
-     * UVC 协议摄像头：Android 平台几乎都是这个库的拓展 https://github.com/saki4510t/UVCCamera
+     * UVC 协议摄像头：/libs/libuvccamera-release.aar 管理
      * Android_HAL 摄像头： 采用标准的 Android Camera2 API 和摄像头 HAL 接口。FaceAI SDK 底层使用CameraX 管理
      */
     public enum DataSourceType {

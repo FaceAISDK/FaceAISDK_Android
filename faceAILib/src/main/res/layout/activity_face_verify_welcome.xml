@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:background="#CDB48D"
         android:gravity="center"
-        android:padding="5dp"
+        android:padding="3dp"
         android:text="模拟刷脸登陆多帐号来演示1:1 人脸识别功能"
         android:textColor="@color/white"
         android:textSize="12sp" />
@@ -35,14 +35,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_margin="7dp"
-        android:paddingLeft="11dp"
-        android:paddingRight="11dp"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         android:background="@drawable/bg_camera_mode"
         android:text="双目摄像头(IR+RGB)"
         android:textColor="@color/white"
-        android:textSize="10sp" />
+        android:textSize="11sp" />
 
     <LinearLayout
         android:id="@+id/add_faceid_layout"
@@ -51,8 +51,8 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="66dp"
-            android:layout_height="66dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
             android:background="@drawable/person_add_24" />
 
@@ -62,9 +62,9 @@
             android:layout_gravity="center"
             android:paddingLeft="4dp"
             android:text="Add Face"
+            android:textStyle="bold"
             android:textColor="@color/face_lib_main_color"
-            android:textSize="14sp" />
-
+            android:textSize="13sp" />
 
     </LinearLayout>
 
@@ -74,9 +74,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/half_blue_sky"
+        android:layout_marginTop="7dp"
         android:scrollbarSize="3dp"
-        android:paddingTop="9dp"
-        android:paddingBottom="9dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="3dp"
         android:scrollbarThumbVertical="@color/green"
         android:scrollbars="horizontal" />
 
@@ -94,7 +95,7 @@
             android:layout_height="0dp"
             android:background="@drawable/verify_tips"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="h,1068:308"
+            app:layout_constraintDimensionRatio="h,1200:300"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
