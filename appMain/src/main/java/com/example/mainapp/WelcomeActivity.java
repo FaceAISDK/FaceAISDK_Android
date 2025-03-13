@@ -7,6 +7,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.ai.face.FaceAINaviActivity;
+import com.tencent.bugly.crashreport.CrashReport;
 
 /**
  * 演示快速集成到你的主工程，人脸识别相关放到 FaceAILIb 里面
@@ -59,7 +60,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         // 收集Crash,ANR 运行日志
         if (!BuildConfig.DEBUG) {
-//            CrashReport.initCrashReport(this, "36fade54d8", true);
+            CrashReport.initCrashReport(this, "36fade54d8", true);
         }
 
 

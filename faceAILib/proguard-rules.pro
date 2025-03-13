@@ -11,6 +11,7 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+# 虹软是有限设备免费试用，试用结束要重新激活也很麻烦的。升级出问题怎么办，相当于给他们内测了
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.

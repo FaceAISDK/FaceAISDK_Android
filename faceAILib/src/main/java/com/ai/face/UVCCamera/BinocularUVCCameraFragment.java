@@ -40,6 +40,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * 默认LivenessType.IR需要你的摄像头是双目红外摄像头，如果仅仅是RGB 摄像头请使用LivenessType.SILENT_MOTION
  *
+ * 更多UVC 摄像头使用参考 https://blog.csdn.net/hanshiying007/article/details/124118486
  */
 public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragment {
 
