@@ -53,7 +53,8 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
 
             val enumIntent = Intent(baseContext, FaceVerifyWelcomeActivity::class.java)
             val bundle = Bundle()
-            bundle.putSerializable(FaceVerifyWelcomeActivity.FACE_VERIFY_DATA_SOURCE_TYPE,
+            bundle.putSerializable(
+                FaceVerifyWelcomeActivity.FACE_VERIFY_DATA_SOURCE_TYPE,
                 FaceVerifyWelcomeActivity.DataSourceType.Android_HAL
             )
             enumIntent.putExtras(bundle)
@@ -147,7 +148,11 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
      * 当用户点击了不再提醒的时候的处理方式
      */
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        Toast.makeText(this, "Please Grant Permission To Run FaceAI SDK,请授权才能正常演示", Toast.LENGTH_SHORT)
+        Toast.makeText(
+            this,
+            "Please Grant Permission To Run FaceAI SDK,请授权才能正常演示",
+            Toast.LENGTH_SHORT
+        )
             .show()
     }
 
@@ -166,33 +171,43 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
      *
      */
     private fun showConnectUVCCameraDialog() {
-        val builder = AlertDialog.Builder(this)
-        val dialog = builder.create()
-        val dialogView = View.inflate(this, R.layout.dialog_connect_uvc_camera, null)
-
-        //设置对话框布局
-        dialog.setView(dialogView)
-
-        val btnOK = dialogView.findViewById<Button>(R.id.btn_ok)
-
-        btnOK.setOnClickListener { v: View? ->
-            val enumIntent = Intent(baseContext, FaceVerifyWelcomeActivity::class.java)
+        //一天提示一次
+        val sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE)
+        val showTime = sharedPref.getLong("showUVCCameraDialog", 0)
+        if (System.currentTimeMillis() - showTime < 12 * 60 * 60 * 1000) {
+            val uvcCameraModeIntent = Intent(baseContext, FaceVerifyWelcomeActivity::class.java)
             val bundle = Bundle()
-            bundle.putSerializable(FaceVerifyWelcomeActivity.FACE_VERIFY_DATA_SOURCE_TYPE,
+            bundle.putSerializable(
+                FaceVerifyWelcomeActivity.FACE_VERIFY_DATA_SOURCE_TYPE,
                 FaceVerifyWelcomeActivity.DataSourceType.UVC
             )
-            enumIntent.putExtras(bundle)
-            startActivity(enumIntent)
+            uvcCameraModeIntent.putExtras(bundle)
+            startActivity(uvcCameraModeIntent)
+        }else {
+            val builder = AlertDialog.Builder(this)
+            val dialog = builder.create()
+            val dialogView = View.inflate(this, R.layout.dialog_connect_uvc_camera, null)
+            //设置对话框布局
+            dialog.setView(dialogView)
+            val btnOK = dialogView.findViewById<Button>(R.id.btn_ok)
+            btnOK.setOnClickListener { v: View? ->
+                val uvcCameraModeIntent = Intent(baseContext, FaceVerifyWelcomeActivity::class.java)
+                val bundle = Bundle()
+                bundle.putSerializable(
+                    FaceVerifyWelcomeActivity.FACE_VERIFY_DATA_SOURCE_TYPE,
+                    FaceVerifyWelcomeActivity.DataSourceType.UVC
+                )
+                uvcCameraModeIntent.putExtras(bundle)
+                startActivity(uvcCameraModeIntent)
+                dialog.dismiss()
+            }
+            dialog.setCanceledOnTouchOutside(false)
+            dialog.show()
 
-//            startActivity(Intent(this@FaceAINaviActivity, BinocularUVCCameraActivity::class.java))
-            dialog.dismiss()
+            sharedPref.edit().putLong("showUVCCameraDialog", System.currentTimeMillis()).commit()
         }
 
-        dialog.setCanceledOnTouchOutside(false)
-        dialog.show()
     }
-
-
 
 
 }

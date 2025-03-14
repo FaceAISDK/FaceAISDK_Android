@@ -73,7 +73,7 @@
                 android:gravity="center"
                 android:text="@string/face_verify_1vs1"
                 android:textStyle="bold"
-                android:textColor="@color/yellow"
+                android:textColor="@color/green"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -116,7 +116,7 @@
                 android:gravity="center"
                 android:text="@string/face_search"
                 android:textStyle="bold"
-                android:textColor="@color/yellow"
+                android:textColor="@color/green"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/face_search" />
 
@@ -136,7 +136,7 @@
         android:layout_marginRight="29dp"
         android:visibility="visible"
         android:text="@string/two_face_image_verify"
-        android:textColor="@color/yellow"
+        android:textColor="@color/green"
         android:textStyle="bold"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -154,7 +154,7 @@
         android:layout_marginRight="29dp"
         android:visibility="visible"
         android:text="@string/binocular_camera_demo"
-        android:textColor="@color/yellow"
+        android:textColor="@color/green"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

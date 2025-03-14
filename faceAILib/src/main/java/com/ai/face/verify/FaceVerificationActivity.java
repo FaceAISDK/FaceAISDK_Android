@@ -77,7 +77,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
             FaceVerificationActivity.this.finish();
         });
 
-        int cameraLensFacing = getSharedPreferences("faceVerify", Context.MODE_PRIVATE)
+        int cameraLensFacing = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE)
                 .getInt("cameraFlag", 0);
 
         /*
@@ -153,8 +153,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.99]
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //活体去除微笑,或设置其他某种
-                .setVerifyTimeOut(16)                 //活体检测支持设置超时时间 [9,22] 秒
-//                .setLicenseKey("FaceAI_VIPLicense")
+                .setVerifyTimeOut(16)                   //活体检测支持设置超时时间 [9,22] 秒
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
                      * 1:1 人脸识别 活体检测 对比结束
@@ -202,7 +201,6 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 //自定义管理相机可以使用 goVerifyWithBitmap
             }
         });
-
 
 
         Glide.with(getBaseContext())

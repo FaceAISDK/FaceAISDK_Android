@@ -31,7 +31,9 @@ import java.util.List;
 
 /**
  * 1:N 人脸搜索「1:N face search」
- * <p>
+ *
+ * USB UVC协议双目摄像头参考{@link com.ai.face.UVCCamera.BinocularUVCCameraActivity} 改造一下
+ *
  * 怎么提高人脸搜索的精确度 ？<a href="https://github.com/AnyLifeZLB/FaceVerificationSDK/issues/42">...</a>
  * 尽量使用较高配置设备和摄像头，光线不好带上补光灯
  * 录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
@@ -40,11 +42,11 @@ import java.util.List;
  * <p>
  * <p>
  * 系统相机跑久了也会性能下降，建议测试前重启系统，定时重启
- * .setNeedMultiValidate(true) //是否需要确认机制防止误识别，开启会影响低配设备的识别速度
  */
 public class FaceSearch1NActivity extends AppCompatActivity {
     //如果设备没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
+    private String mostSimilarFaceID="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +58,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                     .putExtra("isAdd", false));
         });
 
-        SharedPreferences sharedPref = getSharedPreferences("faceVerify", Context.MODE_PRIVATE);
-
+        SharedPreferences sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
         int cameraLens = sharedPref.getInt("cameraFlag", sharedPref.getInt("cameraFlag", 1));
 
         /*
@@ -70,7 +71,6 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
 
-
         // 2.各种参数的初始化设置
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
@@ -78,7 +78,6 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 .setNeedMultiValidate(false) //是否需要确认机制防止误识别，低配置设备影响搜索速度
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setImageFlipped(cameraLens == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
-//                .setLicenseKey("FaceAIVIPLicense")
                 .setProcessCallBack(new SearchProcessCallBack() {
                     /**
                      * 匹配到的大于 Threshold的所有结果，如有多个很相似的人场景允许的话可以弹框让用户选择
@@ -88,16 +87,16 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                         binding.graphicOverlay.drawRect(result, cameraXFragment);
                     }
 
-                    //人脸搜索最像的结果
+                    //得分最高的搜索结果
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap) {
-                        binding.searchTips.setText(faceID);
                         Glide.with(getBaseContext())
                                 .load(CACHE_SEARCH_FACE_DIR + faceID)
-                                .skipMemoryCache(true)
+                                .skipMemoryCache(false)
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .transform(new RoundedCorners(12))
                                 .into(binding.image);
+                        binding.searchTips.setText(faceID);
                     }
 
                     @Override
@@ -117,17 +116,14 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         //3.初始化引擎，是个耗时耗资源操作
         FaceSearchEngine.Companion.getInstance().initSearchParams(faceProcessBuilder);
 
-
         // 4.从标准默认的HAL CameraX 摄像头中取数据实时搜索
         // 建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率720p以上，帧率大于30并且无拖影。
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-
             //可以加个红外检测之类的，有人靠近再启动人脸搜索检索服务，不然机器性能下降机器老化快
             if (!isDestroyed() && !isFinishing()) {
                 //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像
                 FaceSearchEngine.Companion.getInstance().runSearch(imageProxy, 0);
             }
-
         });
 
 
@@ -150,15 +146,26 @@ public class FaceSearch1NActivity extends AppCompatActivity {
      * @param code
      */
     private void showPrecessTips(int code) {
-        binding.image.setImageResource(R.drawable.face_logo);
         switch (code) {
             default:
                 binding.searchTips.setText("Tips Code：" + code);
                 break;
-            case FACE_TOO_SMALL:
-                binding.searchTips.setText(R.string.come_closer_tips);
 
+            case FACE_TOO_SMALL:
+                binding.secondSearchTips.setText(R.string.come_closer_tips);
                 break;
+
+            // 单独使用一个textview 提示，防止上一个提示被覆盖。
+            // 也可以自行记住上个状态，FACE_SIZE_FIT 中恢复上一个提示
+            case FACE_TOO_LARGE:
+                binding.secondSearchTips.setText(R.string.far_away_tips);
+                break;
+
+            //检测到正常的人脸，尺寸大小OK
+            case FACE_SIZE_FIT:
+                binding.secondSearchTips.setText("");
+                break;
+
             case TOO_MUCH_FACE:
                 Toast.makeText(this, R.string.multiple_faces_tips, Toast.LENGTH_SHORT).show();
                 break;
@@ -173,6 +180,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
 
             case NO_LIVE_FACE:
                 binding.searchTips.setText(R.string.no_face_detected_tips);
+                binding.image.setImageResource(R.drawable.face_logo);
                 break;
 
             case EMGINE_INITING:
@@ -187,11 +195,13 @@ public class FaceSearch1NActivity extends AppCompatActivity {
             case NO_MATCHED:
                 //本次摄像头预览帧无匹配而已，会快速取下一帧进行分析检索
                 binding.searchTips.setText(R.string.no_matched_face);
+                binding.image.setImageResource(R.drawable.face_logo);
                 break;
 
-            case SEARCHING:
-                binding.searchTips.setText("");
-                break;
+
+//            case SEARCHING:
+//                binding.searchTips.setText("");
+//                break;
 
         }
     }

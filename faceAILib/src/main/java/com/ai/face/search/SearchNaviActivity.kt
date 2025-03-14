@@ -73,7 +73,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
 
         binding.changeCamera.setOnClickListener {
-            val sharedPref = getSharedPreferences("faceVerify", Context.MODE_PRIVATE)
+            val sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE)
             if (sharedPref.getInt("cameraFlag", 1) == 1) {
                 sharedPref.edit().putInt("cameraFlag", 0).commit()
                 Toast.makeText(

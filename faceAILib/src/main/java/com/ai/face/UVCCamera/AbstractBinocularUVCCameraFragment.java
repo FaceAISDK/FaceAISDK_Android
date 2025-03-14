@@ -121,7 +121,6 @@ public abstract class AbstractBinocularUVCCameraFragment extends Fragment {
         irCameraManager.setOnDeviceStatuesCallBack(new UsbCameraManager.OnDeviceStatuesCallBack() {
             @Override
             public void onAttach(UsbDevice device) {
-
             }
 
             @Override
@@ -130,9 +129,7 @@ public abstract class AbstractBinocularUVCCameraFragment extends Fragment {
              }
         });
 
-
         irCameraManager.setPreviewHeight(PREVIEW_HEIGHT);
-
         irCameraManager.setFrameCallback(frame -> {
             Size currentPreviewSize = irCameraManager.getCurrentPreviewSize();
             int width = PREVIEW_WIDTH;
