@@ -2,8 +2,6 @@ package com.ai.face.search;
 
 import static com.ai.face.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.*;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -75,7 +73,6 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
                 .setThreshold(0.88f) //阈值设置，范围限 [0.85 , 0.95] 识别可信度，也是识别灵敏度
-                .setNeedMultiValidate(false) //是否需要确认机制防止误识别，低配置设备影响搜索速度
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setImageFlipped(cameraLens == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {
@@ -146,6 +143,8 @@ public class FaceSearch1NActivity extends AppCompatActivity {
      * @param code
      */
     private void showPrecessTips(int code) {
+        binding.secondSearchTips.setText("");
+
         switch (code) {
             default:
                 binding.searchTips.setText("Tips Code：" + code);
@@ -188,7 +187,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 break;
 
             case FACE_DIR_EMPTY:
-                //人脸库没有录入照片
+                //人脸库没有人脸照片，没有使用SDK API录入人脸
                 binding.searchTips.setText(R.string.face_dir_empty);
                 break;
 
@@ -197,11 +196,6 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 binding.searchTips.setText(R.string.no_matched_face);
                 binding.image.setImageResource(R.drawable.face_logo);
                 break;
-
-
-//            case SEARCHING:
-//                binding.searchTips.setText("");
-//                break;
 
         }
     }

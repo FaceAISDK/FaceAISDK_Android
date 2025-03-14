@@ -37,7 +37,7 @@ android {
 
 dependencies {
     // 人脸识别  请升级到1.9.0 以上版本。https://github.com/AnyLifeZLB/FaceVerificationSDK
-    implementation 'io.github.anylifezlb:FaceAISDK:1.9.4.beta5' //新的依赖方式改了后缀
+    implementation 'io.github.anylifezlb:FaceAISDK:1.9.4.robot' //新的依赖方式改了后缀
 
     //USB红外双目摄像头用lib 目录libuvccamera-1.0.9 AAR管理，用户可以自行用熟悉方案
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
