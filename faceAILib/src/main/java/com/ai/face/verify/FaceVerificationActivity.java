@@ -44,6 +44,7 @@ import org.jetbrains.annotations.NotNull;
  * 2.录入高质量的人脸图，人脸清晰，背景纯色（证件照输入目前优化中）
  * 3.光线环境好，检测的人脸无遮挡，无浓妆或佩戴墨镜口罩帽子等
  * 4.人脸照片要求300*300 以上 裁剪好的仅含人脸的正方形照片，背景纯色
+ *
  */
 public class FaceVerificationActivity extends AppCompatActivity {
     public static final String USER_FACE_ID_KEY = "USER_FACE_ID_KEY";   //1:1 face verify ID KEY
@@ -223,7 +224,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
         runOnUiThread(() -> {
             scoreText.setText("SilentLivenessScore:" + silentLivenessScore);
 
-            //1.静默活体分数判断, todo 最好SDK 自己判断
+            //1.静默活体分数判断
             if (silentLivenessScore < silentLivenessPassScore) {
                 tipsTextView.setText(R.string.silent_anti_spoofing_error);
                 new AlertDialog.Builder(FaceVerificationActivity.this)
