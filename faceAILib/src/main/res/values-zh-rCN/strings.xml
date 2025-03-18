@@ -54,6 +54,8 @@
     <string name="stop_verify_tips">停止识别,识别过程请保持人脸在画面中 </string>
 
     <!--Navi activity-->
+    <string name="camera_degree_set">旋转角度切换</string>
+    <string name="parameter_setting">Face AI 参数设置</string>
     <string name="binocular_camera_demo">USB双目摄像头(UVC协议)演示</string>
     <string name="face_verify_1vs1">1:1人脸识别 </string>
     <string name="add_face_image">人脸底图录入</string>

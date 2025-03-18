@@ -39,7 +39,6 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
         //语音提示
         VoicePlayer.getInstance().init(this)
 
-
         //分享
         viewBinding.shareLayout.setOnClickListener {
             val intent = Intent()
@@ -51,7 +50,6 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         //1:1 人脸识别
         viewBinding.faceVerifyCard.setOnClickListener {
-
             val enumIntent = Intent(baseContext, FaceVerifyWelcomeActivity::class.java)
             val bundle = Bundle()
             bundle.putSerializable(
@@ -62,16 +60,28 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
             startActivity(enumIntent)
         }
 
-
-        // 人脸搜索(系统相机和双目USB UVC 摄像头都支持)
+        // 参数设置
         viewBinding.faceSearch.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, SearchNaviActivity::class.java))
         }
 
 
+        // 人脸搜索(系统相机和双目USB UVC 摄像头都支持)
+        viewBinding.paramsSetting.setOnClickListener {
+            startActivity(Intent(this@FaceAINaviActivity, FaceAISettingsActivity::class.java))
+        }
+
+
         //双目摄像头，请确认你的双目UVC摄像头参数符合程序要求
         viewBinding.binocularCamera.setOnClickListener {
-            showConnectUVCCameraDialog()
+            val uvcCameraModeIntent = Intent(baseContext, FaceVerifyWelcomeActivity::class.java)
+            val bundle = Bundle()
+            bundle.putSerializable(
+                FaceVerifyWelcomeActivity.FACE_VERIFY_DATA_SOURCE_TYPE,
+                FaceVerifyWelcomeActivity.DataSourceType.UVC
+            )
+            uvcCameraModeIntent.putExtras(bundle)
+            startActivity(uvcCameraModeIntent)
         }
 
         viewBinding.moreAboutMe.setOnClickListener {
@@ -84,30 +94,8 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
             startActivity(Intent(this@FaceAINaviActivity, TwoFaceImageVerifyActivity::class.java))
         }
 
-
-        //切换前后摄像头
-        viewBinding.switchCamera.setOnClickListener {
-            val sharedPref = getSharedPreferences(
-                "FaceAISDK", Context.MODE_PRIVATE
-            )
-            if (sharedPref.getInt("cameraFlag", 0) == 1) {
-                sharedPref.edit().putInt("cameraFlag", 0).apply()
-                Toast.makeText(
-                    baseContext,
-                    "Front camera",
-                    Toast.LENGTH_LONG
-                ).show()
-            } else {
-                sharedPref.edit().putInt("cameraFlag", 1).apply()
-                Toast.makeText(
-                    baseContext,
-                    "Back/USB Camera",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-
         showSystemParameter()
+        showTipsDialog()
     }
 
 
@@ -168,44 +156,28 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
 
 
     /**
-     * 确认是否连接好了双目摄像头
+     * SDK Demo 演示试用说明
      *
      */
-    private fun showConnectUVCCameraDialog() {
+    private fun showTipsDialog() {
         //一天提示一次
         val sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE)
-        val showTime = sharedPref.getLong("showUVCCameraDialog", 0)
-        if (System.currentTimeMillis() - showTime < 12 * 60 * 60 * 1000) {
-            val uvcCameraModeIntent = Intent(baseContext, FaceVerifyWelcomeActivity::class.java)
-            val bundle = Bundle()
-            bundle.putSerializable(
-                FaceVerifyWelcomeActivity.FACE_VERIFY_DATA_SOURCE_TYPE,
-                FaceVerifyWelcomeActivity.DataSourceType.UVC
-            )
-            uvcCameraModeIntent.putExtras(bundle)
-            startActivity(uvcCameraModeIntent)
-        }else {
+        val showTime = sharedPref.getLong("showFaceAISDKTips", 0)
+        if (System.currentTimeMillis() - showTime > 4 * 60 * 60 * 1000) {
+
             val builder = AlertDialog.Builder(this)
             val dialog = builder.create()
-            val dialogView = View.inflate(this, R.layout.dialog_connect_uvc_camera, null)
+            val dialogView = View.inflate(this, R.layout.dialog_face_sdk_tips, null)
             //设置对话框布局
             dialog.setView(dialogView)
             val btnOK = dialogView.findViewById<Button>(R.id.btn_ok)
             btnOK.setOnClickListener { v: View? ->
-                val uvcCameraModeIntent = Intent(baseContext, FaceVerifyWelcomeActivity::class.java)
-                val bundle = Bundle()
-                bundle.putSerializable(
-                    FaceVerifyWelcomeActivity.FACE_VERIFY_DATA_SOURCE_TYPE,
-                    FaceVerifyWelcomeActivity.DataSourceType.UVC
-                )
-                uvcCameraModeIntent.putExtras(bundle)
-                startActivity(uvcCameraModeIntent)
+                sharedPref.edit().putLong("showFaceAISDKTips", System.currentTimeMillis()).commit()
                 dialog.dismiss()
             }
             dialog.setCanceledOnTouchOutside(false)
             dialog.show()
 
-            sharedPref.edit().putLong("showUVCCameraDialog", System.currentTimeMillis()).commit()
         }
 
     }

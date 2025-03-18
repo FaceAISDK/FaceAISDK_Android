@@ -127,12 +127,30 @@
 
     </androidx.cardview.widget.CardView>
 
+    <TextView
+        android:id="@+id/params_setting"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_btn"
+        android:gravity="center"
+        android:layout_marginLeft="29dp"
+        android:layout_marginRight="29dp"
+        android:visibility="visible"
+        android:text="@string/parameter_setting"
+        android:textColor="@color/face_lib_main_color"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/two_face_verify" />
+
 
     <TextView
         android:id="@+id/two_face_verify"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/bg_btn"
         android:gravity="center"
         android:layout_marginLeft="29dp"
@@ -166,21 +184,6 @@
 
 
     <TextView
-        android:id="@+id/switch_camera"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:padding="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/more_about_me"
-        android:text="@string/switch_camera" />
-
-
-    <TextView
         android:id="@+id/more_about_me"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -192,8 +195,6 @@
         android:textSize="14sp"
         android:layout_marginBottom="11dp"
         app:layout_constraintBottom_toBottomOf="parent" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

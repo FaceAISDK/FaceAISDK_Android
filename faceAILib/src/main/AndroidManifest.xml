@@ -80,6 +80,10 @@
             android:exported="false">
         </activity>
 
+        <activity
+            android:name=".FaceAISettingsActivity"
+            android:exported="false">
+        </activity>
 
     </application>
 

@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.ai.face.FaceAISettingsActivity
 import com.ai.face.R
 import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraActivity
 import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraFragment
@@ -37,6 +38,10 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         setContentView(binding.root)
 
         checkNeededPermission()
+
+        binding.back.setOnClickListener{
+            this@SearchNaviActivity.finish()
+        }
 
         binding.systemCameraSearch.setOnClickListener {
             startActivity(
@@ -136,6 +141,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
                 startActivity(
                     Intent(this@SearchNaviActivity, FaceSearchUVCCameraActivity::class.java)
                 )
+                dialog.dismiss()
             }
             dialog.setCanceledOnTouchOutside(false)
             dialog.show()

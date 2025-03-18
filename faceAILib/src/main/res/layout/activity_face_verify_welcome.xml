@@ -58,6 +58,7 @@
                 android:id="@+id/add_faceid_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="22dp"
                 android:orientation="vertical">
 
                 <ImageView
@@ -91,32 +92,9 @@
                 android:scrollbarThumbVertical="@color/green"
                 android:scrollbars="horizontal" />
 
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/center_banner_constraint_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:background="@color/face_lib_main_color"
-                android:layout_marginTop="80dp">
-                <ImageView
-                    android:id="@+id/center_banner_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:background="@drawable/verify_tips"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="h,1200:300"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-
 
 
 

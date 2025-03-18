@@ -60,15 +60,20 @@ public class FaceSearchMNActivity extends AppCompatActivity {
         });
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
-        int cameraLens = sharedPref.getInt("cameraFlag", sharedPref.getInt("cameraFlag", 0));
+
+        int cameraLensFacing = sharedPref.getInt("cameraFlag", 0);
+        int degree=sharedPref.getInt("cameraDegree", 0);
 
         /*
          * 1. Camera 的初始化。
          * 第一个参数0/1 指定前后摄像头；
          * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
          * 焦距拉远一点，人才会靠近屏幕，才会减轻杂乱背景的影响。定制设备的摄像头自行调教此参数
+         *
+         * 第三个参数是摄像头旋转角度 {@Link Surface.ROTATION_0}
          */
-        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens, 0.001f);
+        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.001f,degree);
+
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
@@ -89,7 +94,7 @@ public class FaceSearchMNActivity extends AppCompatActivity {
                 .setThreshold(0.85f)            //识别成功阈值设置，范围仅限 0.85-0.95！默认0.85
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setSearchType(SearchProcessBuilder.SearchType.N_SEARCH_M) //1:N 搜索
-                .setImageFlipped(cameraLens == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
+                .setImageFlipped(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {
 
                     //坐标框和对应的 搜索匹配到的图片标签

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_margin="14dp"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@color/white"
+                android:gravity="left|center_vertical"
+                android:text="温馨提示"
+                android:textColor="@color/face_lib_main_color"
+                android:textStyle="bold"
+                android:layout_marginStart="22dp"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/sm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="left|center_vertical"
+                android:text="Face AI SDK Demo 核心功能全部是离线工作，不联网不收集人脸数据。为了更好体验Demo，请确保："
+                android:textColor="@color/face_lib_main_color"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_margin="18dp"
+                android:gravity="left|center_vertical"
+                android:textStyle="bold"
+                android:text="1. 摄像头固定住屏幕正上方且整洁清晰\n2. 人脸正对摄像头，按照提示完成操作\n3. 面部光源充足避免遮挡 \n4. 提前调整设置合适的场景参数 "
+                android:textColor="@color/face_lib_main_color"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <Button
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_weight="1"
+                    android:background="@color/blue_sky"
+                    android:text="重 试"
+                    android:visibility="gone"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/btn_ok"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="11dp"
+                    android:background="@color/face_lib_main_color"
+                    android:text="@string/confirm"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
