@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -21,7 +22,7 @@ import java.util.List;
 /**
  * 仅供参考，UI样式可以自行设计。甚至SurfaceView 改造
  */
-public class GraphicOverlay extends View {
+public class FaceSearchGraphicOverlay extends View {
     private static final String TAG = "GraphicOverlay";
     private final Paint rectPaint = new Paint();
     private float scaleX = 1.0f;
@@ -29,7 +30,7 @@ public class GraphicOverlay extends View {
     private final Paint textPaint = new Paint();
     private List<FaceSearchResult> rectFList = new ArrayList<>();
 
-    public GraphicOverlay(Context context, @Nullable AttributeSet attrs) {
+    public FaceSearchGraphicOverlay(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -66,6 +67,16 @@ public class GraphicOverlay extends View {
         }
     }
 
+
+    public void drawRect(List<FaceSearchResult> rectLabels,float scaleX,float scaleY) {
+        this.rectFList = adjustUVCBoundingRect(rectLabels);
+        this.scaleX=scaleX;
+        this.scaleY=scaleY;
+        postInvalidate();
+        requestLayout();
+    }
+
+
     public void drawRect(List<FaceSearchResult> rectLabels, CameraXFragment cameraXFragment) {
         this.rectFList = adjustBoundingRect(rectLabels);
         this.scaleX = cameraXFragment.getScaleX();
@@ -84,15 +95,46 @@ public class GraphicOverlay extends View {
 
     private List<FaceSearchResult> adjustBoundingRect(List<FaceSearchResult> rectLabels) {
         List<FaceSearchResult> labels = new ArrayList<>();
-        int padding = 20;
 
         // 画框处理后期再优化
         for (FaceSearchResult rectLabel : rectLabels) {
+//            Log.e("RECT111","宽："+(rectLabel.getRect().right-rectLabel.getRect().left));
+//            Log.e("RECT111","高："+(rectLabel.getRect().bottom-rectLabel.getRect().top));
+
             Rect rect = new Rect(
-                    translateX(rectLabel.getRect().left) - padding,
-                    translateY(rectLabel.getRect().top) - padding,
-                    translateX(rectLabel.getRect().right) + padding,
-                    translateY(rectLabel.getRect().bottom) + padding
+                    translateX(rectLabel.getRect().left) - 20,
+                    translateY(rectLabel.getRect().top) - 10,
+                    translateX(rectLabel.getRect().right) + 20,
+                    translateY(rectLabel.getRect().bottom) + 10
+            );
+
+            labels.add(new FaceSearchResult(rect, rectLabel.getFaceName(), rectLabel.getFaceScore()));
+        }
+
+        return labels;
+    }
+
+
+
+
+    /**
+     * USB带红外双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
+     * @param rectLabels
+     * @return
+     */
+    private List<FaceSearchResult> adjustUVCBoundingRect(List<FaceSearchResult> rectLabels) {
+        List<FaceSearchResult> labels = new ArrayList<>();
+
+        // 画框处理后期再优化
+        for (FaceSearchResult rectLabel : rectLabels) {
+//            Log.e("RECT111","宽："+(rectLabel.getRect().right-rectLabel.getRect().left));
+//            Log.e("RECT111","高："+(rectLabel.getRect().bottom-rectLabel.getRect().top));
+
+            Rect rect = new Rect(
+                    translateX(rectLabel.getRect().left) - 20,
+                    translateY(rectLabel.getRect().top) - 10,
+                    translateX(rectLabel.getRect().right) + 20,
+                    translateY(rectLabel.getRect().bottom) + 10
             );
 
             labels.add(new FaceSearchResult(rect, rectLabel.getFaceName(), rectLabel.getFaceScore()));

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +19,6 @@ import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
-import com.ai.face.faceVerify.verify.VerifyUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -44,7 +42,8 @@ import java.util.List;
 public class FaceSearch1NActivity extends AppCompatActivity {
     //如果设备没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
-    private String mostSimilarFaceID="";
+
+    private  CameraXFragment cameraXFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,21 +59,31 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         int cameraLens = sharedPref.getInt("cameraFlag", sharedPref.getInt("cameraFlag", 1));
 
         /*
-         * 1. Camera 的初始化。
+         * 1. 系统相机 CameraX  的初始化。
          * 第一个参数0/1 指定前后摄像头；
          * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
          * 焦距拉远一点，人才会靠近屏幕，才会减轻杂乱背景的影响。定制设备的摄像头自行调教此参数
          */
-        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLens, 0.001f);
+        cameraXFragment = CameraXFragment.newInstance(cameraLens, 0.001f);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
+
+        initFaceSearchParam();
+
+    }
+
+
+    /**
+     *
+     */
+    private void initFaceSearchParam(){
 
         // 2.各种参数的初始化设置
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
                 .setThreshold(0.88f) //阈值设置，范围限 [0.85 , 0.95] 识别可信度，也是识别灵敏度
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
-                .setImageFlipped(cameraLens == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
+                .setImageFlipped(cameraXFragment.getCameraLensFacing() == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {
                     /**
                      * 匹配到的大于 Threshold的所有结果，如有多个很相似的人场景允许的话可以弹框让用户选择
@@ -92,13 +101,13 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                                 .skipMemoryCache(false)
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .transform(new RoundedCorners(12))
-                                .into(binding.image);
+                                .into(binding.searchResult);
                         binding.searchTips.setText(faceID);
                     }
 
                     @Override
                     public void onProcessTips(int i) {
-                        showPrecessTips(i);
+                        showFaceSearchPrecessTips(i);
                     }
 
 
@@ -122,18 +131,6 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 FaceSearchEngine.Companion.getInstance().runSearch(imageProxy, 0);
             }
         });
-
-
-        //其他方式搜索，把数据转为Bitmap 去搜索。延时1秒是为了让引擎初始化完毕
-//        new Handler().postDelayed(() -> {
-//            //如果不是从标准HAL 摄像头搜索，比如从RTSP 流，USB 摄像头搜索，你可以图像帧转为bitmap 后输入引擎进行搜索
-//            //demo 为了简化，演示输入一帧Assert 图
-//            if (!isDestroyed() && !isFinishing()) {
-//                Bitmap searchBmp = VerifyUtils.getBitmapFromAssert(FaceSearch1NActivity.this, "v3_0835054.jpg");
-//                FaceSearchEngine.Companion.getInstance().runSearch(searchBmp);
-//            }
-//        }, 1000);
-
     }
 
 
@@ -142,7 +139,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
      *
      * @param code
      */
-    private void showPrecessTips(int code) {
+    private void showFaceSearchPrecessTips(int code) {
         binding.secondSearchTips.setText("");
 
         switch (code) {
@@ -179,7 +176,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
 
             case NO_LIVE_FACE:
                 binding.searchTips.setText(R.string.no_face_detected_tips);
-                binding.image.setImageResource(R.drawable.face_logo);
+                binding.searchResult.setImageResource(R.drawable.face_logo);
                 break;
 
             case EMGINE_INITING:
@@ -194,7 +191,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
             case NO_MATCHED:
                 //本次摄像头预览帧无匹配而已，会快速取下一帧进行分析检索
                 binding.searchTips.setText(R.string.no_matched_face);
-                binding.image.setImageResource(R.drawable.face_logo);
+                binding.searchResult.setImageResource(R.drawable.face_logo);
                 break;
 
         }

@@ -23,10 +23,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="长按删除人脸，点击右上角图标添加人脸"
+        android:text="长按删除，点击右上角图标添加或批量处理"
         android:gravity="center"
         android:padding="3dp"
-        android:textSize="13sp"
+        android:textSize="12sp"
         android:background="#CDB48D"
         android:textColor="@color/white" />
 

@@ -29,79 +29,96 @@
         android:textColor="@color/white"
         android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/camera_mode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_margin="7dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:background="@drawable/bg_camera_mode"
-        android:text="双目摄像头(IR+RGB)"
-        android:textColor="@color/white"
-        android:textSize="11sp" />
 
-    <LinearLayout
-        android:id="@+id/add_faceid_layout"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:background="@drawable/person_add_24" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingLeft="4dp"
-            android:text="Add Face"
-            android:textStyle="bold"
-            android:textColor="@color/face_lib_main_color"
-            android:textSize="13sp" />
-
-    </LinearLayout>
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/half_blue_sky"
-        android:layout_marginTop="7dp"
-        android:scrollbarSize="3dp"
-        android:paddingTop="7dp"
-        android:paddingBottom="3dp"
-        android:scrollbarThumbVertical="@color/green"
-        android:scrollbars="horizontal" />
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/center_banner_constraint_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/my_mini_program_view">
-        <ImageView
-            android:id="@+id/center_banner_layout"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/verify_tips"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="h,1200:300"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/camera_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="7dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="@drawable/bg_camera_mode"
+                android:text="双目摄像头(IR+RGB)"
+                android:textColor="@color/white"
+                android:textSize="11sp" />
+
+            <LinearLayout
+                android:id="@+id/add_faceid_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/person_add_24" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="4dp"
+                    android:text="Add Face"
+                    android:textStyle="bold"
+                    android:textColor="@color/face_lib_main_color"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/half_blue_sky"
+                android:layout_marginTop="7dp"
+                android:scrollbarSize="3dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="3dp"
+                android:scrollbarThumbVertical="@color/green"
+                android:scrollbars="horizontal" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/center_banner_constraint_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@color/face_lib_main_color"
+                android:layout_marginTop="80dp">
+                <ImageView
+                    android:id="@+id/center_banner_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@drawable/verify_tips"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="h,1200:300"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintVertical_bias="1.0" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
 
 
 </LinearLayout>

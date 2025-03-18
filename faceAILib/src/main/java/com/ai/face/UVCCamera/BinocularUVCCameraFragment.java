@@ -36,7 +36,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * USB带红外双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
  *
- * AbstractBinocularUVCCameraFragment 是摄像头相关处理，需要购置可以插在手机上调试的红外双目摄像头可以找我推荐
+ * AbstractBinocularUVCCameraFragment 是摄像头相关处理，「调试的时候USB摄像头一定要固定住屏幕正上方」
  *
  * 默认LivenessType.IR需要你的摄像头是双目红外摄像头，如果仅仅是RGB 摄像头请使用LivenessType.SILENT_MOTION
  *
@@ -67,6 +67,7 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
 
     /**
      * 初始化人脸识别底图
+     *
      */
     void initFaceVerifyBaseBitmap() {
         faceVerifyUtils = new FaceVerifyUtils();
@@ -74,39 +75,35 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
         //1:1 人脸对比，摄像头实时采集的人脸和预留的人脸底片对比。（动作活体人脸检测完成后开始1:1比对）
         String yourUniQueFaceId = requireActivity().getIntent().getStringExtra(USER_FACE_ID_KEY);
         String savedFacePath = FaceAIConfig.CACHE_BASE_FACE_DIR + yourUniQueFaceId;
-        //2.先去Path 路径读取有没有faceID 对应的人脸，如果没有从网络其他地方同步
+
+        //2.先去Path 路径读取有没有faceID 对应的处理好的人脸，如果没有从网络其他地方同步图片过来并进行合规处理
         Bitmap baseBitmap = BitmapFactory.decodeFile(savedFacePath);
 
+        //如果本地已经有了合规处理好的人脸图
         if (baseBitmap != null) {
             //3.初始化引擎，各种参数配置
             initFaceVerificationParam(baseBitmap);
         } else {
-            //人脸图的裁剪和保存最好提前完成，如果不是本SDK 录入的人脸可能人脸不标准
-            //这里模拟从网络等地方获取，业务方自行决定，为了方便模拟我们放在Assert 目录
-            Bitmap remoteBitmap = VerifyUtils.getBitmapFromAssert(requireActivity(), "yourFace.jpg");
+            //模拟从网络等地方获取对应的人脸图，Demo 简化从Asset 目录读取
+            Bitmap remoteBitmap = VerifyUtils.getBitmapFromAssert(requireActivity(), "0a_模拟证件照.jpeg");
             if (remoteBitmap == null) {
                 Toast.makeText(getContext(), R.string.add_a_face_image, Toast.LENGTH_LONG).show();
                 tipsTextView.setText(R.string.add_a_face_image);
                 return;
             }
 
-            //人脸照片可能不是规范的正方形，非人脸区域过大甚至无人脸 多个人脸等情况，需要裁剪等处理
-            //（检测人脸照片质量使用 checkFaceQuality方法，处理类同checkFaceQuality）
+            //其他地方同步过来的人脸可能是不规范的没有经过校准的人脸图（证件照，多人脸，过小等）。disposeBaseFaceImage处理
             FaceAIUtils.Companion.getInstance(requireActivity().getApplication())
                     .disposeBaseFaceImage(remoteBitmap, savedFacePath, new FaceAIUtils.Callback() {
+                        //处理优化人脸成功完成去初始化引擎
                         @Override
                         public void onSuccess(@NonNull Bitmap cropedBitmap) {
                             initFaceVerificationParam(cropedBitmap);
                         }
 
-                        /**
-                         * VerifyStatus.
-                         * @param msg
-                         * @param errorCode VerifyStatus.VERIFY_DETECT_TIPS_ENUM.*
-                         */
+                        //底片处理异常的信息回调
                         @Override
                         public void onFailed(@NotNull String msg, int errorCode) {
-                            Log.e("ttt", msg);
                             Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
                         }
                     });

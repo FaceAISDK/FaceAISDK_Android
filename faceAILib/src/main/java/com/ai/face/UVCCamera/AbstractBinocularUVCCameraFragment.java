@@ -22,7 +22,7 @@ import com.serenegiant.usb.UVCCamera;
 /**
  * 打开双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
  *
- * 也可以支持仅仅RGB 的USB 摄像头，需要购置可以插在手机上调试的红外双目摄像头可以找我推荐
+ * 也可以支持仅仅RGB 的USB 摄像头，「调试的时候USB摄像头一定要固定住屏幕正上方」
  * 更多UVC 摄像头使用参考 https://blog.csdn.net/hanshiying007/article/details/124118486
  *
  */

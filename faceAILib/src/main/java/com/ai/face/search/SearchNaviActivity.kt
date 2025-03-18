@@ -3,13 +3,21 @@ package com.ai.face.search
 import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.ai.face.R
+import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraActivity
+import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraFragment
+import com.ai.face.addFaceImage.AddFaceImageActivity
 import com.ai.face.databinding.ActivityFaceSearchNaviBinding
 import com.ai.face.search.CopyFaceImageUtils.Companion.copyTestFaceImage
 import com.ai.face.search.CopyFaceImageUtils.Companion.showAppFloat
+import com.ai.face.search.uvcCameraSearch.FaceSearchUVCCameraActivity
+import com.ai.face.verify.FaceVerifyWelcomeActivity
 import com.lzf.easyfloat.EasyFloat
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
@@ -20,7 +28,6 @@ import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
  *
  */
 class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
-
     private lateinit var binding: ActivityFaceSearchNaviBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,18 +38,33 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         checkNeededPermission()
 
-        binding.faceSearch1n.setOnClickListener {
+        binding.systemCameraSearch.setOnClickListener {
             startActivity(
                 Intent(this@SearchNaviActivity, FaceSearch1NActivity::class.java)
             )
         }
 
-        binding.faceSearchMn.setOnClickListener {
+        binding.systemCameraAddFace.setOnClickListener {
             startActivity(
-                Intent(this@SearchNaviActivity, FaceSearchMNActivity::class.java)
+                Intent(baseContext, FaceSearchImageMangerActivity::class.java).putExtra(
+                    "isAdd",
+                    true
+                ).putExtra("isBinocularCamera",false)
             )
         }
 
+        binding.binocularCameraSearch.setOnClickListener {
+            showConnectUVCCameraDialog()
+        }
+
+        binding.binocularCameraAddFace.setOnClickListener {
+            startActivity(
+                Intent(baseContext, FaceSearchImageMangerActivity::class.java).putExtra(
+                    "isAdd",
+                    true
+                ).putExtra("isBinocularCamera",true)
+            )
+        }
 
         //验证复制图片
         binding.copyFaceImages.setOnClickListener {
@@ -54,6 +76,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
                 override fun onSuccess() {
                     EasyFloat.hide("speed")
                 }
+
                 override fun onFailed(msg: String) {}
             })
         }
@@ -62,17 +85,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             finish()
         }
 
-        binding.mN1.setOnClickListener {
-            val uri =
-                Uri.parse("https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Introduce_11_1N_MN.md")
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.addCategory(Intent.CATEGORY_BROWSABLE)
-            intent.data = uri
-            startActivity(intent)
-        }
-
-
-        binding.changeCamera.setOnClickListener {
+        binding.switchCamera.setOnClickListener {
             val sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE)
             if (sharedPref.getInt("cameraFlag", 1) == 1) {
                 sharedPref.edit().putInt("cameraFlag", 0).commit()
@@ -101,17 +114,38 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             )
         }
 
-        binding.addFaceImage.setOnClickListener {
+    }
+
+
+    private fun showConnectUVCCameraDialog() {
+        //一天提示一次
+        val sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE)
+        val showTime = sharedPref.getLong("showUVCCameraDialog", 0)
+        if (System.currentTimeMillis() - showTime < 12 * 60 * 60 * 1000) {
             startActivity(
-                Intent(baseContext, FaceSearchImageMangerActivity::class.java).putExtra(
-                    "isAdd",
-                    true
-                )
+                Intent(this@SearchNaviActivity, FaceSearchUVCCameraActivity::class.java)
             )
+        }else {
+            val builder = AlertDialog.Builder(this)
+            val dialog = builder.create()
+            val dialogView = View.inflate(this, R.layout.dialog_connect_uvc_camera, null)
+            //设置对话框布局
+            dialog.setView(dialogView)
+            val btnOK = dialogView.findViewById<Button>(R.id.btn_ok)
+            btnOK.setOnClickListener { v: View? ->
+                startActivity(
+                    Intent(this@SearchNaviActivity, FaceSearchUVCCameraActivity::class.java)
+                )
+            }
+            dialog.setCanceledOnTouchOutside(false)
+            dialog.show()
+
+            sharedPref.edit().putLong("showUVCCameraDialog", System.currentTimeMillis()).commit()
         }
 
-
     }
+
+
 
     /**
      * 统一全局的拦截权限请求，给提示

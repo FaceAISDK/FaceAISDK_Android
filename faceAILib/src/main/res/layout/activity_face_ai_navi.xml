@@ -58,12 +58,14 @@
             android:layout_gravity="center"
             android:orientation="vertical">
 
-            <ImageView
+            <com.airbnb.lottie.LottieAnimationView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:padding="6dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/face_logo" />
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_speed="2"
+                app:lottie_rawRes="@raw/face_verify" />
 
             <TextView
                 android:id="@+id/face_verify"
@@ -73,7 +75,7 @@
                 android:gravity="center"
                 android:text="@string/face_verify_1vs1"
                 android:textStyle="bold"
-                android:textColor="@color/green"
+                android:textColor="@color/face_lib_main_color"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -101,12 +103,13 @@
             android:layout_gravity="center"
             android:orientation="vertical">
 
-            <ImageView
+            <com.airbnb.lottie.LottieAnimationView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:padding="9dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_add_face" />
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/face_search" />
 
             <TextView
                 android:id="@+id/change_base_img"
@@ -116,7 +119,7 @@
                 android:gravity="center"
                 android:text="@string/face_search"
                 android:textStyle="bold"
-                android:textColor="@color/green"
+                android:textColor="@color/face_lib_main_color"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/face_search" />
 
@@ -136,12 +139,12 @@
         android:layout_marginRight="29dp"
         android:visibility="visible"
         android:text="@string/two_face_image_verify"
-        android:textColor="@color/green"
+        android:textColor="@color/face_lib_main_color"
         android:textStyle="bold"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/face_verify_card" />
+        app:layout_constraintTop_toBottomOf="@+id/binocular_camera" />
 
     <TextView
         android:id="@+id/binocular_camera"
@@ -154,16 +157,16 @@
         android:layout_marginRight="29dp"
         android:visibility="visible"
         android:text="@string/binocular_camera_demo"
-        android:textColor="@color/green"
+        android:textColor="@color/face_lib_main_color"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/two_face_verify" />
+        app:layout_constraintTop_toBottomOf="@+id/face_verify_card" />
 
 
     <TextView
-        android:id="@+id/change_camera"
+        android:id="@+id/switch_camera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

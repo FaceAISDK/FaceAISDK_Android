@@ -23,8 +23,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ai.face.R;
+import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraActivity;
+import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraFragment;
 import com.ai.face.addFaceImage.AddFaceImageActivity;
 import com.ai.face.faceSearch.search.FaceSearchImagesManger;
+import com.ai.face.verify.FaceVerifyWelcomeActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -90,11 +93,16 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
 
         //添加单张人脸照片
         if (getIntent().getExtras().getBoolean("isAdd")) {
-            Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
-            addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
-            startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
+            if (getIntent().getExtras().getBoolean("isBinocularCamera")) {
+                Intent addFaceIntent = new Intent(getBaseContext(), AddFaceUVCCameraActivity.class);
+                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceUVCCameraFragment.AddFaceImageTypeEnum.FACE_SEARCH.name());
+                startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
+            }else {
+                Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
+                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
+                startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
+            }
         }
-
     }
 
 
@@ -160,13 +168,16 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
                 if (!value.isDirectory()) {
                     String filename = value.getName();
                     String filePath = value.getPath();
-                    if (filename.trim().toLowerCase().endsWith(".jpg")) {
-                        faceImageList.add(new ImageBean(filePath, filename));
-                    } else if (filename.trim().toUpperCase().endsWith(".png")) {
-                        faceImageList.add(new ImageBean(filePath, filename));
-                    } else if (filename.trim().toUpperCase().endsWith(".jpeg")) {
-                        faceImageList.add(new ImageBean(filePath, filename));
-                    }
+
+                    faceImageList.add(new ImageBean(filePath, filename));
+
+//                    if (filename.trim().toLowerCase().endsWith(".jpg")) {
+//                        faceImageList.add(new ImageBean(filePath, filename));
+//                    } else if (filename.trim().toLowerCase().endsWith(".png")) {
+//                        faceImageList.add(new ImageBean(filePath, filename));
+//                    } else if (filename.trim().toLowerCase().endsWith(".jpeg")) {
+//                        faceImageList.add(new ImageBean(filePath, filename));
+//                    }
                 }
             }
 
@@ -181,7 +192,7 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
      * 人脸图规范要求 大于 300*300的光线充足无遮挡的正面人脸如（./images/face_example.jpg)
      */
     private void copyFaceTestImage() {
-        Toast.makeText(getBaseContext(), "复制验证图...", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "批量复制测试人脸", Toast.LENGTH_LONG).show();
         CopyFaceImageUtils.Companion.showAppFloat(getBaseContext());
 
         CopyFaceImageUtils.Companion.copyTestFaceImage(getApplication(), new CopyFaceImageUtils.Companion.Callback() {
@@ -203,11 +214,12 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();//添加一张
-        if (itemId == R.id.action_add) {
-            Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
-            addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
-            startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
-        } else if (itemId == R.id.action_add_many) {//批量添加很多张测试验证人脸图
+//        if (itemId == R.id.action_add) {
+//            Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
+//            addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
+//            startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
+//        } else
+        if (itemId == R.id.action_add_many) {//批量添加很多张测试验证人脸图
             copyFaceTestImage();
         } else if (itemId == android.R.id.home) {
             finish();

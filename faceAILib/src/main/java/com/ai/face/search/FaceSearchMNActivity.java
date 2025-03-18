@@ -33,12 +33,15 @@ import java.util.List;
 
 
 /**
+ *  应用场景比较少，暂时不放到Demo App ，可自行打开
+ *
  *  M：N 人脸搜索「M：N Face Search」，建议优先试用1:N，整个业务流程稳定后再考虑升级到M：N
  *  系统相机跑久了也会性能下降，建议测试前重启系统，并定时重启
  *
  *  本功能要求设备硬件配置高，摄像头品质好。可以拿当前的各品牌手机旗舰机测试验证
  *
  */
+@Deprecated
 public class FaceSearchMNActivity extends AppCompatActivity {
     //如果设备没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchMnBinding binding;

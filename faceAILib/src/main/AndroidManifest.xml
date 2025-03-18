@@ -10,8 +10,12 @@
 
     <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
 
-
     <application>
+
+        <activity
+            android:name=".search.uvcCameraSearch.FaceSearchUVCCameraActivity"
+            android:theme="@style/FaceAITheme"
+            android:exported="true"/>
 
         <activity
             android:name=".UVCCamera.BinocularUVCCameraActivity"

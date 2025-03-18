@@ -1,17 +1,14 @@
 package com.ai.face.verify;
 
 import static com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR;
-import static com.ai.face.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +31,6 @@ import com.ai.face.faceVerify.verify.liveness.LivenessDetectionMode;
 import com.ai.face.faceVerify.verify.liveness.LivenessType;
 import com.ai.face.utils.VoicePlayer;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import org.jetbrains.annotations.NotNull;
@@ -100,35 +96,37 @@ public class FaceVerificationActivity extends AppCompatActivity {
     private void initFaceVerifyBaseBitmap() {
         //1:1 人脸对比，摄像头实时采集的人脸和预留的人脸底片对比。（动作活体人脸检测完成后开始1:1比对）
         faceID = getIntent().getStringExtra(USER_FACE_ID_KEY);
-        //2.先去Path 路径读取有没有faceID 对应的人脸，如果没有从网络其他地方同步
+
+        //2.先去Path 路径读取有没有faceID 对应的处理好的人脸，如果没有从网络其他地方同步图片过来并进行合规处理
         String faceFilePath = CACHE_BASE_FACE_DIR + faceID;
         Bitmap baseBitmap = BitmapFactory.decodeFile(faceFilePath);
+
+        //如果本地已经有了合规处理好的人脸图
         if (baseBitmap != null) {
             //3.初始化引擎，各种参数配置
             initFaceVerificationParam(baseBitmap);
         } else {
-            //人脸图的裁剪和保存最好提前完成，如果不是本SDK 录入的人脸可能人脸不标准
-            //这里可能从网络等地方获取，业务方自行决定；为了方便演示我们放在Assert 目录
-            Bitmap remoteBitmap = VerifyUtils.getBitmapFromAssert(this, "XXyourFace.pngtest");
+
+            //模拟从网络等地方获取对应的人脸图，Demo 简化从Asset 目录读取
+            Bitmap remoteBitmap = VerifyUtils.getBitmapFromAssert(this, "0a_模拟证件照.jpeg");
             if (remoteBitmap == null) {
                 Toast.makeText(getBaseContext(), R.string.add_a_face_image, Toast.LENGTH_LONG).show();
                 tipsTextView.setText(R.string.add_a_face_image);
                 return;
             }
-            //人脸照片可能不是规范的正方形，非人脸区域过大甚至无人脸 多个人脸等情况，需要SDK内部裁剪等处理
-            //（检测人脸照片质量使用 checkFaceQuality方法，处理类同checkFaceQuality）
+
+            //其他地方同步过来的人脸可能是不规范的没有经过校准的人脸图（证件照，多人脸，过小等）。disposeBaseFaceImage处理
             FaceAIUtils.Companion.getInstance(getApplication())
                     .disposeBaseFaceImage(remoteBitmap, faceFilePath, new FaceAIUtils.Callback() {
-                        //从图片中裁剪识别人脸成功
+                        //处理优化人脸成功完成去初始化引擎
                         @Override
-                        public void onSuccess(@NonNull Bitmap cropedBitmap) {
-                            initFaceVerificationParam(cropedBitmap);
+                        public void onSuccess(@NonNull Bitmap disposedBitmap) {
+                            initFaceVerificationParam(disposedBitmap);
                         }
 
-                        //识别的错误信息
+                        //底片处理异常的信息回调
                         @Override
                         public void onFailed(@NotNull String msg, int errorCode) {
-                            Log.e("BaseFaceImage failed", msg);
                             Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
                         }
                     });
@@ -148,7 +146,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setThreshold(0.85f)                    //阈值设置，范围限 [0.8,0.95] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
-                .setLivenessType(LivenessType.SILENT_MOTION)  //活体检测可以有静默活体，动作活体或者组合也可以不需要活体NONE
+                .setLivenessType(LivenessType.NONE)     //活体检测可以有静默活体，动作活体或者组合也可以不需要活体NONE
                 .setLivenessDetectionMode(LivenessDetectionMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.99]
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
@@ -185,7 +183,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                      */
                     @Override
                     public void onFailed(int code, String message) {
-                        Toast.makeText(getBaseContext(), "onFailed错误：" + message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), "onFailed错误!：" + message, Toast.LENGTH_LONG).show();
                     }
 
                 }).create();

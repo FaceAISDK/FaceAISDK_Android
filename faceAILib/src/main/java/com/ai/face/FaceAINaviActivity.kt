@@ -35,6 +35,7 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         //人脸图保存路径初始化
         FaceAIConfig.init(this)
+
         //语音提示
         VoicePlayer.getInstance().init(this)
 
@@ -62,7 +63,7 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
 
-        // 1:N， M：N 人脸搜索
+        // 人脸搜索(系统相机和双目USB UVC 摄像头都支持)
         viewBinding.faceSearch.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, SearchNaviActivity::class.java))
         }
@@ -85,9 +86,9 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
 
 
         //切换前后摄像头
-        viewBinding.changeCamera.setOnClickListener {
+        viewBinding.switchCamera.setOnClickListener {
             val sharedPref = getSharedPreferences(
-                "faceVerify", Context.MODE_PRIVATE
+                "FaceAISDK", Context.MODE_PRIVATE
             )
             if (sharedPref.getInt("cameraFlag", 0) == 1) {
                 sharedPref.edit().putInt("cameraFlag", 0).apply()

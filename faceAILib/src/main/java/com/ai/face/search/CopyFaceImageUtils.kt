@@ -72,7 +72,7 @@ class CopyFaceImageUtils {
                 .setDragEnable(false)
                 .setLayout(R.layout.float_loading) {
                     val entry: LottieAnimationView = it.findViewById(R.id.entry)
-                    entry.setAnimation(R.raw.loading2)
+                    entry.setAnimation(R.raw.waiting)
                     entry.loop(true)
                     entry.playAnimation()
                 }
@@ -109,7 +109,7 @@ class CopyFaceImageUtils {
                             }
                         )
                     }else{
-                        Log.e("Add Face","获取Assert 目录文件图片失败 : "+faceFiles[index]);
+//                        Log.e("Add Face","获取Assert 目录文件图片失败 : "+faceFiles[index]);
                     }
 
                 }

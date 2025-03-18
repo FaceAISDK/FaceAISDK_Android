@@ -19,6 +19,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
+    <!-- Custom your Face Verify UI-->
+    <com.ai.face.search.FaceSearchGraphicOverlay
+        android:id="@+id/graphicOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        app:layout_constraintBottom_toBottomOf="@+id/rgb_camera_texture_view"
+        app:layout_constraintEnd_toEndOf="@+id/rgb_camera_texture_view"
+        app:layout_constraintStart_toStartOf="@+id/rgb_camera_texture_view"
+        app:layout_constraintTop_toTopOf="@+id/rgb_camera_texture_view"/>
+
+
     <!-- 可以替换成你自己的UI样式 -->
     <com.ai.face.base.view.FaceCoverView
         android:id="@+id/face_cover"
@@ -28,7 +40,6 @@
         customAttr:progress_end_color="@color/green"
         customAttr:progress_start_color="@color/green"
         customAttr:show_progress="false"
-        android:visibility="visible"
         customAttr:background_color="@color/white"
         customAttr:tip_text_color="@color/colorPrimary"
         customAttr:tip_text_size="20sp" />
@@ -61,7 +72,7 @@
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/base_face" />
+        app:layout_constraintTop_toBottomOf="@+id/search_result" />
 
     <!-- UI 设计仅供参考 -->
     <TextView
@@ -79,7 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tips_view" />
 
     <TextView
-        android:id="@+id/silent_Score"
+        android:id="@+id/log_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="33dp"
@@ -103,7 +114,7 @@
         android:src="@drawable/ic_arrow_back_24" />
 
     <ImageView
-        android:id="@+id/base_face"
+        android:id="@+id/search_result"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginTop="10dp"
