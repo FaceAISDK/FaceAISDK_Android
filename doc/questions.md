@@ -34,8 +34,9 @@
     * 年龄使面貌发生变化。
     * 极端的面部表情。
 
-### 5.uniApp 插件市场支持
-开发人员可以根据uniApp官方推荐方式自行集成，或者使用我们的uniAPP demo项目集成  https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK
+### 5.uniApp 原生插件支持
+使用我们的公版uniAPP demo项目集成  https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK
+细节可以修改原生部分代码重新打包实现。
 
 ### 6.识别的灵敏度准确率参数
    目前人脸检测的环节只要人脸像素大于222就能识别，相识度setThreshold(0.88f) //阈值设置，范围限 [0.85 , 0.95] 识别可信度，也是识别灵敏度

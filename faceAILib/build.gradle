@@ -37,15 +37,13 @@ android {
 
 dependencies {
 
-    //SDK 主页介绍：  https://github.com/AnyLifeZLB/FaceVerificationSDK
+    //SDK主页介绍：https://github.com/AnyLifeZLB/FaceVerificationSDK
     implementation 'io.github.anylifezlb:FaceAISDK:1.9.6.release'
 
 
     //USB红外双目摄像头用lib 目录libuvccamera-1.0.9 AAR管理，用户可以自行用熟悉方案
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
     implementation 'pub.devrel:easypermissions:3.0.0'
     api 'com.airbnb.android:lottie:6.0.0'
