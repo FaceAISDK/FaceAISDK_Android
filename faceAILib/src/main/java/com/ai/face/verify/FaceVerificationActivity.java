@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,6 +35,9 @@ import com.ai.face.faceVerify.verify.liveness.LivenessType;
 import com.ai.face.utils.VoicePlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -58,6 +63,8 @@ public class FaceVerificationActivity extends AppCompatActivity {
     private final float silentLivenessPassScore = 0.85f; //静默活体分数通过的阈值
 
     private String faceID;
+    private String faceImageUrl;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +119,29 @@ public class FaceVerificationActivity extends AppCompatActivity {
             //3.初始化引擎，各种参数配置
             initFaceVerificationParam(baseBitmap);
         } else {
+            //
+
+            Glide.with(getBaseContext())
+                    .asBitmap()
+                    .load("https://img2023.cnblogs.com/blog/2894189/202303/2894189-20230320143847971-1125640597.png")
+                    .into(new CustomTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                        }
+
+                        @Override
+                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
+
+                        }
+                    });
+
+
 
             //模拟从网络等地方获取对应的人脸图，Demo 简化从Asset 目录读取
             Bitmap remoteBitmap = VerifyUtils.getBitmapFromAssert(this, "0a_模拟证件照.jpeg");
@@ -152,9 +182,9 @@ public class FaceVerificationActivity extends AppCompatActivity {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setThreshold(0.85f)                    //阈值设置，范围限 [0.8,0.95] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
-                .setLivenessType(LivenessType.SILENT_MOTION)  //活体检测可以有静默活体，动作活体或者组合也可以不需要活体NONE
+                .setLivenessType(LivenessType.SILENT)  //活体检测可以有静默活体，动作活体或者组合也可以不需要活体NONE
                 .setLivenessDetectionMode(LivenessDetectionMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
-                .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.99]
+                .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.98]
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑等某一种
                 .setVerifyTimeOut(16)                   //活体检测支持设置超时时间 [9,22] 秒

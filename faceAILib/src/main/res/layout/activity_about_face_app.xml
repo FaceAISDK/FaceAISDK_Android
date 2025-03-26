@@ -40,7 +40,7 @@
         android:layout_marginLeft="22dp"
         android:gravity="left"
         android:padding="15dp"
-        android:text="邮箱Email:FaceAISDK.Service@gmail.com"
+        android:text="Email:FaceAISDK.Service@gmail.com"
         android:textColor="@android:color/white"
         android:textSize="14sp"
         app:layout_constraintTop_toTopOf="@+id/wechat" />

@@ -35,7 +35,7 @@
     * 极端的面部表情。
 
 ### 5.uniApp 插件市场支持
-开发人员可以根据uniApp官方推荐方式自行集成
+开发人员可以根据uniApp官方推荐方式自行集成，或者使用我们的uniAPP demo项目集成  https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK
 
 ### 6.识别的灵敏度准确率参数
    目前人脸检测的环节只要人脸像素大于222就能识别，相识度setThreshold(0.88f) //阈值设置，范围限 [0.85 , 0.95] 识别可信度，也是识别灵敏度
@@ -46,7 +46,8 @@
    目前支持的Android 系统版本为Android(5,15]，低版本Android系统可以根据Demo案例使用强制降级依赖，用户可通过Demo验证是否符合业务
 
 ### 8.FaceAI SDK 版权说明
-   FaceAI SDK 使用开源+自研封装实现，无三方如虹软，Face++，商汤 商业方案，。   
+   FaceAI SDK 使用开源+自研封装实现，无三方如虹软，Face++，商汤 商业方案。SDK 发布到三方maven central 后和平台永久存在，你也可以
+使用离线下载本地依赖 http://hyy12345678.github.io/clay_created/2015/09/25/Way-To-Solve-Androidstutio-offline-dependencies.html
 
 ### 9.摄像头方向调整相关
    目前SDK 的摄像头预览，分析画面都是在内部处理，画面方向和手机，Pad 的姿态（传感器反向）决定，画面能随横竖屏自动切换
@@ -92,6 +93,7 @@
     如FaceSearchImagesManger.Companion.getInstance().insertOrUpdateFaceImage()
 
 ### 13.自定义摄像头（方向旋转，相机管理等），双目摄像头是否可以使用？
+   摄像头角度可以自由调节，系统相机和USB双目UVC相机都可以，参考Demo。
    支持自定义摄像头，可以在子线程持续输入bitmap 实时预览帧作为参数进行SDK 的调用。 
    目前SDK默认使用Android CameraX,用户不管是USB 摄像头还是RTSP 视频流只要把持续
    的视频帧转为bitmap 传人SDK 引擎即可。

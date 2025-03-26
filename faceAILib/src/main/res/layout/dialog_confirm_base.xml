@@ -55,7 +55,6 @@
                 android:layout_gravity="center"
                 android:theme="@style/MyEditText"
                 android:layout_marginBottom="20dp"
-                android:maxLength="11"
                 android:textColorHint="@color/face_lib_main_color"
                 android:textColor="@color/green"
                 android:focusable="true"

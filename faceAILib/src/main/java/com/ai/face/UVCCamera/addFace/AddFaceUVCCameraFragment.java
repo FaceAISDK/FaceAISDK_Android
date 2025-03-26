@@ -47,7 +47,7 @@ import java.nio.ByteBuffer;
 
 /**
  * 打开USB RGB摄像头 添加人脸
- *
+ * 更多UVC 摄像头参数设置 https://blog.csdn.net/hanshiying007/article/details/124118486
  */
 public class AddFaceUVCCameraFragment extends Fragment {
 

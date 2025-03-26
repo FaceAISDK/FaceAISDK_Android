@@ -19,7 +19,6 @@ Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition �
 ![端侧设备端离线机器学习优点](https://github.com/user-attachments/assets/06b0d254-964f-4277-9198-9d5fa920d95c)
 
 
-
 <div align=center>
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 20% height = 20% />
 </div>
@@ -75,6 +74,8 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 *   5.集成过程中的问题可以GitHub 提issues或者详细描述你遇到的问题发邮件到<FaceAISDK.Service@gmail.com>
 
+*   6.UniApp 插件集成可以参考（请大佬提意见完善） https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK 
+
     目前SDK默认使用java11. kotlin 1.7.20 打包，如果你的项目较老还在使用
     kapt, kotlin-android-extensions导致集成冲突，建议尽快升级项目或者VIP联系定制
 
@@ -121,11 +122,11 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 ### 提高SDK识别准确率
 
-1.  使用高配置硬件参数设备和摄像头抗干扰强；保持镜头整洁干净
+1.  使用高配置硬件参数设备和抗干扰摄像头；**保持镜头整洁干净（会粘指纹油污的用纯棉布擦拭干净）**
 2.  录入高质量的人脸图，如（images/face\_example.jpg）（证件照输入目前优化中）
 3.  光线环境好，检测的人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
 4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
-5.  人脸搜索功能（1:N&M:N）人脸录入不戴粗框的深色眼镜，使用宽动态抗干扰成像清晰摄像头
+5.  人脸录入不戴粗框的深色眼镜，使用宽动态抗干扰成像清晰摄像头，定制设备摄像头固定于屏幕正上方
 
 
 ## 常见问题

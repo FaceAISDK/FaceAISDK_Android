@@ -42,8 +42,7 @@ import java.util.List;
 public class FaceSearch1NActivity extends AppCompatActivity {
     //如果设备没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
-
-    private  CameraXFragment cameraXFragment;
+    private CameraXFragment cameraXFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,6 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         });
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
-
         int cameraLensFacing = sharedPref.getInt("cameraFlag", 0);
         int degree=sharedPref.getInt("cameraDegree", 0);
 
@@ -66,10 +64,9 @@ public class FaceSearch1NActivity extends AppCompatActivity {
          * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
          * 焦距拉远一点，人才会靠近屏幕，才会减轻杂乱背景的影响。定制设备的摄像头自行调教此参数
          *
-         * 第三个参数是摄像头旋转角度 {@Link Surface.ROTATION_0}
+         * 第三个参数是摄像头旋转角度 {@link Surface.ROTATION_0}
          */
         cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.001f,degree);
-
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
@@ -137,6 +134,9 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 FaceSearchEngine.Companion.getInstance().runSearch(imageProxy, 0);
             }
         });
+
+
+
     }
 
 
@@ -147,7 +147,6 @@ public class FaceSearch1NActivity extends AppCompatActivity {
      */
     private void showFaceSearchPrecessTips(int code) {
         binding.secondSearchTips.setText("");
-
         switch (code) {
             default:
                 binding.searchTips.setText("Tips Code：" + code);
@@ -199,7 +198,6 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 binding.searchTips.setText(R.string.no_matched_face);
                 binding.searchResult.setImageResource(R.drawable.face_logo);
                 break;
-
         }
     }
 
