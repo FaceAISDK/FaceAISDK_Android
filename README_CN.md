@@ -16,19 +16,18 @@ Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition �
 </div>
 
 
-![端侧设备端离线机器学习优点](https://github.com/user-attachments/assets/06b0d254-964f-4277-9198-9d5fa920d95c)
-
-
+![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
 <div align=center>
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 20% height = 20% />
 </div>
 
-
-## 当前版本说明 V1.9.6 (建议升级到GitHub Demo版本)
+## 当前版本说明 V1.9.7 (建议升级到GitHub Demo版本)
 - 优化1:N人脸搜索，优化证件照录入和识别
 - 可以设置旋转画面，上架Google Play 认证
 - 完善UVC协议USB红外双目摄像头人脸识别
+- 封装uni-App 插件
+
 
 建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
@@ -141,4 +140,4 @@ Demo 以main主工程 --> faceAiLib 的方式演示，熟悉本SDK 接入Demo �
 
 
 
-![让子弹飞剧照-这是你吗？](https://github.com/user-attachments/assets/dfe7156f-d458-4294-aa25-70aa0216c760)
+![让子弹飞剧照-这是你吗？](images/It_is_you.png)  

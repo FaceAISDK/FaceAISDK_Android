@@ -2,6 +2,8 @@ package com.ai.face;
 
 import android.content.Context;
 
+import java.io.File;
+
 /**
  * 不要直接使用File Api 直接往文件目录插入图片，要使用SDK 提供的APi写入数据，图片还需要向量化，检测质量等操作
  *
@@ -21,6 +23,15 @@ public class FaceAIConfig {
         // 否则会提示无法找到人脸，VIP 可解除限制
         CACHE_BASE_FACE_DIR = context.getCacheDir().getPath() + "/faceAIVerify/";    //1:1 人脸识别目录
         CACHE_SEARCH_FACE_DIR = context.getFilesDir().getPath() + "/faceAISearch/";  //人脸搜索人脸库目录
+
+
+        //文件目前提前创建好，否则
+        File file = new File(CACHE_BASE_FACE_DIR);
+        if (!file.exists()) file.mkdirs();
+
+        File searchFile = new File(CACHE_SEARCH_FACE_DIR);
+        if (!searchFile.exists()) file.mkdirs();
+
 
     }
 
