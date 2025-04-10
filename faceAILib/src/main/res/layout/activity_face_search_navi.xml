@@ -160,7 +160,7 @@
                 android:layout_marginTop="22dp"
                 android:layout_marginBottom="8dp"
                 android:padding="3dp"
-                android:text="双目摄像头搜索"
+                android:text="USB双目摄像头搜索"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"/>
 
