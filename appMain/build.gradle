@@ -13,8 +13,8 @@ android {
         minSdk 21
         targetSdk 34  //target SDK 还是28 的请参考question.md 文档说明
 
-        versionCode 53
-        versionName "1.9.7.b5"
+        versionCode 54
+        versionName "1.9.7.release"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -35,18 +35,19 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled true
-            shrinkResources false
-            jniDebuggable true
-            minifyEnabled false
-            signingConfig signingConfigs.release
-        }
-
-        release {
+            debuggable true
             minifyEnabled true
             shrinkResources true
             jniDebuggable false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            debuggable false
             minifyEnabled true
+            shrinkResources true
+            jniDebuggable false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
