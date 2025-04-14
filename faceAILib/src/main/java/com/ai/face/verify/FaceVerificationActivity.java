@@ -24,8 +24,8 @@ import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus.*;
 import com.ai.face.faceVerify.verify.VerifyUtils;
-import com.ai.face.faceVerify.verify.liveness.LivenessDetectionMode;
-import com.ai.face.faceVerify.verify.liveness.LivenessType;
+import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
+import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
 import com.ai.face.utils.VoicePlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -74,7 +74,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
 
         int cameraLensFacing = sharedPref.getInt("cameraFlag", 0);
-        int degree=sharedPref.getInt("cameraDegree", 0);
+        int degree=sharedPref.getInt("cameraDegree", getWindowManager().getDefaultDisplay().getRotation());
 
         /*
          * 1. Camera 的初始化。
@@ -82,7 +82,8 @@ public class FaceVerificationActivity extends AppCompatActivity {
          * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
          * 焦距拉远一点，人才会靠近屏幕，才会减轻杂乱背景的影响。定制设备的摄像头自行调教此参数
          *
-         * 第三个参数是摄像头旋转角度 {@Link Surface.ROTATION_0}
+         * 第三个参数是 摄像头旋转角度 {@Link Surface.ROTATION_0}。
+         * 共5个值，默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
          */
         cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.001f,degree);
 
@@ -148,13 +149,13 @@ public class FaceVerificationActivity extends AppCompatActivity {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setThreshold(0.865f)                 //阈值设置，范围限 [0.8,0.95] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
-                .setLivenessType(LivenessType.SILENT_MOTION)  //活体检测可以有静默活体，动作活体或者组合也可以不需要活体NONE
-                .setLivenessDetectionMode(LivenessDetectionMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
+                .setLivenessType(MotionLivenessType.SILENT_MOTION)  //活体检测可以有静默活体，动作活体或者组合也可以不需要活体NONE
+                .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.98]
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(12) //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
-                .setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑 或其他某一种
-                .setCompareDurationTime(3211) //动作活体通过后人脸对比时间毫秒，[3000,5000]秒。低端机可以延迟时间，高配建议不设置使用默认
+//                .setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑 或其他某一种
+//                .setCompareDurationTime(5000) //动作活体通过后人脸对比时间毫秒，[3000,5000]秒。低端机可以延迟时间，高配建议不设置使用默认
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
                      * 1:1 人脸识别 活体检测 对比结束

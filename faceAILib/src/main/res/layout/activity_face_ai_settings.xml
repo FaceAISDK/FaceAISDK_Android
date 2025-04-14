@@ -107,6 +107,7 @@
                         app:lottie_speed="1" />
 
                     <TextView
+                        android:id="@+id/camera_degree_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="11dp"

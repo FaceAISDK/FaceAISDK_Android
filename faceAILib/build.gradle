@@ -38,7 +38,7 @@ android {
 dependencies {
 
     //SDK主页介绍：https://github.com/AnyLifeZLB/FaceVerificationSDK
-    implementation 'io.github.anylifezlb:FaceAISDK:1.9.7.sigapo'
+    implementation 'io.github.anylifezlb:FaceAISDK:1.9.8.beta1'
 
     //USB摄像头用lib 目录libuvccamera-1.0.9 AAR管理，用户可以自行用熟悉方案
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])

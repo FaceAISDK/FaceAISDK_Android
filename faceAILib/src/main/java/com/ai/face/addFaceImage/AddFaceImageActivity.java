@@ -130,7 +130,7 @@ public  class AddFaceImageActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
 
         int cameraLensFacing = sharedPref.getInt("cameraFlag", 0);
-        int degree=sharedPref.getInt("cameraDegree", 0);
+        int degree=sharedPref.getInt("cameraDegree", getWindowManager().getDefaultDisplay().getRotation());
 
         /*
          * 1. Camera 的初始化。
@@ -139,6 +139,7 @@ public  class AddFaceImageActivity extends AppCompatActivity {
          * 焦距拉远一点，人才会靠近屏幕，才会减轻杂乱背景的影响。定制设备的摄像头自行调教此参数
          *
          * 第三个参数是摄像头旋转角度 {@Link Surface.ROTATION_0}
+         * 共5个值，默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
          */
         CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.001f,degree);
 
