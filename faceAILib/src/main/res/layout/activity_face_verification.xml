@@ -94,14 +94,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <com.ai.face.faceVerify.graphic.FaceTipsOverlay
-        android:id="@+id/faceTips"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

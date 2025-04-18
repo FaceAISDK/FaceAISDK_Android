@@ -20,6 +20,7 @@
 
     <!--添加人脸 add face image-->
     <string name="keep_face_tips">Face the camera and keep your face visible</string>
+    <string name="no_close_eye_tips">Do not close eye</string>
     <string name="no_tilt_head_tips">Do not tile head</string>
     <string name="head_turn_left_tips">Dead turn left too more</string>
     <string name="head_turn_right_tips">Dead turn right too more</string>
@@ -37,9 +38,10 @@
     <string name="no_matched_face">No matched face</string>
     <string name="face_dir_empty">Face dir empty</string>
 
-    <!--1:1 人脸识别 face verify-->
+    <!--1:1 人脸识别 face verify -->
     <string name="face_verify_failed">Face verify failed！Please retry</string>
     <string name="silent_anti_spoofing_error">Silent anti spoofing error</string>
+    <string name="no_base_face_bitmap">No base face bitmap error</string>
 
     <!--Motion liveness detection-->
     <string name="motion_liveness_detection_failed">Motion liveness detection failed</string>
@@ -54,7 +56,7 @@
     <string name="stop_verify_tips">Stop verify,keep your face visible </string>
 
     <!--Navi activity-->
-    <string name="camera_degree_set">Switch Degree,Now is:</string>
+    <string name="camera_degree_set">Switch Camera Degree,Now is:</string>
     <string name="parameter_setting">Parameter settings</string>
     <string name="binocular_camera_demo">Binocular Camera Demo</string>
     <string name="face_verify_1vs1">1:1 Face Verify </string>

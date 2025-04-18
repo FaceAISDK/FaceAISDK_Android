@@ -20,6 +20,7 @@
 
     <!--添加人脸 add face image-->
     <string name="keep_face_tips">保持正脸不要晃动</string>
+    <string name="no_close_eye_tips">请勿闭眼</string>
     <string name="no_tilt_head_tips">请勿歪头</string>
     <string name="head_turn_left_tips">脸偏左</string>
     <string name="head_turn_right_tips">脸偏右</string>
@@ -36,6 +37,7 @@
     <!--1:N 人脸搜索 face search-->
     <string name="no_matched_face">无匹配人脸</string>
     <string name="face_dir_empty">人脸库为空</string>
+    <string name="no_base_face_bitmap">没有录入人脸底片</string>
 
     <!--1:1 人脸识别 face verify-->
     <string name="face_verify_failed">1:1 人脸识别不通过，请重试！</string>
@@ -54,7 +56,7 @@
     <string name="stop_verify_tips">停止识别,识别过程请保持人脸在画面中 </string>
 
     <!--Navi activity-->
-    <string name="camera_degree_set">摄像头画面方向切换，当前：</string>
+    <string name="camera_degree_set">摄像头方向切换。当前：</string>
     <string name="parameter_setting">Face AI 参数设置</string>
     <string name="binocular_camera_demo">USB双目摄像头(UVC协议)演示</string>
     <string name="face_verify_1vs1">1:1人脸识别 </string>

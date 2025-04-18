@@ -81,7 +81,7 @@
         android:id="@+id/tips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
+        android:textColor="@color/orange"
         android:textSize="14sp"
         android:gravity="center"
         android:layout_marginBottom="22dp"

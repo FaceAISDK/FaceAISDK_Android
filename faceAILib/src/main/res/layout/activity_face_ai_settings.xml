@@ -39,7 +39,7 @@
                 android:padding="3dp"
                 android:text="系统相机设置"
                 android:textColor="@android:color/white"
-                android:textSize="13sp"/>
+                android:textSize="14sp"/>
 
             <LinearLayout
                 android:id="@+id/system_camera_search_navi"
@@ -75,7 +75,7 @@
                         android:layout_marginStart="11dp"
                         android:text="@string/switch_camera"
                         android:textColor="@color/face_lib_main_color"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -113,7 +113,7 @@
                         android:layout_marginStart="11dp"
                         android:text="@string/camera_degree_set"
                         android:textColor="@color/face_lib_main_color"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -130,9 +130,9 @@
                 android:layout_marginTop="29dp"
                 android:layout_marginBottom="8dp"
                 android:padding="3dp"
-                android:text="双目摄像头设置"
+                android:text="USB双目摄像头设置"
                 android:textColor="@android:color/white"
-                android:textSize="13sp"/>
+                android:textSize="14sp"/>
 
             <LinearLayout
                 android:id="@+id/binocular_camera_search_navi"
@@ -168,7 +168,7 @@
                         android:layout_marginStart="11dp"
                         android:text="亮度调节"
                         android:textColor="@color/face_lib_main_color"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>

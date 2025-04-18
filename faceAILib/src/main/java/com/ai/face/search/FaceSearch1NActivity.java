@@ -136,8 +136,6 @@ public class FaceSearch1NActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
 
 

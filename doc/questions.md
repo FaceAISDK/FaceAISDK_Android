@@ -1,18 +1,30 @@
 ###  服务说明
   SDK 在低配早期魅蓝Note3（Android7） 华为P8（Android6），以及最新高配旗舰机型三星S25，小米15和小米pad 7pro
   经过严格测试验证；大厂生产的标准Android 系统设备目前反馈运行良好。如果你是定制的Android系统/开发板/USB双目摄像头  
-  请先检测是否能正常运行，完整授权请联系。
+  请先检测是否能正常运行，需要定制请联系。
   
-  SDK不读取任何敏感信息，严格限制运行获取权限，充分保护隐私数据，不联网就能工作更不会收集上传人脸关键信息。
+  SDK不读取任何敏感信息，严格限制运行获取权限仅需一个相机运行权限，充分保护隐私数据，不联网就能工作更不会收集上传人脸关键信息。
+  SDK 目前托管在Maven central，SDK所有功能都是离线端侧不会有后期不维护导致无法运行问题，若考虑Maven central托管停止
+  服务风险，可以自行下载拷贝相关版本SDK到你的服务器/本地。
 
-### 1.为什么小朋友群体1:N ，M：N 误识别率较高？
-   小朋友的五官差异相对成年人确实没有那么大，需要专门为小朋友群体训练人脸识别模型了，SDK demo 为通用模型
+### 1.集成SDK开发环境和Gradle 插件版本是怎样的？
+  开发环境 Android Studio Iguana | 2024.3.1
+  gradle插件版本 8.5.2  gradle 版本 8.7
+  **java17 , kotlin 2.1.0**
+
+  如果你的项目还有kapt请迁移至KSP，kapt 官方已经停止维护
+  kotlin-android-extensions官方也已经停止维护，建议升级为viewbinding
+
+  更多gradle 集成构建打包基础可以参考文章 https://juejin.cn/post/7160337743552675847
+
+  其他集成问题，请根据报错搜索解决方案,需要降级依赖版本配置 VIP 用户可以联系协助解决
 
 ### 2.是否支持外接USB 摄像头
    如果你的系统摄像头采用标准的 Android Camera2 API 和摄像头 HIDL接口，SDK内部已经集成CameraX管理摄像头，也就是
    标准大厂生产的手机平板设备都是支持的。
    
-   目前1.9.0 以上版本已经默认支持了UVC 协议的红外双目摄像头，直接在手机上插上USB 连接摄像头就能体验
+   目前1.9.0 以上版本已经默认支持了UVC 协议的USB红外双目摄像头，直接在手机上插上USB 连接摄像头就能体验
+   更多外接USB 外接UVC摄像头的操作可以参考这个库：https://github.com/shiyinghan/UVCAndroid
 
    ![红外双目](https://github.com/user-attachments/assets/3e96879d-0757-409e-894b-5d1d0e80231c)
 
@@ -28,10 +40,10 @@
 
     人脸识别输入要求：
     * 由于照片品质问题，某些人脸可能无法识别，例如：
-    * 具有极端照明（例如严重的背光）的图像。
+    * 具有极端照明（例如严重的背光,过暗过亮灯光）的图像。
     * 有障碍物挡住了一只或两只眼睛。
-    * 发型或胡须的差异。
-    * 年龄使面貌发生变化。
+    * 发型或胡须大差异。
+    * 年龄体重使面貌发生变化。
     * 极端的面部表情。
 
 ### 5.uniApp 原生插件支持
@@ -47,7 +59,7 @@
    目前支持的Android 系统版本为Android(5,15]，低版本Android系统可以根据Demo案例使用强制降级依赖，用户可通过Demo验证是否符合业务
 
 ### 8.FaceAI SDK 版权说明
-   FaceAI SDK 使用开源+自研封装实现，无三方如虹软，Face++，商汤 商业方案。SDK 发布到三方maven central 后和平台永久存在，你也可以
+   FaceAI SDK 使用开源+自研封装实现，无如虹软(试用每年还要激活)，Face++，商汤 商业方案。SDK发布到三方maven central后和平台永久存在，你也可以
 使用离线下载本地依赖 http://hyy12345678.github.io/clay_created/2015/09/25/Way-To-Solve-Androidstutio-offline-dependencies.html
 
 ### 9.摄像头方向调整相关
@@ -74,19 +86,9 @@
    }
    }
    ```
-   
-### 11.集成SDK开发环境和Gradle 插件版本是怎样的？
-  开发环境 Android Studio Iguana | 2024.2.1
-  gradle插件版本 7.4.2  gradle 版本 7.5 
-  **java 11**  kotlin 1.7.20
 
-  如果你的项目还有kapt请迁移至KSP，kapt 官方已经停止维护
-  kotlin-android-extensions官方也已经停止维护，建议升级为viewbinding
-
-  更多gradle 集成构建打包基础可以参考文章 https://juejin.cn/post/7160337743552675847
-
-  其他集成问题，请根据报错搜索解决方案,VIP 用户可以联系协助解决
-
+### 11.为什么小朋友群体1:N ，M：N 误识别率较高？
+小朋友的五官差异相对成年人确实没有那么大，需要专门为小朋友群体训练人脸识别模型了，SDK demo 为通用模型
 
 ### 12.能通过File 操作直接把人脸照片放到制定目录就开始人脸搜索吗？
 
@@ -94,10 +96,12 @@
     如FaceSearchImagesManger.Companion.getInstance().insertOrUpdateFaceImage()
 
 ### 13.自定义摄像头（方向旋转，相机管理等），双目摄像头是否可以使用？
-   摄像头角度可以自由调节，系统相机和USB双目UVC相机都可以，参考Demo。
+   摄像头画面角度可以自由调节，系统相机和USB双目UVC相机都可以，参考Demo。
    支持自定义摄像头，可以在子线程持续输入bitmap 实时预览帧作为参数进行SDK 的调用。 
    目前SDK默认使用Android CameraX,用户不管是USB 摄像头还是RTSP 视频流只要把持续
    的视频帧转为bitmap 传人SDK 引擎即可。
+
+   **更多外接USB外接UVC摄像头**的操作可以参考这个库：https://github.com/shiyinghan/UVCAndroid
 
 
 

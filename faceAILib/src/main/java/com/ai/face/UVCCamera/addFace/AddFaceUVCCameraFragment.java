@@ -4,6 +4,7 @@ import static android.app.Activity.RESULT_OK;
 import static com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR;
 import static com.ai.face.UVCCamera.Constants.PREVIEW_HEIGHT;
 import static com.ai.face.UVCCamera.Constants.PREVIEW_WIDTH;
+import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_LEFT;
@@ -198,6 +199,11 @@ public class AddFaceUVCCameraFragment extends Fragment {
                         case HEAD_CENTER:
                             tipsTextView.setText(R.string.keep_face_tips); //2秒后确认图像
                             break;
+
+                        case CLOSE_EYE:
+                            tipsTextView.setText(R.string.no_close_eye_tips);
+                            break;
+
                         case TILT_HEAD:
                             tipsTextView.setText(R.string.no_tilt_head_tips);
                             break;

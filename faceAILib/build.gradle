@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id("com.google.devtools.ksp").version("1.8.10-1.0.9")
+    id("com.google.devtools.ksp").version("2.1.0-1.0.29")
 }
 
 android {
@@ -14,9 +14,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    //1.9.9 版本开始从java11 升级到java17
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     android {
@@ -29,6 +30,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 
 }
@@ -38,7 +40,7 @@ android {
 dependencies {
 
     //SDK主页介绍：https://github.com/AnyLifeZLB/FaceVerificationSDK
-    implementation 'io.github.anylifezlb:FaceAISDK:1.9.8.beta1'
+    implementation 'io.github.anylifezlb:FaceAISDK:1.9.8.opti3'
 
     //USB摄像头用lib 目录libuvccamera-1.0.9 AAR管理，用户可以自行用熟悉方案
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
@@ -59,5 +61,6 @@ dependencies {
     implementation 'com.github.javakam:file.core:3.9.8@aar'      //核心库必选(Core library required)
     implementation 'com.github.javakam:file.selector:3.9.8@aar'  //文件选择器(File selector)
     implementation 'com.github.javakam:file.compressor:3.9.8@aar'//图片压缩,修改自Luban
+
 
 }

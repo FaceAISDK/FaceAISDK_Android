@@ -1,8 +1,14 @@
+# V1.9.8
+- 升级编译java 版本到17， kotlin为2.1.0， AGP 8.x
+- 人脸录入增加闭眼检测
+  https://s01.oss.sonatype.org/#welcome 要停止服务，相关底层服务升级后接入方java kotlin apg版本也要升级
+
 # V1.9.7
-低配设备优化，正式包闪退问题解决
+- 低配设备优化，正式包闪退问题解决
+- 准备使用Maven Central Publishing Portal 发布SDK，废弃OSSRH
 
 # V1.9.6
-增加调节摄像头方向功能接口参数
+- 增加调节摄像头方向功能接口参数
 
 # V1.9.5
 - UVC 协议USB 摄像头支持

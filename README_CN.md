@@ -15,7 +15,6 @@ Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition �
 <img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 20% height = 20% />
 </div>
 
-
 ![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
 <div align=center>
@@ -23,11 +22,11 @@ Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition �
 </div>
 
 ## 当前版本说明 V1.9.8 (建议升级到GitHub Demo版本)
-- 优化1:N人脸搜索，优化证件照录入和识别
+- 升级编译java 版本到17， kotlin为2.1.0， AGP 8.x
+- 人脸录入增加闭眼检测
 - 优化低配设备动作活体检测
 - 完善UVC协议USB红外双目摄像头人脸识别
 - 封装uni-App 插件
-
 
 建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
@@ -70,11 +69,13 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 *   3.解决项目工程中的第三方依赖库和主工程的冲突比如CameraX的版本等，Target SDK不同导致的冲突
 
-*   4.调整JDK版本到java 11 以上。Android Studio设置Preferences -> Build -> Gradle -> JDK的版本为 11+
+*   4.调整JDK版本到java 17 以上。Android Studio设置Preferences -> Build -> Gradle -> JDK的版本为 17+
 
 *   5.集成过程中的问题可以GitHub 提issues或者详细描述你遇到的问题发邮件到<FaceAISDK.Service@gmail.com>
 
-    目前SDK默认使用java11. kotlin 1.7.20 打包，如果你的项目较老还在使用
+*   6.UniApp 插件集成可以参考（请大佬提意见完善） https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK
+
+    目前SDK使用**java17. kotlin 2.1.0**打包，如果你的项目较老还在使用
     kapt, kotlin-android-extensions导致集成冲突，建议尽快升级项目或者VIP联系定制
 
     更多使用说明下载SDK源码工程代码到Android Studio 以及下载Demo APK到手机体验完整的流程和效果
@@ -103,8 +104,8 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 ## 服务定制
 
-如果SDK不能匹配你的应用场景或需要**特殊双目摄像头活体检测**定制化，请发邮件到FaceAISDK.Service@gmail.com  
-也可以加微信 [HaoNan19990322 ，备注人脸识别](images/WechatIMG24.jpg)
+如果SDK不能匹配你的应用场景或需要**特殊双目摄像头活体检测**定制化，请发需求到FaceAISDK.Service@gmail.com  
+正式授权可以加微信 [HaoNan19990322 ，备注人脸识别](images/WechatIMG24.jpg)
 
 欢迎关注Fork+Star获取最新动态，提出使用建议等 https://github.com/AnyLifeZLB/FaceVerificationSDK
 
@@ -120,17 +121,19 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 ### 提高SDK识别准确率
 
-1.  使用高配置硬件参数设备和摄像头抗干扰强；保持镜头整洁干净
+1.  使用高配置硬件参数设备和抗干扰摄像头；**保持镜头整洁干净（会粘指纹油污的用纯棉布擦拭干净）**
 2.  录入高质量的人脸图，如（images/face\_example.jpg）（证件照输入目前优化中）
 3.  光线环境好，检测的人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
 4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
-5.  人脸搜索功能（1:N&M:N）人脸录入不戴粗框的深色眼镜，使用宽动态抗干扰成像清晰摄像头
+5.  人脸录入不戴粗框的深色眼镜，使用宽动态抗干扰成像清晰摄像头，定制设备摄像头固定于屏幕正上方
 
 
 ## 常见问题
 常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/questions.md  
 所有的开发测试都在手机和平板进行，特殊定制硬件如 RK3288 等适配需要兼容适配，SDK1.9.0以上版本已经支持UVC
 协议的USB 双目摄像头IR近红外活体，买对应的USB接口的双目摄像头插入手机USB口就能体验效果（不确定品质联系我推荐）
+
+**更多外接USB外接UVC摄像头**的操作可以参考这个大神的库：https://github.com/shiyinghan/UVCAndroid
 
 
 ## 快速接入

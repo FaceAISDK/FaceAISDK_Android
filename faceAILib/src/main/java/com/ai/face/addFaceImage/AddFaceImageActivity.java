@@ -1,6 +1,7 @@
 package com.ai.face.addFaceImage;
 
 import static com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR;
+import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_LEFT;
@@ -52,6 +53,9 @@ public  class AddFaceImageActivity extends AppCompatActivity {
     private BaseImageDispose baseImageDispose;
     private String faceID,addFaceImageType;
 
+    //如果启用活体检测，根据自身情况完善业务逻辑
+    private boolean isRealFace=true;
+
     //是1:1 还是1:N 人脸搜索添加人脸
     public enum AddFaceImageTypeEnum
     {
@@ -79,16 +83,39 @@ public  class AddFaceImageActivity extends AppCompatActivity {
         baseImageDispose = new BaseImageDispose(true, this, new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap) {
-                runOnUiThread(() -> showConfirmDialog(bitmap));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //公版Demo 为了方便调试不处理人脸活体，实际业务中请根据自身情况完善业务逻辑
+                        if(isRealFace){
+                            showConfirmDialog(bitmap);
+                        }else {
+                            Toast.makeText(getBaseContext(),R.string.not_real_face,Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                    }
+                });
             }
 
             @Override
             public void onProcessTips(int actionCode) {
                 runOnUiThread(() -> {
                     switch (actionCode) {
+
+                        case NOT_REAL_HUMAN:
+                            secondTips.setText(R.string.not_real_face);
+                            //公版Demo 为了方便调试不处理人脸活体，实际业务中请根据自身情况完善业务逻辑
+//                            isRealFace=false;
+                            break;
+
+                        case CLOSE_EYE:
+                            tipsTextView.setText(R.string.no_close_eye_tips);
+                            break;
+
                         case HEAD_CENTER:
                             tipsTextView.setText(R.string.keep_face_tips); //2秒后确认图像
                             break;
+
                         case TILT_HEAD:
                             tipsTextView.setText(R.string.no_tilt_head_tips);
                             break;
@@ -117,11 +144,7 @@ public  class AddFaceImageActivity extends AppCompatActivity {
                         case AlIGN_FAILED:
                             tipsTextView.setText(R.string.align_face_error_tips);
                             break;
-                        case NOT_REAL_HUMAN:
-//                            tipsTextView.setText(R.string.not_real_face);
-                            secondTips.setText(R.string.not_real_face);
 
-                            break;
                     }
                 });
             }
@@ -206,6 +229,7 @@ public  class AddFaceImageActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(v -> {
             dialog.dismiss();
             baseImageDispose.retry();
+            isRealFace=true;
         });
 
         dialog.setCanceledOnTouchOutside(false);
