@@ -243,21 +243,12 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
                         tipsTextView.setText(R.string.face_verifying);
                         break;
 
-                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
-                        tipsTextView.setText(R.string.no_face_detected_tips);
-                        break;
-
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_NO_BASE_IMG:
                         tipsTextView.setText(R.string.no_base_face_bitmap);
                         break;
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:
                         tipsTextView.setText(R.string.motion_liveness_detection_failed);
                         break;
-
-//                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_OK:
-//                        VoicePlayer.getInstance().play(R.raw.face_camera);
-//                        tipsTextView.setText(R.string.keep_face_visible);
-//                        break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
                         VoicePlayer.getInstance().play(R.raw.open_mouse);
@@ -302,12 +293,15 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
                                 .setMessage(R.string.stop_verify_tips)
                                 .setCancelable(false)
                                 .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                                    //finish();  //是finish 还是retryVerify你自己定
-                                    faceVerifyUtils.retryVerify();
+                                    requireActivity().finish();
                                 })
                                 .show();
 
                         break;
+
+//                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
+//                        secondTipsTextView.setText(R.string.no_face_detected_tips);
+//                        break;
 
                     // 单独使用一个textview 提示，防止上一个提示被覆盖。
                     // 也可以自行记住上个状态，FACE_SIZE_FIT 中恢复上一个提示

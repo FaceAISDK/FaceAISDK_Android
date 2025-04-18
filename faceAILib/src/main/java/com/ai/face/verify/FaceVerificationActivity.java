@@ -276,9 +276,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                         tipsTextView.setText(R.string.face_verifying);
                         break;
 
-                    case VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
-                        tipsTextView.setText(R.string.no_face_detected_tips);
-                        break;
+
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:
                         tipsTextView.setText(R.string.motion_liveness_detection_failed);
@@ -329,6 +327,10 @@ public class FaceVerificationActivity extends AppCompatActivity {
                                 ).show();
                         break;
 
+//                    case VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
+//                        secondTipsTextView.setText(R.string.no_face_detected_tips);
+//                        break;
+
                     case VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
                         tipsTextView.setText(R.string.no_face_or_repeat_switch_screen);
 
@@ -337,8 +339,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                                 .setMessage(R.string.stop_verify_tips)
                                 .setCancelable(false)
                                 .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                                    //finish();  //是finish 还是retryVerify根据你的业务自己定
-                                    faceVerifyUtils.retryVerify();
+                                    finish();
                                 })
                                 .show();
 
