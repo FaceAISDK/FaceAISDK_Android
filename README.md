@@ -21,7 +21,7 @@ Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition �
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 20% height = 20% />
 </div>
 
-## 当前版本说明 V1.9.9 (建议升级到GitHub Demo版本)
+## 当前版本说明 V1.9.8 (建议升级到GitHub Demo版本)
 - 升级编译java 版本到17， kotlin为2.1.0， AGP 8.x
 - 人脸录入增加闭眼检测
 - 优化低配设备动作活体检测
@@ -61,6 +61,7 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 
 ## 接入使用
+    Demo 为了演示SDK的核心功能，部分细节并不完善，需要你根据你的业务需求自行完善。
 
 *   1.首先Gradle 中引入依赖
     implementation 'io.github.anylifezlb:FaceAISDK:1.9.?' //及时升级到github最新版

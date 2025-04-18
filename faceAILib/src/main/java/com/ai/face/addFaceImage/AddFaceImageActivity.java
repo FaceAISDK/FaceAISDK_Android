@@ -103,6 +103,7 @@ public  class AddFaceImageActivity extends AppCompatActivity {
                     switch (actionCode) {
 
                         case NOT_REAL_HUMAN:
+                            Toast.makeText(getBaseContext(),R.string.not_real_face,Toast.LENGTH_LONG).show();
                             secondTips.setText(R.string.not_real_face);
                             //公版Demo 为了方便调试不处理人脸活体，实际业务中请根据自身情况完善业务逻辑
 //                            isRealFace=false;

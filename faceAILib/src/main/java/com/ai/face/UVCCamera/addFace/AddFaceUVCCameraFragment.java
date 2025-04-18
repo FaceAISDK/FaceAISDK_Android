@@ -1,6 +1,7 @@
 package com.ai.face.UVCCamera.addFace;
 
 import static android.app.Activity.RESULT_OK;
+import static androidx.camera.core.impl.utils.ContextUtil.getBaseContext;
 import static com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR;
 import static com.ai.face.UVCCamera.Constants.PREVIEW_HEIGHT;
 import static com.ai.face.UVCCamera.Constants.PREVIEW_WIDTH;
@@ -235,6 +236,7 @@ public class AddFaceUVCCameraFragment extends Fragment {
                         case NOT_REAL_HUMAN:
 //                            tipsTextView.setText(R.string.not_real_face);
                             binding.secondTipsView.setText(R.string.not_real_face);
+                            Toast.makeText(requireContext(),R.string.not_real_face,Toast.LENGTH_LONG).show();
 
                             break;
                     }

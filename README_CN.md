@@ -61,6 +61,7 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 
 ## 接入使用
+    Demo 为了演示SDK的核心功能，部分细节并不完善，需要你根据你的业务需求自行完善。
 
 *   1.首先Gradle 中引入依赖
     implementation 'io.github.anylifezlb:FaceAISDK:1.9.?' //及时升级到github最新版
