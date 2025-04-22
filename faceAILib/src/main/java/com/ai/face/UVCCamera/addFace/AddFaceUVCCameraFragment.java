@@ -61,7 +61,8 @@ public class AddFaceUVCCameraFragment extends Fragment {
     private TextView tipsTextView;
     private BaseImageDispose baseImageDispose;
     private String faceID, addFaceImageType;
-
+    //如果启用活体检测，根据自身情况完善业务逻辑
+    private boolean isRealFace=true;
     private final UsbCameraManager rgbCameraManager = new UsbCameraManager();//添加人脸只用到 RBG camera
     private final UsbCameraManager irCameraManager = new UsbCameraManager();
 
@@ -133,6 +134,11 @@ public class AddFaceUVCCameraFragment extends Fragment {
         dialog.setCanceledOnTouchOutside(false);
         ImageView basePreView = dialogView.findViewById(R.id.preview);
         basePreView.setImageBitmap(bitmap);
+        if(isRealFace){
+            dialogView.findViewById(R.id.realManTips).setVisibility(View.GONE);
+        }else {
+            dialogView.findViewById(R.id.realManTips).setVisibility(View.VISIBLE);
+        }
 
         Button btnOK = dialogView.findViewById(R.id.btn_ok);
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
@@ -168,6 +174,7 @@ public class AddFaceUVCCameraFragment extends Fragment {
 
         btnCancel.setOnClickListener(v -> {
             dialog.dismiss();
+            isRealFace=true;
             baseImageDispose.retry();
         });
 
@@ -184,10 +191,12 @@ public class AddFaceUVCCameraFragment extends Fragment {
         faceID = requireActivity().getIntent().getStringExtra(USER_FACE_ID_KEY);
 
         /**
-         * 第一个参数是否启用活体检测，录入照片没必要，部分定制SDK 会需要
          * context 需要是
+         *
+         * 2 PERFORMANCE_MODE_ACCURATE 精确模式
+         * 1 PERFORMANCE_MODE_FAST 快速模式
          */
-        baseImageDispose = new BaseImageDispose(true, requireContext(), new BaseImageCallBack() {
+        baseImageDispose = new BaseImageDispose( requireContext(), 2,new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap) {
                 requireActivity().runOnUiThread(() -> showConfirmDialog(bitmap));
@@ -234,10 +243,9 @@ public class AddFaceUVCCameraFragment extends Fragment {
                             tipsTextView.setText(R.string.align_face_error_tips);
                             break;
                         case NOT_REAL_HUMAN:
-//                            tipsTextView.setText(R.string.not_real_face);
+                            isRealFace=false;
                             binding.secondTipsView.setText(R.string.not_real_face);
                             Toast.makeText(requireContext(),R.string.not_real_face,Toast.LENGTH_LONG).show();
-
                             break;
                     }
                 });

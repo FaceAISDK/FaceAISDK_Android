@@ -39,11 +39,12 @@ android {
 
 dependencies {
 
-    //SDK主页介绍：https://github.com/AnyLifeZLB/FaceVerificationSDK
-    implementation 'io.github.anylifezlb:FaceAISDK:1.9.8.opti_5'
-
-    //USB摄像头用lib 目录libuvccamera-1.0.9 AAR管理，用户可以自行用熟悉方案
+    //USB摄像头用lib目录三方库libuvccamera-1.0.9.aar。更多https://github.com/shiyinghan/UVCAndroid
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+
+    //SDK主页介绍：https://github.com/AnyLifeZLB/FaceVerificationSDK
+    implementation 'io.github.anylifezlb:FaceAISDK:1.9.8.D8R8'
+    
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
     implementation 'pub.devrel:easypermissions:3.0.0'

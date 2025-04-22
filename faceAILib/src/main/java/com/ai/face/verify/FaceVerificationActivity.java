@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Surface;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import com.ai.face.R;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.base.view.FaceCoverView;
+import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
@@ -76,16 +78,17 @@ public class FaceVerificationActivity extends AppCompatActivity {
         int cameraLensFacing = sharedPref.getInt("cameraFlag", 0);
         int degree=sharedPref.getInt("cameraDegree", getWindowManager().getDefaultDisplay().getRotation());
 
-        /*
-         * 1. Camera 的初始化。
-         * 第一个参数0/1 指定前后摄像头；
-         * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
-         * 焦距拉远一点，人才会靠近屏幕，才会减轻杂乱背景的影响。定制设备的摄像头自行调教此参数
-         *
-         * 第三个参数是 摄像头旋转角度 {@Link Surface.ROTATION_0}。
-         * 共5个值，默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
-         */
-        cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.001f,degree);
+
+        //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
+        CameraXBuilder cameraXBuilder=new CameraXBuilder.Builder()
+                .setCameraLensFacing(cameraLensFacing) //前后摄像头
+                .setLinearZoom(0.001f) //焦距范围[0.001f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
+                .setRotation(degree)   //画面旋转方向
+                .setSize(CameraXFragment.SIZE.DEFAULT) //相机的分辨率大小。分辨率越大画面中人像很小也能检测但是会更消耗CPU
+                .create();
+
+        cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
+
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
@@ -153,9 +156,8 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.98]
 //                .setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑 或其他某一种
-                .setMotionLivenessStepSize(2)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
+                .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(12) //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
-//                .setCompareDurationTime(5000) //动作活体通过后人脸对比时间，[3000,6000]毫秒。低配设备可以设置时间长一点，高配设备默认就行
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
                      * 1:1 人脸识别 活体检测 对比结束

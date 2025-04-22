@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.Surface;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import androidx.camera.core.CameraSelector;
 
 import com.ai.face.R;
 import com.ai.face.base.view.CameraXFragment;
+import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.databinding.ActivityFaceSearchBinding;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
@@ -58,16 +60,16 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         int cameraLensFacing = sharedPref.getInt("cameraFlag", 0);
         int degree=sharedPref.getInt("cameraDegree", getWindowManager().getDefaultDisplay().getRotation());
 
-        /*
-         * 1. Camera 的初始化。
-         * 第一个参数0/1 指定前后摄像头；
-         * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
-         * 焦距拉远一点，人才会靠近屏幕，才会减轻杂乱背景的影响。定制设备的摄像头自行调教此参数
-         *
-         * 第三个参数是摄像头旋转角度 {@link Surface.ROTATION_0}
-         * 共5个值，默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
-         */
-        cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.001f,degree);
+        //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
+        CameraXBuilder cameraXBuilder=new CameraXBuilder.Builder()
+                .setCameraLensFacing(cameraLensFacing) //前后摄像头
+                .setLinearZoom(0.001f) //焦距范围[0.001f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
+                .setRotation(degree)   //画面旋转方向
+                .setSize(CameraXFragment.SIZE.DEFAULT) //相机的分辨率大小。分辨率越大画面中人像很小也能检测但是会更消耗CPU
+                .create();
+
+        cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
+
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();

@@ -31,7 +31,8 @@
     <string name="come_closer_tips">请靠近一点</string>
     <string name="far_away_tips">请远离屏幕一点</string>
     <string name="align_face_error_tips">图像校准失败</string>
-    <string name="not_real_face">非真人 人脸图</string>
+    <string name="not_real_face">人脸攻击，非真人</string>
+    <string name="not_real_face_for_debug">人脸攻击，非真人；录入仅供演示</string>
     <string name="add_a_face_image">录入人脸照片</string>
 
     <!--1:N 人脸搜索 face search-->

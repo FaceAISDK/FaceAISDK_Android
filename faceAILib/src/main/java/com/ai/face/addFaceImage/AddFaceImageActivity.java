@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Surface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +32,7 @@ import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.base.view.CameraXFragment;
+import com.ai.face.base.view.camera.CameraXBuilder;
 
 import java.io.ByteArrayOutputStream;
 
@@ -76,23 +78,17 @@ public  class AddFaceImageActivity extends AppCompatActivity {
         faceID = getIntent().getStringExtra(USER_FACE_ID_KEY);
 
         /*
-         * BaseImageDispose
-         * 第一个参数是否启用活体检测，部分定制SDK 会需要
          * context 需要是Activity context
+         * 2 PERFORMANCE_MODE_ACCURATE 精确模式
+         * 1 PERFORMANCE_MODE_FAST 快速模式
          */
-        baseImageDispose = new BaseImageDispose(true, this, new BaseImageCallBack() {
+        baseImageDispose = new BaseImageDispose(this, 2, new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        //公版Demo 为了方便调试不处理人脸活体，实际业务中请根据自身情况完善业务逻辑
-                        if(isRealFace){
-                            showConfirmDialog(bitmap);
-                        }else {
-                            Toast.makeText(getBaseContext(),R.string.not_real_face,Toast.LENGTH_LONG).show();
-                            finish();
-                        }
+                        showConfirmDialog(bitmap);
                     }
                 });
             }
@@ -106,7 +102,7 @@ public  class AddFaceImageActivity extends AppCompatActivity {
                             Toast.makeText(getBaseContext(),R.string.not_real_face,Toast.LENGTH_LONG).show();
                             secondTips.setText(R.string.not_real_face);
                             //公版Demo 为了方便调试不处理人脸活体，实际业务中请根据自身情况完善业务逻辑
-//                            isRealFace=false;
+                            isRealFace=false;
                             break;
 
                         case CLOSE_EYE:
@@ -156,18 +152,15 @@ public  class AddFaceImageActivity extends AppCompatActivity {
         int cameraLensFacing = sharedPref.getInt("cameraFlag", 0);
         int degree=sharedPref.getInt("cameraDegree", getWindowManager().getDefaultDisplay().getRotation());
 
-        /*
-         * 1. Camera 的初始化。
-         * 第一个参数0/1 指定前后摄像头；
-         * 第二个参数linearZoom [0.001f,1.0f] 指定焦距，参考{@link CameraControl#setLinearZoom(float)}
-         * 焦距拉远一点，人才会靠近屏幕，才会减轻杂乱背景的影响。定制设备的摄像头自行调教此参数
-         *
-         * 第三个参数是摄像头旋转角度 {@Link Surface.ROTATION_0}
-         * 共5个值，默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
-         */
-        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraLensFacing, 0.001f,degree);
+        //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
+        CameraXBuilder cameraXBuilder=new CameraXBuilder.Builder()
+                .setCameraLensFacing(cameraLensFacing) //前后摄像头
+                .setLinearZoom(0.001f) //焦距范围[0.001f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
+                .setRotation(degree)   //画面旋转方向
+                .setSize(CameraXFragment.SIZE.DEFAULT) //相机的分辨率大小。分辨率越大画面中人像很小也能检测但是会更消耗CPU
+                .create();
 
-
+        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
 
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             baseImageDispose.dispose(DataConvertUtils. imageProxy2Bitmap(imageProxy, 10, false));
@@ -178,6 +171,12 @@ public  class AddFaceImageActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        baseImageDispose.release();
+    }
 
 
     /**
@@ -194,6 +193,11 @@ public  class AddFaceImageActivity extends AppCompatActivity {
         dialog.setCanceledOnTouchOutside(false);
         ImageView basePreView = dialogView.findViewById(R.id.preview);
         basePreView.setImageBitmap(bitmap);
+        if(isRealFace){
+            dialogView.findViewById(R.id.realManTips).setVisibility(View.GONE);
+        }else {
+            dialogView.findViewById(R.id.realManTips).setVisibility(View.VISIBLE);
+        }
 
         Button btnOK = dialogView.findViewById(R.id.btn_ok);
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);

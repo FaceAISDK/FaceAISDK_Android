@@ -47,8 +47,7 @@
         android:gravity="center_horizontal"
         android:layout_below="@+id/tips_view"
         android:layout_centerHorizontal="true"
-        tools:text="非"
-        android:textColor="@color/red"
+        android:textColor="@color/orange"
         android:textStyle="bold"
         android:textSize="16sp" />
     <ImageView

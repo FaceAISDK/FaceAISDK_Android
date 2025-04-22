@@ -1,11 +1,8 @@
 package com.ai.face.UVCCamera;
 
 /**
- * @Author : sst
- * @Date : 2025/2/14 15:56
- * @Brief : description
- * @Version : 1.0
- * @ChangLogs :
+ * 配置UVC 协议摄像头默认的分辨率，请参考你的摄像头能支持的分辨率查看
+ *
  */
 public class Constants {
 

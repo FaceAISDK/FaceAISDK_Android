@@ -23,7 +23,7 @@
                 android:text="保存此人脸图 ？"
                 android:textColor="@color/face_lib_main_color"
                 android:textStyle="bold"
-                android:textSize="20sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -33,9 +33,9 @@
                 android:gravity="center"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:text="保证镜头整洁干净，录入无墨镜/口罩/帽子的正脸图"
+                android:text="确保镜头整洁干净，录入无墨镜/口罩/帽子正脸图"
                 android:textColor="@color/face_lib_main_color"
-                android:textSize="13sp" />
+                android:textSize="11sp" />
 
 
             <ImageView
@@ -54,7 +54,7 @@
                 android:hint="请输入Face ID"
                 android:layout_gravity="center"
                 android:theme="@style/MyEditText"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="1dp"
                 android:textColorHint="@color/face_lib_main_color"
                 android:textColor="@color/green"
                 android:focusable="true"
@@ -62,6 +62,17 @@
                 android:focusableInTouchMode="true"
                 />
 
+            <TextView
+                android:id="@+id/realManTips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:layout_marginBottom="12dp"
+                android:text="@string/not_real_face_for_debug"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

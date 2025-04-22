@@ -20,9 +20,11 @@
 
 
     <androidx.core.widget.NestedScrollView
-        app:layout_constraintTop_toBottomOf="@+id/back"
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/back">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +41,7 @@
                 android:padding="3dp"
                 android:text="系统相机设置"
                 android:textColor="@android:color/white"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:id="@+id/system_camera_search_navi"
@@ -87,8 +89,6 @@
                     android:background="@color/white" />
 
 
-
-
                 <LinearLayout
                     android:id="@+id/switch_camera_degree"
                     android:layout_width="match_parent"
@@ -132,7 +132,7 @@
                 android:padding="3dp"
                 android:text="USB双目摄像头设置"
                 android:textColor="@android:color/white"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:id="@+id/binocular_camera_search_navi"
@@ -176,12 +176,20 @@
 
             </LinearLayout>
 
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
-
-
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="更多参数设置，请自行下载源码手动调节"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:padding="5dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
