@@ -5,6 +5,11 @@ import static androidx.camera.core.impl.utils.ContextUtil.getBaseContext;
 import static com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR;
 import static com.ai.face.UVCCamera.Constants.PREVIEW_HEIGHT;
 import static com.ai.face.UVCCamera.Constants.PREVIEW_WIDTH;
+import static com.ai.face.base.baseImage.BaseImageCallBack.AlIGN_FAILED;
+import static com.ai.face.base.baseImage.BaseImageCallBack.MANY_FACE;
+import static com.ai.face.base.baseImage.BaseImageCallBack.NOT_REAL_HUMAN;
+import static com.ai.face.base.baseImage.BaseImageCallBack.NO_FACE;
+import static com.ai.face.base.baseImage.BaseImageCallBack.SMALL_FACE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
@@ -124,7 +129,7 @@ public class AddFaceUVCCameraFragment extends Fragment {
     /**
      * 确认是否保存人脸底图
      */
-    private void showConfirmDialog(Bitmap bitmap) {
+    private void showConfirmDialog(Bitmap bitmap,float silentLiveValue) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         final AlertDialog dialog = builder.create();
         View dialogView = View.inflate(requireContext(), R.layout.dialog_confirm_base, null);
@@ -133,12 +138,15 @@ public class AddFaceUVCCameraFragment extends Fragment {
         dialog.setView(dialogView);
         dialog.setCanceledOnTouchOutside(false);
         ImageView basePreView = dialogView.findViewById(R.id.preview);
-        basePreView.setImageBitmap(bitmap);
-        if(isRealFace){
-            dialogView.findViewById(R.id.realManTips).setVisibility(View.GONE);
+        TextView realManTips = dialogView.findViewById(R.id.realManTips);
+
+        if(!isRealFace){
+            realManTips.setVisibility(View.VISIBLE);
+            realManTips.setText(getString(R.string.not_real_face_for_debug)+"(Value:"+silentLiveValue+")");
         }else {
-            dialogView.findViewById(R.id.realManTips).setVisibility(View.VISIBLE);
+            realManTips.setVisibility(View.INVISIBLE);
         }
+        basePreView.setImageBitmap(bitmap);
 
         Button btnOK = dialogView.findViewById(R.id.btn_ok);
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
@@ -185,6 +193,7 @@ public class AddFaceUVCCameraFragment extends Fragment {
 
     private void addFaceInit() {
         tipsTextView = binding.tipsView;
+
         binding.back.setOnClickListener(v -> requireActivity().finish());
 
         addFaceImageType = requireActivity().getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
@@ -198,58 +207,68 @@ public class AddFaceUVCCameraFragment extends Fragment {
          */
         baseImageDispose = new BaseImageDispose( requireContext(), 2,new BaseImageCallBack() {
             @Override
-            public void onCompleted(Bitmap bitmap) {
-                requireActivity().runOnUiThread(() -> showConfirmDialog(bitmap));
+            public void onCompleted(Bitmap bitmap,float silentLiveValue) {
+                requireActivity().runOnUiThread(() -> showConfirmDialog(bitmap,silentLiveValue));
             }
 
             @Override
             public void onProcessTips(int actionCode) {
                 requireActivity().runOnUiThread(() -> {
-                    switch (actionCode) {
-                        case HEAD_CENTER:
-                            tipsTextView.setText(R.string.keep_face_tips); //2秒后确认图像
-                            break;
-
-                        case CLOSE_EYE:
-                            tipsTextView.setText(R.string.no_close_eye_tips);
-                            break;
-
-                        case TILT_HEAD:
-                            tipsTextView.setText(R.string.no_tilt_head_tips);
-                            break;
-
-                        case HEAD_LEFT:
-                            tipsTextView.setText(R.string.head_turn_left_tips);
-                            break;
-                        case HEAD_RIGHT:
-                            tipsTextView.setText(R.string.head_turn_right_tips);
-                            break;
-                        case HEAD_UP:
-                            tipsTextView.setText(R.string.no_look_up_tips);
-                            break;
-                        case HEAD_DOWN:
-                            tipsTextView.setText(R.string.no_look_down_tips);
-                            break;
-                        case NO_FACE:
-                            tipsTextView.setText(R.string.no_face_detected_tips);
-                            break;
-                        case MANY_FACE:
-                            tipsTextView.setText(R.string.multiple_faces_tips);
-                            break;
-                        case SMALL_FACE:
-                            tipsTextView.setText(R.string.come_closer_tips);
-                            break;
-                        case AlIGN_FAILED:
-                            tipsTextView.setText(R.string.align_face_error_tips);
-                            break;
-                        case NOT_REAL_HUMAN:
-                            isRealFace=false;
-                            binding.secondTipsView.setText(R.string.not_real_face);
-                            Toast.makeText(requireContext(),R.string.not_real_face,Toast.LENGTH_LONG).show();
-                            break;
-                    }
+                    AddFaceTips(actionCode);
                 });
             }
         });
     }
+
+    private void AddFaceTips(int actionCode){
+        switch (actionCode) {
+            case NOT_REAL_HUMAN:
+                Toast.makeText(requireContext(),R.string.not_real_face,Toast.LENGTH_LONG).show();
+                binding.secondTipsView.setText(R.string.not_real_face);
+                //公版Demo 为了方便调试不处理人脸活体，实际业务中请根据自身情况完善业务逻辑
+                isRealFace=false;
+                break;
+
+            case CLOSE_EYE:
+                tipsTextView.setText(R.string.no_close_eye_tips);
+                break;
+
+            case HEAD_CENTER:
+                tipsTextView.setText(R.string.keep_face_tips); //2秒后确认图像
+                break;
+
+            case TILT_HEAD:
+                tipsTextView.setText(R.string.no_tilt_head_tips);
+                break;
+
+            case HEAD_LEFT:
+                tipsTextView.setText(R.string.head_turn_left_tips);
+                break;
+            case HEAD_RIGHT:
+                tipsTextView.setText(R.string.head_turn_right_tips);
+                break;
+            case HEAD_UP:
+                tipsTextView.setText(R.string.no_look_up_tips);
+                break;
+            case HEAD_DOWN:
+                tipsTextView.setText(R.string.no_look_down_tips);
+                break;
+            case NO_FACE:
+                tipsTextView.setText(R.string.no_face_detected_tips);
+                break;
+            case MANY_FACE:
+                tipsTextView.setText(R.string.multiple_faces_tips);
+                break;
+            case SMALL_FACE:
+                tipsTextView.setText(R.string.come_closer_tips);
+                break;
+            case AlIGN_FAILED:
+                tipsTextView.setText(R.string.align_face_error_tips);
+                break;
+
+        }
+    }
+
+
+
 }

@@ -13,8 +13,8 @@ android {
         minSdk 21
         targetSdk 34  //target SDK 还是28 的请参考question.md 文档说明
 
-        versionCode 57
-        versionName "1.9.8.opti_9"
+        versionCode 58
+        versionName "1.9.8.addFace"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

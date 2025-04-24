@@ -1,6 +1,11 @@
 package com.ai.face.addFaceImage;
 
 import static com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR;
+import static com.ai.face.base.baseImage.BaseImageCallBack.AlIGN_FAILED;
+import static com.ai.face.base.baseImage.BaseImageCallBack.MANY_FACE;
+import static com.ai.face.base.baseImage.BaseImageCallBack.NOT_REAL_HUMAN;
+import static com.ai.face.base.baseImage.BaseImageCallBack.NO_FACE;
+import static com.ai.face.base.baseImage.BaseImageCallBack.SMALL_FACE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
@@ -79,16 +84,18 @@ public  class AddFaceImageActivity extends AppCompatActivity {
 
         /*
          * context 需要是Activity context
-         * 2 PERFORMANCE_MODE_ACCURATE 精确模式
-         * 1 PERFORMANCE_MODE_FAST 快速模式
+         * 2 PERFORMANCE_MODE_ACCURATE 精确模式 人脸要正对摄像头，严格要求
+         * 1 PERFORMANCE_MODE_FAST 快速模式 允许人脸方位可以有一定的偏移
+         * 0 PERFORMANCE_MODE_EASY 简单模式 允许人脸方位可以「较大」的偏移
+         *
          */
         baseImageDispose = new BaseImageDispose(this, 2, new BaseImageCallBack() {
             @Override
-            public void onCompleted(Bitmap bitmap) {
+            public void onCompleted(Bitmap bitmap, float silentLiveValue) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        showConfirmDialog(bitmap);
+                        showConfirmDialog(bitmap,silentLiveValue);
                     }
                 });
             }
@@ -96,53 +103,7 @@ public  class AddFaceImageActivity extends AppCompatActivity {
             @Override
             public void onProcessTips(int actionCode) {
                 runOnUiThread(() -> {
-                    switch (actionCode) {
-
-                        case NOT_REAL_HUMAN:
-                            Toast.makeText(getBaseContext(),R.string.not_real_face,Toast.LENGTH_LONG).show();
-                            secondTips.setText(R.string.not_real_face);
-                            //公版Demo 为了方便调试不处理人脸活体，实际业务中请根据自身情况完善业务逻辑
-                            isRealFace=false;
-                            break;
-
-                        case CLOSE_EYE:
-                            tipsTextView.setText(R.string.no_close_eye_tips);
-                            break;
-
-                        case HEAD_CENTER:
-                            tipsTextView.setText(R.string.keep_face_tips); //2秒后确认图像
-                            break;
-
-                        case TILT_HEAD:
-                            tipsTextView.setText(R.string.no_tilt_head_tips);
-                            break;
-
-                        case HEAD_LEFT:
-                            tipsTextView.setText(R.string.head_turn_left_tips);
-                            break;
-                        case HEAD_RIGHT:
-                            tipsTextView.setText(R.string.head_turn_right_tips);
-                            break;
-                        case HEAD_UP:
-                            tipsTextView.setText(R.string.no_look_up_tips);
-                            break;
-                        case HEAD_DOWN:
-                            tipsTextView.setText(R.string.no_look_down_tips);
-                            break;
-                        case NO_FACE:
-                            tipsTextView.setText(R.string.no_face_detected_tips);
-                            break;
-                        case MANY_FACE:
-                            tipsTextView.setText(R.string.multiple_faces_tips);
-                            break;
-                        case SMALL_FACE:
-                            tipsTextView.setText(R.string.come_closer_tips);
-                            break;
-                        case AlIGN_FAILED:
-                            tipsTextView.setText(R.string.align_face_error_tips);
-                            break;
-
-                    }
+                    AddFaceTips(actionCode);
                 });
             }
         });
@@ -171,6 +132,56 @@ public  class AddFaceImageActivity extends AppCompatActivity {
 
     }
 
+    private void AddFaceTips(int actionCode){
+        switch (actionCode) {
+            case NOT_REAL_HUMAN:
+                Toast.makeText(getBaseContext(),R.string.not_real_face,Toast.LENGTH_LONG).show();
+                secondTips.setText(R.string.not_real_face);
+                //公版Demo 为了方便调试不处理人脸活体，实际业务中请根据自身情况完善业务逻辑
+                isRealFace=false;
+                break;
+
+            case CLOSE_EYE:
+                tipsTextView.setText(R.string.no_close_eye_tips);
+                break;
+
+            case HEAD_CENTER:
+                tipsTextView.setText(R.string.keep_face_tips); //2秒后确认图像
+                break;
+
+            case TILT_HEAD:
+                tipsTextView.setText(R.string.no_tilt_head_tips);
+                break;
+
+            case HEAD_LEFT:
+                tipsTextView.setText(R.string.head_turn_left_tips);
+                break;
+            case HEAD_RIGHT:
+                tipsTextView.setText(R.string.head_turn_right_tips);
+                break;
+            case HEAD_UP:
+                tipsTextView.setText(R.string.no_look_up_tips);
+                break;
+            case HEAD_DOWN:
+                tipsTextView.setText(R.string.no_look_down_tips);
+                break;
+            case NO_FACE:
+                tipsTextView.setText(R.string.no_face_detected_tips);
+                break;
+            case MANY_FACE:
+                tipsTextView.setText(R.string.multiple_faces_tips);
+                break;
+            case SMALL_FACE:
+                tipsTextView.setText(R.string.come_closer_tips);
+                break;
+            case AlIGN_FAILED:
+                tipsTextView.setText(R.string.align_face_error_tips);
+                break;
+
+        }
+    }
+
+
 
     @Override
     protected void onDestroy() {
@@ -183,7 +194,7 @@ public  class AddFaceImageActivity extends AppCompatActivity {
      * 确认是否保存人脸底图
      *
      */
-    private void showConfirmDialog(Bitmap bitmap) {
+    private void showConfirmDialog(Bitmap bitmap,float silentLiveValue) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final AlertDialog dialog = builder.create();
         View dialogView = View.inflate(this, R.layout.dialog_confirm_base, null);
@@ -192,12 +203,15 @@ public  class AddFaceImageActivity extends AppCompatActivity {
         dialog.setView(dialogView);
         dialog.setCanceledOnTouchOutside(false);
         ImageView basePreView = dialogView.findViewById(R.id.preview);
-        basePreView.setImageBitmap(bitmap);
-        if(isRealFace){
-            dialogView.findViewById(R.id.realManTips).setVisibility(View.GONE);
+        TextView realManTips = dialogView.findViewById(R.id.realManTips);
+
+        if(!isRealFace){
+            realManTips.setVisibility(View.VISIBLE);
+            realManTips.setText(getString(R.string.not_real_face_for_debug)+"(Value:"+silentLiveValue+")");
         }else {
-            dialogView.findViewById(R.id.realManTips).setVisibility(View.VISIBLE);
+            realManTips.setVisibility(View.INVISIBLE);
         }
+        basePreView.setImageBitmap(bitmap);
 
         Button btnOK = dialogView.findViewById(R.id.btn_ok);
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
