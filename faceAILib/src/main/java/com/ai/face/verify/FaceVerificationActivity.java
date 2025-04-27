@@ -34,7 +34,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo 代码
+ * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo 代码. 正式接入集成需要你根据业务完善
  * <p>
  * 人脸图要求：
  * 1.尽量使用较高配置设备和摄像头，光线不好带上补光灯
@@ -222,7 +222,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
      */
     private void showVerifyResult(boolean isVerifyMatched, float similarity, float silentLivenessScore) {
         runOnUiThread(() -> {
-            scoreText.setText("SilentLivenessScore:" + silentLivenessScore);
+            scoreText.setText("SilentLive 静默活体得分 :" + silentLivenessScore);
 
             //1.静默活体分数判断
             if (silentLivenessScore < silentLivenessPassScore) {
