@@ -16,6 +16,7 @@ allprojects {
 buildscript {
 
     //FaceAILib 的java version 和Kotlin 配置
+    //
     ext {
         kotlin_version = "2.1.0"
         java_version = JavaVersion.VERSION_17
