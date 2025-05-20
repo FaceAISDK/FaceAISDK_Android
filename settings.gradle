@@ -1,4 +1,2 @@
-
 include ':appMain'
-
 include ':faceAILib'

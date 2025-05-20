@@ -9,16 +9,15 @@ allprojects {
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url "https://jitpack.io" }
-
     }
 }
 
+
 buildscript {
 
-    //FaceAILib 的java version 和Kotlin 配置
-    //
+    //FaceAILib 的java version 和 Kotlin 配置
     ext {
-        kotlin_version = "2.1.0"
+        kotlin_version = "1.9.20"
         java_version = JavaVersion.VERSION_17
     }
 
@@ -27,25 +26,10 @@ buildscript {
         mavenCentral()
     }
 
-
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.5.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0"
+        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.20"
     }
-
-
-
-
-//    plugins {
-//        id 'com.android.application' version '7.4.2' apply false
-//        id 'com.android.library' version '7.4.2' apply false
-//
-//        id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
-//        id("com.google.devtools.ksp") version "1.8.10-1.0.9" apply false
-//
-//        id "com.vanniktech.maven.publish.base" version "0.25.3"
-//    }
-
 
 //   //如果和你的项目中Kotlin 依赖不一致。 强制统一项目中的Kotlin 版本依赖
 //    ConfigurationContainer container = project.configurations
