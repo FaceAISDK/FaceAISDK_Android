@@ -23,9 +23,7 @@ Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition �
 
 ## 当前版本说明 V1.9.9 (建议升级到GitHub Demo版本)
 - 更改工程默认版本java 17， kotlin为1.9.20， AGP 7.x
-- 人脸录入增加闭眼检测
-- 优化低配设备动作活体检测
-- 修复识别过程切换人脸欺诈
+- 优化低配设备人脸录入和识别活体校验优化
 - 封装uni-App 插件
 
  建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 

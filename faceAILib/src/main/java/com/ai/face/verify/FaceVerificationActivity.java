@@ -157,7 +157,9 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.98]
 //                .setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑 或其他某一种
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
-                .setMotionLivenessTimeOut(12) //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
+                .setMotionLivenessTimeOut(12)  //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
+                .setCompareDurationTime(3000)  //动作活体检测通过后人脸对比时间毫秒 ，[3000,5000] 秒
+                //建议老的低配设备减少活体检测步骤，加长活体检测 人脸对比时间。
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
                      * 1:1 人脸识别 活体检测 对比结束
