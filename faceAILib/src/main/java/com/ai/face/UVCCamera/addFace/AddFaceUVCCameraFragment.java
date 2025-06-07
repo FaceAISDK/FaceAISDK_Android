@@ -97,8 +97,8 @@ public class AddFaceUVCCameraFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        irCameraManager.releaseCameraHelper();//释放 user camera 资源
-        rgbCameraManager.releaseCameraHelper();//释放 file camera 资源
+        irCameraManager.releaseCameraHelper();//释放 红外 camera 资源
+        rgbCameraManager.releaseCameraHelper();//释放 RGB camera 资源
     }
 
     private void initRGBCamara() {

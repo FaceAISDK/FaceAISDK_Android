@@ -31,18 +31,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.20"
     }
 
-//   //如果和你的项目中Kotlin 依赖不一致。 强制统一项目中的Kotlin 版本依赖
-//    ConfigurationContainer container = project.configurations
-//    container.configureEach { Configuration conf ->
-//        ResolutionStrategy rs = conf.resolutionStrategy
-//        rs.eachDependency { details ->
-//            def requested = details.requested
-//            if (requested.group == "org.jetbrains.kotlin") {
-//                //统一内部 kotlin 库的版本
-//                details.useVersion("$kotlin_version")
-//            }
-//        }
-//    }
+
 
 }
 

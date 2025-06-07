@@ -11,11 +11,18 @@ Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition �
 
 保护伞FaceAI SDK是设备端可离线不联网Android 人脸识别、动作及近红外IR活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别，人脸搜索功能。  
 
+**Android：** https://github.com/AnyLifeZLB/FaceVerificationSDK  
+**iOS SDK：** https://github.com/AnyLifeZLB/FaceAISDK_iOS  
+**uniApp:**  https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK  
+
+
 <div align=center>
 <img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 20% height = 20% />
 </div>
 
 ![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)  
+
+**另外iOS SDK 接入工程地址：** https://github.com/AnyLifeZLB/FaceAISDK_iOS
 
 <div align=center>
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 20% height = 20% />
@@ -24,12 +31,8 @@ Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition �
 ## 当前版本说明 V1.9.9 (建议升级到GitHub Demo版本)
 - 更改工程默认版本java 17， kotlin为1.9.20， AGP 7.x
 - 优化低配设备人脸录入和识别活体校验优化
-- 封装uni-App 插件
 
  建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
-
- **人脸识别FaceAI SDK最新版源码唯一托管地址：** https://github.com/AnyLifeZLB/FaceVerificationSDK  
- **国内代码托管地址Gitee不是最新:** https://gitee.com/onDeviceAI/FaceVerificationSDK (不方便翻墙请联系获取最新代码)
 
 
 ## 简要说明
@@ -43,7 +46,7 @@ SDK支持Android(5，15]，建议设备配置 CPU为八核64位2.4GHz以上  摄
 实验室测试效果能覆盖95%的高中低端手机平板，识别成功率>99%；**特殊DIY系统/定制硬件，如USB摄像头，双目摄像头等**如有问题请先提Issues附带系统版本、设备型号、错误log等信息；
 或发邮件到 FaceAISDK.Service@gmail.com ，VIP用户添加 微信：HaoNan19990322 或 WhatsApp: +8618707611416
 
-  **SDK 工作原理简介**
+**SDK 工作原理简介**
 FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等参数，从系统相机、USB外接摄像头设备甚至RTSP视频流获取连续连续图像帧转为Bitmap后
 送入SDK引擎，同时监听处理SDK返回的各种错误提示和结果。你可以自定义管理视频图像来源，SDK已经演示了系统相机CameraX，USB设备，RTSP流处理。
 
@@ -71,8 +74,6 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 *   4.调整JDK版本到java 17 以上。Android Studio设置Preferences -> Build -> Gradle -> JDK的版本为 17+
 
 *   5.集成过程中的问题可以GitHub 提issues或者详细描述你遇到的问题发邮件到<FaceAISDK.Service@gmail.com>
-
-*   6.UniApp 插件集成可以参考（请大佬提意见完善） https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK 
 
     目前SDK使用**java17. kotlin 1.9.20**打包，如果你的项目较老还在使用
     kapt, kotlin-android-extensions导致集成冲突，建议尽快升级项目或者VIP联系定制
@@ -113,9 +114,7 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 ### 提升接入效率
 
 1.  去蒲公英下载APK Demo 体验SDK 的基本功能，看看是否满足业务需求；人脸搜索可以一键导入200+张人脸图再录入你自己的
-
 2.  更新GitHub 最新的代码，花1天左右时间熟悉SDK API 和对应的注释备注，断点调试一下基本功能；熟悉后再接入到主工程
-
 3.  欲速则不达，一定要先跑成功SDK接入指引Demo。熟悉后再接入到主工程验证匹配业务功能；有问题可以GitHub 提issues
 
 ### 提高SDK识别准确率
@@ -132,7 +131,8 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
    所有的开发测试都在手机和平板进行，特殊定制硬件如 RK3288 等适配需要兼容适配，SDK1.9.0以上版本已经支持UVC
    协议的USB 双目摄像头IR近红外活体，买对应的USB接口的双目摄像头插入手机USB口就能体验效果（不确定品质联系我推荐）  
 
-   **更多外接USB外接UVC摄像头**的操作可以参考这个大神的库：https://github.com/shiyinghan/UVCAndroid
+   **更多外接USB外接UVC摄像头**的操作参考这个大神的库：https://github.com/shiyinghan/UVCAndroid  
+   项目中的libs/libuvccamera-release.aar 就是根据此调整部分
 
 
 ## 快速接入
