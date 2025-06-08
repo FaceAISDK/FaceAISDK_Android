@@ -7,20 +7,20 @@
 
 # [关于「保护伞FaceAI SDK」](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
-Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK  
+Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK
 
-保护伞FaceAI SDK是设备端可离线不联网Android 人脸识别、动作及近红外IR活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别，人脸搜索功能。  
+保护伞FaceAI SDK是设备端可离线不联网Android 人脸识别、动作及近红外IR活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别，人脸搜索功能。
 
 **Android：** https://github.com/AnyLifeZLB/FaceVerificationSDK  
 **iOS SDK：** https://github.com/AnyLifeZLB/FaceAISDK_iOS  
-**uniApp:**  https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK  
+**Uni App：**  https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK
 
 
 <div align=center>
 <img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 20% height = 20% />
 </div>
 
-![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)  
+![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
 **另外iOS SDK 接入工程地址：** https://github.com/AnyLifeZLB/FaceAISDK_iOS
 
@@ -32,7 +32,7 @@ Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition �
 - 更改工程默认版本java 17， kotlin为1.9.20， AGP 7.x
 - 优化低配设备人脸录入和识别活体校验优化
 
- 建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK) 
+建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
 
 
 ## 简要说明
@@ -54,33 +54,34 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 ## [使用场景和区别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/Introduce_11_1N_MN.md)
 
-   【1:1】 移动考勤签到、App免密登录、刷脸授权、刷脸解锁、巡更打卡真人校验
+【1:1】 移动考勤签到、App免密登录、刷脸授权、刷脸解锁、巡更打卡真人校验
 
-   【1:N】 小区门禁、公司门禁、智能门锁、智慧校园、景区、工地、社区、酒店等
+【1:N】 小区门禁、公司门禁、智能门锁、智慧校园、景区、工地、社区、酒店等
 
-   【M:N】 公安布控、人群追踪 监控等等 (测试效果可使用 MN_face_search_test.jpg 模拟)
+【M:N】 公安布控、人群追踪 监控等等 (测试效果可使用 MN_face_search_test.jpg 模拟)
 
 
 ## 接入使用
+    先Github 下载最新接入Demo代码导入到Android Studio。  
     Demo 为了演示SDK的核心功能，部分细节并不完善，需要你根据你的业务需求自行完善。
 
-*   1.首先Gradle 中引入依赖
+*   1.调整JDK版本到java 17 以上。AS设置Preferences -> Build -> Gradle -> JDK的版本为 17+
+
+*   2.最好翻墙科学上网同步AGP Gradle 插件 7.X 这是工程默认设置使用的的,然后同步其他依赖
+
+*   3.Demo工程成功运行后，根据你的业务需求重点熟悉对应模块后再集成到你的主工程
+
+*   4.集成到你的主工程，首先Gradle 中引入依赖
     implementation 'io.github.anylifezlb:FaceAISDK:1.9.?' //及时升级到github最新版
 
-*   2.更新本SDK 接入演示代码到最新版本，**熟悉后**Copy Demo代码到你的主工程
+*   5.解决项目工程中的第三方依赖库和主工程的冲突比如CameraX的版本等，Target SDK不同导致的冲突
 
-*   3.解决项目工程中的第三方依赖库和主工程的冲突比如CameraX的版本等，Target SDK不同导致的冲突
 
-*   4.调整JDK版本到java 17 以上。Android Studio设置Preferences -> Build -> Gradle -> JDK的版本为 17+
-
-*   5.集成过程中的问题可以GitHub 提issues或者详细描述你遇到的问题发邮件到<FaceAISDK.Service@gmail.com>
-
-    目前SDK使用**java17. kotlin 1.9.20**打包，如果你的项目较老还在使用
+    目前SDK使用**java17. kotlin 1.9.20，AGP 7.x **打包，如果你的项目较老还在使用
     kapt, kotlin-android-extensions导致集成冲突，建议尽快升级项目或者VIP联系定制
 
     更多使用说明下载SDK源码工程代码到Android Studio 以及下载Demo APK到手机体验完整的流程和效果
     里面有详尽的注释说明和使用方法介绍，SDK源码熟悉完成后有一定Android基础大概3小时可集成到你的主工程
-
 
 **其中**
 
@@ -95,19 +96,19 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 ## Demo 下载体验
 
-   扫码后选择在浏览器中打开点击下载安装，或直接输入地址 https://www.pgyer.com/faceVerify
+扫码后选择在浏览器中打开点击下载安装，或直接输入地址 https://www.pgyer.com/faceVerify
 
 <div align=center>
 <img src="https://user-images.githubusercontent.com/15169396/210045090-60c073df-ddbd-4747-8e24-f0dce1eccb58.png" width = 22% height = 22% />
 </div>
-  
+
 
 ## 服务定制
 
-   如果SDK不能匹配你的应用场景或需要**特殊双目摄像头活体检测**定制化，请发需求到FaceAISDK.Service@gmail.com  
-   正式授权可以加微信 [HaoNan19990322 ，备注人脸识别](images/WechatIMG24.jpg)
-   
-   欢迎关注Fork+Star获取最新动态，提出使用建议等 https://github.com/AnyLifeZLB/FaceVerificationSDK
+如果SDK不能匹配你的应用场景或需要**特殊双目摄像头活体检测**定制化，请发需求到FaceAISDK.Service@gmail.com  
+正式授权可以加微信 [HaoNan19990322 ，备注人脸识别](images/WechatIMG24.jpg)
+
+欢迎关注Fork+Star获取最新动态，提出使用建议等 https://github.com/AnyLifeZLB/FaceVerificationSDK
 
 ## 提升接入效率，提高SDK识别准确率
 
@@ -127,19 +128,19 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 
 ## 常见问题
-   常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/questions.md  
-   所有的开发测试都在手机和平板进行，特殊定制硬件如 RK3288 等适配需要兼容适配，SDK1.9.0以上版本已经支持UVC
-   协议的USB 双目摄像头IR近红外活体，买对应的USB接口的双目摄像头插入手机USB口就能体验效果（不确定品质联系我推荐）  
+常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/questions.md  
+所有的开发测试都在手机和平板进行，特殊定制硬件如 RK3288 等适配需要兼容适配，SDK1.9.0以上版本已经支持UVC
+协议的USB 双目摄像头IR近红外活体，买对应的USB接口的双目摄像头插入手机USB口就能体验效果（不确定品质联系我推荐）
 
-   **更多外接USB外接UVC摄像头**的操作参考这个大神的库：https://github.com/shiyinghan/UVCAndroid  
-   项目中的libs/libuvccamera-release.aar 就是根据此调整部分
+**更多外接USB外接UVC摄像头**的操作参考这个大神的库：https://github.com/shiyinghan/UVCAndroid  
+项目中的libs/libuvccamera-release.aar 就是根据此调整部分
 
 
 ## 快速接入
-   Demo 以main主工程 --> faceAiLib 的方式演示，熟悉本SDK 接入Demo 后可以先Copy faceAiLib到你主工程先跑起来
-   再根据业务情况修改完善。  
-   熟悉后大约3小时就能集成成功，丰富产品功能同时可大大降低公司研发投入实现降本增效。  
-   
-      
+Demo 以main主工程 --> faceAiLib 的方式演示，熟悉本SDK 接入Demo 后可以先Copy faceAiLib到你主工程先跑起来
+再根据业务情况修改完善。  
+熟悉后大约3小时就能集成成功，丰富产品功能同时可大大降低公司研发投入实现降本增效。
+
+
 
 ![让子弹飞剧照-这是你吗？](images/It_is_you.png)  

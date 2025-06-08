@@ -13,7 +13,7 @@ Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition �
 
 **Android：** https://github.com/AnyLifeZLB/FaceVerificationSDK  
 **iOS SDK：** https://github.com/AnyLifeZLB/FaceAISDK_iOS  
-**uniApp:**  https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK
+**Uni App：**  https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK
 
 
 <div align=center>
@@ -62,25 +62,26 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 
 ## 接入使用
+    先Github 下载最新接入Demo代码导入到Android Studio。  
     Demo 为了演示SDK的核心功能，部分细节并不完善，需要你根据你的业务需求自行完善。
 
-*   1.首先Gradle 中引入依赖
+*   1.调整JDK版本到java 17 以上。AS设置Preferences -> Build -> Gradle -> JDK的版本为 17+  
+
+*   2.最好翻墙科学上网同步AGP Gradle 插件 7.X 这是工程默认设置使用的的,然后同步其他依赖  
+
+*   3.Demo工程成功运行后，根据你的业务需求重点熟悉对应模块后再集成到你的主工程
+
+*   4.集成到你的主工程，首先Gradle 中引入依赖
     implementation 'io.github.anylifezlb:FaceAISDK:1.9.?' //及时升级到github最新版
 
-*   2.更新本SDK 接入演示代码到最新版本，**熟悉后**Copy Demo代码到你的主工程
+*   5.解决项目工程中的第三方依赖库和主工程的冲突比如CameraX的版本等，Target SDK不同导致的冲突
 
-*   3.解决项目工程中的第三方依赖库和主工程的冲突比如CameraX的版本等，Target SDK不同导致的冲突
 
-*   4.调整JDK版本到java 17 以上。Android Studio设置Preferences -> Build -> Gradle -> JDK的版本为 17+
-
-*   5.集成过程中的问题可以GitHub 提issues或者详细描述你遇到的问题发邮件到<FaceAISDK.Service@gmail.com>
-
-    目前SDK使用**java17. kotlin 1.9.20**打包，如果你的项目较老还在使用
+    目前SDK使用**java17. kotlin 1.9.20，AGP 7.x **打包，如果你的项目较老还在使用
     kapt, kotlin-android-extensions导致集成冲突，建议尽快升级项目或者VIP联系定制
 
     更多使用说明下载SDK源码工程代码到Android Studio 以及下载Demo APK到手机体验完整的流程和效果
     里面有详尽的注释说明和使用方法介绍，SDK源码熟悉完成后有一定Android基础大概3小时可集成到你的主工程
-
 
 **其中**
 
