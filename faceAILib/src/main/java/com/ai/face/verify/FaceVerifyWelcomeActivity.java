@@ -71,7 +71,7 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         dataSourceType = (DataSourceType) bundle.getSerializable(FACE_VERIFY_DATA_SOURCE_TYPE);
         if (dataSourceType.equals(DataSourceType.Android_HAL)) {
-            ((TextView)findViewById(R.id.camera_mode)).setText("系统相机模式");
+            ((TextView) findViewById(R.id.camera_mode)).setText("系统相机模式");
         }
 
         LinearLayout addFaceView = findViewById(R.id.add_faceid_layout);

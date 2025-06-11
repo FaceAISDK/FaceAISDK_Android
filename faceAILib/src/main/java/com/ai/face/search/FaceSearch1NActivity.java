@@ -2,6 +2,7 @@ package com.ai.face.search;
 
 import static com.ai.face.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.*;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,17 +29,15 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import java.util.List;
 
 /**
- * 1:N 人脸搜索「1:N face search」
- *
+ * 1:N 人脸搜索识别「1:N face search」
+ * <p>
  * USB UVC协议双目摄像头参考{@link com.ai.face.UVCCamera.BinocularUVCCameraActivity} 改造一下
  *
- * 怎么提高人脸搜索的精确度 ？<a href="https://github.com/AnyLifeZLB/FaceVerificationSDK/issues/42">...</a>
- * 尽量使用较高配置设备和摄像头，光线不好带上补光灯
- * 录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
- * 光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩帽子等
- * 人脸照片要求300*300（人脸部分区域大于200*200） 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
- * <p>
- * <p>
+ * 1.  使用的宽动态（大于110DB）高清抗逆光摄像头；**保持镜头整洁干净（会粘指纹油污的用纯棉布擦拭干净）**
+ * 2.  录入高质量的人脸图，如（images/face\_example.jpg）（证件照输入目前优化中）
+ * 3.  光线环境好否则加补光灯，人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
+ * 4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
+ *
  * 系统相机跑久了也会性能下降，建议测试前重启系统，定时重启
  */
 public class FaceSearch1NActivity extends AppCompatActivity {
@@ -58,10 +57,11 @@ public class FaceSearch1NActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
         int cameraLensFacing = sharedPref.getInt("cameraFlag", 0);
-        int degree=sharedPref.getInt("cameraDegree", getWindowManager().getDefaultDisplay().getRotation());
+        int degree = sharedPref.getInt("cameraDegree", getWindowManager().getDefaultDisplay().getRotation());
 
+        //1. 摄像头相关参数配置
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
-        CameraXBuilder cameraXBuilder=new CameraXBuilder.Builder()
+        CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.001f) //焦距范围[0.001f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)   //画面旋转方向
@@ -70,24 +70,22 @@ public class FaceSearch1NActivity extends AppCompatActivity {
 
         cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
 
-
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
 
         initFaceSearchParam();
-
     }
 
 
     /**
-     *
+     * 初始化人脸搜索参数
      */
-    private void initFaceSearchParam(){
+    private void initFaceSearchParam() {
 
         // 2.各种参数的初始化设置
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
-                .setThreshold(0.88f) //阈值设置，范围限 [0.85 , 0.95] 识别可信度，也是识别灵敏度
+                .setThreshold(0.88f) //阈值设置，范围限 [0.85 , 0.95] 识别可信度，设置高摄像头配置也要高
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setImageFlipped(cameraXFragment.getCameraLensFacing() == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {
@@ -99,7 +97,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                         binding.graphicOverlay.drawRect(result, cameraXFragment);
                     }
 
-                    //得分最高的搜索结果
+                    // 得分最高的搜索结果
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap) {
                         Glide.with(getBaseContext())
@@ -115,7 +113,6 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                     public void onProcessTips(int i) {
                         showFaceSearchPrecessTips(i);
                     }
-
 
                     @Override
                     public void onLog(String log) {
@@ -142,15 +139,15 @@ public class FaceSearch1NActivity extends AppCompatActivity {
 
 
     /**
-     * 显示提示
+     * 显示人脸搜索识别提示，根据Code码显示对应的提示
      *
-     * @param code
+     * @param code 提示Code码
      */
     private void showFaceSearchPrecessTips(int code) {
         binding.secondSearchTips.setText("");
         switch (code) {
             default:
-                binding.searchTips.setText("Tips Code：" + code);
+                binding.searchTips.setText("回调提示：" + code);
                 break;
 
             case FACE_TOO_SMALL:
@@ -203,7 +200,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
     }
 
     /**
-     * 销毁，停止
+     * 销毁，停止人脸搜索
      */
     @Override
     protected void onDestroy() {

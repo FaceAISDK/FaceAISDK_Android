@@ -22,7 +22,6 @@ Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition �
 
 ![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
-**另外iOS SDK 接入工程地址：** https://github.com/AnyLifeZLB/FaceAISDK_iOS
 
 <div align=center>
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 20% height = 20% />
@@ -65,13 +64,13 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
     先Github 下载最新接入Demo代码导入到Android Studio。  
     Demo 为了演示SDK的核心功能，部分细节并不完善，需要你根据你的业务需求自行完善。
 
-*   1.调整JDK版本到java 17 以上。AS设置Preferences -> Build -> Gradle -> JDK的版本为 17+
+*   1.调整JDK版本到java 17。AS设置Preferences -> Build -> Gradle -> JDK的版本为 17
 
 *   2.最好翻墙科学上网同步AGP Gradle 插件 7.X 这是工程默认设置使用的的,然后同步其他依赖
 
 *   3.Demo工程成功运行后，根据你的业务需求重点熟悉对应模块后再集成到你的主工程
 
-*   4.集成到你的主工程，首先Gradle 中引入依赖
+*   4.**集成到你的主工程**，首先Gradle 中引入依赖
     implementation 'io.github.anylifezlb:FaceAISDK:1.9.?' //及时升级到github最新版
 
 *   5.解决项目工程中的第三方依赖库和主工程的冲突比如CameraX的版本等，Target SDK不同导致的冲突
@@ -120,11 +119,10 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 ### 提高SDK识别准确率
 
-1.  使用高配置硬件参数设备和抗干扰摄像头；**保持镜头整洁干净（会粘指纹油污的用纯棉布擦拭干净）**
-2.  录入高质量的人脸图，如（images/face\_example.jpg）（证件照输入目前优化中）
-3.  光线环境好，检测的人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
+1.  使用的宽动态（人脸搜索必须大于110DB）高清抗逆光摄像头；**保持镜头干净（用纯棉布擦拭油污）**
+2.  录入高质量的人脸图，可参考（images/face\_example.jpg）
+3.  光线环境好否则加补光灯，人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
 4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
-5.  人脸录入不戴粗框的深色眼镜，使用宽动态抗干扰成像清晰摄像头，定制设备摄像头固定于屏幕正上方
 
 
 ## 常见问题
@@ -133,7 +131,7 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 协议的USB 双目摄像头IR近红外活体，买对应的USB接口的双目摄像头插入手机USB口就能体验效果（不确定品质联系我推荐）
 
 **更多外接USB外接UVC摄像头**的操作参考这个大神的库：https://github.com/shiyinghan/UVCAndroid  
-项目中的libs/libuvccamera-release.aar 就是根据此调整部分
+项目中的libs/libuvccamera-release.aar 就是根据此项目微调打包成AAR
 
 
 ## 快速接入

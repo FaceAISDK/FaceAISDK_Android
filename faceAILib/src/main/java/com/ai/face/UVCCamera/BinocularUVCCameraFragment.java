@@ -35,11 +35,11 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * USB带红外双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
- *
+ * <p>
  * AbstractBinocularUVCCameraFragment 是摄像头相关处理，「调试的时候USB摄像头一定要固定住屏幕正上方」
- *
+ * <p>
  * 默认LivenessType.IR需要你的摄像头是双目红外摄像头，如果仅仅是RGB 摄像头请使用LivenessType.SILENT_MOTION
- *
+ * <p>
  * 更多UVC 摄像头使用参考 https://blog.csdn.net/hanshiying007/article/details/124118486
  */
 public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragment {
@@ -47,7 +47,7 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private FaceCoverView faceCoverView;
     private ImageView baseFaceImageView;
-    private final float silentLivenessThreshold=0.85f;
+    private final float silentLivenessThreshold = 0.85f;
 
     public BinocularUVCCameraFragment() {
         // Required empty public constructor
@@ -60,14 +60,13 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
         tipsTextView = binding.tipsView;
         secondTipsTextView = binding.secondTipsView;
         faceCoverView = binding.faceCover;
-        baseFaceImageView=binding.baseFace;
+        baseFaceImageView = binding.baseFace;
         binding.back.setOnClickListener(v -> requireActivity().finish());
         BrightnessUtil.setBrightness(requireActivity(), 1.0f);  //高亮白色背景屏幕光可以当补光灯
     }
 
     /**
      * 初始化人脸识别底图
-     *
      */
     void initFaceVerifyBaseBitmap() {
         faceVerifyUtils = new FaceVerifyUtils();
@@ -113,7 +112,6 @@ public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragme
 
     /**
      * 初始化认证引擎，LivenessType.IR需要你的摄像头是双目红外摄像头，如果仅仅是RGB 摄像头请使用LivenessType.SILENT_MOTION
-     *
      *
      * @param baseBitmap 1:1 人脸识别对比的底片
      */

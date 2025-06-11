@@ -40,7 +40,7 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
     private var mFileSelector: FileSelector? = null
 
     //保存2张选择照片中裁剪出的人脸图
-    private  var bitmapMap: HashMap<String, Bitmap> = HashMap(2)
+    private var bitmapMap: HashMap<String, Bitmap> = HashMap(2)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,13 +53,13 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
         viewBinding.back.setOnClickListener { this@TwoFaceImageVerifyActivity.finish() }
 
 
-        viewBinding.image1.tag="image1"
+        viewBinding.image1.tag = "image1"
         viewBinding.image1.setOnClickListener {
             chooseFile(viewBinding.image1)
         }
 
 
-        viewBinding.image2.tag="image2"
+        viewBinding.image2.tag = "image2"
         viewBinding.image2.setOnClickListener {
             chooseFile(viewBinding.image2)
         }
@@ -68,13 +68,13 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
         viewBinding.goVerify.setOnClickListener {
             // 不能两张图直接比较，要先经过 checkFaceQuality 检测裁剪图片中的人脸
             // FaceAIUtils.Companion.getInstance(application).checkFaceQuality(
-           val simi=VerifyUtils.evaluateFaceSimi(
+            val simi = VerifyUtils.evaluateFaceSimi(
                 baseContext,
                 bitmapMap[viewBinding.image1.tag],
                 bitmapMap[viewBinding.image2.tag]
             ) //evaluateFaceSimi传人的两个bitmap 有是空的，则相似度直接返回0
 
-            Toast.makeText(baseContext, "人脸相似度：$simi",Toast.LENGTH_SHORT).show()
+            Toast.makeText(baseContext, "人脸相似度：$simi", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -140,8 +140,8 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
                         return
                     }
 
-                    if (results.isNotEmpty()){
-                        disposeSelectResult(results,view)
+                    if (results.isNotEmpty()) {
+                        disposeSelectResult(results, view)
                     }
                 }
 
@@ -155,30 +155,31 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
     /**
      * 裁剪出照片中的人脸储存到bitmapMap
      */
-    fun disposeSelectResult(results: List<FileSelectResult>,view: TextView) {
+    fun disposeSelectResult(results: List<FileSelectResult>, view: TextView) {
         val fileName = MyFileUtils.getFileMetaData(
             baseContext, results[0].uri
         ).displayName
 
         view.text = fileName
 
-        val bitmap=MediaStore.Images.Media.getBitmap(
+        val bitmap = MediaStore.Images.Media.getBitmap(
             baseContext.contentResolver,
             results[0].uri
         )
 
         view.background = BitmapDrawable(resources, bitmap)
 
-        FaceAIUtils.Companion.getInstance(application).checkFaceQuality(bitmap,object : FaceAIUtils.Callback{
-            override fun onSuccess(bitmap: Bitmap) {
-                bitmapMap[view.tag.toString()] = bitmap
-            }
+        FaceAIUtils.Companion.getInstance(application)
+            .checkFaceQuality(bitmap, object : FaceAIUtils.Callback {
+                override fun onSuccess(bitmap: Bitmap) {
+                    bitmapMap[view.tag.toString()] = bitmap
+                }
 
-            override fun onFailed(msg: String, errorCode: Int) {
-                Toast.makeText(baseContext,msg,Toast.LENGTH_LONG).show()
-                bitmapMap.remove(view.tag.toString()) //没有检测出人脸则移除上一次可能有的数据
-            }
-        })
+                override fun onFailed(msg: String, errorCode: Int) {
+                    Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
+                    bitmapMap.remove(view.tag.toString()) //没有检测出人脸则移除上一次可能有的数据
+                }
+            })
     }
 
 

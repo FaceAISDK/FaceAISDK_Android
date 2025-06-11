@@ -13,9 +13,11 @@ import android.view.Surface;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.ai.face.R;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.view.CameraXFragment;
@@ -31,6 +33,7 @@ import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
 import com.ai.face.utils.VoicePlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -41,7 +44,6 @@ import org.jetbrains.annotations.NotNull;
  * 2.录入高质量的人脸图，人脸清晰，背景纯色（证件照输入目前优化中）
  * 3.光线环境好，检测的人脸无遮挡，无浓妆或佩戴墨镜口罩帽子等
  * 4.人脸照片要求300*300 以上 裁剪好的仅含人脸的正方形照片，背景纯色
- *
  */
 public class FaceVerificationActivity extends AppCompatActivity {
     public static final String USER_FACE_ID_KEY = "USER_FACE_ID_KEY";   //1:1 face verify ID KEY
@@ -67,7 +69,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
         tipsTextView = findViewById(R.id.tips_view);
         secondTipsTextView = findViewById(R.id.second_tips_view);
         faceCoverView = findViewById(R.id.face_cover);
-        baseFaceImageView=findViewById(R.id.base_face);
+        baseFaceImageView = findViewById(R.id.base_face);
 
         findViewById(R.id.back).setOnClickListener(v -> {
             FaceVerificationActivity.this.finish();
@@ -76,11 +78,11 @@ public class FaceVerificationActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
 
         int cameraLensFacing = sharedPref.getInt("cameraFlag", 0);
-        int degree=sharedPref.getInt("cameraDegree", getWindowManager().getDefaultDisplay().getRotation());
+        int degree = sharedPref.getInt("cameraDegree", getWindowManager().getDefaultDisplay().getRotation());
 
 
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
-        CameraXBuilder cameraXBuilder=new CameraXBuilder.Builder()
+        CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.001f) //焦距范围[0.001f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)   //画面旋转方向
@@ -245,8 +247,8 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 tipsTextView.setText("Failed ！ similarity=" + similarity);
                 VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
                 new AlertDialog.Builder(FaceVerificationActivity.this)
-                        .setTitle("similarity="+similarity)
-                        .setMessage( R.string.face_verify_failed)
+                        .setTitle("similarity=" + similarity)
+                        .setMessage(R.string.face_verify_failed)
                         .setCancelable(false)
                         .setPositiveButton(R.string.confirm, (dialogInterface, i) -> finish())
                         .setNegativeButton(R.string.retry, (dialog, which) -> {
@@ -279,7 +281,6 @@ public class FaceVerificationActivity extends AppCompatActivity {
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:
                         tipsTextView.setText(R.string.face_verifying);
                         break;
-
 
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:

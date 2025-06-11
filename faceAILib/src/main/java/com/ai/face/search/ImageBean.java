@@ -1,8 +1,8 @@
 package com.ai.face.search;
 
 public class ImageBean {
-    public  String path;
-    public  String name;
+    public String path;
+    public String name;
 
     public ImageBean(String path, String name) {
         this.path = path;

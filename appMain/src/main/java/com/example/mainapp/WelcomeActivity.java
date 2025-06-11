@@ -19,7 +19,6 @@ import com.tencent.bugly.crashreport.CrashReport;
  */
 public class WelcomeActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +36,9 @@ public class WelcomeActivity extends AppCompatActivity {
         startFaceAILib.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationEnd(@NonNull Animator animation) {
-
                 //演示主工程调用Face AI Lib 中人脸识别功能
                 startActivity(new Intent(WelcomeActivity.this, FaceAINaviActivity.class));
                 WelcomeActivity.this.finish();
-
             }
 
             @Override
@@ -57,15 +54,11 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
-
         // 收集Crash,ANR 运行日志
         if (!BuildConfig.DEBUG) {
             CrashReport.initCrashReport(this, "36fade54d8", true);
         }
 
-
     }
-
-
 
 }

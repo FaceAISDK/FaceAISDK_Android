@@ -16,12 +16,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.Surface;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraSelector;
-
 import com.ai.face.R;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.base.view.camera.CameraXBuilder;
@@ -30,18 +27,17 @@ import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
-
 import java.util.List;
 
 
 /**
- *  应用场景比较少，暂时不放到Demo App ，可自行打开
+ * 应用场景比较少，暂时不显示到Demo App ，可自行打开
  *
- *  M：N 人脸搜索「M：N Face Search」，建议优先试用1:N，整个业务流程稳定后再考虑升级到M：N
- *  系统相机跑久了也会性能下降，建议测试前重启系统，并定时重启
- *
- *  本功能要求设备硬件配置高，摄像头品质好。可以拿当前的各品牌手机旗舰机测试验证
- *
+ * <p>
+ * M：N 人脸搜索「M：N Face Search」，建议优先试用1:N，整个业务流程稳定后再考虑升级到M：N
+ * 系统相机跑久了也会性能下降，建议测试前重启系统，并定时重启
+ * <p>
+ * 本功能要求设备硬件配置高，摄像头品质好。可以拿当前的各品牌手机旗舰机测试验证
  */
 @Deprecated
 public class FaceSearchMNActivity extends AppCompatActivity {
@@ -57,17 +53,16 @@ public class FaceSearchMNActivity extends AppCompatActivity {
 
         binding.tips.setOnClickListener(v -> {
             startActivity(new Intent(this, FaceSearchImageMangerActivity.class)
-                    .putExtra("isAdd",false));
-
+                    .putExtra("isAdd", false));
         });
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
 
         int cameraLensFacing = sharedPref.getInt("cameraFlag", 0);
-        int degree=sharedPref.getInt("cameraDegree", getWindowManager().getDefaultDisplay().getRotation());
+        int degree = sharedPref.getInt("cameraDegree", getWindowManager().getDefaultDisplay().getRotation());
 
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
-        CameraXBuilder cameraXBuilder=new CameraXBuilder.Builder()
+        CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.001f) //焦距范围[0.001f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)   //画面旋转方向
@@ -75,7 +70,6 @@ public class FaceSearchMNActivity extends AppCompatActivity {
                 .create();
 
         CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
-
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
@@ -88,7 +82,6 @@ public class FaceSearchMNActivity extends AppCompatActivity {
                 FaceSearchEngine.Companion.getInstance().runSearch(imageProxy, 0);
             }
         });
-
 
         // 2.各种参数的初始化设置 （M：N 建议阈值放低）
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(FaceSearchMNActivity.this)
@@ -105,7 +98,6 @@ public class FaceSearchMNActivity extends AppCompatActivity {
                     @Override
                     public void onFaceMatched(List<FaceSearchResult> result, Bitmap contextBitmap) {
                         binding.graphicOverlay.drawRect(result, cameraXFragment);
-
                         if (!result.isEmpty()) {
                             binding.searchTips.setText("");
                         }
@@ -127,7 +119,6 @@ public class FaceSearchMNActivity extends AppCompatActivity {
         //3.初始化r引擎
         FaceSearchEngine.Companion.getInstance().initSearchParams(faceProcessBuilder);
     }
-
 
 
     /**

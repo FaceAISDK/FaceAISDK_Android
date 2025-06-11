@@ -36,10 +36,8 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         binding = ActivityFaceSearchNaviBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         checkNeededPermission()
-
-        binding.back.setOnClickListener{
+        binding.back.setOnClickListener {
             this@SearchNaviActivity.finish()
         }
 
@@ -54,7 +52,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
                 Intent(baseContext, FaceSearchImageMangerActivity::class.java).putExtra(
                     "isAdd",
                     true
-                ).putExtra("isBinocularCamera",false)
+                ).putExtra("isBinocularCamera", false)
             )
         }
 
@@ -64,10 +62,9 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         binding.binocularCameraAddFace.setOnClickListener {
             startActivity(
-                Intent(baseContext, FaceSearchImageMangerActivity::class.java).putExtra(
-                    "isAdd",
-                    true
-                ).putExtra("isBinocularCamera",true)
+                Intent(baseContext, FaceSearchImageMangerActivity::class.java)
+                    .putExtra("isAdd", true)
+                    .putExtra("isBinocularCamera", true)
             )
         }
 
@@ -122,6 +119,10 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
     }
 
 
+    /**
+     * 提示
+     *
+     */
     private fun showConnectUVCCameraDialog() {
         //一天提示一次
         val sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE)
@@ -130,14 +131,14 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             startActivity(
                 Intent(this@SearchNaviActivity, FaceSearchUVCCameraActivity::class.java)
             )
-        }else {
+        } else {
             val builder = AlertDialog.Builder(this)
             val dialog = builder.create()
             val dialogView = View.inflate(this, R.layout.dialog_connect_uvc_camera, null)
             //设置对话框布局
             dialog.setView(dialogView)
             val btnOK = dialogView.findViewById<Button>(R.id.btn_ok)
-            btnOK.setOnClickListener { v: View? ->
+            btnOK.setOnClickListener {
                 startActivity(
                     Intent(this@SearchNaviActivity, FaceSearchUVCCameraActivity::class.java)
                 )
@@ -150,7 +151,6 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
     }
-
 
 
     /**
@@ -184,7 +184,9 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
     /**
      * 当用户点击了不再提醒的时候的处理方式
      */
-    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {}
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+
+    }
 
 
 }

@@ -2,15 +2,18 @@ package com.ai.face.UVCCamera;
 
 import static com.ai.face.UVCCamera.Constants.PREVIEW_HEIGHT;
 import static com.ai.face.UVCCamera.Constants.PREVIEW_WIDTH;
+
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import com.ai.face.UVCCamera.camera.UsbCameraEnum;
 import com.ai.face.UVCCamera.camera.UsbCameraManager;
 import com.ai.face.base.utils.DataConvertUtils;
@@ -21,11 +24,10 @@ import com.serenegiant.usb.UVCCamera;
 
 /**
  * 打开双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
- *
+ * <p>
  * 也可以支持仅仅RGB 的USB 摄像头，「调试的时候USB摄像头一定要固定住屏幕正上方」
- *
+ * <p>
  * 更多UVC 摄像头使用参考 https://blog.csdn.net/hanshiying007/article/details/124118486
- *
  */
 public abstract class AbstractBinocularUVCCameraFragment extends Fragment {
     private static final String TAG = AbstractBinocularUVCCameraFragment.class.getSimpleName();
@@ -60,7 +62,7 @@ public abstract class AbstractBinocularUVCCameraFragment extends Fragment {
         return binding.getRoot();
     }
 
-    public void initViews(){
+    public void initViews() {
     }
 
     @Override
@@ -73,7 +75,7 @@ public abstract class AbstractBinocularUVCCameraFragment extends Fragment {
     private void initRGBCamara() {
         rgbCameraManager.initCameraHelper();
         rgbCameraManager.setOpeningMultiCamera(true);
-        rgbCameraManager.setCameraView(binding.rgbCameraTextureView,true);
+        rgbCameraManager.setCameraView(binding.rgbCameraTextureView, true);
         rgbCameraManager.selectUsbCamera(UsbCameraEnum.RGB);
 
         rgbCameraManager.setOnDeviceStatuesCallBack(new UsbCameraManager.OnDeviceStatuesCallBack() {
@@ -111,12 +113,11 @@ public abstract class AbstractBinocularUVCCameraFragment extends Fragment {
 
     /**
      * 初始化IR 摄像头
-     *
      */
     private void initIRCamara() {
         irCameraManager.initCameraHelper();
         irCameraManager.setOpeningMultiCamera(true);
-        irCameraManager.setCameraView(binding.irCameraTextureView,true);
+        irCameraManager.setCameraView(binding.irCameraTextureView, true);
         irCameraManager.selectUsbCamera(UsbCameraEnum.IR);
 
         irCameraManager.setOnDeviceStatuesCallBack(new UsbCameraManager.OnDeviceStatuesCallBack() {
@@ -127,7 +128,7 @@ public abstract class AbstractBinocularUVCCameraFragment extends Fragment {
             @Override
             public void onDeviceOpen(UsbDevice device, boolean isFirstOpen) {
 
-             }
+            }
         });
 
         irCameraManager.setPreviewHeight(PREVIEW_HEIGHT);

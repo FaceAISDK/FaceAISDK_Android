@@ -24,14 +24,12 @@ public class FaceAIConfig {
         CACHE_BASE_FACE_DIR = context.getCacheDir().getPath() + "/faceAIVerify/";    //1:1 人脸识别目录
         CACHE_SEARCH_FACE_DIR = context.getFilesDir().getPath() + "/faceAISearch/";  //人脸搜索人脸库目录
 
-
         //文件目前提前创建好，否则
         File file = new File(CACHE_BASE_FACE_DIR);
         if (!file.exists()) file.mkdirs();
 
         File searchFile = new File(CACHE_SEARCH_FACE_DIR);
         if (!searchFile.exists()) file.mkdirs();
-
 
     }
 

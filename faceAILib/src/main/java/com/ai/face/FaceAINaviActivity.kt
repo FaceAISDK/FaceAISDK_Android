@@ -19,7 +19,6 @@ import com.ai.face.verify.TwoFaceImageVerifyActivity
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 
-
 /**
  * SDK 接入演示Demo，请先熟悉本Demo跑通住流程后再集成到你的主工程验证业务
  *

@@ -57,7 +57,6 @@ import java.nio.ByteBuffer;
  * 更多UVC 摄像头参数设置 https://blog.csdn.net/hanshiying007/article/details/124118486
  */
 public class AddFaceUVCCameraFragment extends Fragment {
-
     private static final String TAG = "AddFace";
 
     public FragmentBinocularCameraAddFaceBinding binding;
@@ -67,8 +66,8 @@ public class AddFaceUVCCameraFragment extends Fragment {
     private BaseImageDispose baseImageDispose;
     private String faceID, addFaceImageType;
     //如果启用活体检测，根据自身情况完善业务逻辑
-    private boolean isRealFace=true;
-    private final UsbCameraManager rgbCameraManager = new UsbCameraManager();//添加人脸只用到 RBG camera
+    private boolean isRealFace = true;
+    private final UsbCameraManager rgbCameraManager = new UsbCameraManager(); //添加人脸只用到 RBG camera
     private final UsbCameraManager irCameraManager = new UsbCameraManager();
 
     //是1:1 还是1:N 人脸搜索添加人脸
@@ -104,7 +103,7 @@ public class AddFaceUVCCameraFragment extends Fragment {
     private void initRGBCamara() {
         rgbCameraManager.initCameraHelper();
         rgbCameraManager.setOpeningMultiCamera(true);
-        rgbCameraManager.setCameraView(binding.rgbCameraTextureView,true);
+        rgbCameraManager.setCameraView(binding.rgbCameraTextureView, true);
         rgbCameraManager.selectUsbCamera(UsbCameraEnum.RGB);
 
         rgbCameraManager.setPreviewHeight(PREVIEW_HEIGHT);
@@ -129,7 +128,7 @@ public class AddFaceUVCCameraFragment extends Fragment {
     /**
      * 确认是否保存人脸底图
      */
-    private void showConfirmDialog(Bitmap bitmap,float silentLiveValue) {
+    private void showConfirmDialog(Bitmap bitmap, float silentLiveValue) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         final AlertDialog dialog = builder.create();
         View dialogView = View.inflate(requireContext(), R.layout.dialog_confirm_base, null);
@@ -140,10 +139,10 @@ public class AddFaceUVCCameraFragment extends Fragment {
         ImageView basePreView = dialogView.findViewById(R.id.preview);
         TextView realManTips = dialogView.findViewById(R.id.realManTips);
 
-        if(!isRealFace){
+        if (!isRealFace) {
             realManTips.setVisibility(View.VISIBLE);
-            realManTips.setText(getString(R.string.not_real_face_for_debug)+"(Value:"+silentLiveValue+")");
-        }else {
+            realManTips.setText(getString(R.string.not_real_face_for_debug) + "(Value:" + silentLiveValue + ")");
+        } else {
             realManTips.setVisibility(View.INVISIBLE);
         }
         basePreView.setImageBitmap(bitmap);
@@ -182,7 +181,7 @@ public class AddFaceUVCCameraFragment extends Fragment {
 
         btnCancel.setOnClickListener(v -> {
             dialog.dismiss();
-            isRealFace=true;
+            isRealFace = true;
             baseImageDispose.retry();
         });
 
@@ -205,10 +204,10 @@ public class AddFaceUVCCameraFragment extends Fragment {
          * 2 PERFORMANCE_MODE_ACCURATE 精确模式
          * 1 PERFORMANCE_MODE_FAST 快速模式
          */
-        baseImageDispose = new BaseImageDispose( requireContext(), 2,new BaseImageCallBack() {
+        baseImageDispose = new BaseImageDispose(requireContext(), 2, new BaseImageCallBack() {
             @Override
-            public void onCompleted(Bitmap bitmap,float silentLiveValue) {
-                requireActivity().runOnUiThread(() -> showConfirmDialog(bitmap,silentLiveValue));
+            public void onCompleted(Bitmap bitmap, float silentLiveValue) {
+                requireActivity().runOnUiThread(() -> showConfirmDialog(bitmap, silentLiveValue));
             }
 
             @Override
@@ -220,13 +219,13 @@ public class AddFaceUVCCameraFragment extends Fragment {
         });
     }
 
-    private void AddFaceTips(int actionCode){
+    private void AddFaceTips(int actionCode) {
         switch (actionCode) {
             case NOT_REAL_HUMAN:
-                Toast.makeText(requireContext(),R.string.not_real_face,Toast.LENGTH_LONG).show();
+                Toast.makeText(requireContext(), R.string.not_real_face, Toast.LENGTH_LONG).show();
                 binding.secondTipsView.setText(R.string.not_real_face);
                 //公版Demo 为了方便调试不处理人脸活体，实际业务中请根据自身情况完善业务逻辑
-                isRealFace=false;
+                isRealFace = false;
                 break;
 
             case CLOSE_EYE:
@@ -268,7 +267,6 @@ public class AddFaceUVCCameraFragment extends Fragment {
 
         }
     }
-
 
 
 }

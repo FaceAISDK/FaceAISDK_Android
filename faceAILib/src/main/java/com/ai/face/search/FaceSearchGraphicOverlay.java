@@ -68,10 +68,10 @@ public class FaceSearchGraphicOverlay extends View {
     }
 
 
-    public void drawRect(List<FaceSearchResult> rectLabels,float scaleX,float scaleY) {
+    public void drawRect(List<FaceSearchResult> rectLabels, float scaleX, float scaleY) {
         this.rectFList = adjustUVCBoundingRect(rectLabels);
-        this.scaleX=scaleX;
-        this.scaleY=scaleY;
+        this.scaleX = scaleX;
+        this.scaleY = scaleY;
         postInvalidate();
         requestLayout();
     }
@@ -115,10 +115,9 @@ public class FaceSearchGraphicOverlay extends View {
     }
 
 
-
-
     /**
      * USB带红外双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
+     *
      * @param rectLabels
      * @return
      */
