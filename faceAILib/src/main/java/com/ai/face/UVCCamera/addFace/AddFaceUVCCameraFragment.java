@@ -3,6 +3,7 @@ package com.ai.face.UVCCamera.addFace;
 import static android.app.Activity.RESULT_OK;
 import static androidx.camera.core.impl.utils.ContextUtil.getBaseContext;
 import static com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR;
+import static com.ai.face.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.UVCCamera.Constants.PREVIEW_HEIGHT;
 import static com.ai.face.UVCCamera.Constants.PREVIEW_WIDTH;
 import static com.ai.face.base.baseImage.BaseImageCallBack.AlIGN_FAILED;
@@ -45,9 +46,12 @@ import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.utils.BrightnessUtil;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.databinding.FragmentBinocularCameraAddFaceBinding;
+import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.serenegiant.usb.IFrameCallback;
 import com.serenegiant.usb.Size;
 import com.serenegiant.usb.UVCCamera;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
@@ -165,14 +169,22 @@ public class AddFaceUVCCameraFragment extends Fragment {
                 } else {
                     //1:N ，M：N 人脸搜索保存人脸
                     dialog.dismiss();
-                    Intent intent = new Intent();
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                    byte[] bitmapByte = baos.toByteArray();
-                    intent.putExtra("picture_data", bitmapByte);
-                    intent.putExtra("picture_name", editText.getText().toString());
-                    requireActivity().setResult(RESULT_OK, intent);
-                    requireActivity().finish();
+                    String faceName = editText.getText().toString() + ".jpg";
+                    String filePathName = CACHE_SEARCH_FACE_DIR + faceName;
+                    // 一定要用SDK API 进行添加删除，不要直接File 接口文件添加删除，不然无法同步人脸SDK中特征值的更新
+                    FaceSearchImagesManger.Companion.getInstance(requireActivity().getApplication()).insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(requireContext(), "录入成功", Toast.LENGTH_SHORT).show();
+                            requireActivity().finish();
+                        }
+
+                        @Override
+                        public void onFailed(@NotNull String msg) {
+                            Toast.makeText(requireContext(), "人脸图入库失败：：" + msg, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 }
             } else {
                 Toast.makeText(requireContext(), "Input FaceID Name", Toast.LENGTH_SHORT).show();
