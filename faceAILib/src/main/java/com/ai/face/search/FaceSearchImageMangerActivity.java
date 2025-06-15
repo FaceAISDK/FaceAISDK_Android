@@ -2,6 +2,7 @@ package com.ai.face.search;
 
 import static com.ai.face.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.addFaceImage.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
+
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -11,12 +12,14 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.ai.face.R;
 import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraActivity;
 import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraFragment;
@@ -27,7 +30,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.lzf.easyfloat.EasyFloat;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +47,6 @@ import java.util.Objects;
 public class FaceSearchImageMangerActivity extends AppCompatActivity {
     private final List<ImageBean> faceImageList = new ArrayList<>();
     private FaceImageListAdapter faceImageListAdapter;
-
     public static final int REQUEST_ADD_FACE_IMAGE = 10086;
 
     @Override
@@ -100,26 +104,6 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //去添加一张人脸照片。
-//        if (requestCode == REQUEST_ADD_FACE_IMAGE && resultCode == RESULT_OK) {
-//            byte[] bis = data.getByteArrayExtra("picture_data");
-//            String faceName = data.getStringExtra("picture_name") + ".jpg";
-//            Bitmap bitmap = BitmapFactory.decodeByteArray(bis, 0, bis.length);
-//            String filePathName = CACHE_SEARCH_FACE_DIR + faceName;
-//
-//            FaceSearchImagesManger.Companion.getInstance(getApplication()).insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
-//                @Override
-//                public void onSuccess() {
-//                    loadImageList();
-//                    faceImageListAdapter.notifyDataSetChanged();
-//                }
-//
-//                @Override
-//                public void onFailed(@NotNull String msg) {
-//                    Toast.makeText(getBaseContext(), "人脸图入库失败：：" + msg, Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }
     }
 
     /**
@@ -197,11 +181,12 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();//添加一张
-        if (itemId == R.id.action_add) {
-            Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
-            addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
-            startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
-        } else if (itemId == R.id.action_add_many) {//批量添加很多张测试验证人脸图
+//        if (itemId == R.id.action_add) {
+//            Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
+//            addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
+//            startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
+//        } else
+        if (itemId == R.id.action_add_many) {//批量添加很多张测试验证人脸图
             copyFaceTestImage();
         } else if (itemId == android.R.id.home) {
             finish();

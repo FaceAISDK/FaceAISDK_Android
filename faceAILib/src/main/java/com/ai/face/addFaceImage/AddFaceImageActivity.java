@@ -59,10 +59,8 @@ import java.io.ByteArrayOutputStream;
 public class AddFaceImageActivity extends AppCompatActivity {
     public static String ADD_FACE_IMAGE_TYPE_KEY = "ADD_FACE_IMAGE_TYPE_KEY";
     private TextView tipsTextView, secondTips;
-
     private BaseImageDispose baseImageDispose;
     private String faceID, addFaceImageType;
-
     //如果启用活体检测，根据自身情况完善业务逻辑
     private boolean isRealFace = true;
 
@@ -75,12 +73,9 @@ public class AddFaceImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_face_image);
-
         tipsTextView = findViewById(R.id.tips_view);
         secondTips = findViewById(R.id.second_tips_view);
-
         findViewById(R.id.back).setOnClickListener(v -> this.finish());
-
         addFaceImageType = getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
         faceID = getIntent().getStringExtra(USER_FACE_ID_KEY);
 
@@ -89,17 +84,11 @@ public class AddFaceImageActivity extends AppCompatActivity {
          * 2 PERFORMANCE_MODE_ACCURATE 精确模式 人脸要正对摄像头，严格要求
          * 1 PERFORMANCE_MODE_FAST 快速模式 允许人脸方位可以有一定的偏移
          * 0 PERFORMANCE_MODE_EASY 简单模式 允许人脸方位可以「较大」的偏移
-         *
          */
         baseImageDispose = new BaseImageDispose(this, 2, new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap, float silentLiveValue) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showConfirmDialog(bitmap, silentLiveValue);
-                    }
-                });
+                runOnUiThread(() -> showConfirmDialog(bitmap, silentLiveValue));
             }
 
             @Override
@@ -186,13 +175,11 @@ public class AddFaceImageActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         baseImageDispose.release();
     }
-
 
     /**
      * 确认是否保存人脸底图
@@ -216,7 +203,6 @@ public class AddFaceImageActivity extends AppCompatActivity {
             realManTips.setVisibility(View.INVISIBLE);
         }
         basePreView.setImageBitmap(bitmap);
-
         Button btnOK = dialogView.findViewById(R.id.btn_ok);
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
         EditText editText = dialogView.findViewById(R.id.edit_text);
@@ -224,7 +210,6 @@ public class AddFaceImageActivity extends AppCompatActivity {
         editText.setText(faceID);
         btnOK.setOnClickListener(v -> {
             faceID = editText.getText().toString();
-
             if (!TextUtils.isEmpty(faceID)) {
                 if (addFaceImageType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
                     Toast.makeText(getBaseContext(), "Add 1:1 Face Image Finish", Toast.LENGTH_SHORT).show();
@@ -235,7 +220,6 @@ public class AddFaceImageActivity extends AppCompatActivity {
                 } else {
                     //1:N ，M：N 人脸搜索保存人脸
                     dialog.dismiss();
-
                     String faceName = editText.getText().toString() + ".jpg";
                     String filePathName = CACHE_SEARCH_FACE_DIR + faceName;
                     // 一定要用SDK API 进行添加删除，不要直接File 接口文件添加删除，不然无法同步人脸SDK中特征值的更新
