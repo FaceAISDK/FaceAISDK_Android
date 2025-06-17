@@ -9,19 +9,15 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.ai.face.FaceAISettingsActivity
 import com.ai.face.R
-import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraActivity
-import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraFragment
-import com.ai.face.addFaceImage.AddFaceImageActivity
 import com.ai.face.databinding.ActivityFaceSearchNaviBinding
 import com.ai.face.search.CopyFaceImageUtils.Companion.copyTestFaceImage
 import com.ai.face.search.CopyFaceImageUtils.Companion.showAppFloat
 import com.ai.face.search.uvcCameraSearch.FaceSearchUVCCameraActivity
-import com.ai.face.verify.FaceVerifyWelcomeActivity
 import com.lzf.easyfloat.EasyFloat
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
+import androidx.core.content.edit
 
 /**
  * 人脸识别搜索 演示导航Navi，目前支持千张图片秒级搜索
@@ -92,14 +88,14 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         binding.switchCamera.setOnClickListener {
             val sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE)
             if (sharedPref.getInt("cameraFlag", 1) == 1) {
-                sharedPref.edit().putInt("cameraFlag", 0).commit()
+                sharedPref.edit(commit = true) { putInt("cameraFlag", 0) }
                 Toast.makeText(
                     baseContext,
                     "Front camera now",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                sharedPref.edit().putInt("cameraFlag", 1).commit()
+                sharedPref.edit(commit = true) { putInt("cameraFlag", 1) }
                 Toast.makeText(
                     baseContext,
                     "Back/USB Camera",
@@ -149,7 +145,12 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             dialog.setCanceledOnTouchOutside(false)
             dialog.show()
 
-            sharedPref.edit().putLong("showUVCCameraDialog", System.currentTimeMillis()).commit()
+            sharedPref.edit(commit = true) {
+                putLong(
+                    "showUVCCameraDialog",
+                    System.currentTimeMillis()
+                )
+            }
         }
 
     }
@@ -162,6 +163,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
     private fun checkNeededPermission() {
         val perms = arrayOf(Manifest.permission.CAMERA)
         if (EasyPermissions.hasPermissions(this, *perms)) {
+
         } else {
             EasyPermissions.requestPermissions(
                 this,
