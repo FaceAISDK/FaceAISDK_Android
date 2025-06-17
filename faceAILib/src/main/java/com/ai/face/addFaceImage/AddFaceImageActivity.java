@@ -75,11 +75,11 @@ public class AddFaceImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_face_image);
-        findViewById(R.id.back).setOnClickListener(v -> this.finish());
+        findViewById(R.id.back)
+                .setOnClickListener(v -> finishFaceVerify(0,"用户取消"));
 
         tipsTextView = findViewById(R.id.tips_view);
         secondTips = findViewById(R.id.second_tips_view);
-
         addFaceImageType = getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
         faceID = getIntent().getStringExtra(USER_FACE_ID_KEY);
 
@@ -93,12 +93,7 @@ public class AddFaceImageActivity extends AppCompatActivity {
         baseImageDispose = new BaseImageDispose(this, 2, new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap, float silentLiveValue) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showConfirmDialog(bitmap, silentLiveValue);
-                    }
-                });
+                runOnUiThread(() -> showConfirmDialog(bitmap, silentLiveValue));
             }
 
             @Override
@@ -194,13 +189,24 @@ public class AddFaceImageActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         // 这样写是为了明确给UTS 插件信息
-        Intent intent = new Intent()
-                .putExtra("code",0 )
-                .putExtra("faceID",faceID)
-                .putExtra("msg", "用户取消");
+        finishFaceVerify(0,"用户取消") ;
+    }
+
+
+    /**
+     * 识别结束返回结果, 为了给uniApp UTS插件统一的交互返回格式
+     *
+     * @param code
+     * @param msg
+     */
+    private void finishFaceVerify(int code,String msg) {
+        Intent intent = new Intent().putExtra("code", code)
+                .putExtra("faceID", faceID)
+                .putExtra("msg", msg);
         setResult(RESULT_OK, intent);
         finish();
     }
+
 
     /**
      * 确认是否保存人脸底图
@@ -243,12 +249,7 @@ public class AddFaceImageActivity extends AppCompatActivity {
                     baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, faceID, 300);
                     dialog.dismiss();
                     //这样写是为了明确给UTS 插件信息
-                    Intent intent = new Intent()
-                            .putExtra("code",1)
-                            .putExtra("faceID",faceID)
-                            .putExtra("msg", "人脸添加成功");
-                    setResult(RESULT_OK, intent);
-                    finish();
+                    finishFaceVerify(1,"人脸添加成功");
                 } else {
                     //1:N ，M：N 人脸搜索保存人脸
                     String faceName = editText.getText().toString() + ".jpg";
@@ -257,15 +258,12 @@ public class AddFaceImageActivity extends AppCompatActivity {
                     FaceSearchImagesManger.Companion.getInstance(getApplication()).insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
                         @Override
                         public void onSuccess() {
-                            Toast.makeText(getBaseContext(), "录入成功", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent();
-                            setResult(RESULT_OK, intent);
-                            finish();
+                            finishFaceVerify(1,"人脸添加成功");
                         }
                         @Override
                         public void onFailed(@NotNull String msg) {
                             Toast.makeText(getBaseContext(), "人脸图入库失败：：" + msg, Toast.LENGTH_SHORT).show();
-                            finish();
+                            finishFaceVerify(-1,"人脸添加失败");
                         }
                     });
                 }
