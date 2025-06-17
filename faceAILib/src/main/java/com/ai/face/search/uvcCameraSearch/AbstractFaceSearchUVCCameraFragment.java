@@ -32,19 +32,15 @@ import com.serenegiant.usb.UVCCamera;
  */
 public abstract class AbstractFaceSearchUVCCameraFragment extends Fragment {
     private static final String TAG = AbstractFaceSearchUVCCameraFragment.class.getSimpleName();
-
     public FragmentFaceSearchUvcCameraBinding binding;
-
     private final UsbCameraManager rgbCameraManager = new UsbCameraManager();//RBG camera
     private final UsbCameraManager irCameraManager = new UsbCameraManager(); //近红外摄像头
-
 
     abstract void initFaceSearchParam();
 
     abstract void showFaceSearchPrecessTips(int code);
 
     abstract void faceVerifySetBitmap(Bitmap bitmap, FaceVerifyUtils.BitmapType type);
-
 
     public AbstractFaceSearchUVCCameraFragment() {
     }

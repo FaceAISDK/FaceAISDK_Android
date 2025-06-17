@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
+    android:layout_marginLeft="@dimen/dp_10"
+    android:layout_marginRight="@dimen/dp_10"
     android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
@@ -17,13 +19,21 @@
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:background="@color/white"
                 android:gravity="center"
-                android:text="保存此人脸图 ？"
+                android:text="确认保存此人脸图 ？"
                 android:textColor="@color/face_lib_main_color"
                 android:textStyle="bold"
                 android:textSize="17sp" />
+
+            <ImageView
+                android:id="@+id/preview"
+                android:layout_gravity="center"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_width="123dp"
+                android:layout_height="123dp"/>
 
             <TextView
                 android:id="@+id/textView2"
@@ -33,34 +43,23 @@
                 android:gravity="center"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:text="确保镜头整洁干净，录入无墨镜/口罩/帽子正脸图"
+                android:text="确保人脸清晰，无遮挡正脸图"
                 android:textColor="@color/face_lib_main_color"
                 android:textSize="11sp" />
-
-
-            <ImageView
-                android:id="@+id/preview"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="20dp"
-                android:layout_width="155dp"
-                android:layout_height="155dp"/>
-
 
             <EditText
                 android:id="@+id/edit_text"
                 android:layout_width="234dp"
                 android:layout_height="wrap_content"
                 android:hint="请输入Face ID"
+                android:textColorHint="@color/face_lib_main_color"
                 android:layout_gravity="center"
                 android:theme="@style/MyEditText"
-                android:layout_marginBottom="1dp"
-                android:textColorHint="@color/face_lib_main_color"
-                android:textColor="@color/green"
+                android:textColor="@color/face_lib_main_color"
+                android:paddingLeft="9dp"
                 android:focusable="true"
                 android:singleLine="true"
-                android:focusableInTouchMode="true"
-                />
+                android:focusableInTouchMode="true" />
 
             <TextView
                 android:id="@+id/realManTips"
@@ -68,25 +67,25 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="center"
-                android:layout_marginBottom="12dp"
                 android:text="@string/not_real_face_for_debug"
                 android:textColor="@color/red"
                 android:textStyle="bold"
                 android:visibility="invisible"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="9dp"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
+                android:paddingLeft="22dp"
+                android:paddingRight="22dp">
 
                 <Button
                     android:id="@+id/btn_cancel"
                     android:layout_width="0dp"
-                    android:layout_height="42dp"
+                    android:layout_height="40dp"
                     android:layout_marginEnd="15dp"
                     android:layout_weight="1"
                     android:background="@color/blue_sky"
@@ -97,7 +96,7 @@
                 <Button
                     android:id="@+id/btn_ok"
                     android:layout_width="0dp"
-                    android:layout_height="42dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:layout_marginStart="15dp"
                     android:background="@color/face_lib_main_color"

@@ -42,7 +42,6 @@ import java.util.List;
  * 更多UVC 摄像头使用参考 https://blog.csdn.net/hanshiying007/article/details/124118486
  */
 public class FaceSearchUVCCameraFragment extends AbstractFaceSearchUVCCameraFragment {
-
     private final float silentLivenessThreshold = 0.85f;
 
     public FaceSearchUVCCameraFragment() {
@@ -56,13 +55,11 @@ public class FaceSearchUVCCameraFragment extends AbstractFaceSearchUVCCameraFrag
         BrightnessUtil.setBrightness(requireActivity(), 1.0f);  //高亮白色背景屏幕光可以当补光灯
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         FaceSearchEngine.Companion.getInstance().stopSearchProcess();
     }
-
 
     /**
      * 请断点调试保证bitmap 的方向正确； RGB和IR Bitmap大小相同，画面同步
@@ -74,7 +71,7 @@ public class FaceSearchUVCCameraFragment extends AbstractFaceSearchUVCCameraFrag
     private boolean rgbReady = false, irReady = false;
 
     /**
-     *
+     * 初始化人脸搜索参赛设置
      */
     @Override
     void initFaceSearchParam() {
@@ -124,7 +121,6 @@ public class FaceSearchUVCCameraFragment extends AbstractFaceSearchUVCCameraFrag
 
         //3.初始化引擎，是个耗时耗资源操作
         FaceSearchEngine.Companion.getInstance().initSearchParams(faceProcessBuilder);
-
     }
 
 
@@ -183,7 +179,6 @@ public class FaceSearchUVCCameraFragment extends AbstractFaceSearchUVCCameraFrag
                 binding.tipsView.setText(R.string.no_matched_face);
                 binding.searchResult.setImageResource(R.drawable.face_logo);
                 break;
-
         }
     }
 
@@ -207,7 +202,6 @@ public class FaceSearchUVCCameraFragment extends AbstractFaceSearchUVCCameraFrag
                 scaleY = (float) binding.rgbCameraTextureView.getHeight() / max;
             }
         }
-
     }
 
 
@@ -227,16 +221,12 @@ public class FaceSearchUVCCameraFragment extends AbstractFaceSearchUVCCameraFrag
         }
 
         if (irReady && rgbReady) {
-
             getScaleValue();
             //送数据进入SDK
             FaceSearchEngine.Companion.getInstance().runSearchWithIR(irBitmap, rgbBitmap);
-
             irReady = false;
             rgbReady = false;
         }
-
     }
-
 
 }

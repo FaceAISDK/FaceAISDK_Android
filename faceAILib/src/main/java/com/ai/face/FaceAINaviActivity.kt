@@ -38,6 +38,7 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
         //语音提示
         VoicePlayer.getInstance().init(this)
 
+
         //分享
         viewBinding.shareLayout.setOnClickListener {
             val intent = Intent()

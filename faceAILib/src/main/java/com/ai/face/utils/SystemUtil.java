@@ -9,7 +9,7 @@ import java.security.MessageDigest;
 import java.util.Locale;
 
 /**
- * 系统工具类
+ * 系统工具类，授权的时候采集数据
  *
  */
 public class SystemUtil {

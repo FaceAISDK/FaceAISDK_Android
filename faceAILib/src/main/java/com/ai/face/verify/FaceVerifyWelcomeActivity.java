@@ -40,8 +40,7 @@ import java.util.Objects;
 
 /**
  * 1:1 人脸识别引导说明页面,支持传统的HAL 接口的Android Camera API 摄像头 和 UVC 协议摄像头
- * <p>
- * <p>
+ *
  * 包含怎么添加人脸照片，人脸活体检测，人脸识别
  */
 public class FaceVerifyWelcomeActivity extends AppCompatActivity {

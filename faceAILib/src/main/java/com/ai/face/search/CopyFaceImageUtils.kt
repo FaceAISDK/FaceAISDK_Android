@@ -116,7 +116,6 @@ class CopyFaceImageUtils {
                                                 "Add Face onFailed：  " + faceFiles[index]
                                             );
                                         }
-
                                     }
                                 )
                         } else {

@@ -11,9 +11,9 @@ Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition �
 
 保护伞FaceAI SDK是设备端可离线不联网Android 人脸识别、动作及近红外IR活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别，人脸搜索功能。
 
-**Android：** https://github.com/AnyLifeZLB/FaceVerificationSDK  
 **iOS SDK：** https://github.com/AnyLifeZLB/FaceAISDK_iOS  
-**Uni App：**  https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK
+**Uni App：** https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK
+**Android：** https://github.com/AnyLifeZLB/FaceVerificationSDK
 
 
 <div align=center>

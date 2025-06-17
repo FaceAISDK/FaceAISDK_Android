@@ -208,5 +208,4 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         FaceSearchEngine.Companion.getInstance().stopSearchProcess();
     }
 
-
 }

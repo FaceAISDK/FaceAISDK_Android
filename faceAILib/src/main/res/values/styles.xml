@@ -37,7 +37,7 @@
     <!--colorControlNormal 为没有获取焦点时候下划线的颜色-->
     <!--colorControlActivated 为获取焦点时候光标与下划线的颜色-->
     <style name="MyEditText" parent="Theme.AppCompat.Light">
-        <item name="colorControlNormal">@color/blue_sky</item>
+        <item name="colorControlNormal">@color/face_lib_main_color</item>
         <item name="colorControlActivated">@color/green</item>
     </style>
 

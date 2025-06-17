@@ -10,6 +10,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 播报提示语音,播放自己录制的语音文件
+ * 仅供参考，建议用户自己玩耍
+ *
  */
 public class VoicePlayer {
     private MediaPlayer mMediaPlayer;

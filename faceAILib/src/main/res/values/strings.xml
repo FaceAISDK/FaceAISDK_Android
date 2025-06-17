@@ -32,7 +32,7 @@
     <string name="far_away_tips">Please far away screen</string>
     <string name="align_face_error_tips">Align face error</string>
     <string name="not_real_face">Not real human face</string>
-    <string name="not_real_face_for_debug">Not real human face</string>
+    <string name="not_real_face_for_debug">Not real human face </string>
     <string name="add_a_face_image">Add a face image </string>
 
     <!--1:N 人脸搜索 face search-->

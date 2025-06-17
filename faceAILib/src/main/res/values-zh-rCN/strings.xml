@@ -32,7 +32,7 @@
     <string name="far_away_tips">请远离屏幕一点</string>
     <string name="align_face_error_tips">图像校准失败</string>
     <string name="not_real_face">人脸攻击，非真人</string>
-    <string name="not_real_face_for_debug">人脸攻击，非真人</string>
+    <string name="not_real_face_for_debug">人脸攻击，非真人 </string>
     <string name="add_a_face_image">录入人脸照片</string>
 
     <!--1:N 人脸搜索 face search-->
@@ -41,7 +41,7 @@
     <string name="no_base_face_bitmap">没有录入人脸底片</string>
 
     <!--1:1 人脸识别 face verify-->
-    <string name="face_verify_failed">1:1 人脸识别不通过，请重试！</string>
+    <string name="face_verify_failed">人脸识别不通过，相似度低于设置阈值，请重试！</string>
     <string name="silent_anti_spoofing_error">静默活体得分过低</string>
 
     <!--Motion liveness detection-->

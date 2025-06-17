@@ -10,8 +10,7 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_camerax"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        customAttr:circle_margin="15dp" />
+        android:layout_height="match_parent" />
 
     <!-- 可以替换成你自己的UI样式 -->
     <com.ai.face.base.view.FaceCoverView
@@ -21,7 +20,7 @@
         customAttr:tip_text_size="20sp"
         customAttr:show_progress="true"
         customAttr:tip_text_color="@color/face_lib_main_color"
-        customAttr:circle_margin="15dp" />
+        customAttr:circle_margin="25dp" />
 
     <TextView
         android:id="@+id/tips_view"
@@ -30,9 +29,9 @@
         android:layout_marginTop="88dp"
         android:background="@color/blue"
         android:gravity="center_horizontal"
-        android:paddingLeft="18dp"
+        android:paddingLeft="12dp"
         android:paddingTop="5dp"
-        android:paddingRight="18dp"
+        android:paddingRight="12dp"
         android:paddingBottom="5dp"
         android:layout_centerHorizontal="true"
         android:text="请正对摄像头"
@@ -68,8 +67,9 @@
         android:textSize="15sp"
         android:gravity="center_vertical"
         android:textColor="@color/green"
-        android:text="Add Face Image"
+        android:text="人脸录入"
         android:textStyle="bold"
+        android:visibility="invisible"
         android:layout_alignTop="@+id/back"
         />
 

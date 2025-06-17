@@ -1,5 +1,6 @@
 package com.ai.face.addFaceImage;
 
+import static android.view.View.GONE;
 import static com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR;
 import static com.ai.face.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.base.baseImage.BaseImageCallBack.AlIGN_FAILED;
@@ -59,7 +60,6 @@ import java.io.ByteArrayOutputStream;
 public class AddFaceImageActivity extends AppCompatActivity {
     public static String ADD_FACE_IMAGE_TYPE_KEY = "ADD_FACE_IMAGE_TYPE_KEY";
     private TextView tipsTextView, secondTips;
-
     private BaseImageDispose baseImageDispose;
     private String faceID, addFaceImageType;
 
@@ -75,11 +75,10 @@ public class AddFaceImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_face_image);
+        findViewById(R.id.back).setOnClickListener(v -> this.finish());
 
         tipsTextView = findViewById(R.id.tips_view);
         secondTips = findViewById(R.id.second_tips_view);
-
-        findViewById(R.id.back).setOnClickListener(v -> this.finish());
 
         addFaceImageType = getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
         faceID = getIntent().getStringExtra(USER_FACE_ID_KEY);
@@ -111,7 +110,6 @@ public class AddFaceImageActivity extends AppCompatActivity {
         });
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
-
         int cameraLensFacing = sharedPref.getInt("cameraFlag", 0);
         int degree = sharedPref.getInt("cameraDegree", getWindowManager().getDefaultDisplay().getRotation());
 
@@ -124,7 +122,6 @@ public class AddFaceImageActivity extends AppCompatActivity {
                 .create();
 
         CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
-
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy, 10, false));
         });
@@ -193,6 +190,17 @@ public class AddFaceImageActivity extends AppCompatActivity {
         baseImageDispose.release();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // 这样写是为了明确给UTS 插件信息
+        Intent intent = new Intent()
+                .putExtra("code",0 )
+                .putExtra("faceID",faceID)
+                .putExtra("msg", "用户取消");
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 
     /**
      * 确认是否保存人脸底图
@@ -211,9 +219,9 @@ public class AddFaceImageActivity extends AppCompatActivity {
 
         if (!isRealFace) {
             realManTips.setVisibility(View.VISIBLE);
-            realManTips.setText(getString(R.string.not_real_face_for_debug) + "(Value:" + silentLiveValue + ")");
+            realManTips.setText(getString(R.string.not_real_face_for_debug) + silentLiveValue );
         } else {
-            realManTips.setVisibility(View.INVISIBLE);
+            realManTips.setVisibility(GONE);
         }
         basePreView.setImageBitmap(bitmap);
 
@@ -222,20 +230,27 @@ public class AddFaceImageActivity extends AppCompatActivity {
         EditText editText = dialogView.findViewById(R.id.edit_text);
         editText.requestFocus();
         editText.setText(faceID);
+        if (addFaceImageType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
+            editText.setVisibility(GONE);
+        }
         btnOK.setOnClickListener(v -> {
             faceID = editText.getText().toString();
 
             if (!TextUtils.isEmpty(faceID)) {
                 if (addFaceImageType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
-                    Toast.makeText(getBaseContext(), "Add 1:1 Face Image Finish", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "录入成功", Toast.LENGTH_SHORT).show();
                     //1:1 人脸识别保存人脸底图
                     baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, faceID, 300);
                     dialog.dismiss();
+                    //这样写是为了明确给UTS 插件信息
+                    Intent intent = new Intent()
+                            .putExtra("code",1)
+                            .putExtra("faceID",faceID)
+                            .putExtra("msg", "人脸添加成功");
+                    setResult(RESULT_OK, intent);
                     finish();
                 } else {
                     //1:N ，M：N 人脸搜索保存人脸
-                    dialog.dismiss();
-
                     String faceName = editText.getText().toString() + ".jpg";
                     String filePathName = CACHE_SEARCH_FACE_DIR + faceName;
                     // 一定要用SDK API 进行添加删除，不要直接File 接口文件添加删除，不然无法同步人脸SDK中特征值的更新
@@ -243,15 +258,16 @@ public class AddFaceImageActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess() {
                             Toast.makeText(getBaseContext(), "录入成功", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent();
+                            setResult(RESULT_OK, intent);
                             finish();
                         }
-
                         @Override
                         public void onFailed(@NotNull String msg) {
                             Toast.makeText(getBaseContext(), "人脸图入库失败：：" + msg, Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     });
-
                 }
             } else {
                 Toast.makeText(getBaseContext(), "Input FaceID Name", Toast.LENGTH_SHORT).show();

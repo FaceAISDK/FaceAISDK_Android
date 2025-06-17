@@ -42,7 +42,6 @@ public class FaceSearchGraphicOverlay extends View {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         } else {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//            super.onMeasure(heightMeasureSpec, widthMeasureSpec);
         }
     }
 

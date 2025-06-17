@@ -3,6 +3,8 @@ package com.example.mainapp;
 import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.ai.face.FaceAIConfig;
 import com.airbnb.lottie.LottieAnimationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +26,18 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+        //人脸图保存路径等初始化配置
+        FaceAIConfig.init(this);
+
+
+        setWelcomeAnimal();
+    }
+
+
+    /**
+     * 设置欢迎动画
+     */
+    private void setWelcomeAnimal(){
         findViewById(R.id.goFaceAILib).setOnClickListener(view ->
                 startActivity(new Intent(WelcomeActivity.this, FaceAINaviActivity.class)));
 
@@ -58,7 +72,7 @@ public class WelcomeActivity extends AppCompatActivity {
         if (!BuildConfig.DEBUG) {
             CrashReport.initCrashReport(this, "36fade54d8", true);
         }
-
     }
+
 
 }

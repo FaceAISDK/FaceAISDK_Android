@@ -11,9 +11,9 @@ Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition �
 
 保护伞FaceAI SDK是设备端可离线不联网Android 人脸识别、动作及近红外IR活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别，人脸搜索功能。
 
-**Android：** https://github.com/AnyLifeZLB/FaceVerificationSDK  
 **iOS SDK：** https://github.com/AnyLifeZLB/FaceAISDK_iOS  
-**Uni App：**  https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK
+**Uni App：** https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK
+**Android：** https://github.com/AnyLifeZLB/FaceVerificationSDK
 
 
 <div align=center>
@@ -48,7 +48,6 @@ SDK支持Android(5，15]，建议设备配置 CPU为八核64位2.4GHz以上  摄
 **SDK 工作原理简介**
 FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等参数，从系统相机、USB外接摄像头设备甚至RTSP视频流获取连续连续图像帧转为Bitmap后
 送入SDK引擎，同时监听处理SDK返回的各种错误提示和结果。你可以自定义管理视频图像来源，SDK已经演示了系统相机CameraX，USB设备，RTSP流处理。
-
 
 
 ## [使用场景和区别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/Introduce_11_1N_MN.md)
@@ -123,7 +122,6 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 2.  录入高质量的人脸图，可参考（images/face\_example.jpg）
 3.  光线环境好否则加补光灯，人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
 4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
-
 
 ## 常见问题
 常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/questions.md  

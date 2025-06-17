@@ -42,7 +42,6 @@ import java.util.Objects;
 public class FaceSearchImageMangerActivity extends AppCompatActivity {
     private final List<ImageBean> faceImageList = new ArrayList<>();
     private FaceImageListAdapter faceImageListAdapter;
-
     public static final int REQUEST_ADD_FACE_IMAGE = 10086;
 
     @Override

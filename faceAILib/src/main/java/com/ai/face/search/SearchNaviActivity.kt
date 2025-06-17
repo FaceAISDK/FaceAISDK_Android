@@ -24,8 +24,10 @@ import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 
 /**
- * 人脸识别搜索 演示导航Navi，目前支持千张图片1秒级搜索，后续聚焦降低App体积和精确度
+ * 人脸识别搜索 演示导航Navi，目前支持千张图片秒级搜索
  * 测试验证人脸库图片位于/assert 目录，更多的人脸图片请使用Ai 生成
+ *
+ * 使用的宽动态（人脸搜索必须大于110DB）高清抗逆光摄像头；保持镜头干净（用纯棉布擦拭油污）
  *
  */
 class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
