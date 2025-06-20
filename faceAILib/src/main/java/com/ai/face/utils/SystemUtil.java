@@ -1,12 +1,11 @@
 package com.ai.face.utils;
 
-
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-
 import java.security.MessageDigest;
 import java.util.Locale;
+import com.ai.face.utils.Base64BitmapUtil;
 
 /**
  * 系统工具类，授权的时候采集数据
@@ -69,8 +68,5 @@ public class SystemUtil {
         }
         return null;
     }
-
-
-
 
 }

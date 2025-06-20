@@ -1,7 +1,6 @@
 package com.ai.face.verify;
 
 import static com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,11 +12,9 @@ import android.os.Looper;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.ai.face.R;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.view.CameraXFragment;
@@ -37,9 +34,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo 代码. 正式接入集成需要你根据业务完善
+ * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo 代码. 正式接入集成需要你根据你的业务完善
  * <p>
- * 移动考勤签到、App免密登录、刷脸授权、刷脸解锁
+ * 移动考勤签到、App免密登录、刷脸授权、刷脸解锁。请熟悉Demo主流程后根据你的业务情况再改造
  */
 public class FaceVerificationActivity extends AppCompatActivity {
     public static final String USER_FACE_ID_KEY = "USER_FACE_ID_KEY";   //1:1 face verify ID KEY
@@ -100,29 +97,33 @@ public class FaceVerificationActivity extends AppCompatActivity {
             //3.初始化引擎，各种参数配置
             initFaceVerificationParam(baseBitmap);
         } else {
-            //模拟从网络等地方获取对应的人脸图，Demo 简化从Asset 目录读取
-            Bitmap remoteBitmap = VerifyUtils.getBitmapFromAssert(this, "0a_模拟证件照.jpeg");
-            if (remoteBitmap == null) {
-                Toast.makeText(getBaseContext(), R.string.add_a_face_image, Toast.LENGTH_LONG).show();
-                tipsTextView.setText(R.string.add_a_face_image);
-                return;
+            Toast.makeText(getBaseContext(), R.string.add_a_face_image, Toast.LENGTH_LONG).show();
+            //为了演示方便放这里，实际应该在启动人脸识别前处理好
+            if(VerifyUtils.isDebugMode(getBaseContext())){
+                //模拟从你的业务服务器获取对应的人脸图，Demo简化从Asset目录读取。请熟悉Demo主流程后根据你的业务情况再改造
+                Bitmap remoteBitmap = VerifyUtils.getBitmapFromAssert(this, "0a_模拟证件照.jpeg");
+                if (remoteBitmap == null) {
+                    Toast.makeText(getBaseContext(), R.string.add_a_face_image, Toast.LENGTH_LONG).show();
+                    tipsTextView.setText(R.string.add_a_face_image);
+                    return;
+                }
+
+                //其他地方同步过来的人脸可能是不规范的没有经过校准的人脸图（证件照，多人脸，过小等）。disposeBaseFaceImage处理
+                FaceAIUtils.Companion.getInstance(getApplication())
+                        .disposeBaseFaceImage(remoteBitmap, faceFilePath, new FaceAIUtils.Callback() {
+                            //处理优化人脸成功完成去初始化引擎
+                            @Override
+                            public void onSuccess(@NonNull Bitmap disposedBitmap) {
+                                initFaceVerificationParam(disposedBitmap);
+                            }
+
+                            //底片处理异常的信息回调
+                            @Override
+                            public void onFailed(@NotNull String msg, int errorCode) {
+                                Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+                            }
+                        });
             }
-
-            //其他地方同步过来的人脸可能是不规范的没有经过校准的人脸图（证件照，多人脸，过小等）。disposeBaseFaceImage处理
-            FaceAIUtils.Companion.getInstance(getApplication())
-                    .disposeBaseFaceImage(remoteBitmap, faceFilePath, new FaceAIUtils.Callback() {
-                        //处理优化人脸成功完成去初始化引擎
-                        @Override
-                        public void onSuccess(@NonNull Bitmap disposedBitmap) {
-                            initFaceVerificationParam(disposedBitmap);
-                        }
-
-                        //底片处理异常的信息回调
-                        @Override
-                        public void onFailed(@NotNull String msg, int errorCode) {
-                            Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
-                        }
-                    });
         }
     }
 
@@ -141,7 +142,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.98]
 //                .setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑 或其他某一种
-                .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
+                .setMotionLivenessStepSize(2)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(12)  //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
                 .setCompareDurationTime(3000)  //动作活体检测通过后人脸对比时间毫秒 ，[3000,5000] 秒
                 //建议老的低配设备减少活体检测步骤，加长活体检测 人脸对比时间。

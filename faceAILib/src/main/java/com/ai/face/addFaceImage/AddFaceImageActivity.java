@@ -16,24 +16,20 @@ import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_UP;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.TILT_HEAD;
 import static com.ai.face.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Surface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.ai.face.R;
 import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
@@ -41,11 +37,7 @@ import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceSearch.search.FaceSearchImagesManger;
-
 import org.jetbrains.annotations.NotNull;
-
-import java.io.ByteArrayOutputStream;
-
 /**
  * 添加一张规范的人脸图并裁剪为SDK需要的正方形，1:1 和1:N 公共的添加人脸图
  * 注意保存的方式有点差异。
