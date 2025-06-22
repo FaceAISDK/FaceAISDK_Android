@@ -228,7 +228,8 @@ public class AddFaceImageActivity extends AppCompatActivity {
         EditText editText = dialogView.findViewById(R.id.edit_text);
         editText.requestFocus();
         editText.setText(faceID);
-        if (addFaceImageType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
+        if (addFaceImageType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())
+                &&!TextUtils.isEmpty(faceID)) {
             editText.setVisibility(GONE);
         }
         btnOK.setOnClickListener(v -> {

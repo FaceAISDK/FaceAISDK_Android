@@ -7,10 +7,10 @@ plugins {
 android {
     namespace 'com.ai.face'
 
-    compileSdk 33
+    compileSdk 34
     defaultConfig {
         minSdk 21
-        targetSdk 33 //target SDK 还是28 的请参考question.md 文档说明
+        targetSdk 34 //target SDK 还是28 的请参考question.md 文档说明
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -43,7 +43,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     //SDK主页介绍：https://github.com/AnyLifeZLB/FaceVerificationSDK
-    implementation 'io.github.anylifezlb:FaceAISDK:1.9.9.16kb1'
+    implementation 'io.github.anylifezlb:FaceAISDK:1.10.0'
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
