@@ -1,14 +1,24 @@
 package com.ai.face.search;
 
 import static com.ai.face.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.*;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_SIZE_FIT;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_TOO_LARGE;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_TOO_SMALL;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.MASK_DETECTION;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_LIVE_FACE;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_MATCHED;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCHING;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.Surface;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,9 +32,7 @@ import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.ai.face.utils.VoicePlayer;
 
 import java.util.List;
 
@@ -89,24 +97,22 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setImageFlipped(cameraXFragment.getCameraLensFacing() == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {
+
+                    // 得分最高的搜索结果
+                    @Override
+                    public void onMostSimilar(String faceID, float score, Bitmap bitmap) {
+                        Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
+                        new ImageToast().show(getApplicationContext(), mostSimilarBmp, faceID.replace(".jpg"," ")+score);
+                        VoicePlayer.getInstance().play(R.raw.success);
+                        binding.graphicOverlay.clearRect();
+                    }
+
                     /**
                      * 匹配到的大于 Threshold的所有结果，如有多个很相似的人场景允许的话可以弹框让用户选择
                      */
                     @Override
                     public void onFaceMatched(List<FaceSearchResult> result, Bitmap contextBitmap) {
                         binding.graphicOverlay.drawRect(result, cameraXFragment);
-                    }
-
-                    // 得分最高的搜索结果
-                    @Override
-                    public void onMostSimilar(String faceID, float score, Bitmap bitmap) {
-                        Glide.with(getBaseContext())
-                                .load(CACHE_SEARCH_FACE_DIR + faceID)
-                                .skipMemoryCache(false)
-                                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                .transform(new RoundedCorners(12))
-                                .into(binding.searchResult);
-                        binding.searchTips.setText(faceID);
                     }
 
                     @Override
@@ -139,7 +145,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
 
 
     /**
-     * 显示人脸搜索识别提示，根据Code码显示对应的提示
+     * 显示人脸搜索识别提示，根据Code码显示对应的提示,用户根据自己业务处理细节
      *
      * @param code 提示Code码
      */
@@ -148,6 +154,24 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         switch (code) {
             default:
                 binding.searchTips.setText("回调提示：" + code);
+                break;
+
+            case NO_MATCHED:
+                //没有搜索匹配识别到任何人
+                binding.secondSearchTips.setText(R.string.no_matched_face);
+                break;
+
+            case FACE_DIR_EMPTY:
+                //人脸库没有人脸照片，没有使用SDK 插入人脸？
+                binding.searchTips.setText(R.string.face_dir_empty);
+                break;
+
+            case SEARCHING:
+                binding.searchTips.setText(R.string.keep_face_tips);
+                break;
+
+            case NO_LIVE_FACE:
+                binding.searchTips.setText(R.string.no_face_detected_tips);
                 break;
 
             case FACE_TOO_SMALL:
@@ -177,25 +201,10 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 binding.searchTips.setText(R.string.no_mask_please);
                 break;
 
-            case NO_LIVE_FACE:
-                binding.searchTips.setText(R.string.no_face_detected_tips);
-                binding.searchResult.setImageResource(R.drawable.face_logo);
-                break;
-
             case EMGINE_INITING:
-                binding.searchTips.setText(R.string.sdk_init);
+                binding.searchTips.setText(R.string.keep_face_tips);
                 break;
 
-            case FACE_DIR_EMPTY:
-                //人脸库没有人脸照片，没有使用SDK API录入人脸
-                binding.searchTips.setText(R.string.face_dir_empty);
-                break;
-
-            case NO_MATCHED:
-                //本次摄像头预览帧无匹配而已，会快速取下一帧进行分析检索
-                binding.searchTips.setText(R.string.no_matched_face);
-                binding.searchResult.setImageResource(R.drawable.face_logo);
-                break;
         }
     }
 

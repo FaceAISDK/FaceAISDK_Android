@@ -28,6 +28,7 @@
         android:layout_height="match_parent"
         customAttr:circle_margin="12dp"
         customAttr:show_progress="false"
+        customAttr:background_color="@color/half_white"
         customAttr:tip_text_color="@color/face_lib_main_color"
         customAttr:tip_text_size="20sp" />
 
@@ -48,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:textColor="@color/face_lib_main_color"
-        android:textSize="16sp"
+        android:textSize="17sp"
         android:gravity="center"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
@@ -81,11 +82,10 @@
         android:id="@+id/tips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/orange"
+        android:textColor="@color/half_grey"
         android:textSize="14sp"
         android:gravity="center"
-        android:layout_marginBottom="22dp"
-        android:text="点击管理人脸库"
+        android:layout_marginBottom="7dp"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_camerax" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

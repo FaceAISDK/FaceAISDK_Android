@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import com.ai.face.UVCCamera.camera.UsbCameraEnum;
 import com.ai.face.UVCCamera.camera.UsbCameraManager;
 import com.ai.face.base.utils.DataConvertUtils;
-import com.ai.face.databinding.FragmentBinocularCameraBinding;
 import com.ai.face.databinding.FragmentFaceSearchUvcCameraBinding;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.serenegiant.usb.Size;
@@ -28,7 +27,7 @@ import com.serenegiant.usb.UVCCamera;
  *
  * 也可以支持仅仅RGB 的USB 摄像头，「调试的时候USB摄像头一定要固定住屏幕正上方」
  * 更多UVC 摄像头使用参考 https://blog.csdn.net/hanshiying007/article/details/124118486
- * 需要使用IR活体请联系
+ * 演示Demo 默认都不启用红外活体检测
  */
 public abstract class AbstractFaceSearchUVCCameraFragment extends Fragment {
     private static final String TAG = AbstractFaceSearchUVCCameraFragment.class.getSimpleName();
@@ -87,7 +86,7 @@ public abstract class AbstractFaceSearchUVCCameraFragment extends Fragment {
 
         rgbCameraManager.setPreviewHeight(PREVIEW_HEIGHT);
         rgbCameraManager.setFrameCallback(frame -> {
-            //每秒30 帧，这里尽量少的复杂处理逻辑
+
             Size currentPreviewSize = rgbCameraManager.getCurrentPreviewSize();
             int width = PREVIEW_WIDTH;
             int height = PREVIEW_HEIGHT;

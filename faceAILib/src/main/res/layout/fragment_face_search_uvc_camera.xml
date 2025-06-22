@@ -56,11 +56,11 @@
         app:layout_constraintWidth_percent="0.25" />
 
     <TextView
-        android:id="@+id/tips_view"
+        android:id="@+id/search_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="11dp"
         android:background="@color/blue"
         android:gravity="center"
         android:paddingLeft="10dp"
@@ -72,11 +72,11 @@
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_result" />
+        app:layout_constraintTop_toBottomOf="@+id/back" />
 
     <!-- UI 设计仅供参考 -->
     <TextView
-        android:id="@+id/second_tips_view"
+        android:id="@+id/second_search_tips"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
@@ -87,16 +87,15 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tips_view" />
+        app:layout_constraintTop_toBottomOf="@+id/search_tips" />
 
     <TextView
         android:id="@+id/log_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="33dp"
-        android:padding="9dp"
-        android:textColor="@color/red"
-        android:textSize="16sp"
+        android:layout_margin="9dp"
+        android:textColor="@color/half_grey"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
@@ -112,15 +111,5 @@
         android:layout_marginBottom="15dp"
         android:padding="9dp"
         android:src="@drawable/ic_arrow_back_24" />
-
-    <ImageView
-        android:id="@+id/search_result"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
