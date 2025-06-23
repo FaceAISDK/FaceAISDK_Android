@@ -134,6 +134,17 @@
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/binocular_camera_tips_more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginBottom="8dp"
+                android:padding="3dp"
+                android:text="SDK 管理UVC协议摄像头用的是此库：https://github.com/shiyinghan/UVCAndroid 。请自行熟悉调整代码适配你的客制摄像头"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="11sp" />
+
             <LinearLayout
                 android:id="@+id/binocular_camera_search_navi"
                 android:layout_width="match_parent"
@@ -184,9 +195,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="更多参数设置，请自行下载源码手动调节"
+        android:text="更多参数设置，请工程师下载源码手动调节"
         android:textColor="@color/white"
-        android:textSize="13sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         android:padding="5dp"
         android:gravity="center"

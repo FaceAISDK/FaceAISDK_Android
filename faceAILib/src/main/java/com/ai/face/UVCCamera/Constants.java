@@ -7,10 +7,11 @@ package com.ai.face.UVCCamera;
  * 项目中的libs/libuvccamera-release.aar 就是根据此调整部分
  *
  */
+@Deprecated
 public class Constants {
-
-    // 默认的分辨率，请根据你的实际情况分配
-    public static final int PREVIEW_WIDTH = 1280;
-    public static final int PREVIEW_HEIGHT = 960;
+//移动到 FaceAIConfig了
+    // 默认的分辨率，请根据你的摄像头设计情况设置分辨率
+//    public static final int PREVIEW_WIDTH = 1280;
+//    public static final int PREVIEW_HEIGHT = 960;
 
 }

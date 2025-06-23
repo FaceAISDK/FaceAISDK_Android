@@ -1,7 +1,7 @@
 package com.ai.face.search.uvcCameraSearch;
 
-import static com.ai.face.UVCCamera.Constants.PREVIEW_HEIGHT;
-import static com.ai.face.UVCCamera.Constants.PREVIEW_WIDTH;
+import static com.ai.face.FaceAIConfig.PREVIEW_HEIGHT;
+import static com.ai.face.FaceAIConfig.PREVIEW_WIDTH;
 
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;

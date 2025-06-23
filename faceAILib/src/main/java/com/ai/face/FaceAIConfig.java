@@ -11,6 +11,12 @@ import java.io.File;
  */
 public class FaceAIConfig {
 
+    // 配置UVC 协议摄像头默认的分辨率，请参考你的摄像头能支持的分辨率查看
+    // 更多UVC摄像头参考这个库：https://github.com/shiyinghan/UVCAndroid
+    // 项目中的libs/libuvccamera-release.aar 就是这个库打包的，自行熟悉处理不是SDK 的一部分
+    public static final int PREVIEW_WIDTH = 1280;
+    public static final int PREVIEW_HEIGHT = 960;
+
     //不要直接使用File Api 直接往文件目录插入图片，要使用SDK 提供的APi写入数据，图片还需要向量化
     public static String CACHE_BASE_FACE_DIR;   //1：1 人脸识别人脸图片存储目录
     public static String CACHE_SEARCH_FACE_DIR; //1：N 人脸识别搜索人脸图片存储目录
@@ -28,21 +34,23 @@ public class FaceAIConfig {
         CACHE_BASE_FACE_DIR = context.getCacheDir().getPath() + "/faceAIVerify/";    //1:1 人脸识别目录
         CACHE_SEARCH_FACE_DIR = context.getFilesDir().getPath() + "/faceAISearch/";  //人脸搜索人脸库目录
 
-
+        //语音提示播报
         VoicePlayer.getInstance().init(context);
-        
-        
 
-
-        //文件目录提前创建好，操作移动到SDK 内部
-        File file = new File(CACHE_BASE_FACE_DIR);
-        if (!file.exists()) file.mkdirs();
-
-        File searchFile = new File(CACHE_SEARCH_FACE_DIR);
-        if (!searchFile.exists()) file.mkdirs();
+//        //文件目录提前创建好，操作移动到SDK 内部
+//        File file = new File(CACHE_BASE_FACE_DIR);
+//        if (!file.exists()) file.mkdirs();
+//
+//        File searchFile = new File(CACHE_SEARCH_FACE_DIR);
+//        if (!searchFile.exists()) file.mkdirs();
     }
 
 
+    /**
+     * 检测人脸ID是否存在
+     * @param faceID
+     * @return
+     */
     public static boolean isFaceIDExist(String faceID) {
         File file = new File(CACHE_BASE_FACE_DIR + faceID);
         return file.exists();

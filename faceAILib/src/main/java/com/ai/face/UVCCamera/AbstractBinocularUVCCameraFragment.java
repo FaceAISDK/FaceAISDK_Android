@@ -1,7 +1,8 @@
 package com.ai.face.UVCCamera;
 
-import static com.ai.face.UVCCamera.Constants.PREVIEW_HEIGHT;
-import static com.ai.face.UVCCamera.Constants.PREVIEW_WIDTH;
+
+import static com.ai.face.FaceAIConfig.PREVIEW_HEIGHT;
+import static com.ai.face.FaceAIConfig.PREVIEW_WIDTH;
 
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
@@ -9,11 +10,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.ai.face.UVCCamera.camera.UsbCameraEnum;
 import com.ai.face.UVCCamera.camera.UsbCameraManager;
 import com.ai.face.base.utils.DataConvertUtils;
