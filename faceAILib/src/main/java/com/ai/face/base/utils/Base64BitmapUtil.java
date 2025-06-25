@@ -1,4 +1,4 @@
-package com.ai.face.utils;
+package com.ai.face.base.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;

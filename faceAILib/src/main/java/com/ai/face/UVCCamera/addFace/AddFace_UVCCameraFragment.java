@@ -2,8 +2,8 @@ package com.ai.face.UVCCamera.addFace;
 
 import static com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR;
 import static com.ai.face.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
-import static com.ai.face.FaceAIConfig.PREVIEW_HEIGHT;
-import static com.ai.face.FaceAIConfig.PREVIEW_WIDTH;
+import static com.ai.face.FaceAIConfig.UVC_CAMERA_HEIGHT;
+import static com.ai.face.FaceAIConfig.UVC_CAMERA_WIDTH;
 import static com.ai.face.base.baseImage.BaseImageCallBack.AlIGN_FAILED;
 import static com.ai.face.base.baseImage.BaseImageCallBack.MANY_FACE;
 import static com.ai.face.base.baseImage.BaseImageCallBack.NOT_REAL_HUMAN;
@@ -33,8 +33,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import com.ai.face.R;
-import com.ai.face.UVCCamera.camera.UsbCameraEnumHelpGG235;
-import com.ai.face.UVCCamera.camera.UsbCameraManager;
+import com.ai.face.UVCCamera.UVCCameraManager;
 import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.utils.BrightnessUtil;
@@ -62,8 +61,8 @@ public class AddFace_UVCCameraFragment extends Fragment {
     private String faceID, addFaceImageType;
     //如果启用活体检测，根据自身情况完善业务逻辑
     private boolean isRealFace = true;
-    private final UsbCameraManager rgbCameraManager = new UsbCameraManager(); //添加人脸只用到 RBG camera
-    private final UsbCameraManager irCameraManager = new UsbCameraManager();
+    private final UVCCameraManager rgbCameraManager = new UVCCameraManager(); //添加人脸只用到 RBG camera
+    private final UVCCameraManager irCameraManager = new UVCCameraManager();
 
     //是1:1 还是1:N 人脸搜索添加人脸
     public enum AddFaceImageTypeEnum {
@@ -99,15 +98,17 @@ public class AddFace_UVCCameraFragment extends Fragment {
         rgbCameraManager.initCameraHelper();
         rgbCameraManager.setOpeningMultiCamera(true);
         rgbCameraManager.setCameraView(binding.rgbCameraTextureView, true);
-        rgbCameraManager.selectUsbCamera(UsbCameraEnumHelpGG235.RGB);
 
-        rgbCameraManager.setPreviewHeight(PREVIEW_HEIGHT);
+        //根据device.getProductName()来匹配RGB摄像头。可能关键字不是这个，请自行匹配
+        rgbCameraManager.selectCameraWithKey("RGB",requireContext());
+
+        rgbCameraManager.setPreviewHeight(UVC_CAMERA_HEIGHT);
         rgbCameraManager.onFaceAIAnalysis(new IFrameCallback() {
             @Override
             public void onFrame(ByteBuffer frame) {
                 Size currentPreviewSize = rgbCameraManager.getCurrentPreviewSize();
-                int width = PREVIEW_WIDTH;
-                int height = PREVIEW_HEIGHT;
+                int width = UVC_CAMERA_WIDTH;
+                int height = UVC_CAMERA_HEIGHT;
                 if (currentPreviewSize != null) {
                     width = currentPreviewSize.width;
                     height = currentPreviewSize.height;

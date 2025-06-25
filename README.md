@@ -37,7 +37,7 @@ Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition �
 
 ## 简要说明
 
-SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N , M:N人脸识别检索](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Introduce_11_1N_MN.md)，**所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
+SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人脸搜索识别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Introduce_11_1N_MN.md)，**所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
 
 其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），低端机离线验证速度正常，1.9.0已经支持UVC红外双目摄像头。
 
@@ -82,16 +82,16 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
     更多使用说明下载SDK源码工程代码到Android Studio 以及下载Demo APK到手机体验完整的流程和效果
     里面有详尽的注释说明和使用方法介绍，SDK源码熟悉完成后有一定Android基础大概3小时可集成到你的主工程
 
-**其中**
+**工程目录结构简要介绍**
 
-| 模块            | 描述                       |
-|---------------| ------------------------ |
-| appMain       | 主工程，faceAILib 是人脸识别相关源码  |
-| faceAILib     | 人脸识别Lib module模块         |
-| /verify/\*    | 1:1 人脸检测识别，活体检测页面，静态人脸对比 |
-| /UVCCamera/\* | 双目近红外摄像头管理与IR活体检测等  |
-| /search/\*    | 1:N 和 M：N 人脸识别搜索页面，人脸库管理 |
-| /addFaceImage | 人脸识别和搜索共用的添加人脸照片录入模块     |
+| 模块            | 描述                                          |
+|---------------|---------------------------------------------|
+| appMain       | 主工程，implementation project(':faceAILib')    |
+| faceAILib     | 子Module，FaceAISDK 所有功能都在module 中演示      |
+| /verify/\*    | 1:1 人脸检测识别，活体检测页面，静态人脸对比           |
+| /UVCCamera/\* | UVC协议双目红外摄像头人脸识别，人脸搜索                |
+| /search/\*    | 1:N 人脸搜索识别，人脸库增删改管理等财政               |
+| /addFaceImage | 人脸识别和搜索共用的添加人脸照片录入模块                |
 
 ## Demo 下载体验
 
@@ -119,7 +119,7 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 
 ### 提高SDK识别准确率
 
-1.  使用的宽动态（人脸搜索必须大于110DB）高清抗逆光摄像头；**保持镜头干净（用纯棉布擦拭油污）**
+1.  使用宽动态（人脸搜索须大于105DB）抗逆光摄像头；**保持镜头干净（用纯棉布擦拭油污）**
 2.  录入高质量的人脸图，可参考（images/face\_example.jpg）
 3.  光线环境好否则加补光灯，人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
 4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸

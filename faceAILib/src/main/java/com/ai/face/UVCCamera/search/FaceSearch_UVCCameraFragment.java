@@ -24,7 +24,7 @@ import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.search.ImageToast;
-import com.ai.face.utils.VoicePlayer;
+import com.ai.face.base.utils.VoicePlayer;
 
 import java.util.List;
 

@@ -12,8 +12,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.ai.face.databinding.ActivityFaceAiNaviBinding
 import com.ai.face.search.SearchNaviActivity
-import com.ai.face.utils.SystemUtil
-import com.ai.face.utils.VoicePlayer
+import com.ai.face.base.utils.SystemUtil
+import com.ai.face.base.utils.VoicePlayer
 import com.ai.face.verify.FaceVerifyWelcomeActivity
 import com.ai.face.verify.TwoFaceImageVerifyActivity
 import pub.devrel.easypermissions.EasyPermissions

@@ -1,7 +1,7 @@
 package com.ai.face.UVCCamera.search;
 
-import static com.ai.face.FaceAIConfig.PREVIEW_HEIGHT;
-import static com.ai.face.FaceAIConfig.PREVIEW_WIDTH;
+import static com.ai.face.FaceAIConfig.UVC_CAMERA_HEIGHT;
+import static com.ai.face.FaceAIConfig.UVC_CAMERA_WIDTH;
 
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
@@ -14,8 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.ai.face.UVCCamera.camera.UsbCameraEnumHelpGG235;
-import com.ai.face.UVCCamera.camera.UsbCameraManager;
+import com.ai.face.UVCCamera.UVCCameraManager;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.databinding.FragmentFaceSearchUvcCameraBinding;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
@@ -25,17 +24,17 @@ import com.serenegiant.usb.UVCCamera;
 /**
  * UVC协议双目摄像头人脸搜索识别 abstract 基类，管理摄像头
  *
- * 打开双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
+ * 使用宽动态（人脸搜索须大于105DB）抗逆光摄像头；保持镜头干净（用纯棉布擦拭油污）
  *
- * 也可以支持仅仅RGB 的USB 摄像头，「调试的时候USB摄像头一定要固定住屏幕正上方」
+ * 也可以支持仅仅RGB 的USB 摄像头，「调试的时候USB摄像头一定要固定住屏幕正上方」保证角度合适
  * 更多UVC 摄像头使用参考 https://blog.csdn.net/hanshiying007/article/details/124118486
- * 演示Demo 默认都不启用红外活体检测
+ *
  */
 public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
     private static final String TAG = AbsFaceSearch_UVCCameraFragment.class.getSimpleName();
     public FragmentFaceSearchUvcCameraBinding binding;
-    private final UsbCameraManager rgbCameraManager = new UsbCameraManager();//RBG camera
-    private final UsbCameraManager irCameraManager = new UsbCameraManager(); //近红外摄像头
+    private final UVCCameraManager rgbCameraManager = new UVCCameraManager();//RBG camera
+    private final UVCCameraManager irCameraManager = new UVCCameraManager(); //近红外摄像头
 
     abstract void initFaceSearchParam();
 
@@ -69,9 +68,11 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
         rgbCameraManager.initCameraHelper();
         rgbCameraManager.setOpeningMultiCamera(true);
         rgbCameraManager.setCameraView(binding.rgbCameraTextureView,true);
-        rgbCameraManager.selectUsbCamera(UsbCameraEnumHelpGG235.RGB);
 
-        rgbCameraManager.setOnCameraStatuesCallBack(new UsbCameraManager.onCameraStatusCallBack() {
+        //根据device.getProductName()来匹配RGB摄像头。可能关键字不是这个，请自行匹配
+        rgbCameraManager.selectCameraWithKey("RGB",requireContext());
+
+        rgbCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.onCameraStatusCallBack() {
             @Override
             public void onAttach(UsbDevice device) {
 
@@ -86,12 +87,12 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
         });
 
 
-        rgbCameraManager.setPreviewHeight(PREVIEW_HEIGHT);
+        rgbCameraManager.setPreviewHeight(UVC_CAMERA_HEIGHT);
         rgbCameraManager.onFaceAIAnalysis(frame -> {
 
             Size currentPreviewSize = rgbCameraManager.getCurrentPreviewSize();
-            int width = PREVIEW_WIDTH;
-            int height = PREVIEW_HEIGHT;
+            int width = UVC_CAMERA_WIDTH;
+            int height = UVC_CAMERA_HEIGHT;
             if (currentPreviewSize != null) {
                 width = currentPreviewSize.width;
                 height = currentPreviewSize.height;
@@ -111,9 +112,11 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
         irCameraManager.initCameraHelper();
         irCameraManager.setOpeningMultiCamera(true);
         irCameraManager.setCameraView(binding.irCameraTextureView,true);
-        irCameraManager.selectUsbCamera(UsbCameraEnumHelpGG235.IR);
 
-        irCameraManager.setOnCameraStatuesCallBack(new UsbCameraManager.onCameraStatusCallBack() {
+        //根据device.getProductName()来匹配IR红外摄像头。可能关键字不是这个，请自行匹配
+        irCameraManager.selectCameraWithKey("IR",requireContext());
+
+        irCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.onCameraStatusCallBack() {
             @Override
             public void onAttach(UsbDevice device) {
             }
@@ -124,11 +127,11 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
              }
         });
 
-        irCameraManager.setPreviewHeight(PREVIEW_HEIGHT);
+        irCameraManager.setPreviewHeight(UVC_CAMERA_HEIGHT);
         irCameraManager.onFaceAIAnalysis(frame -> {
             Size currentPreviewSize = irCameraManager.getCurrentPreviewSize();
-            int width = PREVIEW_WIDTH;
-            int height = PREVIEW_HEIGHT;
+            int width = UVC_CAMERA_WIDTH;
+            int height = UVC_CAMERA_HEIGHT;
             if (currentPreviewSize != null) {
                 width = currentPreviewSize.width;
                 height = currentPreviewSize.height;

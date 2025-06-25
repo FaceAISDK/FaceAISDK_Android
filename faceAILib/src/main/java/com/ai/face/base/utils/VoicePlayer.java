@@ -1,4 +1,4 @@
-package com.ai.face.utils;
+package com.ai.face.base.utils;
 
 import android.content.Context;
 import android.media.MediaPlayer;

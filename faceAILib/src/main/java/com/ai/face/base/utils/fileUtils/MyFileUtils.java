@@ -1,4 +1,4 @@
-package com.ai.face.utils.fileUtils;
+package com.ai.face.base.utils.fileUtils;
 
 import android.content.ContentResolver;
 import android.content.Context;

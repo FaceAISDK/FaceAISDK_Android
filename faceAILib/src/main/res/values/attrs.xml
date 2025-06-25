@@ -1,0 +1,23 @@
+<resources>
+    <!-- 蒙层 -->
+    <declare-styleable name="FaceViewDemo">
+        <!--circle_margin -->
+        <attr name="circle_margin" format="dimension"/>
+<!--        <attr name="bg_color" format="color"/>-->
+
+        <!--文本-->
+        <attr name="tip_text" format="string"/>
+        <!--颜色-->
+        <attr name="tip_text_color" format="color"/>
+        <!--文字大小-->
+        <attr name="tip_text_size" format="dimension"/>
+
+        <attr name="background_color" format="color"/>
+
+        <attr name="progress_start_color" format="color"/>
+        <attr name="progress_end_color" format="color"/>
+
+        <attr name="show_progress" format="boolean"/>
+
+    </declare-styleable>
+</resources>

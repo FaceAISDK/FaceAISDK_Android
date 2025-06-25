@@ -22,7 +22,7 @@ import com.ai.face.BuildConfig
 import com.ai.face.base.baseImage.FaceAIUtils
 import com.ai.face.databinding.ActivityTwoFaceImageVerifyBinding
 import com.ai.face.faceVerify.verify.VerifyUtils
-import com.ai.face.utils.fileUtils.MyFileUtils
+import com.ai.face.base.utils.fileUtils.MyFileUtils
 
 
 /**

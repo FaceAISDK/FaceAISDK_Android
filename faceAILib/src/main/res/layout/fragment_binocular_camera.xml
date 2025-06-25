@@ -19,8 +19,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <!-- 可以替换成你自己的UI样式 -->
-    <com.ai.face.base.view.FaceCoverView
+    <!-- 可以替换成你自己的UI样式,需要 FaceCoverView 源码联系对接工程师 -->
+    <com.ai.face.base.view.DemoFaceCoverView
         android:id="@+id/face_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

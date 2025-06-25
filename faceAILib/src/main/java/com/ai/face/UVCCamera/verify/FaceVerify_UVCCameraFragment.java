@@ -17,7 +17,7 @@ import com.ai.face.FaceAIConfig;
 import com.ai.face.R;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.utils.BrightnessUtil;
-import com.ai.face.base.view.FaceCoverView;
+import com.ai.face.base.view.DemoFaceCoverView;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
@@ -25,7 +25,7 @@ import com.ai.face.faceVerify.verify.VerifyStatus;
 import com.ai.face.faceVerify.verify.VerifyUtils;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
-import com.ai.face.utils.VoicePlayer;
+import com.ai.face.base.utils.VoicePlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
@@ -45,7 +45,7 @@ import org.jetbrains.annotations.NotNull;
 public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragment {
 
     private TextView tipsTextView, secondTipsTextView, scoreText;
-    private FaceCoverView faceCoverView;
+    private DemoFaceCoverView faceCoverView;
     private ImageView baseFaceImageView;
     private final float silentLivenessThreshold = 0.85f;
 

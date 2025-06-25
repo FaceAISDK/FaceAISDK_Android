@@ -1,8 +1,8 @@
 package com.ai.face.UVCCamera.verify;
 
 
-import static com.ai.face.FaceAIConfig.PREVIEW_HEIGHT;
-import static com.ai.face.FaceAIConfig.PREVIEW_WIDTH;
+import static com.ai.face.FaceAIConfig.UVC_CAMERA_HEIGHT;
+import static com.ai.face.FaceAIConfig.UVC_CAMERA_WIDTH;
 
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
@@ -13,8 +13,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import com.ai.face.UVCCamera.camera.UsbCameraEnumHelpGG235;
-import com.ai.face.UVCCamera.camera.UsbCameraManager;
+import com.ai.face.UVCCamera.UVCCameraManager;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.databinding.FragmentBinocularCameraBinding;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
@@ -35,8 +34,8 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
 
     public FragmentBinocularCameraBinding binding;
     public FaceVerifyUtils faceVerifyUtils;
-    private final UsbCameraManager rgbCameraManager = new UsbCameraManager();//RBG camera
-    private final UsbCameraManager irCameraManager = new UsbCameraManager(); //近红外摄像头
+    private final UVCCameraManager rgbCameraManager = new UVCCameraManager();//RBG camera
+    private final UVCCameraManager irCameraManager = new UVCCameraManager(); //近红外摄像头
 
 
     //人脸识别相关的方法
@@ -73,13 +72,16 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
         irCameraManager.releaseCameraHelper();
     }
 
+    //初始化RGB摄像头
     private void initRGBCamara() {
         rgbCameraManager.initCameraHelper();
         rgbCameraManager.setOpeningMultiCamera(true);
         rgbCameraManager.setCameraView(binding.rgbCameraTextureView, true);
-        rgbCameraManager.selectUsbCamera(UsbCameraEnumHelpGG235.RGB);
 
-        rgbCameraManager.setOnCameraStatuesCallBack(new UsbCameraManager.onCameraStatusCallBack() {
+        //根据device.getProductName()来匹配RGB摄像头。可能关键字不是这个，请自行匹配
+        rgbCameraManager.selectCameraWithKey("RGB",requireContext());
+
+        rgbCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.onCameraStatusCallBack() {
             @Override
             public void onAttach(UsbDevice device) {
 
@@ -95,12 +97,12 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
         });
 
 
-        rgbCameraManager.setPreviewHeight(PREVIEW_HEIGHT);
+        rgbCameraManager.setPreviewHeight(UVC_CAMERA_HEIGHT);
         rgbCameraManager.onFaceAIAnalysis(frame -> {
             //每秒30 帧，这里尽量少的复杂处理逻辑
             Size currentPreviewSize = rgbCameraManager.getCurrentPreviewSize();
-            int width = PREVIEW_WIDTH;
-            int height = PREVIEW_HEIGHT;
+            int width = UVC_CAMERA_WIDTH;
+            int height = UVC_CAMERA_HEIGHT;
             if (currentPreviewSize != null) {
                 width = currentPreviewSize.width;
                 height = currentPreviewSize.height;
@@ -119,9 +121,10 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
         irCameraManager.initCameraHelper();
         irCameraManager.setOpeningMultiCamera(true);
         irCameraManager.setCameraView(binding.irCameraTextureView, true);
-        irCameraManager.selectUsbCamera(UsbCameraEnumHelpGG235.IR);
+        //根据device.getProductName()来匹配IR红外摄像头。可能关键字不是这个，请自行匹配
+        irCameraManager.selectCameraWithKey("IR",requireContext());
 
-        irCameraManager.setOnCameraStatuesCallBack(new UsbCameraManager.onCameraStatusCallBack() {
+        irCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.onCameraStatusCallBack() {
             @Override
             public void onAttach(UsbDevice device) {
             }
@@ -132,11 +135,11 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
             }
         });
 
-        irCameraManager.setPreviewHeight(PREVIEW_HEIGHT);
+        irCameraManager.setPreviewHeight(UVC_CAMERA_HEIGHT);
         irCameraManager.onFaceAIAnalysis(frame -> {
             Size currentPreviewSize = irCameraManager.getCurrentPreviewSize();
-            int width = PREVIEW_WIDTH;
-            int height = PREVIEW_HEIGHT;
+            int width = UVC_CAMERA_WIDTH;
+            int height = UVC_CAMERA_HEIGHT;
             if (currentPreviewSize != null) {
                 width = currentPreviewSize.width;
                 height = currentPreviewSize.height;

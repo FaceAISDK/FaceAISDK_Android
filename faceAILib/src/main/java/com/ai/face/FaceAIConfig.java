@@ -2,7 +2,7 @@ package com.ai.face;
 
 import android.content.Context;
 
-import com.ai.face.utils.VoicePlayer;
+import com.ai.face.base.utils.VoicePlayer;
 
 import java.io.File;
 
@@ -11,11 +11,10 @@ import java.io.File;
  */
 public class FaceAIConfig {
 
-    // 配置UVC 协议摄像头默认的分辨率，请参考你的摄像头能支持的分辨率查看
-    // 更多UVC摄像头参考这个库：https://github.com/shiyinghan/UVCAndroid
-    // 项目中的libs/libuvccamera-release.aar 就是这个库打包的，工程师请自行熟悉处理，摄像头管理不是SDK 的一部分
-    public static final int PREVIEW_WIDTH = 640;
-    public static final int PREVIEW_HEIGHT = 480;
+    // 配置UVC 协议摄像头默认的分辨率，请参考你的摄像头能支持的分辨率
+    // 分辨率太高需要高性能的硬件配置。强烈建议摄像头的宽动态值 > 105DB
+    public static final int UVC_CAMERA_WIDTH = 640;
+    public static final int UVC_CAMERA_HEIGHT = 480;
 
     //不要直接使用File Api 直接往文件目录插入图片，要使用SDK 提供的APi写入数据，图片还需要向量化
     public static String CACHE_BASE_FACE_DIR;   //1：1 人脸识别人脸图片存储目录
@@ -37,10 +36,12 @@ public class FaceAIConfig {
         //语音提示播报
         VoicePlayer.getInstance().init(context);
 
+
+
+
 //        //文件目录提前创建好，操作移动到SDK 内部
 //        File file = new File(CACHE_BASE_FACE_DIR);
 //        if (!file.exists()) file.mkdirs();
-//
 //        File searchFile = new File(CACHE_SEARCH_FACE_DIR);
 //        if (!searchFile.exists()) file.mkdirs();
     }

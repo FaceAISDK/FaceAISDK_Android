@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ai.face.R;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.view.CameraXFragment;
-import com.ai.face.base.view.FaceCoverView;
+import com.ai.face.base.view.DemoFaceCoverView;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
@@ -27,7 +27,7 @@ import com.ai.face.faceVerify.verify.VerifyStatus.*;
 import com.ai.face.faceVerify.verify.VerifyUtils;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
-import com.ai.face.utils.VoicePlayer;
+import com.ai.face.base.utils.VoicePlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +40,7 @@ import org.jetbrains.annotations.NotNull;
 public class FaceVerificationActivity extends AppCompatActivity {
     public static final String USER_FACE_ID_KEY = "USER_FACE_ID_KEY";   //1:1 face verify ID KEY
     private TextView tipsTextView, secondTipsTextView, scoreText;
-    private FaceCoverView faceCoverView;
+    private DemoFaceCoverView faceCoverView;
     private ImageView baseFaceImageView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private CameraXFragment cameraXFragment;
