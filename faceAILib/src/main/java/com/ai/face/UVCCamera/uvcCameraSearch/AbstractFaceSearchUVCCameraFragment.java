@@ -1,4 +1,4 @@
-package com.ai.face.search.uvcCameraSearch;
+package com.ai.face.UVCCamera.uvcCameraSearch;
 
 import static com.ai.face.FaceAIConfig.PREVIEW_HEIGHT;
 import static com.ai.face.FaceAIConfig.PREVIEW_WIDTH;
@@ -23,6 +23,8 @@ import com.serenegiant.usb.Size;
 import com.serenegiant.usb.UVCCamera;
 
 /**
+ * UVC协议双目摄像头人脸搜索识别 abstract 基类，管理摄像头
+ *
  * 打开双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
  *
  * 也可以支持仅仅RGB 的USB 摄像头，「调试的时候USB摄像头一定要固定住屏幕正上方」

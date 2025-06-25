@@ -1,7 +1,5 @@
 package com.ai.face.UVCCamera.addFace;
 
-import static android.app.Activity.RESULT_OK;
-import static androidx.camera.core.impl.utils.ContextUtil.getBaseContext;
 import static com.ai.face.FaceAIConfig.CACHE_BASE_FACE_DIR;
 import static com.ai.face.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.FaceAIConfig.PREVIEW_HEIGHT;
@@ -19,8 +17,6 @@ import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_UP;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.TILT_HEAD;
 import static com.ai.face.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
-
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -32,12 +28,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-
 import com.ai.face.R;
 import com.ai.face.UVCCamera.camera.UsbCameraEnum;
 import com.ai.face.UVCCamera.camera.UsbCameraManager;
@@ -50,10 +44,7 @@ import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.serenegiant.usb.IFrameCallback;
 import com.serenegiant.usb.Size;
 import com.serenegiant.usb.UVCCamera;
-
 import org.jetbrains.annotations.NotNull;
-
-import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 
 /**

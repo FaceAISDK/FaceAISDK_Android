@@ -1,4 +1,4 @@
-package com.ai.face.search.uvcCameraSearch;
+package com.ai.face.UVCCamera.uvcCameraSearch;
 
 import static com.ai.face.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
@@ -30,6 +30,8 @@ import java.util.List;
 
 
 /**
+ *  UVC协议双目摄像头人脸搜索识别业务逻辑管理Fragment
+ *
  * USB带红外双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
  * <p>
  * AbstractBinocularUVCCameraFragment 是摄像头相关处理，「调试的时候USB摄像头一定要固定住屏幕正上方」

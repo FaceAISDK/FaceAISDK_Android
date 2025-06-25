@@ -1,4 +1,4 @@
-package com.ai.face.UVCCamera;
+package com.ai.face.UVCCamera.uvcCameraSearch;
 
 import android.os.Bundle;
 
@@ -9,11 +9,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.ai.face.R;
 
 /**
- * 演示USB 双目摄像头人脸识别，活体检测
- * **更多外接USB外接UVC摄像头**的操作参考这个大神的库：https://github.com/shiyinghan/UVCAndroid
- * 项目中的libs/libuvccamera-release.aar 就是根据此调整部分
+ * 演示UVC协议USB双目摄像头人脸搜索，
+ *
  */
-public class BinocularUVCCameraActivity extends AppCompatActivity {
+public class FaceSearchUVCCameraActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +22,7 @@ public class BinocularUVCCameraActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        BinocularUVCCameraFragment binocularUVCCameraFragment = new BinocularUVCCameraFragment();
+        FaceSearchUVCCameraFragment binocularUVCCameraFragment = new FaceSearchUVCCameraFragment();
         fragmentTransaction.replace(R.id.fragment_container, binocularUVCCameraFragment);
 
         fragmentTransaction.commit();

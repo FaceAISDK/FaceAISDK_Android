@@ -13,12 +13,12 @@
     <application>
 
         <activity
-            android:name=".search.uvcCameraSearch.FaceSearchUVCCameraActivity"
+            android:name=".UVCCamera.uvcCameraSearch.FaceSearchUVCCameraActivity"
             android:theme="@style/FaceAITheme"
             android:exported="true"/>
 
         <activity
-            android:name=".UVCCamera.BinocularUVCCameraActivity"
+            android:name=".UVCCamera.verify.BinocularUVCCameraActivity"
             android:theme="@style/FaceAITheme"
             android:exported="true"/>
 

@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ai.face.R;
-import com.ai.face.UVCCamera.BinocularUVCCameraActivity;
+import com.ai.face.UVCCamera.verify.BinocularUVCCameraActivity;
 import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraActivity;
 import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraFragment;
 import com.ai.face.addFaceImage.AddFaceImageActivity;

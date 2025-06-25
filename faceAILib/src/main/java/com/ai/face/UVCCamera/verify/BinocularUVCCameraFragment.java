@@ -1,4 +1,4 @@
-package com.ai.face.UVCCamera;
+package com.ai.face.UVCCamera.verify;
 
 import static com.ai.face.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 
@@ -33,6 +33,7 @@ import org.jetbrains.annotations.NotNull;
 
 
 /**
+ * 演示USB 双目摄像头1:1人脸识别，活体检测
  * USB带红外双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
  * <p>
  * AbstractBinocularUVCCameraFragment 是摄像头相关处理，「调试的时候USB摄像头一定要固定住屏幕正上方」

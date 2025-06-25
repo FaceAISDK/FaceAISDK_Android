@@ -31,7 +31,6 @@ import java.io.InputStream
  * 3.光线环境好，检测的人脸无遮挡，化浓妆或佩戴墨镜口罩帽子等
  * 4.人脸照片要求300*300（人脸部分区域大于200*200）裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
  *
- *
  * 封装Utils供Java 代码调用。使用Kotlin 协程能极大的简化代码结构
  */
 class CopyFaceImageUtils {
