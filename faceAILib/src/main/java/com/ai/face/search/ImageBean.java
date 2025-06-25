@@ -1,5 +1,8 @@
 package com.ai.face.search;
 
+/**
+ * https://github.com/AnyLifeZLB/FaceVerificationSDK
+ */
 public class ImageBean {
     public String path;
     public String name;

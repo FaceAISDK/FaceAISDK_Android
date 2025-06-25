@@ -18,6 +18,8 @@ import com.tencent.bugly.crashreport.CrashReport;
  * 1.整体拷贝faceAILib 代码到你的主程一级目录
  * 2.settings.gradle 中 include ':faceAILib'
  * 3.调整工程一级目录root级build.gradle 的
+ *
+ * https://github.com/AnyLifeZLB/FaceVerificationSDK
  */
 public class WelcomeActivity extends AppCompatActivity {
 

@@ -1,11 +1,14 @@
 package com.ai.face.UVCCamera;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.usb.UsbDevice;
 import android.text.TextUtils;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.herohan.uvcapp.CameraHelper;
 import com.herohan.uvcapp.ICameraHelper;
 import com.serenegiant.usb.IFrameCallback;
@@ -13,27 +16,24 @@ import com.serenegiant.usb.Size;
 import com.serenegiant.usb.UVCCamera;
 import com.serenegiant.usb.UVCParam;
 import com.serenegiant.widget.AspectRatioSurfaceView;
+
 import java.util.List;
 
 /**
  * USB摄像头（UVC协议）管理。如果本SDK Demo不能管理你的定制摄像头，请参考https://github.com/shiyinghan/UVCAndroid
  * 熟悉后可以自己实现一个 UsbCameraManager来管理你的摄像头各种适配
- *
  */
 public class UVCCameraManager {
-    private final static String TAG = "UsbCameraManager";
     private ICameraHelper mCameraHelper;
     private AspectRatioSurfaceView cameraView;
     private boolean autoAspectRatio = true;
-
-    //同时打开多个摄像头时, 设这个值为 true
-    private boolean openingMultiCamera = true;
     private int previewHeight = -1;
     private IFrameCallback frameCallback;
     private int framePixelFormat;
 
     public interface onCameraStatusCallBack {
         void onAttach(UsbDevice device);
+
         void onDeviceOpen(UsbDevice device, boolean isFirstOpen);
     }
 
@@ -74,7 +74,6 @@ public class UVCCameraManager {
 
     /**
      * 根据摄像头的名字来选择使用哪个摄像头
-     *
      */
     public UsbDevice selectCameraWithKey(String keyword, Context context) {
         UsbDevice selectedDevice = null;
@@ -84,12 +83,20 @@ public class UVCCameraManager {
         //不同厂家生产的摄像头有点差异，请开发者自己实现匹配逻辑
         final List<UsbDevice> list = mCameraHelper.getDeviceList();
         for (UsbDevice device : list) {
-            String name=device.getProductName();
-            if(TextUtils.isEmpty(name)){
-                Toast.makeText(context,"摄像头名称为空，请检测匹配",Toast.LENGTH_SHORT).show();
-            }else if (name.contains(keyword)) {
+            String name = device.getProductName();
+            if (TextUtils.isEmpty(name)) {
+                Toast.makeText(context, "摄像头名称为空，请检测匹配", Toast.LENGTH_SHORT).show();
+            } else if (name.contains(keyword)) {
                 selectedDevice = device;
                 mCameraHelper.selectDevice(device);
+
+
+                SharedPreferences sharedPref = context.getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
+                var mPreviewRotation = sharedPref.getInt("uvcCameraDegree", 0);
+
+                mCameraHelper.setPreviewConfig(
+                        mCameraHelper.getPreviewConfig().setRotation(mPreviewRotation));
+
                 break;
             }
         }
@@ -98,7 +105,7 @@ public class UVCCameraManager {
 
 
     /**
-     * 设置回调,分析每帧数据
+     * 设置回调,给人脸识别SDK分析每帧数据，帧率15～30
      *
      * @param callback
      * @param pixelFormat
@@ -112,16 +119,12 @@ public class UVCCameraManager {
         this.autoAspectRatio = autoAspectRatio;
     }
 
-    public void setOpeningMultiCamera(boolean openingMultiCamera) {
-        this.openingMultiCamera = openingMultiCamera;
-    }
 
     @NonNull
     public ICameraHelper getCameraHelper() {
         initCameraHelper();
         return mCameraHelper;
     }
-
 
 
     @Nullable
@@ -142,15 +145,11 @@ public class UVCCameraManager {
         @Override
         public void onDeviceOpen(UsbDevice device, boolean isFirstOpen) {
             initCameraHelper();
-            if (openingMultiCamera) {
-                //参考 uvc camera demo 的 MultiCameraNewActivity,
-                //发现他如果同时打开多个摄像头, 需要这么配置
-                UVCParam param = new UVCParam();
-                param.setQuirks(UVCCamera.UVC_QUIRK_FIX_BANDWIDTH);
-                mCameraHelper.openCamera(param);
-            } else {
-                mCameraHelper.openCamera();
-            }
+            //参考 uvc camera demo 的 MultiCameraNewActivity,
+            //发现他如果同时打开多个摄像头, 需要这么配置
+            UVCParam param = new UVCParam();
+            param.setQuirks(UVCCamera.UVC_QUIRK_FIX_BANDWIDTH);
+            mCameraHelper.openCamera(param);
 
             if (onCameraStatuesCallBack != null) {
                 onCameraStatuesCallBack.onDeviceOpen(device, isFirstOpen);
@@ -184,7 +183,6 @@ public class UVCCameraManager {
 
             if (cameraView != null) {
                 if (autoAspectRatio) {
-
                     Size size = mCameraHelper.getPreviewSize();
                     if (previewSize != null) {
                         size = previewSize;
@@ -205,7 +203,6 @@ public class UVCCameraManager {
 
         @Override
         public void onCameraClose(UsbDevice device) {
-
             if (cameraView != null) {
                 initCameraHelper();
                 mCameraHelper.removeSurface(cameraView.getHolder().getSurface());

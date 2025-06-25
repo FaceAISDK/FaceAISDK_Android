@@ -15,8 +15,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @describe Update Checker
- * @date 2023-06-06
+ * Demo App 检测升级
+ * https://github.com/AnyLifeZLB/FaceVerificationSDK
  */
 public final class UpdateChecker {
     public static final String APP_CHECK = "https://api.pgyer.com/apiv2/app/check";

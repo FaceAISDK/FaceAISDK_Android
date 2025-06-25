@@ -163,7 +163,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 break;
 
             case FACE_DIR_EMPTY:
-                //人脸库没有人脸照片，没有使用SDK 插入人脸？
+                //人脸库没有人脸照片，没有使用SDK API插入人脸？
                 binding.searchTips.setText(R.string.face_dir_empty);
                 break;
 

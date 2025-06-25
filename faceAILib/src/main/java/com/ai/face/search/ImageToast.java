@@ -14,6 +14,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 /**
  * Toast Bitmap 和 text
+ *
+ * https://github.com/AnyLifeZLB/FaceVerificationSDK
  */
 public class ImageToast {
 

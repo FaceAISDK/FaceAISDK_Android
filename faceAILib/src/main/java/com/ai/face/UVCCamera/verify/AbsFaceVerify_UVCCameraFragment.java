@@ -75,7 +75,6 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
     //初始化RGB摄像头
     private void initRGBCamara() {
         rgbCameraManager.initCameraHelper();
-        rgbCameraManager.setOpeningMultiCamera(true);
         rgbCameraManager.setCameraView(binding.rgbCameraTextureView, true);
 
         //根据device.getProductName()来匹配RGB摄像头。可能关键字不是这个，请自行匹配
@@ -119,7 +118,6 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
      */
     private void initIRCamara() {
         irCameraManager.initCameraHelper();
-        irCameraManager.setOpeningMultiCamera(true);
         irCameraManager.setCameraView(binding.irCameraTextureView, true);
         //根据device.getProductName()来匹配IR红外摄像头。可能关键字不是这个，请自行匹配
         irCameraManager.selectCameraWithKey("IR",requireContext());

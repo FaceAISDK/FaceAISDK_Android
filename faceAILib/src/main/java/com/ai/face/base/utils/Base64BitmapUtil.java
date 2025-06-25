@@ -8,7 +8,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- *
  * Function:Base64和Bitmap相互转换类
  */
 public class Base64BitmapUtil {

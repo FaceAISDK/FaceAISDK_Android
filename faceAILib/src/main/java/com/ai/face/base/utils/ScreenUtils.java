@@ -5,9 +5,7 @@ import android.content.Context;
 import android.view.Window;
 import android.view.WindowManager;
 
-
 public class ScreenUtils {
-
 
     /**
      * 根据手机的分辨率从dp 到 px(像素)

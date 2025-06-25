@@ -96,7 +96,6 @@ public class AddFace_UVCCameraFragment extends Fragment {
 
     private void initRGBCamara() {
         rgbCameraManager.initCameraHelper();
-        rgbCameraManager.setOpeningMultiCamera(true);
         rgbCameraManager.setCameraView(binding.rgbCameraTextureView, true);
 
         //根据device.getProductName()来匹配RGB摄像头。可能关键字不是这个，请自行匹配

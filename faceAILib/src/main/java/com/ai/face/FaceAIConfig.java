@@ -39,7 +39,7 @@ public class FaceAIConfig {
 
 
 
-//        //文件目录提前创建好，操作移动到SDK 内部
+//        //文件目录提前创建好，操作移动到SDK 内部 后删除
 //        File file = new File(CACHE_BASE_FACE_DIR);
 //        if (!file.exists()) file.mkdirs();
 //        File searchFile = new File(CACHE_SEARCH_FACE_DIR);

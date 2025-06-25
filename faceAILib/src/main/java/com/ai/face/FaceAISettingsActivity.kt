@@ -2,15 +2,15 @@ package com.ai.face
 
 import android.content.Context
 import android.os.Bundle
-import android.view.Surface
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.ai.face.databinding.ActivityFaceAiSettingsBinding
 import androidx.core.content.edit
+import com.ai.face.databinding.ActivityFaceAiSettingsBinding
 
 /**
  * 前后摄像头，角度切换等参数设置
  *
+ * 更多UVC 摄像头参数设置参考 https://blog.csdn.net/hanshiying007/article/details/124118486
  */
 class FaceAISettingsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFaceAiSettingsBinding
@@ -30,14 +30,14 @@ class FaceAISettingsActivity : AppCompatActivity() {
         binding.switchCamera.setOnClickListener {
             val sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE)
             if (sharedPref.getInt("cameraFlag", 1) == 1) {
-                sharedPref.edit().putInt("cameraFlag", 0).commit()
+                sharedPref.edit(commit = true) { putInt("cameraFlag", 0) }
                 Toast.makeText(
                     baseContext,
                     "Front camera now",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                sharedPref.edit().putInt("cameraFlag", 1).commit()
+                sharedPref.edit(commit = true) { putInt("cameraFlag", 1) }
                 Toast.makeText(
                     baseContext,
                     "Back/USB Camera",
@@ -80,11 +80,36 @@ class FaceAISettingsActivity : AppCompatActivity() {
             ).show()
         }
 
-        //UVC 协议摄像头是三方库 https://blog.csdn.net/hanshiying007/article/details/124118486
-        binding.binocularBrightSetting.setOnClickListener {
 
+        //双目摄像头角度旋转设置
+        binding.uvcCameraSwitch.setOnClickListener{
+            var mPreviewRotation = sharedPref.getInt("uvcCameraDegree", 0)
+
+            mPreviewRotation += 90
+            mPreviewRotation %= 360
+            if (mPreviewRotation < 0) {
+                mPreviewRotation += 360
+            }
+
+            sharedPref.edit(commit = true) { putInt("uvcCameraDegree", mPreviewRotation) }
+
+            Toast.makeText(
+                baseContext,
+                "Camera degree: $mPreviewRotation",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
+
+
+//        binding.binocularBrightSetting.setOnClickListener {
+//
+//        }
+
+
     }
+
+
+
 
 }

@@ -128,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="29dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="5dp"
                 android:padding="3dp"
                 android:text="USB双目摄像头设置"
                 android:textColor="@android:color/white"
@@ -143,7 +143,7 @@
                 android:padding="3dp"
                 android:text="SDK 管理UVC协议摄像头用的是此库：https://github.com/shiyinghan/UVCAndroid 。请自行熟悉调整代码适配你的客制摄像头"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="11sp" />
+                android:textSize="10sp" />
 
             <LinearLayout
                 android:id="@+id/binocular_camera_search_navi"
@@ -155,7 +155,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/binocular_bright_setting"
+                    android:id="@+id/uvc_camera_switch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -177,7 +177,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="11dp"
-                        android:text="亮度调节"
+                        android:text="画面方向旋转"
                         android:textColor="@color/face_lib_main_color"
                         android:textSize="13sp"
                         android:textStyle="bold" />

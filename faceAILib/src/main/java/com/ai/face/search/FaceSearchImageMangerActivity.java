@@ -2,7 +2,6 @@ package com.ai.face.search;
 
 import static com.ai.face.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.addFaceImage.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
-
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -12,14 +11,12 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.ai.face.R;
 import com.ai.face.UVCCamera.addFace.AddFace_UVCCameraActivity;
 import com.ai.face.UVCCamera.addFace.AddFace_UVCCameraFragment;
@@ -30,9 +27,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.lzf.easyfloat.EasyFloat;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;

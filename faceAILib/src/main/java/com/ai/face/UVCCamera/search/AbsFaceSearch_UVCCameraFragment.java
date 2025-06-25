@@ -66,10 +66,9 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
 
     private void initRGBCamara() {
         rgbCameraManager.initCameraHelper();
-        rgbCameraManager.setOpeningMultiCamera(true);
         rgbCameraManager.setCameraView(binding.rgbCameraTextureView,true);
 
-        //根据device.getProductName()来匹配RGB摄像头。可能关键字不是这个，请自行匹配
+        //根据device.getProductName()来匹配RGB摄像头。可能关键字不是这个，请自行根据你的摄像头匹配
         rgbCameraManager.selectCameraWithKey("RGB",requireContext());
 
         rgbCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.onCameraStatusCallBack() {
@@ -110,10 +109,9 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
      */
     private void initIRCamara() {
         irCameraManager.initCameraHelper();
-        irCameraManager.setOpeningMultiCamera(true);
         irCameraManager.setCameraView(binding.irCameraTextureView,true);
 
-        //根据device.getProductName()来匹配IR红外摄像头。可能关键字不是这个，请自行匹配
+        //根据device.getProductName()来匹配IR红外摄像头。可能关键字不是这个，请自行根据你的摄像头匹配
         irCameraManager.selectCameraWithKey("IR",requireContext());
 
         irCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.onCameraStatusCallBack() {

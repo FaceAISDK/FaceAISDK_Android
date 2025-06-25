@@ -9,12 +9,9 @@ import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
-
 import androidx.annotation.Nullable;
-
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
-
 import java.util.ArrayList;
 import java.util.List;
 
