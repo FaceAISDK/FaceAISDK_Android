@@ -17,12 +17,9 @@ import com.serenegiant.widget.AspectRatioSurfaceView;
 import java.util.List;
 
 /**
- * <p>
- * 使用方法流程:
- * 1. {@link ##initCameraHelper()}
- * 2. {@link ##setCameraView(AspectRatioSurfaceView)}
- * 3. {@link ##selectUsbCamera(UsbCameraEnum)}
- * 4. {@link ##releaseCameraHelper()}
+ * USB摄像头（UVC协议）管理。如果本SDK Demo不能管理你的定制摄像头，请参考https://github.com/shiyinghan/UVCAndroid
+ * 熟悉后可以自己实现一个 UsbCameraManager来管理你的摄像头各种适配
+ *
  */
 public class UsbCameraManager {
 
@@ -41,19 +38,19 @@ public class UsbCameraManager {
 
     private int previewHeight = -1;
 
-    private UsbCameraEnum currentUsbCamera;
+    private UsbCameraEnumHelpGG235 currentUsbCamera;
 
     private IFrameCallback frameCallback;
     private int framePixelFormat;
 
 
-    public interface OnDeviceStatuesCallBack {
+    public interface onCameraStatusCallBack {
         void onAttach(UsbDevice device);
 
         void onDeviceOpen(UsbDevice device, boolean isFirstOpen);
     }
 
-    private OnDeviceStatuesCallBack onDeviceStatuesCallBack;
+    private onCameraStatusCallBack onCameraStatuesCallBack;
 
     private void ensureCameraHelper() {
         if (mCameraHelper == null) {
@@ -62,15 +59,15 @@ public class UsbCameraManager {
         }
     }
 
-    public void setOnDeviceStatuesCallBack(OnDeviceStatuesCallBack callBack) {
-        onDeviceStatuesCallBack = callBack;
+    public void setOnCameraStatuesCallBack(onCameraStatusCallBack callBack) {
+        onCameraStatuesCallBack = callBack;
     }
 
     /**
      * 初始化 camera
      */
     public void initCameraHelper() {
-        if (DEBUG) Log.d(TAG, "initCameraHelper:");
+
         ensureCameraHelper();
     }
 
@@ -98,7 +95,7 @@ public class UsbCameraManager {
     /**
      * @param cameraEnum 要打开哪个 USB 摄像头
      */
-    public UsbDevice selectUsbCamera(@NonNull UsbCameraEnum cameraEnum) {
+    public UsbDevice selectUsbCamera(@NonNull UsbCameraEnumHelpGG235 cameraEnum) {
         UsbDevice selectedDevice = null;
 
         currentUsbCamera = cameraEnum;
@@ -108,7 +105,7 @@ public class UsbCameraManager {
 
         final List<UsbDevice> list = mCameraHelper.getDeviceList();
         for (UsbDevice device : list) {
-            UsbCameraEnum u = UsbCameraEnum.toUsbCameraEnum(device);
+            UsbCameraEnumHelpGG235 u = UsbCameraEnumHelpGG235.toUsbCameraEnum(device);
             if (u == cameraEnum) {
                 selectedDevice = device;
                 mCameraHelper.selectDevice(device);
@@ -120,7 +117,13 @@ public class UsbCameraManager {
     }
 
 
-    public void setFrameCallback(IFrameCallback callback, int pixelFormat) {
+    /**
+     *
+     *
+     * @param callback
+     * @param pixelFormat
+     */
+    public void onFaceAIAnalysis(IFrameCallback callback, int pixelFormat) {
         frameCallback = callback;
         framePixelFormat = pixelFormat;
     }
@@ -139,7 +142,7 @@ public class UsbCameraManager {
         return mCameraHelper;
     }
 
-    public UsbCameraEnum getCurrentUsbCamera() {
+    public UsbCameraEnumHelpGG235 getCurrentUsbCamera() {
         return currentUsbCamera;
     }
 
@@ -152,16 +155,15 @@ public class UsbCameraManager {
     private final ICameraHelper.StateCallback mStateListener = new ICameraHelper.StateCallback() {
         @Override
         public void onAttach(UsbDevice device) {
-            UsbCameraEnum cameraEnum = UsbCameraEnum.toUsbCameraEnum(device);
-            Log.v(TAG, "onAttach:" + cameraEnum.getName() + ", mCameraHelper=" + mCameraHelper);
-            if (onDeviceStatuesCallBack != null) {
-                onDeviceStatuesCallBack.onAttach(device);
+            UsbCameraEnumHelpGG235 cameraEnum = UsbCameraEnumHelpGG235.toUsbCameraEnum(device);
+
+            if (onCameraStatuesCallBack != null) {
+                onCameraStatuesCallBack.onAttach(device);
             }
         }
 
         @Override
         public void onDeviceOpen(UsbDevice device, boolean isFirstOpen) {
-            if (DEBUG) Log.v(TAG, "onDeviceOpen:" + UsbCameraEnum.toUsbCameraEnum(device));
             ensureCameraHelper();
             if (openingMultiCamera) {
                 //参考 uvc camera demo 的 MultiCameraNewActivity,
@@ -173,15 +175,14 @@ public class UsbCameraManager {
                 mCameraHelper.openCamera();
             }
 
-            if (onDeviceStatuesCallBack != null) {
-                onDeviceStatuesCallBack.onDeviceOpen(device, isFirstOpen);
+            if (onCameraStatuesCallBack != null) {
+                onCameraStatuesCallBack.onDeviceOpen(device, isFirstOpen);
             }
 
         }
 
         @Override
         public void onCameraOpen(UsbDevice device) {
-            if (DEBUG) Log.v(TAG, "onCameraOpen:" + UsbCameraEnum.toUsbCameraEnum(device));
             ensureCameraHelper();
             Size previewSize = null;
 
@@ -230,7 +231,6 @@ public class UsbCameraManager {
 
         @Override
         public void onCameraClose(UsbDevice device) {
-            if (DEBUG) Log.v(TAG, "onCameraClose:" + UsbCameraEnum.toUsbCameraEnum(device));
 
             if (cameraView != null) {
                 ensureCameraHelper();
@@ -240,17 +240,17 @@ public class UsbCameraManager {
 
         @Override
         public void onDeviceClose(UsbDevice device) {
-            if (DEBUG) Log.v(TAG, "onDeviceClose:" + UsbCameraEnum.toUsbCameraEnum(device));
+
         }
 
         @Override
         public void onDetach(UsbDevice device) {
-            if (DEBUG) Log.v(TAG, "onDetach:" + UsbCameraEnum.toUsbCameraEnum(device));
+
         }
 
         @Override
         public void onCancel(UsbDevice device) {
-            if (DEBUG) Log.v(TAG, "onCancel:" + UsbCameraEnum.toUsbCameraEnum(device));
+
         }
 
     };

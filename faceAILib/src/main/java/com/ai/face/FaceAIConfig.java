@@ -13,9 +13,9 @@ public class FaceAIConfig {
 
     // 配置UVC 协议摄像头默认的分辨率，请参考你的摄像头能支持的分辨率查看
     // 更多UVC摄像头参考这个库：https://github.com/shiyinghan/UVCAndroid
-    // 项目中的libs/libuvccamera-release.aar 就是这个库打包的，自行熟悉处理不是SDK 的一部分
-    public static final int PREVIEW_WIDTH = 1280;
-    public static final int PREVIEW_HEIGHT = 960;
+    // 项目中的libs/libuvccamera-release.aar 就是这个库打包的，工程师请自行熟悉处理，摄像头管理不是SDK 的一部分
+    public static final int PREVIEW_WIDTH = 640;
+    public static final int PREVIEW_HEIGHT = 480;
 
     //不要直接使用File Api 直接往文件目录插入图片，要使用SDK 提供的APi写入数据，图片还需要向量化
     public static String CACHE_BASE_FACE_DIR;   //1：1 人脸识别人脸图片存储目录

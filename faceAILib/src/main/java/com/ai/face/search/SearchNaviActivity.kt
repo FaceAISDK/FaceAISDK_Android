@@ -13,7 +13,7 @@ import com.ai.face.R
 import com.ai.face.databinding.ActivityFaceSearchNaviBinding
 import com.ai.face.search.CopyFaceImageUtils.Companion.copyTestFaceImage
 import com.ai.face.search.CopyFaceImageUtils.Companion.showAppFloat
-import com.ai.face.UVCCamera.uvcCameraSearch.FaceSearchUVCCameraActivity
+import com.ai.face.UVCCamera.search.FaceSearch_UVCCameraActivity
 import com.lzf.easyfloat.EasyFloat
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
@@ -127,7 +127,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         val showTime = sharedPref.getLong("showUVCCameraDialog", 0)
         if (System.currentTimeMillis() - showTime < 12 * 60 * 60 * 1000) {
             startActivity(
-                Intent(this@SearchNaviActivity, FaceSearchUVCCameraActivity::class.java)
+                Intent(this@SearchNaviActivity, FaceSearch_UVCCameraActivity::class.java)
             )
         } else {
             val builder = AlertDialog.Builder(this)
@@ -138,7 +138,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             val btnOK = dialogView.findViewById<Button>(R.id.btn_ok)
             btnOK.setOnClickListener {
                 startActivity(
-                    Intent(this@SearchNaviActivity, FaceSearchUVCCameraActivity::class.java)
+                    Intent(this@SearchNaviActivity, FaceSearch_UVCCameraActivity::class.java)
                 )
                 dialog.dismiss()
             }

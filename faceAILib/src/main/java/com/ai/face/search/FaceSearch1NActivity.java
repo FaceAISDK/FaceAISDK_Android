@@ -25,7 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraSelector;
 
 import com.ai.face.R;
-import com.ai.face.UVCCamera.verify.BinocularUVCCameraActivity;
+import com.ai.face.UVCCamera.verify.FaceVerify_UVCCameraActivity;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.databinding.ActivityFaceSearchBinding;
@@ -40,7 +40,7 @@ import java.util.List;
 /**
  * 1:N 人脸搜索识别「1:N face search」
  * <p>
- * USB UVC协议双目摄像头参考{@link BinocularUVCCameraActivity} 改造一下
+ * USB UVC协议双目摄像头参考{@link FaceVerify_UVCCameraActivity} 改造一下
  *
  * 1.  使用的宽动态（大于110DB）高清抗逆光摄像头；**保持镜头整洁干净（会粘指纹油污的用纯棉布擦拭干净）**
  * 2.  录入高质量的人脸图，如（images/face\_example.jpg）（证件照输入目前优化中）

@@ -19,9 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ai.face.R;
-import com.ai.face.UVCCamera.verify.BinocularUVCCameraActivity;
-import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraActivity;
-import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraFragment;
+import com.ai.face.UVCCamera.verify.FaceVerify_UVCCameraActivity;
+import com.ai.face.UVCCamera.addFace.AddFace_UVCCameraActivity;
+import com.ai.face.UVCCamera.addFace.AddFace_UVCCameraFragment;
 import com.ai.face.addFaceImage.AddFaceImageActivity;
 import com.ai.face.search.ImageBean;
 import com.bumptech.glide.Glide;
@@ -81,8 +81,8 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
                                         .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_VERIFY.name()));
                     } else {
                         startActivity(
-                                new Intent(FaceVerifyWelcomeActivity.this, AddFaceUVCCameraActivity.class)
-                                        .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceUVCCameraFragment.AddFaceImageTypeEnum.FACE_VERIFY.name()));
+                                new Intent(FaceVerifyWelcomeActivity.this, AddFace_UVCCameraActivity.class)
+                                        .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_VERIFY.name()));
                     }
                 }
         );
@@ -119,7 +119,7 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
                     } else {
                         //USB UVC协议摄像头，双目
                         startActivity(
-                                new Intent(getBaseContext(), BinocularUVCCameraActivity.class)
+                                new Intent(getBaseContext(), FaceVerify_UVCCameraActivity.class)
                                         .putExtra(USER_FACE_ID_KEY, faceImageList.get(i).name));
                     }
                 }

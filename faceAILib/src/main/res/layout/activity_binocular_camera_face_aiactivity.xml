@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UVCCamera.verify.BinocularUVCCameraActivity">
+    tools:context=".UVCCamera.verify.FaceVerify_UVCCameraActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"

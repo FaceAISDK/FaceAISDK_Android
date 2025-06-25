@@ -1,4 +1,4 @@
-package com.ai.face.UVCCamera.uvcCameraSearch;
+package com.ai.face.UVCCamera.search;
 
 import android.os.Bundle;
 
@@ -12,7 +12,7 @@ import com.ai.face.R;
  * 演示UVC协议USB双目摄像头人脸搜索，
  *
  */
-public class FaceSearchUVCCameraActivity extends AppCompatActivity {
+public class FaceSearch_UVCCameraActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class FaceSearchUVCCameraActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        FaceSearchUVCCameraFragment binocularUVCCameraFragment = new FaceSearchUVCCameraFragment();
+        FaceSearch_UVCCameraFragment binocularUVCCameraFragment = new FaceSearch_UVCCameraFragment();
         fragmentTransaction.replace(R.id.fragment_container, binocularUVCCameraFragment);
 
         fragmentTransaction.commit();

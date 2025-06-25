@@ -74,7 +74,7 @@ Uni App：https://github.com/AnyLifeZLB/uniPlugin_FaceAI_UTS\n
     <!--1:N and M:N face search-->
     <string name="face_image_manger">人脸库管理</string>
     <string name="face_search_1fromN">1:N 人脸搜索</string>
-    <string name="face_search_uvc_camera">UVC摄像头搜索</string>
+    <string name="face_search_uvc_camera">UVC摄像头人脸搜索</string>
     <string name="face_search_MfromN">M:N 人脸搜索</string>
     <string name="search_threshold_scope_tips">阈值Threshold范围为[0.85,0.95]</string>
 

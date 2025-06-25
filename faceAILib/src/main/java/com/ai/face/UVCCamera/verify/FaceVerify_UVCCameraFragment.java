@@ -42,14 +42,14 @@ import org.jetbrains.annotations.NotNull;
  * <p>
  * 更多UVC 摄像头使用参考 https://blog.csdn.net/hanshiying007/article/details/124118486
  */
-public class BinocularUVCCameraFragment extends AbstractBinocularUVCCameraFragment {
+public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragment {
 
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private FaceCoverView faceCoverView;
     private ImageView baseFaceImageView;
     private final float silentLivenessThreshold = 0.85f;
 
-    public BinocularUVCCameraFragment() {
+    public FaceVerify_UVCCameraFragment() {
         // Required empty public constructor
     }
 

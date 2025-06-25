@@ -1,4 +1,4 @@
-package com.ai.face.UVCCamera.uvcCameraSearch;
+package com.ai.face.UVCCamera.search;
 
 import static com.ai.face.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
@@ -40,8 +40,8 @@ import java.util.List;
  * <p>
  * 更多UVC 摄像头使用参考 https://blog.csdn.net/hanshiying007/article/details/124118486
  */
-public class FaceSearchUVCCameraFragment extends AbstractFaceSearchUVCCameraFragment {
-    public FaceSearchUVCCameraFragment() {
+public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragment {
+    public FaceSearch_UVCCameraFragment() {
         // Required empty public constructor
     }
 

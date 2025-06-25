@@ -21,8 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ai.face.R;
-import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraActivity;
-import com.ai.face.UVCCamera.addFace.AddFaceUVCCameraFragment;
+import com.ai.face.UVCCamera.addFace.AddFace_UVCCameraActivity;
+import com.ai.face.UVCCamera.addFace.AddFace_UVCCameraFragment;
 import com.ai.face.addFaceImage.AddFaceImageActivity;
 import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.bumptech.glide.Glide;
@@ -89,8 +89,8 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
         //添加人脸照片，UVC协议摄像头添加还是普通的系统相机
         if (getIntent().getExtras().getBoolean("isAdd")) {
             if (getIntent().getExtras().getBoolean("isBinocularCamera")) {
-                Intent addFaceIntent = new Intent(getBaseContext(), AddFaceUVCCameraActivity.class);
-                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceUVCCameraFragment.AddFaceImageTypeEnum.FACE_SEARCH.name());
+                Intent addFaceIntent = new Intent(getBaseContext(), AddFace_UVCCameraActivity.class);
+                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_SEARCH.name());
                 startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
             } else {
                 Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);

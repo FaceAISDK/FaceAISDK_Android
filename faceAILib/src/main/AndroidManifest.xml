@@ -13,17 +13,17 @@
     <application>
 
         <activity
-            android:name=".UVCCamera.uvcCameraSearch.FaceSearchUVCCameraActivity"
+            android:name=".UVCCamera.search.FaceSearch_UVCCameraActivity"
             android:theme="@style/FaceAITheme"
             android:exported="true"/>
 
         <activity
-            android:name=".UVCCamera.verify.BinocularUVCCameraActivity"
+            android:name=".UVCCamera.verify.FaceVerify_UVCCameraActivity"
             android:theme="@style/FaceAITheme"
             android:exported="true"/>
 
         <activity
-            android:name=".UVCCamera.addFace.AddFaceUVCCameraActivity"
+            android:name=".UVCCamera.addFace.AddFace_UVCCameraActivity"
             android:theme="@style/FaceAITheme"
             android:exported="true"/>
 

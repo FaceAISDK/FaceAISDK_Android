@@ -139,7 +139,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .setThreshold(0.85f)                    //阈值设置，范围限 [0.8,0.95] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
                 .setCompareDurationTime(3000)           //人脸识别对比时间[3000,5000] 毫秒。相似度很低会持续设置的时间
-                .setLivenessType(MotionLivenessType.SILENT)  //活体检测可以有静默活体，动作活体或者组合也可以不需要活体NONE
+                .setLivenessType(MotionLivenessType.SILENT_MOTION)  //活体检测可以静默活体，动作活体组合，静默活体效果和摄像头宽动态成像能力有关
                 .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.98]
                 .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setMotionLivenessStepSize(2)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
