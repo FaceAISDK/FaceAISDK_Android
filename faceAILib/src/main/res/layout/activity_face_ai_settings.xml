@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/face_lib_main_color"
-    tools:context="com.ai.face.search.SearchNaviActivity">
+    tools:context="com.ai.face.com.faceAI.face.search.SearchNaviActivity">
 
     <ImageView
         android:id="@+id/back"
@@ -183,6 +183,39 @@
                         android:textStyle="bold" />
 
                 </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:id="@+id/uvc_camera_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:padding="1dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="false"
+                        app:lottie_rawRes="@raw/binocular_camera"
+                        app:lottie_speed="2" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="11dp"
+                        android:text="画面左右翻转"
+                        android:textColor="@color/face_lib_main_color"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
 
 
             </LinearLayout>

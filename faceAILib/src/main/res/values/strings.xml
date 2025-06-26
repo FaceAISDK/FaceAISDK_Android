@@ -68,6 +68,9 @@
     <string name="two_face_image_verify">two face image 1:1 verify</string>
     <string name="switch_camera">Switch front/back camera </string>
     <string name="about_us">- About us - </string>
+    <string name="custom_camera">custom system camera diy </string>
+
+
 
     <!--1:N and M:N face search-->
     <string name="face_image_manger">Face images manger</string>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/face_lib_main_color"
-    tools:context="com.ai.face.search.SearchNaviActivity">
+    tools:context="com.ai.face.com.faceAI.face.search.SearchNaviActivity">
 
     <ImageView
         android:id="@+id/back"

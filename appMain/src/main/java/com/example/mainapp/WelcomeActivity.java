@@ -3,12 +3,11 @@ package com.example.mainapp;
 import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.ai.face.FaceAIConfig;
+import com.faceAI.demo.FaceAIConfig;
 import com.airbnb.lottie.LottieAnimationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import com.ai.face.FaceAINaviActivity;
+import com.faceAI.demo.FaceAINaviActivity;
 import com.tencent.bugly.crashreport.CrashReport;
 
 /**
@@ -31,7 +30,6 @@ public class WelcomeActivity extends AppCompatActivity {
         //人脸图保存路径等初始化配置
         FaceAIConfig.init(this);
 
-
         setWelcomeAnimal();
     }
 
@@ -44,7 +42,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(new Intent(WelcomeActivity.this, FaceAINaviActivity.class)));
 
         LottieAnimationView startFaceAILib = findViewById(R.id.goFaceAILib);
-        startFaceAILib.setAnimation(com.ai.face.R.raw.face_ai_welcome);
+        startFaceAILib.setAnimation(R.raw.face_ai_welcome);
         startFaceAILib.loop(false);
         startFaceAILib.setSpeed(3f);
         startFaceAILib.playAnimation();

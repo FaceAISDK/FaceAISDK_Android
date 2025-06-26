@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'com.ai.face'
+    namespace 'com.faceAI.demo'
 
     compileSdk 34
     defaultConfig {

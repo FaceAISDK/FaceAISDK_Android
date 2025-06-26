@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="com.ai.face.search.FaceSearchImageMangerActivity">
+    tools:context="com.ai.face.com.faceAI.face.search.FaceSearchImageMangerActivity">
 
 
     <androidx.appcompat.widget.Toolbar

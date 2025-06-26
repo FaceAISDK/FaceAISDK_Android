@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:customAttr="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.serenegiant.widget.AspectRatioSurfaceView
+        android:id="@+id/rgb_camera_texture_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.serenegiant.widget.AspectRatioSurfaceView
+        android:id="@+id/ir_camera_texture_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_max="wrap"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/rgb_camera_texture_view"
+        app:layout_constraintWidth_max="wrap"
+        app:layout_constraintWidth_percent="0.25" />
+
+
+    <!-- 可以替换成你自己的UI样式,需要 FaceCoverView 源码联系对接工程师 -->
+    <com.faceAI.demo.base.view.DemoFaceCoverView
+        android:id="@+id/face_cover"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        customAttr:circle_margin="18dp"
+        customAttr:show_progress="false"
+        customAttr:progress_end_color="@color/green"
+        customAttr:progress_start_color="@color/green"
+        customAttr:background_color="@color/white"
+        customAttr:tip_text_color="@color/colorPrimary"
+        customAttr:tip_text_size="20sp" />
+
+    <TextView
+        android:id="@+id/tips_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginTop="66dp"
+        android:background="@color/blue"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:text="@string/keep_face_visible"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- UI 设计仅供参考 -->
+    <TextView
+        android:id="@+id/second_tips_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textColor="@color/orange"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tips_view" />
+
+    <TextView
+        android:id="@+id/silent_Score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="33dp"
+        android:padding="9dp"
+        android:textColor="@color/red"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:padding="9dp"
+        android:src="@drawable/ic_arrow_back_24" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="47dp"
+        android:layout_toRightOf="@+id/back"
+        app:layout_constraintLeft_toRightOf="@+id/back"
+        android:textSize="15sp"
+        android:gravity="center_vertical"
+        android:textColor="@color/green"
+        android:text="Add Face Image"
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/back"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

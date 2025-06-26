@@ -12,7 +12,7 @@ android {
         minSdk 21
         targetSdk 34      //target SDK 还是28 的请参考question.md 文档说明
 
-        versionCode 65
+        versionCode 66
         versionName "1.10.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
