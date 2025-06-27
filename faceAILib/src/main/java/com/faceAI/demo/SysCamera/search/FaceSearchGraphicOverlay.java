@@ -45,14 +45,13 @@ public class FaceSearchGraphicOverlay extends View {
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         for (FaceSearchResult rectLabel : rectFList) {
-            rectPaint.setColor(Color.WHITE);
+            rectPaint.setColor(Color.GREEN);
             if (!TextUtils.isEmpty(rectLabel.getFaceName())) {
                 rectPaint.setColor(Color.GREEN);
                 textPaint.setTextSize(45.0f);
                 textPaint.setTypeface(Typeface.DEFAULT);
-                textPaint.setColor(Color.GREEN);
+                textPaint.setColor(Color.RED);
                 String faceId = rectLabel.getFaceName().replace(".jpg", "");
                 canvas.drawText(faceId + " ≈ " + rectLabel.getFaceScore(), rectLabel.getRect().left + 22.0f, rectLabel.getRect().top + 55.0f, textPaint);
             }

@@ -56,7 +56,6 @@ class CopyFaceImageUtils {
                 launch(Dispatchers.Main) {
                     callBack.onSuccess()
                 }
-
             }
         }
 
@@ -103,24 +102,17 @@ class CopyFaceImageUtils {
                                     fileName,
                                     object : FaceSearchImagesManger.Callback {
                                         override fun onSuccess() {
-                                            Log.d(
-                                                "Add Face",
-                                                "Add Face successful：  " + faceFiles[index]
-                                            );
+                                            Log.d("AddFace", "successful：  " + faceFiles[index])
                                         }
 
                                         override fun onFailed(msg: String) {
-                                            Log.e(
-                                                "Add Face",
-                                                "Add Face onFailed：  " + faceFiles[index]
-                                            );
+                                            Log.e("AddFace", "onFailed：  " + faceFiles[index])
                                         }
                                     }
                                 )
                         } else {
 //                        Log.e("Add Face","获取Assert 目录文件图片失败 : "+faceFiles[index]);
                         }
-
                     }
                 }
             }

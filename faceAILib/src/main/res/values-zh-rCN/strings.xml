@@ -69,7 +69,7 @@ Uni App：https://github.com/AnyLifeZLB/uniPlugin_FaceAI_UTS\n
     <string name="face_search">人脸搜索 </string>
     <string name="two_face_image_verify">静态人脸图1:1对比 </string>
     <string name="switch_camera">切换前后摄像头 </string>
-    <string name="about_us">- 关于我们 -</string>
+    <string name="about_us">- 关于我们 About US -</string>
     <string name="custom_camera">自定义调试系统相机</string>
 
 

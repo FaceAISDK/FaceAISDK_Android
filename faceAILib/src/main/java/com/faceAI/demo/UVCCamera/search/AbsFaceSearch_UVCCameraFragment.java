@@ -87,8 +87,12 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
 
 
         rgbCameraManager.setPreviewHeight(UVC_CAMERA_HEIGHT);
-        rgbCameraManager.onFaceAIAnalysis(frame -> {
 
+        rgbCameraManager.onFaceAIAnalysis(frame -> {
+//            设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
+//            if(检测到有人来){
+//                .......
+//            }
             Size currentPreviewSize = rgbCameraManager.getCurrentPreviewSize();
             int width = UVC_CAMERA_WIDTH;
             int height = UVC_CAMERA_HEIGHT;
@@ -100,6 +104,7 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
             if (bitmap != null) {
                 faceVerifySetBitmap(bitmap, FaceVerifyUtils.BitmapType.RGB);
             }
+
         }, UVCCamera.PIXEL_FORMAT_NV21);
     }
 

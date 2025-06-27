@@ -43,7 +43,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     //SDK主页介绍：https://github.com/AnyLifeZLB/FaceVerificationSDK
-    implementation 'io.github.anylifezlb:FaceAISDK:1.10.0'
+    implementation 'io.github.anylifezlb:FaceAISDK:1.12.0'
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖

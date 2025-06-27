@@ -215,7 +215,7 @@
         android:visibility="visible"
         android:text="@string/about_us"
         android:textColor="@android:color/white"
-        android:textSize="14sp"
+        android:textSize="15sp"
         android:layout_marginBottom="11dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 

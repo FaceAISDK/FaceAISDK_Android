@@ -29,7 +29,6 @@ import com.faceAI.demo.databinding.ActivityFaceSearchMnBinding;
 import com.faceAI.demo.R;
 import java.util.List;
 
-
 /**
  * 应用场景比较少，暂时不显示到Demo App ，可自行打开
  *
@@ -128,9 +127,6 @@ public class FaceSearchMNActivity extends AppCompatActivity {
      */
     private void showPrecessTips(int code) {
         switch (code) {
-            default:
-                binding.searchTips.setText("Tips Code：" + code);
-                break;
             case FACE_TOO_SMALL:
                 Toast.makeText(this, R.string.come_closer_tips, Toast.LENGTH_SHORT).show();
                 break;
@@ -168,6 +164,9 @@ public class FaceSearchMNActivity extends AppCompatActivity {
                 binding.searchTips.setText("");
                 break;
 
+            default:
+                binding.searchTips.setText("Tips Code：" + code);
+                break;
         }
     }
 

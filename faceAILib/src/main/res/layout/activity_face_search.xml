@@ -88,4 +88,15 @@
         android:layout_marginBottom="7dp"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_camerax" />
 
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:padding="9dp"
+        android:src="@drawable/ic_arrow_back_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

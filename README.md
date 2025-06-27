@@ -107,7 +107,7 @@ FaceAISDK 工作原理根据设置好的人脸识别阈值、识别种类的等�
 ## 服务定制
 
 如果SDK不能匹配你的应用场景或需要**特殊双目摄像头活体检测**定制化，请发需求到FaceAISDK.Service@gmail.com  
-正式授权可以加微信 [HaoNan19990322 ，备注人脸识别](images/WechatIMG24.jpg)
+正式授权请加微信 [HaoNan19990322 ，备注人脸识别](images/WechatIMG24.jpg)
 
 欢迎关注Fork+Star获取最新动态，提出使用建议等 https://github.com/AnyLifeZLB/FaceVerificationSDK
 

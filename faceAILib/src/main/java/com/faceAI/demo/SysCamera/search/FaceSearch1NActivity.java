@@ -57,6 +57,8 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityFaceSearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        binding.close.setOnClickListener(v -> finish());
+
         binding.tips.setOnClickListener(v -> {
             startActivity(new Intent(this, FaceSearchImageMangerActivity.class)
                     .putExtra("isAdd", false));
@@ -131,9 +133,9 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         FaceSearchEngine.Companion.getInstance().initSearchParams(faceProcessBuilder);
 
         // 4.从标准默认的HAL CameraX 摄像头中取数据实时搜索
-        // 建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率720p以上，帧率大于30并且无拖影。
+        // 建议设备配置 CPU为八核64位2.4GHz以上,  摄像头RGB 宽动态(大于100Db)高清成像，光线不足设备加补光灯
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-            //可以加个红外检测之类的，有人靠近再启动人脸搜索检索服务，不然机器性能下降机器老化快
+            //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
             if (!isDestroyed() && !isFinishing()) {
                 //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像
                 FaceSearchEngine.Companion.getInstance().runSearch(imageProxy, 0);
@@ -151,10 +153,6 @@ public class FaceSearch1NActivity extends AppCompatActivity {
     private void showFaceSearchPrecessTips(int code) {
         binding.secondSearchTips.setText("");
         switch (code) {
-            default:
-                binding.searchTips.setText("回调提示：" + code);
-                break;
-
             case NO_MATCHED:
                 //没有搜索匹配识别到任何人
                 binding.secondSearchTips.setText(R.string.no_matched_face);
@@ -202,6 +200,10 @@ public class FaceSearch1NActivity extends AppCompatActivity {
 
             case EMGINE_INITING:
                 binding.searchTips.setText(R.string.keep_face_tips);
+                break;
+
+            default:
+                binding.searchTips.setText("回调提示：" + code);
                 break;
 
         }

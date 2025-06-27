@@ -63,9 +63,10 @@ public class FaceSearchImageMangerActivity extends AppCompatActivity {
 
         faceImageListAdapter = new FaceImageListAdapter(faceImageList);
         mRecyclerView.setAdapter(faceImageListAdapter);
+
+        //删除本地的人脸照片和对应的特征值，删除后对应的人将无法被程序识别
         faceImageListAdapter.setOnItemLongClickListener((adapter, view, i) -> {
             ImageBean imageBean = faceImageList.get(i);
-
             new AlertDialog.Builder(this)
                     .setTitle("确定要删除" + imageBean.name)
                     .setMessage("删除后对应的人将无法被程序识别")

@@ -12,10 +12,8 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_MATCHED;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCHING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
 import com.ai.face.base.utils.BrightnessUtil;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
@@ -25,7 +23,6 @@ import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.utils.VoicePlayer;
-
 import java.util.List;
 
 
@@ -116,12 +113,7 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
 
     @Override
     void showFaceSearchPrecessTips(int code) {
-//        binding.secondTipsView.setText("");
         switch (code) {
-            default:
-                binding.searchTips.setText("回调提示：" + code);
-                break;
-
             case NO_MATCHED:
                 //没有搜索匹配识别到任何人
                 binding.secondSearchTips.setText(R.string.no_matched_face);
@@ -169,6 +161,10 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
 
             case EMGINE_INITING:
                 binding.searchTips.setText(R.string.keep_face_tips);
+                break;
+
+            default:
+                binding.searchTips.setText("回调提示：" + code);
                 break;
 
         }

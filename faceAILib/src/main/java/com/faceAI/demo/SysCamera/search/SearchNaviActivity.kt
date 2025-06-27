@@ -152,25 +152,18 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
                 )
             }
         }
-
     }
 
 
     /**
-     * 统一全局的拦截权限请求，给提示
-     *
+     * SDK接入方 自行处理权限管理
      */
     private fun checkNeededPermission() {
         val perms = arrayOf(Manifest.permission.CAMERA)
         if (EasyPermissions.hasPermissions(this, *perms)) {
 
         } else {
-            EasyPermissions.requestPermissions(
-                this,
-                "Camera Permission to add face image！",
-                11,
-                *perms
-            )
+            EasyPermissions.requestPermissions(this, "Camera Permission to add face image！", 11, *perms)
         }
     }
 

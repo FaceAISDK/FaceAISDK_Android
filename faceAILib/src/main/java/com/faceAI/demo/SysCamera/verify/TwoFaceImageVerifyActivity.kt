@@ -52,18 +52,15 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
 
         viewBinding.back.setOnClickListener { this@TwoFaceImageVerifyActivity.finish() }
 
-
         viewBinding.image1.tag = "image1"
         viewBinding.image1.setOnClickListener {
             chooseFile(viewBinding.image1)
         }
 
-
         viewBinding.image2.tag = "image2"
         viewBinding.image2.setOnClickListener {
             chooseFile(viewBinding.image2)
         }
-
 
         viewBinding.goVerify.setOnClickListener {
             // 不能两张图直接比较，要先经过 checkFaceQuality 检测裁剪图片中的人脸
@@ -73,7 +70,6 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
                 bitmapMap[viewBinding.image1.tag],
                 bitmapMap[viewBinding.image2.tag]
             ) //evaluateFaceSimi传人的两个bitmap 有是空的，则相似度直接返回0
-
             Toast.makeText(baseContext, "人脸相似度：$simi", Toast.LENGTH_SHORT).show()
         }
 
@@ -93,7 +89,6 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
             }
         }
     }
-
 
     /**
      * 选照片，大图在低端设备建议配置压缩策略

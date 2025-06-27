@@ -114,7 +114,4 @@ class FaceAISettingsActivity : AppCompatActivity() {
 
     }
 
-
-
-
 }

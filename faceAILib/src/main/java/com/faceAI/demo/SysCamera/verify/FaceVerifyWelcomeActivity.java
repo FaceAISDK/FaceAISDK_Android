@@ -48,7 +48,7 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
 
     public static final String FACE_VERIFY_DATA_SOURCE_TYPE = "FACE_VERIFY_DATA_SOURCE_TYPE";
 
-    // 是常用的默认Android_HAL还是USB UVC 协议摄像头
+    // 是常用的默认Android_HAL系统相机还是USB UVC 协议摄像头
     private DataSourceType dataSourceType = DataSourceType.Android_HAL;
 
     /**
@@ -76,11 +76,11 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
         addFaceView.setOnClickListener(view -> {
                     if (dataSourceType.equals(DataSourceType.Android_HAL)) {
                         startActivity(
-                                new Intent(FaceVerifyWelcomeActivity.this, AddFaceImageActivity.class)
+                                new Intent(getBaseContext(), AddFaceImageActivity.class)
                                         .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_VERIFY.name()));
                     } else {
                         startActivity(
-                                new Intent(FaceVerifyWelcomeActivity.this, AddFace_UVCCameraActivity.class)
+                                new Intent(getBaseContext(), AddFace_UVCCameraActivity.class)
                                         .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_VERIFY.name()));
                     }
                 }

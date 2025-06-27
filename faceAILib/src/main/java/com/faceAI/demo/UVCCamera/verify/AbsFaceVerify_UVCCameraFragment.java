@@ -1,9 +1,7 @@
 package com.faceAI.demo.UVCCamera.verify;
 
-
 import static com.faceAI.demo.FaceAIConfig.UVC_CAMERA_HEIGHT;
 import static com.faceAI.demo.FaceAIConfig.UVC_CAMERA_WIDTH;
-
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
 import android.os.Bundle;

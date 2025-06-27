@@ -22,27 +22,23 @@ public class FaceAIConfig {
 
     /**
      * 初始化人脸识别 人脸搜索存储目录
-     *
-     * @param context
      */
     public static void init(Context context) {
-
-        // 人脸图存储在App内部私有空间，其他应用不可以访问，
+        // 人脸图存储在App内部私有空间，SDK未做分区存储
+        // Warming: 目前仅能存储在context.getCacheDir() 或者context.getFilesDir() 内部私有空间
         // https://developer.android.com/training/data-storage?hl=zh-cn
-        // Warming: 目前仅能存储在context.getCacheDir() 或者context.getFilesDir()
         CACHE_BASE_FACE_DIR = context.getCacheDir().getPath() + "/faceAIVerify/";    //1:1 人脸识别目录
         CACHE_SEARCH_FACE_DIR = context.getFilesDir().getPath() + "/faceAISearch/";  //人脸搜索人脸库目录
 
         //语音提示播报
         VoicePlayer.getInstance().init(context);
-
     }
 
 
     /**
      * 检测人脸ID是否存在
-     * @param faceID
-     * @return
+     * @param faceID ID，Key
+     * @return 存在与否
      */
     public static boolean isFaceIDExist(String faceID) {
         File file = new File(CACHE_BASE_FACE_DIR + faceID);
