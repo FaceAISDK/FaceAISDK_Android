@@ -16,6 +16,7 @@ import com.lzf.easyfloat.EasyFloat
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import androidx.core.content.edit
+import com.faceAI.demo.FaceAISettingsActivity.Companion.FRONT_BACK_CAMERA_FLAG
 import com.faceAI.demo.R
 import com.faceAI.demo.databinding.ActivityFaceSearchNaviBinding
 
@@ -87,15 +88,15 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         binding.switchCamera.setOnClickListener {
             val sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE)
-            if (sharedPref.getInt("cameraFlag", 1) == 1) {
-                sharedPref.edit(commit = true) { putInt("cameraFlag", 0) }
+            if (sharedPref.getInt( FRONT_BACK_CAMERA_FLAG, 1) == 1) {
+                sharedPref.edit(commit = true) { putInt( FRONT_BACK_CAMERA_FLAG, 0) }
                 Toast.makeText(
                     baseContext,
                     "Front camera now",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                sharedPref.edit(commit = true) { putInt("cameraFlag", 1) }
+                sharedPref.edit(commit = true) { putInt( FRONT_BACK_CAMERA_FLAG, 1) }
                 Toast.makeText(
                     baseContext,
                     "Back/USB Camera",

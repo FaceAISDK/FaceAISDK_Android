@@ -1,7 +1,16 @@
 package com.faceAI.demo.UVCCamera.verify;
 
-import static com.faceAI.demo.FaceAIConfig.UVC_CAMERA_HEIGHT;
-import static com.faceAI.demo.FaceAIConfig.UVC_CAMERA_WIDTH;
+import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_DEGREE;
+import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_MIRROR_H;
+import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_SELECT;
+import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_DEGREE;
+import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_MIRROR_H;
+import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_SELECT;
+import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.IR_KEY_DEFAULT;
+import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
 import android.os.Bundle;
@@ -11,12 +20,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import com.faceAI.demo.UVCCamera.UVCCameraManager;
-import com.ai.face.base.utils.DataConvertUtils;
+
+import com.faceAI.demo.UVCCamera.manger.CameraBuilder;
+import com.faceAI.demo.UVCCamera.manger.UVCCameraManager;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.faceAI.demo.databinding.FragmentUvcCameraBinding;
-import com.serenegiant.usb.Size;
-import com.serenegiant.usb.UVCCamera;
 
 /**
  * 1:1 人脸识别活体检测 abstract 基础类
@@ -32,9 +40,8 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
 
     public FragmentUvcCameraBinding binding;
     public FaceVerifyUtils faceVerifyUtils;
-    private final UVCCameraManager rgbCameraManager = new UVCCameraManager();//RBG camera
-    private final UVCCameraManager irCameraManager = new UVCCameraManager(); //近红外摄像头
-
+    private  UVCCameraManager rgbCameraManager ;//RBG camera
+    private  UVCCameraManager irCameraManager ; //近红外摄像头
 
     //人脸识别相关的方法
     abstract void initFaceVerifyBaseBitmap();
@@ -50,6 +57,7 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
 
     public AbsFaceVerify_UVCCameraFragment() {
     }
+
 
     @Nullable
     @Override
@@ -67,60 +75,63 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         rgbCameraManager.releaseCameraHelper();
-        irCameraManager.releaseCameraHelper();
+        if(irCameraManager!=null){
+            irCameraManager.releaseCameraHelper();
+        }
     }
 
     //初始化RGB摄像头
     private void initRGBCamara() {
-        rgbCameraManager.initCameraHelper();
-        rgbCameraManager.setCameraView(binding.rgbCameraTextureView, true);
+        SharedPreferences sharedPref = requireContext().getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
+        CameraBuilder cameraBuilder = new CameraBuilder.Builder()
+                .setCameraName("普通RGB摄像头")
+                .setCameraKey(UVCCameraManager.RGB_KEY_DEFAULT)
+                .setCameraView(binding.rgbCameraView)
+                .setContext(requireContext())
+                .setDegree(sharedPref.getInt(RGB_UVC_CAMERA_DEGREE,0))
+                .setHorizontalMirror(sharedPref.getBoolean(RGB_UVC_CAMERA_MIRROR_H, false))
+                .build();
 
-        //根据device.getProductName()来匹配RGB摄像头。可能关键字不是这个，请自行匹配
-        rgbCameraManager.selectCameraWithKey("RGB",requireContext());
-
-        rgbCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.onCameraStatusCallBack() {
+        rgbCameraManager=new UVCCameraManager(cameraBuilder);
+        rgbCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.OnCameraStatusCallBack() {
             @Override
             public void onAttach(UsbDevice device) {
 
             }
-
             @Override
             public void onDeviceOpen(UsbDevice device, boolean isFirstOpen) {
                 //RGB 打开了就继续去打开IR
                 initIRCamara();
-
                 initFaceVerifyBaseBitmap();
             }
         });
 
 
-        rgbCameraManager.setPreviewHeight(UVC_CAMERA_HEIGHT);
-        rgbCameraManager.onFaceAIAnalysis(frame -> {
-            //每秒30 帧，这里尽量少的复杂处理逻辑
-            Size currentPreviewSize = rgbCameraManager.getCurrentPreviewSize();
-            int width = UVC_CAMERA_WIDTH;
-            int height = UVC_CAMERA_HEIGHT;
-            if (currentPreviewSize != null) {
-                width = currentPreviewSize.width;
-                height = currentPreviewSize.height;
-            }
-            Bitmap bitmap = DataConvertUtils.NV21Data2Bitmap(frame, width, height, 0, 0, false);
-            if (bitmap != null) {
+        rgbCameraManager.setFaceAIAnalysis(new UVCCameraManager.OnFaceAIAnalysisCallBack() {
+            @Override
+            public void onBitmapFrame(Bitmap bitmap) {
                 faceVerifySetBitmap(bitmap, FaceVerifyUtils.BitmapType.RGB);
             }
-        }, UVCCamera.PIXEL_FORMAT_NV21);
+        });
     }
 
     /**
      * 初始化IR 摄像头
      */
     private void initIRCamara() {
-        irCameraManager.initCameraHelper();
-        irCameraManager.setCameraView(binding.irCameraTextureView, true);
-        //根据device.getProductName()来匹配IR红外摄像头。可能关键字不是这个，请自行匹配
-        irCameraManager.selectCameraWithKey("IR",requireContext());
+        SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
+        CameraBuilder cameraBuilder = new CameraBuilder.Builder()
+                .setCameraName("红外IR摄像头")
+                .setCameraKey(sp.getString(IR_UVC_CAMERA_SELECT,IR_KEY_DEFAULT))
+                .setCameraView(binding.irCameraView)
+                .setContext(requireContext())
+                .setDegree(sp.getInt(IR_UVC_CAMERA_DEGREE,0))
+                .setHorizontalMirror(sp.getBoolean(IR_UVC_CAMERA_MIRROR_H, false))
+                .build();
 
-        irCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.onCameraStatusCallBack() {
+        irCameraManager=new UVCCameraManager(cameraBuilder);
+
+        irCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.OnCameraStatusCallBack() {
             @Override
             public void onAttach(UsbDevice device) {
             }
@@ -131,20 +142,13 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
             }
         });
 
-        irCameraManager.setPreviewHeight(UVC_CAMERA_HEIGHT);
-        irCameraManager.onFaceAIAnalysis(frame -> {
-            Size currentPreviewSize = irCameraManager.getCurrentPreviewSize();
-            int width = UVC_CAMERA_WIDTH;
-            int height = UVC_CAMERA_HEIGHT;
-            if (currentPreviewSize != null) {
-                width = currentPreviewSize.width;
-                height = currentPreviewSize.height;
-            }
-            Bitmap bitmap = DataConvertUtils.NV21Data2Bitmap(frame, width, height, 0, 0, false);
-            if (bitmap != null) {
+        irCameraManager.setFaceAIAnalysis(new UVCCameraManager.OnFaceAIAnalysisCallBack() {
+            @Override
+            public void onBitmapFrame(Bitmap bitmap) {
                 faceVerifySetBitmap(bitmap, FaceVerifyUtils.BitmapType.IR);
             }
-        }, UVCCamera.PIXEL_FORMAT_NV21);
+        });
+
     }
 
 }

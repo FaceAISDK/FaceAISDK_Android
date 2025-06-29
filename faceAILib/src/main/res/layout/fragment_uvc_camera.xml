@@ -7,9 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+    <!-- 横竖屏幕调整适配等参考UVC摄像头管理三方库 https://github.com/shiyinghan/UVCAndroid-->
     <com.serenegiant.widget.AspectRatioSurfaceView
-        android:id="@+id/rgb_camera_texture_view"
+        android:id="@+id/rgb_camera_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -33,14 +33,15 @@
         customAttr:tip_text_color="@color/colorPrimary"
         customAttr:tip_text_size="20sp" />
 
+    <!-- 横竖屏幕调整适配等参考UVC摄像头管理三方库 https://github.com/shiyinghan/UVCAndroid-->
     <com.serenegiant.widget.AspectRatioSurfaceView
-        android:id="@+id/ir_camera_texture_view"
+        android:id="@+id/ir_camera_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_max="wrap"
         app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/rgb_camera_texture_view"
+        app:layout_constraintBottom_toTopOf="@+id/rgb_camera_view"
         app:layout_constraintWidth_max="wrap"
         app:layout_constraintWidth_percent="0.25" />
 

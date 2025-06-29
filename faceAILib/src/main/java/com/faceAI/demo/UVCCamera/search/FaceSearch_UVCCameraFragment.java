@@ -94,8 +94,8 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                     }
 
                     @Override
-                    public void onProcessTips(int i) {
-                        showFaceSearchPrecessTips(i);
+                    public void onProcessTips(int code) {
+                        showFaceSearchPrecessTips(code);
                     }
 
                     @Override
@@ -108,6 +108,7 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
 
         //3.初始化引擎，是个耗时耗资源操作
         FaceSearchEngine.Companion.getInstance().initSearchParams(faceProcessBuilder);
+
     }
 
 
@@ -122,6 +123,11 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
             case FACE_DIR_EMPTY:
                 //人脸库没有人脸照片，没有使用SDK 插入人脸？
                 binding.searchTips.setText(R.string.face_dir_empty);
+                break;
+
+
+            case EMGINE_INITING:
+                binding.searchTips.setText(R.string.sdk_init);
                 break;
 
             case SEARCHING:
@@ -159,9 +165,6 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                 binding.searchTips.setText(R.string.no_mask_please);
                 break;
 
-            case EMGINE_INITING:
-                binding.searchTips.setText(R.string.keep_face_tips);
-                break;
 
             default:
                 binding.searchTips.setText("回调提示：" + code);
@@ -170,9 +173,36 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
         }
     }
 
+    /**
+     * 双目摄像头设置数据，送数据到SDK 引擎
+     *
+     * @param bitmap
+     * @param type
+     */
+    void faceSearchSetBitmap(Bitmap bitmap, FaceVerifyUtils.BitmapType type) {
+        if (type.equals(FaceVerifyUtils.BitmapType.IR)) {
+            irBitmap = bitmap;
+            irReady = true;
+        } else if (type.equals(FaceVerifyUtils.BitmapType.RGB)) {
+            rgbBitmap = bitmap;
+            rgbReady = true;
+        }
 
+        if (irReady && rgbReady) {
+//            getScaleValue();
+            //送数据进入SDK
+            FaceSearchEngine.Companion.getInstance().runSearchWithIR(irBitmap, rgbBitmap);
+            irReady = false;
+            rgbReady = false;
+        }
+    }
+
+
+    /**
+     * 用来绘制人脸框
+     *
+     */
     float scaleX = 0f, scaleY = 0f;
-
     private void getScaleValue() {
         if (scaleX == 0f || scaleY == 0f) {
             float max = rgbBitmap.getWidth();
@@ -191,30 +221,4 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
             }
         }
     }
-
-
-    /**
-     * 双目摄像头设置数据，送数据到SDK 引擎
-     *
-     * @param bitmap
-     * @param type
-     */
-    void faceVerifySetBitmap(Bitmap bitmap, FaceVerifyUtils.BitmapType type) {
-        if (type.equals(FaceVerifyUtils.BitmapType.IR)) {
-            irBitmap = bitmap;
-            irReady = true;
-        } else if (type.equals(FaceVerifyUtils.BitmapType.RGB)) {
-            rgbBitmap = bitmap;
-            rgbReady = true;
-        }
-
-        if (irReady && rgbReady) {
-            getScaleValue();
-            //送数据进入SDK
-            FaceSearchEngine.Companion.getInstance().runSearchWithIR(irBitmap, rgbBitmap);
-            irReady = false;
-            rgbReady = false;
-        }
-    }
-
 }

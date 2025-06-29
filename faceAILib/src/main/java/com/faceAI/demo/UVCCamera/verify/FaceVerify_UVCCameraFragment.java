@@ -293,9 +293,9 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
 
                         break;
 
-//                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
-//                        secondTipsTextView.setText(R.string.no_face_detected_tips);
-//                        break;
+                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
+                        secondTipsTextView.setText(R.string.no_face_detected_tips);
+                        break;
 
                     // 单独使用一个textview 提示，防止上一个提示被覆盖。
                     // 也可以自行记住上个状态，FACE_SIZE_FIT 中恢复上一个提示

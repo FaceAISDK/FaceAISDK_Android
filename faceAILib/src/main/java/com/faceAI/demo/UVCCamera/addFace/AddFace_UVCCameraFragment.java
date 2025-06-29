@@ -2,8 +2,6 @@ package com.faceAI.demo.UVCCamera.addFace;
 
 import static com.faceAI.demo.FaceAIConfig.CACHE_BASE_FACE_DIR;
 import static com.faceAI.demo.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
-import static com.faceAI.demo.FaceAIConfig.UVC_CAMERA_HEIGHT;
-import static com.faceAI.demo.FaceAIConfig.UVC_CAMERA_WIDTH;
 import static com.ai.face.base.baseImage.BaseImageCallBack.AlIGN_FAILED;
 import static com.ai.face.base.baseImage.BaseImageCallBack.MANY_FACE;
 import static com.ai.face.base.baseImage.BaseImageCallBack.NOT_REAL_HUMAN;
@@ -16,7 +14,14 @@ import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_RIGHT;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_UP;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.TILT_HEAD;
+import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_DEGREE;
+import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_MIRROR_H;
+import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_SELECT;
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
+import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -28,24 +33,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.faceAI.demo.R;
-import com.faceAI.demo.UVCCamera.UVCCameraManager;
+import com.faceAI.demo.UVCCamera.manger.CameraBuilder;
+import com.faceAI.demo.UVCCamera.manger.UVCCameraManager;
 import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.utils.BrightnessUtil;
-import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.faceAI.demo.databinding.FragmentUvcCameraAddFaceBinding;
-import com.serenegiant.usb.IFrameCallback;
-import com.serenegiant.usb.Size;
-import com.serenegiant.usb.UVCCamera;
+
 import org.jetbrains.annotations.NotNull;
-import java.nio.ByteBuffer;
 
 /**
  * 打开USB RGB摄像头 添加人脸
@@ -53,17 +56,15 @@ import java.nio.ByteBuffer;
  */
 public class AddFace_UVCCameraFragment extends Fragment {
     private static final String TAG = "AddFace";
-
     public FragmentUvcCameraAddFaceBinding binding;
-
     public static String ADD_FACE_IMAGE_TYPE_KEY = "ADD_FACE_IMAGE_TYPE_KEY";
     private TextView tipsTextView;
     private BaseImageDispose baseImageDispose;
     private String faceID, addFaceImageType;
     //如果启用活体检测，根据自身情况完善业务逻辑
     private boolean isRealFace = true;
-    private final UVCCameraManager rgbCameraManager = new UVCCameraManager(); //添加人脸只用到 RBG camera
-    private final UVCCameraManager irCameraManager = new UVCCameraManager();
+    private UVCCameraManager rgbCameraManager ; //添加人脸只用到 RBG camera
+    private UVCCameraManager irCameraManager;
 
     //是1:1 还是1:N 人脸搜索添加人脸
     public enum AddFaceImageTypeEnum {
@@ -91,34 +92,33 @@ public class AddFace_UVCCameraFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        irCameraManager.releaseCameraHelper(); //释放 红外 camera 资源
         rgbCameraManager.releaseCameraHelper();//释放 RGB camera 资源
+        if(irCameraManager!=null){
+            irCameraManager.releaseCameraHelper();
+        }
     }
 
     private void initRGBCamara() {
-        rgbCameraManager.initCameraHelper();
-        rgbCameraManager.setCameraView(binding.rgbCameraTextureView, true);
+        SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
 
-        //根据device.getProductName()来匹配RGB摄像头。可能关键字不是这个，请自行匹配
-        rgbCameraManager.selectCameraWithKey("RGB",requireContext());
+        CameraBuilder cameraBuilder = new CameraBuilder.Builder()
+                .setCameraName("普通RGB摄像头")
+                .setCameraKey(sp.getString(RGB_UVC_CAMERA_SELECT,RGB_KEY_DEFAULT))
+                .setCameraView(binding.rgbCameraView)
+                .setContext(requireContext())
+                .setDegree(sp.getInt(RGB_UVC_CAMERA_DEGREE,0))
+                .setHorizontalMirror(sp.getBoolean(RGB_UVC_CAMERA_MIRROR_H, false))
+                .build();
 
-        rgbCameraManager.setPreviewHeight(UVC_CAMERA_HEIGHT);
-        rgbCameraManager.onFaceAIAnalysis(new IFrameCallback() {
+        rgbCameraManager=new UVCCameraManager(cameraBuilder);
+
+        rgbCameraManager.setFaceAIAnalysis(new UVCCameraManager.OnFaceAIAnalysisCallBack() {
             @Override
-            public void onFrame(ByteBuffer frame) {
-                Size currentPreviewSize = rgbCameraManager.getCurrentPreviewSize();
-                int width = UVC_CAMERA_WIDTH;
-                int height = UVC_CAMERA_HEIGHT;
-                if (currentPreviewSize != null) {
-                    width = currentPreviewSize.width;
-                    height = currentPreviewSize.height;
-                }
-                Bitmap bitmap = DataConvertUtils.NV21Data2Bitmap(frame, width, height, 0, 0, false);
-                if (bitmap != null) {
-                    baseImageDispose.dispose(bitmap);
-                }
+            public void onBitmapFrame(Bitmap bitmap) {
+                baseImageDispose.dispose(bitmap);
             }
-        }, UVCCamera.PIXEL_FORMAT_NV21);
+        });
+
     }
 
     /**

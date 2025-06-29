@@ -71,7 +71,6 @@
     <string name="custom_camera">custom system camera diy </string>
 
 
-
     <!--1:N and M:N face search-->
     <string name="face_image_manger">Face images manger</string>
     <string name="face_search_1fromN">1:N face search</string>

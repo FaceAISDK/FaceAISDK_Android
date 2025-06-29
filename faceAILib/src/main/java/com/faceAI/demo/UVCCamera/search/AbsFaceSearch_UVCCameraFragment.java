@@ -1,8 +1,16 @@
 package com.faceAI.demo.UVCCamera.search;
 
-import static com.faceAI.demo.FaceAIConfig.UVC_CAMERA_HEIGHT;
-import static com.faceAI.demo.FaceAIConfig.UVC_CAMERA_WIDTH;
+import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_DEGREE;
+import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_MIRROR_H;
+import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_SELECT;
+import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_DEGREE;
+import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_MIRROR_H;
+import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_SELECT;
+import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.IR_KEY_DEFAULT;
+import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
 import android.os.Bundle;
@@ -14,12 +22,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.faceAI.demo.UVCCamera.UVCCameraManager;
-import com.ai.face.base.utils.DataConvertUtils;
+import com.faceAI.demo.UVCCamera.manger.CameraBuilder;
+import com.faceAI.demo.UVCCamera.manger.UVCCameraManager;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.faceAI.demo.databinding.FragmentFaceSearchUvcCameraBinding;
-import com.serenegiant.usb.Size;
-import com.serenegiant.usb.UVCCamera;
 
 /**
  * UVC协议双目摄像头人脸搜索识别 abstract 基类，管理摄像头
@@ -33,16 +39,17 @@ import com.serenegiant.usb.UVCCamera;
 public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
     private static final String TAG = AbsFaceSearch_UVCCameraFragment.class.getSimpleName();
     public FragmentFaceSearchUvcCameraBinding binding;
-    private final UVCCameraManager rgbCameraManager = new UVCCameraManager();//RBG camera
-    private final UVCCameraManager irCameraManager = new UVCCameraManager(); //近红外摄像头
+    private  UVCCameraManager rgbCameraManager ;//RBG camera
+    private  UVCCameraManager irCameraManager ; //近红外摄像头
 
     abstract void initFaceSearchParam();
 
     abstract void showFaceSearchPrecessTips(int code);
 
-    abstract void faceVerifySetBitmap(Bitmap bitmap, FaceVerifyUtils.BitmapType type);
+    abstract void faceSearchSetBitmap(Bitmap bitmap, FaceVerifyUtils.BitmapType type);
 
     public AbsFaceSearch_UVCCameraFragment() {
+
     }
 
     @Nullable
@@ -55,23 +62,32 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
     }
 
     public void initViews(){
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         rgbCameraManager.releaseCameraHelper();
-        irCameraManager.releaseCameraHelper();
+        if(irCameraManager!=null){
+            irCameraManager.releaseCameraHelper();
+        }
     }
 
     private void initRGBCamara() {
-        rgbCameraManager.initCameraHelper();
-        rgbCameraManager.setCameraView(binding.rgbCameraTextureView,true);
+        SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
+        CameraBuilder cameraBuilder = new CameraBuilder.Builder()
+                .setCameraName("普通RGB摄像头")
+                .setCameraKey(sp.getString(RGB_UVC_CAMERA_SELECT,RGB_KEY_DEFAULT))
+                .setCameraView(binding.rgbCameraView)
+                .setContext(requireContext())
+                .setDegree(sp.getInt(RGB_UVC_CAMERA_DEGREE,0))
+                .setHorizontalMirror(sp.getBoolean(RGB_UVC_CAMERA_MIRROR_H, false))
+                .build();
 
-        //根据device.getProductName()来匹配RGB摄像头。可能关键字不是这个，请自行根据你的摄像头匹配
-        rgbCameraManager.selectCameraWithKey("RGB",requireContext());
+        rgbCameraManager=new UVCCameraManager(cameraBuilder);
 
-        rgbCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.onCameraStatusCallBack() {
+        rgbCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.OnCameraStatusCallBack() {
             @Override
             public void onAttach(UsbDevice device) {
 
@@ -79,33 +95,21 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
 
             @Override
             public void onDeviceOpen(UsbDevice device, boolean isFirstOpen) {
+                initFaceSearchParam();
+
                 //RGB 打开了就继续去打开IR
                 initIRCamara();
-                initFaceSearchParam();
             }
         });
 
-
-        rgbCameraManager.setPreviewHeight(UVC_CAMERA_HEIGHT);
-
-        rgbCameraManager.onFaceAIAnalysis(frame -> {
-//            设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
-//            if(检测到有人来){
-//                .......
-//            }
-            Size currentPreviewSize = rgbCameraManager.getCurrentPreviewSize();
-            int width = UVC_CAMERA_WIDTH;
-            int height = UVC_CAMERA_HEIGHT;
-            if (currentPreviewSize != null) {
-                width = currentPreviewSize.width;
-                height = currentPreviewSize.height;
+        rgbCameraManager.setFaceAIAnalysis(new UVCCameraManager.OnFaceAIAnalysisCallBack() {
+            @Override
+            public void onBitmapFrame(Bitmap bitmap) {
+                //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
+                faceSearchSetBitmap(bitmap, FaceVerifyUtils.BitmapType.RGB);
             }
-            Bitmap bitmap = DataConvertUtils.NV21Data2Bitmap(frame, width, height, 0, 0, false);
-            if (bitmap != null) {
-                faceVerifySetBitmap(bitmap, FaceVerifyUtils.BitmapType.RGB);
-            }
+        });
 
-        }, UVCCamera.PIXEL_FORMAT_NV21);
     }
 
     /**
@@ -113,13 +117,20 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
      *
      */
     private void initIRCamara() {
-        irCameraManager.initCameraHelper();
-        irCameraManager.setCameraView(binding.irCameraTextureView,true);
+        SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
 
-        //根据device.getProductName()来匹配IR红外摄像头。可能关键字不是这个，请自行根据你的摄像头匹配
-        irCameraManager.selectCameraWithKey("IR",requireContext());
+        CameraBuilder cameraBuilder = new CameraBuilder.Builder()
+                .setCameraName("IR摄像头")
+                .setCameraKey(sp.getString(IR_UVC_CAMERA_SELECT,IR_KEY_DEFAULT))
+                .setCameraView(binding.irCameraView)
+                .setContext(requireContext())
+                .setDegree(sp.getInt(IR_UVC_CAMERA_DEGREE,0))
+                .setHorizontalMirror(sp.getBoolean(IR_UVC_CAMERA_MIRROR_H, false))
+                .build();
 
-        irCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.onCameraStatusCallBack() {
+        irCameraManager=new UVCCameraManager(cameraBuilder);
+
+        irCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.OnCameraStatusCallBack() {
             @Override
             public void onAttach(UsbDevice device) {
             }
@@ -130,20 +141,13 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
              }
         });
 
-        irCameraManager.setPreviewHeight(UVC_CAMERA_HEIGHT);
-        irCameraManager.onFaceAIAnalysis(frame -> {
-            Size currentPreviewSize = irCameraManager.getCurrentPreviewSize();
-            int width = UVC_CAMERA_WIDTH;
-            int height = UVC_CAMERA_HEIGHT;
-            if (currentPreviewSize != null) {
-                width = currentPreviewSize.width;
-                height = currentPreviewSize.height;
+        irCameraManager.setFaceAIAnalysis(new UVCCameraManager.OnFaceAIAnalysisCallBack() {
+            @Override
+            public void onBitmapFrame(Bitmap bitmap) {
+                faceSearchSetBitmap(bitmap, FaceVerifyUtils.BitmapType.IR);
             }
-            Bitmap bitmap = DataConvertUtils.NV21Data2Bitmap(frame, width, height, 0, 0, false);
-            if (bitmap != null) {
-                faceVerifySetBitmap(bitmap, FaceVerifyUtils.BitmapType.IR);
-            }
-        }, UVCCamera.PIXEL_FORMAT_NV21);
+        });
+
     }
 
 }

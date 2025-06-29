@@ -1,11 +1,11 @@
 <resources>
-    <string name="device_list_dialog_title">Device</string>
-    <string name="device_list_empty_tip">Please connect a USB Camera</string>
-    <string name="device_list_cancel_button">Cancel</string>
-    <string name="device_list_confirm_button">Confirm</string>
+    <string name="device_list_dialog_title">摄像头设备</string>
+    <string name="device_list_empty_tip">请连接好UVC协议USB设备</string>
+    <string name="device_list_cancel_button">取消</string>
+    <string name="device_list_confirm_button">确定</string>
 
 
-    <string name="sdk_init">SDK Init</string>
+    <string name="sdk_init">SDK Initing</string>
     <string name="no_mask_please">请勿佩戴口罩</string>
     <string name="face_verifying">识别中,正对摄像头</string>
     <string name="confirm">知道了</string>

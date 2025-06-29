@@ -1,6 +1,9 @@
 package com.faceAI.demo.SysCamera.verify;
 
 import static com.faceAI.demo.FaceAIConfig.CACHE_BASE_FACE_DIR;
+import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
+import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -63,8 +66,8 @@ public class FaceVerificationActivity extends AppCompatActivity {
         });
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
-        int cameraLensFacing = sharedPref.getInt("cameraFlag", 0);
-        int degree = sharedPref.getInt("cameraDegree", getWindowManager().getDefaultDisplay().getRotation());
+        int cameraLensFacing = sharedPref.getInt( FRONT_BACK_CAMERA_FLAG, 0);
+        int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()

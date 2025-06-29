@@ -11,11 +11,6 @@ import java.io.File;
  */
 public class FaceAIConfig {
 
-    // 配置UVC 协议摄像头默认的分辨率，请参考你的摄像头能支持的分辨率
-    // 分辨率太高需要高性能的硬件配置。强烈建议摄像头的宽动态值 > 105DB
-    public static final int UVC_CAMERA_WIDTH = 640;
-    public static final int UVC_CAMERA_HEIGHT = 480;
-
     //不要直接使用File Api 直接往文件目录插入图片，要使用SDK 提供的APi写入数据，图片还需要向量化
     public static String CACHE_BASE_FACE_DIR;   //1：1 人脸识别人脸图片存储目录
     public static String CACHE_SEARCH_FACE_DIR; //1：N 人脸识别搜索人脸图片存储目录
