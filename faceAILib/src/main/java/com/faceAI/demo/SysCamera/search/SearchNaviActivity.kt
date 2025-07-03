@@ -41,18 +41,18 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
         binding.systemCameraSearch.setOnClickListener {
-            startActivity(
-                Intent(this@SearchNaviActivity, FaceSearch1NActivity::class.java)
-            )
+            startActivity(Intent(baseContext, FaceSearch1NActivity::class.java))
+        }
+
+        binding.systemCameraSearchMn.setOnClickListener {
+            startActivity(Intent(baseContext, FaceSearchMNActivity::class.java))
         }
 
         binding.systemCameraAddFace.setOnClickListener {
             startActivity(
-                Intent(baseContext, FaceSearchImageMangerActivity::class.java).putExtra(
-                    "isAdd",
-                    true
-                ).putExtra("isBinocularCamera", false)
-            )
+                Intent(baseContext, FaceSearchImageMangerActivity::class.java)
+                    .putExtra("isAdd", true)
+                    .putExtra("isBinocularCamera", false))
         }
 
         binding.binocularCameraSearch.setOnClickListener {

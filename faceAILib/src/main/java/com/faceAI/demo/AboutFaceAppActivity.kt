@@ -56,7 +56,7 @@ class AboutFaceAppActivity : AppCompatActivity() {
 
         viewBinding.wechat.setOnLongClickListener {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip: ClipData = ClipData.newPlainText("wechat", "HaoNan19990322")
+            val clip: ClipData = ClipData.newPlainText("wechat", "FaceAISDK")
             clipboard.setPrimaryClip(clip)
             Toast.makeText(this, "Copied", Toast.LENGTH_SHORT).show()
             return@setOnLongClickListener true

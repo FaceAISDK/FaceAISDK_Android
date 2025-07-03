@@ -113,7 +113,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
      */
     void initFaceVerificationParam(Bitmap baseBitmap) {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(getContext())
-                .setThreshold(0.86f)                    //阈值设置，范围限 [0.8 , 0.95] 识别可信度，也是识别灵敏度
+                .setThreshold(0.85f)                    //阈值设置，范围限 [0.75 , 0.95] 识别可信度，也是识别灵敏度
                 .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
                 .setLivenessType(MotionLivenessType.IR) //IR 是指红外静默，MOTION 是有动作可以指定1-2 个
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)//硬件配置低用FAST动作活体模式，否则用精确模式

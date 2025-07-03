@@ -28,7 +28,8 @@ Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition �
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 20% height = 20% />
 </div>
 
-## 当前版本说明 V2025.06.29 (建议升级到GitHub Demo版本)
+## 当前版本说明 V2025.07.02 (建议升级到GitHub Demo版本)
+- 符合设定阈值的所有人脸搜索结果返回以及添加MN 多人脸搜索
 - 优化人脸搜索和重构三方UVC摄像头管理库
 - 优化低配设备人脸录入和识别活体校验优化
 - 重新构建兼容适配16K Page Size，Google Play上架
@@ -42,7 +43,7 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人�
 
 其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），2025.05.10版本已经支持UVC红外双目摄像头，需配备宽动态值大于100DB成像清晰抗逆光摄像头。
 
-集成到主项目有问题请带SDK版本，运行环境和场景描述发邮件到 FaceAISDK.Service@gmail.com ，VIP用户可添加 微信：HaoNan19990322 
+集成到主项目有问题请带SDK版本，运行环境和场景描述发邮件到 FaceAISDK.Service@gmail.com ，VIP用户可添加 微信：FaceAISDK 
 
 
 ## [使用场景和区别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/Introduce_11_1N_MN.md)

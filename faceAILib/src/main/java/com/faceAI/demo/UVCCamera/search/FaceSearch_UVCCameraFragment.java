@@ -14,6 +14,8 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERRO
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
+
 import com.ai.face.base.utils.BrightnessUtil;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
@@ -73,6 +75,7 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(requireActivity())
                 .setLifecycleOwner(this)
                 .setThreshold(0.88f) //阈值设置，范围限 [0.85 , 0.95] 识别可信度，也是识别灵敏度
+                .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setProcessCallBack(new SearchProcessCallBack() {
 
@@ -85,13 +88,29 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                         binding.graphicOverlay.clearRect();
                     }
 
+
+
                     /**
                      * 匹配到的大于 Threshold的所有结果，如有多个很相似的人场景允许的话可以弹框让用户选择
+                     * setCallBackAllMatch(true) 才有值
                      */
                     @Override
-                    public void onFaceMatched(List<FaceSearchResult> result, Bitmap contextBitmap) {
+                    public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
+                        Log.e("onFaceMatched",matchedResults.toString());
+                    }
+
+                    /**
+                     * 检测到的人脸，画框
+                     * @param result
+                     */
+                    @Override
+                    public void onFaceDetected(List<FaceSearchResult> result) {
+                        //画框UI代码完全开放，用户可以根据情况自行改造
                         binding.graphicOverlay.drawRect(result, scaleX, scaleY);
                     }
+
+
+
 
                     @Override
                     public void onProcessTips(int code) {

@@ -120,6 +120,41 @@
 
 
                 <LinearLayout
+                    android:id="@+id/system_camera_search_mn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/face_search"
+                        app:lottie_speed="1" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="11dp"
+                        android:text="@string/face_search_MfromN"
+                        android:textColor="@color/face_lib_main_color"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white" />
+
+
+                <LinearLayout
                     android:id="@+id/switch_camera"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

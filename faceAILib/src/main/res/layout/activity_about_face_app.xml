@@ -26,7 +26,7 @@
         android:layout_marginLeft="22dp"
         android:gravity="left"
         android:padding="15dp"
-        android:text="微信 WeChat:   HaoNan19990322"
+        android:text="微信 WeChat:   FaceAISDK"
         android:textColor="@android:color/white"
         android:textSize="14sp"
         app:layout_constraintTop_toTopOf="parent" />
@@ -57,6 +57,7 @@
         android:text="What  App ：   +8618707611416"
         android:textColor="@android:color/white"
         android:textSize="15sp"
+        android:visibility="invisible"
         app:layout_constraintTop_toTopOf="@+id/email" />
 
     <TextView

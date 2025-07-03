@@ -23,6 +23,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraSelector;
@@ -98,6 +99,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
                 .setThreshold(0.88f) //阈值设置，范围限 [0.85 , 0.95] 识别可信度，设置高摄像头配置也要高
+                .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setImageFlipped(cameraXFragment.getCameraLensFacing() == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {
@@ -111,13 +113,28 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                         binding.graphicOverlay.clearRect();
                     }
 
+
                     /**
                      * 匹配到的大于 Threshold的所有结果，如有多个很相似的人场景允许的话可以弹框让用户选择
+                     * setCallBackAllMatch(true) 才有值
+                     *
                      */
                     @Override
-                    public void onFaceMatched(List<FaceSearchResult> result, Bitmap contextBitmap) {
+                    public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
+                        //已经按照降序排列，可以弹出一个列表框
+                        Log.d("onFaceMatched",matchedResults.toString());
+                    }
+
+                    /**
+                     * 检测到人脸的位置信息，画框用
+                     * @param result
+                     */
+                    @Override
+                    public void onFaceDetected(List<FaceSearchResult> result) {
+                        //画框UI代码完全开放，用户可以根据情况自行改造
                         binding.graphicOverlay.drawRect(result, cameraXFragment);
                     }
+
 
                     @Override
                     public void onProcessTips(int i) {

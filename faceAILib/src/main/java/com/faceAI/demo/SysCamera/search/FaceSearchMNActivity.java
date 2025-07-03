@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraSelector;
@@ -32,15 +33,12 @@ import com.faceAI.demo.R;
 import java.util.List;
 
 /**
- * 应用场景比较少，暂时不显示到Demo App ，可自行打开
+ * 宽动态成像清晰摄像头，人脸正对摄像头
+ * 提前再人脸库管理页面 点击右上角导入测试多人脸图，
+ * 电脑上打开MN_face_search_test.jpg 手机摄像头对着图片就可以体验多人搜索
  *
- * <p>
- * M：N 人脸搜索「M：N Face Search」，建议优先试用1:N，整个业务流程稳定后再考虑升级到M：N
- * 系统相机跑久了也会性能下降，建议测试前重启系统，并定时重启
- * <p>
  * 本功能要求设备硬件配置高，摄像头品质好。可以拿当前的各品牌手机旗舰机测试验证
  */
-@Deprecated
 public class FaceSearchMNActivity extends AppCompatActivity {
     //如果设备没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchMnBinding binding;
@@ -93,11 +91,14 @@ public class FaceSearchMNActivity extends AppCompatActivity {
                 .setImageFlipped(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {
 
-                    //坐标框和对应的 搜索匹配到的图片标签
-                    //人脸检测成功后画白框，此时还没有标签字段
-                    //人脸搜索匹配成功后白框变绿框，并标记出对应的人脸ID Label（建议用唯一ID 命名人脸图片）
+
+                    /**
+                     * 检测到人脸的位置信息，画框用.MN 人脸搜索人脸检测，人脸搜索识别结果都在这个回调里面
+                     * @param result
+                     */
                     @Override
-                    public void onFaceMatched(List<FaceSearchResult> result, Bitmap contextBitmap) {
+                    public void onFaceDetected(List<FaceSearchResult> result) {
+                        //画框UI代码完全开放，用户可以根据情况自行改造
                         binding.graphicOverlay.drawRect(result, cameraXFragment);
                         if (!result.isEmpty()) {
                             binding.searchTips.setText("");
