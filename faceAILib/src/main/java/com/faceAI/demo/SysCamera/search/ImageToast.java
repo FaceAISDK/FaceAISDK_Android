@@ -14,7 +14,7 @@ import com.faceAI.demo.R;
 /**
  * Toast Bitmap 和 text
  *
- * https://github.com/AnyLifeZLB/FaceVerificationSDK
+ * https://github.com/FaceAISDK/FaceAISDK_Android
  */
 public class ImageToast {
 

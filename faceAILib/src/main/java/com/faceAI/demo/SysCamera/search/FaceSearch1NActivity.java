@@ -116,7 +116,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
 
                     /**
                      * 匹配到的大于 Threshold的所有结果，如有多个很相似的人场景允许的话可以弹框让用户选择
-                     * setCallBackAllMatch(true) 才有值
+                     * SearchProcessBuilder setCallBackAllMatch(true) 才有数据返回 否则默认是空
                      *
                      */
                     @Override

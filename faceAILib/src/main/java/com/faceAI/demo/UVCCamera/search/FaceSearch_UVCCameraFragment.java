@@ -47,7 +47,7 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
     @Override
     public void initViews() {
         super.initViews();
-        binding.back.setOnClickListener(v -> requireActivity().finish());
+        binding.close.setOnClickListener(v -> requireActivity().finish());
         BrightnessUtil.setBrightness(requireActivity(), 1.0f);  //高亮白色背景屏幕光可以当补光灯
     }
 
@@ -231,12 +231,12 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                 max = min;
                 min = temp;
             }
-            if (binding.rgbCameraTextureView.getWidth() > binding.rgbCameraTextureView.getHeight()) {
-                scaleX = (float) binding.rgbCameraTextureView.getWidth() / max;
-                scaleY = (float) binding.rgbCameraTextureView.getHeight() / min;
+            if (binding.rgbCameraView.getWidth() > binding.rgbCameraView.getHeight()) {
+                scaleX = (float) binding.rgbCameraView.getWidth() / max;
+                scaleY = (float) binding.rgbCameraView.getHeight() / min;
             } else {
-                scaleX = (float) binding.rgbCameraTextureView.getWidth() / min;
-                scaleY = (float) binding.rgbCameraTextureView.getHeight() / max;
+                scaleX = (float) binding.rgbCameraView.getWidth() / min;
+                scaleY = (float) binding.rgbCameraView.getHeight() / max;
             }
         }
     }

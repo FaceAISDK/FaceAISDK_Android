@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 /**
  * Demo App 检测升级
- * https://github.com/AnyLifeZLB/FaceVerificationSDK
+ * https://github.com/FaceAISDK/FaceAISDK_Android
  */
 public final class UpdateChecker {
     public static final String APP_CHECK = "https://api.pgyer.com/apiv2/app/check";

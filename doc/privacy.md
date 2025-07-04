@@ -16,4 +16,4 @@ Umbrella FaceAI SDK on_device Offline Android Face Detection 、Recognition 、L
 使用场景：1:1 ， 1:N 人脸识别演示
 
 
-![image](https://github.com/AnyLifeZLB/FaceVerificationSDK/assets/15169396/542db3b1-6e98-4676-b343-7be839078642)
+![image](https://github.com/FaceAISDK/FaceAISDK_Android/assets/15169396/542db3b1-6e98-4676-b343-7be839078642)

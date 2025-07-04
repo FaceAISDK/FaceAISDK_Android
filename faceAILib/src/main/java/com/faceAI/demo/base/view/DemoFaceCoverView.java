@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * UI 自由修改，Demo UI仅供简单参考
- * https://github.com/AnyLifeZLB/FaceVerificationSDK
+ * https://github.com/FaceAISDK/FaceAISDK_Android
  */
 public class DemoFaceCoverView extends View {
     private final String TAG = "FaceVerifyView";

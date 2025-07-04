@@ -23,7 +23,7 @@
    如果你的系统摄像头采用标准的 Android Camera2 API 和摄像头 HIDL接口，SDK内部已经集成CameraX管理摄像头，也就是
    标准大厂生产的手机平板设备都是支持的。
    
-   目前1.9.0 以上版本已经默认支持了UVC 协议的USB红外双目摄像头，直接在手机上插上USB 连接摄像头就能体验
+   目前2025.06.27 以上版本已经默认支持了UVC 协议的USB红外双目摄像头，直接在手机上插上USB 连接摄像头就能体验
    更多外接USB 外接UVC摄像头的操作可以参考这个库：https://github.com/shiyinghan/UVCAndroid
 
    ![红外双目](https://github.com/user-attachments/assets/3e96879d-0757-409e-894b-5d1d0e80231c)
@@ -51,7 +51,7 @@
 细节可以修改原生部分代码重新打包实现。
 
 ### 6.识别的灵敏度准确率参数
-   目前人脸检测的环节只要人脸像素大于222就能识别，相识度setThreshold(0.88f) //阈值设置，范围限 [0.85 , 0.95] 识别可信度，也是识别灵敏度
+   目前人脸检测的环节只要人脸区域像素大于150就能识别，相识度setThreshold(0.88f) //阈值设置，范围限 [0.75 , 0.95] 识别可信度，也是识别灵敏度
    其他参数参考Demo 源码
    
 ### 7.除了支持Android 手机和平板，其他Android 设备是否支持？
@@ -59,8 +59,7 @@
    目前支持的Android 系统版本为Android(5,15]，低版本Android系统可以根据Demo案例使用强制降级依赖，用户可通过Demo验证是否符合业务
 
 ### 8.FaceAI SDK 版权说明
-   FaceAI SDK 使用开源+自研封装实现，无如虹软(试用每年还要激活)，Face++，商汤 商业方案。SDK发布到三方maven central后和平台永久存在，你也可以
-使用离线下载本地依赖 http://hyy12345678.github.io/clay_created/2015/09/25/Way-To-Solve-Androidstutio-offline-dependencies.html
+   FaceAI SDK 使用开源+自研封装实现，非虹软(试用每年还要激活)，Face++，商汤 商业方案二次包装。SDK发布到三方maven central后和平台永久存在
 
 ### 9.摄像头方向调整相关
    目前SDK 的摄像头预览，分析画面都是在内部处理，画面方向和手机，Pad 的姿态（传感器反向）决定，画面能随横竖屏自动切换

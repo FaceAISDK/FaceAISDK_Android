@@ -20,10 +20,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center_vertical"
-            android:padding="4dp"
+            android:padding="5dp"
             android:src="@drawable/share" />
 
         <TextView
@@ -33,7 +33,7 @@
             android:text="@string/share_faceai_sdk"
             android:textColor="@color/white"
             android:textStyle="italic|bold"
-            android:textSize="14sp" />
+            android:textSize="15sp" />
 
     </LinearLayout>
 

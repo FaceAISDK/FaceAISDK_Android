@@ -12,8 +12,8 @@ android {
         minSdk 21
         targetSdk 34      //target SDK 还是28 的请参考question.md 文档说明
 
-        versionCode 20250629
-        versionName "20250629"
+        versionCode 20250704
+        versionName "20250704"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

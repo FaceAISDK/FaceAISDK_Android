@@ -13,8 +13,8 @@
     <string name="long_press_copy_msg">提示：长按复制联系信息</string>
     <string name="share_faceai_sdk">分享人脸识别SDK </string>
     <string name="share_faceai_sdk_content">FaceAISDK 人脸识别 活体检测接入源码\n\n
-Android：https://github.com/AnyLifeZLB/FaceVerificationSDK\n
-iOS SDK：https://github.com/AnyLifeZLB/FaceAISDK_iOS\n
+Android：https://github.com/FaceAISDK/FaceAISDK_Android\n
+iOS SDK：https://github.com/FaceAISDK/FaceAISDK_iOS\n
 Uni App：https://github.com/AnyLifeZLB/uniPlugin_FaceAI_UTS\n
 无法翻墙访问GitHub请发邮件至FaceAISDK.Service@gmail.com获取源码\n\n
 

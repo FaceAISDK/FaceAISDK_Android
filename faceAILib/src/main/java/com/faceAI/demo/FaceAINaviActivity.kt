@@ -12,7 +12,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.faceAI.demo.SysCamera.diyCamera.CustomCameraActivity
 import com.faceAI.demo.SysCamera.search.SearchNaviActivity
-import com.faceAI.demo.base.utils.SystemUtil
 import com.faceAI.demo.base.utils.VoicePlayer
 import com.faceAI.demo.SysCamera.verify.FaceVerifyWelcomeActivity
 import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
@@ -154,10 +153,10 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
 
     private fun showSystemParameter() {
         val TAG = "系统参数："
-        Log.e(TAG, "签名SHA1：" + SystemUtil.getSHA1(baseContext))
-        Log.e(TAG, "设备厂商：" + SystemUtil.getDeviceBrand())
-        Log.e(TAG, "设备型号：" + SystemUtil.getSystemModel())
-        Log.e(TAG, "Android系统版本号：" + SystemUtil.getSystemVersion())
+//        Log.e(TAG, "签名SHA1：" + SystemUtil.getSHA1(baseContext))
+//        Log.e(TAG, "设备厂商：" + SystemUtil.getDeviceBrand())
+//        Log.e(TAG, "设备型号：" + SystemUtil.getSystemModel())
+//        Log.e(TAG, "Android系统版本号：" + SystemUtil.getSystemVersion())
     }
 
 

@@ -5,16 +5,16 @@
 <br>
 
 
-# [关于「保护伞FaceAI SDK」](https://github.com/AnyLifeZLB/FaceVerificationSDK)
+# [关于「FaceAI SDK」](https://github.com/FaceAISDK/FaceAISDK_Android)
 
-Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK
+FaceAI SDK is on_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK
 
-保护伞FaceAI SDK是设备端可离线不联网Android 人脸识别、动作及近红外IR活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别，人脸搜索功能。
-**20250627以上版本已经兼容适配各类型UVC协议USB双目摄像头**
+FaceAI SDK是设备端可离线不联网Android 人脸识别、动作及近红外IR活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别，人脸搜索功能。
+**20250627以上版本已经兼容适配多种类型UVC协议USB双目摄像头**
 
-**iOS SDK：** https://github.com/AnyLifeZLB/FaceAISDK_iOS  
-**Uni App：** https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK  
-**Android：** https://github.com/AnyLifeZLB/FaceVerificationSDK
+**iOS SDK：** https://github.com/FaceAISDK/FaceAISDK_iOS  
+**Uni App：** https://github.com/AnyLifeZLB/FaceAISDK_uniapp_UTS  
+**Android：** https://github.com/FaceAISDK/FaceAISDK_Android
 
 
 <div align=center>
@@ -28,25 +28,25 @@ Umbrella FaceAI SDK is on_device Offline Android Face Detection 、Recognition �
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 20% height = 20% />
 </div>
 
-## 当前版本说明 V2025.07.02 (建议升级到GitHub Demo版本)
+## 当前版本说明 V2025.07.04 (建议升级到GitHub Demo版本)
 - 符合设定阈值的所有人脸搜索结果返回以及添加MN 多人脸搜索
 - 优化人脸搜索和重构三方UVC摄像头管理库
 - 优化低配设备人脸录入和识别活体校验优化
-- 重新构建兼容适配16K Page Size，Google Play上架
+- 2.0 系列重构版本，更新官网 链接说明地址等
 
-建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceVerificationSDK](https://github.com/AnyLifeZLB/FaceVerificationSDK)
+建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceVerificationSDK](https://github.com/FaceAISDK/FaceAISDK_Android)
 
 
 ## 简要说明
 
-SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人脸搜索识别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/Introduce_11_1N_MN.md)，**所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
+SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人脸搜索识别](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md)，**所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
 
 其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），2025.05.10版本已经支持UVC红外双目摄像头，需配备宽动态值大于100DB成像清晰抗逆光摄像头。
 
 集成到主项目有问题请带SDK版本，运行环境和场景描述发邮件到 FaceAISDK.Service@gmail.com ，VIP用户可添加 微信：FaceAISDK 
 
 
-## [使用场景和区别](https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/Introduce_11_1N_MN.md)
+## [使用场景和区别](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/doc/Introduce_11_1N_MN.md)
 
 【1:1】 移动考勤签到、App免密登录、刷脸授权、刷脸解锁、巡更打卡真人校验
 
@@ -116,7 +116,7 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人�
 4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
 
 ## 常见问题
-常见问题请参考：https://github.com/AnyLifeZLB/FaceVerificationSDK/blob/main/doc/questions.md  
+常见问题请参考：https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/doc/questions.md  
 所有的开发测试都在手机和平板进行，特殊定制硬件如 RK3288 等适配需要兼容适配，SDK1.9.0以上版本已经支持UVC
 协议的USB 双目摄像头IR近红外活体，买对应的USB接口的双目摄像头插入手机USB口就能体验效果（不确定品质联系我推荐）
 

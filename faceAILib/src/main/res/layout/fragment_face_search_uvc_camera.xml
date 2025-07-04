@@ -25,10 +25,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_centerInParent="true"
-        app:layout_constraintBottom_toBottomOf="@+id/rgb_camera_texture_view"
-        app:layout_constraintEnd_toEndOf="@+id/rgb_camera_texture_view"
-        app:layout_constraintStart_toStartOf="@+id/rgb_camera_texture_view"
-        app:layout_constraintTop_toTopOf="@+id/rgb_camera_texture_view"/>
+        app:layout_constraintBottom_toBottomOf="@+id/rgb_camera_view"
+        app:layout_constraintEnd_toEndOf="@+id/rgb_camera_view"
+        app:layout_constraintStart_toStartOf="@+id/rgb_camera_view"
+        app:layout_constraintTop_toTopOf="@+id/rgb_camera_view"/>
 
 
     <!-- 可以替换成你自己的UI样式,需要 FaceCoverView 源码联系对接工程师 -->
@@ -72,7 +72,7 @@
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back" />
+        app:layout_constraintTop_toBottomOf="@+id/close" />
 
     <!-- UI 设计仅供参考 -->
     <TextView
@@ -102,7 +102,7 @@
 
 
     <ImageView
-        android:id="@+id/back"
+        android:id="@+id/close"
         android:layout_width="47dp"
         android:layout_height="47dp"
         android:layout_marginStart="15dp"

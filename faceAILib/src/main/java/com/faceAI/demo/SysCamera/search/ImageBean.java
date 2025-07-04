@@ -1,7 +1,7 @@
 package com.faceAI.demo.SysCamera.search;
 
 /**
- * https://github.com/AnyLifeZLB/FaceVerificationSDK
+ * https://github.com/FaceAISDK/FaceAISDK_Android
  */
 public class ImageBean {
     public String path;
