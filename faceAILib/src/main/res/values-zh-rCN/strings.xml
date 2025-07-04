@@ -15,7 +15,7 @@
     <string name="share_faceai_sdk_content">FaceAISDK 人脸识别 活体检测接入源码\n\n
 Android：https://github.com/FaceAISDK/FaceAISDK_Android\n
 iOS SDK：https://github.com/FaceAISDK/FaceAISDK_iOS\n
-Uni App：https://github.com/AnyLifeZLB/uniPlugin_FaceAI_UTS\n
+Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
 无法翻墙访问GitHub请发邮件至FaceAISDK.Service@gmail.com获取源码\n\n
 
 体验Android App 下载：https://www.pgyer.com/faceVerify</string>

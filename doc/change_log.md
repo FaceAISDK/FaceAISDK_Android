@@ -103,7 +103,7 @@
 - 支持自定义摄像头改变Camera画面方向 等进行搜索
 
 # V1.3.0
-- 迁移1:N （M：N） 到独立新库 https://github.com/AnyLifeZLB/FaceSearchSDK_Android
+- 迁移1:N （M：N） 到独立新库 https://github.com/FaceAISDK/FaceSearchSDK_Android
 
 # V1.2.0
 - 识别画面人脸大小灵敏度122*122

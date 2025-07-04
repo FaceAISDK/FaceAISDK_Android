@@ -47,7 +47,7 @@
     * 极端的面部表情。
 
 ### 5.uniApp 原生插件支持
-使用我们的公版uniAPP demo项目集成  https://github.com/AnyLifeZLB/UniPlugin-FaceAISDK
+使用我们的公版uniAPP demo项目集成  https://github.com/FaceAISDK/UniPlugin-FaceAISDK
 细节可以修改原生部分代码重新打包实现。
 
 ### 6.识别的灵敏度准确率参数

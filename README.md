@@ -13,7 +13,7 @@ FaceAI SDK是设备端可离线不联网Android 人脸识别、动作及近红�
 **20250627以上版本已经兼容适配多种类型UVC协议USB双目摄像头**
 
 **iOS SDK：** https://github.com/FaceAISDK/FaceAISDK_iOS  
-**Uni App：** https://github.com/AnyLifeZLB/FaceAISDK_uniapp_UTS  
+**Uni App：** https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS  
 **Android：** https://github.com/FaceAISDK/FaceAISDK_Android
 
 
@@ -66,7 +66,7 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人�
 *   3.Demo工程成功运行后，根据你的业务需求重点熟悉对应模块后再集成到你的主工程
 
 *   4.**集成到你的主工程**，首先Gradle 中引入依赖
-    implementation 'io.github.anylifezlb:FaceAISDK:2025.06.29' //及时升级到github最新版
+    implementation 'io.github.FaceAISDK:Android:2025.06.29' //及时升级到github最新版
 
 *   5.解决项目工程中的第三方依赖库和主工程的冲突比如CameraX的版本等，Target SDK不同导致的冲突
 
