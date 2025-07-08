@@ -1,20 +1,19 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id("com.google.devtools.ksp").version("1.9.20-1.0.14")
+    id("com.google.devtools.ksp").version("1.9.22-1.0.17")
 }
 
 android {
     namespace 'com.faceAI.demo'
-
-    compileSdk 34
+    compileSdk 35
     defaultConfig {
         minSdk 21
-        targetSdk 34 //target SDK 还是28 的请参考question.md 文档说明
+        targetSdk 35 //target SDK 还是28 的请参考question.md 文档说明
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    //1.9.9 版本开始从java11 升级到java17
+    //2025.06.09 版本开始从java11 升级到java17
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -23,6 +22,7 @@ android {
     android {
         defaultConfig {
             ndk {
+                //chrome OS 暂时不支持了
                 abiFilters 'armeabi-v7a','arm64-v8a'
             }
         }
@@ -43,8 +43,8 @@ dependencies {
     // More: https://github.com/shiyinghan/UVCAndroid
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-    //重构版SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
-    implementation 'io.github.faceaisdk:Android:2025.07.01'
+    //2.x 版本SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
+    implementation 'io.github.faceaisdk:Android:2025.07.08'
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
     implementation 'pub.devrel:easypermissions:3.0.0'
@@ -58,7 +58,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "androidx.recyclerview:recyclerview:1.3.2"
 
-    //选照片，用于静态的图人脸对比，使用详情见 https://github.com/javakam/FileOperator
+    //选照片，用于静态人脸图相似度对比，使用详情见 https://github.com/javakam/FileOperator
     implementation 'com.github.javakam:file.core:3.9.8@aar'      //核心库必选(Core library required)
     implementation 'com.github.javakam:file.selector:3.9.8@aar'  //文件选择器(File selector)
     implementation 'com.github.javakam:file.compressor:3.9.8@aar'//图片压缩,修改自Luban

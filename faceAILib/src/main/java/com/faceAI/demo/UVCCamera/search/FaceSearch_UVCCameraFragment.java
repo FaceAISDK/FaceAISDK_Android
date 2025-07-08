@@ -29,15 +29,14 @@ import java.util.List;
 
 
 /**
- *  UVC协议双目摄像头人脸搜索识别业务逻辑管理Fragment
+ * UVC协议双目摄像头人脸搜索识别业务逻辑管理Fragment
  *
  * USB带红外双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
- * <p>
+ *
  * AbstractBinocularUVCCameraFragment 是摄像头相关处理，「调试的时候USB摄像头一定要固定住屏幕正上方」
  *
- * 演示Demo 默认都不启用红外活体检测
- * <p>
- * 更多UVC 摄像头使用参考 https://blog.csdn.net/hanshiying007/article/details/124118486
+ * 怎么提高人脸搜索识别系统的准确度？https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
+ *
  */
 public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragment {
     public FaceSearch_UVCCameraFragment() {

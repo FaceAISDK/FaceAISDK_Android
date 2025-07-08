@@ -11,6 +11,8 @@ import com.faceAI.demo.R;
  * 演示USB 双目摄像头1:1人脸识别，活体检测
  * **更多外接USB外接UVC摄像头**的操作参考这个大神的库：https://github.com/shiyinghan/UVCAndroid
  * 项目中的libs/libuvccamera-release.aar 就是根据此调整部分
+ *
+ * 怎么提高人脸搜索识别系统的准确度？https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
  */
 public class FaceVerify_UVCCameraActivity extends AppCompatActivity {
 

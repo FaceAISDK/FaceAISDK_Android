@@ -41,15 +41,13 @@ import java.util.List;
 
 /**
  * 1:N 人脸搜索识别「1:N face search」
- * <p>
- * USB UVC协议双目摄像头参考{@link FaceVerify_UVCCameraActivity} 改造一下
  *
  * 1.  使用的宽动态（大于110DB）高清抗逆光摄像头；**保持镜头整洁干净（会粘指纹油污的用纯棉布擦拭干净）**
  * 2.  录入高质量的人脸图，如（images/face\_example.jpg）（证件照输入目前优化中）
  * 3.  光线环境好否则加补光灯，人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
  * 4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
  *
- * 系统相机跑久了也会性能下降，建议测试前重启系统，定时重启
+ * 怎么提高人脸搜索识别系统的准确度？https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
  */
 public class FaceSearch1NActivity extends AppCompatActivity {
     //如果设备没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
@@ -76,7 +74,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0.001f) //焦距范围[0.001f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
+                .setLinearZoom(0f) //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)   //画面旋转方向
                 .setSize(CameraXFragment.SIZE.DEFAULT) //相机的分辨率大小。分辨率越大画面中人像很小也能检测但是会更消耗CPU
                 .create();
@@ -122,7 +120,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                     @Override
                     public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
                         //已经按照降序排列，可以弹出一个列表框
-                        Log.d("onFaceMatched",matchedResults.toString());
+                        Log.d("onFaceMatched","符合设定阈值的结果: "+matchedResults.toString());
                     }
 
                     /**

@@ -5,10 +5,7 @@ import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_MIRROR_H;
 import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_SELECT;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_MIRROR_H;
-import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_SELECT;
 import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.IR_KEY_DEFAULT;
-import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -20,7 +17,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.faceAI.demo.UVCCamera.manger.CameraBuilder;
 import com.faceAI.demo.UVCCamera.manger.UVCCameraManager;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
