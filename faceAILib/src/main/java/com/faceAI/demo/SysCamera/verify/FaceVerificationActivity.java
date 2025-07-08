@@ -72,7 +72,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0.001f)    //焦距范围[0.001f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
+                .setLinearZoom(0f)    //焦距范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)      //画面旋转方向
                 .setSize(CameraXFragment.SIZE.DEFAULT) //相机的分辨率大小。分辨率越大画面中人像很小也能检测但是会更消耗CPU
                 .create();
@@ -139,9 +139,9 @@ public class FaceVerificationActivity extends AppCompatActivity {
     private void initFaceVerificationParam(Bitmap baseBitmap) {
         //建议老的低配设备减少活体检测步骤，加长活体检测 人脸对比时间。
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                .setThreshold(0.85f)                    //阈值设置，范围限 [0.75,0.95] 识别可信度，也是识别灵敏度
+                .setThreshold(0.84f)                    //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
                 .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
-                .setCompareDurationTime(3000)           //人脸识别对比时间[3000,5000] 毫秒。相似度很低会持续设置的时间
+                .setCompareDurationTime(3500)           //人脸识别对比时间[3000,5000] 毫秒。相似度很低会持续设置的时间
                 .setLivenessType(MotionLivenessType.SILENT_MOTION) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>100Db)
                 .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.98]
                 .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式

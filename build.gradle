@@ -17,7 +17,7 @@ buildscript {
 
     //FaceAILib 的java version 和 Kotlin 配置
     ext {
-        kotlin_version = "1.9.20"
+        kotlin_version = "1.9.22"
         java_version = JavaVersion.VERSION_17
     }
 
@@ -27,8 +27,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.20"
+        classpath 'com.android.tools.build:gradle:8.11.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22"
     }
 
 

@@ -113,7 +113,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
      */
     void initFaceVerificationParam(Bitmap baseBitmap) {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(getContext())
-                .setThreshold(0.85f)                    //阈值设置，范围限 [0.75 , 0.95] 识别可信度，也是识别灵敏度
+                .setThreshold(0.84f)                    //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
                 .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
                 .setLivenessType(MotionLivenessType.IR) //IR 是指红外静默，MOTION 是有动作可以指定1-2 个
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)//硬件配置低用FAST动作活体模式，否则用精确模式
@@ -121,7 +121,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
 //                .setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑 或其他某一种
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(12) //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
-//                .setCompareDurationTime(5000) //动作活体通过后人脸对比时间，[3000,6000]毫秒。低配设备可以设置时间长一点，高配设备默认就行
+//                .setCompareDurationTime(4500) //动作活体通过后人脸对比时间，[3000,6000]毫秒。低配设备可以设置时间长一点，高配设备默认就行
                 .setProcessCallBack(new ProcessCallBack() {
 
                     /**
