@@ -30,6 +30,7 @@
         <activity
             android:name="com.faceAI.demo.FaceAINaviActivity"
             android:configChanges="orientation"
+            android:theme="@style/AppTheme"
             android:exported="false">
         </activity>
 
@@ -47,11 +48,14 @@
 
         <activity
             android:name="com.faceAI.demo.AboutFaceAppActivity"
+            android:theme="@style/AppTheme"
             android:exported="false" />
 
         <activity
             android:name=".SysCamera.diyCamera.CustomCameraActivity"
+            android:theme="@style/AppTheme"
             android:exported="false" />
+
         <activity
             android:name="com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity"
             android:theme="@style/FaceAITheme"
@@ -65,26 +69,30 @@
         <activity
             android:name="com.faceAI.demo.SysCamera.search.FaceSearchMNActivity"
             android:exported="false"
+            android:theme="@style/AppTheme"
             android:launchMode="singleTop" />
 
         <activity
             android:name="com.faceAI.demo.SysCamera.search.FaceSearchImageMangerActivity"
+            android:theme="@style/AppTheme"
             android:exported="false">
         </activity>
 
         <activity
             android:name="com.faceAI.demo.SysCamera.verify.FaceVerifyWelcomeActivity"
+            android:theme="@style/AppTheme"
             android:exported="false">
         </activity>
 
-
         <activity
             android:name="com.faceAI.demo.SysCamera.search.SearchNaviActivity"
+            android:theme="@style/AppTheme"
             android:exported="false">
         </activity>
 
         <activity
             android:name="com.faceAI.demo.FaceAISettingsActivity"
+            android:theme="@style/AppTheme"
             android:exported="false">
         </activity>
 

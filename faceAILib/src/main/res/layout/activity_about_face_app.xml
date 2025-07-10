@@ -54,7 +54,7 @@
         android:layout_marginLeft="22dp"
         android:gravity="left"
         android:padding="15dp"
-        android:text="What  App ：   +8618707611416"
+        android:text="What  App ：   +861870761****"
         android:textColor="@android:color/white"
         android:textSize="15sp"
         android:visibility="invisible"

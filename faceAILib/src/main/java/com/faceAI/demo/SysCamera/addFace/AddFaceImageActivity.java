@@ -113,6 +113,7 @@ public class AddFaceImageActivity extends AppCompatActivity {
 
         CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
+            //某些设备如果一直提示检测不到人脸，可以断点调试看看转化的Bitmap 是否有问题
             baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy, 10, false));
         });
 
