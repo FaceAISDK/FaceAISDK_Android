@@ -5,9 +5,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
+    <!-- 摄像头预览画面ContainerView -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_camerax"
+        android:layout_margin="7dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -74,7 +74,7 @@ public class FaceVerificationActivity extends AppCompatActivity {
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0f)    //焦距范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)      //画面旋转方向
-                .setSize(CameraXFragment.SIZE.DEFAULT) //相机的分辨率大小。分辨率越大画面中人像很小也能检测但是会更消耗CPU
+                .setSize(CameraXFragment.SIZE.MIDDLE) //相机的分辨率大小。分辨率越大画面中人像很小也能检测但是会更消耗CPU
                 .create();
 
         cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
@@ -154,10 +154,10 @@ public class FaceVerificationActivity extends AppCompatActivity {
                      *
                      * @param isMatched   true匹配成功（大于setThreshold）； false 与底片不是同一人
                      * @param similarity  与底片匹配的相似度值
-                     * @param vipBitmap   识别完成的时候人脸实时图，金融级别可以再次和自己的服务器二次校验
+                     * @param bitmap   识别完成的时候人脸实时图，金融级别可以再次和自己的服务器二次校验
                      */
                     @Override
-                    public void onVerifyMatched(boolean isMatched, float similarity, float silentLivenessScore, Bitmap vipBitmap) {
+                    public void onVerifyMatched(boolean isMatched, float similarity, float silentLivenessScore, Bitmap bitmap) {
                         showVerifyResult(isMatched, similarity, silentLivenessScore);
                     }
 

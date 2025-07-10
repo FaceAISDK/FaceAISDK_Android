@@ -40,4 +40,15 @@ public class FaceAIConfig {
         return file.exists();
     }
 
+
+    /**
+     * 删除本地人脸ID
+     * @param faceID ID，Key
+     * @return 是否删除成功
+     */
+    public static boolean deleteFaceID(String faceID) {
+        File file = new File(CACHE_BASE_FACE_DIR + faceID);
+        return file.delete();
+    }
+
 }
