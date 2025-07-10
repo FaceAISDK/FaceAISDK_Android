@@ -6,10 +6,10 @@ plugins {
 
 android {
     namespace 'com.faceAI.demo'
-    compileSdk 35
+    compileSdk 34
     defaultConfig {
         minSdk 21
-        targetSdk 35 //target SDK 还是28 的请参考question.md 文档说明
+        targetSdk 34 //target SDK 还是28 的请参考question.md 文档说明
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -44,7 +44,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     //2.x 版本SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
-    implementation 'io.github.faceaisdk:Android:2025.07.08'
+    implementation 'io.github.faceaisdk:Android:2025.07.09.xhz'
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
     implementation 'pub.devrel:easypermissions:3.0.0'
@@ -52,6 +52,7 @@ dependencies {
     api 'com.airbnb.android:lottie:6.0.0'
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.8'
+
     implementation("com.github.bumptech.glide:glide:4.16.0")
     ksp("com.github.bumptech.glide:ksp:4.16.0")
     implementation 'androidx.appcompat:appcompat:1.6.0'

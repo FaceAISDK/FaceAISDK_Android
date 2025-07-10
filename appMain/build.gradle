@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "com.ai.face.verifyPub"
 
-        minSdk 21
+        minSdk 24         //暂时只支持Android 7以上，需要更低需定制
         targetSdk 34      //target SDK 还是28 的请参考question.md 文档说明
 
         versionCode 20250708
