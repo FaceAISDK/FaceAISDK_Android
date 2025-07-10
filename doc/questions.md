@@ -1,13 +1,13 @@
 ###  服务说明
-  SDK 在低配早期魅蓝Note3（Android7） 华为P8（Android6），以及最新高配旗舰机型三星S25，小米15和小米pad 7pro
-  经过严格测试验证；低配设备和成像不清晰的宽动态值小于100Db 的摄像头某些功能可能会表现不友好，建议按照说明配置对应参数
+  SDK 在低配早期魅蓝Note3（Android7，以及最新高配旗舰机型三星S25，小米15和小米pad 7pro
+  经过严格测试验证；低配设备和成像不清晰的宽动态值小于105Db 的摄像头某些功能可能会表现不友好，建议按照说明配置对应参数
   详细参考：https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
   
   SDK不读取任何敏感信息，严格限制运行获取权限仅需一个相机运行权限，充分保护隐私数据，不联网就能工作更不会收集上传人脸关键信息。
   SDK 目前托管在Maven central，SDK所有功能都是离线端侧运行
 
 ### 1.集成SDK开发环境和Gradle 插件版本是怎样的？
-  开发环境 Android Studio Iguana | 2024.3.1
+  开发环境 Android Studio Iguana | 2025.1.1
   gradle插件版本 7.5  gradle 版本 7.4.2
   **java17 , kotlin 1.9.22**
 
@@ -53,6 +53,7 @@
 
 ### 7.FaceAI SDK 版权说明
    FaceAI SDK 使用开源+自研封装实现，非虹软(试用每年还要激活)，Face++，商汤 商业方案二次包装。SDK发布到三方maven central后和平台永久存在
+   具体参考doc 目录LICENSE 说明
 
 ### 8.调整Target SDK （如target SDK 28）后依赖冲突怎么处理？或者外部依赖的版本需要强制为某个版本怎么处理
    根据Compile SDK 不同，各自项目依赖体系不一样

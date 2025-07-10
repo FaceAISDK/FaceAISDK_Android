@@ -16,13 +16,13 @@ FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体
 **Android：** https://github.com/FaceAISDK/FaceAISDK_Android
 
 <div align=center>
-<img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 21% height = 21% />
+<img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 21%  alt="点击查看详情"/>
 </div>
 
 ![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
 <div align=center>
-<img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 21% height = 21% />
+<img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 21%  />
 </div>
 
 ## 当前版本说明 V2025.07.08 (建议升级到GitHub Demo版本)
@@ -37,9 +37,9 @@ FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体
 
 SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人脸搜索识别](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md)，**所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
 
-其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），2025.05.10版本已经支持UVC红外双目摄像头，需配备宽动态值大于100DB成像清晰抗逆光摄像头。
+其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），2025.05.10版本已经支持UVC红外双目摄像头，需配备宽动态值大于105Db成像清晰抗逆光摄像头。
 
-集成到主项目有问题请带SDK版本，运行环境和使用场景描述发邮件到 FaceAISDK.Service@gmail.com ，VIP用户可添加 微信：FaceAISDK
+集成到主项目有问题请描述SDK版本，运行环境和使用场景描述提issues或发邮件到 FaceAISDK.Service@gmail.com ，VIP用户可添加 微信：FaceAISDK
 
 ## [使用场景和区别](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/doc/Introduce_11_1N_MN.md)
 
@@ -60,7 +60,7 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人�
 *   3.Demo工程成功运行后，根据你的业务需求重点熟悉对应模块后再集成到你的主工程
 
 *   4.**集成到你的主工程**，首先Gradle 中引入依赖
-    implementation 'io.github.FaceAISDK:Android:2025.06.29' //及时升级到github最新版
+    implementation 'io.github.FaceAISDK:Android:2025.建议最新版本' //及时升级到github最新版
 
 *   5.解决项目工程中的第三方依赖库和主工程的冲突比如CameraX的版本等，Target SDK不同导致的冲突
 
@@ -84,29 +84,30 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人�
 | /SysCamera/\* | 手机，平板自带的系统相机，一般系统摄像头打开就能看效果         |
 
 
-## Demo 下载体验
-
-扫码后选择在浏览器中打开点击下载安装，或直接输入地址 https://www.pgyer.com/faceVerify
+## Demo APK 下载体验
 
 <div align=center>
-<img src="https://user-images.githubusercontent.com/15169396/210045090-60c073df-ddbd-4747-8e24-f0dce1eccb58.png" width = 23% height = 23% />
+<img src="https://www.pgyer.com/app/qrcode/faceVerify" width = 23%   alt="请点击上面下载地址"/>
 </div>
 
+更多历史版本查看这里： https://www.pgyer.com/faceVerify
 
 ## 如何提升接入效率，提高SDK识别准确率
 
 ### 提升接入效率
 
-1.  去蒲公英下载APK Demo 体验SDK 的基本功能，看看是否满足业务需求；人脸搜索可以一键导入200+张人脸图再录入你自己的
+1.  去蒲公英下载APK Demo体验各种功能，查验是否满足业务需求；人脸搜索可以一键导入自带300张人脸图然后再录入你自己的
 2.  更新GitHub 最新的代码，花1天左右时间熟悉SDK API 和对应的注释备注，断点调试一下基本功能；熟悉后再接入到主工程
 3.  欲速则不达，一定要先跑成功SDK接入指引Demo。熟悉后再接入到主工程验证匹配业务功能；有问题可以GitHub 提issues
 
-### 提高SDK识别率
+### 提高SDK识别率与人脸搜索准确度
 
-1.  使用宽动态（人脸搜索须大于100 Db）抗逆光摄像头；**保持镜头干净（用纯棉布擦拭油污）**
+1.  使用宽动态（人脸搜索须大于105 Db）抗逆光成像清晰摄像头；**保持镜头干净（纯棉布擦拭油污）**
 2.  录入高质量的人脸图，可参考（images/face\_example.jpg）
 3.  光线环境好否则加补光灯，人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
-4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
+4.  录入的人脸图五官清晰无遮挡，尺寸大于 300*300（人脸部分区域大于200*200） 
+
+ 更多说明：https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
 
 ## 常见问题
 常见问题请参考：https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/doc/questions.md  

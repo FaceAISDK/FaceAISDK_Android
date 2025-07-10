@@ -151,7 +151,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         FaceSearchEngine.Companion.getInstance().initSearchParams(faceProcessBuilder);
 
         // 4.从标准默认的HAL CameraX 摄像头中取数据实时搜索
-        // 建议设备配置 CPU为八核64位2.4GHz以上,  摄像头RGB 宽动态(大于100Db)高清成像，光线不足设备加补光灯
+        // 建议设备配置 CPU为八核64位2.4GHz以上,  摄像头RGB 宽动态(大于105Db)高清成像，光线不足设备加补光灯
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
             if (!isDestroyed() && !isFinishing()) {
