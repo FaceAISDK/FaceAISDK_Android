@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id("com.google.devtools.ksp").version("2.2.0-2.0.2")
+    id("com.google.devtools.ksp").version("1.9.22-1.0.17")
 }
 
 android {
@@ -10,7 +10,6 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 33 //target SDK 还是28 的请参考question.md 文档说明
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     //2025.06.09 版本开始从java11 升级到java17
@@ -28,29 +27,35 @@ android {
         }
     }
 
-    buildFeatures {
-        viewBinding true
-        buildConfig true
+    //为了导入libs 目录下的 libuvccamera-release.aar
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
     }
 
+    //压制 低版本Gradle build Local AAR Error
     lint {
         abortOnError false
         checkReleaseBuilds false
     }
 
+    buildFeatures {
+        viewBinding true
+        buildConfig true
+    }
+
 }
 
 
-// GitHub 无法访问，挂梯子也无效 ？参考 https://github.com/maxiaof/github-hosts
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
+    //2025.07.15 发布2.0 系列正式版本
     //2.x 版本SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
-    implementation 'io.github.faceaisdk:Android:2025.07.11.test3'
+    implementation 'io.github.faceaisdk:Android:2025.07.12X'
 
-    // UVC协议USB摄像头库 More: https://github.com/shiyinghan/UVCAndroid
-//    implementation 'io.github.faceaisdk:UVCCamera:2025.07.14_a'
-    implementation 'io.github.faceaisdk:uvccamera:2025.07.11'
+    //UVC协议USB摄像头库 More: https://github.com/shiyinghan/UVCAndroid
+    implementation files('libs/libuvccamera-release.aar')
 
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖

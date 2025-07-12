@@ -9,7 +9,7 @@
 ### 1.集成SDK开发环境和Gradle 插件版本是怎样的？
   开发环境 Android Studio Iguana | 2025.1.1
   gradle插件版本 7.5  gradle 版本 7.4.2
-  **java17 , kotlin 1.9.20**
+  **java17 , kotlin 1.9.22**
 
   如果你的项目还有kapt请迁移至KSP，kapt 官方已经停止维护
   kotlin-android-extensions官方也已经停止维护，建议升级为viewbinding

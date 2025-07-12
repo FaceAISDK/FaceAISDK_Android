@@ -77,7 +77,7 @@ class AboutFaceAppActivity : AppCompatActivity() {
     }
 
 
-    fun getVersionName(context: Context): String? {
+    private fun getVersionName(context: Context): String? {
         try {
             val pInfo = context.packageManager.getPackageInfo(context.packageName, 0)
             return pInfo.versionName

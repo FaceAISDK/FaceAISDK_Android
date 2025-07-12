@@ -1,6 +1,7 @@
 package com.faceAI.demo;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 
 import com.faceAI.demo.base.utils.VoicePlayer;
 
@@ -49,6 +50,21 @@ public class FaceAIConfig {
     public static boolean deleteFaceID(String faceID) {
         File file = new File(CACHE_BASE_FACE_DIR + faceID);
         return file.delete();
+    }
+
+
+    /**
+     * 检测App 是否调试模式
+     *
+     * @param  mContext
+     * @return
+     */
+    public static boolean isDebugMode(Context mContext){
+        if (0 != (mContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE)){
+            //Debug 模式是打开状态
+            return true;
+        }
+        return false;
     }
 
 }

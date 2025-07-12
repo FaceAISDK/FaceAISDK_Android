@@ -59,13 +59,13 @@ class FaceAISettingsActivity : AppCompatActivity() {
         }
 
         // 2. 切换系统相机旋转角度
-        val degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, 4) % 5
+        val degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, 3) % 4
         val degreeStr = when (degree) {
             0 -> "0°"
             1 -> "90°"
             2 -> "180°"
             3 -> "270°"
-            else -> "Default"
+            else -> "0°"
         }
         binding.cameraDegreeText.text = getString(R.string.camera_degree_set) + degreeStr
 
@@ -74,16 +74,16 @@ class FaceAISettingsActivity : AppCompatActivity() {
          * {@link Surface.ROTATION_0}
          */
         binding.switchCameraDegree.setOnClickListener {
-            val degree = (sharedPref.getInt(SYSTEM_CAMERA_DEGREE, 4) + 1) % 5
-            sharedPref.edit(commit = true) { putInt(SYSTEM_CAMERA_DEGREE, degree) }
-            val degreeStr = when (degree) {
+            val degreeSys = (sharedPref.getInt(SYSTEM_CAMERA_DEGREE, 3) + 1) % 4
+            sharedPref.edit(commit = true) { putInt(SYSTEM_CAMERA_DEGREE, degreeSys) }
+            val degreeStrSys = when (degreeSys) {
                 0 -> "0°"
                 1 -> "90°"
                 2 -> "180°"
                 3 -> "270°"
-                else -> "Default"
+                else -> "0"
             }
-            binding.cameraDegreeText.text = getString(R.string.camera_degree_set) + degreeStr
+            binding.cameraDegreeText.text = getString(R.string.camera_degree_set) + degreeStrSys
         }
 
 

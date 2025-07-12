@@ -20,14 +20,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.view.CameraXFragment;
+import com.faceAI.demo.FaceAIConfig;
 import com.faceAI.demo.R;
+import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.view.DemoFaceCoverView;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus.*;
-import com.ai.face.faceVerify.verify.VerifyUtils;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
 import com.faceAI.demo.base.utils.VoicePlayer;
@@ -101,9 +102,9 @@ public class FaceVerificationActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getBaseContext(), R.string.add_a_face_image, Toast.LENGTH_LONG).show();
             //为了演示方便放这里，实际应该在启动人脸识别前处理好
-            if(VerifyUtils.isDebugMode(getBaseContext())){
+            if(FaceAIConfig.isDebugMode(getBaseContext())){
                 //模拟从你的业务服务器获取对应的人脸图，Demo简化从Asset目录读取。请熟悉Demo主流程后根据你的业务情况再改造
-                Bitmap remoteBitmap = VerifyUtils.getBitmapFromAssert(this, "0a_模拟证件照.jpeg");
+                Bitmap remoteBitmap = BitmapUtils.getBitmapFromAsset(this, "0a_模拟证件照.jpeg");
                 if (remoteBitmap == null) {
                     Toast.makeText(getBaseContext(), R.string.add_a_face_image, Toast.LENGTH_LONG).show();
                     tipsTextView.setText(R.string.add_a_face_image);
