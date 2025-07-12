@@ -25,11 +25,11 @@ FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 21%  />
 </div>
 
-## 当前版本说明 V2025.07.08 (建议升级到GitHub Demo版本)
+## 当前版本说明 V2025.07.11 (建议升级到GitHub Demo版本)
 - 符合设定阈值的所有人脸搜索结果返回以及添加MN 多人脸搜索
 - 优化人脸搜索和重构三方UVC摄像头管理库
 - 优化低配设备人脸录入和识别活体校验优化
-- 2.0系列重构版本，更新官网 链接说明地址等
+- 优化低配设备设备速度，解决某些情况闪退问题
 
 建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceAISDK_Android](https://github.com/FaceAISDK/FaceAISDK_Android)
 
@@ -65,7 +65,7 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人�
 *   5.解决项目工程中的第三方依赖库和主工程的冲突比如CameraX的版本等，Target SDK不同导致的冲突
 
 
-    目前SDK使用**java17. kotlin 1.9.22，AGP 7.x **打包，如果你的项目较老还在使用
+    目前SDK使用**java17. kotlin 1.9.20，AGP 7.x **打包，如果你的项目较老还在使用
     kapt, kotlin-android-extensions导致集成冲突，建议尽快升级项目或者VIP联系定制
 
     更多使用说明下载SDK源码工程代码到Android Studio 以及下载Demo APK到手机体验完整的流程和效果

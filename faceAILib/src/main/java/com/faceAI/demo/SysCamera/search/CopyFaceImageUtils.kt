@@ -25,6 +25,10 @@ import java.io.InputStream
  * 需要更多验证人脸图请邮箱联系，我们提高3000张图
  *
  * 封装Utils供Java 代码调用。使用Kotlin 协程能极大的简化代码结构
+ *
+ * 网盘分享的3000 张人脸图链接: https://pan.baidu.com/s/1RfzJlc-TMDb0lQMFKpA-tQ?pwd=Face 提取码: Face
+ * 可复制工程目录 ./faceAILib/src/main/assert 下后在Demo 的人脸库管理页面一键导入模拟插入多张人脸图
+ *
  */
 class CopyFaceImageUtils {
 
@@ -38,6 +42,7 @@ class CopyFaceImageUtils {
         /**
          * 快速复制工程目录 ./app/src/main/assert目录下200+张 人脸图入库
          * 人脸图规范要求 大于 300*300（人脸部分区域大于200*200）的光线充足无遮挡的正面人脸如（./images/face_example.jpg)
+         * 网盘分享的3000 张人脸图链接: https://pan.baidu.com/s/1RfzJlc-TMDb0lQMFKpA-tQ?pwd=Face 提取码: Face
          *
          * @param context
          * @param callBack

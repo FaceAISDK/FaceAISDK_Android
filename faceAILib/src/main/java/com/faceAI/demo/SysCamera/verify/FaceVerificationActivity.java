@@ -72,9 +72,9 @@ public class FaceVerificationActivity extends AppCompatActivity {
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0f)    //焦距范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
+                .setLinearZoom(0.0001f)    //焦距范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)      //画面旋转方向
-                .setSize(CameraXFragment.SIZE.MIDDLE) //相机的分辨率大小。分辨率越大画面中人像很小也能检测但是会更消耗CPU
+                .setSize(CameraXFragment.SIZE.DEFAULT) //相机的分辨率大小。一般默认就可以
                 .create();
 
         cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
