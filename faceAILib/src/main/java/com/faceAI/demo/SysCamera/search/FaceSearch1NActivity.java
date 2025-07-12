@@ -48,6 +48,9 @@ import java.util.List;
  * 4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
  *
  * 怎么提高人脸搜索识别系统的准确度？https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
+ *
+ * 网盘分享的3000 张人脸图链接: https://pan.baidu.com/s/1RfzJlc-TMDb0lQMFKpA-tQ?pwd=Face 提取码: Face
+ * 可复制工程目录 ./faceAILib/src/main/assert 下后在Demo 的人脸库管理页面一键导入模拟插入多张人脸图
  */
 public class FaceSearch1NActivity extends AppCompatActivity {
     //如果设备没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光

@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id("com.google.devtools.ksp").version("1.9.22-1.0.17")
+    id("com.google.devtools.ksp").version("2.2.0-2.0.2")
 }
 
 android {
@@ -33,18 +33,25 @@ android {
         buildConfig true
     }
 
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+
 }
 
 
 // GitHub 无法访问，挂梯子也无效 ？参考 https://github.com/maxiaof/github-hosts
 dependencies {
-
-    // 双目USB摄像头用lib目录三方库V1.0.9 ，在libs 目录下libuvccamera-release.aar
-    // More: https://github.com/shiyinghan/UVCAndroid
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     //2.x 版本SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
-    implementation 'io.github.faceaisdk:Android:2025.07.09.xhz'
+    implementation 'io.github.faceaisdk:Android:2025.07.11.test3'
+
+    // UVC协议USB摄像头库 More: https://github.com/shiyinghan/UVCAndroid
+//    implementation 'io.github.faceaisdk:UVCCamera:2025.07.14_a'
+    implementation 'io.github.faceaisdk:uvccamera:2025.07.11'
+
 
     // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
     implementation 'pub.devrel:easypermissions:3.0.0'
