@@ -9,7 +9,7 @@
 FaceAI SDK is on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK
 
 FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别，人脸搜索功能。
-**20250627以上版本已经兼容适配多种类型UVC协议USB双目摄像头**
+**20250715以上版本已经兼容适配多种类型UVC协议USB双目摄像头**
 
 **iOS SDK：** https://github.com/FaceAISDK/FaceAISDK_iOS  
 **Uni App：** https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS  
@@ -25,8 +25,8 @@ FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 21%  />
 </div>
 
-## 当前版本说明 V2025.07.11 (建议升级到GitHub Demo版本)
-- 符合设定阈值的所有人脸搜索结果返回以及添加MN 多人脸搜索
+## 当前版本说明 V2025.07.12 (建议升级到20250712以上重构版本)
+- 符合设定阈值的所有人脸搜索结果返回
 - 优化人脸搜索和重构三方UVC摄像头管理库
 - 优化低配设备人脸录入和识别活体校验优化
 - 优化低配设备设备速度，解决某些情况闪退问题
@@ -37,7 +37,7 @@ FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体
 
 SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人脸搜索识别](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md)，**所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
 
-其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），2025.05.10版本已经支持UVC红外双目摄像头，需配备宽动态值大于105Db成像清晰抗逆光摄像头。
+其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），2025.07.15版本已经支持UVC红外双目摄像头，需配备宽动态值大于105Db成像清晰抗逆光摄像头。
 
 集成到主项目有问题请描述SDK版本，运行环境和使用场景描述提issues或发邮件到 FaceAISDK.Service@gmail.com ，VIP用户可添加 微信：FaceAISDK
 
@@ -65,7 +65,7 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人�
 *   5.解决项目工程中的第三方依赖库和主工程的冲突比如CameraX的版本等，Target SDK不同导致的冲突
 
 
-    目前SDK使用**java17. kotlin 1.9.20，AGP 7.x **打包，如果你的项目较老还在使用
+    目前SDK使用**java17. kotlin 1.9.22，AGP 7.x **打包，如果你的项目较老还在使用
     kapt, kotlin-android-extensions导致集成冲突，建议尽快升级项目或者VIP联系定制
 
     更多使用说明下载SDK源码工程代码到Android Studio 以及下载Demo APK到手机体验完整的流程和效果
@@ -73,15 +73,15 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人�
 
 **工程目录结构简要介绍**
 
-| 模块            | 描述                                         |
-|---------------|-----------------------------------------------|
-| appMain       | 主工程，implementation project(':faceAILib')    |
-| faceAILib     | 子Module，FaceAISDK 所有功能都在module 中演示      |
-| /verify/\*    | 1:1 人脸检测识别，活体检测页面，静态人脸对比          |
-| /search/\*    | 1:N 人脸搜索识别，人脸库增删改管理等财政              |
-| /addFaceImage | 人脸识别和搜索共用的添加人脸照片录入模块               |
-| /UVCCamera/\* | UVC协议双目红外摄像头人脸识别，人脸搜索，一般是自自定义的硬件   |
-| /SysCamera/\* | 手机，平板自带的系统相机，一般系统摄像头打开就能看效果         |
+| 模块            | 描述                                           |
+|---------------|----------------------------------------------|
+| faceAIDemo    | Demo主工程，implementation project(':faceAILib') |
+| faceAILib     | 子Module，FaceAISDK 所有功能都在module 中演示           |
+| /verify/\*    | 1:1 人脸检测识别，活体检测页面，静态人脸对比                     |
+| /search/\*    | 1:N 人脸搜索识别，人脸库增删改管理等财政                       |
+| /addFaceImage | 人脸识别和搜索共用的添加人脸照片录入模块                         |
+| /UVCCamera/\* | UVC协议双目红外摄像头人脸识别，人脸搜索，一般是自自定义的硬件             |
+| /SysCamera/\* | 手机，平板自带的系统相机，一般系统摄像头打开就能看效果                  |
 
 
 ## Demo APK 下载体验

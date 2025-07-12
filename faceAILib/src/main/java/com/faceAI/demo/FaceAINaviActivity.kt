@@ -18,6 +18,7 @@ import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
 import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
+import androidx.core.content.edit
 
 /**
  * SDK 接入演示Demo，请先熟悉本Demo跑通住流程后再集成到你的主工程验证业务
@@ -169,8 +170,13 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
             //设置对话框布局
             dialog.setView(dialogView)
             val btnOK = dialogView.findViewById<Button>(R.id.btn_ok)
-            btnOK.setOnClickListener { v: View? ->
-                sharedPref.edit().putLong("showFaceAISDKTips", System.currentTimeMillis()).commit()
+            btnOK.setOnClickListener {
+                sharedPref.edit(commit = true) {
+                    putLong(
+                        "showFaceAISDKTips",
+                        System.currentTimeMillis()
+                    )
+                }
                 dialog.dismiss()
             }
             dialog.setCanceledOnTouchOutside(false)

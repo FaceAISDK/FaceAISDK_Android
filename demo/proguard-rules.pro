@@ -1,0 +1,1 @@
+-dontwarn kotlinx.parcelize.Parcelize 

@@ -20,7 +20,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.faceAI.demo.BuildConfig
 import com.ai.face.base.baseImage.FaceAIUtils
-import com.ai.face.faceVerify.verify.VerifyUtils
+import com.ai.face.faceVerify.verify.FaceVerifyUtils
 import com.faceAI.demo.base.utils.fileUtils.MyFileUtils
 import com.faceAI.demo.databinding.ActivityTwoFaceImageVerifyBinding
 
@@ -65,7 +65,7 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
         viewBinding.goVerify.setOnClickListener {
             // 不能两张图直接比较，要先经过 checkFaceQuality 检测裁剪图片中的人脸
             // FaceAIUtils.Companion.getInstance(application).checkFaceQuality(
-            val simi = VerifyUtils.evaluateFaceSimi(
+            val simi = FaceVerifyUtils().evaluateFaceSimi(
                 baseContext,
                 bitmapMap[viewBinding.image1.tag],
                 bitmapMap[viewBinding.image2.tag]

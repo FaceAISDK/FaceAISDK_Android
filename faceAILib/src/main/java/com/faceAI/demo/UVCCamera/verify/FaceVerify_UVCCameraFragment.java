@@ -13,12 +13,12 @@ import androidx.appcompat.app.AlertDialog;
 import com.faceAI.demo.FaceAIConfig;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.utils.BrightnessUtil;
+import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.view.DemoFaceCoverView;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus;
-import com.ai.face.faceVerify.verify.VerifyUtils;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
 import com.faceAI.demo.base.utils.VoicePlayer;
@@ -80,7 +80,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
             initFaceVerificationParam(baseBitmap);
         } else {
             //模拟从网络等地方获取对应的人脸图，Demo 简化从Asset 目录读取
-            Bitmap remoteBitmap = VerifyUtils.getBitmapFromAssert(requireActivity(), "0a_模拟证件照.jpeg");
+            Bitmap remoteBitmap = BitmapUtils.getBitmapFromAsset(requireActivity(), "0a_模拟证件照.jpeg");
             if (remoteBitmap == null) {
                 Toast.makeText(getContext(), R.string.add_a_face_image, Toast.LENGTH_LONG).show();
                 tipsTextView.setText(R.string.add_a_face_image);

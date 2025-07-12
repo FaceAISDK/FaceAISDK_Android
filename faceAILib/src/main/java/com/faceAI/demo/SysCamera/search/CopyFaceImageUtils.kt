@@ -69,7 +69,6 @@ class CopyFaceImageUtils {
                 .setLayout(R.layout.float_loading) {
                     val entry: LottieAnimationView = it.findViewById(R.id.entry)
                     entry.setAnimation(R.raw.waiting)
-                    entry.loop(true)
                     entry.playAnimation()
                 }
                 .show()

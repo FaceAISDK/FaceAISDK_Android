@@ -1,4 +1,4 @@
-package com.example.mainapp;
+package com.example.demo;
 
 import android.animation.Animator;
 import android.content.Intent;
@@ -17,8 +17,8 @@ import com.tencent.bugly.crashreport.CrashReport;
  * 1.整体拷贝faceAILib 代码到你的主程一级目录
  * 2.settings.gradle 中 include ':faceAILib'
  * 3.调整工程一级目录root级build.gradle 的
- *
- * https://github.com/FaceAISDK/FaceAISDK_Android
+ * <p>
+ * <a href="https://github.com/FaceAISDK/FaceAISDK_Android">...</a>
  */
 public class WelcomeActivity extends AppCompatActivity {
 
