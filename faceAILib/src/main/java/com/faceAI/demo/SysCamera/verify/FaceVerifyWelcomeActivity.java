@@ -67,10 +67,13 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         Bundle bundle = getIntent().getExtras();
-        dataSourceType = (DataSourceType) bundle.getSerializable(FACE_VERIFY_DATA_SOURCE_TYPE);
-        if (dataSourceType.equals(DataSourceType.Android_HAL)) {
-            ((TextView) findViewById(R.id.camera_mode)).setText("系统相机模式");
+        if(bundle!=null){
+            dataSourceType = (DataSourceType) bundle.getSerializable(FACE_VERIFY_DATA_SOURCE_TYPE);
+            if (DataSourceType.Android_HAL.equals(dataSourceType)) {
+                ((TextView) findViewById(R.id.camera_mode)).setText("系统相机模式");
+            }
         }
+
 
         LinearLayout addFaceView = findViewById(R.id.add_faceid_layout);
         addFaceView.setOnClickListener(view -> {

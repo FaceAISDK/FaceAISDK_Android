@@ -53,7 +53,7 @@ import java.util.List;
  * 可复制工程目录 ./faceAILib/src/main/assert 下后在Demo 的人脸库管理页面一键导入模拟插入多张人脸图
  */
 public class FaceSearch1NActivity extends AppCompatActivity {
-    //如果设备没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
+    //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
     private CameraXFragment cameraXFragment;
 
@@ -99,13 +99,13 @@ public class FaceSearch1NActivity extends AppCompatActivity {
         // 2.各种参数的初始化设置
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
-                .setThreshold(0.88f) //阈值设置，范围限 [0.85 , 0.95] 识别可信度，设置高摄像头配置也要高
+                .setThreshold(0.88f) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setImageFlipped(cameraXFragment.getCameraLensFacing() == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {
 
-                    // 得分最高的搜索结果
+                    // 得分最高最相似的人脸搜索识别结果
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap) {
                         Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
@@ -114,11 +114,10 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                         binding.graphicOverlay.clearRect();
                     }
 
-
                     /**
                      * 匹配到的大于 Threshold的所有结果，如有多个很相似的人场景允许的话可以弹框让用户选择
+                     * 但还是强烈建议使用高品质摄像头，录入高品质人脸
                      * SearchProcessBuilder setCallBackAllMatch(true) 才有数据返回 否则默认是空
-                     *
                      */
                     @Override
                     public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
@@ -135,13 +134,10 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                         //画框UI代码完全开放，用户可以根据情况自行改造
                         binding.graphicOverlay.drawRect(result, cameraXFragment);
                     }
-
-
                     @Override
                     public void onProcessTips(int i) {
                         showFaceSearchPrecessTips(i);
                     }
-
                     @Override
                     public void onLog(String log) {
                         binding.tips.setText(log);
@@ -160,6 +156,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
             if (!isDestroyed() && !isFinishing()) {
                 //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像
                 FaceSearchEngine.Companion.getInstance().runSearch(imageProxy, 0);
+//                FaceSearchEngine.Companion.getInstance().runSearch(bitmap); //你也可以自行处理Bitmap喂数据到SDK
             }
         });
 
@@ -184,7 +181,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 binding.searchTips.setText(R.string.face_dir_empty);
                 break;
 
-            case SEARCHING:
+            case SEARCHING, EMGINE_INITING:
                 binding.searchTips.setText(R.string.keep_face_tips);
                 break;
 
@@ -217,10 +214,6 @@ public class FaceSearch1NActivity extends AppCompatActivity {
 
             case MASK_DETECTION:
                 binding.searchTips.setText(R.string.no_mask_please);
-                break;
-
-            case EMGINE_INITING:
-                binding.searchTips.setText(R.string.keep_face_tips);
                 break;
 
             default:

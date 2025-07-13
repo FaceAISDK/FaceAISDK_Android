@@ -88,8 +88,6 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                         binding.graphicOverlay.clearRect();
                     }
 
-
-
                     /**
                      * 匹配到的大于 Threshold的所有结果，如有多个很相似的人场景允许的话可以弹框让用户选择
                      * setCallBackAllMatch(true) 才有值
@@ -108,9 +106,6 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                         //画框UI代码完全开放，用户可以根据情况自行改造
                         binding.graphicOverlay.drawRect(result, scaleX, scaleY);
                     }
-
-
-
 
                     @Override
                     public void onProcessTips(int code) {
@@ -194,6 +189,7 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
 
     /**
      * 双目摄像头设置数据，送数据到SDK 引擎
+     * 设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
      *
      * @param bitmap
      * @param type
