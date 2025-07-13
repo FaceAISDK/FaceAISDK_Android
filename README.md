@@ -13,7 +13,7 @@
 
 FaceAI SDK is on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK
 
-FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体检测、人脸图质量检测以及 [1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索SDK，可快速集成实现人脸识别，人脸搜索功能。
+FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体检测、人脸图质量检测以及 [1：N/M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索SDK，可快速集成实现人脸识别，人脸搜索功能。
 
 ![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
