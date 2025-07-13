@@ -13,7 +13,7 @@
 
 FaceAI SDK is on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK
 
-FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体检测、人脸图质量检测以及人脸搜索[1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md)SDK，可快速集成实现人脸识别，人脸搜索功能。
+FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体检测、人脸图质量检测以及 [1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索SDK，可快速集成实现人脸识别，人脸搜索功能。
 
 ![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
@@ -26,11 +26,12 @@ SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身
 
 集成到主项目有问题请描述SDK版本，运行环境和使用场景描述到GitHub提issues或发邮件到 FaceAISDK.Service@gmail.com ，VIP用户可添加 微信：FaceAISDK
 
-**其他平台**
+
+**其他平台**  
+
 **iOS SDK：** https://github.com/FaceAISDK/FaceAISDK_iOS  
 **Uni App：** https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS  
 **Android：** https://github.com/FaceAISDK/FaceAISDK_Android
-
 
 <div align=center>
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 21%  />
@@ -77,9 +78,9 @@ SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身
 
 **工程目录结构简要介绍**
 
-| 模块            | 描述                                           |
+| 模块           | 描述                                           |
 |---------------|----------------------------------------------|
-| faceAIDemo    | Demo主工程，implementation project(':faceAILib') |
+| Demo          | Demo主工程，implementation project(':faceAILib') |
 | faceAILib     | 子Module，FaceAISDK 所有功能都在module 中演示           |
 | /verify/\*    | 1:1 人脸检测识别，活体检测页面，静态人脸对比                     |
 | /search/\*    | 1:N 人脸搜索识别，人脸库增删改管理等财政                       |
@@ -122,6 +123,8 @@ SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身
 项目中的libs/libuvccamera-release.aar 就是根据此项目微调打包成AAR
 
 下载最新SDK Demo 源码熟悉代码后再集成到你的主工程，可以先整个Copy faceAiLib到你主工程先跑起来
-再根据业务情况修改完善，有提前熟悉大4小时就能集成成功，丰富产品功能同时可大大降低公司研发投入实现降本增效。
+再根据业务情况修改完善，有提前熟悉大4小时就能集成成功，丰富产品功能同时可大大降低公司研发投入实现降本增效。  
 
+
+ .
 ![让子弹飞剧照-这是你吗？](images/It_is_you.png)  
