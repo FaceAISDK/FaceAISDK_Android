@@ -1,31 +1,42 @@
+
+<div align=center>
+<img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 19%  alt="点击查看详情"/>
+</div>
+
 <img src="https://badgen.net/badge/FaceAI%20SDK/%20%E5%BF%AB%E9%80%9F%E5%AE%9E%E7%8E%B0%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%8A%9F%E8%83%BD" />
 
 <br>
-<a href='https://play.google.com/store/apps/details?id=com.ai.face.verifyPub'><img alt='Get FaceAI On Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='80'/></a>
+<a href='https://play.google.com/store/apps/details?id=com.ai.face.verifyPub'><img alt='Get FaceAI On Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='66'/></a>
 <br>
 
 # [关于「FaceAI SDK」](https://github.com/FaceAISDK/FaceAISDK_Android)
 
 FaceAI SDK is on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK
 
-FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体检测、人脸图质量检测以及人脸搜索（1:N和M:N）SDK，可快速集成实现人脸识别，人脸搜索功能。
-**20250715以上版本已经兼容适配多种类型UVC协议USB双目摄像头**
+FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体检测、人脸图质量检测以及人脸搜索[1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md)SDK，可快速集成实现人脸识别，人脸搜索功能。
 
+![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
+
+
+## 简要说明
+
+SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
+
+动作活体支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），20250711版本支持多种UVC红外双目摄像头，需配备宽动态值大于105Db成像清晰抗逆光摄像头。
+
+集成到主项目有问题请描述SDK版本，运行环境和使用场景描述到GitHub提issues或发邮件到 FaceAISDK.Service@gmail.com ，VIP用户可添加 微信：FaceAISDK
+
+**其他平台**
 **iOS SDK：** https://github.com/FaceAISDK/FaceAISDK_iOS  
 **Uni App：** https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS  
 **Android：** https://github.com/FaceAISDK/FaceAISDK_Android
 
-<div align=center>
-<img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 21%  alt="点击查看详情"/>
-</div>
-
-![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
 <div align=center>
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 21%  />
 </div>
 
-## 当前版本说明 V2025.07.12 (建议升级到20250712以上重构版本)
+## 当前版本说明 V2025.07.13 (建议升级到20250713以上重构版本)
 - 符合设定阈值的所有人脸搜索结果返回
 - 优化人脸搜索和重构三方UVC摄像头管理库
 - 优化低配设备人脸录入和识别活体校验优化
@@ -33,13 +44,6 @@ FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体
 
 建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceAISDK_Android](https://github.com/FaceAISDK/FaceAISDK_Android)
 
-## 简要说明
-
-SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人脸搜索识别](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md)，**所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
-
-其中活体检测支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），2025.07.15版本已经支持UVC红外双目摄像头，需配备宽动态值大于105Db成像清晰抗逆光摄像头。
-
-集成到主项目有问题请描述SDK版本，运行环境和使用场景描述提issues或发邮件到 FaceAISDK.Service@gmail.com ，VIP用户可添加 微信：FaceAISDK
 
 ## [使用场景和区别](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/doc/Introduce_11_1N_MN.md)
 
@@ -47,7 +51,7 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人�
 
 【1:N】 小区门禁、公司门禁、智能门锁、智慧校园、景区、工地、社区、酒店等
 
-【M:N】 公安布控、人群追踪 监控等等 (测试效果可使用 MN_face_search_test.jpg 模拟)
+【M:N】 公安布控、人群追踪 监控等 (测试效果可使用images/MN_face_search_test.jpg 模拟)
 
 ## 接入集成使用
     先Github 下载最新接入Demo代码导入到Android Studio。  
@@ -55,7 +59,7 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人�
 
 *   1.调整JDK版本到java 17。AS设置Preferences -> Build -> Gradle -> JDK的版本为 17
 
-*   2.最好翻墙科学上网同步AGP Gradle 插件 7.X 这是工程默认设置使用的的,然后同步其他依赖
+*   2.最好翻墙科学上网同步AGP Gradle 插件7.4.2(或者更新AGP),然后同步其他依赖
 
 *   3.Demo工程成功运行后，根据你的业务需求重点熟悉对应模块后再集成到你的主工程
 
@@ -65,11 +69,11 @@ SDK包含动作活体、静默活体检测，[1：1人脸识别以及1：N 人�
 *   5.解决项目工程中的第三方依赖库和主工程的冲突比如CameraX的版本等，Target SDK不同导致的冲突
 
 
-    目前SDK使用**java17. kotlin 1.9.22，AGP 7.x **打包，如果你的项目较老还在使用
+    目前SDK开发使用**java17. kotlin 1.9.22，AGP 7.x **打包，如果你的项目较老还在使用
     kapt, kotlin-android-extensions导致集成冲突，建议尽快升级项目或者VIP联系定制
 
     更多使用说明下载SDK源码工程代码到Android Studio 以及下载Demo APK到手机体验完整的流程和效果
-    里面有详尽的注释说明和使用方法介绍，SDK源码熟悉完成后有一定Android基础大概3小时可集成到你的主工程
+    里面有详尽的注释说明和使用方法介绍，SDK集成Demo源码熟悉完后再集成到你的主工程
 
 **工程目录结构简要介绍**
 
