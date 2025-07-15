@@ -19,6 +19,7 @@ import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import androidx.core.content.edit
+import com.faceAI.demo.SysCamera.verify.LivenessDetectActivity
 
 /**
  * SDK 接入演示Demo，请先熟悉本Demo跑通住流程后再集成到你的主工程验证业务
@@ -35,9 +36,6 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         //人脸图保存路径初始化
         FaceAIConfig.init(this)
-
-        //语音提示
-        VoicePlayer.getInstance().init(this)
 
         //分享
         viewBinding.shareLayout.setOnClickListener {
@@ -94,6 +92,9 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
             startActivity(Intent(this@FaceAINaviActivity, AboutFaceAppActivity::class.java))
         }
 
+        viewBinding.livenessDetection.setOnClickListener {
+            startActivity(Intent(this@FaceAINaviActivity, LivenessDetectActivity::class.java))
+        }
 
         //两张静态人脸图中人脸相似度 对比
         viewBinding.twoFaceVerify.setOnClickListener {

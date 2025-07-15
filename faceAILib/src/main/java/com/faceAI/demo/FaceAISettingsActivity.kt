@@ -10,7 +10,6 @@ import com.faceAI.demo.UVCCamera.manger.select.DeviceListDialogFragment
 import com.faceAI.demo.databinding.ActivityFaceAiSettingsBinding
 import com.herohan.uvcapp.CameraHelper
 
-
 /**
  * 前后摄像头，角度切换等参数设置
  *

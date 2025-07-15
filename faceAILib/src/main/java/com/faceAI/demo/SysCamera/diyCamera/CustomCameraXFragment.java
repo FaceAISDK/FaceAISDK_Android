@@ -1,5 +1,6 @@
 package com.faceAI.demo.SysCamera.diyCamera;
 
+import android.graphics.ImageFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Size;
@@ -7,53 +8,39 @@ import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ImageAnalysis;
+import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
 import com.faceAI.demo.R;
 import com.google.common.util.concurrent.ListenableFuture;
-
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 
 /**
- * 这是系统相机，通过系统API 组件CameraX 处理，我们的手机平板自带的相机就是这种 （不是UVC协议USB 摄像头哈）
- * <p>
- * SDK 内部的相机管理裁剪后暴露出来，使用的是CameraX, 更多效果可以在这里尝试
- * 需要定制效果，把尝试成功的设置发给我，我们安排SDK支持
+ * 系统相机CameraX的管理，相机管理SDK提供了默认的一套CameraX 封装，
+ * 用户可能需要高级定制，可以根据CustomCameraXFragment自行改造
+ *
+ * 更多参考Google 官方：https://developer.android.com/media/camera/camerax?hl=zh-cn
  */
 public class CustomCameraXFragment extends Fragment {
 
-    //人脸识别不需要太高分辨率，关键是摄像头要宽动态高清成像能力，分辨率太高需要高配置硬件处理
-    public enum SIZE {
-        DEFAULT,  //640*480
-        MIDDLE,   //960*720
-        HIGH_DEP  //1920*1080
-    }
-
-    private static final String CAMERA_LINEAR_ZOOM = "CAMERA_LINEAR_ZOOM";  //缩放比例
-    private static final String CAMERA_LENS_FACING = "CAMERA_LENS_FACING";  //前后配置
-    private static final String CAMERA_ROTATION = "CAMERA_ROTATION";  //旋转
-
-    private static final String CAMERA_SIZE = "CAMERA_SIZE";  //旋转
-
-    private SIZE cameraSize = SIZE.DEFAULT;
-    private int cameraLensFacing = 0; //默认是前置摄像头
-    private int rotation = Surface.ROTATION_0; //默认是前置摄像头
-
-    private float linearZoom = 0.01f; //默认是后置摄像头
+    private final int cameraLensFacing = CameraSelector.LENS_FACING_FRONT; //默认是前置摄像头
+    private final int rotation = Surface.ROTATION_0; //默认角度
+    private final float linearZoom = 0.01f;
 
     private PreviewView previewView;
+    private float scaleX = 0f, scaleY = 0f;
 
+    private onAnalyzeData analyzeDataCallBack;
     private CameraSelector cameraSelector;
-
     private ProcessCameraProvider cameraProvider;
 
     private View rootView;
@@ -62,23 +49,25 @@ public class CustomCameraXFragment extends Fragment {
         // Required empty public constructor
     }
 
-//    setZoomRatio(float)作用： 按比例设置当前缩放, 有些相机不支持焦距可以试试这种
-
-    public static CustomCameraXFragment newInstance() {
-        CustomCameraXFragment xFragment = new CustomCameraXFragment();
-        return xFragment;
+    public void setOnAnalyzerListener(onAnalyzeData callback) {
+        this.analyzeDataCallBack = callback;
     }
 
+    public interface onAnalyzeData {
+        void analyze(@NonNull ImageProxy imageProxy); //Default
+    }
+
+    public static CustomCameraXFragment newInstance() {
+        CustomCameraXFragment fragment = new CustomCameraXFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            cameraLensFacing = getArguments().getInt(CAMERA_LENS_FACING, 0); //默认的摄像头
-            linearZoom = getArguments().getFloat(CAMERA_LINEAR_ZOOM, 0.01f);
-            rotation = getArguments().getInt(CAMERA_ROTATION, Surface.ROTATION_0);
-            cameraSize = (SIZE) getArguments().getSerializable(CAMERA_SIZE);
-        }
+
     }
 
 
@@ -94,14 +83,16 @@ public class CustomCameraXFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initCameraXAnalysis();
+        initCameraXSetting();
     }
 
 
     /**
      * 初始化相机,使用CameraX
+     *
      */
-    private void initCameraXAnalysis() {
+    private void initCameraXSetting() {
+
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture =
                 ProcessCameraProvider.getInstance(requireContext());
 
@@ -109,66 +100,61 @@ public class CustomCameraXFragment extends Fragment {
         //图像编码默认格式 YUV_420_888。
         cameraProviderFuture.addListener(() -> {
 
-            // Camera provider is now guaranteed to be available
             try {
                 cameraProvider = cameraProviderFuture.get();
             } catch (ExecutionException | InterruptedException e) {
                 Log.e("FaceAI SDK", "\ncameraProviderFuture.get() 发生错误！\n" + e.toString());
             }
 
-            Preview preview;
-            switch (cameraSize) {
-                case MIDDLE -> {
-                    preview = new Preview.Builder()
-                            .setTargetRotation(rotation)
-                            .setTargetResolution(new Size(960, 720))
-                            .build();
 
-                }
-                case HIGH_DEP -> {
-                    preview = new Preview.Builder()
-                            .setTargetRotation(rotation)
-                            .setTargetResolution(new Size(1920, 1080))
-                            .build();
-                } //下面两种都是默认
-                default -> {
-                    preview = new Preview.Builder()
-                            .setTargetRotation(rotation)
-                            .build();
+            //分辨率不用设置太高，太高负荷重，关键是摄像头的成像能力，
+            Preview preview = new Preview.Builder()
+                    .setTargetRotation(rotation)
+                    .setTargetResolution(new Size(960, 720))
+                    .build();
 
-                }
-            }
-            ;
+            ImageAnalysis imageAnalysis= new ImageAnalysis.Builder()
+                    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                    .setTargetRotation(rotation)
+                    .setTargetResolution(new Size(960, 720))
+                    .build();
 
-            if (cameraLensFacing == 0) {
-                // Choose the camera by requiring a lens facing
-                cameraSelector = new CameraSelector.Builder()
-                        .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
+
+            cameraSelector = new CameraSelector.Builder()
+                        .requireLensFacing(cameraLensFacing)
                         .build();
-            } else {
-                // Choose the camera by requiring a lens facing
-                cameraSelector = new CameraSelector.Builder()
-                        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                        .build();
-            }
-
 
             previewView = rootView.findViewById(R.id.previewView);
 
-            previewView.setImplementationMode(PreviewView.ImplementationMode.COMPATIBLE);
+            imageAnalysis.setAnalyzer(Executors.newSingleThreadExecutor(),
+                    imageProxy -> {
+                        if (imageProxy.getFormat() != ImageFormat.YUV_420_888) {
+                            throw new IllegalArgumentException("Invalid image format");
+                        }
 
+                        if (scaleX == 0f || scaleY == 0f) {
+                            setScaleXY(imageProxy);
+                        }
+
+                        try {
+                            if (analyzeDataCallBack != null) {
+                                analyzeDataCallBack.analyze(imageProxy);
+                            }
+                        }catch (Exception e){
+                            Log.e("CameraX error", "FaceAI SDK:" + e.getMessage());
+                        }finally {
+                            imageProxy.close();
+                        }
+
+                    });
 
             try {
                 // Attach use cases to the camera with the same lifecycle owner
                 Camera camera = cameraProvider.bindToLifecycle(
                         this,
                         cameraSelector,
-                        preview);
-
+                        preview, imageAnalysis);
                 camera.getCameraControl().setLinearZoom(linearZoom);
-
-                //0-1f
-                camera.getCameraControl().setZoomRatio(0.8f);
 
                 // Connect the preview use case to the previewView
                 preview.setSurfaceProvider(
@@ -181,6 +167,42 @@ public class CustomCameraXFragment extends Fragment {
         }, ContextCompat.getMainExecutor(requireContext()));
     }
 
+    /**
+     * 计算缩放比例
+     *
+     */
+    private void  setScaleXY(ImageProxy imageProxy){
+        float max = imageProxy.getWidth();
+        float min = imageProxy.getHeight();
+        if (max < min) { //交换
+            float temp = max;
+            max = min;
+            min = temp;
+        }
+        if (previewView.getWidth() > previewView.getHeight()) {
+            scaleX = (float) previewView.getWidth() / max;
+            scaleY = (float) previewView.getHeight() / min;
+        } else {
+            scaleX = (float) previewView.getWidth() / min;
+            scaleY = (float) previewView.getHeight() / max;
+        }
+    }
+
+    public float getScaleX() {
+        return scaleX;
+    }
+
+    public float getScaleY() {
+        return scaleY;
+    }
+
+
+    //释放相机，重新初始化
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        cameraProvider.unbindAll();
+    }
 
 
 }

@@ -112,6 +112,7 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
             return false;
         });
 
+        //系统相机和UVC协议双目摄像头
         faceImageListAdapter.setOnItemClickListener((adapter, view, i) -> {
                     // 根据摄像头种类启动不同的模式
                     if (dataSourceType.equals(DataSourceType.Android_HAL)) {

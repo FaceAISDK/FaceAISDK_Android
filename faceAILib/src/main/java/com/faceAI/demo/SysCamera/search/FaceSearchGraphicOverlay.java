@@ -17,6 +17,8 @@ import java.util.List;
 
 /**
  * 仅供参考，UI样式可以自行设计。甚至SurfaceView 改造
+ *
+ * https://github.com/FaceAISDK/FaceAISDK_Android
  */
 public class FaceSearchGraphicOverlay extends View {
     private static final String TAG = "GraphicOverlay";
@@ -100,9 +102,6 @@ public class FaceSearchGraphicOverlay extends View {
 
         // 画框处理后期再优化
         for (FaceSearchResult rectLabel : rectLabels) {
-//            Log.e("RECT111","宽："+(rectLabel.getRect().right-rectLabel.getRect().left));
-//            Log.e("RECT111","高："+(rectLabel.getRect().bottom-rectLabel.getRect().top));
-
             Rect rect = new Rect(
                     translateX(rectLabel.getRect().left) - 20,
                     translateY(rectLabel.getRect().top) - 10,
@@ -128,9 +127,6 @@ public class FaceSearchGraphicOverlay extends View {
 
         // 画框处理后期再优化
         for (FaceSearchResult rectLabel : rectLabels) {
-//            Log.e("RECT111","宽："+(rectLabel.getRect().right-rectLabel.getRect().left));
-//            Log.e("RECT111","高："+(rectLabel.getRect().bottom-rectLabel.getRect().top));
-
             Rect rect = new Rect(
                     translateX(rectLabel.getRect().left) - 20,
                     translateY(rectLabel.getRect().top) - 10,

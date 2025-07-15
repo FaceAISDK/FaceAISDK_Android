@@ -146,7 +146,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 }).create();
 
 
-        //3.初始化引擎，是个耗时耗资源操作
+        //3.根据参数初始化引擎
         FaceSearchEngine.Companion.getInstance().initSearchParams(faceProcessBuilder);
 
         // 4.从标准默认的HAL CameraX 摄像头中取数据实时搜索
