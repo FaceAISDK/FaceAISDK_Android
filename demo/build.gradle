@@ -12,8 +12,8 @@ android {
         minSdk 21         //暂时只支持Android 7以上，需要更低需定制
         targetSdk 33      //target SDK 还是28 的请参考question.md 文档说明
 
-        versionCode 20250713
-        versionName "20250713"
+        versionCode 20250715
+        versionName "20250715"
 
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
