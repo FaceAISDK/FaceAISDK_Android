@@ -10,6 +10,10 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 33 //target SDK 还是28 的请参考question.md 文档说明
+
+        ndk {
+            abiFilters 'armeabi-v7a','arm64-v8a'   //chrome OS 暂时不支持了
+        }
     }
 
     //2025.06.09 版本开始从java11 升级到java17
@@ -18,21 +22,13 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    android {
-        defaultConfig {
-            ndk {
-                //chrome OS 暂时不支持了
-                abiFilters 'armeabi-v7a','arm64-v8a'
-            }
-        }
-    }
 
     //为了导入libs 目录下的 libuvccamera-release.aar
-//    repositories {
-//        flatDir {
-//            dirs 'libs'
-//        }
-//    }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
 
     //压制 低版本Gradle build Local AAR Error
     lint {
@@ -52,7 +48,7 @@ dependencies {
 
     //2025.07.15 发布2.0 系列正式版本
     //2.x 版本SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
-    implementation 'io.github.faceaisdk:Android:2025.07.13'
+    implementation 'io.github.faceaisdk:Android:2025.07.15'
 
     //UVC协议USB摄像头库 More: https://github.com/shiyinghan/UVCAndroid
     implementation files('libs/libuvccamera-release.aar')

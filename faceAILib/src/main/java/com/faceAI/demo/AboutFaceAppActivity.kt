@@ -48,7 +48,7 @@ class AboutFaceAppActivity : AppCompatActivity() {
 
         viewBinding.whatapp.setOnLongClickListener {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip: ClipData = ClipData.newPlainText("WhatApp", "+8618707611416")
+            val clip: ClipData = ClipData.newPlainText("WhatApp", "+8618452365423234235")
             clipboard.setPrimaryClip(clip)
             Toast.makeText(this, "Copied", Toast.LENGTH_SHORT).show()
             return@setOnLongClickListener true

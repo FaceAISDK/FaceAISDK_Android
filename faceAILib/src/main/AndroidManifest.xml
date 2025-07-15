@@ -41,6 +41,12 @@
             android:exported="false">
         </activity>
 
+
+        <activity
+            android:name="com.faceAI.demo.SysCamera.verify.LivenessDetectActivity"
+            android:theme="@style/FaceAITheme"
+            android:exported="false"/>
+
         <activity
             android:name="com.faceAI.demo.SysCamera.verify.FaceVerificationActivity"
             android:theme="@style/FaceAITheme"

@@ -13,7 +13,7 @@
 
 FaceAI SDK is on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK
 
-FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体检测、人脸图质量检测以及 [1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索SDK，可快速集成实现人脸识别，人脸搜索功能。
+FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体检测、人脸图质量检测和 [1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索SDK，可快速集成实现人脸识别，人脸搜索功能。
 
 ![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
@@ -37,9 +37,10 @@ SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 21%  />
 </div>
 
-## 当前版本说明 V2025.07.13 (建议升级到20250713以上重构版本)
+## 当前版本说明 V2025.07.15 (建议升级到20250712以上重构版本)
+- 暴露并优化相机管理CameraX,防止低配RK3588长时间运行白屏
 - 符合设定阈值的所有人脸搜索结果返回
-- 优化人脸搜索和重构三方UVC摄像头管理库
+- 优化人脸搜索和开放三方UVC摄像头管理
 - 优化低配设备人脸录入和识别活体校验优化
 - 优化低配设备设备速度，解决某些情况闪退问题
 
@@ -55,8 +56,9 @@ SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身
 【M:N】 公安布控、人群追踪 监控等 (测试效果可使用images/MN_face_search_test.jpg 模拟)
 
 ## 接入集成使用
-    先Github 下载最新接入Demo代码导入到Android Studio。  
-    Demo 为了演示SDK的核心功能，部分细节并不完善，需要你根据你的业务需求自行完善。
+   
+先在[「GitHub网站」](https://github.com/FaceAISDK/FaceAISDK_Android)下载最新接入SDK 接入代码导入到Android Studio。  
+Demo聚焦演示SDK的核心功能，部分细节并不完善，需要你根据你的业务需求自行完善。
 
 *   1.调整JDK版本到java 17。AS设置Preferences -> Build -> Gradle -> JDK的版本为 17
 

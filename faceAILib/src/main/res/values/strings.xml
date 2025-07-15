@@ -45,6 +45,7 @@
     <string name="no_base_face_bitmap">No base face bitmap error</string>
 
     <!--Motion liveness detection-->
+    <string name="liveness_detection">Liveness detection</string>
     <string name="motion_liveness_detection_failed">Motion liveness detection failed</string>
     <string name="keep_face_visible">Face the camera,verifying..</string>
     <string name="repeat_open_close_mouse">Repeat open close mouse</string>
