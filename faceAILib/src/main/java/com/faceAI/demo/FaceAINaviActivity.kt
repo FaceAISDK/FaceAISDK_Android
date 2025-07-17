@@ -63,18 +63,19 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
             startActivity(Intent(this@FaceAINaviActivity, SearchNaviActivity::class.java))
         }
 
-
         // 人脸搜索(系统相机和双目USB UVC 摄像头都支持)
         viewBinding.paramsSetting.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, FaceAISettingsActivity::class.java))
         }
-
 
         // 系统相机自定义调试
         viewBinding.customCamera.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, CustomCameraActivity::class.java))
         }
 
+        viewBinding.systemInfo.setOnClickListener {
+            printDeviceInfo()
+        }
 
         //双目摄像头，请确认你的双目UVC摄像头参数符合程序要求
         viewBinding.binocularCamera.setOnClickListener {
@@ -151,7 +152,27 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
             .show()
     }
 
-
+    /**
+     * 设备系统信息
+     *
+     */
+    private fun printDeviceInfo() {
+        val deviceInfo = arrayOf(
+            "制造商：${android.os.Build.MANUFACTURER}",
+            "型号：${android.os.Build.MODEL}",
+            "主板：${android.os.Build.BOARD}",
+            "设备标识：${android.os.Build.FINGERPRINT}",
+            "版本号：${android.os.Build.ID}",
+            "Android SDK版本号：${android.os.Build.VERSION.SDK_INT}",
+            "Android 版本（RELEASE）：${android.os.Build.VERSION.RELEASE}",
+            "DISPLAY：${android.os.Build.DISPLAY}",
+            "HARDWARE：${android.os.Build.HARDWARE}",
+            "主机（HOST）：${android.os.Build.HOST}",
+        )
+        AlertDialog.Builder(this@FaceAINaviActivity)
+            .setItems(deviceInfo) { dialog, which ->
+            }.show()
+    }
 
 
 

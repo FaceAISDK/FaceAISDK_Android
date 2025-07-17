@@ -1,12 +1,10 @@
 package com.faceAI.demo.UVCCamera.search;
 
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.faceAI.demo.R;
+import com.faceAI.demo.base.BaseActivity;
 
 
 /**
@@ -14,7 +12,7 @@ import com.faceAI.demo.R;
  * 使用宽动态（人脸搜索须大于105DB）抗逆光摄像头；保持镜头干净（用纯棉布擦拭油污）
  * 怎么提高人脸搜索识别系统的准确度？https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
  */
-public class FaceSearch_UVCCameraActivity extends AppCompatActivity {
+public class FaceSearch_UVCCameraActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

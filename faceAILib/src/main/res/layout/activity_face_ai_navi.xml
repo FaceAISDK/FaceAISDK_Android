@@ -8,6 +8,18 @@
     android:paddingTop="5dp"
     tools:context="com.faceAI.demo.FaceAINaviActivity">
 
+    <ImageView
+        android:id="@+id/system_info"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="8dp"
+        android:padding="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/info_icon_24" />
+
     <LinearLayout
         android:id="@+id/share_layout"
         android:layout_width="wrap_content"

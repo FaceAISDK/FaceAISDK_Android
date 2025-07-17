@@ -1,11 +1,10 @@
 package com.faceAI.demo.UVCCamera.verify;
 
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.faceAI.demo.R;
+import com.faceAI.demo.base.BaseActivity;
 
 /**
  * 演示USB 双目摄像头1:1人脸识别，活体检测
@@ -14,7 +13,7 @@ import com.faceAI.demo.R;
  *
  * 怎么提高人脸搜索识别系统的准确度？https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
  */
-public class FaceVerify_UVCCameraActivity extends AppCompatActivity {
+public class FaceVerify_UVCCameraActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -5,7 +5,10 @@ import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_MIRROR_H;
 import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_SELECT;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_MIRROR_H;
+import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_SELECT;
 import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.IR_KEY_DEFAULT;
+import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -81,7 +84,7 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
         SharedPreferences sharedPref = requireContext().getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
                 .setCameraName("普通RGB摄像头")
-                .setCameraKey(UVCCameraManager.RGB_KEY_DEFAULT)
+                .setCameraKey(sharedPref.getString(RGB_UVC_CAMERA_SELECT,RGB_KEY_DEFAULT))
                 .setCameraView(binding.rgbCameraView)
                 .setContext(requireContext())
                 .setDegree(sharedPref.getInt(RGB_UVC_CAMERA_DEGREE,0))

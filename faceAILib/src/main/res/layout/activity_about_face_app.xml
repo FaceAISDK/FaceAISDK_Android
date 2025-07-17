@@ -47,17 +47,16 @@
 
 
     <TextView
-        android:id="@+id/whatapp"
+        android:id="@+id/system_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="66dp"
         android:layout_marginLeft="22dp"
         android:gravity="left"
         android:padding="15dp"
-        android:text="What  App ：   +861870761****"
+        android:text="系统信息，System info"
         android:textColor="@android:color/white"
         android:textSize="15sp"
-        android:visibility="invisible"
         app:layout_constraintTop_toTopOf="@+id/email" />
 
     <TextView
@@ -70,14 +69,14 @@
         android:text="@string/long_press_copy_msg"
         android:textColor="@android:color/darker_gray"
         android:textSize="15sp"
-        app:layout_constraintTop_toTopOf="@+id/whatapp" />
+        app:layout_constraintTop_toTopOf="@+id/system_info" />
 
 
     <TextView
         android:id="@+id/new_app_check"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="13dp"
+        android:layout_marginBottom="3dp"
         android:gravity="center"
         android:padding="15dp"
         android:text="检查新版本"
@@ -93,7 +92,7 @@
         android:layout_marginBottom="23dp"
         android:gravity="center"
         android:padding="19dp"
-        android:text="About us，关于我们"
+        android:text="About us，介绍说明"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent" />

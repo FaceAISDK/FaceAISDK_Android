@@ -2,7 +2,20 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id("com.google.devtools.ksp").version("1.9.22-1.0.17")
+//    id("com.vanniktech.maven.publish.base") version "0.32.0"  // 1. 发布到https://central.sonatype.com
 }
+
+
+//2. 发布到https://central.sonatype.com
+//plugins.withId("com.vanniktech.maven.publish.base") {
+//    mavenPublishing {
+//        publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+//        signAllPublications()
+//        pomFromGradleProperties()
+//        configure(new AndroidSingleVariantLibrary("release", false, false))
+//    }
+//}
+
 
 android {
     namespace 'com.faceAI.demo'
@@ -48,7 +61,7 @@ dependencies {
 
     //2025.07.15 发布2.0 系列正式版本
     //2.x 版本SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
-    implementation 'io.github.faceaisdk:Android:2025.07.15'
+    implementation 'io.github.faceaisdk:Android:2025.07.15.Camera'
 
     //UVC协议USB摄像头库 More: https://github.com/shiyinghan/UVCAndroid
     implementation files('libs/libuvccamera-release.aar')
@@ -71,5 +84,9 @@ dependencies {
     implementation 'com.github.javakam:file.core:3.9.8@aar'      //核心库必选(Core library required)
     implementation 'com.github.javakam:file.selector:3.9.8@aar'  //文件选择器(File selector)
     implementation 'com.github.javakam:file.compressor:3.9.8@aar'//图片压缩,修改自Luban
+
+    //3. 发布到https://central.sonatype.com
+//    implementation 'com.vanniktech.maven.publish.base:com.vanniktech.maven.publish.base.gradle.plugin:0.32.0'
+
 
 }

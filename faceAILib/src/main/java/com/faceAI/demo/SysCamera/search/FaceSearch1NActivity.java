@@ -15,8 +15,8 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 
+import com.faceAI.demo.AboutFaceAppActivity;
 import com.faceAI.demo.R;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,18 +25,16 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraSelector;
-import com.faceAI.demo.UVCCamera.verify.FaceVerify_UVCCameraActivity;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
+import com.faceAI.demo.base.BaseActivity;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
-
 import java.util.List;
 
 /**
@@ -52,7 +50,7 @@ import java.util.List;
  * 网盘分享的3000 张人脸图链接: https://pan.baidu.com/s/1RfzJlc-TMDb0lQMFKpA-tQ?pwd=Face 提取码: Face
  * 可复制工程目录 ./faceAILib/src/main/assert 下后在Demo 的人脸库管理页面一键导入模拟插入多张人脸图
  */
-public class FaceSearch1NActivity extends AppCompatActivity {
+public class FaceSearch1NActivity extends BaseActivity {
     //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
     private CameraXFragment cameraXFragment;
@@ -88,6 +86,7 @@ public class FaceSearch1NActivity extends AppCompatActivity {
                 .commit();
 
         initFaceSearchParam();
+
     }
 
 

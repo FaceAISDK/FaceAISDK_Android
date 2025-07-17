@@ -31,7 +31,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.utils.DataConvertUtils;
@@ -39,8 +38,9 @@ import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.faceAI.demo.R;
-
+import com.faceAI.demo.base.BaseActivity;
 import org.jetbrains.annotations.NotNull;
+
 /**
  * 使用系统相机 添加一张规范的人脸图并裁剪调整为符合SDK规范，1:1 和1:N 公共的添加人脸图
  * 注意保存的方式有点差异。
@@ -52,7 +52,7 @@ import org.jetbrains.annotations.NotNull;
  * -  3. 光线环境好，检测的人脸化浓妆或佩戴墨镜 口罩 帽子等遮盖
  * -  4. 人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
  */
-public class AddFaceImageActivity extends AppCompatActivity {
+public class AddFaceImageActivity extends BaseActivity {
     public static String ADD_FACE_IMAGE_TYPE_KEY = "ADD_FACE_IMAGE_TYPE_KEY";
     private TextView tipsTextView, secondTips;
     private BaseImageDispose baseImageDispose;
