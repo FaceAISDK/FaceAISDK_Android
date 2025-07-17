@@ -67,7 +67,7 @@ Demo聚焦演示SDK的核心功能，部分细节并不完善，需要你根据�
 *   3.Demo工程成功运行后，根据你的业务需求重点熟悉对应模块后再集成到你的主工程
 
 *   4.**集成到你的主工程**，首先Gradle 中引入依赖
-    implementation 'io.github.FaceAISDK:Android:2025.建议最新版本' //及时升级到github最新版
+    implementation 'io.github.FaceAISDK:Android:版本号' //及时升级到github最新版
 
 *   5.解决项目工程中的第三方依赖库和主工程的冲突比如CameraX的版本等，Target SDK不同导致的冲突
 
@@ -121,8 +121,6 @@ Demo聚焦演示SDK的核心功能，部分细节并不完善，需要你根据�
 所有的开发测试都在手机和平板进行，特殊定制硬件如 RK3288 可能需要配置适配，UVC 协议摄像头SDK都支持驱动
 适配，支持匹配选择RGB/IR摄像头，角度切换等操作。
 
-**更多外接USB外接UVC摄像头**的操作参考这个大神的库：https://github.com/shiyinghan/UVCAndroid  
-项目中的libs/libuvccamera-release.aar 就是根据此项目微调打包成AAR
 
 下载最新SDK Demo 源码熟悉代码后再集成到你的主工程，可以先整个Copy faceAiLib到你主工程先跑起来
 再根据业务情况修改完善，有提前熟悉大4小时就能集成成功，丰富产品功能同时可大大降低公司研发投入实现降本增效。  
