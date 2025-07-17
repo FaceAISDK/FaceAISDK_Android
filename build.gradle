@@ -28,7 +28,7 @@ buildscript {
 
     //SDK 为了照顾更多的用户暂时不升级到最新，用户根据自身情况升级
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:8.10.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22"
     }
 
