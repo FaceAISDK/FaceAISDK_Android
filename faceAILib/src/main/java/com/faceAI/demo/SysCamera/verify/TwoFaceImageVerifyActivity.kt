@@ -17,10 +17,10 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.faceAI.demo.BuildConfig
 import com.ai.face.base.baseImage.FaceAIUtils
 import com.ai.face.faceVerify.verify.FaceVerifyUtils
+import com.faceAI.demo.base.BaseActivity
 import com.faceAI.demo.base.utils.fileUtils.MyFileUtils
 import com.faceAI.demo.databinding.ActivityTwoFaceImageVerifyBinding
 
@@ -34,7 +34,7 @@ import com.faceAI.demo.databinding.ActivityTwoFaceImageVerifyBinding
  *
  * TwoFaceImageVerifyActivity 采用Kotlin 演示，使用java 的同学请自行翻译，有兴趣的同学可以重命名后提交新的PR
  */
-class TwoFaceImageVerifyActivity : AppCompatActivity() {
+class TwoFaceImageVerifyActivity : BaseActivity() {
 
     private lateinit var viewBinding: ActivityTwoFaceImageVerifyBinding
     private var mFileSelector: FileSelector? = null

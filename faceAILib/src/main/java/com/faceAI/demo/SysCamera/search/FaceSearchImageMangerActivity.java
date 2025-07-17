@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.faceAI.demo.base.BaseActivity;
 import com.lzf.easyfloat.EasyFloat;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
@@ -39,7 +39,7 @@ import com.faceAI.demo.R;
  * 人脸库管理,增删 查，批量添加测试数据
  * 一定要用SDK API 进行添加删除，不要直接File 接口文件添加删除，不然无法同步人脸SDK中特征值的更新
  */
-public class FaceSearchImageMangerActivity extends AppCompatActivity {
+public class FaceSearchImageMangerActivity extends BaseActivity {
     private final List<ImageBean> faceImageList = new ArrayList<>();
     private FaceImageListAdapter faceImageListAdapter;
     public static final int REQUEST_ADD_FACE_IMAGE = 10086;

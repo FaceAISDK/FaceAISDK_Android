@@ -8,6 +8,7 @@ import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.faceAI.demo.databinding.ActivityAboutFaceAppBinding
 
@@ -46,12 +47,8 @@ class AboutFaceAppActivity : AppCompatActivity() {
 
         viewBinding.newAppCheck.setText("当前版本：${getVersionName(this)}  查看版本列表")
 
-        viewBinding.whatapp.setOnLongClickListener {
-            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip: ClipData = ClipData.newPlainText("WhatApp", "+8618452365423234235")
-            clipboard.setPrimaryClip(clip)
-            Toast.makeText(this, "Copied", Toast.LENGTH_SHORT).show()
-            return@setOnLongClickListener true
+        viewBinding.systemInfo.setOnClickListener {
+            printDeviceInfo()
         }
 
         viewBinding.wechat.setOnLongClickListener {
@@ -86,5 +83,29 @@ class AboutFaceAppActivity : AppCompatActivity() {
             return null
         }
     }
+
+
+    /**
+     * 设备系统信息
+     *
+     */
+    private fun printDeviceInfo() {
+        val deviceInfo = arrayOf(
+            "制造商：${android.os.Build.MANUFACTURER}",
+            "型号：${android.os.Build.MODEL}",
+            "主板：${android.os.Build.BOARD}",
+            "设备标识：${android.os.Build.FINGERPRINT}",
+            "版本号：${android.os.Build.ID}",
+            "Android SDK版本号：${android.os.Build.VERSION.SDK_INT}",
+            "Android 版本（RELEASE）：${android.os.Build.VERSION.RELEASE}",
+            "DISPLAY：${android.os.Build.DISPLAY}",
+            "HARDWARE：${android.os.Build.HARDWARE}",
+            "主机（HOST）：${android.os.Build.HOST}",
+        )
+        AlertDialog.Builder(this@AboutFaceAppActivity)
+            .setItems(deviceInfo) { dialog, which ->
+            }.show()
+    }
+
 
 }
