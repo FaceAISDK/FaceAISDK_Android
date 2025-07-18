@@ -225,13 +225,12 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.IR_IMAGE_NULL:
-                        secondTipsTextView.setText("IR Camera Error");
+                        tipsTextView.setText("IR Camera Error");
                         break;
 
-                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.IR_IMAGE_NO_FACE_BUT_RGB_HAVE:
-                        secondTipsTextView.setText(R.string.not_real_face);
+                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.IR_LIVE_FAILED:
+                        tipsTextView.setText(R.string.ir_live_error);
                         break;
-
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:
                         tipsTextView.setText(R.string.face_verifying);

@@ -1,5 +1,6 @@
 package com.faceAI.demo.SysCamera.search;
 
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
 import static com.faceAI.demo.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
@@ -150,6 +151,10 @@ public class FaceSearchMNActivity extends BaseActivity {
                 binding.searchTips.setText(R.string.sdk_init);
                 break;
 
+            case SEARCH_PREPARED, SEARCHING:
+                binding.searchTips.setText(R.string.keep_face_tips);
+                break;
+
             case FACE_DIR_EMPTY:
                 //人脸库没有录入照片
                 binding.searchTips.setText(R.string.face_dir_empty);
@@ -158,10 +163,6 @@ public class FaceSearchMNActivity extends BaseActivity {
             case NO_MATCHED:
                 //本次摄像头预览帧无匹配而已，会快速取下一帧进行分析检索
                 binding.searchTips.setText(R.string.no_matched_face);
-                break;
-
-            case SEARCHING:
-                binding.searchTips.setText("");
                 break;
 
             default:

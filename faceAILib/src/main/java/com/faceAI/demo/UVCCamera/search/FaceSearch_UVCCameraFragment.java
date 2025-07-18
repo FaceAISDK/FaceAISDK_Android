@@ -1,5 +1,7 @@
 package com.faceAI.demo.UVCCamera.search;
 
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.IR_LIVE_ERROR;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
 import static com.faceAI.demo.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
@@ -22,6 +24,7 @@ import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
+import com.ai.face.faceVerify.verify.VerifyStatus;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.utils.VoicePlayer;
@@ -144,8 +147,12 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                 binding.searchTips.setText(R.string.sdk_init);
                 break;
 
-            case SEARCHING:
+            case SEARCH_PREPARED, SEARCHING:
                 binding.searchTips.setText(R.string.keep_face_tips);
+                break;
+
+            case IR_LIVE_ERROR:
+                binding.searchTips.setText(R.string.ir_live_error);
                 break;
 
             case NO_LIVE_FACE:

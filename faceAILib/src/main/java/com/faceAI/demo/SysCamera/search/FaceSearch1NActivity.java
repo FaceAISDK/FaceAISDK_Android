@@ -1,5 +1,6 @@
 package com.faceAI.demo.SysCamera.search;
 
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
 import static com.faceAI.demo.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
@@ -180,9 +181,14 @@ public class FaceSearch1NActivity extends BaseActivity {
                 binding.searchTips.setText(R.string.face_dir_empty);
                 break;
 
-            case SEARCHING, EMGINE_INITING:
+            case EMGINE_INITING:
+                binding.searchTips.setText(R.string.sdk_init);
+                break;
+
+            case SEARCH_PREPARED, SEARCHING:
                 binding.searchTips.setText(R.string.keep_face_tips);
                 break;
+
 
             case NO_LIVE_FACE:
                 binding.searchTips.setText(R.string.no_face_detected_tips);

@@ -80,6 +80,8 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="face_search_uvc_camera">UVC摄像头人脸搜索</string>
     <string name="face_search_MfromN">M:N 多人脸搜索（体验版）</string>
     <string name="search_threshold_scope_tips">阈值Threshold范围为[0.85,0.95]</string>
+    <string name="ir_live_error">红外活体检测失败</string>
+    <string name="ir_image_error">红外摄像头图像采集失败</string>
 
 
 </resources>
