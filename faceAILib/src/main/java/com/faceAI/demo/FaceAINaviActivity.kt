@@ -4,22 +4,22 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
+import com.ai.face.faceVerify.verify.FaceVerifyUtils
 import com.faceAI.demo.SysCamera.diyCamera.CustomCameraActivity
 import com.faceAI.demo.SysCamera.search.SearchNaviActivity
-import com.faceAI.demo.base.utils.VoicePlayer
 import com.faceAI.demo.SysCamera.verify.FaceVerifyWelcomeActivity
+import com.faceAI.demo.SysCamera.verify.LivenessDetectActivity
 import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
 import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
+import com.tencent.bugly.crashreport.CrashReport
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
-import androidx.core.content.edit
-import com.faceAI.demo.SysCamera.verify.LivenessDetectActivity
 
 /**
  * SDK 接入演示Demo，请先熟悉本Demo跑通住流程后再集成到你的主工程验证业务
@@ -75,6 +75,16 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         viewBinding.systemInfo.setOnClickListener {
             printDeviceInfo()
+        }
+
+
+//        CrashReport.initCrashReport(this, "36fade54d8", true)
+
+        // 长按打印Log 信息
+        viewBinding.systemInfo.setOnLongClickListener {
+            FaceVerifyUtils().printInfo(this@FaceAINaviActivity);
+            CrashReport.testJavaCrash();
+            return@setOnLongClickListener true
         }
 
         //双目摄像头，请确认你的双目UVC摄像头参数符合程序要求
@@ -165,15 +175,13 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
             "版本号：${android.os.Build.ID}",
             "Android SDK版本号：${android.os.Build.VERSION.SDK_INT}",
             "Android 版本（RELEASE）：${android.os.Build.VERSION.RELEASE}",
-            "DISPLAY：${android.os.Build.DISPLAY}",
             "HARDWARE：${android.os.Build.HARDWARE}",
             "主机（HOST）：${android.os.Build.HOST}",
         )
         AlertDialog.Builder(this@FaceAINaviActivity)
-            .setItems(deviceInfo) { dialog, which ->
+            .setItems(deviceInfo) { _, _ ->
             }.show()
     }
-
 
 
     /**
@@ -184,7 +192,7 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
         //一天提示一次
         val sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE)
         val showTime = sharedPref.getLong("showFaceAISDKTips", 0)
-        if (System.currentTimeMillis() - showTime > 4 * 60 * 60 * 1000) {
+        if (System.currentTimeMillis() - showTime > 9 * 60 * 60 * 1000) {
 
             val builder = AlertDialog.Builder(this)
             val dialog = builder.create()
