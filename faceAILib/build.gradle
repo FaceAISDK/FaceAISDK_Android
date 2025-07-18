@@ -61,19 +61,20 @@ dependencies {
 
     //2025.07.15 发布2.0 系列正式版本
     //2.x 版本SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
-    implementation 'io.github.faceaisdk:Android:2025.07.15.Camera'
+    implementation 'io.github.faceaisdk:Android:2.0.0.line'
 
     //UVC协议USB摄像头库 More: https://github.com/shiyinghan/UVCAndroid
     implementation files('libs/libuvccamera-release.aar')
 
 
-    // 以下为业务需要其他依赖，不是SDK 运行的必须依赖
+    //以下为业务需要其他依赖，不是SDK 运行的必须依赖
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation 'com.github.princekin-f:EasyFloat:2.0.4'
     api 'com.airbnb.android:lottie:6.0.0'
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.8'
-
+    // Demo 为了收集 Crash
+    api 'com.tencent.bugly:crashreport:4.1.9.3'
     implementation("com.github.bumptech.glide:glide:4.16.0")
     ksp("com.github.bumptech.glide:ksp:4.16.0")
     implementation 'androidx.appcompat:appcompat:1.6.0'
