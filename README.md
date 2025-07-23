@@ -7,7 +7,7 @@
 
 <br>
 <a href='https://play.google.com/store/apps/details?id=com.ai.face.verifyPub'><img alt='Get FaceAI On Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='66'/></a>
-<br>
+<br> 
 
 # [关于「FaceAI SDK」](https://github.com/FaceAISDK/FaceAISDK_Android)
 
