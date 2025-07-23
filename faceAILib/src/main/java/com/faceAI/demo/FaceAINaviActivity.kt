@@ -99,6 +99,9 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
             startActivity(uvcCameraModeIntent)
         }
 
+        /**
+         *
+         */
         viewBinding.moreAboutMe.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, AboutFaceAppActivity::class.java))
         }
@@ -168,15 +171,14 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
      */
     private fun printDeviceInfo() {
         val deviceInfo = arrayOf(
-            "制造商：${android.os.Build.MANUFACTURER}",
+            " ",
             "型号：${android.os.Build.MODEL}",
             "主板：${android.os.Build.BOARD}",
             "设备标识：${android.os.Build.FINGERPRINT}",
-            "版本号：${android.os.Build.ID}",
             "Android SDK版本号：${android.os.Build.VERSION.SDK_INT}",
-            "Android 版本（RELEASE）：${android.os.Build.VERSION.RELEASE}",
             "HARDWARE：${android.os.Build.HARDWARE}",
             "主机（HOST）：${android.os.Build.HOST}",
+            " "
         )
         AlertDialog.Builder(this@FaceAINaviActivity)
             .setItems(deviceInfo) { _, _ ->
@@ -189,7 +191,6 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
      *
      */
     private fun showTipsDialog() {
-        //一天提示一次
         val sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE)
         val showTime = sharedPref.getLong("showFaceAISDKTips", 0)
         if (System.currentTimeMillis() - showTime > 9 * 60 * 60 * 1000) {

@@ -34,9 +34,12 @@ import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
 import com.faceAI.demo.base.BaseActivity;
+import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 1:N 人脸搜索识别「1:N face search」
@@ -55,6 +58,7 @@ public class FaceSearch1NActivity extends BaseActivity {
     //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
     private CameraXFragment cameraXFragment;
+    private boolean enginePrepared=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +121,7 @@ public class FaceSearch1NActivity extends BaseActivity {
                     /**
                      * 匹配到的大于 Threshold的所有结果，如有多个很相似的人场景允许的话可以弹框让用户选择
                      * 但还是强烈建议使用高品质摄像头，录入高品质人脸
-                     * SearchProcessBuilder setCallBackAllMatch(true) 才有数据返回 否则默认是空
+                     * SearchProcessBuilder setCallBackAllMatch(true) onFaceMatched才会回调
                      */
                     @Override
                     public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
@@ -153,12 +157,22 @@ public class FaceSearch1NActivity extends BaseActivity {
         // 建议设备配置 CPU为八核64位2.4GHz以上,  摄像头RGB 宽动态(大于105Db)高清成像，光线不足设备加补光灯
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
-            if (!isDestroyed() && !isFinishing()) {
+            if (!isDestroyed() && !isFinishing()&&enginePrepared) {
                 //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像
                 FaceSearchEngine.Companion.getInstance().runSearch(imageProxy, 0);
-//                FaceSearchEngine.Companion.getInstance().runSearch(bitmap); //你也可以自行处理Bitmap喂数据到SDK
             }
         });
+
+
+        //模拟自行管理摄像头采集人脸转为Bitmap持续送入到SDK引擎中（单帧图SDK限制不会返回结果）
+//        new Timer().schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                //0a_Search 放在Asset 并提前通过Demo导入该目录人脸入库
+//                Bitmap bitmap = BitmapUtils.getBitmapFromAsset(FaceSearch1NActivity.this, "0a_Search.png");
+//                FaceSearchEngine.Companion.getInstance().runSearch(bitmap); //不要在主线程调用
+//            }
+//        }, 200, 1000);
 
     }
 
@@ -185,10 +199,15 @@ public class FaceSearch1NActivity extends BaseActivity {
                 binding.searchTips.setText(R.string.sdk_init);
                 break;
 
-            case SEARCH_PREPARED, SEARCHING:
+            case SEARCH_PREPARED:
+                //initSearchParams 后引擎需要加载人脸库等初始化，完成会回调
+                enginePrepared=true;
                 binding.searchTips.setText(R.string.keep_face_tips);
                 break;
 
+            case  SEARCHING:
+                binding.searchTips.setText(R.string.keep_face_tips);
+                break;
 
             case NO_LIVE_FACE:
                 binding.searchTips.setText(R.string.no_face_detected_tips);
