@@ -61,7 +61,7 @@ dependencies {
 
     //2025.07.15 发布2.0 系列正式版本
     //2.x 版本SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
-    implementation 'io.github.faceaisdk:Android:2.0.0.line'
+    implementation 'io.github.faceaisdk:Android:2.0.0.release'
 
     //UVC协议USB摄像头库 More: https://github.com/shiyinghan/UVCAndroid
     implementation files('libs/libuvccamera-release.aar')

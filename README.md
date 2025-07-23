@@ -31,13 +31,17 @@ SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身
 
 **iOS SDK：** https://github.com/FaceAISDK/FaceAISDK_iOS  
 **Uni App：** https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS  
-**Android：** https://github.com/FaceAISDK/FaceAISDK_Android
+**Android：** https://github.com/FaceAISDK/FaceAISDK_Android  
+
+**其他实现**  
+**React native** https://github.com/zkteco-home/react-native-face-recognition  
+**Flutter** need your help
 
 <div align=center>
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 21%  />
 </div>
 
-## 当前版本说明 V2025.07.15 (建议升级到20250712以上重构版本)
+## 当前版本说明 V2.0.0.release  (建议升级到20250712以上重构版本)
 - 暴露并优化相机管理CameraX,防止低配RK3588长时间运行白屏
 - 符合设定阈值的所有人脸搜索结果返回
 - 优化人脸搜索和开放三方UVC摄像头管理
@@ -45,7 +49,6 @@ SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身
 - 优化低配设备设备速度，解决某些情况闪退问题
 
 建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceAISDK_Android](https://github.com/FaceAISDK/FaceAISDK_Android)
-
 
 ## [使用场景和区别](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/doc/Introduce_11_1N_MN.md)
 
