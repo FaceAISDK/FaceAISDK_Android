@@ -41,7 +41,7 @@ SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 21%  />
 </div>
 
-## 当前版本说明 V2025.07.15 (建议升级到20250712以上重构版本)
+## 当前版本说明 V2.0.0.release  (建议升级到20250712以上重构版本)
 - 暴露并优化相机管理CameraX,防止低配RK3588长时间运行白屏
 - 符合设定阈值的所有人脸搜索结果返回
 - 优化人脸搜索和开放三方UVC摄像头管理

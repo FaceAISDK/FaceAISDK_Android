@@ -14,6 +14,6 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Toast.makeText(this,getClass().getSimpleName(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
     }
 }
