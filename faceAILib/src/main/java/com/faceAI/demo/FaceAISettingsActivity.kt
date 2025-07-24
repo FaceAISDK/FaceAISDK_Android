@@ -44,7 +44,7 @@ class FaceAISettingsActivity : BaseActivity() {
             this@FaceAISettingsActivity.finish()
         }
 
-        val sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
 
         //1.切换系统相机前后
         binding.switchCamera.setOnClickListener {

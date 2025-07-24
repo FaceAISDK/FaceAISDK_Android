@@ -48,7 +48,7 @@ public class LivenessDetectActivity extends BaseActivity {
 
         findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(0,"用户取消"));
 
-        SharedPreferences sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
         int cameraLensFacing = sharedPref.getInt( FRONT_BACK_CAMERA_FLAG, 0);
         int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 

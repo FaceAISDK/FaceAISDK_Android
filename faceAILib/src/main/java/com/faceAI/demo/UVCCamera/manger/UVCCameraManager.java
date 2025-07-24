@@ -117,7 +117,7 @@ public class UVCCameraManager {
         }
         if (!isMatched) {
             //允许用户手动去选择设置，傻瓜式操作
-            Toast.makeText(cameraBuilder.getContext(), "摄像头keyword:" + cameraBuilder.getCameraName() + "匹配失败", Toast.LENGTH_LONG).show();
+            Toast.makeText(cameraBuilder.getContext(), cameraBuilder.getCameraName() + "匹配失败,请手动匹配", Toast.LENGTH_LONG).show();
         }
 
     }
