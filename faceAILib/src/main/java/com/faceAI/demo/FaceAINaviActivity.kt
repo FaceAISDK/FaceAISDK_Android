@@ -77,9 +77,6 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
             printDeviceInfo()
         }
 
-
-//        CrashReport.initCrashReport(this, "36fade54d8", true)
-
         // 长按打印Log 信息
         viewBinding.systemInfo.setOnLongClickListener {
             FaceVerifyUtils().printInfo(this@FaceAINaviActivity);

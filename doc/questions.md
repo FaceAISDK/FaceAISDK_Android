@@ -75,19 +75,19 @@
    根据Compile SDK 不同，各自项目依赖体系不一样
    主工程和SDK 中的依赖有冲突需要统一依赖,可以参考下面方式处理
    比如TargetSDK 还是 28 的camera_version降低到 1.2.3（最后支持TargetSDK 28）
-   更多错误请自行Google，百度搜索解决方法，集成问题不是SDK内部原因，谢谢
+   更多错误请自行Google，百度搜索解决方法，集成问题根据错误查找对应解决方法
 
    **以下代码配置应该放到主模块build.gradle里面**
-
    ```
-   def camera_version = "1.2.3"
+   def camera_version = "1.2.3" //Android 16KB Alignment 需要升级到1.4.2 以上版本
    configurations.configureEach {
-   resolutionStrategy {
-   force   "androidx.camera:camera-core:$camera_version",
-   "androidx.camera:camera-camera2:$camera_version",
-   "androidx.camera:camera-lifecycle:$camera_version",
-   "androidx.camera:camera-view:$camera_version"
-   }
+     resolutionStrategy {
+       force   
+        "androidx.camera:camera-core:$camera_version",
+        "androidx.camera:camera-camera2:$camera_version",
+        "androidx.camera:camera-lifecycle:$camera_version",
+        "androidx.camera:camera-view:$camera_version"
+     }
    }
    ```
 
