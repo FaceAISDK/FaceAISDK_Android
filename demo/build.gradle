@@ -9,11 +9,11 @@ android {
     defaultConfig {
         applicationId "com.ai.face.verifyPub"
 
-        minSdk 21         //暂时只支持Android 7以上，需要更低需定制
+        minSdk 21         //暂时只支持Android 5以上，需要更低需定制
         targetSdk 33      //target SDK 还是28 的请参考question.md 文档说明
 
-        versionCode 20250718
-        versionName "20250718"
+        versionCode 20250724
+        versionName "20250724"
 
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
@@ -56,11 +56,6 @@ android {
         buildConfig true
     }
 
-    //压制 低版本Gradle build Local AAR Error
-    lint {
-        abortOnError false
-        checkReleaseBuilds false
-    }
 
 }
 

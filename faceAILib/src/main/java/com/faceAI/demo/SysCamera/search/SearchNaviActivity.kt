@@ -87,7 +87,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
         binding.switchCamera.setOnClickListener {
-            val sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE)
+            val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
             if (sharedPref.getInt( FRONT_BACK_CAMERA_FLAG, 1) == 1) {
                 sharedPref.edit(commit = true) { putInt( FRONT_BACK_CAMERA_FLAG, 0) }
                 Toast.makeText(
@@ -124,7 +124,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
      */
     private fun showConnectUVCCameraDialog() {
         //一天提示一次
-        val sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
         val showTime = sharedPref.getLong("showUVCCameraDialog", 0)
         if (System.currentTimeMillis() - showTime < 12 * 60 * 60 * 1000) {
             startActivity(

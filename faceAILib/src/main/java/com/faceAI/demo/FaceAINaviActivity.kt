@@ -188,7 +188,7 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
      *
      */
     private fun showTipsDialog() {
-        val sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
         val showTime = sharedPref.getLong("showFaceAISDKTips", 0)
         if (System.currentTimeMillis() - showTime > 9 * 60 * 60 * 1000) {
 
