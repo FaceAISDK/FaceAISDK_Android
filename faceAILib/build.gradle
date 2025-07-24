@@ -16,7 +16,6 @@ plugins {
 //    }
 //}
 
-
 android {
     namespace 'com.faceAI.demo'
     compileSdk 33
@@ -25,7 +24,7 @@ android {
         targetSdk 33 //target SDK 还是28 的请参考question.md 文档说明
 
         ndk {
-            abiFilters 'armeabi-v7a','arm64-v8a'   //chrome OS 暂时不支持了
+            abiFilters 'armeabi-v7a','arm64-v8a' //chrome OS 暂时不支持了
         }
     }
 
@@ -33,20 +32,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-    }
-
-
-    //为了导入libs 目录下的 libuvccamera-release.aar
-//    repositories {
-//        flatDir {
-//            dirs 'libs'
-//        }
-//    }
-
-    //压制 低版本Gradle build Local AAR Error
-    lint {
-        abortOnError false
-        checkReleaseBuilds false
     }
 
     buildFeatures {
@@ -58,15 +43,13 @@ android {
 
 
 dependencies {
-
     //2025.07.15 发布2.0 系列正式版本
     //2.x 版本SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
     implementation 'io.github.faceaisdk:Android:2.0.0.release'
-    implementation 'io.github.faceaisdk:UVCCamera:2025.07.24.2'
 
 
-    //UVC协议USB摄像头库 More: https://github.com/shiyinghan/UVCAndroid
-//    implementation files('libs/libuvccamera-release.aar')
+    //UVC协议USB摄像头所有源码: https://github.com/shiyinghan/UVCAndroid
+    implementation 'io.github.faceaisdk:UVCCamera:2.0.0.release'
 
 
     //以下为业务需要其他依赖，不是SDK 运行的必须依赖
@@ -90,6 +73,5 @@ dependencies {
 
     //3. 发布到https://central.sonatype.com
 //    implementation 'com.vanniktech.maven.publish.base:com.vanniktech.maven.publish.base.gradle.plugin:0.32.0'
-
 
 }

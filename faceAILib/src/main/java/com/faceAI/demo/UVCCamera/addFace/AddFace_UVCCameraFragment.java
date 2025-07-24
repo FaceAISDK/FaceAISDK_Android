@@ -99,11 +99,12 @@ public class AddFace_UVCCameraFragment extends Fragment {
     }
 
     private void initRGBCamara() {
-        SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
+        SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
 
+        String s=sp.getString(RGB_UVC_CAMERA_SELECT,RGB_KEY_DEFAULT);
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
                 .setCameraName("普通RGB摄像头")
-                .setCameraKey(sp.getString(RGB_UVC_CAMERA_SELECT,RGB_KEY_DEFAULT))
+                .setCameraKey(s)
                 .setCameraView(binding.rgbCameraView)
                 .setContext(requireContext())
                 .setDegree(sp.getInt(RGB_UVC_CAMERA_DEGREE,0))

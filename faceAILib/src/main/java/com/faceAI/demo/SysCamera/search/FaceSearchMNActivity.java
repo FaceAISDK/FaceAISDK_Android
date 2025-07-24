@@ -53,7 +53,7 @@ public class FaceSearchMNActivity extends BaseActivity {
                     .putExtra("isAdd", false));
         });
 
-        SharedPreferences sharedPref = getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
 
         int cameraLensFacing = sharedPref.getInt( FRONT_BACK_CAMERA_FLAG, 0);
         int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());

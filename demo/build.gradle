@@ -4,13 +4,13 @@ plugins {
 
 android {
     namespace 'com.example.demo'
-    compileSdk 35        //上线Google Play需要35 了
+    compileSdk 33        //上线Google Play需要35 了
 
     defaultConfig {
         applicationId "com.ai.face.verifyPub"
 
-        minSdk 21         //暂时只支持Android 7以上，需要更低需定制
-        targetSdk 35      //target SDK 还是28 的请参考question.md 文档说明
+        minSdk 21         //暂时只支持Android 5以上，需要更低需定制
+        targetSdk 33      //target SDK 还是28 的请参考question.md 文档说明
 
         versionCode 20250724
         versionName "20250724"
@@ -56,11 +56,6 @@ android {
         buildConfig true
     }
 
-    //压制 低版本Gradle build Local AAR Error
-    lint {
-        abortOnError false
-        checkReleaseBuilds false
-    }
 
 }
 
@@ -69,7 +64,7 @@ android {
 //主工程和SDK 中的依赖有冲突需要降级统一依赖,可以参考下面方式处理
 //比如TargetSDK 还是28的camera_version降低到 1.2.3（最后支持TargetSDK 28）
 //集成过程中更多错误请自行Google，百度搜索解决方法
-def camera_version = "1.4.2"
+def camera_version = "1.2.3"
 configurations.configureEach {
     resolutionStrategy {
         //Android 16 Alignment 需要升级到1.4.2 以上版本

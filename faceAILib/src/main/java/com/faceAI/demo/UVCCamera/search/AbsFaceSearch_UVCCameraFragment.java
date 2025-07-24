@@ -75,7 +75,7 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
     }
 
     private void initRGBCamara() {
-        SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
+        SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
                 .setCameraName("普通RGB摄像头")
                 .setCameraKey(sp.getString(RGB_UVC_CAMERA_SELECT,RGB_KEY_DEFAULT))
@@ -117,7 +117,7 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
      *
      */
     private void initIRCamara() {
-        SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK", Context.MODE_PRIVATE);
+        SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
 
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
                 .setCameraName("IR摄像头")

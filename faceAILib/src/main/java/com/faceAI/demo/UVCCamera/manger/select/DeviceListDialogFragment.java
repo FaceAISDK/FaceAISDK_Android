@@ -58,7 +58,7 @@ public class DeviceListDialogFragment extends DialogFragment {
     private void initDeviceList() {
         if (mCameraHelperWeak.get() != null) {
             List<UsbDevice> list = mCameraHelperWeak.get().getDeviceList();
-            if (list == null || list.size() == 0) {
+            if (list == null || list.isEmpty()) {
                 rvDeviceList.setVisibility(View.GONE);
                 tvEmptyTip.setVisibility(View.VISIBLE);
             } else {
