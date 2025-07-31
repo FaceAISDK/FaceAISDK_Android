@@ -28,6 +28,9 @@ public class FaceAIConfig {
 
         //语音提示播报
         VoicePlayer.getInstance().init(context);
+
+        //人脸搜索初始化预加载可以放这里
+
     }
 
 

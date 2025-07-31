@@ -80,6 +80,7 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                 .setThreshold(0.88f) //阈值设置，范围限 [0.85 , 0.95] 识别可信度，也是识别灵敏度
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
+                .setCameraType(SearchProcessBuilder.CameraType.UVC_CAMERA)
                 .setProcessCallBack(new SearchProcessCallBack() {
 
                     // 得分最高的搜索结果

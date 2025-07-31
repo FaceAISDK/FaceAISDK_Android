@@ -67,10 +67,7 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
-        // 收集Crash,ANR 运行日志
-        if (!BuildConfig.DEBUG) {
-            CrashReport.initCrashReport(this, "36fade54d8", true);
-        }
+
     }
 
 

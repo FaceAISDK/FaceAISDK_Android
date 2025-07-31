@@ -1,6 +1,7 @@
 package com.faceAI.demo.SysCamera.verify;
 
 import static com.faceAI.demo.FaceAIConfig.CACHE_BASE_FACE_DIR;
+import static com.faceAI.demo.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 
@@ -21,6 +22,7 @@ import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.view.CameraXFragment;
 import com.faceAI.demo.FaceAIConfig;
 import com.faceAI.demo.R;
+import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.BaseActivity;
 import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.view.DemoFaceCoverView;
@@ -159,7 +161,7 @@ public class FaceVerificationActivity extends BaseActivity {
                      */
                     @Override
                     public void onVerifyMatched(boolean isMatched, float similarity, float silentLivenessScore, Bitmap bitmap) {
-                        showVerifyResult(isMatched, similarity, silentLivenessScore);
+                        showVerifyResult(isMatched, similarity, silentLivenessScore,bitmap);
                     }
 
                     //人脸识别，活体检测过程中的各种提示
@@ -203,7 +205,7 @@ public class FaceVerificationActivity extends BaseActivity {
      * 动作活体要有动作配合，必须先动作匹配通过再1：1 匹配
      * 静默活体不需要人配合，如果不需要静默活体检测，分数直接会被赋值 1.0
      */
-    private void showVerifyResult(boolean isVerifyMatched, float similarity, float silentLivenessScore) {
+    private void showVerifyResult(boolean isVerifyMatched, float similarity, float silentLivenessScore,Bitmap bitmap) {
         //切换到主线程操作UI
         runOnUiThread(() -> {
             scoreText.setText("SilentLive:" + silentLivenessScore);
@@ -219,14 +221,17 @@ public class FaceVerificationActivity extends BaseActivity {
                         .show();
             } else if (isVerifyMatched) {
                 //2.和底片同一人
-                tipsTextView.setText("Success:  " + similarity);
+                //提前释放相机，也会跟随cameraXFragment声明周期自动释放
+                cameraXFragment.releaseCamera();
+
                 VoicePlayer.getInstance().addPayList(R.raw.verify_success);
+                new ImageToast().show(getApplicationContext(), bitmap, "人脸识别成功");
+
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     finishFaceVerify(1,"人脸识别成功");
-                }, 2000);
+                }, 1500);
             } else {
                 //3.和底片不是同一个人
-                tipsTextView.setText("Failed: " + similarity);
                 VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
                 new AlertDialog.Builder(FaceVerificationActivity.this)
                         .setTitle("识别失败，相似度 " + similarity)
