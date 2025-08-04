@@ -129,4 +129,4 @@ Demo聚焦演示SDK的核心功能，部分细节并不完善，需要你根据�
 
 
  .
-![FaceAISDK](images/FaceAISDK.png)  
+![FaceAISDK](FaceAISDK.png)  

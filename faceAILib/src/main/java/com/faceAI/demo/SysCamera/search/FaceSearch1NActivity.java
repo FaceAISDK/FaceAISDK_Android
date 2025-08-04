@@ -80,7 +80,7 @@ public class FaceSearch1NActivity extends BaseActivity {
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0f) //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
+                .setLinearZoom(0f)     //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)   //画面旋转方向
                 .setSize(CameraXFragment.SIZE.DEFAULT) //相机的分辨率大小。分辨率越大画面中人像很小也能检测但是会更消耗CPU
                 .create();
@@ -110,7 +110,12 @@ public class FaceSearch1NActivity extends BaseActivity {
                 .setImageFlipped(cameraXFragment.getCameraLensFacing() == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {
 
-                    // 得分最高最相似的人脸搜索识别结果
+                    /**
+                     * 最相似的人脸搜索识别结果，得分最高
+                     * @param faceID
+                     * @param score
+                     * @param bitmap
+                     */
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap) {
                         Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
@@ -120,7 +125,7 @@ public class FaceSearch1NActivity extends BaseActivity {
                     }
 
                     /**
-                     * 匹配到的大于 Threshold的所有结果，如有多个很相似的人场景允许的话可以弹框让用户选择
+                     * 匹配到的大于设置Threshold的所有结果，搜索识别到多个很相似的人场景允许的话可以弹框让用户选择
                      * 但还是强烈建议使用高品质摄像头，录入高品质人脸
                      * SearchProcessBuilder setCallBackAllMatch(true) onFaceMatched才会回调
                      */
@@ -140,10 +145,12 @@ public class FaceSearch1NActivity extends BaseActivity {
                         //画框UI代码完全开放，用户可以根据情况自行改造
                         binding.graphicOverlay.drawRect(result, cameraXFragment);
                     }
+
                     @Override
                     public void onProcessTips(int i) {
                         showFaceSearchPrecessTips(i);
                     }
+
                     @Override
                     public void onLog(String log) {
                         binding.tips.setText(log);
@@ -250,7 +257,7 @@ public class FaceSearch1NActivity extends BaseActivity {
     }
 
     /**
-     * 销毁，停止人脸搜索
+     * 停止人脸搜索，释放资源
      */
     @Override
     protected void onDestroy() {
