@@ -1,12 +1,12 @@
 
 <div align=center>
-<img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 1%  alt="点击查看详情"/>
+<img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 7%  alt="点击查看详情"/>
 </div>
 
 <img src="https://badgen.net/badge/FaceAI%20SDK/%20%E5%BF%AB%E9%80%9F%E5%AE%9E%E7%8E%B0%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%8A%9F%E8%83%BD" />
 
 <br>
-<a href='https://play.google.com/store/apps/details?id=com.ai.face.verifyPub'><img alt='Get FaceAI On Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='66'/></a>
+<a href='https://play.google.com/store/apps/details?id=com.ai.face.verifyPub'><img alt='Get FaceAI On Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='60'/></a>
 <br> 
 
 # [关于「FaceAI SDK」](https://github.com/FaceAISDK/FaceAISDK_Android)
@@ -41,11 +41,10 @@ SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 21%  />
 </div>
 
-## 当前版本说明 V2025.07.31  (建议升级到20250712以上重构版本)
+## 当前版本说明 V2025.08.05  (建议升级到20250712以上重构版本)
+- 使用YUVLib NDK处理摄像头数据，提升低配设备体验
 - CameraX新加释放相机API以便提前释放
-- 符合设定阈值的所有人脸搜索结果返回
 - 优化重构后SDK初始化参数和提示细节
-- 优化UVC双目摄像头匹配管理问题
 
 建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceAISDK_Android](https://github.com/FaceAISDK/FaceAISDK_Android)
 
