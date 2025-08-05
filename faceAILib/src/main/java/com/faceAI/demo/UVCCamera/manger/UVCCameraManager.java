@@ -211,8 +211,10 @@ public class UVCCameraManager {
                              * @param isImageFlipped 是否左右翻转
                              * @return
                              */
+                            //todo 使用NDK 处理加快效率，解决内存泄漏
                             Bitmap bitmap = DataConvertUtils.NV21Data2Bitmap(byteBuffer, width, height,
                                     cameraBuilder.getDegree(), 3, cameraBuilder.isHorizontalMirror());
+
 
                             faceAIAnalysisCallBack.onBitmapFrame(bitmap);
                         }

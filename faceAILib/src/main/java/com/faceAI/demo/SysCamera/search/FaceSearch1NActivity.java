@@ -80,7 +80,7 @@ public class FaceSearch1NActivity extends BaseActivity {
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0f) //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
+                .setLinearZoom(0f)     //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)   //画面旋转方向
                 .setSize(CameraXFragment.SIZE.DEFAULT) //相机的分辨率大小。分辨率越大画面中人像很小也能检测但是会更消耗CPU
                 .create();
@@ -103,13 +103,19 @@ public class FaceSearch1NActivity extends BaseActivity {
         // 2.各种参数的初始化设置
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
+                .setCameraType(SearchProcessBuilder.CameraType.SYS_CAMERA)
                 .setThreshold(0.88f) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setImageFlipped(cameraXFragment.getCameraLensFacing() == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {
 
-                    // 得分最高最相似的人脸搜索识别结果
+                    /**
+                     * 最相似的人脸搜索识别结果，得分最高
+                     * @param faceID
+                     * @param score
+                     * @param bitmap
+                     */
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap) {
                         Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
@@ -119,7 +125,7 @@ public class FaceSearch1NActivity extends BaseActivity {
                     }
 
                     /**
-                     * 匹配到的大于 Threshold的所有结果，如有多个很相似的人场景允许的话可以弹框让用户选择
+                     * 匹配到的大于设置Threshold的所有结果，搜索识别到多个很相似的人场景允许的话可以弹框让用户选择
                      * 但还是强烈建议使用高品质摄像头，录入高品质人脸
                      * SearchProcessBuilder setCallBackAllMatch(true) onFaceMatched才会回调
                      */
@@ -127,6 +133,7 @@ public class FaceSearch1NActivity extends BaseActivity {
                     public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
                         //已经按照降序排列，可以弹出一个列表框
                         Log.d("onFaceMatched","符合设定阈值的结果: "+matchedResults.toString());
+
                     }
 
                     /**
@@ -138,10 +145,12 @@ public class FaceSearch1NActivity extends BaseActivity {
                         //画框UI代码完全开放，用户可以根据情况自行改造
                         binding.graphicOverlay.drawRect(result, cameraXFragment);
                     }
+
                     @Override
                     public void onProcessTips(int i) {
                         showFaceSearchPrecessTips(i);
                     }
+
                     @Override
                     public void onLog(String log) {
                         binding.tips.setText(log);
@@ -248,7 +257,7 @@ public class FaceSearch1NActivity extends BaseActivity {
     }
 
     /**
-     * 销毁，停止人脸搜索
+     * 停止人脸搜索，释放资源
      */
     @Override
     protected void onDestroy() {

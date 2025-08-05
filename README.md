@@ -1,12 +1,12 @@
 
 <div align=center>
-<img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 19%  alt="点击查看详情"/>
+<img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 7%  alt="点击查看详情"/>
 </div>
 
 <img src="https://badgen.net/badge/FaceAI%20SDK/%20%E5%BF%AB%E9%80%9F%E5%AE%9E%E7%8E%B0%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%8A%9F%E8%83%BD" />
 
 <br>
-<a href='https://play.google.com/store/apps/details?id=com.ai.face.verifyPub'><img alt='Get FaceAI On Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='66'/></a>
+<a href='https://play.google.com/store/apps/details?id=com.ai.face.verifyPub'><img alt='Get FaceAI On Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='60'/></a>
 <br> 
 
 # [关于「FaceAI SDK」](https://github.com/FaceAISDK/FaceAISDK_Android)
@@ -41,12 +41,10 @@ SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 21%  />
 </div>
 
-## 当前版本说明 V2.0.0.release  (建议升级到20250712以上重构版本)
-- 暴露并优化相机管理CameraX,防止低配RK3588长时间运行白屏
-- 符合设定阈值的所有人脸搜索结果返回
-- 优化人脸搜索和开放三方UVC摄像头管理
-- 优化低配设备人脸录入和识别活体校验优化
-- 优化低配设备设备速度，解决某些情况闪退问题
+## 当前版本说明 V2025.08.05  (建议升级到20250712以上重构版本)
+- 使用YUVLib NDK处理摄像头数据，提升低配设备体验
+- CameraX新加释放相机API以便提前释放
+- 优化重构后SDK初始化参数和提示细节
 
 建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceAISDK_Android](https://github.com/FaceAISDK/FaceAISDK_Android)
 
@@ -97,7 +95,7 @@ Demo聚焦演示SDK的核心功能，部分细节并不完善，需要你根据�
 ## Demo APK 下载体验
 
 <div align=center>
-<img src="https://www.pgyer.com/app/qrcode/faceVerify" width = 23%   alt="请点击上面下载地址"/>
+<img src="https://www.pgyer.com/app/qrcode/faceVerify" width = 19%   alt="请点击上面下载地址"/>
 </div>
 
 更多历史版本查看这里： https://www.pgyer.com/faceVerify
@@ -130,4 +128,4 @@ Demo聚焦演示SDK的核心功能，部分细节并不完善，需要你根据�
 
 
  .
-![让子弹飞剧照-这是你吗？](images/It_is_you.png)  
+![FaceAISDK](FaceAISDK.png)  

@@ -7,7 +7,7 @@
 
     <string name="sdk_init">SDK Initing</string>
     <string name="no_mask_please">请勿佩戴口罩</string>
-    <string name="face_verifying">识别中,正对摄像头</string>
+    <string name="face_verifying">识别中,平视正对摄像头</string>
     <string name="confirm">知道了</string>
     <string name="retry">重试</string>
     <string name="long_press_copy_msg">提示：长按复制联系信息</string>
@@ -21,7 +21,7 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
 体验Android App 下载：https://www.pgyer.com/faceVerify</string>
 
     <!--添加人脸 add face image-->
-    <string name="keep_face_tips">保持正对摄像头</string>
+    <string name="keep_face_tips">平视正对摄像头</string>
     <string name="no_close_eye_tips">请勿闭眼</string>
     <string name="no_tilt_head_tips">请勿歪头</string>
     <string name="head_turn_left_tips">脸偏左</string>
@@ -49,10 +49,10 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <!--Motion liveness detection-->
     <string name="liveness_detection">活体检测 </string>
     <string name="motion_liveness_detection_failed">动作活体检测失败了 </string>
-    <string name="keep_face_visible">正对屏幕，识别中..</string>
+    <string name="keep_face_visible">平视正对摄像头</string>
     <string name="repeat_open_close_mouse">请重复张嘴，闭嘴</string>
     <string name="motion_smile">请微笑 </string>
-    <string name="motion_blink_eye">请眨眨眼 </string>
+    <string name="motion_blink_eye">请缓慢眨眼 </string>
     <string name="motion_shake_head">请左右摇头</string>
     <string name="motion_node_head">请上下点头 </string>
     <string name="motion_liveness_detection_time_out">活体检测超时了 </string>

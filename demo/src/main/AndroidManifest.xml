@@ -19,6 +19,7 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".FaceApplication"
         android:theme="@style/AppTheme">
 
         <activity
