@@ -153,7 +153,7 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                 break;
 
             case IR_LIVE_ERROR:
-                binding.searchTips.setText(R.string.ir_live_error);
+//                binding.searchTips.setText(R.string.ir_live_error);
                 break;
 
             case NO_LIVE_FACE:

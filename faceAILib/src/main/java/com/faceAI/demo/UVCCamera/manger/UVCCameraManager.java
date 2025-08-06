@@ -1,11 +1,14 @@
 package com.faceAI.demo.UVCCamera.manger;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
+
 import com.ai.face.base.utils.DataConvertUtils;
 import com.herohan.uvcapp.CameraHelper;
 import com.herohan.uvcapp.ICameraHelper;
@@ -14,6 +17,7 @@ import com.serenegiant.usb.IFrameCallback;
 import com.serenegiant.usb.Size;
 import com.serenegiant.usb.UVCCamera;
 import com.serenegiant.usb.UVCParam;
+
 import java.nio.ByteBuffer;
 import java.util.List;
 
@@ -26,7 +30,7 @@ import java.util.List;
  * 熟悉后可以自己实现一个 UsbCameraManager来管理你的摄像头各种适配
  */
 public class UVCCameraManager {
-    // 配置UVC 协议摄像头默认的分辨率，请参考你的摄像头能支持的分辨率
+    // 配置UVC 协议摄像头默认的分辨率，请参考你的摄像头能支持的分辨率，分辨率不用那么高关键在成像能力
     // 分辨率太高需要高性能的硬件配置。强烈建议摄像头的宽动态值 > 105DB
     public static final int UVC_CAMERA_WIDTH = 640;
     public static final int UVC_CAMERA_HEIGHT = 480;
@@ -36,12 +40,16 @@ public class UVCCameraManager {
     public static final String IR_KEY_DEFAULT="IR";
 
     private ICameraHelper mCameraHelper;
-    private boolean autoAspectRatio = true;
+    private boolean autoAspectRatio = true;   //摄像头画面自行管理，源码完全开放
     private int previewHeight = UVC_CAMERA_HEIGHT;
     private OnFaceAIAnalysisCallBack faceAIAnalysisCallBack;
     private OnCameraStatusCallBack onCameraStatuesCallBack;
 
-    private final CameraBuilder cameraBuilder;
+    private CameraBuilder cameraBuilder;
+    private Context context;
+
+    private int width=UVC_CAMERA_WIDTH,height=UVC_CAMERA_HEIGHT;
+    private Bitmap reuseBitmap=null;
 
     public interface OnCameraStatusCallBack {
         void onAttach(UsbDevice device);
@@ -49,7 +57,7 @@ public class UVCCameraManager {
     }
 
     /**
-     * 对每帧bitmap 进行分析，断点确保方向正确
+     * 对每帧bitmap 进行分析，如果SDK上一帧还在处理就可以丢弃掉
      */
     public interface OnFaceAIAnalysisCallBack {
         void onBitmapFrame(Bitmap bitmap);
@@ -63,6 +71,7 @@ public class UVCCameraManager {
      */
     public UVCCameraManager(CameraBuilder cameraBuilder) {
         this.cameraBuilder = cameraBuilder;
+        this.context=cameraBuilder.getContext().getApplicationContext();
         initCameraHelper();
         initUVCCamera();
     }
@@ -85,9 +94,15 @@ public class UVCCameraManager {
      */
     public void releaseCameraHelper() {
         if (mCameraHelper != null) {
+
+            mCameraHelper.setStateCallback(null );
             mCameraHelper.release();
             mCameraHelper = null;
         }
+
+        faceAIAnalysisCallBack =null;
+        onCameraStatuesCallBack = null; // 添加这行
+        cameraBuilder=null;
     }
 
 
@@ -100,9 +115,8 @@ public class UVCCameraManager {
         boolean isMatched = false;
         for (UsbDevice device : list) {
             String name = device.getProductName();
-            Log.d("UVC CAMERA","ProductName: "+name);
             if (TextUtils.isEmpty(name)) {
-                Toast.makeText(cameraBuilder.getContext(), "摄像头ProductName为空", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "摄像头ProductName为空", Toast.LENGTH_LONG).show();
             } else if (name.toLowerCase().contains(cameraBuilder.getCameraKey().toLowerCase())) { //忽略大小写
                 isMatched = true; //匹配成功了
                 mCameraHelper.selectDevice(device);
@@ -116,10 +130,9 @@ public class UVCCameraManager {
             }
         }
         if (!isMatched) {
-            //允许用户手动去选择设置，傻瓜式操作
-            Toast.makeText(cameraBuilder.getContext(), cameraBuilder.getCameraName() + "匹配失败,请手动匹配", Toast.LENGTH_LONG).show();
+            //Demo 需要允许用户手动去选择设置，傻瓜式操作
+            Toast.makeText(context, cameraBuilder.getCameraName() + "匹配失败,请手动匹配", Toast.LENGTH_LONG).show();
         }
-
     }
 
     /**
@@ -158,7 +171,7 @@ public class UVCCameraManager {
         public void onCameraOpen(UsbDevice device) {
             Size previewSize = null;
             if (previewHeight > 0) {
-                // 摄像头支持的分辨率列表
+                // 摄像头支持的Size列表，选择一个合适分辨率和FPS。
                 List<Size> supportedSizeList = mCameraHelper.getSupportedSizeList();
                 if (supportedSizeList != null) {
                     for (Size size : supportedSizeList) {
@@ -169,23 +182,21 @@ public class UVCCameraManager {
                     }
                     if (previewSize != null) {
                         mCameraHelper.setPreviewSize(previewSize);
+                         width = previewSize.width;
+                         height = previewSize.height;
+                         if(autoAspectRatio){
+                             cameraBuilder.getCameraView().setAspectRatio(width, height);
+                         }
+                    }else{
+                        //无匹配的分辨率
+                        Toast.makeText(context,  "无对应的分辨率，请调试修正", Toast.LENGTH_LONG).show();
                     }
                 }
             }
+
             mCameraHelper.startPreview();
-            //UI处理宽高适配等更多参考三方库 https://github.com/shiyinghan/UVCAndroid
+
             if (cameraBuilder.getCameraView() != null) {
-                if (autoAspectRatio) {
-                    Size size = mCameraHelper.getPreviewSize();
-                    if (previewSize != null) {
-                        size = previewSize;
-                    }
-                    if (size != null) {
-                        int width = size.width;
-                        int height = size.height;
-                        cameraBuilder.getCameraView().setAspectRatio(width, height);
-                    }
-                }
                 mCameraHelper.addSurface(cameraBuilder.getCameraView().getHolder().getSurface(), true);
 
                 mCameraHelper.setFrameCallback(new IFrameCallback() {
@@ -193,30 +204,13 @@ public class UVCCameraManager {
                     public void onFrame(ByteBuffer byteBuffer) {
                         //转为bitmap 后
                         if (faceAIAnalysisCallBack != null) {
-                            Size currentPreviewSize = getCurrentPreviewSize();
-                            int width = UVC_CAMERA_WIDTH;
-                            int height = UVC_CAMERA_HEIGHT;
-                            if (currentPreviewSize != null) {
-                                width = currentPreviewSize.width;
-                                height = currentPreviewSize.height;
-                            }
 
-                            /**
-                             * 将 NV21 格式字节缓冲区转换为Bitmap。
-                             * @param data   ByteBuffer
-                             * @param width  宽
-                             * @param height 高
-                             * @param rotation 旋转角度
-                             * @param margin 裁剪周围区域大小
-                             * @param isImageFlipped 是否左右翻转
-                             * @return
-                             */
-                            //todo 使用NDK 处理加快效率，解决内存泄漏
-                            Bitmap bitmap = DataConvertUtils.NV21Data2Bitmap(byteBuffer, width, height,
+                            long t1=System.currentTimeMillis();
+                            reuseBitmap = DataConvertUtils.NV21Data2Bitmap(byteBuffer, width, height,
                                     cameraBuilder.getDegree(), 3, cameraBuilder.isHorizontalMirror());
+                            Log.e("DataConvertUtils",width+"转化用时："+(System.currentTimeMillis()-t1));
 
-
-                            faceAIAnalysisCallBack.onBitmapFrame(bitmap);
+                            faceAIAnalysisCallBack.onBitmapFrame(reuseBitmap);
                         }
                     }
                 }, UVCCamera.PIXEL_FORMAT_NV21);
@@ -226,7 +220,7 @@ public class UVCCameraManager {
         @Override
         public void onCameraClose(UsbDevice device) {
             if (cameraBuilder.getCameraView() != null) {
-                initCameraHelper();
+//                initCameraHelper();
                 mCameraHelper.removeSurface(cameraBuilder.getCameraView().getHolder().getSurface());
             }
         }
@@ -245,7 +239,5 @@ public class UVCCameraManager {
         public void onCancel(UsbDevice device) {
 
         }
-
     };
-
 }
