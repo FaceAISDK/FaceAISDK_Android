@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.camera.core.CameraSelector;
+
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.view.CameraXFragment;
 import com.faceAI.demo.FaceAIConfig;
@@ -70,10 +72,10 @@ public class FaceVerificationActivity extends BaseActivity {
         });
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
-        int cameraLensFacing = sharedPref.getInt( FRONT_BACK_CAMERA_FLAG, 0);
+        int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT);
         int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
-        //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
+        //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,_90,_180,_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.0001f)    //焦距范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
@@ -185,6 +187,7 @@ public class FaceVerificationActivity extends BaseActivity {
                 }).create();
 
         faceVerifyUtils.setDetectorParams(faceProcessBuilder);
+
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             //防止在识别过程中关闭页面导致Crash
             if (!isDestroyed() && !isFinishing()) {
@@ -222,9 +225,6 @@ public class FaceVerificationActivity extends BaseActivity {
                         .show();
             } else if (isVerifyMatched) {
                 //2.和底片同一人
-                //提前释放相机，也会跟随cameraXFragment声明周期自动释放
-                cameraXFragment.releaseCamera();
-
                 VoicePlayer.getInstance().addPayList(R.raw.verify_success);
                 new ImageToast().show(getApplicationContext(), bitmap, "人脸识别成功");
 

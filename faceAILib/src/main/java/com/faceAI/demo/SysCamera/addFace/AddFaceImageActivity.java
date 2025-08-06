@@ -100,7 +100,7 @@ public class AddFaceImageActivity extends BaseActivity {
         });
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
-        int cameraLensFacing = sharedPref.getInt( FRONT_BACK_CAMERA_FLAG, 0);
+        int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 0);
         int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
