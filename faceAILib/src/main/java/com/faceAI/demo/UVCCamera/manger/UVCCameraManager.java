@@ -208,7 +208,7 @@ public class UVCCameraManager {
                             long t1=System.currentTimeMillis();
                             reuseBitmap = DataConvertUtils.NV21Data2Bitmap(byteBuffer, width, height,
                                     cameraBuilder.getDegree(), 3, cameraBuilder.isHorizontalMirror());
-                            Log.e("DataConvertUtils",width+"转化用时："+(System.currentTimeMillis()-t1));
+//                            Log.e("DataConvertUtils",width+"转化用时："+(System.currentTimeMillis()-t1));
 
                             faceAIAnalysisCallBack.onBitmapFrame(reuseBitmap);
                         }

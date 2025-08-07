@@ -69,7 +69,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         //验证复制图片
         binding.copyFaceImages.setOnClickListener {
-            binding.copyFaceImages.isClickable = false
+            binding.copyFaceImages.visibility= View.INVISIBLE
             Toast.makeText(baseContext, "Copying...", Toast.LENGTH_LONG).show()
             showAppFloat(baseContext)
 

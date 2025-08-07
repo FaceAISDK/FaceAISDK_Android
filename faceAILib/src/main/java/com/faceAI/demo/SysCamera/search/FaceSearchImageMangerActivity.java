@@ -82,6 +82,21 @@ public class FaceSearchImageMangerActivity extends BaseActivity {
         faceImageListAdapter.setEmptyView(R.layout.empty_layout);
         faceImageListAdapter.getEmptyLayout().setOnClickListener(v -> copyFaceTestImage());
 
+        TextView tips = findViewById(R.id.tips);
+        tips.setOnLongClickListener(v -> {
+            new AlertDialog.Builder(FaceSearchImageMangerActivity.this)
+                    .setTitle("确定要删除所有人脸数据？")
+                    .setMessage("删除后设备本地所有人脸数据将被清除，请谨慎操作")
+                    .setPositiveButton("确定", (dialog, which) -> {
+                        FaceSearchImagesManger.Companion.getInstance(getApplication()).clearFaceImage(CACHE_SEARCH_FACE_DIR);
+                        loadImageList();
+                        faceImageListAdapter.notifyDataSetChanged();
+                    })
+                    .setNegativeButton("取消", null).show();
+            return false;
+        });
+
+
         //添加人脸照片，UVC协议摄像头添加还是普通的系统相机
         if (getIntent().getExtras().getBoolean("isAdd")) {
             if (getIntent().getExtras().getBoolean("isBinocularCamera")) {

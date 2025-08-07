@@ -12,8 +12,8 @@
         android:id="@+id/toast_image"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="16dp"
-        android:layout_width="46dp"
-        android:layout_height="46dp"/>
+        android:layout_width="44dp"
+        android:layout_height="41dp"/>
 
     <TextView
         android:id="@+id/toast_text"

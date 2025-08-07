@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.faceAI.demo.FaceAIConfig;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.utils.BrightnessUtil;
@@ -164,7 +166,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
 
         Glide.with(requireActivity())
                 .load(baseBitmap)
-                .transform(new RoundedCorners(12))
+                .transform(new CircleCrop())
                 .into(baseFaceImageView);
     }
 

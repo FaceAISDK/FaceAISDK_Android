@@ -54,6 +54,7 @@
         android:paddingBottom="2dp"
         android:paddingLeft="11dp"
         android:paddingRight="11dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_result" />

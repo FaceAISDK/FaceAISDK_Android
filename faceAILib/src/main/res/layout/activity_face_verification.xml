@@ -28,13 +28,22 @@
         customAttr:tip_text_size="20sp" />
 
     <ImageView
-        android:id="@+id/base_face"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/back"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="10dp"
+        android:padding="9dp"
+        android:src="@drawable/ic_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/base_face"
+        android:layout_width="35dp"
+        android:layout_height="32dp"
+        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintBottom_toBottomOf="@+id/back"
+        app:layout_constraintTop_toTopOf="@+id/back" />
 
     <TextView
         android:id="@+id/tips_view"
@@ -47,7 +56,7 @@
         android:paddingRight="10dp"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="15dp"
         android:text="@string/keep_face_visible"
         android:textColor="@color/white"
         android:textSize="16sp"
@@ -84,15 +93,7 @@
         app:layout_constraintRight_toRightOf="parent" />
 
 
-    <ImageView
-        android:id="@+id/back"
-        android:layout_width="47dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="10dp"
-        android:padding="9dp"
-        android:src="@drawable/ic_arrow_back_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
 
 
