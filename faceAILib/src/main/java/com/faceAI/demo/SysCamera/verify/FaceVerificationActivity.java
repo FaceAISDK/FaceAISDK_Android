@@ -22,6 +22,7 @@ import androidx.camera.core.CameraSelector;
 
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.view.CameraXFragment;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.faceAI.demo.FaceAIConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
@@ -199,7 +200,7 @@ public class FaceVerificationActivity extends BaseActivity {
 
         Glide.with(getBaseContext())
                 .load(baseBitmap)
-                .transform(new RoundedCorners(12))
+                .transform(new CircleCrop())
                 .into(baseFaceImageView);
     }
 

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="com.ai.face.com.faceAI.face.search.FaceSearchImageMangerActivity">
+    tools:context=".SysCamera.search.FaceSearchImageMangerActivity">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -21,11 +21,12 @@
         tools:ignore="MissingConstraints" />
 
     <TextView
+        android:id="@+id/tips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="长按删除，点击右上角图标添加或批量处理"
         android:gravity="center"
-        android:padding="3dp"
+        android:padding="4dp"
         android:textSize="12sp"
         android:background="#CDB48D"
         android:textColor="@color/white" />
@@ -35,8 +36,6 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
-
 
 
 </LinearLayout>
