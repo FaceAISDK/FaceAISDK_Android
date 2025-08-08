@@ -63,12 +63,12 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
             startActivity(enumIntent)
         }
 
-        // 参数设置
+        // 人脸搜索(系统相机和双目USB UVC 摄像头都支持)
         viewBinding.faceSearch.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, SearchNaviActivity::class.java))
         }
 
-        // 人脸搜索(系统相机和双目USB UVC 摄像头都支持)
+        // 参数设置
         viewBinding.paramsSetting.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, FaceAISettingsActivity::class.java))
         }
@@ -101,9 +101,7 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
             startActivity(uvcCameraModeIntent)
         }
 
-        /**
-         *
-         */
+
         viewBinding.moreAboutMe.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, AboutFaceAppActivity::class.java))
         }

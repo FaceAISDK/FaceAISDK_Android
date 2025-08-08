@@ -41,10 +41,10 @@ SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 21%  />
 </div>
 
-## 当前版本说明 V2025.08.07  (建议升级到20250712以上重构版本)
-- 使用YUVLib NDK处理摄像头数据，提升低配设备体验
-- CameraX新加释放相机API以便提前释放
-- 优化重构后SDK初始化参数和提示细节
+## 当前版本说明 V2025.08.08 (建议升级到20250712以上重构版本)
+- 修复返回Bitmap为空情况
+- 提升低配设备万个人脸搜索速度
+- UVC协议USB相机管理优化
 
 建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceAISDK_Android](https://github.com/FaceAISDK/FaceAISDK_Android)
 

@@ -36,7 +36,7 @@
     <string name="add_a_face_image">Add a face image </string>
 
     <!--1:N 人脸搜索 face search-->
-    <string name="no_matched_face">No matched face</string>
+    <string name="no_matched_face">Face Searching</string>
     <string name="face_dir_empty">Face dir empty</string>
 
     <!--1:1 人脸识别 face verify -->

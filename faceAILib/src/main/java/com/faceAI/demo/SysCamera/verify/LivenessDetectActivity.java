@@ -20,6 +20,7 @@ import com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
 import com.faceAI.demo.R;
+import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.BaseActivity;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.base.view.DemoFaceCoverView;
@@ -95,6 +96,7 @@ public class LivenessDetectActivity extends BaseActivity {
                         //切换到主线程操作UI
                         runOnUiThread(() -> {
                             scoreText.setText("RGB Live:"+silentLivenessValue);
+                            new ImageToast().show(getApplicationContext(), bitmap, "活体检测完成");
                             new AlertDialog.Builder(LivenessDetectActivity.this)
                                     .setTitle(R.string.liveness_detection)
                                     .setMessage("活体检测完成，其中RGB Live分数="+silentLivenessValue)
