@@ -206,10 +206,11 @@ public class AddFace_UVCCameraFragment extends Fragment {
         /**
          * context 需要是
          *
-         * 2 PERFORMANCE_MODE_ACCURATE 精确模式
-         * 1 PERFORMANCE_MODE_FAST 快速模式
+         * 2 PERFORMANCE_MODE_ACCURATE 精确模式 人脸要正对摄像头，严格要求
+         * 1 PERFORMANCE_MODE_FAST 快速模式 允许人脸方位可以有一定的偏移
+         * 0 PERFORMANCE_MODE_EASY 简单模式 允许人脸方位可以「较大」的偏移
          */
-        baseImageDispose = new BaseImageDispose(requireContext(), 2, new BaseImageCallBack() {
+        baseImageDispose = new BaseImageDispose(requireContext(), 1, new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap, float silentLiveValue) {
                 requireActivity().runOnUiThread(() -> showConfirmDialog(bitmap, silentLiveValue));
