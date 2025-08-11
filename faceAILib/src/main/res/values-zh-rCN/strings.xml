@@ -45,6 +45,8 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <!--1:1 人脸识别 face verify-->
     <string name="face_verify_failed">人脸识别不通过，相似度低于设置阈值，请重试！</string>
     <string name="silent_anti_spoofing_error">静默活体得分过低</string>
+    <string name="face_verify_pause">人脸识别被中断了！</string>
+
 
     <!--Motion liveness detection-->
     <string name="liveness_detection">活体检测 </string>

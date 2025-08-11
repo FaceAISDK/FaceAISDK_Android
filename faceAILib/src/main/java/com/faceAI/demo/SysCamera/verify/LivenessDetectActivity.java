@@ -204,6 +204,16 @@ public class LivenessDetectActivity extends BaseActivity {
                         tipsTextView.setText(R.string.motion_node_head);
                         break;
 
+                    case VERIFY_DETECT_TIPS_ENUM.PAUSE_VERIFY:
+                        new AlertDialog.Builder(this)
+                                .setMessage(R.string.face_verify_pause)
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
+                                    finishFaceVerify(6,"活体检测中断");
+                                })
+                                .show();
+                        break;
+
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT:
                         new AlertDialog.Builder(this)
                                 .setMessage(R.string.motion_liveness_detection_time_out)

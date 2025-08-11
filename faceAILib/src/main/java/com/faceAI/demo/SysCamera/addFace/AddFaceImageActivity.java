@@ -85,7 +85,7 @@ public class AddFaceImageActivity extends BaseActivity {
          * 0 PERFORMANCE_MODE_EASY 简单模式 允许人脸方位可以「较大」的偏移
          *
          */
-        baseImageDispose = new BaseImageDispose(this, 1, new BaseImageCallBack() {
+        baseImageDispose = new BaseImageDispose(this, BaseImageDispose.PERFORMANCE_MODE_FAST, new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap, float silentLiveValue) {
                 runOnUiThread(() -> showConfirmDialog(bitmap, silentLiveValue));

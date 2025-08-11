@@ -43,6 +43,7 @@
     <string name="face_verify_failed">Face verify failed！Please retry</string>
     <string name="silent_anti_spoofing_error">Silent anti spoofing error</string>
     <string name="no_base_face_bitmap">No base face bitmap error</string>
+    <string name="face_verify_pause">Face verify pause！Please retry</string>
 
     <!--Motion liveness detection-->
     <string name="liveness_detection">Liveness detection</string>

@@ -320,6 +320,15 @@ public class FaceVerificationActivity extends BaseActivity {
                                         }
                                 ).show();
                         break;
+                    case VERIFY_DETECT_TIPS_ENUM.PAUSE_VERIFY:
+                        new AlertDialog.Builder(this)
+                                .setMessage(R.string.face_verify_pause)
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
+                                    finishFaceVerify(6,"人脸识别中断");
+                                })
+                                .show();
+                        break;
 
                     case VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
                         tipsTextView.setText(R.string.no_face_or_repeat_switch_screen);
