@@ -36,13 +36,14 @@
     <string name="add_a_face_image">Add a face image </string>
 
     <!--1:N 人脸搜索 face search-->
-    <string name="no_matched_face">No matched face</string>
+    <string name="no_matched_face">Face Searching</string>
     <string name="face_dir_empty">Face dir empty</string>
 
     <!--1:1 人脸识别 face verify -->
     <string name="face_verify_failed">Face verify failed！Please retry</string>
     <string name="silent_anti_spoofing_error">Silent anti spoofing error</string>
     <string name="no_base_face_bitmap">No base face bitmap error</string>
+    <string name="face_verify_pause">Face verify pause！Please retry</string>
 
     <!--Motion liveness detection-->
     <string name="liveness_detection">Liveness detection</string>

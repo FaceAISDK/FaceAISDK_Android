@@ -38,20 +38,22 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="add_a_face_image">录入人脸照片</string>
 
     <!--1:N 人脸搜索 face search-->
-    <string name="no_matched_face">无匹配人脸</string>
+    <string name="no_matched_face">人脸搜索中</string>
     <string name="face_dir_empty">人脸库为空</string>
     <string name="no_base_face_bitmap">没有录入人脸底片</string>
 
     <!--1:1 人脸识别 face verify-->
     <string name="face_verify_failed">人脸识别不通过，相似度低于设置阈值，请重试！</string>
     <string name="silent_anti_spoofing_error">静默活体得分过低</string>
+    <string name="face_verify_pause">人脸识别被中断了！</string>
+
 
     <!--Motion liveness detection-->
     <string name="liveness_detection">活体检测 </string>
     <string name="motion_liveness_detection_failed">动作活体检测失败了 </string>
     <string name="keep_face_visible">平视正对摄像头</string>
-    <string name="repeat_open_close_mouse">请重复张嘴，闭嘴</string>
-    <string name="motion_smile">请微笑 </string>
+    <string name="repeat_open_close_mouse">请重复张嘴-闭嘴</string>
+    <string name="motion_smile">重复微笑-正常表情 </string>
     <string name="motion_blink_eye">请缓慢眨眼 </string>
     <string name="motion_shake_head">请左右摇头</string>
     <string name="motion_node_head">请上下点头 </string>

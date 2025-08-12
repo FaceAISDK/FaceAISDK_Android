@@ -86,9 +86,7 @@ public class FaceSearchMNActivity extends BaseActivity {
                 .setThreshold(0.85f)            //识别成功阈值设置，范围仅限 0.85-0.95！默认0.85
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setSearchType(SearchProcessBuilder.SearchType.N_SEARCH_M) //1:N 搜索
-                .setImageFlipped(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy 拿到的图可能左右翻转
                 .setProcessCallBack(new SearchProcessCallBack() {
-
 
                     /**
                      * 检测到人脸的位置信息，画框用.MN 人脸搜索人脸检测，人脸搜索识别结果都在这个回调里面

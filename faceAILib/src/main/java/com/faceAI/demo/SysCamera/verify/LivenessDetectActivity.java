@@ -20,6 +20,7 @@ import com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
 import com.faceAI.demo.R;
+import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.BaseActivity;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.base.view.DemoFaceCoverView;
@@ -95,6 +96,7 @@ public class LivenessDetectActivity extends BaseActivity {
                         //切换到主线程操作UI
                         runOnUiThread(() -> {
                             scoreText.setText("RGB Live:"+silentLivenessValue);
+                            new ImageToast().show(getApplicationContext(), bitmap, "活体检测完成");
                             new AlertDialog.Builder(LivenessDetectActivity.this)
                                     .setTitle(R.string.liveness_detection)
                                     .setMessage("活体检测完成，其中RGB Live分数="+silentLivenessValue)
@@ -200,6 +202,16 @@ public class LivenessDetectActivity extends BaseActivity {
                     case ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
                         VoicePlayer.getInstance().play(R.raw.nod_head);
                         tipsTextView.setText(R.string.motion_node_head);
+                        break;
+
+                    case VERIFY_DETECT_TIPS_ENUM.PAUSE_VERIFY:
+                        new AlertDialog.Builder(this)
+                                .setMessage(R.string.face_verify_pause)
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
+                                    finishFaceVerify(6,"活体检测中断");
+                                })
+                                .show();
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT:
