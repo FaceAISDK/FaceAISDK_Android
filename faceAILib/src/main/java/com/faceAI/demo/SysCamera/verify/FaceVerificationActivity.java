@@ -10,9 +10,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +58,11 @@ public class FaceVerificationActivity extends BaseActivity {
     private CameraXFragment cameraXFragment;
     private final float silentLivenessPassScore = 0.85f; //静默活体分数通过的阈值
     private String faceID;
+
+
+
+    private long t1=0;
+    private boolean isVerified=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +152,7 @@ public class FaceVerificationActivity extends BaseActivity {
     private void initFaceVerificationParam(Bitmap baseBitmap) {
         //建议老的低配设备减少活体检测步骤，加长活体检测 人脸对比时间。
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                .setThreshold(0.84f)                    //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
+                .setThreshold(0.85f)                    //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
                 .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
                 .setCameraType(FaceProcessBuilder.CameraType.SYS_CAMERA)
                 .setCompareDurationTime(3500)           //人脸识别对比时间[3000,5000] 毫秒。相似度很低会持续设置的时间
@@ -165,6 +172,7 @@ public class FaceVerificationActivity extends BaseActivity {
                      */
                     @Override
                     public void onVerifyMatched(boolean isMatched, float similarity, float silentLivenessScore, Bitmap bitmap) {
+                        isVerified=true;
                         showVerifyResult(isMatched, similarity, silentLivenessScore,bitmap);
                     }
 
@@ -191,7 +199,12 @@ public class FaceVerificationActivity extends BaseActivity {
 
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             //防止在识别过程中关闭页面导致Crash
-            if (!isDestroyed() && !isFinishing()) {
+            if (!isDestroyed() && !isFinishing() && !isVerified) {
+                if(t1==0){
+                    t1=System.currentTimeMillis();
+                    Log.d("verifyTime", Build.BRAND+" start： "+t1);
+                }
+
                 //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
                 faceVerifyUtils.goVerifyWithImageProxy(imageProxy, faceCoverView.getMargin());
                 //自定义管理相机可以使用 goVerifyWithBitmap
@@ -225,6 +238,8 @@ public class FaceVerificationActivity extends BaseActivity {
                         })
                         .show();
             } else if (isVerifyMatched) {
+                Log.d("verifyTime:","耗时："+(System.currentTimeMillis()-t1));
+
                 //2.和底片同一人
                 VoicePlayer.getInstance().addPayList(R.raw.verify_success);
                 new ImageToast().show(getApplicationContext(), bitmap, "人脸识别成功");

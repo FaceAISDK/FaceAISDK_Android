@@ -41,10 +41,11 @@ SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 21%  />
 </div>
 
-## 当前版本说明 V2025.08.08 (建议升级到20250712以上重构版本)
-- 修复返回Bitmap为空情况
+## 当前版本说明 V2025.08.12 (建议升级到20250712以上重构版本)
+- 修复1:1 识别完成后提示未检测到人脸问题
 - 提升低配设备万个人脸搜索速度
 - UVC协议USB相机管理优化
+- 优化静默活体+人脸识别速度
 
 建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceAISDK_Android](https://github.com/FaceAISDK/FaceAISDK_Android)
 
