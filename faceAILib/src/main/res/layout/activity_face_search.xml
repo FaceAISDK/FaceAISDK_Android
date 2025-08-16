@@ -17,6 +17,7 @@
     <!-- Custom your Face Verify UI-->
     <com.faceAI.demo.SysCamera.search.FaceSearchGraphicOverlay
         android:id="@+id/graphicOverlay"
+        android:layout_margin="17dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

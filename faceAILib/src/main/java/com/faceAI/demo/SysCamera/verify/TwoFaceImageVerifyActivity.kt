@@ -99,7 +99,7 @@ class TwoFaceImageVerifyActivity : BaseActivity() {
         val optionsImage = FileSelectOptions().apply {
             fileType = FileType.IMAGE
             fileTypeMismatchTip = "File type mismatch !"
-            singleFileMaxSize = 5242880
+            singleFileMaxSize = 9242880
             singleFileMaxSizeTip = "A single picture does not exceed 5M !"
             allFilesMaxSize = 9242880
             allFilesMaxSizeTip = "The total size of the picture does not exceed 10M !"
@@ -119,7 +119,7 @@ class TwoFaceImageVerifyActivity : BaseActivity() {
             .with(this)
             .setRequestCode(REQUEST_ADD_FACE_IMAGE)
             .setMinCount(1, "Choose at least one picture!")
-            .setSingleFileMaxSize(3145728, "The size of a single picture cannot exceed 3M !")
+            .setSingleFileMaxSize(9145728, "The size of a single picture cannot exceed 3M !")
             .setExtraMimeTypes("image/*")
             .applyOptions(optionsImage)
             .filter(object : FileSelectCondition {

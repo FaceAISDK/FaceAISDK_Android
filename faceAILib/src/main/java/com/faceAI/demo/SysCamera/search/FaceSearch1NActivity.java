@@ -59,6 +59,7 @@ public class FaceSearch1NActivity extends BaseActivity {
     private ActivityFaceSearchBinding binding;
     private CameraXFragment cameraXFragment;
     private boolean enginePrepared=false;
+    private int cameraLensFacing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class FaceSearch1NActivity extends BaseActivity {
         });
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
-        int cameraLensFacing = sharedPref.getInt( FRONT_BACK_CAMERA_FLAG, 0);
+        cameraLensFacing = sharedPref.getInt( FRONT_BACK_CAMERA_FLAG, 0);
         int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //1. 摄像头相关参数配置
@@ -107,6 +108,7 @@ public class FaceSearch1NActivity extends BaseActivity {
                 .setThreshold(0.88f) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
+                .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy左右翻转影响人脸框
                 .setProcessCallBack(new SearchProcessCallBack() {
 
                     /**

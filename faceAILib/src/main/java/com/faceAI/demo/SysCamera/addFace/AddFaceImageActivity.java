@@ -18,6 +18,7 @@ import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,7 +31,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
+
 import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.utils.DataConvertUtils;
@@ -39,6 +42,7 @@ import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.faceAI.demo.R;
 import com.faceAI.demo.base.BaseActivity;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -57,6 +61,8 @@ public class AddFaceImageActivity extends BaseActivity {
     private TextView tipsTextView, secondTips;
     private BaseImageDispose baseImageDispose;
     private String faceID, addFaceImageType;
+    private boolean isConfirmAdd = false;
+
 
     //如果启用活体检测，根据自身情况完善业务逻辑
     private boolean isRealFace = true;
@@ -71,7 +77,7 @@ public class AddFaceImageActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_face_image);
         findViewById(R.id.back)
-                .setOnClickListener(v -> finishFaceVerify(0,"用户取消"));
+                .setOnClickListener(v -> finishFaceVerify(0, "用户取消"));
 
         tipsTextView = findViewById(R.id.tips_view);
         secondTips = findViewById(R.id.second_tips_view);
@@ -88,6 +94,7 @@ public class AddFaceImageActivity extends BaseActivity {
         baseImageDispose = new BaseImageDispose(this, BaseImageDispose.PERFORMANCE_MODE_FAST, new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap, float silentLiveValue) {
+                isConfirmAdd=true;
                 runOnUiThread(() -> showConfirmDialog(bitmap, silentLiveValue));
             }
 
@@ -101,7 +108,7 @@ public class AddFaceImageActivity extends BaseActivity {
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
         int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 0);
-        int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
+        int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
@@ -113,8 +120,10 @@ public class AddFaceImageActivity extends BaseActivity {
 
         CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-            //某些设备如果一直提示检测不到人脸，可以断点调试看看转化的Bitmap 是否有问题
-            baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy, 10, false));
+            if (!isDestroyed() && !isFinishing() && !isConfirmAdd) {
+                //某些设备如果一直提示检测不到人脸，可以断点调试看看转化的Bitmap 是否有问题
+                baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy, 10, false));
+            }
         });
 
         getSupportFragmentManager().beginTransaction()
@@ -185,7 +194,7 @@ public class AddFaceImageActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         // 这样写是为了明确给UTS 插件信息
-        finishFaceVerify(0,"用户取消") ;
+        finishFaceVerify(0, "用户取消");
     }
 
 
@@ -195,7 +204,7 @@ public class AddFaceImageActivity extends BaseActivity {
      * @param code
      * @param msg
      */
-    private void finishFaceVerify(int code,String msg) {
+    private void finishFaceVerify(int code, String msg) {
         Intent intent = new Intent().putExtra("code", code)
                 .putExtra("faceID", faceID)
                 .putExtra("msg", msg);
@@ -206,7 +215,6 @@ public class AddFaceImageActivity extends BaseActivity {
 
     /**
      * 确认是否保存人脸底图
-     *
      */
     private void showConfirmDialog(Bitmap bitmap, float silentLiveValue) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -221,7 +229,7 @@ public class AddFaceImageActivity extends BaseActivity {
 
         if (!isRealFace) {
             realManTips.setVisibility(View.VISIBLE);
-            realManTips.setText(getString(R.string.not_real_face_for_debug) + silentLiveValue );
+            realManTips.setText(getString(R.string.not_real_face_for_debug) + silentLiveValue);
         } else {
             realManTips.setVisibility(GONE);
         }
@@ -233,7 +241,7 @@ public class AddFaceImageActivity extends BaseActivity {
         editText.requestFocus();
         editText.setText(faceID);
         if (addFaceImageType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())
-                &&!TextUtils.isEmpty(faceID)) {
+                && !TextUtils.isEmpty(faceID)) {
             editText.setVisibility(GONE);
         }
         btnOK.setOnClickListener(v -> {
@@ -246,7 +254,7 @@ public class AddFaceImageActivity extends BaseActivity {
                     baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, faceID, 300);
                     dialog.dismiss();
                     //这样写是为了明确给UTS 插件信息
-                    finishFaceVerify(1,"人脸添加成功");
+                    finishFaceVerify(1, "人脸添加成功");
                 } else {
                     //1:N ，M：N 人脸搜索保存人脸
                     String faceName = editText.getText().toString() + ".jpg";
@@ -255,12 +263,13 @@ public class AddFaceImageActivity extends BaseActivity {
                     FaceSearchImagesManger.Companion.getInstance(getApplication()).insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
                         @Override
                         public void onSuccess() {
-                            finishFaceVerify(1,"人脸添加成功");
+                            finishFaceVerify(1, "人脸添加成功");
                         }
+
                         @Override
                         public void onFailed(@NotNull String msg) {
                             Toast.makeText(getBaseContext(), "人脸图入库失败：：" + msg, Toast.LENGTH_SHORT).show();
-                            finishFaceVerify(-1,"人脸添加失败");
+                            finishFaceVerify(-1, "人脸添加失败");
                         }
                     });
                 }
@@ -270,6 +279,7 @@ public class AddFaceImageActivity extends BaseActivity {
         });
 
         btnCancel.setOnClickListener(v -> {
+            isConfirmAdd=false;
             dialog.dismiss();
             baseImageDispose.retry();
             isRealFace = true;

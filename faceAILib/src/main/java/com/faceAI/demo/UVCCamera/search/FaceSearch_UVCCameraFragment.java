@@ -212,7 +212,7 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
         }
 
         if (irReady && rgbReady) {
-//            getScaleValue();
+            getScaleValue();
             //送数据进入SDK
             FaceSearchEngine.Companion.getInstance().runSearchWithIR(irBitmap, rgbBitmap);
             irReady = false;
@@ -228,20 +228,8 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
     float scaleX = 0f, scaleY = 0f;
     private void getScaleValue() {
         if (scaleX == 0f || scaleY == 0f) {
-            float max = rgbBitmap.getWidth();
-            float min = rgbBitmap.getHeight();
-            if (max < min) { //交换
-                float temp = max;
-                max = min;
-                min = temp;
-            }
-            if (binding.rgbCameraView.getWidth() > binding.rgbCameraView.getHeight()) {
-                scaleX = (float) binding.rgbCameraView.getWidth() / max;
-                scaleY = (float) binding.rgbCameraView.getHeight() / min;
-            } else {
-                scaleX = (float) binding.rgbCameraView.getWidth() / min;
-                scaleY = (float) binding.rgbCameraView.getHeight() / max;
-            }
+            scaleX = (float) binding.rgbCameraView.getWidth() / rgbBitmap.getWidth();
+            scaleY = (float) binding.rgbCameraView.getHeight() / rgbBitmap.getHeight();
         }
     }
 }
