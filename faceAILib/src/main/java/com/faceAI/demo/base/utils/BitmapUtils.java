@@ -5,8 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -15,6 +18,27 @@ import java.io.InputStream;
  */
 public class BitmapUtils {
 
+   public static void saveBitmap(Bitmap mBitmap, String pathName, String fileName) {
+      try {
+         File file = new File(pathName);
+         //创建目录可以提前做好嘛
+         if (!file.exists()){
+            if(!file.mkdir()){
+               Log.e("FaceAISDK","创建目录失败");
+            }
+         }else{
+           file = new File(file,fileName);
+         }
+
+         FileOutputStream out =new  FileOutputStream(file);
+         mBitmap=Bitmap.createScaledBitmap(mBitmap, 300, 300, true);
+         mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+         out.flush();
+         out.close();
+      } catch (Exception e) {
+         Log.e("Save Base Image", "保存图片错误，Save Error："+e.toString());
+      }
+   }
 
 
    /**

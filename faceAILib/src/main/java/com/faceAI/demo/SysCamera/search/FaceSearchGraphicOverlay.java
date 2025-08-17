@@ -25,8 +25,7 @@ import java.util.List;
 public class FaceSearchGraphicOverlay extends View {
     private static final String TAG = "GraphicOverlay";
     private final Paint rectPaint = new Paint();
-    private float scaleX = 1.0f;
-    private float scaleY = 1.0f;
+    private float scaleX = 1.0f, scaleY = 1.0f;
     private final Paint textPaint = new Paint();
     private List<FaceSearchResult> rectFList = new ArrayList<>();
 

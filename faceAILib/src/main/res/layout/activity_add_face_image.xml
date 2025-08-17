@@ -27,7 +27,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="88dp"
-        android:background="@color/blue"
         android:gravity="center_horizontal"
         android:paddingLeft="12dp"
         android:paddingTop="5dp"
@@ -35,8 +34,9 @@
         android:paddingBottom="5dp"
         android:layout_centerHorizontal="true"
         android:text="平视正对摄像头"
-        android:textColor="@color/green"
-        android:textSize="16sp" />
+        android:textColor="@color/face_lib_main_color"
+        android:textStyle="bold"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/second_tips_view"
@@ -48,7 +48,8 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/orange"
         android:textStyle="bold"
-        android:textSize="16sp" />
+        android:textSize="17sp" />
+
     <ImageView
         android:id="@+id/back"
         android:layout_width="47dp"

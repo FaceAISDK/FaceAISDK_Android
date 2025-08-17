@@ -11,8 +11,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import com.ai.face.faceVerify.verify.FaceVerifyUtils
-import com.faceAI.demo.SysCamera.diyCamera.CustomCameraActivity
+import com.faceAI.demo.SysCamera.camera.CustomCameraActivity
 import com.faceAI.demo.SysCamera.search.SearchNaviActivity
+import com.faceAI.demo.SysCamera.verify.AbsFaceVerifyWelcomeActivity
 import com.faceAI.demo.SysCamera.verify.FaceVerifyWelcomeActivity
 import com.faceAI.demo.SysCamera.verify.LivenessDetectActivity
 import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity

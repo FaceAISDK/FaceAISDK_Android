@@ -34,6 +34,9 @@
     <string name="not_real_face">Not real human face</string>
     <string name="not_real_face_for_debug">Not real human face </string>
     <string name="add_a_face_image">Add a face image </string>
+    <string name="add_face_from_photo">add from photo</string>
+    <string name="add_face_from_camera">add from camera</string>
+
 
     <!--1:N 人脸搜索 face search-->
     <string name="no_matched_face">Face Searching</string>

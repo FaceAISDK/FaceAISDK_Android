@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
+import com.ai.face.base.baseImage.FaceEmbedding;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.faceAI.demo.FaceAIConfig;
 import com.ai.face.base.baseImage.FaceAIUtils;
@@ -41,11 +42,8 @@ import com.faceAI.demo.R;
  * 更多UVC 摄像头使用参考 https://blog.csdn.net/hanshiying007/article/details/124118486
  */
 public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragment {
-
     private TextView tipsTextView, secondTipsTextView, scoreText;
-    private DemoFaceCoverView faceCoverView;
-    private ImageView baseFaceImageView;
-    private final float silentLivenessThreshold = 0.85f;
+    private final float silentLivenessThreshold = 0.85f; //根据你的摄像头采用合适的静默活体阈值
 
     public FaceVerify_UVCCameraFragment() {
         // Required empty public constructor
@@ -57,8 +55,6 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
         scoreText = binding.silentScore;
         tipsTextView = binding.tipsView;
         secondTipsTextView = binding.secondTipsView;
-        faceCoverView = binding.faceCover;
-        baseFaceImageView = binding.baseFace;
         binding.back.setOnClickListener(v -> requireActivity().finish());
         BrightnessUtil.setBrightness(requireActivity(), 1.0f);  //高亮白色背景屏幕光可以当补光灯
     }
@@ -66,57 +62,40 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
     /**
      * 初始化人脸识别底图
      */
-    void initFaceVerifyBaseBitmap() {
+    void initFaceVerify() {
         faceVerifyUtils = new FaceVerifyUtils();
 
         //1:1 人脸对比，摄像头实时采集的人脸和预留的人脸底片对比。（动作活体人脸检测完成后开始1:1比对）
-        String yourUniQueFaceId = requireActivity().getIntent().getStringExtra(USER_FACE_ID_KEY);
-        String savedFacePath = FaceAIConfig.CACHE_BASE_FACE_DIR + yourUniQueFaceId;
+        String faceID = requireActivity().getIntent().getStringExtra(USER_FACE_ID_KEY);
+        float[] faceEmbedding = FaceEmbedding.loadEmbedding(requireContext(), faceID);
 
-        //2.先去Path 路径读取有没有faceID 对应的处理好的人脸，如果没有从网络其他地方同步图片过来并进行合规处理
-        Bitmap baseBitmap = BitmapFactory.decodeFile(savedFacePath);
-
-        //如果本地已经有了合规处理好的人脸图
-        if (baseBitmap != null) {
-            //3.初始化引擎，各种参数配置
-            initFaceVerificationParam(baseBitmap);
-        } else {
-            //模拟从网络等地方获取对应的人脸图，Demo 简化从Asset 目录读取
-            Bitmap remoteBitmap = BitmapUtils.getBitmapFromAsset(requireActivity(), "0a_模拟证件照.jpeg");
-            if (remoteBitmap == null) {
-                Toast.makeText(getContext(), R.string.add_a_face_image, Toast.LENGTH_LONG).show();
-                tipsTextView.setText(R.string.add_a_face_image);
-                return;
-            }
-
-            //其他地方同步过来的人脸可能是不规范的没有经过校准的人脸图（证件照，多人脸，过小等）。disposeBaseFaceImage处理
-            FaceAIUtils.Companion.getInstance(requireActivity().getApplication())
-                    .disposeBaseFaceImage(remoteBitmap, savedFacePath, new FaceAIUtils.Callback() {
-                        //处理优化人脸成功完成去初始化引擎
-                        @Override
-                        public void onSuccess(@NonNull Bitmap cropedBitmap) {
-                            initFaceVerificationParam(cropedBitmap);
-                        }
-
-                        //底片处理异常的信息回调
-                        @Override
-                        public void onFailed(@NotNull String msg, int errorCode) {
-                            Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
-                        }
-                    });
+        if(faceEmbedding.length==0){
+            //本地没有faceID对应的人脸特征向量
+            //你的业务代码，从你的服务器拿到对应的人脸特征向量，或提示录入人脸并同步数据到你的服务器，SDK不存储敏感数据
+            Toast.makeText(requireContext(),"本地无对应的人脸特征",Toast.LENGTH_LONG).show();
+        }else{
+            initFaceVerificationParam(faceEmbedding);
         }
+
+        //显示一下对应的人
+        String savedFacePath = FaceAIConfig.CACHE_BASE_FACE_DIR + faceID;
+        Bitmap baseBitmap = BitmapFactory.decodeFile(savedFacePath);
+        Glide.with(requireActivity())
+                .load(baseBitmap)
+                .transform(new CircleCrop())
+                .into(binding.baseFace);
     }
 
 
     /**
      * 初始化认证引擎，LivenessType.IR需要你的摄像头是双目红外摄像头，如果仅仅是RGB 摄像头请使用LivenessType.SILENT_MOTION
      *
-     * @param baseBitmap 1:1 人脸识别对比的底片
+     * @param faceEmbedding 1:1 人脸识别对比的底片
      */
-    void initFaceVerificationParam(Bitmap baseBitmap) {
+    void initFaceVerificationParam(float[] faceEmbedding){
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(getContext())
                 .setThreshold(0.84f)                    //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
-                .setBaseBitmap(baseBitmap)              //1:1 人脸识别对比的底片，仅仅需要SDK活体检测可以忽略比对结果
+                .setFaceEmbedding(faceEmbedding)        //1:1 人脸识别对比底片人脸特征库
                 .setLivenessType(MotionLivenessType.IR) //IR 是指红外静默，MOTION 是有动作可以指定1-2 个
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)//硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(silentLivenessThreshold) //静默活体阈值 [0.8,0.99]
@@ -125,7 +104,6 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                 .setMotionLivenessTimeOut(12) //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
 //                .setCompareDurationTime(4500) //动作活体通过后人脸对比时间，[3000,6000]毫秒。低配设备可以设置时间长一点，高配设备默认就行
                 .setProcessCallBack(new ProcessCallBack() {
-
                     /**
                      * 1:1 人脸识别 活体检测 对比结束
                      *
@@ -147,7 +125,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                     //动作活体检测时间限制倒计时百分比
                     @Override
                     public void onTimeCountDown(float percent) {
-                        faceCoverView.startCountDown(percent);
+                        binding.faceCover.startCountDown(percent);
                     }
 
                     /**
@@ -164,10 +142,6 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
 
         faceVerifyUtils.setDetectorParams(faceProcessBuilder);
 
-        Glide.with(requireActivity())
-                .load(baseBitmap)
-                .transform(new CircleCrop())
-                .into(baseFaceImageView);
     }
 
     /**
@@ -180,7 +154,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
         requireActivity().runOnUiThread(() -> {
             scoreText.setText("SilentLivenessScore:" + silentLivenessScore);
 
-            //1.静默活体分数判断 todo 最好SDK 自己判断
+            //1.静默活体分数判断
             if (silentLivenessScore < silentLivenessThreshold) {
                 tipsTextView.setText(R.string.silent_anti_spoofing_error);
                 new AlertDialog.Builder(requireContext())

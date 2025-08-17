@@ -96,10 +96,10 @@ class CopyFaceImageUtils {
                             // 插入失败请看onFailed log
                             FaceSearchImagesManger.Companion.getInstance(context)
                                 .insertOrUpdateFaceImage(
-                                    originBitmap,
-                                    fileName,
+                                    originBitmap, fileName,
                                     object : FaceSearchImagesManger.Callback {
-                                        override fun onSuccess() {
+
+                                        override fun onSuccess(bitmap: Bitmap, faceEmbedding: FloatArray) {
                                             Log.d("AddFace", "successful：  " + faceFiles[index])
                                         }
 

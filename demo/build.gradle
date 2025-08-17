@@ -7,16 +7,15 @@ android {
     compileSdk 34        //上线Google Play需要35 了
 
     defaultConfig {
-        applicationId "com.ai.face.verifyPub"
+        versionCode 20250817
+        versionName "20250817"
 
+        applicationId "com.ai.face.verifyPub" //演示用applicationId
         minSdk 21         //暂时只支持Android 5以上，需要更低需定制
         targetSdk 34      //target SDK 还是28 的请参考question.md 文档说明
-
-        versionCode 20250812
-        versionName "20250813"
-
+        
         ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a'
+            abiFilters 'armeabi-v7a', 'arm64-v8a' //根据CPU架构选择对应ABI
         }
     }
 

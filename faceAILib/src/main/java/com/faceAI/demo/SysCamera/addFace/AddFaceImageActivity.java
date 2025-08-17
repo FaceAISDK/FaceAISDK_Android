@@ -1,13 +1,13 @@
 package com.faceAI.demo.SysCamera.addFace;
 
 import static android.view.View.GONE;
+import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE;
+import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY;
+import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
+import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
 import static com.faceAI.demo.FaceAIConfig.CACHE_BASE_FACE_DIR;
 import static com.faceAI.demo.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
-import static com.ai.face.base.baseImage.BaseImageCallBack.AlIGN_FAILED;
-import static com.ai.face.base.baseImage.BaseImageCallBack.MANY_FACE;
-import static com.ai.face.base.baseImage.BaseImageCallBack.NOT_REAL_HUMAN;
-import static com.ai.face.base.baseImage.BaseImageCallBack.NO_FACE;
-import static com.ai.face.base.baseImage.BaseImageCallBack.SMALL_FACE;
+
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
@@ -32,10 +32,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
+import com.ai.face.base.baseImage.FaceEmbedding;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.base.view.camera.CameraXBuilder;
@@ -61,11 +63,7 @@ public class AddFaceImageActivity extends BaseActivity {
     private TextView tipsTextView, secondTips;
     private BaseImageDispose baseImageDispose;
     private String faceID, addFaceImageType;
-    private boolean isConfirmAdd = false;
-
-
-    //如果启用活体检测，根据自身情况完善业务逻辑
-    private boolean isRealFace = true;
+    private boolean isConfirmAdd = false; //确认期间停止人脸检测
 
     //是1:1 还是1:N 人脸搜索添加人脸
     public enum AddFaceImageTypeEnum {
@@ -85,13 +83,11 @@ public class AddFaceImageActivity extends BaseActivity {
         faceID = getIntent().getStringExtra(USER_FACE_ID_KEY);
 
         /*
-         * context 需要是Activity context
          * 2 PERFORMANCE_MODE_ACCURATE 精确模式 人脸要正对摄像头，严格要求
          * 1 PERFORMANCE_MODE_FAST 快速模式 允许人脸方位可以有一定的偏移
          * 0 PERFORMANCE_MODE_EASY 简单模式 允许人脸方位可以「较大」的偏移
-         *
          */
-        baseImageDispose = new BaseImageDispose(this, BaseImageDispose.PERFORMANCE_MODE_FAST, new BaseImageCallBack() {
+        baseImageDispose = new BaseImageDispose(this, BaseImageDispose.PERFORMANCE_MODE_EASY, new BaseImageCallBack() {
             @Override
             public void onCompleted(Bitmap bitmap, float silentLiveValue) {
                 isConfirmAdd=true;
@@ -132,16 +128,21 @@ public class AddFaceImageActivity extends BaseActivity {
 
     /**
      * 添加人脸过程中的提示
-     *
-     * @param tipsCode
      */
     private void AddFaceTips(int tipsCode) {
         switch (tipsCode) {
-            case NOT_REAL_HUMAN:
-                Toast.makeText(getBaseContext(), R.string.not_real_face, Toast.LENGTH_LONG).show();
-                secondTips.setText(R.string.not_real_face);
-                //公版Demo 为了方便调试不处理人脸活体，实际业务中请根据自身情况完善业务逻辑
-                isRealFace = false;
+            //整理返回提示，2025.0815
+            case NO_FACE_REPEATEDLY:
+                tipsTextView.setText(R.string.no_face_detected_tips);
+                break;
+            case FACE_TOO_MANY:
+                tipsTextView.setText(R.string.multiple_faces_tips);
+                break;
+            case FACE_TOO_SMALL:
+                tipsTextView.setText(R.string.come_closer_tips);
+                break;
+            case FACE_TOO_LARGE:
+                tipsTextView.setText(R.string.far_away_tips);
                 break;
 
             case CLOSE_EYE:
@@ -168,18 +169,7 @@ public class AddFaceImageActivity extends BaseActivity {
             case HEAD_DOWN:
                 tipsTextView.setText(R.string.no_look_down_tips);
                 break;
-            case NO_FACE:
-                tipsTextView.setText(R.string.no_face_detected_tips);
-                break;
-            case MANY_FACE:
-                tipsTextView.setText(R.string.multiple_faces_tips);
-                break;
-            case SMALL_FACE:
-                tipsTextView.setText(R.string.come_closer_tips);
-                break;
-            case AlIGN_FAILED:
-                tipsTextView.setText(R.string.align_face_error_tips);
-                break;
+
         }
     }
 
@@ -226,15 +216,9 @@ public class AddFaceImageActivity extends BaseActivity {
         dialog.setCanceledOnTouchOutside(false);
         ImageView basePreView = dialogView.findViewById(R.id.preview);
         TextView realManTips = dialogView.findViewById(R.id.realManTips);
+        realManTips.setText("Liveness: "+ silentLiveValue);
 
-        if (!isRealFace) {
-            realManTips.setVisibility(View.VISIBLE);
-            realManTips.setText(getString(R.string.not_real_face_for_debug) + silentLiveValue);
-        } else {
-            realManTips.setVisibility(GONE);
-        }
         basePreView.setImageBitmap(bitmap);
-
         Button btnOK = dialogView.findViewById(R.id.btn_ok);
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
         EditText editText = dialogView.findViewById(R.id.edit_text);
@@ -249,9 +233,11 @@ public class AddFaceImageActivity extends BaseActivity {
 
             if (!TextUtils.isEmpty(faceID)) {
                 if (addFaceImageType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
-                    Toast.makeText(getBaseContext(), "录入成功", Toast.LENGTH_SHORT).show();
                     //1:1 人脸识别保存人脸底图
-                    baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, faceID, 300);
+                    float[] faceEmbedding = baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, faceID);
+                    //保存在App 的私有目录，
+                    FaceEmbedding.saveEmbedding(getBaseContext(),faceID,faceEmbedding);
+                    Toast.makeText(getBaseContext(), "录入成功", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                     //这样写是为了明确给UTS 插件信息
                     finishFaceVerify(1, "人脸添加成功");
@@ -260,17 +246,20 @@ public class AddFaceImageActivity extends BaseActivity {
                     String faceName = editText.getText().toString() + ".jpg";
                     String filePathName = CACHE_SEARCH_FACE_DIR + faceName;
                     // 一定要用SDK API 进行添加删除，不要直接File 接口文件添加删除，不然无法同步人脸SDK中特征值的更新
-                    FaceSearchImagesManger.Companion.getInstance(getApplication()).insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
-                        @Override
-                        public void onSuccess() {
-                            finishFaceVerify(1, "人脸添加成功");
-                        }
+                    FaceSearchImagesManger.Companion.getInstance(getApplication())
+                            .insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
+                                @Override
+                                public void onSuccess(@NonNull Bitmap bitmap, @NonNull float[] floats) {
+                                    dialog.dismiss();
+                                    finishFaceVerify(1, "人脸添加成功");
+                                }
 
-                        @Override
-                        public void onFailed(@NotNull String msg) {
-                            Toast.makeText(getBaseContext(), "人脸图入库失败：：" + msg, Toast.LENGTH_SHORT).show();
-                            finishFaceVerify(-1, "人脸添加失败");
-                        }
+                                @Override
+                                public void onFailed(@NotNull String msg) {
+                                    dialog.dismiss();
+                                    Toast.makeText(getBaseContext(), "人脸图入库失败：：" + msg, Toast.LENGTH_SHORT).show();
+                                    finishFaceVerify(-1, "人脸添加失败");
+                                }
                     });
                 }
             } else {
@@ -282,7 +271,6 @@ public class AddFaceImageActivity extends BaseActivity {
             isConfirmAdd=false;
             dialog.dismiss();
             baseImageDispose.retry();
-            isRealFace = true;
         });
 
         dialog.setCanceledOnTouchOutside(false);

@@ -41,11 +41,15 @@ SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 21%  />
 </div>
 
-## 当前版本说明 V2025.08.12 (建议升级到20250712以上重构版本)
-- 修复1:1 识别完成后提示未检测到人脸问题
-- 提升低配设备万个人脸搜索速度
-- UVC协议USB相机管理优化
-- 优化静默活体+人脸识别速度
+## 当前版本说明 V2025.08.18 （性能大优化，稳API版本）
+
+- 添加人脸体验优化，完善提示
+- 录入人脸API暴露出人脸特征向量float[]，比图片更方便存储 更新 使用
+- 1:1 人脸识别支持传入人脸特征向量取代人脸图片Bitmap
+- 更新整理SDK API，然后期用户无感升级SDK
+- 人脸搜索模块加快万人库初始化速度（小米13 1万张人脸从4秒到99毫秒）
+- 人脸搜索速度更新，万张人脸库搜索速度毫米级（新版本SDK需重新迁移同步人脸一次）
+- 暴露出相机管理源码CameraXFragment以便用户在自定义设备更好管理摄像头
 
 建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceAISDK_Android](https://github.com/FaceAISDK/FaceAISDK_Android)
 
@@ -129,4 +133,4 @@ Demo聚焦演示SDK的核心功能，部分细节并不完善，需要你根据�
 
 
  .
-![FaceAISDK](FaceAISDK.png)  
+![FaceAISDK](images/who_are_you.png)  
