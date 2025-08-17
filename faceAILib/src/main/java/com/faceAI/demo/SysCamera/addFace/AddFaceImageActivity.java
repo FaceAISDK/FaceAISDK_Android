@@ -215,8 +215,8 @@ public class AddFaceImageActivity extends BaseActivity {
         dialog.setView(dialogView);
         dialog.setCanceledOnTouchOutside(false);
         ImageView basePreView = dialogView.findViewById(R.id.preview);
-        TextView realManTips = dialogView.findViewById(R.id.realManTips);
-        realManTips.setText("Liveness: "+ silentLiveValue);
+        TextView livenessScore = dialogView.findViewById(R.id.liveness_score);
+        livenessScore.setText("Liveness Score: "+ silentLiveValue);
 
         basePreView.setImageBitmap(bitmap);
         Button btnOK = dialogView.findViewById(R.id.btn_ok);
@@ -235,8 +235,9 @@ public class AddFaceImageActivity extends BaseActivity {
                 if (addFaceImageType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
                     //1:1 人脸识别保存人脸底图
                     float[] faceEmbedding = baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, faceID);
-                    //保存在App 的私有目录，
+                    //保存人脸特征向量，用于1:1人脸识别 以及比图片更方便管理
                     FaceEmbedding.saveEmbedding(getBaseContext(),faceID,faceEmbedding);
+
                     Toast.makeText(getBaseContext(), "录入成功", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                     //这样写是为了明确给UTS 插件信息
@@ -249,7 +250,7 @@ public class AddFaceImageActivity extends BaseActivity {
                     FaceSearchImagesManger.Companion.getInstance(getApplication())
                             .insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
                                 @Override
-                                public void onSuccess(@NonNull Bitmap bitmap, @NonNull float[] floats) {
+                                public void onSuccess(@NonNull Bitmap bitmap, @NonNull float[] faceEmbedding) {
                                     dialog.dismiss();
                                     finishFaceVerify(1, "人脸添加成功");
                                 }

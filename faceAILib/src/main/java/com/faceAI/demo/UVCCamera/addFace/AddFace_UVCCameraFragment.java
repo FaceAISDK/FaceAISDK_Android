@@ -133,7 +133,7 @@ public class AddFace_UVCCameraFragment extends Fragment {
         dialog.setView(dialogView);
         dialog.setCanceledOnTouchOutside(false);
         ImageView basePreView = dialogView.findViewById(R.id.preview);
-        TextView realManTips = dialogView.findViewById(R.id.realManTips);
+        TextView realManTips = dialogView.findViewById(R.id.liveness_score);
 
         if (!isRealFace) {
             realManTips.setVisibility(View.VISIBLE);
