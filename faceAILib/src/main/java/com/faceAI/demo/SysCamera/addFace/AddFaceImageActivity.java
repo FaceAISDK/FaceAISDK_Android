@@ -131,7 +131,7 @@ public class AddFaceImageActivity extends BaseActivity {
      */
     private void AddFaceTips(int tipsCode) {
         switch (tipsCode) {
-            //整理返回提示，2025.0815
+            //整理返回提示，2025.08.15
             case NO_FACE_REPEATEDLY:
                 tipsTextView.setText(R.string.no_face_detected_tips);
                 break;

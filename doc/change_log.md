@@ -7,12 +7,18 @@
 - 暴露出相机管理源码CameraXFragment以便用户在自定义设备更好管理摄像头
 
 人脸识别API 更新
-1. 
-2.
+1. FaceProcessBuilder.setBitmap --> setFaceEmbedding
+2. FaceAIUtils.disposeBaseFaceImage onSuccess()
+   -->onSuccess(Bitmap, float[])
+3. 暴露源码MyCameraFragment
 
 人脸搜索API更新
-1. insertOrUpdateFaceImage 更新返回人脸向量特征
-2.
+1. insertOrUpdateFaceImage callBak 添加回调参数
+2. 新加insertOrUpdateFaceEmbeddings(list:List<SearchEmbedding>) 方式批量插入人脸搜索数据
+3. insertOrUpdateFaceEmbedding(name:String,faceEmbedding: FloatArray) 方式单个插入人脸搜索数据
+4. insertOrUpdateFaceImage(bitmap: Bitmap,path: String, name:String,faceEmbedding: FloatArray)
+   方式单个插入人脸搜索数据，同时保存对应的人脸底片到路径path
+5. deleteFaceImage(faceID) 
 
 
 ## 当前版本说明 V2025.08.07

@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         versionCode 20250817
-        versionName "20250817"
+        versionName "20250817.alpha"
 
         applicationId "com.ai.face.verifyPub" //演示用applicationId
         minSdk 21         //暂时只支持Android 5以上，需要更低需定制

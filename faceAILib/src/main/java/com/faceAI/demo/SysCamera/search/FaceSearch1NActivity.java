@@ -113,9 +113,9 @@ public class FaceSearch1NActivity extends BaseActivity {
 
                     /**
                      * 最相似的人脸搜索识别结果，得分最高
-                     * @param faceID
-                     * @param score
-                     * @param bitmap
+                     * @param faceID  人脸ID
+                     * @param score   相似度值
+                     * @param bitmap  场景图，可以用来做使用记录log
                      */
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap) {
@@ -139,7 +139,6 @@ public class FaceSearch1NActivity extends BaseActivity {
 
                     /**
                      * 检测到人脸的位置信息，画框用
-                     * @param result
                      */
                     @Override
                     public void onFaceDetected(List<FaceSearchResult> result) {

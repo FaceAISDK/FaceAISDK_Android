@@ -49,7 +49,9 @@ class CopyFaceImageUtils {
          */
         fun copyTestFaceImage(context: Application, callBack: Callback) {
             CoroutineScope(Dispatchers.IO).launch {
+
                 copyAssertTestFaceImages(context)
+
                 delay(800)
                 launch(Dispatchers.Main) {
                     callBack.onSuccess()
@@ -91,6 +93,9 @@ class CopyFaceImageUtils {
                         if (originBitmap != null) {
                             //本地库保存的路径
                             val fileName = CACHE_SEARCH_FACE_DIR + faceFiles[index]
+
+                            // 更多增删改查请查看API文档，V20250818 重新整理完善API 文档
+                            // FaceSearchImagesManger.Companion.getInstance(context).insertOrUpdateFaceImage
 
                             //insertOrUpdateFaceImage 处理人脸图入库，里面会检测裁剪人脸，图像量化处理；
                             // 插入失败请看onFailed log

@@ -27,7 +27,6 @@ public class FaceAIConfig {
         CACHE_SEARCH_FACE_DIR = context.getFilesDir().getPath() + "/FaceAI/Search/";  //人脸搜索人脸库目录
 
 
-
         //语音提示播报
         VoicePlayer.getInstance().init(context);
 
