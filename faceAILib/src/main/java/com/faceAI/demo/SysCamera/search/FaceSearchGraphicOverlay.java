@@ -9,22 +9,23 @@ import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
-import androidx.annotation.Nullable;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 仅供参考，UI样式可以自行设计。甚至SurfaceView 改造
+ * 仅供参考，UI样式可以自行设计。横屏还没适配，优先级放低
  *
- * https://github.com/FaceAISDK/FaceAISDK_Android
+ * <a href="https://github.com/FaceAISDK/FaceAISDK_Android">...</a>
  */
 public class FaceSearchGraphicOverlay extends View {
     private static final String TAG = "GraphicOverlay";
     private final Paint rectPaint = new Paint();
-    private float scaleX = 1.0f;
-    private float scaleY = 1.0f;
+    private float scaleX = 1.0f, scaleY = 1.0f;
     private final Paint textPaint = new Paint();
     private List<FaceSearchResult> rectFList = new ArrayList<>();
 
@@ -45,7 +46,7 @@ public class FaceSearchGraphicOverlay extends View {
 
 
     @Override
-    public void onDraw(Canvas canvas) {
+    public void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
         for (FaceSearchResult rectLabel : rectFList) {
             rectPaint.setColor(Color.GREEN);
@@ -73,7 +74,6 @@ public class FaceSearchGraphicOverlay extends View {
     }
 
 
-
     public void clearRect() {
         this.rectFList.clear();
         postInvalidate();
@@ -82,9 +82,9 @@ public class FaceSearchGraphicOverlay extends View {
 
 
     public void drawRect(List<FaceSearchResult> rectLabels, CameraXFragment cameraXFragment) {
-        this.rectFList = adjustBoundingRect(rectLabels);
         this.scaleX = cameraXFragment.getScaleX();
         this.scaleY = cameraXFragment.getScaleY();
+        this.rectFList = adjustBoundingRect(rectLabels);
         postInvalidate();
         requestLayout();
     }
@@ -99,19 +99,16 @@ public class FaceSearchGraphicOverlay extends View {
 
     private List<FaceSearchResult> adjustBoundingRect(List<FaceSearchResult> rectLabels) {
         List<FaceSearchResult> labels = new ArrayList<>();
-
         // 画框处理后期再优化
         for (FaceSearchResult rectLabel : rectLabels) {
             Rect rect = new Rect(
-                    translateX(rectLabel.getRect().left) - 20,
-                    translateY(rectLabel.getRect().top) - 10,
-                    translateX(rectLabel.getRect().right) + 20,
-                    translateY(rectLabel.getRect().bottom) + 10
+                    translateX(rectLabel.getRect().left),
+                    translateY(rectLabel.getRect().top),
+                    translateX(rectLabel.getRect().right),
+                    translateY(rectLabel.getRect().bottom)
             );
-
             labels.add(new FaceSearchResult(rect, rectLabel.getFaceName(), rectLabel.getFaceScore()));
         }
-
         return labels;
     }
 
@@ -124,19 +121,17 @@ public class FaceSearchGraphicOverlay extends View {
      */
     private List<FaceSearchResult> adjustUVCBoundingRect(List<FaceSearchResult> rectLabels) {
         List<FaceSearchResult> labels = new ArrayList<>();
-
         // 画框处理后期再优化
         for (FaceSearchResult rectLabel : rectLabels) {
             Rect rect = new Rect(
-                    translateX(rectLabel.getRect().left) - 20,
-                    translateY(rectLabel.getRect().top) - 10,
-                    translateX(rectLabel.getRect().right) + 20,
-                    translateY(rectLabel.getRect().bottom) + 10
+                    translateX(rectLabel.getRect().left) ,
+                    translateY(rectLabel.getRect().top),
+                    translateX(rectLabel.getRect().right),
+                    translateY(rectLabel.getRect().bottom)
             );
 
             labels.add(new FaceSearchResult(rect, rectLabel.getFaceName(), rectLabel.getFaceScore()));
         }
-
         return labels;
     }
 

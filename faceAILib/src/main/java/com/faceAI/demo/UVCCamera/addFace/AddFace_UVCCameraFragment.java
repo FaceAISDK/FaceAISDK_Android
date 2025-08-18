@@ -1,12 +1,11 @@
 package com.faceAI.demo.UVCCamera.addFace;
 
+import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE;
+import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY;
+import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
+import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
 import static com.faceAI.demo.FaceAIConfig.CACHE_BASE_FACE_DIR;
 import static com.faceAI.demo.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
-import static com.ai.face.base.baseImage.BaseImageCallBack.AlIGN_FAILED;
-import static com.ai.face.base.baseImage.BaseImageCallBack.MANY_FACE;
-import static com.ai.face.base.baseImage.BaseImageCallBack.NOT_REAL_HUMAN;
-import static com.ai.face.base.baseImage.BaseImageCallBack.NO_FACE;
-import static com.ai.face.base.baseImage.BaseImageCallBack.SMALL_FACE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
@@ -134,7 +133,7 @@ public class AddFace_UVCCameraFragment extends Fragment {
         dialog.setView(dialogView);
         dialog.setCanceledOnTouchOutside(false);
         ImageView basePreView = dialogView.findViewById(R.id.preview);
-        TextView realManTips = dialogView.findViewById(R.id.realManTips);
+        TextView realManTips = dialogView.findViewById(R.id.liveness_score);
 
         if (!isRealFace) {
             realManTips.setVisibility(View.VISIBLE);
@@ -165,17 +164,18 @@ public class AddFace_UVCCameraFragment extends Fragment {
                     String faceName = editText.getText().toString() + ".jpg";
                     String filePathName = CACHE_SEARCH_FACE_DIR + faceName;
                     // 一定要用SDK API 进行添加删除，不要直接File 接口文件添加删除，不然无法同步人脸SDK中特征值的更新
-                    FaceSearchImagesManger.Companion.getInstance(requireActivity().getApplication()).insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
-                        @Override
-                        public void onSuccess() {
-                            Toast.makeText(requireContext(), "录入成功", Toast.LENGTH_SHORT).show();
-                            requireActivity().finish();
-                        }
+                    FaceSearchImagesManger.Companion.getInstance(requireActivity().getApplication())
+                            .insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
+                                @Override
+                                public void onSuccess(@NonNull Bitmap bitmap, @NonNull float[] floats) {
+                                    Toast.makeText(requireContext(), "录入成功", Toast.LENGTH_SHORT).show();
+                                    requireActivity().finish();
+                                }
 
-                        @Override
-                        public void onFailed(@NotNull String msg) {
-                            Toast.makeText(requireContext(), "人脸图入库失败：：" + msg, Toast.LENGTH_SHORT).show();
-                        }
+                                @Override
+                                public void onFailed(@NotNull String msg) {
+                                   Toast.makeText(requireContext(), "人脸图入库失败：：" + msg, Toast.LENGTH_SHORT).show();
+                                }
                     });
 
                 }
@@ -227,12 +227,20 @@ public class AddFace_UVCCameraFragment extends Fragment {
 
     private void AddFaceTips(int actionCode) {
         switch (actionCode) {
-            case NOT_REAL_HUMAN:
-                Toast.makeText(requireContext(), R.string.not_real_face, Toast.LENGTH_LONG).show();
-                binding.secondTipsView.setText(R.string.not_real_face);
-                //公版Demo 为了方便调试不处理人脸活体，实际业务中请根据自身情况完善业务逻辑
-                isRealFace = false;
+            //整理返回提示，2025.0815
+            case NO_FACE_REPEATEDLY:
+                tipsTextView.setText(R.string.no_face_detected_tips);
                 break;
+            case FACE_TOO_MANY:
+                tipsTextView.setText(R.string.multiple_faces_tips);
+                break;
+            case FACE_TOO_SMALL:
+                tipsTextView.setText(R.string.come_closer_tips);
+                break;
+            case FACE_TOO_LARGE:
+                tipsTextView.setText(R.string.far_away_tips);
+                break;
+
 
             case CLOSE_EYE:
                 tipsTextView.setText(R.string.no_close_eye_tips);
@@ -258,18 +266,7 @@ public class AddFace_UVCCameraFragment extends Fragment {
             case HEAD_DOWN:
                 tipsTextView.setText(R.string.no_look_down_tips);
                 break;
-            case NO_FACE:
-                tipsTextView.setText(R.string.no_face_detected_tips);
-                break;
-            case MANY_FACE:
-                tipsTextView.setText(R.string.multiple_faces_tips);
-                break;
-            case SMALL_FACE:
-                tipsTextView.setText(R.string.come_closer_tips);
-                break;
-            case AlIGN_FAILED:
-                tipsTextView.setText(R.string.align_face_error_tips);
-                break;
+
         }
     }
 

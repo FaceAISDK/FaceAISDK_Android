@@ -10,7 +10,7 @@
     <!-- 摄像头预览画面，用户可自行调整大小 位置 -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_camerax"
-        android:layout_margin="23dp"
+        android:layout_margin="25dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

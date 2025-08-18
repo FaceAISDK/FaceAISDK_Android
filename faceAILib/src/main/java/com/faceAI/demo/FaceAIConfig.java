@@ -23,8 +23,9 @@ public class FaceAIConfig {
         // 人脸图存储在App内部私有空间，SDK未做分区存储
         // Warming: 目前仅能存储在context.getCacheDir() 或者context.getFilesDir() 内部私有空间
         // https://developer.android.com/training/data-storage?hl=zh-cn
-        CACHE_BASE_FACE_DIR = context.getCacheDir().getPath() + "/faceAIVerify/";    //1:1 人脸识别目录
-        CACHE_SEARCH_FACE_DIR = context.getFilesDir().getPath() + "/faceAISearch/";  //人脸搜索人脸库目录
+        CACHE_BASE_FACE_DIR = context.getFilesDir().getPath() + "/FaceAI/Verify/";    //1:1 人脸识别目录
+        CACHE_SEARCH_FACE_DIR = context.getFilesDir().getPath() + "/FaceAI/Search/";  //人脸搜索人脸库目录
+
 
         //语音提示播报
         VoicePlayer.getInstance().init(context);

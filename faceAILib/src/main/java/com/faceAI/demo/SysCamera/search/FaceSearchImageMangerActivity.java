@@ -148,16 +148,12 @@ public class FaceSearchImageMangerActivity extends BaseActivity {
                 }
             });
 
+            //最好判断一下文件类型
             for (File value : subFaceFiles) {
                 if (!value.isDirectory()) {
                     String filename = value.getName();
                     String filePath = value.getPath();
                     faceImageList.add(new ImageBean(filePath, filename));
-//                    if (filename.trim().toLowerCase().endsWith(".jpg")) {
-//                        faceImageList.add(new ImageBean(filePath, filename));
-//                    } else if (filename.trim().toLowerCase().endsWith(".png")) {
-//                        faceImageList.add(new ImageBean(filePath, filename));
-//                    }
                 }
             }
             Toast.makeText(getBaseContext(), "人脸库容量：" + faceImageList.size(), Toast.LENGTH_SHORT).show();
@@ -189,6 +185,12 @@ public class FaceSearchImageMangerActivity extends BaseActivity {
     }
 
 
+    /**
+     * 右上角加三种方式添加人脸
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();//添加一张

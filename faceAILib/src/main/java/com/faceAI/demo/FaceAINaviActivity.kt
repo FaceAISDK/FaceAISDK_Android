@@ -3,6 +3,7 @@ package com.faceAI.demo
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -11,8 +12,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import com.ai.face.faceVerify.verify.FaceVerifyUtils
-import com.faceAI.demo.SysCamera.diyCamera.CustomCameraActivity
+import com.faceAI.demo.SysCamera.camera.CustomCameraActivity
 import com.faceAI.demo.SysCamera.search.SearchNaviActivity
+import com.faceAI.demo.SysCamera.verify.AbsFaceVerifyWelcomeActivity
 import com.faceAI.demo.SysCamera.verify.FaceVerifyWelcomeActivity
 import com.faceAI.demo.SysCamera.verify.LivenessDetectActivity
 import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
@@ -114,8 +116,20 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
         viewBinding.twoFaceVerify.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, TwoFaceImageVerifyActivity::class.java))
         }
+        viewBinding.appVersion.text = "SDK 版本： v"+getVersionName(baseContext)
 
         showTipsDialog()
+    }
+
+
+     fun getVersionName(context: Context): String? {
+        try {
+            val pInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+            return pInfo.versionName
+        } catch (e: NameNotFoundException) {
+            e.printStackTrace()
+            return null
+        }
     }
 
 
@@ -193,7 +207,7 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
     private fun showTipsDialog() {
         val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
         val showTime = sharedPref.getLong("showFaceAISDKTips", 0)
-        if (System.currentTimeMillis() - showTime > 9 * 60 * 60 * 1000) {
+        if (System.currentTimeMillis() - showTime > 11 * 60 * 60 * 1000) {
 
             val builder = AlertDialog.Builder(this)
             val dialog = builder.create()

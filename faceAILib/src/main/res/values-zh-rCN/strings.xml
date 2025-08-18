@@ -36,6 +36,9 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="not_real_face">人脸攻击，非真人</string>
     <string name="not_real_face_for_debug">人脸攻击，非真人 </string>
     <string name="add_a_face_image">录入人脸照片</string>
+    <string name="add_face_from_photo">相册添加</string>
+    <string name="add_face_from_camera">拍照添加</string>
+
 
     <!--1:N 人脸搜索 face search-->
     <string name="no_matched_face">人脸搜索中</string>
@@ -52,8 +55,8 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="liveness_detection">活体检测 </string>
     <string name="motion_liveness_detection_failed">动作活体检测失败了 </string>
     <string name="keep_face_visible">平视正对摄像头</string>
-    <string name="repeat_open_close_mouse">请重复张嘴-闭嘴</string>
-    <string name="motion_smile">重复微笑-正常表情 </string>
+    <string name="repeat_open_close_mouse">请重复张闭嘴</string>
+    <string name="motion_smile">重复微笑,自然表情 </string>
     <string name="motion_blink_eye">请缓慢眨眼 </string>
     <string name="motion_shake_head">请左右摇头</string>
     <string name="motion_node_head">请上下点头 </string>

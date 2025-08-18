@@ -55,29 +55,54 @@
                 android:textSize="11sp" />
 
             <LinearLayout
-                android:id="@+id/add_faceid_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="22dp"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/person_add_24" />
-
-                <TextView
+                android:layout_margin="2dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/add_face_from_camera"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:paddingLeft="4dp"
-                    android:text="Add Face"
-                    android:textStyle="bold"
-                    android:textColor="@color/face_lib_main_color"
-                    android:textSize="13sp" />
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/from_camera" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/add_face_from_camera"
+                        android:textStyle="bold"
+                        android:textColor="@color/face_lib_main_color"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/add_face_from_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="38dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/from_photo" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/add_face_from_photo"
+                        android:textStyle="bold"
+                        android:textColor="@color/face_lib_main_color"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </LinearLayout>
+
+
 
 
             <androidx.recyclerview.widget.RecyclerView
