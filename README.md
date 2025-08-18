@@ -46,9 +46,9 @@ SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身
 - 添加人脸体验优化，完善提示
 - 录入人脸API暴露出人脸特征向量float[]，保留bitmap
 - 1:1 人脸识别支持传入人脸特征向量取代Bitmap
-- 更新整理SDK API，然后期用户无感升级SDK
+- 更新整理SDK API，方便后期用户无感升级SDK
 - 人脸搜索模块加快万人库初始化速度（小米13 1万张人脸从4秒到99毫秒）
-- 人脸搜索速度更新，万张人脸库搜索速度毫米级（新版本SDK需重新迁移同步人脸一次）
+- 人脸搜索速度更新，万张人脸库搜索速度毫秒级（新版本SDK需重新迁移同步人脸一次）
 - 暴露出相机管理源码CameraXFragment以便用户在自定义设备更好管理摄像头
 
 建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceAISDK_Android](https://github.com/FaceAISDK/FaceAISDK_Android)
