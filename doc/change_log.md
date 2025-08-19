@@ -1,3 +1,26 @@
+## 当前版本说明 V2025.08.18 （性能大优化，稳API版本）
+- 录入人脸API暴露出人脸特征向量float[]，比图片更方便存储 更新 使用
+- 1:1 人脸识别支持传入人脸特征向量取代人脸图片Bitmap
+- 更新整理SDK API，方便后期用户无感升级SDK
+- 人脸搜索模块加快万人库初始化速度（小米13 1万张人脸从4秒加速到99毫秒）
+- 人脸搜索速度更新，万张人脸库搜索速度毫秒级（新版本SDK需重新迁移同步人脸一次）
+- 暴露出相机管理源码CameraXFragment以便用户在自定义设备更好管理摄像头
+
+人脸识别API 更新
+1. FaceProcessBuilder.setBitmap --> setFaceEmbedding
+2. FaceAIUtils.disposeBaseFaceImage onSuccess()
+   -->onSuccess(Bitmap, float[])
+3. 暴露源码MyCameraFragment
+
+人脸搜索API更新
+1. insertOrUpdateFaceImage callBak 添加回调参数
+2. 新加insertOrUpdateFaceEmbeddings(list:List<SearchEmbedding>) 方式批量插入人脸搜索数据
+3. insertOrUpdateFaceEmbedding(name:String,faceEmbedding: FloatArray) 方式单个插入人脸搜索数据
+4. insertOrUpdateFaceImage(bitmap: Bitmap,path: String, name:String,faceEmbedding: FloatArray)
+   方式单个插入人脸搜索数据，同时保存对应的人脸底片到路径path
+5. deleteFaceImage(faceID) 
+
+
 ## 当前版本说明 V2025.08.07
 - 使用YUVLib NDK处理摄像头数据，提升低配设备体验
 - CameraX新加释放相机API以便提前释放
@@ -9,7 +32,7 @@
 - 优化重构后SDK初始化参数和提示细节
 - 优化UVC双目摄像头匹配管理问题
 
-# V2.0.0.Release
+# V2.0.0.Release （2.0.0 重构）
 - 2.0系列重构版本，更新官网 链接说明地址等
 - UVC协议相机管理库从本地AAR改为在线依赖
 - 上线更新Google Play

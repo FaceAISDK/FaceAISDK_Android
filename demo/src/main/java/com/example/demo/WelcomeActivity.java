@@ -3,12 +3,11 @@ package com.example.demo;
 import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
-import com.faceAI.demo.FaceAIConfig;
+import com.faceAI.demo.FaceImageConfig;
 import com.airbnb.lottie.LottieAnimationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.faceAI.demo.FaceAINaviActivity;
-import com.tencent.bugly.crashreport.CrashReport;
 
 /**
  * 演示快速集成到你的主工程，人脸识别相关放到 FaceAILIb 里面
@@ -28,7 +27,7 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         //人脸图保存路径等初始化配置
-        FaceAIConfig.init(this);
+        FaceImageConfig.init(this);
 
         setWelcomeAnimal();
     }

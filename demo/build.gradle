@@ -4,19 +4,18 @@ plugins {
 
 android {
     namespace 'com.example.demo'
-    compileSdk 33        //上线Google Play需要35 了
+    compileSdk 34        //上线Google Play需要35 了
 
     defaultConfig {
-        applicationId "com.ai.face.verifyPub"
+        versionCode 20250818
+        versionName "20250818.beta"
 
+        applicationId "com.ai.face.verifyPub" //演示用applicationId
         minSdk 21         //暂时只支持Android 5以上，需要更低需定制
-        targetSdk 33      //target SDK 还是28 的请参考question.md 文档说明
-
-        versionCode 20250807
-        versionName "20250807"
-
+        targetSdk 34      //target SDK 还是28 的请参考question.md 文档说明
+        
         ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a'
+            abiFilters 'armeabi-v7a', 'arm64-v8a' //根据CPU架构选择对应ABI
         }
     }
 
@@ -53,15 +52,10 @@ android {
 
 }
 
-
-//根据Compile SDK 不同，各自项目依赖体系不一样
-//主工程和SDK 中的依赖有冲突需要降级统一依赖,可以参考下面方式处理
-//比如TargetSDK 还是28的camera_version降低到 1.2.3（最后支持TargetSDK 28）
-//集成过程中更多错误请自行Google，百度搜索解决方法
+//CameraX，开发环境允许尽量升级到1.4.2 以上版本
 def camera_version = "1.2.3"
 configurations.configureEach {
     resolutionStrategy {
-        //Android 16 Alignment 需要升级到1.4.2 以上版本
         force "androidx.camera:camera-core:$camera_version",
                 "androidx.camera:camera-camera2:$camera_version",
                 "androidx.camera:camera-lifecycle:$camera_version",

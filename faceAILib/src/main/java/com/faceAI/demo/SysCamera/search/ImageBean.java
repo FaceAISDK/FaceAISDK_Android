@@ -4,8 +4,8 @@ package com.faceAI.demo.SysCamera.search;
  * https://github.com/FaceAISDK/FaceAISDK_Android
  */
 public class ImageBean {
-    public String path;
-    public String name;
+    public String path; //完整的路径
+    public String name; //仅仅名字
 
     public ImageBean(String path, String name) {
         this.path = path;

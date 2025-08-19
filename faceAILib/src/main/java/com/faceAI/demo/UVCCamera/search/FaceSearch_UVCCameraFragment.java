@@ -2,7 +2,7 @@ package com.faceAI.demo.UVCCamera.search;
 
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.IR_LIVE_ERROR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
-import static com.faceAI.demo.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
+import static com.faceAI.demo.FaceImageConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_SIZE_FIT;
@@ -24,7 +24,6 @@ import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
-import com.ai.face.faceVerify.verify.VerifyStatus;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.utils.VoicePlayer;
@@ -212,7 +211,7 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
         }
 
         if (irReady && rgbReady) {
-//            getScaleValue();
+            getScaleValue();
             //送数据进入SDK
             FaceSearchEngine.Companion.getInstance().runSearchWithIR(irBitmap, rgbBitmap);
             irReady = false;
@@ -228,20 +227,8 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
     float scaleX = 0f, scaleY = 0f;
     private void getScaleValue() {
         if (scaleX == 0f || scaleY == 0f) {
-            float max = rgbBitmap.getWidth();
-            float min = rgbBitmap.getHeight();
-            if (max < min) { //交换
-                float temp = max;
-                max = min;
-                min = temp;
-            }
-            if (binding.rgbCameraView.getWidth() > binding.rgbCameraView.getHeight()) {
-                scaleX = (float) binding.rgbCameraView.getWidth() / max;
-                scaleY = (float) binding.rgbCameraView.getHeight() / min;
-            } else {
-                scaleX = (float) binding.rgbCameraView.getWidth() / min;
-                scaleY = (float) binding.rgbCameraView.getHeight() / max;
-            }
+            scaleX = (float) binding.rgbCameraView.getWidth() / rgbBitmap.getWidth();
+            scaleY = (float) binding.rgbCameraView.getHeight() / rgbBitmap.getHeight();
         }
     }
 }

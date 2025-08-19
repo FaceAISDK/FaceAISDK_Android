@@ -43,9 +43,9 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
     private  UVCCameraManager irCameraManager ; //近红外摄像头
 
     //人脸识别相关的方法
-    abstract void initFaceVerifyBaseBitmap();
+    abstract void initFaceVerify();
 
-    abstract void initFaceVerificationParam(Bitmap baseBitmap);
+    abstract void initFaceVerificationParam(float[] face);
 
     abstract void showVerifyResult(boolean isVerifyMatched, float similarity, float silentLivenessScore);
 
@@ -101,7 +101,7 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
             public void onDeviceOpen(UsbDevice device, boolean isFirstOpen) {
                 //RGB 打开了就继续去打开IR
                 initIRCamara();
-                initFaceVerifyBaseBitmap();
+                initFaceVerify();
             }
         });
 

@@ -324,8 +324,8 @@
         android:layout_gravity="bottom"
         android:gravity="center"
         android:padding="11dp"
-        android:text="导入assets目录人脸图"
-        android:textColor="@android:color/holo_red_dark"
+        android:text="导入内置assets目录测试人脸图"
+        android:textColor="@android:color/white"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

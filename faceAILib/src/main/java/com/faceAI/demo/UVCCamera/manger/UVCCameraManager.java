@@ -4,12 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.ai.face.base.utils.DataConvertUtils;
+import com.faceAI.demo.FaceImageConfig;
 import com.herohan.uvcapp.CameraHelper;
 import com.herohan.uvcapp.ICameraHelper;
 import com.serenegiant.opengl.renderer.MirrorMode;
@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * USB摄像头（UVC协议）管理
  * 根据关键字keyword 是RGB/IR（不同厂商命名方式不一样）来区分双面摄像头哪个是RGB 摄像头哪个是红外
- * 默认的分辨率设置 写在{@link com.faceAI.demo.FaceAIConfig},可以根据下面的方法来获取后修改合适的值
+ * 默认的分辨率设置 写在{@link FaceImageConfig},可以根据下面的方法来获取后修改合适的值
  * <p>
  * 如果本SDK Demo不能管理你的定制摄像头，请参考https://github.com/shiyinghan/UVCAndroid
  * 熟悉后可以自己实现一个 UsbCameraManager来管理你的摄像头各种适配
@@ -205,9 +205,9 @@ public class UVCCameraManager {
                         //转为bitmap 后
                         if (faceAIAnalysisCallBack != null) {
 
-                            long t1=System.currentTimeMillis();
+//                            long t1=System.currentTimeMillis();
                             reuseBitmap = DataConvertUtils.NV21Data2Bitmap(byteBuffer, width, height,
-                                    cameraBuilder.getDegree(), 3, cameraBuilder.isHorizontalMirror());
+                                    cameraBuilder.getDegree(), cameraBuilder.isHorizontalMirror());
 //                            Log.e("DataConvertUtils",width+"转化用时："+(System.currentTimeMillis()-t1));
 
                             faceAIAnalysisCallBack.onBitmapFrame(reuseBitmap);

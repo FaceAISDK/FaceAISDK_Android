@@ -14,15 +14,17 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.TextView
+import android.text.TextUtils
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
-import com.faceAI.demo.BuildConfig
+import androidx.appcompat.app.AlertDialog
 import com.ai.face.base.baseImage.FaceAIUtils
-import com.ai.face.faceVerify.verify.FaceVerifyUtils
+import com.faceAI.demo.BuildConfig
+import com.faceAI.demo.R
 import com.faceAI.demo.base.BaseActivity
-import com.faceAI.demo.base.utils.fileUtils.MyFileUtils
-import com.faceAI.demo.databinding.ActivityTwoFaceImageVerifyBinding
-import androidx.core.graphics.drawable.toDrawable
 
 
 /**
@@ -34,45 +36,16 @@ import androidx.core.graphics.drawable.toDrawable
  *
  * TwoFaceImageVerifyActivity 采用Kotlin 演示，使用java 的同学请自行翻译，有兴趣的同学可以重命名后提交新的PR
  */
-class TwoFaceImageVerifyActivity : BaseActivity() {
-
-    private lateinit var viewBinding: ActivityTwoFaceImageVerifyBinding
+abstract class AbsFaceVerifyWelcomeActivity : BaseActivity() {
     private var mFileSelector: FileSelector? = null
 
-    //保存2张选择照片中裁剪出的人脸图
-    private var bitmapMap: HashMap<String, Bitmap> = HashMap(2)
+    // 从相册选择
+    abstract fun disposeSelectImage(faceID:String,disposedBitmap: Bitmap, faceEmbedding: FloatArray)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewBinding = ActivityTwoFaceImageVerifyBinding.inflate(layoutInflater)
-        setContentView(viewBinding.root)
-
         FileOperator.init(application, BuildConfig.DEBUG)
-
-        viewBinding.back.setOnClickListener { this@TwoFaceImageVerifyActivity.finish() }
-
-        viewBinding.image1.tag = "image1"
-        viewBinding.image1.setOnClickListener {
-            chooseFile(viewBinding.image1)
-        }
-
-        viewBinding.image2.tag = "image2"
-        viewBinding.image2.setOnClickListener {
-            chooseFile(viewBinding.image2)
-        }
-
-        viewBinding.goVerify.setOnClickListener {
-            // 不能两张图直接比较，要先经过 checkFaceQuality 检测裁剪图片中的人脸
-            // FaceAIUtils.Companion.getInstance(application).checkFaceQuality(
-            val simi = FaceVerifyUtils().evaluateFaceSimi(
-                baseContext,
-                bitmapMap[viewBinding.image1.tag],
-                bitmapMap[viewBinding.image2.tag]
-            ) //evaluateFaceSimi传人的两个bitmap 有是空的，则相似度直接返回0
-            Toast.makeText(baseContext, "人脸相似度：$simi", Toast.LENGTH_SHORT).show()
-        }
-
     }
 
 
@@ -95,7 +68,7 @@ class TwoFaceImageVerifyActivity : BaseActivity() {
      * 使用详情参考 https://github.com/javakam/FileOperator
      *
      */
-    private fun chooseFile(view: TextView) {
+    public fun chooseFaceImage() {
         val optionsImage = FileSelectOptions().apply {
             fileType = FileType.IMAGE
             fileTypeMismatchTip = "File type mismatch !"
@@ -131,12 +104,23 @@ class TwoFaceImageVerifyActivity : BaseActivity() {
             })
             .callback(object : FileSelectCallBack {
                 override fun onSuccess(results: List<FileSelectResult>?) {
-                    if (results.isNullOrEmpty()) {
-                        return
-                    }
+                    if (!results.isNullOrEmpty()) {
+                        val bitmapSelected = MediaStore.Images.Media.getBitmap(contentResolver, results[0].uri)
 
-                    if (results.isNotEmpty()) {
-                        disposeSelectResult(results, view)
+
+                        //非FaceAI SDK的人脸可能是不规范的没有经过校准的人脸图（证件照，多人脸，过小等）
+                        FaceAIUtils.Companion.getInstance(application)
+                            .disposeBaseFaceImage(baseContext, bitmapSelected, object : FaceAIUtils.Callback {
+                                    override fun onSuccess(bitmap: Bitmap, faceEmbedding: FloatArray) {
+                                        showConfirmDialog(bitmap,faceEmbedding)
+                                    }
+
+                                    //底片处理异常的信息回调
+                                    override fun onFailed(msg: String, errorCode: Int) {
+                                        Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
+                                    }
+                                })
+
                     }
                 }
 
@@ -147,41 +131,50 @@ class TwoFaceImageVerifyActivity : BaseActivity() {
             .choose()
     }
 
+
     /**
-     * 裁剪出照片中的人脸储存到bitmapMap
+     * 确认是否保存人脸底图
      */
-    fun disposeSelectResult(results: List<FileSelectResult>, view: TextView) {
-        val fileName = MyFileUtils.getFileMetaData(
-            baseContext, results[0].uri
-        ).displayName
+    private fun showConfirmDialog(bitmap: Bitmap,faceEmbedding: FloatArray) {
+        val builder = AlertDialog.Builder(this)
+        val dialog = builder.create()
+        val dialogView = View.inflate(this, R.layout.dialog_confirm_base, null)
 
-        view.text = fileName
+        //设置对话框布局
+        dialog.setView(dialogView)
+        dialog.setCanceledOnTouchOutside(false)
+        val basePreView = dialogView.findViewById<ImageView>(R.id.preview)
+        basePreView.setImageBitmap(bitmap)
 
-        val bitmap = MediaStore.Images.Media.getBitmap(
-            baseContext.contentResolver,
-            results[0].uri
-        )
+        val btnOK = dialogView.findViewById<Button>(R.id.btn_ok)
+        val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
+        val editText = dialogView.findViewById<EditText>(R.id.edit_text)
+        editText.requestFocus()
+        editText.visibility = View.VISIBLE
 
-        view.background = bitmap.toDrawable(resources)
+        btnOK.setOnClickListener { v: View? ->
+            val faceID = editText.text.toString()
+            if (!TextUtils.isEmpty(faceID)) {
+                disposeSelectImage(faceID,bitmap,faceEmbedding)
+                dialog.dismiss()
+            } else {
+                Toast.makeText(baseContext, "Input FaceID Name", Toast.LENGTH_SHORT).show()
+            }
+        }
 
-        //检测人脸是否合规，裁剪后返回bitmap 和对应的人脸特征向量
-        FaceAIUtils.Companion.getInstance(application)
-            .disposeBaseFaceImage(baseContext,bitmap, object : FaceAIUtils.Callback {
-                override fun onSuccess(bitmap: Bitmap, faceEmbedding: FloatArray) {
-                    bitmapMap[view.tag.toString()] = bitmap
-                }
+        btnCancel.setOnClickListener { v: View? ->
+            dialog.dismiss()
+        }
 
-                override fun onFailed(msg: String, errorCode: Int) {
-                    Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
-                    bitmapMap.remove(view.tag.toString()) //没有检测出人脸则移除上一次可能有的数据
-                }
-            })
-
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
     }
 
 
+
+
     companion object {
-        const val REQUEST_ADD_FACE_IMAGE = 1
+        const val REQUEST_ADD_FACE_IMAGE = 1882
     }
 
 }

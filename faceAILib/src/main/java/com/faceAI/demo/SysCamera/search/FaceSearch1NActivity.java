@@ -1,7 +1,7 @@
 package com.faceAI.demo.SysCamera.search;
 
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
-import static com.faceAI.demo.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
+import static com.faceAI.demo.FaceImageConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_SIZE_FIT;
@@ -16,7 +16,6 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 
-import com.faceAI.demo.AboutFaceAppActivity;
 import com.faceAI.demo.R;
 import android.content.Context;
 import android.content.Intent;
@@ -34,12 +33,9 @@ import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
 import com.faceAI.demo.base.BaseActivity;
-import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * 1:N 人脸搜索识别「1:N face search」
@@ -59,6 +55,7 @@ public class FaceSearch1NActivity extends BaseActivity {
     private ActivityFaceSearchBinding binding;
     private CameraXFragment cameraXFragment;
     private boolean enginePrepared=false;
+    private int cameraLensFacing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +70,7 @@ public class FaceSearch1NActivity extends BaseActivity {
         });
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
-        int cameraLensFacing = sharedPref.getInt( FRONT_BACK_CAMERA_FLAG, 0);
+        cameraLensFacing = sharedPref.getInt( FRONT_BACK_CAMERA_FLAG, 0);
         int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //1. 摄像头相关参数配置
@@ -91,7 +88,6 @@ public class FaceSearch1NActivity extends BaseActivity {
                 .commit();
 
         initFaceSearchParam();
-
     }
 
 
@@ -107,13 +103,14 @@ public class FaceSearch1NActivity extends BaseActivity {
                 .setThreshold(0.88f) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
+                .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy左右翻转影响人脸框
                 .setProcessCallBack(new SearchProcessCallBack() {
 
                     /**
                      * 最相似的人脸搜索识别结果，得分最高
-                     * @param faceID
-                     * @param score
-                     * @param bitmap
+                     * @param faceID  人脸ID
+                     * @param score   相似度值
+                     * @param bitmap  场景图，可以用来做使用记录log
                      */
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap) {
@@ -132,12 +129,10 @@ public class FaceSearch1NActivity extends BaseActivity {
                     public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
                         //已经按照降序排列，可以弹出一个列表框
                         Log.d("onFaceMatched","符合设定阈值的结果: "+matchedResults.toString());
-
                     }
 
                     /**
                      * 检测到人脸的位置信息，画框用
-                     * @param result
                      */
                     @Override
                     public void onFaceDetected(List<FaceSearchResult> result) {
@@ -251,7 +246,6 @@ public class FaceSearch1NActivity extends BaseActivity {
             default:
                 binding.searchTips.setText("回调提示：" + code);
                 break;
-
         }
     }
 

@@ -1,22 +1,24 @@
 package com.faceAI.demo.SysCamera.verify;
 
-import static com.faceAI.demo.FaceAIConfig.CACHE_BASE_FACE_DIR;
+import static com.faceAI.demo.FaceImageConfig.CACHE_BASE_FACE_DIR;
 import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.ai.face.base.baseImage.FaceEmbedding;
 import com.faceAI.demo.UVCCamera.verify.FaceVerify_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraFragment;
@@ -29,7 +31,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.faceAI.demo.R;
+import com.faceAI.demo.base.utils.BitmapUtils;
 
+import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,19 +46,13 @@ import java.util.Objects;
  *
  * 包含怎么添加人脸照片，人脸活体检测，人脸识别
  */
-public class FaceVerifyWelcomeActivity extends AppCompatActivity {
+public class FaceVerifyWelcomeActivity extends AbsFaceVerifyWelcomeActivity {
+    public static final String FACE_VERIFY_DATA_SOURCE_TYPE = "FACE_VERIFY_DATA_SOURCE_TYPE";
     private final List<ImageBean> faceImageList = new ArrayList<>();
     private FaceImageListAdapter faceImageListAdapter;
-
-    public static final String FACE_VERIFY_DATA_SOURCE_TYPE = "FACE_VERIFY_DATA_SOURCE_TYPE";
-
-    // 是常用的默认Android_HAL系统相机还是USB UVC 协议摄像头
     private DataSourceType dataSourceType = DataSourceType.Android_HAL;
 
-    /**
-     * UVC 协议摄像头：/libs/libuvccamera-release.aar 管理
-     * Android_HAL 摄像头： 采用标准的 Android Camera2 API 和摄像头 HAL 接口。FaceAI SDK 底层使用CameraX 管理
-     */
+    // Android_HAL 摄像头： 采用标准的 Android Camera2 API 和摄像头 HAL 接口。FaceAI SDK 底层使用CameraX 管理
     public enum DataSourceType {
         UVC, Android_HAL;
     }
@@ -65,8 +63,9 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_face_verify_welcome);
         setSupportActionBar(findViewById(R.id.toolbar));
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
         Bundle bundle = getIntent().getExtras();
+
+        //1.判定摄像头种类
         if(bundle!=null){
             dataSourceType = (DataSourceType) bundle.getSerializable(FACE_VERIFY_DATA_SOURCE_TYPE);
             if (DataSourceType.Android_HAL.equals(dataSourceType)) {
@@ -74,8 +73,7 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
             }
         }
 
-
-        LinearLayout addFaceView = findViewById(R.id.add_faceid_layout);
+        LinearLayout addFaceView = findViewById(R.id.add_face_from_camera);
         addFaceView.setOnClickListener(view -> {
                     if (dataSourceType.equals(DataSourceType.Android_HAL)) {
                         startActivity(
@@ -89,6 +87,10 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
                 }
         );
 
+        LinearLayout addFaceFromPhoto= findViewById(R.id.add_face_from_photo);
+        addFaceFromPhoto.setOnClickListener(view -> chooseFaceImage());
+
+        // 2 横向滑动列表初始化
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);//设置为横向滑动
         RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
@@ -103,8 +105,7 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
                 //删除FaceID
                 File file = new File(imageBean.path);
                 if (file.delete()) {
-                    loadImageList();
-                    faceImageListAdapter.notifyDataSetChanged();
+                    updateFaceList();
                 } else {
                     Toast.makeText(getApplication(), "Delete failed", Toast.LENGTH_LONG).show();
                 }
@@ -112,7 +113,6 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
             return false;
         });
 
-        //系统相机和UVC协议双目摄像头
         faceImageListAdapter.setOnItemClickListener((adapter, view, i) -> {
                     // 根据摄像头种类启动不同的模式
                     if (dataSourceType.equals(DataSourceType.Android_HAL)) {
@@ -134,18 +134,20 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
 
 
     /**
-     * 加载已经录入的人脸账户列表
+     * 相册选择的照片,裁剪等处理好数据后返回了
+     *
      */
     @Override
-    protected void onResume() {
-        super.onResume();
-        loadImageList();
-        faceImageListAdapter.notifyDataSetChanged();
+    public void disposeSelectImage(@NotNull String faceID, @NotNull Bitmap disposedBitmap, @NonNull float[] faceEmbedding) {
+        //1:1 人脸识别保存人脸底图
+        BitmapUtils.saveBitmap(disposedBitmap,CACHE_BASE_FACE_DIR,faceID);
+        //保存在App 的私有目录，
+        FaceEmbedding.saveEmbedding(getBaseContext(),faceID,faceEmbedding);
+        updateFaceList();
     }
 
     /**
-     * 加载人脸文件夹CACHE_BASE_FACE_DIR 里面的人脸照片
-     * 1:1 人脸识别
+     * 加载人脸文件夹CACHE_BASE_FACE_DIR 里面的人脸照片，根据修改时间排序
      */
     private void loadImageList() {
         faceImageList.clear();
@@ -159,7 +161,6 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
                     else if (diff == 0) return 0;
                     else return 1;
                 }
-
                 public boolean equals(Object obj) {
                     return true;
                 }
@@ -170,9 +171,6 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
                     String fileName = fileItem.getName();
                     String filePath = fileItem.getPath();
                     faceImageList.add(new ImageBean(filePath, fileName));
-//                    if (filename.trim().toLowerCase().endsWith(".jpg")) {
-//                        faceImageList.add(new ImageBean(filePath,filename));
-//                    }
                 }
             }
         }
@@ -180,7 +178,20 @@ public class FaceVerifyWelcomeActivity extends AppCompatActivity {
 
 
     /**
-     * 简单的适配器写法
+     * 加载已经录入的人脸账户列表
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateFaceList();
+    }
+    private void updateFaceList(){
+        loadImageList();
+        faceImageListAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 人脸横向列表适配器,
      */
     public class FaceImageListAdapter extends BaseQuickAdapter<ImageBean, BaseViewHolder> {
         public FaceImageListAdapter(List<ImageBean> data) {

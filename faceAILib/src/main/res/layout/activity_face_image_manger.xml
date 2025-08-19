@@ -24,7 +24,7 @@
         android:id="@+id/tips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="长按删除，点击右上角图标添加或批量处理"
+        android:text="长按删除，右上角按钮添加内置测试人脸图"
         android:gravity="center"
         android:padding="4dp"
         android:textSize="12sp"
