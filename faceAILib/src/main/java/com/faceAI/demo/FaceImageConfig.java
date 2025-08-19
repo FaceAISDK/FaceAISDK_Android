@@ -5,19 +5,17 @@ import android.content.pm.ApplicationInfo;
 
 import com.faceAI.demo.base.utils.VoicePlayer;
 
-import java.io.File;
-
 /**
  * 不要直接使用File Api 直接往文件目录插入图片，要使用SDK 提供的APi写入数据，图片还需要向量化，检测质量等操作
  */
-public class FaceAIConfig {
+public class FaceImageConfig {
 
     //不要直接使用File Api 直接往文件目录插入图片，要使用SDK 提供的APi写入数据，图片还需要向量化
     public static String CACHE_BASE_FACE_DIR;   //1：1 人脸识别人脸图片存储目录
     public static String CACHE_SEARCH_FACE_DIR; //1：N 人脸识别搜索人脸图片存储目录
 
     /**
-     * 初始化人脸识别 人脸搜索存储目录
+     * 初始化人脸本地图片存储目录，也可以不存图片转化为人脸特征向量保存
      */
     public static void init(Context context) {
         // 人脸图存储在App内部私有空间，SDK未做分区存储
@@ -30,31 +28,8 @@ public class FaceAIConfig {
         //语音提示播报
         VoicePlayer.getInstance().init(context);
 
-        //人脸搜索初始化预加载可以放这里
-
     }
 
-
-    /**
-     * 检测人脸ID是否存在
-     * @param faceID ID，Key
-     * @return 存在与否
-     */
-    public static boolean isFaceIDExist(String faceID) {
-        File file = new File(CACHE_BASE_FACE_DIR + faceID);
-        return file.exists();
-    }
-
-
-    /**
-     * 删除本地人脸ID
-     * @param faceID ID，Key
-     * @return 是否删除成功
-     */
-    public static boolean deleteFaceID(String faceID) {
-        File file = new File(CACHE_BASE_FACE_DIR + faceID);
-        return file.delete();
-    }
 
 
     /**

@@ -12,20 +12,14 @@
 # [关于「FaceAI SDK」](https://github.com/FaceAISDK/FaceAISDK_Android)
 
 FaceAI SDK is on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK
-
-FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体检测、人脸图质量检测和 [1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索SDK，可快速集成实现人脸识别，人脸搜索功能。
-
-![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
-
-
-## 简要说明
+FaceAI SDK包括人脸识别、活体检测、人脸录入检测以及[1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索，可快速集成实现端侧人脸识别，人脸搜索等功能。
 
 SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
+动作活体支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），支持系统摄像头和UVC协议双目摄像头，需配备宽动态值大于105Db成像清晰抗逆光摄像头。
 
-动作活体支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），20250711版本支持多种UVC红外双目摄像头，需配备宽动态值大于105Db成像清晰抗逆光摄像头。
+FaceAI SDK产品说明与API文档：https://github.com/FaceAISDK/FaceAISDK_Android/blob/publish/FaceAISDK产品说明及API文档.pdf
 
-集成到主项目有问题请描述SDK版本，运行环境和使用场景描述到GitHub提issues或发邮件到 FaceAISDK.Service@gmail.com ，VIP用户可添加 微信：FaceAISDK
-
+![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
 **其他平台**  
 
@@ -66,6 +60,18 @@ SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身
 先在[「GitHub网站」](https://github.com/FaceAISDK/FaceAISDK_Android)下载最新接入SDK 接入代码导入到Android Studio。  
 Demo聚焦演示SDK的核心功能，部分细节并不完善，需要你根据你的业务需求自行完善。
 
+**工程目录结构简要介绍**
+
+| 模块           | 描述                                           |
+|---------------|----------------------------------------------|
+| Demo          | Demo主工程，implementation project(':faceAILib') |
+| faceAILib     | 子Module，FaceAISDK 所有功能都在module 中演示           |
+| /verify/\*    | 1:1 人脸检测识别，活体检测页面，静态人脸对比                     |
+| /search/\*    | 1:N 人脸搜索识别，人脸库增删改管理等财政                       |
+| /addFaceImage | 人脸识别和搜索共用的添加人脸照片录入模块                         |
+| /UVCCamera/\* | UVC协议双目红外摄像头人脸识别，人脸搜索，一般是自自定义的硬件             |
+| /SysCamera/\* | 手机，平板自带的系统相机，一般系统摄像头打开就能看效果                  |
+
 *   1.调整JDK版本到java 17。AS设置Preferences -> Build -> Gradle -> JDK的版本为 17
 
 *   2.最好翻墙科学上网同步AGP Gradle 插件7.4.2(或者更新AGP),然后同步其他依赖
@@ -83,18 +89,6 @@ Demo聚焦演示SDK的核心功能，部分细节并不完善，需要你根据�
     更多使用说明下载SDK源码工程代码到Android Studio 以及下载Demo APK到手机体验完整的流程和效果
     里面有详尽的注释说明和使用方法介绍，SDK集成Demo源码熟悉完后再集成到你的主工程
 
-**工程目录结构简要介绍**
-
-| 模块           | 描述                                           |
-|---------------|----------------------------------------------|
-| Demo          | Demo主工程，implementation project(':faceAILib') |
-| faceAILib     | 子Module，FaceAISDK 所有功能都在module 中演示           |
-| /verify/\*    | 1:1 人脸检测识别，活体检测页面，静态人脸对比                     |
-| /search/\*    | 1:N 人脸搜索识别，人脸库增删改管理等财政                       |
-| /addFaceImage | 人脸识别和搜索共用的添加人脸照片录入模块                         |
-| /UVCCamera/\* | UVC协议双目红外摄像头人脸识别，人脸搜索，一般是自自定义的硬件             |
-| /SysCamera/\* | 手机，平板自带的系统相机，一般系统摄像头打开就能看效果                  |
-
 
 ## Demo APK 下载体验
 
@@ -103,6 +97,7 @@ Demo聚焦演示SDK的核心功能，部分细节并不完善，需要你根据�
 </div>
 
 更多历史版本查看这里： https://www.pgyer.com/faceVerify
+
 
 ## 如何提升接入效率，提高SDK识别准确率
 
@@ -121,24 +116,14 @@ Demo聚焦演示SDK的核心功能，部分细节并不完善，需要你根据�
 
 目前人脸搜索速度几款设备统计如下：
 
-| 设备型号         | 人脸库大小 | 搜索速度(毫秒) |
-|:---------------|:-----:|:---------|
-| 小米 13         |  1 万  | 66 ms    | 
-| RK3568-SM5     |  1 万  | 520 ms   | 
-| 华为 P8          |  1 万  | 678 ms   | 
-| 联想Pad2024      |  1 万  | 197 ms   |
+| 设备型号         | 启动初始化速度 | 搜索速度(毫秒) |
+|:---------------|:-------:|:---------|
+| 小米 13         |  79 ms  | 66 ms    | 
+| RK3568-SM5     | 686 ms  | 520 ms   | 
+| 华为 P8          | 798 ms  | 678 ms   | 
+| 联想Pad2024      | 245 ms  | 197 ms   |
 
  更多说明：https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
-
-## 常见问题
-常见问题请参考：https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/doc/questions.md  
-所有的开发测试都在手机和平板进行，特殊定制硬件如 RK3288 可能需要配置适配，UVC 协议摄像头SDK都支持驱动
-适配，支持匹配选择RGB/IR摄像头，角度切换等操作。
-
-
-下载最新SDK Demo 源码熟悉代码后再集成到你的主工程，可以先整个Copy faceAiLib到你主工程先跑起来
-再根据业务情况修改完善，有提前熟悉大约5小时就能集成成功，丰富产品功能同时可大大降低公司研发投入实现降本增效。  
-
 
  .
 ![FaceAISDK](images/who_are_you.png)  

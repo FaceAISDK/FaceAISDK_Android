@@ -2,7 +2,7 @@ package com.faceAI.demo.UVCCamera.search;
 
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.IR_LIVE_ERROR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
-import static com.faceAI.demo.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
+import static com.faceAI.demo.FaceImageConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_SIZE_FIT;
@@ -24,7 +24,6 @@ import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
-import com.ai.face.faceVerify.verify.VerifyStatus;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.utils.VoicePlayer;

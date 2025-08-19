@@ -5,8 +5,8 @@ import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
-import static com.faceAI.demo.FaceAIConfig.CACHE_BASE_FACE_DIR;
-import static com.faceAI.demo.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
+import static com.faceAI.demo.FaceImageConfig.CACHE_BASE_FACE_DIR;
+import static com.faceAI.demo.FaceImageConfig.CACHE_SEARCH_FACE_DIR;
 
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
@@ -19,6 +19,7 @@ import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -62,7 +63,7 @@ public class AddFaceImageActivity extends BaseActivity {
     public static String ADD_FACE_IMAGE_TYPE_KEY = "ADD_FACE_IMAGE_TYPE_KEY";
     private TextView tipsTextView, secondTips;
     private BaseImageDispose baseImageDispose;
-    private String faceID, addFaceImageType;
+    private String faceID, addFaceType;
     private boolean isConfirmAdd = false; //确认期间停止人脸检测
 
     //是1:1 还是1:N 人脸搜索添加人脸
@@ -79,13 +80,13 @@ public class AddFaceImageActivity extends BaseActivity {
 
         tipsTextView = findViewById(R.id.tips_view);
         secondTips = findViewById(R.id.second_tips_view);
-        addFaceImageType = getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
+        addFaceType = getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
         faceID = getIntent().getStringExtra(USER_FACE_ID_KEY);
 
-        /*
-         * 2 PERFORMANCE_MODE_ACCURATE 精确模式 人脸要正对摄像头，严格要求
-         * 1 PERFORMANCE_MODE_FAST 快速模式 允许人脸方位可以有一定的偏移
-         * 0 PERFORMANCE_MODE_EASY 简单模式 允许人脸方位可以「较大」的偏移
+        /* 检测人脸，添加人脸
+         * 2 PERFORMANCE_MODE_ACCURATE   精确模式 人脸要正对摄像头，严格要求
+         * 1 PERFORMANCE_MODE_FAST       快速模式 允许人脸方位可以有一定的偏移
+         * 0 PERFORMANCE_MODE_EASY       简单模式 允许人脸方位可以「较大」的偏移
          */
         baseImageDispose = new BaseImageDispose(this, BaseImageDispose.PERFORMANCE_MODE_EASY, new BaseImageCallBack() {
             @Override
@@ -207,43 +208,30 @@ public class AddFaceImageActivity extends BaseActivity {
      * 确认是否保存人脸底图
      */
     private void showConfirmDialog(Bitmap bitmap, float silentLiveValue) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final AlertDialog dialog = builder.create();
+        final AlertDialog dialog = new AlertDialog.Builder(this).create();
         View dialogView = View.inflate(this, R.layout.dialog_confirm_base, null);
-
-        //设置对话框布局
         dialog.setView(dialogView);
         dialog.setCanceledOnTouchOutside(false);
         ImageView basePreView = dialogView.findViewById(R.id.preview);
-        TextView livenessScore = dialogView.findViewById(R.id.liveness_score);
-        livenessScore.setText("Liveness Score: "+ silentLiveValue);
-
         basePreView.setImageBitmap(bitmap);
         Button btnOK = dialogView.findViewById(R.id.btn_ok);
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
         EditText editText = dialogView.findViewById(R.id.edit_text);
-        editText.requestFocus();
-        editText.setText(faceID);
-        if (addFaceImageType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())
-                && !TextUtils.isEmpty(faceID)) {
-            editText.setVisibility(GONE);
-        }
+
+        TextView livenessScore = dialogView.findViewById(R.id.liveness_score);
+        livenessScore.setText("Liveness Score: "+ silentLiveValue);
+
         btnOK.setOnClickListener(v -> {
             faceID = editText.getText().toString();
 
             if (!TextUtils.isEmpty(faceID)) {
-                if (addFaceImageType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
-                    //1:1 人脸识别保存人脸底图
-                    float[] faceEmbedding = baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, faceID);
-                    //保存人脸特征向量，用于1:1人脸识别 以及比图片更方便管理
-                    FaceEmbedding.saveEmbedding(getBaseContext(),faceID,faceEmbedding);
-
-                    Toast.makeText(getBaseContext(), "录入成功", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                    //这样写是为了明确给UTS 插件信息
-                    finishFaceVerify(1, "人脸添加成功");
+                if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
+                    float[] faceEmbedding = baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, faceID);//保存人脸底图,并返回人脸特征向量
+//                    float[] faceEmbedding = baseImageDispose.get(bitmap, faceID); //仅仅获取特征向量，本地不保存图片
+                    FaceEmbedding.saveEmbedding(getBaseContext(),faceID,faceEmbedding); //保存特征向量
+                    finishConfirm(dialog,1,"录入成功");
                 } else {
-                    //1:N ，M：N 人脸搜索保存人脸
+                    //人脸搜索(1:N ，M：N )保存人脸
                     String faceName = editText.getText().toString() + ".jpg";
                     String filePathName = CACHE_SEARCH_FACE_DIR + faceName;
                     // 一定要用SDK API 进行添加删除，不要直接File 接口文件添加删除，不然无法同步人脸SDK中特征值的更新
@@ -251,15 +239,12 @@ public class AddFaceImageActivity extends BaseActivity {
                             .insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
                                 @Override
                                 public void onSuccess(@NonNull Bitmap bitmap, @NonNull float[] faceEmbedding) {
-                                    dialog.dismiss();
-                                    finishFaceVerify(1, "人脸添加成功");
+                                    finishConfirm(dialog,1,"录入成功");
                                 }
 
                                 @Override
                                 public void onFailed(@NotNull String msg) {
-                                    dialog.dismiss();
-                                    Toast.makeText(getBaseContext(), "人脸图入库失败：：" + msg, Toast.LENGTH_SHORT).show();
-                                    finishFaceVerify(-1, "人脸添加失败");
+                                    finishConfirm(dialog,-1,"人脸添加失败");
                                 }
                     });
                 }
@@ -277,6 +262,14 @@ public class AddFaceImageActivity extends BaseActivity {
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
+
+
+    private void finishConfirm(Dialog dialog,int code,String msg){
+        dialog.dismiss();
+        finishFaceVerify(code, msg);
+        Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+    }
+
 
 }
 

@@ -5,19 +5,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AlertDialog;
 
 import com.ai.face.base.baseImage.FaceEmbedding;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.faceAI.demo.FaceAIConfig;
-import com.ai.face.base.baseImage.FaceAIUtils;
+import com.faceAI.demo.FaceImageConfig;
 import com.ai.face.base.utils.BrightnessUtil;
-import com.faceAI.demo.base.utils.BitmapUtils;
-import com.faceAI.demo.base.view.DemoFaceCoverView;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
@@ -26,8 +22,6 @@ import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import org.jetbrains.annotations.NotNull;
 import com.faceAI.demo.R;
 
 
@@ -78,7 +72,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
         }
 
         //显示一下对应的人
-        String savedFacePath = FaceAIConfig.CACHE_BASE_FACE_DIR + faceID;
+        String savedFacePath = FaceImageConfig.CACHE_BASE_FACE_DIR + faceID;
         Bitmap baseBitmap = BitmapFactory.decodeFile(savedFacePath);
         Glide.with(requireActivity())
                 .load(baseBitmap)
