@@ -1,7 +1,7 @@
 package com.faceAI.demo.SysCamera.search;
 
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
-import static com.faceAI.demo.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
+import static com.faceAI.demo.FaceImageConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_SIZE_FIT;
@@ -16,7 +16,6 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 
-import com.faceAI.demo.AboutFaceAppActivity;
 import com.faceAI.demo.R;
 import android.content.Context;
 import android.content.Intent;
@@ -34,12 +33,9 @@ import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
 import com.faceAI.demo.base.BaseActivity;
-import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * 1:N 人脸搜索识别「1:N face search」

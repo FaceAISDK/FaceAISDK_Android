@@ -5,8 +5,8 @@ import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
-import static com.faceAI.demo.FaceAIConfig.CACHE_BASE_FACE_DIR;
-import static com.faceAI.demo.FaceAIConfig.CACHE_SEARCH_FACE_DIR;
+import static com.faceAI.demo.FaceImageConfig.CACHE_BASE_FACE_DIR;
+import static com.faceAI.demo.FaceImageConfig.CACHE_SEARCH_FACE_DIR;
 
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
@@ -82,10 +82,10 @@ public class AddFaceImageActivity extends BaseActivity {
         addFaceImageType = getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
         faceID = getIntent().getStringExtra(USER_FACE_ID_KEY);
 
-        /*
-         * 2 PERFORMANCE_MODE_ACCURATE 精确模式 人脸要正对摄像头，严格要求
-         * 1 PERFORMANCE_MODE_FAST 快速模式 允许人脸方位可以有一定的偏移
-         * 0 PERFORMANCE_MODE_EASY 简单模式 允许人脸方位可以「较大」的偏移
+        /* 检测人脸，添加人脸
+         * 2 PERFORMANCE_MODE_ACCURATE   精确模式 人脸要正对摄像头，严格要求
+         * 1 PERFORMANCE_MODE_FAST       快速模式 允许人脸方位可以有一定的偏移
+         * 0 PERFORMANCE_MODE_EASY       简单模式 允许人脸方位可以「较大」的偏移
          */
         baseImageDispose = new BaseImageDispose(this, BaseImageDispose.PERFORMANCE_MODE_EASY, new BaseImageCallBack() {
             @Override

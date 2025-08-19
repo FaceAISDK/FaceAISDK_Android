@@ -14,7 +14,6 @@ import androidx.core.content.edit
 import com.ai.face.faceVerify.verify.FaceVerifyUtils
 import com.faceAI.demo.SysCamera.camera.CustomCameraActivity
 import com.faceAI.demo.SysCamera.search.SearchNaviActivity
-import com.faceAI.demo.SysCamera.verify.AbsFaceVerifyWelcomeActivity
 import com.faceAI.demo.SysCamera.verify.FaceVerifyWelcomeActivity
 import com.faceAI.demo.SysCamera.verify.LivenessDetectActivity
 import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
@@ -37,12 +36,12 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
         checkNeededPermission()
 
         // 收集Crash,ANR 运行日志
-        if(!FaceAIConfig.isDebugMode(baseContext)){
+        if(!FaceImageConfig.isDebugMode(baseContext)){
             CrashReport.initCrashReport(application, "36fade54d8", true)
         }
 
         //人脸图保存路径初始化
-        FaceAIConfig.init(this)
+        FaceImageConfig.init(this)
 
         //分享
         viewBinding.shareLayout.setOnClickListener {

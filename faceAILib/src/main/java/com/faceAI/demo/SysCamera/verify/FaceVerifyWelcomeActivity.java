@@ -1,6 +1,6 @@
 package com.faceAI.demo.SysCamera.verify;
 
-import static com.faceAI.demo.FaceAIConfig.CACHE_BASE_FACE_DIR;
+import static com.faceAI.demo.FaceImageConfig.CACHE_BASE_FACE_DIR;
 import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 

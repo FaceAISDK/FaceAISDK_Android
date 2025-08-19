@@ -13,7 +13,7 @@
 
 FaceAI SDK is on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK
 
-FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体检测、人脸图质量检测和 [1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索SDK，可快速集成实现人脸识别，人脸搜索功能。
+FaceAI SDK是设备端离线人脸识别、动作及近红外活体检测、人脸图质量检测和 [1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索SDK，可快速集成实现人脸识别，人脸搜索功能。
 
 ![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
@@ -22,9 +22,7 @@ FaceAI SDK是设备端可离线不联网 人脸识别、动作及近红外活体
 
 SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
 
-动作活体支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），20250711版本支持多种UVC红外双目摄像头，需配备宽动态值大于105Db成像清晰抗逆光摄像头。
-
-集成到主项目有问题请描述SDK版本，运行环境和使用场景描述到GitHub提issues或发邮件到 FaceAISDK.Service@gmail.com ，VIP用户可添加 微信：FaceAISDK
+动作活体支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），支持系统摄像头和UVC协议双目摄像头，需配备宽动态值大于105Db成像清晰抗逆光摄像头。
 
 
 **其他平台**  
