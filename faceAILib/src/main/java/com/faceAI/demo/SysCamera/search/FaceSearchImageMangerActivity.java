@@ -88,7 +88,7 @@ public class FaceSearchImageMangerActivity extends BaseActivity {
                     .setTitle("确定要删除所有人脸数据？")
                     .setMessage("删除后设备本地所有人脸数据将被清除，请谨慎操作")
                     .setPositiveButton("确定", (dialog, which) -> {
-                        FaceSearchImagesManger.Companion.getInstance(getApplication()).clearFaceImage(CACHE_SEARCH_FACE_DIR);
+                        FaceSearchImagesManger.Companion.getInstance(getApplication()).clearFaceImages(CACHE_SEARCH_FACE_DIR);
                         loadImageList();
                         faceImageListAdapter.notifyDataSetChanged();
                     })

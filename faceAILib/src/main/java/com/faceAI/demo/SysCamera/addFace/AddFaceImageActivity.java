@@ -214,19 +214,13 @@ public class AddFaceImageActivity extends BaseActivity {
         dialog.setCanceledOnTouchOutside(false);
         ImageView basePreView = dialogView.findViewById(R.id.preview);
         basePreView.setImageBitmap(bitmap);
+        Button btnOK = dialogView.findViewById(R.id.btn_ok);
+        Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
+        EditText editText = dialogView.findViewById(R.id.edit_text);
 
         TextView livenessScore = dialogView.findViewById(R.id.liveness_score);
         livenessScore.setText("Liveness Score: "+ silentLiveValue);
 
-        Button btnOK = dialogView.findViewById(R.id.btn_ok);
-        Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
-        EditText editText = dialogView.findViewById(R.id.edit_text);
-//        editText.requestFocus();
-        editText.setText(faceID);
-        if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name()) && !TextUtils.isEmpty(faceID)) {
-            editText.setVisibility(GONE); //调试完毕删除
-            Toast.makeText(getBaseContext(), "？？？？？？？？？？？", Toast.LENGTH_SHORT).show();
-        }
         btnOK.setOnClickListener(v -> {
             faceID = editText.getText().toString();
 

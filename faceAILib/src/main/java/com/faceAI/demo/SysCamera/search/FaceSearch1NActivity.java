@@ -88,7 +88,6 @@ public class FaceSearch1NActivity extends BaseActivity {
                 .commit();
 
         initFaceSearchParam();
-
     }
 
 
@@ -130,7 +129,6 @@ public class FaceSearch1NActivity extends BaseActivity {
                     public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
                         //已经按照降序排列，可以弹出一个列表框
                         Log.d("onFaceMatched","符合设定阈值的结果: "+matchedResults.toString());
-
                     }
 
                     /**
@@ -248,7 +246,6 @@ public class FaceSearch1NActivity extends BaseActivity {
             default:
                 binding.searchTips.setText("回调提示：" + code);
                 break;
-
         }
     }
 
