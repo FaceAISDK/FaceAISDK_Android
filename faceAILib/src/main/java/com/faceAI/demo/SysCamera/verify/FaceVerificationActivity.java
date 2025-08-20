@@ -41,7 +41,9 @@ import org.jetbrains.annotations.NotNull;
  * 仅仅需要活体检测参考{@link LivenessDetectActivity}
  * <p>
  * 移动考勤签到、App免密登录、刷脸授权、刷脸解锁。请熟悉Demo主流程后根据你的业务情况再改造
+ * 摄像头管理源码开放了 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment}
  */
+
 public class FaceVerificationActivity extends BaseActivity {
 
     private final float silentLivenessThreshold = 0.81f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低

@@ -31,13 +31,15 @@ import com.faceAI.demo.base.view.DemoFaceCoverView;
  * 活体检测 SDK 接入演示Demo 代码.
  * 使用系统相机怎么活体检测，包含动作活体，静默活体（静默需要摄像头成像清晰，宽动态大于105Db）
  *
+ * 摄像头管理源码开放了 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment}
  */
 public class LivenessDetectActivity extends BaseActivity {
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private DemoFaceCoverView faceCoverView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
+
     private CameraXFragment cameraXFragment;
-    private final float silentLivenessPassScore = 0.85f; //静默活体分数通过的阈值
+    private final float silentLivenessPassScore = 0.8f; //静默活体分数通过的阈值
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
