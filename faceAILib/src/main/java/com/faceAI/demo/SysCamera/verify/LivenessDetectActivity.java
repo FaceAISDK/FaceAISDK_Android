@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
+
+import com.ai.face.base.runtimeEnv.RuntimeEnv;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
@@ -64,6 +66,7 @@ public class LivenessDetectActivity extends BaseActivity {
         cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
+
 
         initFaceVerificationParam();
     }
@@ -144,7 +147,14 @@ public class LivenessDetectActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        if(RuntimeEnv.isEmulator(getBaseContext())||RuntimeEnv.isXposedExist(getBaseContext())||RuntimeEnv.isRoot(getBaseContext())){
+            Toast.makeText(getBaseContext(),"不安全的运行环境",Toast.LENGTH_LONG).show();
+        }
+    }
 
     @Override
     public void onBackPressed() {
