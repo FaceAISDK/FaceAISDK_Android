@@ -29,13 +29,13 @@ FaceAI SDK产品说明与API文档：https://github.com/FaceAISDK/FaceAISDK_Andr
 
 **其他实现**  
 **React native** https://github.com/zkteco-home/react-native-face-recognition  
-**Flutter** need your help
+**Flutter** need your helps
 
 <div align=center>
-<img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 21%  />
+<img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-## 当前版本说明 V2025.08.18 （性能大优化，稳API版本）
+## 当前版本说明 V2025.08.21 （性能大优化，稳API版本）
 
 - 添加人脸体验优化，完善提示
 - 录入人脸API暴露出人脸特征向量float[]，保留bitmap
