@@ -63,7 +63,7 @@
 
     <!--Navi activity-->
     <string name="camera_degree_set">Switch Camera Degree,Now is:</string>
-    <string name="parameter_setting">Parameter settings</string>
+    <string name="parameter_setting">Camera Parameter settings</string>
     <string name="binocular_camera_demo">Binocular Camera Demo</string>
     <string name="face_verify_1vs1">1:1 Face Verify </string>
     <string name="add_face_image">Add face Image</string>
