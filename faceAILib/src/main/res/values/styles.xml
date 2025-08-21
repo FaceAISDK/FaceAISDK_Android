@@ -1,0 +1,45 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorPrimaryDark">@color/face_lib_main_color</item>
+        <item name="colorPrimary">@color/face_lib_main_color</item>
+        <item name="colorAccent">@color/face_lib_main_color</item>
+        <item name="buttonBarPositiveButtonStyle">@style/positiveBtnStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/negativeBtnStyle</item>
+    </style>
+
+    <style name="FaceAITheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorPrimary">@color/face_lib_main_color</item>
+        <item name="colorAccent">@color/face_lib_main_color</item>
+        <item name="buttonBarPositiveButtonStyle">@style/positiveBtnStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/negativeBtnStyle</item>
+    </style>
+
+
+    <!--确定按钮样式-->
+    <style name="positiveBtnStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/green</item>
+    </style>
+
+    <!--取消按钮样式-->
+    <style name="negativeBtnStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+
+    <!--colorControlNormal 为没有获取焦点时候下划线的颜色-->
+    <!--colorControlActivated 为获取焦点时候光标与下划线的颜色-->
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/face_lib_main_color</item>
+        <item name="colorControlActivated">@color/green</item>
+    </style>
+
+
+</resources>

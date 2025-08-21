@@ -1,0 +1,74 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.example.demo'
+    compileSdk 34        //上线Google Play需要35 了
+
+    defaultConfig {
+        versionCode 20250821
+        versionName "20250821.beta"
+
+        applicationId "com.ai.face.verifyPub" //演示用applicationId
+        minSdk 21         //暂时只支持Android 5以上，需要更低需定制
+        targetSdk 34      //target SDK 还是28 的请参考question.md 文档说明
+        
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a' //根据CPU架构选择对应ABI
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("FaceAIPublic")
+            storePassword "FaceAIPublic"
+            keyAlias "FaceAIPublic"
+            keyPassword "FaceAIPublic"
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+}
+
+//CameraX，开发环境允许尽量升级到1.4.2 以上版本
+def camera_version = "1.2.3"
+configurations.configureEach {
+    resolutionStrategy {
+        force "androidx.camera:camera-core:$camera_version",
+                "androidx.camera:camera-camera2:$camera_version",
+                "androidx.camera:camera-lifecycle:$camera_version",
+                "androidx.camera:camera-view:$camera_version"
+    }
+}
+
+
+dependencies {
+    //在你的项目主工程依赖faceAILib，熟悉了SDK 接入源码后再根据你的业务修改实现
+    implementation project(':faceAILib')
+
+
+    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+}
