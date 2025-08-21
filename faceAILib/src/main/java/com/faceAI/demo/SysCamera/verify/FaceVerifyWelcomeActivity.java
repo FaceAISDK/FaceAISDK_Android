@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ai.face.base.baseImage.FaceEmbedding;
+import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.faceAI.demo.UVCCamera.verify.FaceVerify_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraFragment;
@@ -112,6 +114,18 @@ public class FaceVerifyWelcomeActivity extends AbsFaceVerifyWelcomeActivity {
             }).setNegativeButton("取消", null).show();
             return false;
         });
+
+        //32 位CPU测试
+        faceImageListAdapter.setOnItemLongClickListener(new OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int i) {
+                startActivity(
+                        new Intent(getBaseContext(), FaceVerification32CPUTestActivity.class)
+                                .putExtra(USER_FACE_ID_KEY, faceImageList.get(i).name));
+                return false;
+            }
+        });
+
 
         faceImageListAdapter.setOnItemClickListener((adapter, view, i) -> {
                     // 根据摄像头种类启动不同的模式

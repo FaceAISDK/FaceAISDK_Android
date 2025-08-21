@@ -1,8 +1,9 @@
 package com.faceAI.demo.SysCamera.verify;
 
-import static com.faceAI.demo.FaceImageConfig.CACHE_BASE_FACE_DIR;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
+import static com.faceAI.demo.FaceImageConfig.CACHE_BASE_FACE_DIR;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,40 +12,41 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.camera.core.CameraSelector;
+
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.baseImage.FaceEmbedding;
-import com.faceAI.demo.R;
-import com.faceAI.demo.SysCamera.search.ImageToast;
-import com.faceAI.demo.base.BaseActivity;
-import com.faceAI.demo.SysCamera.camera.MyCameraFragment;
-import com.faceAI.demo.base.view.DemoFaceCoverView;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
-import com.ai.face.faceVerify.verify.VerifyStatus.*;
+import com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM;
+import com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
-import com.faceAI.demo.base.utils.VoicePlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.faceAI.demo.R;
+import com.faceAI.demo.SysCamera.camera.MyCameraFragment;
+import com.faceAI.demo.SysCamera.search.ImageToast;
+import com.faceAI.demo.base.BaseActivity;
+import com.faceAI.demo.base.utils.VoicePlayer;
+import com.faceAI.demo.base.view.DemoFaceCoverView;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
- * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo 代码. 正式接入集成需要你根据你的业务完善
- * 仅仅需要活体检测参考{@link LivenessDetectActivity}
- * <p>
- * 移动考勤签到、App免密登录、刷脸授权、刷脸解锁。请熟悉Demo主流程后根据你的业务情况再改造
- * 摄像头管理源码开放了 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment}
+ * 32 位CPU人脸识别耗时测试，相机管理源码MyCameraFragment暴露出来了，方便定制开发
+ *
  */
-
-public class FaceVerificationActivity extends BaseActivity {
+public class FaceVerification32CPUTestActivity extends BaseActivity {
 
     private final float silentLivenessThreshold = 0.81f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
 
@@ -56,16 +58,23 @@ public class FaceVerificationActivity extends BaseActivity {
 
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
 
+    private long startTime;
+    private boolean startFaceVerify = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_face_verification); //建议背景白色可以补充光照不足
-        setTitle("1:1 face verify");
+        setContentView(R.layout.activity_face_verification_cpu32); //建议背景白色可以补充光照不足
+        setTitle("32CPU Test");
         scoreText = findViewById(R.id.silent_Score);
         tipsTextView = findViewById(R.id.tips_view);
         secondTipsTextView = findViewById(R.id.second_tips_view); //次要提示
         faceCoverView = findViewById(R.id.face_cover);
         findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(0, "用户取消"));
+
+        findViewById(R.id.start_verify).setOnClickListener(v -> {
+            startFaceVerify=true;
+        });
 
         initCameraX();
         initFaceVerifyEmbedding();
@@ -86,6 +95,7 @@ public class FaceVerificationActivity extends BaseActivity {
                 .setRotation(degree)      //画面旋转方向
                 .create();
 
+        //MyCameraFragment 相机管理源码暴露
         cameraXFragment = MyCameraFragment.newInstance(cameraXBuilder);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
@@ -150,11 +160,10 @@ public class FaceVerificationActivity extends BaseActivity {
                 .setCameraType(FaceProcessBuilder.CameraType.SYS_CAMERA)
                 .setCompareDurationTime(3500)           //人脸识别对比时间[3000,5000] 毫秒。相似度很低会持续设置的时间
                 .setLivenessType(MotionLivenessType.SILENT_MOTION) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
-                .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.66,0.98]
                 .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
-                .setMotionLivenessStepSize(2)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
-                .setMotionLivenessTimeOut(14)           //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
-                //.setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑 或其他某一种
+                .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
+                .setMotionLivenessTimeOut(10)           //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
+                .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.66,0.98]
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
                      * 1:1 人脸识别 活体检测 对比结束
@@ -166,6 +175,10 @@ public class FaceVerificationActivity extends BaseActivity {
                      */
                     @Override
                     public void onVerifyMatched(boolean isMatched, float similarity, float silentLivenessScore, Bitmap bitmap) {
+                        startFaceVerify=false;
+                        //以人脸正脸对着摄像头，按下开始识别按钮到返回结果耗时统计，优化直到1秒左右（～10%）
+                        Log.e("verifyTime:","32位CPU耗时："+(System.currentTimeMillis()- startTime));
+
                         showVerifyResult(isMatched, similarity, silentLivenessScore, bitmap);
                     }
 
@@ -192,9 +205,16 @@ public class FaceVerificationActivity extends BaseActivity {
 
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             //防止在识别过程中关闭页面导致Crash
-            if (!isDestroyed() && !isFinishing()) {
+            if (!isDestroyed() && !isFinishing()&&startFaceVerify) {
+
+                if(startTime == 0){
+                    startTime =System.currentTimeMillis();
+                    Log.e("verifyTime","开始送入数据： "+ startTime);
+                }
+
                 //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
                 faceVerifyUtils.goVerifyWithImageProxy(imageProxy, faceCoverView.getMargin());
+
             }
         });
 
@@ -216,7 +236,7 @@ public class FaceVerificationActivity extends BaseActivity {
             //1.静默活体分数判断
             if (silentLivenessScore < silentLivenessThreshold) {
                 tipsTextView.setText(R.string.silent_anti_spoofing_error);
-                new AlertDialog.Builder(FaceVerificationActivity.this)
+                new AlertDialog.Builder(FaceVerification32CPUTestActivity.this)
                         .setMessage(R.string.silent_anti_spoofing_error)
                         .setCancelable(false)
                         .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
@@ -230,11 +250,11 @@ public class FaceVerificationActivity extends BaseActivity {
 
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     finishFaceVerify(1, "人脸识别成功");
-                }, 1500);
+                }, 1200);
             } else {
                 //3.和底片不是同一个人
                 VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
-                new AlertDialog.Builder(FaceVerificationActivity.this)
+                new AlertDialog.Builder(FaceVerification32CPUTestActivity.this)
                         .setTitle("识别失败，相似度 " + similarity)
                         .setMessage(R.string.face_verify_failed)
                         .setCancelable(false)

@@ -89,6 +89,11 @@ public class AddFaceImageActivity extends BaseActivity {
          * 0 PERFORMANCE_MODE_EASY       简单模式 允许人脸方位可以「较大」的偏移
          */
         baseImageDispose = new BaseImageDispose(this, BaseImageDispose.PERFORMANCE_MODE_EASY, new BaseImageCallBack() {
+            /**
+             * 人脸检测裁剪完成
+             * @param bitmap           检测裁剪后的Bitmap
+             * @param silentLiveValue  静默活体分数
+             */
             @Override
             public void onCompleted(Bitmap bitmap, float silentLiveValue) {
                 isConfirmAdd=true;

@@ -47,6 +47,12 @@
             android:theme="@style/FaceAITheme"
             android:exported="false"/>
 
+
+        <activity
+            android:name="com.faceAI.demo.SysCamera.verify.FaceVerification32CPUTestActivity"
+            android:theme="@style/FaceAITheme"
+            android:exported="false"/>
+
         <activity
             android:name="com.faceAI.demo.SysCamera.verify.FaceVerificationActivity"
             android:theme="@style/FaceAITheme"

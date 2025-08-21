@@ -14,7 +14,7 @@ import com.faceAI.demo.R;
 import com.faceAI.demo.base.BaseActivity;
 
 /**
- * 自定义调试管理摄像头，把SDK 中的源码暴露出来放在 MyCameraFragment
+ * 自定义调试管理摄像头，把SDK 中的源码暴露出来放在 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment}
  *
  */
 public class CustomCameraActivity extends BaseActivity {

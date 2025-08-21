@@ -66,7 +66,7 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
 
     <!--Navi activity-->
     <string name="camera_degree_set">摄像头方向切换。当前：</string>
-    <string name="parameter_setting">Face AI 参数设置</string>
+    <string name="parameter_setting">摄像头参数设置</string>
     <string name="binocular_camera_demo">USB双目摄像头(UVC协议)演示</string>
     <string name="face_verify_1vs1">1:1人脸识别 </string>
     <string name="add_face_image">人脸底图录入</string>

@@ -20,7 +20,7 @@ import com.faceAI.demo.FaceAINaviActivity;
  * <a href="https://github.com/FaceAISDK/FaceAISDK_Android">...</a>
  */
 public class WelcomeActivity extends AppCompatActivity {
-
+    LottieAnimationView startFaceAILib;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,15 +32,17 @@ public class WelcomeActivity extends AppCompatActivity {
         setWelcomeAnimal();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        startFaceAILib = null;
+    }
 
     /**
      * 设置欢迎动画
      */
     private void setWelcomeAnimal(){
-        findViewById(R.id.goFaceAILib).setOnClickListener(view ->
-                startActivity(new Intent(WelcomeActivity.this, FaceAINaviActivity.class)));
-
-        LottieAnimationView startFaceAILib = findViewById(R.id.goFaceAILib);
+        startFaceAILib = findViewById(R.id.goFaceAILib);
         startFaceAILib.setAnimation(R.raw.face_ai_welcome);
         startFaceAILib.setSpeed(3f);
         startFaceAILib.playAnimation();
@@ -48,6 +50,7 @@ public class WelcomeActivity extends AppCompatActivity {
         startFaceAILib.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationEnd(@NonNull Animator animation) {
+
                 //演示主工程调用Face AI Lib 中人脸识别功能
                 startActivity(new Intent(WelcomeActivity.this, FaceAINaviActivity.class));
                 WelcomeActivity.this.finish();
