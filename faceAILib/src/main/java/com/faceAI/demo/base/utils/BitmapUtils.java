@@ -31,7 +31,9 @@ public class BitmapUtils {
          }
 
          FileOutputStream out =new  FileOutputStream(file);
-         mBitmap=Bitmap.createScaledBitmap(mBitmap, 300, 300, true);
+
+         mBitmap=Bitmap.createScaledBitmap(mBitmap, 300, 300, true); //
+
          mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
          out.flush();
          out.close();

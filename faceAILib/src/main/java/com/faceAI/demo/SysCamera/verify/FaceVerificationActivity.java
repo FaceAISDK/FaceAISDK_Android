@@ -105,8 +105,10 @@ public class FaceVerificationActivity extends BaseActivity {
 
         //本地没有faceID对应的人脸特征向量 （ 本段代码仅供演示，你需要根据自身业务完善）
         if (faceEmbedding.length == 0) {
-            //你的业务代码，从你的服务器拿到对应的人脸特征向量，或提示录入人脸并同步数据到你的服务器，SDK不存储敏感数据
-            Toast.makeText(getBaseContext(), "本地无对应的人脸特征", Toast.LENGTH_LONG).show();
+            if(baseBitmap==null){
+                //你的业务代码，从你的服务器拿到对应的人脸特征向量，或提示录入人脸并同步数据到你的服务器，SDK不存储敏感数据
+                Toast.makeText(getBaseContext(), "人脸底片不存在", Toast.LENGTH_LONG).show();
+            }
 
             //需要你把以前版本的人脸bitmap 转变为faceEmbedding
             //非FaceAI SDK的人脸可能是不规范的没有经过校准的人脸图（证件照，多人脸，过小等）

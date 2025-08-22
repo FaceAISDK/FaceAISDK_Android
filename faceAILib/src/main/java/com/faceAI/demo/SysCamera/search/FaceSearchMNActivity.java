@@ -76,7 +76,7 @@ public class FaceSearchMNActivity extends BaseActivity {
             //可以加个红外检测之类的，有人靠近再启动人脸搜索检索服务，不然机器性能下降机器老化快
             if (!isDestroyed() && !isFinishing()) {
                 //MN 人脸检索，第二个参数0 画面识别区域就不裁剪了
-                FaceSearchEngine.Companion.getInstance().runSearch(imageProxy, 0);
+                FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
             }
         });
 
