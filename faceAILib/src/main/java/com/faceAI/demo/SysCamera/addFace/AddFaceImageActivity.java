@@ -222,7 +222,10 @@ public class AddFaceImageActivity extends BaseActivity {
         Button btnOK = dialogView.findViewById(R.id.btn_ok);
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
         EditText editText = dialogView.findViewById(R.id.edit_text);
-
+        editText.setText(faceID);
+        if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name()) && !TextUtils.isEmpty(faceID)) {
+            editText.setVisibility(GONE); //制作UTS等插件传过来的FaceID,用户不能再二次编辑
+        }
         TextView livenessScore = dialogView.findViewById(R.id.liveness_score);
         livenessScore.setText("Liveness Score: "+ silentLiveValue);
 
@@ -231,7 +234,7 @@ public class AddFaceImageActivity extends BaseActivity {
 
             if (!TextUtils.isEmpty(faceID)) {
                 if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
-                    float[] faceEmbedding = baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, faceID);//保存人脸底图,并返回人脸特征向量
+                    float[] faceEmbedding = baseImageDispose.saveBaseImageGetEmbedding(bitmap, CACHE_BASE_FACE_DIR, faceID);//保存人脸底图,并返回人脸特征向量
 //                    float[] faceEmbedding = baseImageDispose.get(bitmap, faceID); //仅仅获取特征向量，本地不保存图片
                     FaceEmbedding.saveEmbedding(getBaseContext(),faceID,faceEmbedding); //保存特征向量
                     finishConfirm(dialog,1,"录入成功");
