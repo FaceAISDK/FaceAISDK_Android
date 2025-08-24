@@ -10,10 +10,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import com.ai.face.faceVerify.verify.FaceVerifyUtils
-import com.faceAI.demo.SysCamera.camera.CustomCameraActivity
+import com.faceAI.demo.SysCamera.camera.CustomCameraActivityAbs
 import com.faceAI.demo.SysCamera.search.SearchNaviActivity
 import com.faceAI.demo.SysCamera.verify.FaceVerifyWelcomeActivity
-import com.faceAI.demo.SysCamera.verify.LivenessDetectActivity
+import com.faceAI.demo.SysCamera.verify.LivenessDetectActivityAbs
 import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
 import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
 import com.tencent.bugly.crashreport.CrashReport
@@ -72,7 +72,7 @@ class FaceAINaviActivity : AppCompatActivity() {
 
         // 系统相机自定义调试
         viewBinding.customCamera.setOnClickListener {
-            startActivity(Intent(this@FaceAINaviActivity, CustomCameraActivity::class.java))
+            startActivity(Intent(this@FaceAINaviActivity, CustomCameraActivityAbs::class.java))
         }
 
         viewBinding.systemInfo.setOnClickListener {
@@ -104,7 +104,7 @@ class FaceAINaviActivity : AppCompatActivity() {
         }
 
         viewBinding.livenessDetection.setOnClickListener {
-            startActivity(Intent(this@FaceAINaviActivity, LivenessDetectActivity::class.java))
+            startActivity(Intent(this@FaceAINaviActivity, LivenessDetectActivityAbs::class.java))
         }
 
         //两张静态人脸图中人脸相似度 对比

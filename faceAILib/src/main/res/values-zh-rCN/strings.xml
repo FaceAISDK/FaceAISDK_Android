@@ -3,12 +3,11 @@
     <string name="device_list_empty_tip">请连接好UVC协议USB设备</string>
     <string name="device_list_cancel_button">取消</string>
     <string name="device_list_confirm_button">确定</string>
-
-
     <string name="sdk_init">SDK Initing</string>
     <string name="no_mask_please">请勿佩戴口罩</string>
     <string name="face_verifying">识别中,平视正对摄像头</string>
     <string name="confirm">确定</string>
+    <string name="go_setting">去设置</string>
     <string name="cancel">确定</string>
     <string name="know">知道了</string>
     <string name="retry">重试</string>

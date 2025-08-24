@@ -17,7 +17,7 @@
         android:background="?attr/colorPrimary"
         app:subtitleTextColor="#FFF"
         app:titleTextColor="#FFF"
-        app:title="人脸库管理"
+        app:title="人脸管理"
         tools:ignore="MissingConstraints" />
 
     <TextView

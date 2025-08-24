@@ -28,6 +28,7 @@ import java.util.List;
  * <p>
  * 如果本SDK Demo不能管理你的定制摄像头，请参考https://github.com/shiyinghan/UVCAndroid
  * 熟悉后可以自己实现一个 UsbCameraManager来管理你的摄像头各种适配
+ * @author FaceAISDK.Service@gmail.com
  */
 public class UVCCameraManager {
     // 配置UVC 协议摄像头默认的分辨率，请参考你的摄像头能支持的分辨率，分辨率不用那么高关键在成像能力

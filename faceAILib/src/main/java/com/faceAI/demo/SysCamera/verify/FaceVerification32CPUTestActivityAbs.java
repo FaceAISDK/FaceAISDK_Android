@@ -36,7 +36,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.MyCameraFragment;
 import com.faceAI.demo.SysCamera.search.ImageToast;
-import com.faceAI.demo.base.BaseActivity;
+import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.base.view.DemoFaceCoverView;
 
@@ -44,9 +44,9 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * 32 位CPU人脸识别耗时测试，相机管理源码MyCameraFragment暴露出来了，方便定制开发
- *
+ * @author FaceAISDK.Service@gmail.com
  */
-public class FaceVerification32CPUTestActivity extends BaseActivity {
+public class FaceVerification32CPUTestActivityAbs extends AbsBaseActivity {
 
     private final float silentLivenessThreshold = 0.81f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
 
@@ -148,7 +148,7 @@ public class FaceVerification32CPUTestActivity extends BaseActivity {
 
 
     /**
-     * 初始化认证引擎，仅仅需要活体检测参考{@link LivenessDetectActivity}
+     * 初始化认证引擎，仅仅需要活体检测参考{@link LivenessDetectActivityAbs}
      *
      * @param faceEmbedding 1:1 人脸识别对比的底片特征向量
      */
@@ -236,7 +236,7 @@ public class FaceVerification32CPUTestActivity extends BaseActivity {
             //1.静默活体分数判断
             if (silentLivenessScore < silentLivenessThreshold) {
                 tipsTextView.setText(R.string.silent_anti_spoofing_error);
-                new AlertDialog.Builder(FaceVerification32CPUTestActivity.this)
+                new AlertDialog.Builder(FaceVerification32CPUTestActivityAbs.this)
                         .setMessage(R.string.silent_anti_spoofing_error)
                         .setCancelable(false)
                         .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
@@ -254,7 +254,7 @@ public class FaceVerification32CPUTestActivity extends BaseActivity {
             } else {
                 //3.和底片不是同一个人
                 VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
-                new AlertDialog.Builder(FaceVerification32CPUTestActivity.this)
+                new AlertDialog.Builder(FaceVerification32CPUTestActivityAbs.this)
                         .setTitle("识别失败，相似度 " + similarity)
                         .setMessage(R.string.face_verify_failed)
                         .setCancelable(false)
@@ -409,8 +409,8 @@ public class FaceVerification32CPUTestActivity extends BaseActivity {
     /**
      * 暂停识别，防止切屏识别，如果你需要退后台不能识别的话
      */
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         faceVerifyUtils.pauseProcess();
     }
 }

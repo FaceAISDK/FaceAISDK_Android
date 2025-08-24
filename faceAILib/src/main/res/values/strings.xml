@@ -9,7 +9,8 @@
     <string name="no_mask_please">No mask</string>
     <string name="face_verifying">Verifying(face the camera)</string>
     <string name="confirm">Done</string>
-    <string name="cancel">cancel</string>
+    <string name="go_setting">go setting</string>
+    <string name="cancel">Cancel</string>
     <string name="know">I know</string>
     <string name="retry">Retry</string>
     <string name="long_press_copy_msg">Tips: Long press to copy msg</string>
