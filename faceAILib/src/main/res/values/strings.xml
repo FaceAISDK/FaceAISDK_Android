@@ -9,9 +9,12 @@
     <string name="no_mask_please">No mask</string>
     <string name="face_verifying">Verifying(face the camera)</string>
     <string name="confirm">Done</string>
+    <string name="cancel">cancel</string>
+    <string name="know">I know</string>
     <string name="retry">Retry</string>
     <string name="long_press_copy_msg">Tips: Long press to copy msg</string>
     <string name="share_faceai_sdk">Share FaceAI SDK </string>
+    <string name="facesdk_camera_permission">Face Verify Need Camera Permission</string>
     <string name="share_faceai_sdk_content">Android On_device 1:1 Face Recognition And
         Liveness detection；1:N M:N Face Search SDK.
         \nAPK Download：https://www.pgyer.com/faceVerify
@@ -36,6 +39,7 @@
     <string name="add_a_face_image">Add a face image </string>
     <string name="add_face_from_photo">add from photo</string>
     <string name="add_face_from_camera">add from camera</string>
+    <string name="input_face_id_tips">Please input face name</string>
 
 
     <!--1:N 人脸搜索 face search-->
@@ -44,6 +48,7 @@
 
     <!--1:1 人脸识别 face verify -->
     <string name="face_verify_failed">Face verify failed！Please retry</string>
+    <string name="face_verify_failed_title">Verify failed</string>
     <string name="silent_anti_spoofing_error">Silent anti spoofing error</string>
     <string name="no_base_face_bitmap">No base face bitmap error</string>
     <string name="face_verify_pause">Face verify pause！Please retry</string>

@@ -1,13 +1,11 @@
 package com.faceAI.demo
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
@@ -19,21 +17,19 @@ import com.faceAI.demo.SysCamera.verify.LivenessDetectActivity
 import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
 import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
 import com.tencent.bugly.crashreport.CrashReport
-import pub.devrel.easypermissions.EasyPermissions
-import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
+
 
 /**
  * SDK 接入演示Demo，请先熟悉本Demo跑通住流程后再集成到你的主工程验证业务
  *
  */
-class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
+class FaceAINaviActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityFaceAiNaviBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityFaceAiNaviBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-        checkNeededPermission()
 
         // 收集Crash,ANR 运行日志
         if(!FaceImageConfig.isDebugMode(baseContext)){
@@ -132,51 +128,6 @@ class FaceAINaviActivity : AppCompatActivity(), PermissionCallbacks {
     }
 
 
-    /**
-     * 统一全局的拦截权限请求，给提示
-     *
-     */
-    private fun checkNeededPermission() {
-        //自行管理你的存储 相机权限
-        //存储照片在某些目录需要,Manifest.permission.WRITE_EXTERNAL_STORAGE
-        val perms = arrayOf(Manifest.permission.CAMERA)
-
-        if (!EasyPermissions.hasPermissions(this, *perms)) {
-            EasyPermissions.requestPermissions(
-                this,
-                "SDK Demo 相机和读取相册都仅仅是为了完成人脸识别所必需，请授权！",
-                11,
-                *perms
-            )
-        }
-    }
-
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-    }
-
-    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-
-    }
-
-
-    /**
-     * 当用户点击了不再提醒的时候的处理方式
-     */
-    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        Toast.makeText(
-            this,
-            "Please Grant Permission To Run FaceAI SDK,请授权才能正常演示",
-            Toast.LENGTH_SHORT
-        )
-            .show()
-    }
 
     /**
      * 设备系统信息
