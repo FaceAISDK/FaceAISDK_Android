@@ -39,8 +39,8 @@
 
     <ImageView
         android:id="@+id/base_face"
-        android:layout_width="30dp"
-        android:layout_height="28dp"
+        android:layout_width="25dp"
+        android:layout_height="22dp"
         app:layout_constraintStart_toEndOf="@+id/back"
         app:layout_constraintBottom_toBottomOf="@+id/back"
         app:layout_constraintTop_toTopOf="@+id/back" />

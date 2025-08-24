@@ -53,10 +53,6 @@
             android:theme="@style/FaceAITheme"
             android:exported="false"/>
 
-        <activity
-            android:name="com.faceAI.demo.SysCamera.verify.FaceVerificationActivity"
-            android:theme="@style/FaceAITheme"
-            android:exported="false"/>
 
         <activity
             android:name="com.faceAI.demo.AboutFaceAppActivity"
@@ -67,6 +63,17 @@
             android:name=".SysCamera.camera.CustomCameraActivity"
             android:theme="@style/AppTheme"
             android:exported="false" />
+
+        <activity
+            android:name="com.faceAI.demo.SysCamera.search.FaceSearchImageMangerActivity"
+            android:theme="@style/AppTheme"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name="com.faceAI.demo.SysCamera.verify.FaceVerificationActivity"
+            android:theme="@style/FaceAITheme"
+            android:exported="false"/>
 
         <activity
             android:name="com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity"
@@ -84,11 +91,7 @@
             android:theme="@style/AppTheme"
             android:launchMode="singleTop" />
 
-        <activity
-            android:name="com.faceAI.demo.SysCamera.search.FaceSearchImageMangerActivity"
-            android:theme="@style/AppTheme"
-            android:exported="false">
-        </activity>
+
 
         <activity
             android:name="com.faceAI.demo.SysCamera.verify.FaceVerifyWelcomeActivity"

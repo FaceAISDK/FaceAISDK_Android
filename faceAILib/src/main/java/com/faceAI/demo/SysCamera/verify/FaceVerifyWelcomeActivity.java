@@ -154,7 +154,7 @@ public class FaceVerifyWelcomeActivity extends AbsFaceVerifyWelcomeActivity {
     @Override
     public void disposeSelectImage(@NotNull String faceID, @NotNull Bitmap disposedBitmap, @NonNull float[] faceEmbedding) {
         //1:1 人脸识别保存人脸底图
-        BitmapUtils.saveBitmap(disposedBitmap,CACHE_BASE_FACE_DIR,faceID);
+        BitmapUtils.saveDisposedBitmap(disposedBitmap,CACHE_BASE_FACE_DIR,faceID);
         //保存在App 的私有目录，
         FaceEmbedding.saveEmbedding(getBaseContext(),faceID,faceEmbedding);
         updateFaceList();

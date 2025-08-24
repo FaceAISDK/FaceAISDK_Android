@@ -25,12 +25,12 @@
 
     <!--确定按钮样式-->
     <style name="positiveBtnStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">@color/green</item>
+        <item name="android:textColor">@color/face_lib_main_color</item>
     </style>
 
     <!--取消按钮样式-->
     <style name="negativeBtnStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">@color/red</item>
+        <item name="android:textColor">@color/blue_sky</item>
     </style>
 
 
@@ -38,7 +38,22 @@
     <!--colorControlActivated 为获取焦点时候光标与下划线的颜色-->
     <style name="MyEditText" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/face_lib_main_color</item>
-        <item name="colorControlActivated">@color/green</item>
+        <item name="colorControlActivated">@color/face_lib_main_color</item>
+    </style>
+
+
+
+    <!--这个是dialog的style-->
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.6</item>
+
     </style>
 
 

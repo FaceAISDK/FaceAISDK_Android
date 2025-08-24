@@ -14,9 +14,11 @@ import android.os.Looper;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.camera.core.CameraSelector;
+import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.baseImage.FaceEmbedding;
 import com.faceAI.demo.R;
@@ -34,7 +36,6 @@ import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo 代码. 正式接入集成需要你根据你的业务完善
@@ -45,15 +46,12 @@ import org.jetbrains.annotations.NotNull;
  */
 
 public class FaceVerificationActivity extends BaseActivity {
-
     private final float silentLivenessThreshold = 0.81f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
-
     public static final String USER_FACE_ID_KEY = "USER_FACE_ID_KEY";   //1:1 face verify ID KEY
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private DemoFaceCoverView faceCoverView;
     private MyCameraFragment cameraXFragment;  //摄像头管理源码暴露出来了，方便定制开发
-
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
 
     @Override
@@ -103,31 +101,9 @@ public class FaceVerificationActivity extends BaseActivity {
         String faceFilePath = CACHE_BASE_FACE_DIR + faceID;
         Bitmap baseBitmap = BitmapFactory.decodeFile(faceFilePath);
 
-        //本地没有faceID对应的人脸特征向量 （ 本段代码仅供演示，你需要根据自身业务完善）
+        //本地没有faceID对应的人脸特征向量 （ 本段代码仅供演示，你需要根据自身业务完善流程）
         if (faceEmbedding.length == 0) {
-            if(baseBitmap==null){
-                //你的业务代码，从你的服务器拿到对应的人脸特征向量，或提示录入人脸并同步数据到你的服务器，SDK不存储敏感数据
-                Toast.makeText(getBaseContext(), "人脸底片不存在", Toast.LENGTH_LONG).show();
-            }
-
-            //需要你把以前版本的人脸bitmap 转变为faceEmbedding
-            //非FaceAI SDK的人脸可能是不规范的没有经过校准的人脸图（证件照，多人脸，过小等）
-            FaceAIUtils.Companion.getInstance(getApplication())
-                    .disposeBaseFaceImage(getBaseContext(), baseBitmap, new FaceAIUtils.Callback() {
-                        //处理优化人脸成功完成去初始化引擎
-                        @Override
-                        public void onSuccess(@NonNull Bitmap disposedBitmap, @NonNull float[] faceEmbedding) {
-                            FaceEmbedding.saveEmbedding(getBaseContext(), faceID, faceEmbedding); //本地保存起来
-                            initFaceVerificationParam(faceEmbedding);
-                        }
-
-                        //底片处理异常的信息回调
-                        @Override
-                        public void onFailed(@NotNull String msg, int errorCode) {
-                            Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
-                        }
-                    });
-
+                disposeBaseBitmapGetEmbedding(baseBitmap);
         } else {
             initFaceVerificationParam(faceEmbedding);
         }
@@ -237,10 +213,10 @@ public class FaceVerificationActivity extends BaseActivity {
                 //3.和底片不是同一个人
                 VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
                 new AlertDialog.Builder(FaceVerificationActivity.this)
-                        .setTitle("识别失败，相似度 " + similarity)
+                        .setTitle(R.string.face_verify_failed_title)
                         .setMessage(R.string.face_verify_failed)
                         .setCancelable(false)
-                        .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
+                        .setPositiveButton(R.string.know, (dialogInterface, i) -> {
                             finishFaceVerify(4, "人脸识别相似度低于阈值");
                         })
                         .setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify())
@@ -395,5 +371,42 @@ public class FaceVerificationActivity extends BaseActivity {
         super.onPause();
         faceVerifyUtils.pauseProcess();
     }
+
+    /**
+     * 处理人脸底片，获取人脸特征向量
+     *
+     * @param baseBitmap
+     */
+    private void disposeBaseBitmapGetEmbedding(Bitmap baseBitmap) {
+        //需要你把以前版本的人脸bitmap 转变为faceEmbedding
+        if (baseBitmap != null) {
+           //如果是经过FaceAISDK 裁剪处理过的人脸处理更简单
+            float[] embedding=new BaseImageDispose().saveBaseImageGetEmbedding(baseBitmap,CACHE_BASE_FACE_DIR,faceID);
+            FaceEmbedding.saveEmbedding(getBaseContext(), faceID, embedding); //本地保存起来
+            initFaceVerificationParam(embedding);
+
+
+            //非FaceAI SDK录入处理的人脸可能不规范的没有经过矫正裁剪需要合规化处理
+            FaceAIUtils.Companion.getInstance(getApplication())
+                    .disposeBaseFaceImage(getBaseContext(), baseBitmap, new FaceAIUtils.Callback() {
+                        @Override
+                        public void onSuccess(@NonNull Bitmap disposedBitmap, @NonNull float[] faceEmbedding) {
+                            FaceEmbedding.saveEmbedding(getBaseContext(), faceID, faceEmbedding); //本地保存起来
+                            initFaceVerificationParam(faceEmbedding);
+                        }
+
+                        //底片处理异常的信息回调
+                        @Override
+                        public void onFailed(@NonNull String msg, int errorCode) {
+                            Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+        } else {
+            //你的业务代码，从你的服务器拿到对应的人脸特征向量，或提示录入人脸并同步数据到你的服务器，SDK不存储敏感数据
+            Toast.makeText(getBaseContext(), "人脸底片不存在", Toast.LENGTH_LONG).show();
+        }
+    }
+
 }
 
