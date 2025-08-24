@@ -32,7 +32,7 @@ import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
-import com.faceAI.demo.base.BaseActivity;
+import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
 import java.util.List;
@@ -51,9 +51,10 @@ import java.util.List;
  * 可复制工程目录 ./faceAILib/src/main/assert 下后在Demo 的人脸库管理页面一键导入模拟插入多张人脸图
  *
  * 摄像头管理源码开放了 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment}
+ * @author FaceAISDK.Service@gmail.com
  */
 
-public class FaceSearch1NActivity extends BaseActivity {
+public class FaceSearch1NActivityAbs extends AbsBaseActivity {
     //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
     private CameraXFragment cameraXFragment; //可以使用开放的摄像头管理源码MyCameraFragment，自行管理摄像头

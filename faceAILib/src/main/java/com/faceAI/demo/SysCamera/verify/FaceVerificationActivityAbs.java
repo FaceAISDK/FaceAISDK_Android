@@ -23,7 +23,7 @@ import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.baseImage.FaceEmbedding;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
-import com.faceAI.demo.base.BaseActivity;
+import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.SysCamera.camera.MyCameraFragment;
 import com.faceAI.demo.base.view.DemoFaceCoverView;
 import com.ai.face.base.view.camera.CameraXBuilder;
@@ -39,13 +39,14 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 /**
  * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo 代码. 正式接入集成需要你根据你的业务完善
- * 仅仅需要活体检测参考{@link LivenessDetectActivity}
+ * 仅仅需要活体检测参考{@link LivenessDetectActivityAbs}
  * <p>
  * 移动考勤签到、App免密登录、刷脸授权、刷脸解锁。请熟悉Demo主流程后根据你的业务情况再改造
  * 摄像头管理源码开放了 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment}
+ *
+ * @author FaceAISDK.Service@gmail.com
  */
-
-public class FaceVerificationActivity extends BaseActivity {
+public class FaceVerificationActivityAbs extends AbsBaseActivity {
     private final float silentLivenessThreshold = 0.81f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
     public static final String USER_FACE_ID_KEY = "USER_FACE_ID_KEY";   //1:1 face verify ID KEY
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
@@ -58,7 +59,6 @@ public class FaceVerificationActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_verification); //建议背景白色可以补充光照不足
-        setTitle("1:1 face verify");
         scoreText = findViewById(R.id.silent_Score);
         tipsTextView = findViewById(R.id.tips_view);
         secondTipsTextView = findViewById(R.id.second_tips_view); //次要提示
@@ -116,7 +116,7 @@ public class FaceVerificationActivity extends BaseActivity {
 
 
     /**
-     * 初始化认证引擎，仅仅需要活体检测参考{@link LivenessDetectActivity}
+     * 初始化认证引擎，仅仅需要活体检测参考{@link LivenessDetectActivityAbs}
      *
      * @param faceEmbedding 1:1 人脸识别对比的底片特征向量
      */
@@ -194,7 +194,7 @@ public class FaceVerificationActivity extends BaseActivity {
             //1.静默活体分数判断
             if (silentLivenessScore < silentLivenessThreshold) {
                 tipsTextView.setText(R.string.silent_anti_spoofing_error);
-                new AlertDialog.Builder(FaceVerificationActivity.this)
+                new AlertDialog.Builder(FaceVerificationActivityAbs.this)
                         .setMessage(R.string.silent_anti_spoofing_error)
                         .setCancelable(false)
                         .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
@@ -212,7 +212,7 @@ public class FaceVerificationActivity extends BaseActivity {
             } else {
                 //3.和底片不是同一个人
                 VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
-                new AlertDialog.Builder(FaceVerificationActivity.this)
+                new AlertDialog.Builder(FaceVerificationActivityAbs.this)
                         .setTitle(R.string.face_verify_failed_title)
                         .setMessage(R.string.face_verify_failed)
                         .setCancelable(false)
@@ -367,8 +367,8 @@ public class FaceVerificationActivity extends BaseActivity {
     /**
      * 暂停识别，防止切屏识别，如果你需要退后台不能识别的话
      */
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         faceVerifyUtils.pauseProcess();
     }
 
@@ -382,9 +382,8 @@ public class FaceVerificationActivity extends BaseActivity {
         if (baseBitmap != null) {
            //如果是经过FaceAISDK 裁剪处理过的人脸处理更简单
             float[] embedding=new BaseImageDispose().saveBaseImageGetEmbedding(baseBitmap,CACHE_BASE_FACE_DIR,faceID);
-            FaceEmbedding.saveEmbedding(getBaseContext(), faceID, embedding); //本地保存起来
+            FaceEmbedding.saveEmbedding(getBaseContext(), faceID, embedding);  //本地保存起来
             initFaceVerificationParam(embedding);
-
 
             //非FaceAI SDK录入处理的人脸可能不规范的没有经过矫正裁剪需要合规化处理
             FaceAIUtils.Companion.getInstance(getApplication())

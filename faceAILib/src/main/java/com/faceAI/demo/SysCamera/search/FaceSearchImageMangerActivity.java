@@ -1,10 +1,11 @@
 package com.faceAI.demo.SysCamera.search;
 
 import static com.faceAI.demo.FaceImageConfig.CACHE_SEARCH_FACE_DIR;
-import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
+import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivityAbs.ADD_FACE_IMAGE_TYPE_KEY;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,15 +17,16 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.faceAI.demo.SysCamera.verify.AbsAddFaceFromAlbumActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraFragment;
-import com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity;
+import com.faceAI.demo.SysCamera.addFace.AddFaceImageActivityAbs;
 import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.faceAI.demo.base.BaseActivity;
 import com.lzf.easyfloat.EasyFloat;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
@@ -39,7 +41,7 @@ import com.faceAI.demo.R;
  * 人脸库管理,增删 查，批量添加测试数据
  * 一定要用SDK API 进行添加删除，不要直接File 接口文件添加删除，不然无法同步人脸SDK中特征值的更新
  */
-public class FaceSearchImageMangerActivity extends BaseActivity {
+public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
     private final List<ImageBean> faceImageList = new ArrayList<>();
     private FaceImageListAdapter faceImageListAdapter;
     public static final int REQUEST_ADD_FACE_IMAGE = 10086;
@@ -104,11 +106,37 @@ public class FaceSearchImageMangerActivity extends BaseActivity {
                 addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_SEARCH.name());
                 startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
             } else {
-                Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
-                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
+                Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivityAbs.class);
+                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivityAbs.AddFaceImageTypeEnum.FACE_SEARCH.name());
                 startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
             }
         }
+    }
+
+    /**
+     * 相册选择的照片,裁剪等处理好数据后返回了
+     *
+     */
+    @Override
+    public void disposeSelectImage(@NotNull String faceID, @NotNull Bitmap disposedBitmap, @NonNull float[] faceEmbedding) {
+        //人脸搜索(1:N ，M：N )保存人脸
+        String filePathName = CACHE_SEARCH_FACE_DIR + faceID;
+        // 一定要用SDK API 进行添加删除，不要直接File 接口文件添加删除，不然无法同步人脸SDK中特征值的更新
+        FaceSearchImagesManger.Companion.getInstance(getApplication())
+                .insertOrUpdateFaceImage(disposedBitmap, filePathName, new FaceSearchImagesManger.Callback() {
+                    @Override
+                    public void onSuccess(@NonNull Bitmap bitmap, @NonNull float[] faceEmbedding) {
+                        updateFaceList();
+                        Toast.makeText(getBaseContext(),"人脸添加成功",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailed(@NotNull String msg) {
+                        Toast.makeText(getBaseContext(),"人脸添加失败",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
     }
 
 
@@ -123,6 +151,10 @@ public class FaceSearchImageMangerActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        updateFaceList();
+    }
+
+    private void updateFaceList(){
         loadImageList();
         faceImageListAdapter.notifyDataSetChanged();
     }
@@ -173,8 +205,7 @@ public class FaceSearchImageMangerActivity extends BaseActivity {
             @Override
             public void onSuccess() {
                 EasyFloat.hide("speed");
-                loadImageList();
-                faceImageListAdapter.notifyDataSetChanged();
+                updateFaceList();
             }
 
             @Override
@@ -194,16 +225,18 @@ public class FaceSearchImageMangerActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();//添加一张
-//        if (itemId == R.id.action_add) {
-//            Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
-//            addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
-//            startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
-//        } else
-        if (itemId == R.id.action_add_many) {//批量添加很多张测试验证人脸图
+        if (itemId == R.id.camera_add) {
+            Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivityAbs.class);
+            addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivityAbs.AddFaceImageTypeEnum.FACE_SEARCH.name());
+            startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
+        } else if (itemId == R.id.assert_add) {//批量添加很多张测试验证人脸图
             copyFaceTestImage();
         } else if (itemId == android.R.id.home) {
             finish();
+        }else if (itemId == R.id.photo_add) {
+            chooseFaceImage();
         }
+
         return super.onOptionsItemSelected(item);
     }
 

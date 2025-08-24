@@ -1,6 +1,6 @@
 package com.faceAI.demo.UVCCamera.verify;
 
-import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
+import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivityAbs.USER_FACE_ID_KEY;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -34,6 +34,8 @@ import com.faceAI.demo.R;
  * 默认LivenessType.IR需要你的摄像头是双目红外摄像头，如果仅仅是RGB 摄像头请使用LivenessType.SILENT_MOTION
  * <p>
  * 更多UVC 摄像头使用参考 https://blog.csdn.net/hanshiying007/article/details/124118486
+ *
+ * @author FaceAISDK.Service@gmail.com
  */
 public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragment {
     private TextView tipsTextView, secondTipsTextView, scoreText;
@@ -298,10 +300,10 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
     /**
      * 暂停识别，防止切屏识别，如果你需要退后台不能识别的话
      */
-//    public void onPause() {
-//        super.onPause();
-//        faceVerifyUtils.pauseProcess();
-//    }
+    public void onStop() {
+        super.onStop();
+        faceVerifyUtils.pauseProcess();
+    }
 
 
     /**

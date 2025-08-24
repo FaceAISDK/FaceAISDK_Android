@@ -21,22 +21,18 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.ai.face.base.baseImage.FaceAIUtils
 import com.faceAI.demo.BuildConfig
 import com.faceAI.demo.R
-import com.faceAI.demo.base.BaseActivity
 
 
 /**
- * 对比两张图片中人脸相似度
+ * 从相册选人脸图
  *
- * 裁剪出图片中的人脸部分进行相似度比较，如果某一张照片中没有检测到人脸，则相似度返回为0。
- *
- * 不适合用本方法来大规模的并发进行人脸照片相似度比较，因为bitmap 的操作以及提取向量值很耗费资源
- *
- * TwoFaceImageVerifyActivity 采用Kotlin 演示，使用java 的同学请自行翻译，有兴趣的同学可以重命名后提交新的PR
+ * @author FaceAISDK.Service@gmail.com
  */
-abstract class AbsFaceVerifyWelcomeActivity : BaseActivity() {
+abstract class AbsAddFaceFromAlbumActivity : AppCompatActivity() {
     private var mFileSelector: FileSelector? = null
 
     // 从相册选择

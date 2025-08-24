@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import com.faceAI.demo.UVCCamera.manger.select.DeviceListDialogFragment
-import com.faceAI.demo.base.BaseActivity
 import com.faceAI.demo.databinding.ActivityFaceAiSettingsBinding
 import com.herohan.uvcapp.CameraHelper
 
@@ -15,7 +15,7 @@ import com.herohan.uvcapp.CameraHelper
  *
  * 更多UVC 摄像头参数设置参考 https://blog.csdn.net/hanshiying007/article/details/124118486
  */
-class FaceAISettingsActivity : BaseActivity() {
+class FaceAISettingsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFaceAiSettingsBinding
 
     companion object {

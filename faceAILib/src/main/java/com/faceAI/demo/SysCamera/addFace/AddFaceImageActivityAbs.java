@@ -17,7 +17,7 @@ import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.TILT_HEAD;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
-import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
+import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivityAbs.USER_FACE_ID_KEY;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -48,7 +48,7 @@ import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.R;
-import com.faceAI.demo.base.BaseActivity;
+import com.faceAI.demo.base.AbsBaseActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -64,8 +64,10 @@ import java.util.Objects;
  * -  2. 录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
  * -  3. 光线环境好，检测的人脸化浓妆或佩戴墨镜 口罩 帽子等遮盖
  * -  4. 人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
+ *
+ * @author FaceAISDK.Service@gmail.com
  */
-public class AddFaceImageActivity extends BaseActivity {
+public class AddFaceImageActivityAbs extends AbsBaseActivity {
     public static String ADD_FACE_IMAGE_TYPE_KEY = "ADD_FACE_IMAGE_TYPE_KEY";
     private TextView tipsTextView, secondTips;
     private BaseImageDispose baseImageDispose;
