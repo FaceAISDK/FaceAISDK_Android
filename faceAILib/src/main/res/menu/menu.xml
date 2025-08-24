@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<!--    <item-->
-<!--        android:id="@+id/action_add"-->
-<!--        android:icon="@drawable/add"-->
-<!--        app:showAsAction="ifRoom"-->
-<!--        android:title="Add">-->
-<!--    </item>-->
+    <item
+        android:id="@+id/camera_add"
+        android:icon="@drawable/camera_add"
+        app:showAsAction="ifRoom"
+        android:title="add by camera">
+    </item>
 
     <item
-        android:id="@+id/action_add_many"
-        android:icon="@drawable/copy_many"
+        android:id="@+id/photo_add"
+        android:icon="@drawable/photo_add"
         app:showAsAction="ifRoom"
-        android:title="Add_Many">
+        android:title="add by album">
+    </item>
+
+    <item
+        android:id="@+id/assert_add"
+        android:icon="@drawable/assert_add"
+        app:showAsAction="ifRoom"
+        android:title="add by album">
     </item>
 </menu>

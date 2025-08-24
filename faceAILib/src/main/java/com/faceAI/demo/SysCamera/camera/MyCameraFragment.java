@@ -28,7 +28,7 @@ import java.util.concurrent.Executors;
 
 /**
  * 摄像头的管理，用户可以根据平台特性和业务需求自行拓展
- *
+ * @author FaceAISDK.Service@gmail.com
  */
 public class MyCameraFragment extends Fragment implements CameraXConfig.Provider{
     private static final String CAMERA_LINEAR_ZOOM = "CAMERA_LINEAR_ZOOM";  //缩放比例

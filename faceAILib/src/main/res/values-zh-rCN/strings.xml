@@ -3,15 +3,17 @@
     <string name="device_list_empty_tip">请连接好UVC协议USB设备</string>
     <string name="device_list_cancel_button">取消</string>
     <string name="device_list_confirm_button">确定</string>
-
-
     <string name="sdk_init">SDK Initing</string>
     <string name="no_mask_please">请勿佩戴口罩</string>
     <string name="face_verifying">识别中,平视正对摄像头</string>
-    <string name="confirm">知道了</string>
+    <string name="confirm">确定</string>
+    <string name="go_setting">去设置</string>
+    <string name="cancel">确定</string>
+    <string name="know">知道了</string>
     <string name="retry">重试</string>
     <string name="long_press_copy_msg">提示：长按复制联系信息</string>
     <string name="share_faceai_sdk">分享人脸识别SDK </string>
+    <string name="facesdk_camera_permission">人脸识别需要摄像头权限才能正常工作</string>
     <string name="share_faceai_sdk_content">FaceAISDK 人脸识别 活体检测接入源码\n\n
 Android：https://github.com/FaceAISDK/FaceAISDK_Android\n
 iOS SDK：https://github.com/FaceAISDK/FaceAISDK_iOS\n
@@ -38,6 +40,7 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="add_a_face_image">录入人脸照片</string>
     <string name="add_face_from_photo">相册添加</string>
     <string name="add_face_from_camera">拍照添加</string>
+    <string name="input_face_id_tips">请输入人脸名称</string>
 
 
     <!--1:N 人脸搜索 face search-->
@@ -46,6 +49,7 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="no_base_face_bitmap">没有录入人脸底片</string>
 
     <!--1:1 人脸识别 face verify-->
+    <string name="face_verify_failed_title">识别失败</string>
     <string name="face_verify_failed">人脸识别不通过，相似度低于设置阈值，请重试！</string>
     <string name="silent_anti_spoofing_error">静默活体得分过低</string>
     <string name="face_verify_pause">人脸识别被中断了！</string>

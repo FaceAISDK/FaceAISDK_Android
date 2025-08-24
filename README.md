@@ -14,8 +14,9 @@
 FaceAI SDK is on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK
 FaceAI SDK包括人脸识别、活体检测、人脸录入检测以及[1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索，可快速集成实现端侧人脸识别，人脸搜索等功能。
 
-SDK 支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
-动作活体支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），支持系统摄像头和UVC协议双目摄像头，需配备宽动态值大于105Db成像清晰抗逆光摄像头。
+Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
+动作活体支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），支持系统摄像头和UVC协议双目摄像头，宽动态值大于105Db成像清晰抗逆光。
+开发人员也可以自定义摄像头管理，把帧数据送入到SDK。
 
 FaceAI SDK产品说明与API文档：https://github.com/FaceAISDK/FaceAISDK_Android/blob/publish/FaceAISDK产品说明及API文档.pdf
 
@@ -35,7 +36,7 @@ FaceAI SDK产品说明与API文档：https://github.com/FaceAISDK/FaceAISDK_Andr
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-## 当前版本说明 V2025.08.21 （性能大优化，稳API版本）
+## 当前版本说明 V2025.08.24 （性能大优化，稳API版本）
 
 - 添加人脸体验优化，完善提示
 - 录入人脸API暴露出人脸特征向量float[]，保留bitmap
@@ -58,7 +59,23 @@ FaceAI SDK产品说明与API文档：https://github.com/FaceAISDK/FaceAISDK_Andr
 ## 接入集成使用
    
 先在[「GitHub网站」](https://github.com/FaceAISDK/FaceAISDK_Android)下载最新接入SDK 接入代码导入到Android Studio。  
-Demo聚焦演示SDK的核心功能，部分细节并不完善，需要你根据你的业务需求自行完善。
+Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的业务需求自行完善。
+
+1.  去蒲公英下载APK Demo体验各种功能，查验是否满足业务需求；人脸搜索可以一键导入App内置人脸图也可录入你自己的
+2.  更新GitHub 最新的代码，花1天左右时间熟悉SDK API 和对应的注释备注，断点调试一下基本功能；熟悉后再接入到主工程
+3.  欲速则不达，一定要先跑成功SDK接入指引Demo。熟悉后再接入到主工程验证匹配业务功能；有问题可以GitHub 提issues
+
+人脸识别已经验证过高中低配置设备，人脸搜索速度表现在几款设备统计如下：
+
+| 设备型号         | 启动初始化速度 | 搜索速度(毫秒) |
+|:---------------|:-------:|:---------|
+| 小米 13         |  79 ms  | 66 ms    | 
+| RK3568-SM5     | 686 ms  | 520 ms   | 
+| 华为 P8          | 798 ms  | 678 ms   | 
+| 联想Pad2024      | 245 ms  | 197 ms   |
+
+更多说明：https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
+
 
 **工程目录结构简要介绍**
 
@@ -86,9 +103,6 @@ Demo聚焦演示SDK的核心功能，部分细节并不完善，需要你根据�
     目前SDK开发使用**java17. kotlin 1.9.22，AGP 7.x **打包，如果你的项目较老还在使用
     kapt, kotlin-android-extensions导致集成冲突，建议尽快升级项目或者VIP联系定制
 
-    更多使用说明下载SDK源码工程代码到Android Studio 以及下载Demo APK到手机体验完整的流程和效果
-    里面有详尽的注释说明和使用方法介绍，SDK集成Demo源码熟悉完后再集成到你的主工程
-
 
 ## Demo APK 下载体验
 
@@ -99,31 +113,6 @@ Demo聚焦演示SDK的核心功能，部分细节并不完善，需要你根据�
 更多历史版本查看这里： https://www.pgyer.com/faceVerify
 
 
-## 如何提升接入效率，提高SDK识别准确率
-
-### 提升接入效率
-
-1.  去蒲公英下载APK Demo体验各种功能，查验是否满足业务需求；人脸搜索可以一键导入App内置人脸图也可录入你自己的
-2.  更新GitHub 最新的代码，花1天左右时间熟悉SDK API 和对应的注释备注，断点调试一下基本功能；熟悉后再接入到主工程
-3.  欲速则不达，一定要先跑成功SDK接入指引Demo。熟悉后再接入到主工程验证匹配业务功能；有问题可以GitHub 提issues
-
-### 提高SDK识别率与人脸搜索准确度
-
-1.  使用宽动态（人脸搜索须大于105 Db）抗逆光成像清晰摄像头；**保持镜头干净（纯棉布擦拭油污）**
-2.  录入高质量的人脸图，可参考（images/face\_example.jpg）
-3.  光线环境好否则加补光灯，人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
-4.  录入的人脸图五官清晰无遮挡，尺寸大于 300*300（人脸部分区域大于200*200） 
-
-目前人脸搜索速度几款设备统计如下：
-
-| 设备型号         | 启动初始化速度 | 搜索速度(毫秒) |
-|:---------------|:-------:|:---------|
-| 小米 13         |  79 ms  | 66 ms    | 
-| RK3568-SM5     | 686 ms  | 520 ms   | 
-| 华为 P8          | 798 ms  | 678 ms   | 
-| 联想Pad2024      | 245 ms  | 197 ms   |
-
- 更多说明：https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
 
  .
 ![FaceAISDK](images/who_are_you.png)  

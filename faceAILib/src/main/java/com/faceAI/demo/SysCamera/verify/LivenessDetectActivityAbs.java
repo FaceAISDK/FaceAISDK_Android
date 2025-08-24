@@ -23,7 +23,7 @@ import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
-import com.faceAI.demo.base.BaseActivity;
+import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.base.view.DemoFaceCoverView;
 
@@ -32,8 +32,9 @@ import com.faceAI.demo.base.view.DemoFaceCoverView;
  * 使用系统相机怎么活体检测，包含动作活体，静默活体（静默需要摄像头成像清晰，宽动态大于105Db）
  *
  * 摄像头管理源码开放了 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment}
+ * @author FaceAISDK.Service@gmail.com
  */
-public class LivenessDetectActivity extends BaseActivity {
+public class LivenessDetectActivityAbs extends AbsBaseActivity {
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private DemoFaceCoverView faceCoverView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
@@ -80,7 +81,7 @@ public class LivenessDetectActivity extends BaseActivity {
      */
     private void initFaceVerificationParam() {
         //建议老的低配设备减少活体检测步骤
-        FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(LivenessDetectActivity.this)
+        FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(LivenessDetectActivityAbs.this)
                 .setLivenessOnly(true)
                 .setLivenessType(MotionLivenessType.SILENT_MOTION) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
                 .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.98]
@@ -102,7 +103,7 @@ public class LivenessDetectActivity extends BaseActivity {
                         runOnUiThread(() -> {
                             scoreText.setText("RGB Live:"+silentLivenessValue);
                             new ImageToast().show(getApplicationContext(), bitmap, "活体检测完成");
-                            new AlertDialog.Builder(LivenessDetectActivity.this)
+                            new AlertDialog.Builder(LivenessDetectActivityAbs.this)
                                     .setTitle(R.string.liveness_detection)
                                     .setMessage("活体检测完成，其中RGB Live分数="+silentLivenessValue)
                                     .setCancelable(false)
@@ -298,8 +299,8 @@ public class LivenessDetectActivity extends BaseActivity {
     /**
      * 暂停识别，防止切屏识别，如果你需要退后台不能识别的话
      */
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         faceVerifyUtils.pauseProcess();
     }
 }

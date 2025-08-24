@@ -17,13 +17,15 @@ import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.TILT_HEAD;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
-import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
+import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivityAbs.USER_FACE_ID_KEY;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -43,10 +45,14 @@ import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceSearch.search.FaceSearchImagesManger;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.R;
-import com.faceAI.demo.base.BaseActivity;
+import com.faceAI.demo.base.AbsBaseActivity;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 /**
  * 使用系统相机 添加一张规范的人脸图并裁剪调整为符合SDK规范，1:1 和1:N 公共的添加人脸图
@@ -58,8 +64,10 @@ import org.jetbrains.annotations.NotNull;
  * -  2. 录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
  * -  3. 光线环境好，检测的人脸化浓妆或佩戴墨镜 口罩 帽子等遮盖
  * -  4. 人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
+ *
+ * @author FaceAISDK.Service@gmail.com
  */
-public class AddFaceImageActivity extends BaseActivity {
+public class AddFaceImageActivityAbs extends AbsBaseActivity {
     public static String ADD_FACE_IMAGE_TYPE_KEY = "ADD_FACE_IMAGE_TYPE_KEY";
     private TextView tipsTextView, secondTips;
     private BaseImageDispose baseImageDispose;
@@ -97,7 +105,7 @@ public class AddFaceImageActivity extends BaseActivity {
             @Override
             public void onCompleted(Bitmap bitmap, float silentLiveValue) {
                 isConfirmAdd=true;
-                runOnUiThread(() -> showConfirmDialog(bitmap, silentLiveValue));
+                runOnUiThread(() -> confirmAddFaceDialog(bitmap, silentLiveValue));
             }
 
             @Override
@@ -209,63 +217,95 @@ public class AddFaceImageActivity extends BaseActivity {
     }
 
 
+
     /**
-     * 确认是否保存人脸底图
+     * 确认人脸图
+     *
+     * @param bitmap 符合对应参数设置的SDK裁剪好的人脸图
+     * @param silentLiveValue 静默活体分数，和摄像头有关，自行根据业务需求处理
      */
-    private void showConfirmDialog(Bitmap bitmap, float silentLiveValue) {
-        final AlertDialog dialog = new AlertDialog.Builder(this).create();
-        View dialogView = View.inflate(this, R.layout.dialog_confirm_base, null);
-        dialog.setView(dialogView);
-        dialog.setCanceledOnTouchOutside(false);
-        ImageView basePreView = dialogView.findViewById(R.id.preview);
-        basePreView.setImageBitmap(bitmap);
-        Button btnOK = dialogView.findViewById(R.id.btn_ok);
-        Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
-        EditText editText = dialogView.findViewById(R.id.edit_text);
+    private void confirmAddFaceDialog(Bitmap bitmap, float silentLiveValue) {
+        ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,bitmap,silentLiveValue);
 
-        TextView livenessScore = dialogView.findViewById(R.id.liveness_score);
-        livenessScore.setText("Liveness Score: "+ silentLiveValue);
-
-        btnOK.setOnClickListener(v -> {
-            faceID = editText.getText().toString();
+        confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
+            faceID = confirmFaceDialog.faceIDEdit.getText().toString();
 
             if (!TextUtils.isEmpty(faceID)) {
                 if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
-                    float[] faceEmbedding = baseImageDispose.saveBaseImage(bitmap, CACHE_BASE_FACE_DIR, faceID);//保存人脸底图,并返回人脸特征向量
-//                    float[] faceEmbedding = baseImageDispose.get(bitmap, faceID); //仅仅获取特征向量，本地不保存图片
+                    float[] faceEmbedding = baseImageDispose.saveBaseImageGetEmbedding(bitmap, CACHE_BASE_FACE_DIR, faceID);//保存人脸底图,并返回人脸特征向量
                     FaceEmbedding.saveEmbedding(getBaseContext(),faceID,faceEmbedding); //保存特征向量
-                    finishConfirm(dialog,1,"录入成功");
+                    finishConfirm(confirmFaceDialog.dialog,1,"录入成功");
                 } else {
                     //人脸搜索(1:N ，M：N )保存人脸
-                    String faceName = editText.getText().toString() + ".jpg";
+                    String faceName = confirmFaceDialog.faceIDEdit.getText().toString() + ".jpg";
                     String filePathName = CACHE_SEARCH_FACE_DIR + faceName;
                     // 一定要用SDK API 进行添加删除，不要直接File 接口文件添加删除，不然无法同步人脸SDK中特征值的更新
                     FaceSearchImagesManger.Companion.getInstance(getApplication())
                             .insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
                                 @Override
                                 public void onSuccess(@NonNull Bitmap bitmap, @NonNull float[] faceEmbedding) {
-                                    finishConfirm(dialog,1,"录入成功");
+                                    finishConfirm(confirmFaceDialog.dialog,1,"录入成功");
                                 }
 
                                 @Override
                                 public void onFailed(@NotNull String msg) {
-                                    finishConfirm(dialog,-1,"人脸添加失败");
+                                    finishConfirm(confirmFaceDialog.dialog,-1,"人脸添加失败");
                                 }
                     });
                 }
             } else {
-                Toast.makeText(getBaseContext(), "Input FaceID Name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), R.string.input_face_id_tips, Toast.LENGTH_SHORT).show();
             }
         });
 
-        btnCancel.setOnClickListener(v -> {
+        confirmFaceDialog.btnCancel.setOnClickListener(v -> {
             isConfirmAdd=false;
-            dialog.dismiss();
+            confirmFaceDialog.dialog.dismiss();
             baseImageDispose.retry();
         });
 
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
+        confirmFaceDialog.dialog.show();
+    }
+
+
+    /**
+     * 人脸确认框View 管理
+     */
+    public class ConfirmFaceDialog{
+        public AlertDialog dialog;
+        public Button btnConfirm,btnCancel;
+        public EditText faceIDEdit;
+        public ConfirmFaceDialog(Context context,Bitmap bitmap,float silentLiveValue){
+            dialog = new AlertDialog.Builder(context).create();
+            View dialogView = View.inflate(context, R.layout.dialog_confirm_base, null);
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.setView(dialogView);
+            dialog.setCanceledOnTouchOutside(false);
+            ImageView basePreView = dialogView.findViewById(R.id.preview);
+            Glide.with(context)
+                    .load(bitmap)
+                    .transform(new RoundedCorners(22))
+                    .into(basePreView);
+            btnConfirm = dialogView.findViewById(R.id.btn_ok);
+            btnCancel = dialogView.findViewById(R.id.btn_cancel);
+            faceIDEdit = dialogView.findViewById(R.id.edit_text);
+            faceIDEdit.setText(faceID);
+            if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name()) && !TextUtils.isEmpty(faceID)) {
+                faceIDEdit.setVisibility(GONE); //制作UTS等插件传过来的FaceID,用户不能再二次编辑
+            }else {
+                faceIDEdit.requestFocus();
+            }
+            TextView livenessScore = dialogView.findViewById(R.id.liveness_score);
+            livenessScore.setText("Liveness Score: "+ silentLiveValue);
+        }
+
+        public void show(){
+            dialog.show();
+        }
+
+        public void dismiss(){
+            dialog.dismiss();
+        }
     }
 
 

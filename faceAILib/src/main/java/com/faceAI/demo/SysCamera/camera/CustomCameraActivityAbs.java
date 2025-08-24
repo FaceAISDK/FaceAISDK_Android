@@ -11,13 +11,13 @@ import androidx.camera.core.CameraSelector;
 
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.faceAI.demo.R;
-import com.faceAI.demo.base.BaseActivity;
+import com.faceAI.demo.base.AbsBaseActivity;
 
 /**
  * 自定义调试管理摄像头，把SDK 中的源码暴露出来放在 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment}
  *
  */
-public class CustomCameraActivity extends BaseActivity {
+public class CustomCameraActivityAbs extends AbsBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,17 +1,18 @@
 package com.faceAI.demo.UVCCamera.addFace;
 
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.faceAI.demo.R;
-import com.faceAI.demo.base.BaseActivity;
 
 
 /**
  * 使用UVC RGB摄像头录入人脸
  *
  */
-public class AddFace_UVCCameraActivity extends BaseActivity {
+public class AddFace_UVCCameraActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:customAttr="http://schemas.android.com/apk/res-auto"
-    tools:context=".SysCamera.search.FaceSearch1NActivity">
+    tools:context=".SysCamera.search.FaceSearch1NActivityAbs">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_camerax"
