@@ -41,11 +41,11 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
         binding.systemCameraSearch.setOnClickListener {
-            startActivity(Intent(baseContext, FaceSearch1NActivityAbs::class.java))
+            startActivity(Intent(baseContext, FaceSearch1NActivity::class.java))
         }
 
         binding.systemCameraSearchMn.setOnClickListener {
-            startActivity(Intent(baseContext, FaceSearchMNActivityAbs::class.java))
+            startActivity(Intent(baseContext, FaceSearchMNActivity::class.java))
         }
 
         binding.systemCameraAddFace.setOnClickListener {

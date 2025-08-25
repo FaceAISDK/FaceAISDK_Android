@@ -17,7 +17,7 @@ import com.faceAI.demo.base.AbsBaseActivity;
  * 自定义调试管理摄像头，把SDK 中的源码暴露出来放在 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment}
  *
  */
-public class CustomCameraActivityAbs extends AbsBaseActivity {
+public class CustomCameraActivity extends AbsBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
