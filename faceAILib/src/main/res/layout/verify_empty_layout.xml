@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/empty_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1:1人脸库暂无人脸\n点击上面按钮添加，长按人脸删除"
+        android:gravity="center"
+        android:padding="3dp"
+        android:textSize="15sp"
+        android:layout_centerInParent="true"
+        android:textColor="@color/face_lib_main_color" />
+
+</RelativeLayout>
