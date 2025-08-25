@@ -38,7 +38,7 @@ import java.util.List;
  * 本功能要求设备硬件配置高，摄像头品质好。可以拿当前的各品牌手机旗舰机测试验证
  * @author FaceAISDK.Service@gmail.com
  */
-public class FaceSearchMNActivityAbs extends AbsBaseActivity {
+public class FaceSearchMNActivity extends AbsBaseActivity {
     //如果设备没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchMnBinding binding;
 
@@ -82,7 +82,7 @@ public class FaceSearchMNActivityAbs extends AbsBaseActivity {
         });
 
         // 2.各种参数的初始化设置 （M：N 建议阈值放低）
-        SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(FaceSearchMNActivityAbs.this)
+        SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(FaceSearchMNActivity.this)
                 .setLifecycleOwner(this)
                 .setThreshold(0.85f)            //识别成功阈值设置，范围仅限 0.85-0.95！默认0.85
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录

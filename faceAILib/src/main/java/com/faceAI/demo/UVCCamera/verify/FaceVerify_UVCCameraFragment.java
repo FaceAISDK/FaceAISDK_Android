@@ -1,6 +1,6 @@
 package com.faceAI.demo.UVCCamera.verify;
 
-import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivityAbs.USER_FACE_ID_KEY;
+import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;

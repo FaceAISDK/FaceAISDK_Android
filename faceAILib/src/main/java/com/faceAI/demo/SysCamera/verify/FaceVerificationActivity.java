@@ -1,9 +1,8 @@
 package com.faceAI.demo.SysCamera.verify;
 
+import static com.faceAI.demo.FaceImageConfig.CACHE_BASE_FACE_DIR;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
-import static com.faceAI.demo.FaceImageConfig.CACHE_BASE_FACE_DIR;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +11,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,61 +18,52 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.camera.core.CameraSelector;
-
+import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.baseImage.FaceEmbedding;
+import com.faceAI.demo.R;
+import com.faceAI.demo.SysCamera.search.ImageToast;
+import com.faceAI.demo.base.AbsBaseActivity;
+import com.faceAI.demo.SysCamera.camera.MyCameraFragment;
+import com.faceAI.demo.base.view.DemoFaceCoverView;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
-import com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM;
-import com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM;
+import com.ai.face.faceVerify.verify.VerifyStatus.*;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
+import com.faceAI.demo.base.utils.VoicePlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.faceAI.demo.R;
-import com.faceAI.demo.SysCamera.camera.MyCameraFragment;
-import com.faceAI.demo.SysCamera.search.ImageToast;
-import com.faceAI.demo.base.AbsBaseActivity;
-import com.faceAI.demo.base.utils.VoicePlayer;
-import com.faceAI.demo.base.view.DemoFaceCoverView;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
- * 32 位CPU人脸识别耗时测试，相机管理源码MyCameraFragment暴露出来了，方便定制开发
+ * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo 代码. 正式接入集成需要你根据你的业务完善
+ * 仅仅需要活体检测参考{@link LivenessDetectActivity}
+ * <p>
+ * 移动考勤签到、App免密登录、刷脸授权、刷脸解锁。请熟悉Demo主流程后根据你的业务情况再改造
+ * 摄像头管理源码开放了 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment}
+ *
  * @author FaceAISDK.Service@gmail.com
  */
-public class FaceVerification32CPUTestActivityAbs extends AbsBaseActivity {
-
+public class FaceVerificationActivity extends AbsBaseActivity {
     private final float silentLivenessThreshold = 0.81f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
-
     public static final String USER_FACE_ID_KEY = "USER_FACE_ID_KEY";   //1:1 face verify ID KEY
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private DemoFaceCoverView faceCoverView;
     private MyCameraFragment cameraXFragment;  //摄像头管理源码暴露出来了，方便定制开发
-
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
-
-    private long startTime;
-    private boolean startFaceVerify = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_face_verification_cpu32); //建议背景白色可以补充光照不足
-        setTitle("32CPU Test");
+        setContentView(R.layout.activity_face_verification); //建议背景白色可以补充光照不足
         scoreText = findViewById(R.id.silent_Score);
         tipsTextView = findViewById(R.id.tips_view);
         secondTipsTextView = findViewById(R.id.second_tips_view); //次要提示
         faceCoverView = findViewById(R.id.face_cover);
         findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(0, "用户取消"));
-
-        findViewById(R.id.start_verify).setOnClickListener(v -> {
-            startFaceVerify=true;
-        });
 
         initCameraX();
         initFaceVerifyEmbedding();
@@ -95,7 +84,6 @@ public class FaceVerification32CPUTestActivityAbs extends AbsBaseActivity {
                 .setRotation(degree)      //画面旋转方向
                 .create();
 
-        //MyCameraFragment 相机管理源码暴露
         cameraXFragment = MyCameraFragment.newInstance(cameraXBuilder);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
@@ -113,29 +101,9 @@ public class FaceVerification32CPUTestActivityAbs extends AbsBaseActivity {
         String faceFilePath = CACHE_BASE_FACE_DIR + faceID;
         Bitmap baseBitmap = BitmapFactory.decodeFile(faceFilePath);
 
-        //本地没有faceID对应的人脸特征向量 （ 本段代码仅供演示，你需要根据自身业务完善）
+        //本地没有faceID对应的人脸特征向量 （ 本段代码仅供演示，你需要根据自身业务完善流程）
         if (faceEmbedding.length == 0) {
-            //你的业务代码，从你的服务器拿到对应的人脸特征向量，或提示录入人脸并同步数据到你的服务器，SDK不存储敏感数据
-            Toast.makeText(getBaseContext(), "本地无对应的人脸特征", Toast.LENGTH_LONG).show();
-
-            //需要你把以前版本的人脸bitmap 转变为faceEmbedding
-            //非FaceAI SDK的人脸可能是不规范的没有经过校准的人脸图（证件照，多人脸，过小等）
-            FaceAIUtils.Companion.getInstance(getApplication())
-                    .disposeBaseFaceImage(getBaseContext(), baseBitmap, new FaceAIUtils.Callback() {
-                        //处理优化人脸成功完成去初始化引擎
-                        @Override
-                        public void onSuccess(@NonNull Bitmap disposedBitmap, @NonNull float[] faceEmbedding) {
-                            FaceEmbedding.saveEmbedding(getBaseContext(), faceID, faceEmbedding); //本地保存起来
-                            initFaceVerificationParam(faceEmbedding);
-                        }
-
-                        //底片处理异常的信息回调
-                        @Override
-                        public void onFailed(@NotNull String msg, int errorCode) {
-                            Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
-                        }
-                    });
-
+                disposeBaseBitmapGetEmbedding(baseBitmap);
         } else {
             initFaceVerificationParam(faceEmbedding);
         }
@@ -148,7 +116,7 @@ public class FaceVerification32CPUTestActivityAbs extends AbsBaseActivity {
 
 
     /**
-     * 初始化认证引擎，仅仅需要活体检测参考{@link LivenessDetectActivityAbs}
+     * 初始化认证引擎，仅仅需要活体检测参考{@link LivenessDetectActivity}
      *
      * @param faceEmbedding 1:1 人脸识别对比的底片特征向量
      */
@@ -160,10 +128,11 @@ public class FaceVerification32CPUTestActivityAbs extends AbsBaseActivity {
                 .setCameraType(FaceProcessBuilder.CameraType.SYS_CAMERA)
                 .setCompareDurationTime(3500)           //人脸识别对比时间[3000,5000] 毫秒。相似度很低会持续设置的时间
                 .setLivenessType(MotionLivenessType.SILENT_MOTION) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
-                .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
-                .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
-                .setMotionLivenessTimeOut(10)           //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
                 .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.66,0.98]
+                .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
+                .setMotionLivenessStepSize(2)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
+                .setMotionLivenessTimeOut(14)           //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
+                //.setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑 或其他某一种
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
                      * 1:1 人脸识别 活体检测 对比结束
@@ -175,10 +144,6 @@ public class FaceVerification32CPUTestActivityAbs extends AbsBaseActivity {
                      */
                     @Override
                     public void onVerifyMatched(boolean isMatched, float similarity, float silentLivenessScore, Bitmap bitmap) {
-                        startFaceVerify=false;
-                        //以人脸正脸对着摄像头，按下开始识别按钮到返回结果耗时统计，优化直到1秒左右（～10%）
-                        Log.e("verifyTime:","32位CPU耗时："+(System.currentTimeMillis()- startTime));
-
                         showVerifyResult(isMatched, similarity, silentLivenessScore, bitmap);
                     }
 
@@ -205,16 +170,9 @@ public class FaceVerification32CPUTestActivityAbs extends AbsBaseActivity {
 
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             //防止在识别过程中关闭页面导致Crash
-            if (!isDestroyed() && !isFinishing()&&startFaceVerify) {
-
-                if(startTime == 0){
-                    startTime =System.currentTimeMillis();
-                    Log.e("verifyTime","开始送入数据： "+ startTime);
-                }
-
+            if (!isDestroyed() && !isFinishing()) {
                 //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
                 faceVerifyUtils.goVerifyWithImageProxy(imageProxy, faceCoverView.getMargin());
-
             }
         });
 
@@ -236,7 +194,7 @@ public class FaceVerification32CPUTestActivityAbs extends AbsBaseActivity {
             //1.静默活体分数判断
             if (silentLivenessScore < silentLivenessThreshold) {
                 tipsTextView.setText(R.string.silent_anti_spoofing_error);
-                new AlertDialog.Builder(FaceVerification32CPUTestActivityAbs.this)
+                new AlertDialog.Builder(FaceVerificationActivity.this)
                         .setMessage(R.string.silent_anti_spoofing_error)
                         .setCancelable(false)
                         .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
@@ -250,15 +208,15 @@ public class FaceVerification32CPUTestActivityAbs extends AbsBaseActivity {
 
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     finishFaceVerify(1, "人脸识别成功");
-                }, 1200);
+                }, 1500);
             } else {
                 //3.和底片不是同一个人
                 VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
-                new AlertDialog.Builder(FaceVerification32CPUTestActivityAbs.this)
-                        .setTitle("识别失败，相似度 " + similarity)
+                new AlertDialog.Builder(FaceVerificationActivity.this)
+                        .setTitle(R.string.face_verify_failed_title)
                         .setMessage(R.string.face_verify_failed)
                         .setCancelable(false)
-                        .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
+                        .setPositiveButton(R.string.know, (dialogInterface, i) -> {
                             finishFaceVerify(4, "人脸识别相似度低于阈值");
                         })
                         .setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify())
@@ -413,5 +371,41 @@ public class FaceVerification32CPUTestActivityAbs extends AbsBaseActivity {
         super.onStop();
         faceVerifyUtils.pauseProcess();
     }
+
+    /**
+     * 处理人脸底片，获取人脸特征向量
+     *
+     * @param baseBitmap
+     */
+    private void disposeBaseBitmapGetEmbedding(Bitmap baseBitmap) {
+        //需要你把以前版本的人脸bitmap 转变为faceEmbedding
+        if (baseBitmap != null) {
+           //如果是经过FaceAISDK 裁剪处理过的人脸处理更简单
+            float[] embedding=new BaseImageDispose().saveBaseImageGetEmbedding(baseBitmap,CACHE_BASE_FACE_DIR,faceID);
+            FaceEmbedding.saveEmbedding(getBaseContext(), faceID, embedding);  //本地保存起来
+            initFaceVerificationParam(embedding);
+
+            //非FaceAI SDK录入处理的人脸可能不规范的没有经过矫正裁剪需要合规化处理
+            FaceAIUtils.Companion.getInstance(getApplication())
+                    .disposeBaseFaceImage(getBaseContext(), baseBitmap, new FaceAIUtils.Callback() {
+                        @Override
+                        public void onSuccess(@NonNull Bitmap disposedBitmap, @NonNull float[] faceEmbedding) {
+                            FaceEmbedding.saveEmbedding(getBaseContext(), faceID, faceEmbedding); //本地保存起来
+                            initFaceVerificationParam(faceEmbedding);
+                        }
+
+                        //底片处理异常的信息回调
+                        @Override
+                        public void onFailed(@NonNull String msg, int errorCode) {
+                            Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+        } else {
+            //你的业务代码，从你的服务器拿到对应的人脸特征向量，或提示录入人脸并同步数据到你的服务器，SDK不存储敏感数据
+            Toast.makeText(getBaseContext(), "人脸底片不存在", Toast.LENGTH_LONG).show();
+        }
+    }
+
 }
 

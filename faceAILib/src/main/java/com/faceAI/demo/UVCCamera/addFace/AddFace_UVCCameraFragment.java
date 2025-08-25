@@ -18,7 +18,7 @@ import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_MIRROR_H;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_SELECT;
-import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivityAbs.USER_FACE_ID_KEY;
+import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
 
 import android.content.Context;
@@ -46,7 +46,7 @@ import com.ai.face.base.baseImage.FaceEmbedding;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.R;
-import com.faceAI.demo.SysCamera.addFace.AddFaceImageActivityAbs;
+import com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity;
 import com.faceAI.demo.UVCCamera.manger.CameraBuilder;
 import com.faceAI.demo.UVCCamera.manger.UVCCameraManager;
 import com.ai.face.base.baseImage.BaseImageCallBack;
@@ -147,7 +147,7 @@ public class AddFace_UVCCameraFragment extends Fragment {
             faceID = confirmFaceDialog.faceIDEdit.getText().toString();
 
             if (!TextUtils.isEmpty(faceID)) {
-                if (addFaceImageType.equals(AddFaceImageActivityAbs.AddFaceImageTypeEnum.FACE_VERIFY.name())) {
+                if (addFaceImageType.equals(AddFaceImageActivity.AddFaceImageTypeEnum.FACE_VERIFY.name())) {
                     float[] faceEmbedding = baseImageDispose.saveBaseImageGetEmbedding(bitmap, CACHE_BASE_FACE_DIR, faceID);//保存人脸底图,并返回人脸特征向量
                     FaceEmbedding.saveEmbedding(requireContext(),faceID,faceEmbedding); //保存特征向量
                     Toast.makeText(requireContext(), "录入成功", Toast.LENGTH_SHORT).show();
@@ -208,7 +208,7 @@ public class AddFace_UVCCameraFragment extends Fragment {
             btnCancel = dialogView.findViewById(R.id.btn_cancel);
             faceIDEdit = dialogView.findViewById(R.id.edit_text);
             faceIDEdit.setText(faceID);
-            if (addFaceImageType.equals(AddFaceImageActivityAbs.AddFaceImageTypeEnum.FACE_VERIFY.name()) && !TextUtils.isEmpty(faceID)) {
+            if (addFaceImageType.equals(AddFaceImageActivity.AddFaceImageTypeEnum.FACE_VERIFY.name()) && !TextUtils.isEmpty(faceID)) {
                 faceIDEdit.setVisibility(GONE); //制作UTS等插件传过来的FaceID,用户不能再二次编辑
             }else {
                 faceIDEdit.requestFocus();

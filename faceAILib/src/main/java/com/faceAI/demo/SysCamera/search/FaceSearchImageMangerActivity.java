@@ -1,7 +1,7 @@
 package com.faceAI.demo.SysCamera.search;
 
 import static com.faceAI.demo.FaceImageConfig.CACHE_SEARCH_FACE_DIR;
-import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivityAbs.ADD_FACE_IMAGE_TYPE_KEY;
+import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.faceAI.demo.SysCamera.verify.AbsAddFaceFromAlbumActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraFragment;
-import com.faceAI.demo.SysCamera.addFace.AddFaceImageActivityAbs;
+import com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity;
 import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -106,8 +106,8 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
                 addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_SEARCH.name());
                 startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
             } else {
-                Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivityAbs.class);
-                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivityAbs.AddFaceImageTypeEnum.FACE_SEARCH.name());
+                Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
+                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
                 startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
             }
         }
@@ -226,8 +226,8 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();//添加一张
         if (itemId == R.id.camera_add) {
-            Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivityAbs.class);
-            addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivityAbs.AddFaceImageTypeEnum.FACE_SEARCH.name());
+            Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
+            addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
             startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
         } else if (itemId == R.id.assert_add) {//批量添加很多张测试验证人脸图
             copyFaceTestImage();
