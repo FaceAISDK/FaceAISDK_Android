@@ -7,8 +7,8 @@ android {
     compileSdk 34        //上线Google Play需要35 了
 
     defaultConfig {
-        versionCode 20250824
-        versionName "20250824"
+        versionCode 20250825
+        versionName "20250825Safe"
 
         applicationId "com.ai.face.verifyPub" //演示用applicationId
         minSdk 21         //暂时只支持Android 5以上，需要更低需定制
@@ -52,7 +52,7 @@ android {
 
 }
 
-//CameraX，开发环境允许尽量升级到1.4.2 以上版本
+//CameraX，适配Android16 KB Page请强制升级到1.4.2 以上版本
 def camera_version = "1.2.3"
 configurations.configureEach {
     resolutionStrategy {
@@ -67,7 +67,6 @@ configurations.configureEach {
 dependencies {
     //在你的项目主工程依赖faceAILib，熟悉了SDK 接入源码后再根据你的业务修改实现
     implementation project(':faceAILib')
-
 
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

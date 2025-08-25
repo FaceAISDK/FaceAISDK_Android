@@ -16,6 +16,7 @@ public class FaceImageConfig {
 
     /**
      * 初始化人脸本地图片存储目录，也可以不存图片转化为人脸特征向量保存
+     *
      */
     public static void init(Context context) {
         // 人脸图存储在App内部私有空间，SDK未做分区存储
@@ -39,11 +40,8 @@ public class FaceImageConfig {
      * @return
      */
     public static boolean isDebugMode(Context mContext){
-        if (0 != (mContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE)){
-            //Debug 模式是打开状态
-            return true;
-        }
-        return false;
+        //Debug 模式是打开状态
+        return 0 != (mContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE);
     }
 
 }
