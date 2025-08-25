@@ -34,7 +34,7 @@ import com.faceAI.demo.base.view.DemoFaceCoverView;
  * 摄像头管理源码开放了 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment}
  * @author FaceAISDK.Service@gmail.com
  */
-public class LivenessDetectActivityAbs extends AbsBaseActivity {
+public class LivenessDetectActivity extends AbsBaseActivity {
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private DemoFaceCoverView faceCoverView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
@@ -81,7 +81,7 @@ public class LivenessDetectActivityAbs extends AbsBaseActivity {
      */
     private void initFaceVerificationParam() {
         //建议老的低配设备减少活体检测步骤
-        FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(LivenessDetectActivityAbs.this)
+        FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(LivenessDetectActivity.this)
                 .setLivenessOnly(true)
                 .setLivenessType(MotionLivenessType.SILENT_MOTION) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
                 .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.98]
@@ -103,7 +103,7 @@ public class LivenessDetectActivityAbs extends AbsBaseActivity {
                         runOnUiThread(() -> {
                             scoreText.setText("RGB Live:"+silentLivenessValue);
                             new ImageToast().show(getApplicationContext(), bitmap, "活体检测完成");
-                            new AlertDialog.Builder(LivenessDetectActivityAbs.this)
+                            new AlertDialog.Builder(LivenessDetectActivity.this)
                                     .setTitle(R.string.liveness_detection)
                                     .setMessage("活体检测完成，其中RGB Live分数="+silentLivenessValue)
                                     .setCancelable(false)

@@ -54,7 +54,7 @@ import java.util.List;
  * @author FaceAISDK.Service@gmail.com
  */
 
-public class FaceSearch1NActivityAbs extends AbsBaseActivity {
+public class FaceSearch1NActivity extends AbsBaseActivity {
     //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
     private CameraXFragment cameraXFragment; //可以使用开放的摄像头管理源码MyCameraFragment，自行管理摄像头

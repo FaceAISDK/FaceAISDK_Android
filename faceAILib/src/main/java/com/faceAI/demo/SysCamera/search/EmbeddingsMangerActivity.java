@@ -1,6 +1,6 @@
 package com.faceAI.demo.SysCamera.search;
 
-import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivityAbs.ADD_FACE_IMAGE_TYPE_KEY;
+import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -19,7 +19,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.faceAI.demo.R;
-import com.faceAI.demo.SysCamera.addFace.AddFaceImageActivityAbs;
+import com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity;
 import com.faceAI.demo.base.AbsBaseActivity;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import java.util.Objects;
  * 以图片的方式管理，更新都比较麻烦，部分场合设备要去不能保存人脸图片用特征向量管理更合规
  * @author FaceAISDK.Service@gmail.com
  */
-public class EmbeddingsMangerActivityAbs extends AbsBaseActivity {
+public class EmbeddingsMangerActivity extends AbsBaseActivity {
     private final List<ImageBean> faceImageList = new ArrayList<>();
     private FaceImageListAdapter faceImageListAdapter;
     public static final int REQUEST_ADD_FACE_IMAGE = 10086;
@@ -71,7 +71,7 @@ public class EmbeddingsMangerActivityAbs extends AbsBaseActivity {
 
         TextView tips = findViewById(R.id.tips);
         tips.setOnLongClickListener(v -> {
-            new AlertDialog.Builder(EmbeddingsMangerActivityAbs.this)
+            new AlertDialog.Builder(EmbeddingsMangerActivity.this)
                     .setTitle("确定要删除所有人脸数据？")
                     .setMessage("删除后设备本地所有人脸数据将被清除，请谨慎操作")
                     .setPositiveButton("确定", (dialog, which) -> {
@@ -129,8 +129,8 @@ public class EmbeddingsMangerActivityAbs extends AbsBaseActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();//添加一张
         if (itemId == R.id.camera_add) {
-            Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivityAbs.class);
-            addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivityAbs.AddFaceImageTypeEnum.FACE_SEARCH.name());
+            Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
+            addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
             startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
         } else if (itemId == R.id.assert_add) {//批量添加很多张测试验证人脸图
             copyFaceTestImage();

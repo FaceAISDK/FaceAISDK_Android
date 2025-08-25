@@ -17,7 +17,7 @@ import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.TILT_HEAD;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
-import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivityAbs.USER_FACE_ID_KEY;
+import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -67,7 +67,7 @@ import java.util.Objects;
  *
  * @author FaceAISDK.Service@gmail.com
  */
-public class AddFaceImageActivityAbs extends AbsBaseActivity {
+public class AddFaceImageActivity extends AbsBaseActivity {
     public static String ADD_FACE_IMAGE_TYPE_KEY = "ADD_FACE_IMAGE_TYPE_KEY";
     private TextView tipsTextView, secondTips;
     private BaseImageDispose baseImageDispose;
