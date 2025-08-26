@@ -2,7 +2,12 @@ package com.example.demo;
 
 import android.animation.Animator;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.widget.TextView;
+
 import com.faceAI.demo.FaceImageConfig;
 import com.airbnb.lottie.LottieAnimationView;
 import androidx.annotation.NonNull;
@@ -20,55 +25,36 @@ import com.faceAI.demo.FaceAINaviActivity;
  * <a href="https://github.com/FaceAISDK/FaceAISDK_Android">...</a>
  */
 public class WelcomeActivity extends AppCompatActivity {
-    LottieAnimationView startFaceAILib;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-
+        TextView sdkVersion=findViewById(R.id.sdk_version);
+        sdkVersion.setText("SDK 版本： v"+getVersionName());
         //人脸图保存路径等初始化配置
         FaceImageConfig.init(this);
 
-        setWelcomeAnimal();
+        new Handler().postDelayed(() -> {
+            startActivity(new Intent(WelcomeActivity.this, FaceAINaviActivity.class));
+            finish();
+        }, 1600);
+
+    }
+
+
+    private String getVersionName() {
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            return pInfo.versionName;
+        } catch (Exception e){
+            return "FaceAISDK";
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        startFaceAILib = null;
-    }
-
-    /**
-     * 设置欢迎动画
-     */
-    private void setWelcomeAnimal(){
-        startFaceAILib = findViewById(R.id.goFaceAILib);
-        startFaceAILib.setAnimation(R.raw.face_ai_welcome);
-        startFaceAILib.setSpeed(3f);
-        startFaceAILib.playAnimation();
-
-        startFaceAILib.addAnimatorListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationEnd(@NonNull Animator animation) {
-
-                //演示主工程调用Face AI Lib 中人脸识别功能
-                startActivity(new Intent(WelcomeActivity.this, FaceAINaviActivity.class));
-                WelcomeActivity.this.finish();
-            }
-
-            @Override
-            public void onAnimationStart(@NonNull Animator animation) {
-            }
-
-            @Override
-            public void onAnimationCancel(@NonNull Animator animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(@NonNull Animator animation) {
-            }
-        });
-
 
     }
 
