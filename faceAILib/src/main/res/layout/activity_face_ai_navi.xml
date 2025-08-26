@@ -263,22 +263,10 @@
         android:textColor="@android:color/white"
         android:textSize="15sp"
         android:layout_marginBottom="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/app_version" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
-    <TextView
-        android:id="@+id/app_version"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:gravity="start"
-        android:paddingStart="25dp"
-        android:text="@string/about_us"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="12sp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

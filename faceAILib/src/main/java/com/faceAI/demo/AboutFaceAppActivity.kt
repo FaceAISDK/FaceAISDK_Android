@@ -35,10 +35,6 @@ class AboutFaceAppActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-
-
-
         viewBinding.back.setOnClickListener {
             this.finish()
         }
