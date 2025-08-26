@@ -36,10 +36,10 @@ FaceAI SDK产品说明与API文档：https://github.com/FaceAISDK/FaceAISDK_Andr
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-## 当前版本说明 V2025.08.24 （性能大优化，稳API版本）
+## 当前版本说明 V2025.08.26.safe （性能大优化，稳API版本）
 
-- 添加人脸体验优化，完善提示
-- 录入人脸API暴露出人脸特征向量float[]，保留bitmap
+- 工信部安全合规要求以及Google Play上架合规
+- 添加人脸图体验优化，暴露出人脸特征向量，保留bitmap
 - 1:1 人脸识别支持传入人脸特征向量取代Bitmap
 - 更新整理SDK API，方便后期用户无感升级SDK
 - 人脸搜索模块加快万人库初始化速度（小米13 1万张人脸从4秒到99毫秒）
@@ -111,7 +111,6 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 </div>
 
 更多历史版本查看这里： https://www.pgyer.com/faceVerify
-
 
 
  .

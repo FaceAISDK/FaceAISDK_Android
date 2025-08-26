@@ -42,9 +42,9 @@ class FaceAINaviActivity : AppCompatActivity() {
         //分享
         viewBinding.shareLayout.setOnClickListener {
             val intent = Intent()
-            intent.setAction(Intent.ACTION_SEND)
+            intent.action = Intent.ACTION_SEND
             intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_faceai_sdk_content))
-            intent.setType("text/plain")
+            intent.type = "text/plain"
             startActivity(intent)
         }
 
@@ -111,22 +111,9 @@ class FaceAINaviActivity : AppCompatActivity() {
         viewBinding.twoFaceVerify.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, TwoFaceImageVerifyActivity::class.java))
         }
-        viewBinding.appVersion.text = "SDK 版本： v"+getVersionName(baseContext)
 
         showTipsDialog()
     }
-
-
-     fun getVersionName(context: Context): String? {
-        try {
-            val pInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            return pInfo.versionName
-        } catch (e: NameNotFoundException) {
-            e.printStackTrace()
-            return null
-        }
-    }
-
 
 
     /**
@@ -157,7 +144,7 @@ class FaceAINaviActivity : AppCompatActivity() {
     private fun showTipsDialog() {
         val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
         val showTime = sharedPref.getLong("showFaceAISDKTips", 0)
-        if (System.currentTimeMillis() - showTime > 11 * 60 * 60 * 1000) {
+        if (System.currentTimeMillis() - showTime > 12 * 60 * 60 * 1000) {
 
             val builder = AlertDialog.Builder(this)
             val dialog = builder.create()

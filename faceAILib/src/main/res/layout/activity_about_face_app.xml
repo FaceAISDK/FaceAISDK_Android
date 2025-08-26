@@ -81,7 +81,7 @@
         android:padding="15dp"
         android:text="检查新版本"
         android:textColor="@android:color/white"
-        android:textSize="18sp"
+        android:textSize="13sp"
         app:layout_constraintBottom_toTopOf="@+id/more_about_me" />
 
 
