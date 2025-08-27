@@ -32,6 +32,7 @@ import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
+import com.faceAI.demo.SysCamera.camera.MyCameraFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
@@ -53,11 +54,10 @@ import java.util.List;
  * 摄像头管理源码开放了 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment}
  * @author FaceAISDK.Service@gmail.com
  */
-
 public class FaceSearch1NActivity extends AbsBaseActivity {
     //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
-    private CameraXFragment cameraXFragment; //可以使用开放的摄像头管理源码MyCameraFragment，自行管理摄像头
+    private MyCameraFragment cameraXFragment; //可以使用开放的摄像头管理源码MyCameraFragment，自行管理摄像头
     private boolean enginePrepared=false;
     private int cameraLensFacing;
 
@@ -83,11 +83,9 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0f)     //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)   //画面旋转方向
-                .setSize(CameraXFragment.SIZE.DEFAULT) //相机的分辨率大小。分辨率越大画面中人像很小也能检测但是会更消耗CPU
                 .create();
-
-        cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
-
+        //可以不用SDK 内部相机管理，自定义摄像头参考MyCameraFragment，源码开放自由修改
+        cameraXFragment = MyCameraFragment.newInstance(cameraXBuilder);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
 
@@ -175,9 +173,9 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
 //        new Timer().schedule(new TimerTask() {
 //            @Override
 //            public void run() {
-//                //0a_Search 放在Asset 并提前通过Demo导入该目录人脸入库
+//                //0a_Search 放在Asset 并提前通过Demo导入该目录人脸入库,模拟持续获取摄像头数据传入SDK
 //                Bitmap bitmap = BitmapUtils.getBitmapFromAsset(FaceSearch1NActivity.this, "0a_Search.png");
-//                FaceSearchEngine.Companion.getInstance().runSearch(bitmap); //不要在主线程调用
+//                FaceSearchEngine.Companion.getInstance().runSearchWithBitmap(bitmap); //不要在主线程调用
 //            }
 //        }, 200, 1000);
 
