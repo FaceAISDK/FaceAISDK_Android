@@ -28,6 +28,10 @@ import java.util.concurrent.Executors;
 
 /**
  * 摄像头的管理，用户可以根据平台特性和业务需求自行拓展
+ * 你也可以使用老的Camera2 相机等方式管理摄像头，通过预览流回调数据转为Bitmap 后持续送入SDK
+ * FaceSearchEngine.Companion.getInstance().runSearchWithBitmap(bitmap); //不要在主线程调用
+ *
+ *
  * @author FaceAISDK.Service@gmail.com
  */
 public class MyCameraFragment extends Fragment implements CameraXConfig.Provider{
