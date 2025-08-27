@@ -1,0 +1,38 @@
+allprojects {
+    repositories {
+        mavenCentral()
+        google()
+
+        //多放几个国内的依赖托管镜像源，工程师可以根据公司的网络屏蔽情况自行替换
+        maven { url "https://s01.oss.sonatype.org/content/groups/public" }
+        maven {url "https://maven.aliyun.com/nexus/content/groups/public/"}
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url "https://jitpack.io" }
+    }
+}
+
+
+buildscript {
+
+    //FaceAILib 的java version 和 Kotlin 配置
+    ext {
+        kotlin_version = "1.9.22"
+        java_version = JavaVersion.VERSION_17
+    }
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    //SDK 为了照顾更多的用户暂时不升级到最新，用户根据自身情况升级
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22"
+    }
+
+
+}
+
+
