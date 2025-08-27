@@ -57,7 +57,7 @@ import java.util.List;
 public class FaceSearch1NActivity extends AbsBaseActivity {
     //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
-    private MyCameraFragment cameraXFragment; //可以使用开放的摄像头管理源码MyCameraFragment，自行管理摄像头
+    private CameraXFragment cameraXFragment; //可以使用开放的摄像头管理源码MyCameraFragment，自行管理摄像头
     private boolean enginePrepared=false;
     private int cameraLensFacing;
 
@@ -85,7 +85,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 .setRotation(degree)   //画面旋转方向
                 .create();
         //可以不用SDK 内部相机管理，自定义摄像头参考MyCameraFragment，源码开放自由修改
-        cameraXFragment = MyCameraFragment.newInstance(cameraXBuilder);
+        cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
 
