@@ -159,7 +159,7 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
                 .setFaceEmbedding(faceEmbedding)        //1:1 人脸识别对比的底片人脸特征向量，以前是传bitmap，2025 08 18现在优化
                 .setCameraType(FaceProcessBuilder.CameraType.SYS_CAMERA)
                 .setCompareDurationTime(3500)           //人脸识别对比时间[3000,5000] 毫秒。相似度很低会持续设置的时间
-                .setLivenessType(MotionLivenessType.SILENT_MOTION) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
+                .setLivenessType(MotionLivenessType.SILENT) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
                 .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(10)           //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
@@ -209,7 +209,7 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
 
                 if(startTime == 0){
                     startTime =System.currentTimeMillis();
-                    Log.e("verifyTime","开始送入数据： "+ startTime);
+                    Log.d("verifyTime","开始送入数据： "+ startTime);
                 }
 
                 //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
@@ -217,8 +217,6 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
 
             }
         });
-
-
     }
 
     /**
@@ -250,7 +248,7 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
 
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     finishFaceVerify(1, "人脸识别成功");
-                }, 1200);
+                }, 600);
             } else {
                 //3.和底片不是同一个人
                 VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
