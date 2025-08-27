@@ -27,14 +27,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * 摄像头的管理，用户可以根据平台特性和业务需求自行拓展
+ * 摄像头的管理，使用Google CameraX,用户可以根据平台特性和业务需求自行拓展
+ * CameraX 说明：https://developer.android.com/codelabs/camerax-getting-started?hl=zh-cn
+ *
  * 你也可以使用老的Camera2 相机等方式管理摄像头，通过预览流回调数据转为Bitmap 后持续送入SDK
  * FaceSearchEngine.Companion.getInstance().runSearchWithBitmap(bitmap); //不要在主线程调用
  *
  * @author FaceAISDK.Service@gmail.com
  */
 public class MyCameraFragment extends Fragment implements CameraXConfig.Provider{
-    private static final String CAMERA_LINEAR_ZOOM = "CAMERA_LINEAR_ZOOM";  //缩放比例
+    private static final String CAMERA_LINEAR_ZOOM = "CAMERA_LINEAR_ZOOM";  //焦距缩放比例
     private static final String CAMERA_LENS_FACING = "CAMERA_LENS_FACING";  //前后配置
     private static final String CAMERA_ROTATION = "CAMERA_ROTATION";  //旋转
     private static final String CAMERA_SIZE = "CAMERA_SIZE";  //旋转
