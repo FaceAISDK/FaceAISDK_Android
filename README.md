@@ -29,7 +29,7 @@ FaceAI SDK产品说明与API文档：https://github.com/FaceAISDK/FaceAISDK_Andr
 **Android：** https://github.com/FaceAISDK/FaceAISDK_Android  
 
 **其他实现**  
-**React native** https://github.com/zkteco-home/react-native-face-recognition  
+**React native** https://github.com/zkteco-home/react-native-face-ai  
 **Flutter** need your helps
 
 <div align=center>
@@ -115,3 +115,5 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 
  .
 ![FaceAISDK](images/who_are_you.png)  
+  
+都看到这了，顺手帮忙点个赞吧🎉

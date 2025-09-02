@@ -32,7 +32,7 @@ android {
 dependencies {
     //工信部安全合规要求以及Google Play上架合规 需升级到 2025.08.26以上版本
     //SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
-    api 'io.github.faceaisdk:Android:2025.08.28.timi'
+    api 'io.github.faceaisdk:Android:2025.09.01.timi'
 
     //UVC协议USB摄像头选配，源码: https://github.com/shiyinghan/UVCAndroid
     implementation 'io.github.faceaisdk:UVCCamera:2025.07.30'

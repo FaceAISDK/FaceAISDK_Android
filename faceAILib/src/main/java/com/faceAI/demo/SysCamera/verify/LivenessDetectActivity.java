@@ -153,10 +153,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        if(RuntimeEnv.isEmulator(getBaseContext())||RuntimeEnv.isXposedExist(getBaseContext())||RuntimeEnv.isRoot(getBaseContext())){
-            Toast.makeText(getBaseContext(),"不安全的运行环境",Toast.LENGTH_LONG).show();
-        }
     }
 
     @Override
