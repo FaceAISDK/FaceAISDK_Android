@@ -207,14 +207,13 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
             //防止在识别过程中关闭页面导致Crash
             if (!isDestroyed() && !isFinishing()&&startFaceVerify) {
 
-                if(startTime == 0){
+                if(startTime == 0){ //从人脸正对摄像头，点击开始按钮计算耗时时间
                     startTime =System.currentTimeMillis();
                     Log.d("verifyTime","开始送入数据： "+ startTime);
                 }
 
-                //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
+                //开始人脸识别
                 faceVerifyUtils.goVerifyWithImageProxy(imageProxy, faceCoverView.getMargin());
-
             }
         });
     }

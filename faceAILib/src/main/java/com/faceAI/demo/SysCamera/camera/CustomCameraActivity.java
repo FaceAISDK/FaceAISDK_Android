@@ -29,7 +29,6 @@ public class CustomCameraActivity extends AbsBaseActivity {
             finish();
         });
 
-
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
         int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT);
         int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
@@ -40,7 +39,6 @@ public class CustomCameraActivity extends AbsBaseActivity {
                 .setLinearZoom(0.0001f)    //焦距范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)      //画面旋转方向
                 .create();
-
 
         MyCameraFragment cameraXFragment = MyCameraFragment.newInstance(cameraXBuilder);
         getSupportFragmentManager().beginTransaction()
