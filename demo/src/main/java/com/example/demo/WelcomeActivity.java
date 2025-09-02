@@ -1,16 +1,11 @@
 package com.example.demo;
 
-import android.animation.Animator;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
-
 import com.faceAI.demo.FaceImageConfig;
-import com.airbnb.lottie.LottieAnimationView;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.faceAI.demo.FaceAINaviActivity;
 

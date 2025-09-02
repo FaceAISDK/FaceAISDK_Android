@@ -244,11 +244,8 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
             } else if (isVerifyMatched) {
                 //2.和底片同一人
                 VoicePlayer.getInstance().addPayList(R.raw.verify_success);
+                finishFaceVerify(1, "人脸识别成功");
                 new ImageToast().show(getApplicationContext(), bitmap, "识别成功"+similarity);
-
-                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    finishFaceVerify(1, "人脸识别成功");
-                }, 600);
             } else {
                 //3.和底片不是同一个人
                 VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
