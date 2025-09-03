@@ -18,7 +18,6 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 动作活体支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），支持系统摄像头和UVC协议双目摄像头，宽动态值大于105Db成像清晰抗逆光。
 开发人员也可以自定义摄像头管理，把帧数据送入到SDK。
 
-FaceAI SDK产品说明与API文档：https://github.com/FaceAISDK/FaceAISDK_Android/blob/publish/FaceAISDK产品说明及API文档.pdf
 
 ![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
@@ -29,14 +28,14 @@ FaceAI SDK产品说明与API文档：https://github.com/FaceAISDK/FaceAISDK_Andr
 **Android：** https://github.com/FaceAISDK/FaceAISDK_Android  
 
 **其他实现**  
-**React native** https://github.com/zkteco-home/react-native-face-recognition  
+**React native** https://github.com/zkteco-home/react-native-face-ai  
 **Flutter** need your helps
 
 <div align=center>
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-## 当前版本说明 V2025.08.26.safe （性能大优化，稳API版本）
+## 当前版本说明 V2025.09.03
 
 - 工信部安全合规要求以及Google Play上架合规
 - 添加人脸图体验优化，暴露出人脸特征向量，保留bitmap
@@ -74,6 +73,7 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 | 华为 P8          | 798 ms  | 678 ms   | 
 | 联想Pad2024      | 245 ms  | 197 ms   |
 
+其中硬件配置要求参考：[硬件配置要求](doc/硬件配置要求说明.md)  
 更多说明：https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
 
 
@@ -104,14 +104,18 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
     kapt, kotlin-android-extensions导致集成冲突，建议尽快升级项目或者VIP联系定制
 
 
-## Demo APK 下载体验
+## Demo APK 下载体验  
+
+更多历史版本查看这里： https://www.pgyer.com/faceVerify
 
 <div align=center>
 <img src="https://www.pgyer.com/app/qrcode/faceVerify" width = 19%   alt="请点击上面下载地址"/>
 </div>
 
-更多历史版本查看这里： https://www.pgyer.com/faceVerify
 
 
- .
+ **都看到这了，顺手帮忙点个赞吧🎉**    
+
+
 ![FaceAISDK](images/who_are_you.png)  
+  

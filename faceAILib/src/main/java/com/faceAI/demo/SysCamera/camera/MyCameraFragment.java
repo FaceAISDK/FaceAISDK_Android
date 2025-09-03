@@ -67,7 +67,8 @@ public class MyCameraFragment extends Fragment implements CameraXConfig.Provider
     @Override
     public CameraXConfig getCameraXConfig() {
         return CameraXConfig.Builder.fromConfig(Camera2Config.defaultConfig())
-//                .setAvailableCamerasLimiter(CameraSelector.DEFAULT_FRONT_CAMERA) //设置唯一固定摄像头
+                // 设置唯一固定摄像头，需要配置在Application中
+                //.setAvailableCamerasLimiter(CameraSelector.DEFAULT_FRONT_CAMERA)
                 .setMinimumLoggingLevel(Log.ERROR)
                 .build();
     }
@@ -110,7 +111,7 @@ public class MyCameraFragment extends Fragment implements CameraXConfig.Provider
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_verify, container, false);
+        View rootView = inflater.inflate(R.layout.my_camera_fragment, container, false);
         mDefaultBright = BrightnessUtil.getBrightness(requireActivity());
         initCameraXAnalysis(rootView);
         return rootView;
@@ -201,7 +202,8 @@ public class MyCameraFragment extends Fragment implements CameraXConfig.Provider
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //释放CameraX 资源
+        //前面，cameraProvider.bindToLifecycle(getViewLifecycleOwner(), cameraSelector, preview, imageAnalysis);
+        //CameraX 相关都是绑定Activity生命周期的，一般不需要手动管理，特殊平台咨询平台技术供应商
     }
 
     @Override

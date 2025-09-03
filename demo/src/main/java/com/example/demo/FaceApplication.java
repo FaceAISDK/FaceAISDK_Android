@@ -30,10 +30,7 @@ public class FaceApplication extends Application implements CameraXConfig.Provid
     @Override
     public void onCreate() {
         super.onCreate();
-
-
     }
-
 
 
 
