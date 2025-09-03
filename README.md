@@ -36,7 +36,7 @@ FaceAI SDK产品说明与API文档：https://github.com/FaceAISDK/FaceAISDK_Andr
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-## 当前版本说明 V2025.08.26.safe （性能大优化，稳API版本）
+## 当前版本说明 V2025.09.03
 
 - 工信部安全合规要求以及Google Play上架合规
 - 添加人脸图体验优化，暴露出人脸特征向量，保留bitmap
@@ -74,6 +74,7 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 | 华为 P8          | 798 ms  | 678 ms   | 
 | 联想Pad2024      | 245 ms  | 197 ms   |
 
+其中硬件配置要求参考：![硬件配置要求](doc/硬件配置要求说明.md)
 更多说明：https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
 
 

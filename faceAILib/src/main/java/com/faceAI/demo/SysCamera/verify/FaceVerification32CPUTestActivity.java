@@ -47,7 +47,6 @@ import org.jetbrains.annotations.NotNull;
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
-
     private final float silentLivenessThreshold = 0.81f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
 
     public static final String USER_FACE_ID_KEY = "USER_FACE_ID_KEY";   //1:1 face verify ID KEY
