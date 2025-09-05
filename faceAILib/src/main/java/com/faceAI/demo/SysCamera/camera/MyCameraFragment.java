@@ -92,7 +92,7 @@ public class MyCameraFragment extends Fragment implements CameraXConfig.Provider
         args.putInt(CAMERA_LENS_FACING, cameraXBuilder.getCameraLensFacing());
         args.putFloat(CAMERA_LINEAR_ZOOM, cameraXBuilder.getLinearZoom());
         args.putInt(CAMERA_ROTATION, cameraXBuilder.getRotation());
-        args.putSerializable(CAMERA_SIZE, cameraXBuilder.getSize());
+//        args.putSerializable(CAMERA_SIZE, cameraXBuilder.getSize()); //默认一种
         fragment.setArguments(args);
         return fragment;
     }
