@@ -63,7 +63,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.0001f)    //焦距范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)      //画面旋转方向
-                .setSize(CameraXFragment.SIZE.DEFAULT) //相机的分辨率大小。一般默认就可以
+//                .setSize(CameraXFragment.SIZE.DEFAULT) //SDK 内部自动判断，或者使用自定义摄像头
                 .create();
 
         cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
