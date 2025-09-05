@@ -35,17 +35,14 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-## 当前版本说明 V2025.09.03
+## 当前版本说明 V2025.09.05
 
-- 工信部安全合规要求以及Google Play上架合规
+- 防止切屏模拟器作弊，去除默认相机选择尺寸
 - 添加人脸图体验优化，暴露出人脸特征向量，保留bitmap
 - 1:1 人脸识别支持传入人脸特征向量取代Bitmap
-- 更新整理SDK API，方便后期用户无感升级SDK
-- 人脸搜索模块加快万人库初始化速度（小米13 1万张人脸从4秒到99毫秒）
 - 人脸搜索速度更新，万张人脸库搜索速度毫秒级（新版本SDK需重新迁移同步人脸一次）
 - 暴露出相机管理源码CameraXFragment以便用户在自定义设备更好管理摄像头
 
-建议[Fork] + [Star] 本项目Repo以便第一手获取更新：[FaceAISDK_Android](https://github.com/FaceAISDK/FaceAISDK_Android)
 
 ## [使用场景和区别](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/doc/Introduce_11_1N_MN.md)
 
@@ -110,12 +107,13 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 
 <div align=center>
 <img src="https://www.pgyer.com/app/qrcode/faceVerify" width = 19%   alt="请点击上面下载地址"/>
-</div>
+</div>  
+  
+  
+
+ **都看到这了，顺手帮忙点个🌟Star吧**   
 
 
-
- **都看到这了，顺手帮忙点个赞吧🎉**    
-
-
+🪐
 ![FaceAISDK](images/who_are_you.png)  
   
