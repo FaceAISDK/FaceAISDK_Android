@@ -7,15 +7,15 @@ android {
     compileSdk 33        //上线Google Play需要35 了
 
     defaultConfig {
-        versionCode 20250903
-        versionName "20250903"
+        versionCode 20250905
+        versionName "20250905"
 
         applicationId "com.ai.face.verifyPub" //演示用applicationId
         minSdk 21         //暂时只支持Android 5以上，需要更低需定制
         targetSdk 33      //target SDK 还是28 的请参考question.md 文档说明
         
         ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a' //根据CPU架构选择对应ABI
+            abiFilters 'arm64-v8a' //暂时只配置64位CPU，32位需要的自行配置
         }
     }
 
@@ -70,4 +70,6 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    // Demo 为了收集 Crash
+    api 'com.tencent.bugly:crashreport:4.1.9.3'
 }

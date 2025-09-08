@@ -16,7 +16,6 @@ import com.faceAI.demo.SysCamera.verify.FaceVerifyWelcomeActivity
 import com.faceAI.demo.SysCamera.verify.LivenessDetectActivity
 import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
 import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
-import com.tencent.bugly.crashreport.CrashReport
 
 
 /**
@@ -31,10 +30,7 @@ class FaceAINaviActivity : AppCompatActivity() {
         viewBinding = ActivityFaceAiNaviBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-        // 收集Crash,ANR 运行日志
-        if(!FaceImageConfig.isDebugMode(baseContext)){
-            CrashReport.initCrashReport(application, "36fade54d8", true)
-        }
+
 
         //人脸图保存路径初始化
         FaceImageConfig.init(this)
@@ -82,7 +78,6 @@ class FaceAINaviActivity : AppCompatActivity() {
         // 长按打印Log 信息
         viewBinding.systemInfo.setOnLongClickListener {
             FaceVerifyUtils().printInfo(this@FaceAINaviActivity);
-            CrashReport.testJavaCrash();
             return@setOnLongClickListener true
         }
 

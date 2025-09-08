@@ -12,7 +12,7 @@ android {
         targetSdk 33 //target SDK 还是28 的请参考question.md 文档说明
 
         ndk {
-            abiFilters 'armeabi-v7a','arm64-v8a' //chrome OS 暂时不支持了
+            abiFilters 'arm64-v8a' //暂时只配置64位CPU，32位需要的自行配置
         }
     }
 
@@ -32,7 +32,7 @@ android {
 dependencies {
     //建议根据SDK API 文档升级到最新版
     //SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
-    api 'io.github.faceaisdk:Android:2025.09.05'
+    api 'io.github.faceaisdk:Android:2025.09.08'
 
     //UVC协议USB摄像头选配，源码: https://github.com/shiyinghan/UVCAndroid
     implementation 'io.github.faceaisdk:UVCCamera:2025.07.30'
@@ -41,11 +41,10 @@ dependencies {
     //以下为业务需要其他依赖，不是SDK 运行的必须依赖
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation 'com.github.princekin-f:EasyFloat:2.0.4'
-    api 'com.airbnb.android:lottie:6.5.2'
+    implementation 'com.airbnb.android:lottie:6.5.2'
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.8'
-    // Demo 为了收集 Crash
-    api 'com.tencent.bugly:crashreport:4.1.9.3'
+
     implementation("com.github.bumptech.glide:glide:4.16.0")
     ksp("com.github.bumptech.glide:ksp:4.16.0")
     implementation 'androidx.appcompat:appcompat:1.6.0'

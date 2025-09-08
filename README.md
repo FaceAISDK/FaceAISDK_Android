@@ -21,27 +21,25 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 
 ![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
-**其他平台**  
-
+**其他平台**
 **iOS SDK：** https://github.com/FaceAISDK/FaceAISDK_iOS  
-**Uni App：** https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS  
 **Android：** https://github.com/FaceAISDK/FaceAISDK_Android  
 
 **其他实现**  
-**React native** https://github.com/zkteco-home/react-native-face-ai  
-**Flutter** need your helps
+**uni-App X：** https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS
+**React native** https://github.com/zkteco-home/react-native-face-ai
 
 <div align=center>
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-## 当前版本说明 V2025.09.05
+## 当前版本说明 V2025.09.08
 
 - 防止切屏模拟器作弊，去除默认相机选择尺寸
 - 添加人脸图体验优化，暴露出人脸特征向量，保留bitmap
 - 1:1 人脸识别支持传入人脸特征向量取代Bitmap
 - 人脸搜索速度更新，万张人脸库搜索速度毫秒级（新版本SDK需重新迁移同步人脸一次）
-- 暴露出相机管理源码CameraXFragment以便用户在自定义设备更好管理摄像头
+- 添加相机管理源码MyCameraFragment（CameraX）, 准备支持camera1以及NV21 data[]
 
 
 ## [使用场景和区别](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/doc/Introduce_11_1N_MN.md)
@@ -113,6 +111,8 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 
  **都看到这了，顺手帮忙点个🌟Star吧**   
 
+ 
+[外包FaceAISDK之UTS插件(uni-app兼容模式组件)开发](FaceAISDK%E4%B9%8BUTS%E6%8F%92%E4%BB%B6%28uni-app%E5%85%BC%E5%AE%B9%E6%A8%A1%E5%BC%8F%E7%BB%84%E4%BB%B6%29%E5%BC%80%E5%8F%91.md)  
 
 🪐
 ![FaceAISDK](images/who_are_you.png)  
