@@ -57,7 +57,7 @@ import java.util.List;
 public class FaceSearch1NActivity extends AbsBaseActivity {
     //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
-    private CameraXFragment cameraXFragment; //可以使用开放的摄像头管理源码MyCameraFragment，自行管理摄像头
+    private MyCameraFragment cameraXFragment; //可以使用开放的摄像头管理源码MyCameraFragment，自行管理摄像头
     private boolean enginePrepared=false;
     private int cameraLensFacing;
 
@@ -81,11 +81,12 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0f)     //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
+                .setLinearZoom(0.0001f)     //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)   //画面旋转方向
                 .create();
+
         //可以不用SDK 内部相机管理，自定义摄像头参考MyCameraFragment，源码开放自由修改
-        cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
+        cameraXFragment = MyCameraFragment.newInstance(cameraXBuilder);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
 
@@ -102,7 +103,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
                 .setCameraType(SearchProcessBuilder.CameraType.SYS_CAMERA)
-                .setThreshold(0.88f) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值也要高
+                .setThreshold(0.85f) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值以及人脸底片质量也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy左右翻转影响人脸框
@@ -139,7 +140,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     @Override
                     public void onFaceDetected(List<FaceSearchResult> result) {
                         //画框UI代码完全开放，用户可以根据情况自行改造
-                        binding.graphicOverlay.drawRect(result, cameraXFragment);
+                        binding.graphicOverlay.drawRect(result, cameraXFragment.getScaleX(),cameraXFragment.getScaleY());
                     }
 
                     @Override

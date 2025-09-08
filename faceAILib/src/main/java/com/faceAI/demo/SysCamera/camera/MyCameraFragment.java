@@ -39,10 +39,10 @@ public class MyCameraFragment extends Fragment implements CameraXConfig.Provider
     private static final String CAMERA_LINEAR_ZOOM = "CAMERA_LINEAR_ZOOM";  //焦距缩放比例
     private static final String CAMERA_LENS_FACING = "CAMERA_LENS_FACING";  //前后配置
     private static final String CAMERA_ROTATION = "CAMERA_ROTATION";  //旋转
-    private static final String CAMERA_SIZE = "CAMERA_SIZE";  //旋转
     private int rotation = Surface.ROTATION_0; //旋转角度
     private long lastAnalyzedTimestamp;
     private int cameraLensFacing = 0; //默认前置摄像头
+    private float scaleX = 0f, scaleY = 0f;
     private float linearZoom = 0.01f; //焦距
     private float mDefaultBright;
     private ProcessCameraProvider cameraProvider;
@@ -52,6 +52,8 @@ public class MyCameraFragment extends Fragment implements CameraXConfig.Provider
     private ImageAnalysis imageAnalysis;
     private Preview preview;
     private Camera camera;
+    private PreviewView previewView;
+
 
     /**
      * CameraX 会枚举和查询设备上可用摄像头的特性。由于 CameraX 需要与硬件组件通信，因此对每个摄像头执行此过程可能
@@ -142,7 +144,7 @@ public class MyCameraFragment extends Fragment implements CameraXConfig.Provider
                     .setTargetRotation(rotation)
                     .build();
 
-            PreviewView previewView = rootView.findViewById(R.id.previewView);
+            previewView = rootView.findViewById(R.id.previewView);
             //高性能模式
             previewView.setImplementationMode(PreviewView.ImplementationMode.PERFORMANCE);
 
@@ -151,7 +153,6 @@ public class MyCameraFragment extends Fragment implements CameraXConfig.Provider
                     .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
                     .setTargetRotation(rotation)
                     .build();
-
 
             if (cameraLensFacing == 0) {
                 // Choose the camera by requiring a lens facing
@@ -170,17 +171,22 @@ public class MyCameraFragment extends Fragment implements CameraXConfig.Provider
             lastAnalyzedTimestamp = System.currentTimeMillis() + 500; //延迟半秒执行
             imageAnalysis.setAnalyzer(executorService, imageProxy -> {
 
-                try {
-                    //控制10帧每秒
-                    if (System.currentTimeMillis() - lastAnalyzedTimestamp > 200) {
-                        analyzeDataCallBack.analyze(imageProxy);
-                        lastAnalyzedTimestamp = System.currentTimeMillis();
+                    try {
+                        if (scaleX == 0f || scaleY == 0f) {
+                            setScaleXY(imageProxy);
+                        } else {
+                            //控制10帧每秒,SDK内部有背压处理，防止用户业务上其他处理耗费性能
+                            if (System.currentTimeMillis() - lastAnalyzedTimestamp > 200) {
+                                analyzeDataCallBack.analyze(imageProxy);
+                                lastAnalyzedTimestamp = System.currentTimeMillis();
+                            }
+                        }
+                    } catch (Exception e) {
+                        Log.e("CameraX error", "FaceAI SDK:" + e.getMessage());
+                    } finally {
+                        imageProxy.close();
                     }
-                } catch (Exception e) {
-                    Log.e("CameraX error", "FaceAI SDK:" + e.getMessage());
-                }
 
-                imageProxy.close();
             });
 
             try {
@@ -199,6 +205,9 @@ public class MyCameraFragment extends Fragment implements CameraXConfig.Provider
         }, ContextCompat.getMainExecutor(requireContext()));
     }
 
+    /**
+     * 并不是都要使用CameraX, 开发人员也可以使用Camera1 相机管理摄像头
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -217,6 +226,34 @@ public class MyCameraFragment extends Fragment implements CameraXConfig.Provider
         super.onStop();
         //设置为原来亮度
         BrightnessUtil.setBrightness(requireActivity(), mDefaultBright);
+    }
+
+    /**
+     * 计算缩放比例
+     */
+    private void setScaleXY(ImageProxy imageProxy) {
+        float max = imageProxy.getWidth();
+        float min = imageProxy.getHeight();
+        if (max < min) { //交换
+            float temp = max;
+            max = min;
+            min = temp;
+        }
+        if (previewView.getWidth() > previewView.getHeight()) {
+            scaleX = (float) previewView.getWidth() / max;
+            scaleY = (float) previewView.getHeight() / min;
+        } else {
+            scaleX = (float) previewView.getWidth() / min;
+            scaleY = (float) previewView.getHeight() / max;
+        }
+    }
+
+    public float getScaleX() {
+        return scaleX;
+    }
+
+    public float getScaleY() {
+        return scaleY;
     }
 
 }
