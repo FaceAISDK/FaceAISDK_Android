@@ -133,6 +133,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 .setMotionLivenessStepSize(2)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(14)           //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
                 //.setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑 或其他某一种
+                //.setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
                      * 1:1 人脸识别 活体检测 对比结束
@@ -198,7 +199,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                         .setMessage(R.string.silent_anti_spoofing_error)
                         .setCancelable(false)
                         .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                            finishFaceVerify(2, "活体分数过低，请重试");
+                            finishFaceVerify(2, "活体分数过低，请重试",silentLivenessScore);
                         })
                         .show();
             } else if (isVerifyMatched) {
@@ -207,7 +208,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 new ImageToast().show(getApplicationContext(), bitmap, "识别成功"+similarity);
 
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    finishFaceVerify(1, "人脸识别成功");
+                    finishFaceVerify(1, "人脸识别成功",silentLivenessScore);
                 }, 1500);
             } else {
                 //3.和底片不是同一个人
@@ -217,7 +218,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                         .setMessage(R.string.face_verify_failed)
                         .setCancelable(false)
                         .setPositiveButton(R.string.know, (dialogInterface, i) -> {
-                            finishFaceVerify(4, "人脸识别相似度低于阈值");
+                            finishFaceVerify(4, "人脸识别相似度低于阈值",silentLivenessScore);
                         })
                         .setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify())
                         .show();
@@ -348,9 +349,14 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * @param msg
      */
     private void finishFaceVerify(int code, String msg) {
+        finishFaceVerify(code,msg,0f);
+    }
+
+    private void finishFaceVerify(int code, String msg,float silentLivenessScore) {
         Intent intent = new Intent().putExtra("code", code)
                 .putExtra("faceID", faceID)
-                .putExtra("msg", msg);
+                .putExtra("msg", msg)
+                .putExtra("silentLivenessScore", silentLivenessScore);
         setResult(RESULT_OK, intent);
         finish();
     }

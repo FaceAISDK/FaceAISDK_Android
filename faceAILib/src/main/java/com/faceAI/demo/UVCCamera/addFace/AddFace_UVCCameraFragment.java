@@ -51,7 +51,6 @@ import com.faceAI.demo.UVCCamera.manger.CameraBuilder;
 import com.faceAI.demo.UVCCamera.manger.UVCCameraManager;
 import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
-import com.ai.face.base.utils.BrightnessUtil;
 import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.faceAI.demo.databinding.FragmentUvcCameraAddFaceBinding;
 
@@ -95,7 +94,6 @@ public class AddFace_UVCCameraFragment extends Fragment {
     private void initView() {
         initRGBCamara();
         addFaceInit();
-        BrightnessUtil.setBrightness(requireActivity(), 1.0f);  //屏幕光当补光灯
     }
 
     @Override
@@ -273,7 +271,6 @@ public class AddFace_UVCCameraFragment extends Fragment {
                 tipsTextView.setText(R.string.far_away_tips);
                 break;
 
-
             case CLOSE_EYE:
                 tipsTextView.setText(R.string.no_close_eye_tips);
                 break;
@@ -298,7 +295,6 @@ public class AddFace_UVCCameraFragment extends Fragment {
             case HEAD_DOWN:
                 tipsTextView.setText(R.string.no_look_down_tips);
                 break;
-
         }
     }
 

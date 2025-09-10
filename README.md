@@ -26,7 +26,7 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 **Android：** https://github.com/FaceAISDK/FaceAISDK_Android  
 
 **其他实现**  
-**uni-App X：** https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS
+**uni-App X：** https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS  
 **React native** https://github.com/zkteco-home/react-native-face-ai
 
 <div align=center>

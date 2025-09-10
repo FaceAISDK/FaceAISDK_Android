@@ -1,10 +1,14 @@
 package com.faceAI.demo.UVCCamera.verify;
 
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
+
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,13 +17,13 @@ import androidx.appcompat.app.AlertDialog;
 import com.ai.face.base.baseImage.FaceEmbedding;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.faceAI.demo.FaceImageConfig;
-import com.ai.face.base.utils.BrightnessUtil;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
+import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.bumptech.glide.Glide;
 import com.faceAI.demo.R;
@@ -52,7 +56,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
         tipsTextView = binding.tipsView;
         secondTipsTextView = binding.secondTipsView;
         binding.back.setOnClickListener(v -> requireActivity().finish());
-        BrightnessUtil.setBrightness(requireActivity(), 1.0f);  //高亮白色背景屏幕光可以当补光灯
+        BrightnessUtil.setBrightness(requireActivity(), 0.9f);  //高亮白色背景屏幕光可以当补光灯
     }
 
     /**
@@ -287,6 +291,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
             });
         }
     }
+
 
     @Override
     public void onDestroyView() {
