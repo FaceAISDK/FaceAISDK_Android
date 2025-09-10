@@ -1,11 +1,15 @@
 package com.faceAI.demo.SysCamera.camera;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+
 import androidx.annotation.NonNull;
 import androidx.camera.camera2.Camera2Config;
 import androidx.camera.core.Camera;
@@ -18,9 +22,9 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import com.ai.face.base.utils.BrightnessUtil;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.faceAI.demo.R;
+import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.google.common.util.concurrent.ListenableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -218,7 +222,7 @@ public class MyCameraFragment extends Fragment implements CameraXConfig.Provider
     @Override
     public void onResume() {
         super.onResume();
-        BrightnessUtil.setBrightness(requireActivity(), 1.0f);
+        BrightnessUtil.setBrightness(requireActivity(), 0.9f);
     }
 
     @Override

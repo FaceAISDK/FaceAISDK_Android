@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
-
-import com.ai.face.base.runtimeEnv.RuntimeEnv;
 import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
@@ -21,6 +19,7 @@ import com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM;
 import com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
+import com.faceAI.demo.FaceImageConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
@@ -63,7 +62,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.0001f)    //焦距范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)      //画面旋转方向
-//                .setSize(CameraXFragment.SIZE.DEFAULT) //SDK 内部自动判断，或者使用自定义摄像头
                 .create();
 
         cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
@@ -86,9 +84,9 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 .setLivenessType(MotionLivenessType.SILENT_MOTION) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
                 .setSilentLivenessThreshold(silentLivenessPassScore)  //静默活体阈值 [0.88,0.98]
                 .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
-                .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
+                .setMotionLivenessStepSize(2)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(12)           //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
-                //.setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑 或其他某一种
+//                .setExceptMotionLivenessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑 或其他某一种
                 .setProcessCallBack(new ProcessCallBack() {
 
                     /**
@@ -99,20 +97,25 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
-                        //切换到主线程操作UI
-                        runOnUiThread(() -> {
-                            scoreText.setText("RGB Live:"+silentLivenessValue);
-                            new ImageToast().show(getApplicationContext(), bitmap, "活体检测完成");
-                            new AlertDialog.Builder(LivenessDetectActivity.this)
-                                    .setTitle(R.string.liveness_detection)
-                                    .setMessage("活体检测完成，其中RGB Live分数="+silentLivenessValue)
-                                    .setCancelable(false)
-                                    .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                                        finishFaceVerify(9,"活体检测完成");
-                                    })
-                                    .setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify())
-                                    .show();
-                        });
+
+                        if(FaceImageConfig.isDebugMode(getBaseContext())){
+                            runOnUiThread(() -> {
+                                scoreText.setText("RGB Live:"+silentLivenessValue);
+                                new ImageToast().show(getApplicationContext(), bitmap, "活体检测完成");
+                                new AlertDialog.Builder(LivenessDetectActivity.this)
+                                        .setTitle("Debug模式提示")
+                                        .setMessage("活体检测完成，其中RGB Live分数="+silentLivenessValue)
+                                        .setCancelable(false)
+                                        .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
+                                            finishFaceVerify(9,"活体检测完成",silentLivenessValue);
+                                        })
+                                        .setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify())
+                                        .show();
+                            });
+                        }else{
+                            finishFaceVerify(9,"活体检测完成",silentLivenessValue);
+                        }
+
                     }
 
                     //人脸识别，活体检测过程中的各种提示
@@ -270,15 +273,19 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     }
 
     /**
-     * 识别结束返回结果, 为了给uniApp UTS插件统一的交互返回格式
+     * 识别结束返回结果, 为了给uniApp UTS插件，RN，Flutter统一的交互返回格式
      *
      * @param code
      * @param msg
      */
-    private void finishFaceVerify(int code,String msg) {
+    private void finishFaceVerify(int code, String msg) {
+        finishFaceVerify(code,msg,0f);
+    }
+
+    private void finishFaceVerify(int code, String msg,float silentLivenessScore) {
         Intent intent = new Intent().putExtra("code", code)
-                .putExtra("faceID", "")
-                .putExtra("msg", msg);
+                .putExtra("msg", msg)
+                .putExtra("silentLivenessScore", silentLivenessScore);
         setResult(RESULT_OK, intent);
         finish();
     }

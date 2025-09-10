@@ -26,7 +26,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 import androidx.camera.core.CameraSelector;
-import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
@@ -40,25 +39,25 @@ import java.util.List;
 
 /**
  * 1:N 人脸搜索识别「1:N face search」
- *
- * 1.  使用的宽动态（大于110DB）高清抗逆光摄像头；**保持镜头整洁干净（会粘指纹油污的用纯棉布擦拭干净）**
- * 2.  录入高质量的人脸图，如（images/face\_example.jpg）（证件照输入目前优化中）
+ * <p>
+ * 1.  使用的宽动态（室内大于105DB,室外大于120DB）高清抗逆光摄像头；**保持镜头整洁干净（汗渍 油污）**
+ * 2.  录入高质量清晰正脸图，脸部清晰
  * 3.  光线环境好否则加补光灯，人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
  * 4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
- *
+ * <p>
  * 怎么提高人脸搜索识别系统的准确度？https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
- * \n
+ * <p>
  * 网盘分享的3000 张人脸图链接: https://pan.baidu.com/s/1RfzJlc-TMDb0lQMFKpA-tQ?pwd=Face 提取码: Face
- * 可复制工程目录 ./faceAILib/src/main/assert 下后在Demo 的人脸库管理页面一键导入模拟插入多张人脸图
- *
- * 摄像头管理源码开放了 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment}
+ * 可复制到工程目录 ./faceAILib/src/main/assert 下后在Demo 的人脸库管理页面一键导入模拟插入多张人脸图
+ * <p>
+ * 摄像头管理源码开放在 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment} 摄像头用户自行管理，不属于SDK
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceSearch1NActivity extends AbsBaseActivity {
     //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
     private MyCameraFragment cameraXFragment; //可以使用开放的摄像头管理源码MyCameraFragment，自行管理摄像头
-    private boolean enginePrepared=false;
+    private boolean pauseSearch =false; //控制是否送数据到SDK进行搜索
     private int cameraLensFacing;
 
     @Override
@@ -106,6 +105,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 .setThreshold(0.85f) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值以及人脸底片质量也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
+                .setSearchIntervalTime(1900) //默认2000，范围[1500,3000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy左右翻转影响人脸框
                 .setProcessCallBack(new SearchProcessCallBack() {
 
@@ -163,7 +163,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         // 建议设备配置 CPU为八核64位2.4GHz以上,  摄像头RGB 宽动态(大于105Db)高清成像，光线不足设备加补光灯
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
-            if (!isDestroyed() && !isFinishing()&&enginePrepared) {
+            if (!isDestroyed() && !isFinishing()&&!pauseSearch) {
                 //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像
                 FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
             }
@@ -207,7 +207,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
 
             case SEARCH_PREPARED:
                 //initSearchParams 后引擎需要加载人脸库等初始化，完成会回调
-                enginePrepared=true;
                 binding.searchTips.setText(R.string.keep_face_tips);
                 break;
 
@@ -261,4 +260,15 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         FaceSearchEngine.Companion.getInstance().stopSearchProcess();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pauseSearch=false;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        pauseSearch=true;
+    }
 }
