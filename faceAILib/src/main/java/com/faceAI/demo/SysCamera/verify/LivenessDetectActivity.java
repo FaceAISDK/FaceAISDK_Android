@@ -2,6 +2,8 @@ package com.faceAI.demo.SysCamera.verify;
 
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
+import static com.faceAI.demo.FaceImageConfig.CACHE_BASE_FACE_DIR;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +25,7 @@ import com.faceAI.demo.FaceImageConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
+import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.base.view.DemoFaceCoverView;
 
@@ -97,7 +100,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
-
+                        BitmapUtils.saveBitmap(bitmap,CACHE_BASE_FACE_DIR,"liveBitmap");//给插件用
                         if(FaceImageConfig.isDebugMode(getBaseContext())){
                             runOnUiThread(() -> {
                                 scoreText.setText("RGB Live:"+silentLivenessValue);
