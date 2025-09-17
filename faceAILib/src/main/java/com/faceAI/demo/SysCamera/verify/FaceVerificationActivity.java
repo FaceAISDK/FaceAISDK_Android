@@ -132,7 +132,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 .setMotionLivenessStepSize(2)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(14)           //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
                 //.setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑 或其他某一种
-                //.setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
+                .setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
                      * 1:1 人脸识别 活体检测 对比结束

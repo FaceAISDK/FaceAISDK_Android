@@ -103,6 +103,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(12) //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
 //                .setCompareDurationTime(4500) //动作活体通过后人脸对比时间，[3000,6000]毫秒。低配设备可以设置时间长一点，高配设备默认就行
+                .setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
                      * 1:1 人脸识别 活体检测 对比结束

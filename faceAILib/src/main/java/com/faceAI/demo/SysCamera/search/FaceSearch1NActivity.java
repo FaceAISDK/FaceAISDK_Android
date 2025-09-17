@@ -106,7 +106,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setSearchIntervalTime(1900) //默认2000，范围[1500,3000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
-                .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy左右翻转影响人脸框
+                .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //后面版本去除次参数
                 .setProcessCallBack(new SearchProcessCallBack() {
 
                     /**

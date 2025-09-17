@@ -41,6 +41,7 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 - 人脸搜索速度更新，万张人脸库搜索速度毫秒级（新版本SDK需重新迁移同步人脸一次）
 - 添加相机管理源码MyCameraFragment（CameraX）, 准备支持camera1以及NV21 data[]
 
+更多历史版本说明参考 [历史版本SDK更新记录](doc/历史版本SDK更新记录.md)
 
 ## [使用场景和区别](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/doc/Introduce_11_1N_MN.md)
 

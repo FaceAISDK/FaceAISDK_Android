@@ -15,7 +15,8 @@ android {
         targetSdk 34      //target SDK 还是28 的请参考question.md 文档说明
         
         ndk {
-            abiFilters 'arm64-v8a' //暂时只配置64位CPU，32位需要的自行配置
+//            abiFilters 'arm64-v8a' //暂时只配置64位CPU，32位需要的自行配置
+            abiFilters 'armeabi-v7a', 'arm64-v8a' //根据CPU架构选择对应ABI
         }
     }
 

@@ -15,12 +15,13 @@
    kotlin-android-extensions官方也已经停止维护，建议升级为viewbinding
    其他集成问题，请根据报错搜索解决方案,需要降级依赖版本配置VIP用户可以联系协助解决
 
-### 2.是否支持外接UVC协议 USB摄像头
-   如果你的系统摄像头采用标准的 Android Camera2 API 和摄像头HIDL接口，SDK内部已经集成CameraX管理摄像头，也就是
-   标准大厂生产的手机平板设备都是支持的。
-   
-   2025.07.15 以上版本已经默认支持了UVC 协议的USB红外双目摄像头，直接在手机上插上USB 连接摄像头就能体验，支持切换角度
-   匹配红外，RGB摄像头。 更多UVC摄像头的操作可以参考这个库：https://github.com/shiyinghan/UVCAndroid
+### 2.支持哪些摄像头？
+   SDK并不限制UVC/MIPI/USB摄像头，但需要保证各种环境成像清晰无噪点，具体参数参考/Doc目录/硬件配置要求
+   开放人脸需根据你的硬件平台特性自行管理摄像头，Demo 提供默认CameraXFragment,你也可以使用camera1
+   取的摄像头帧数据后送人SDK 进行处理，但是强烈不建议使用外接摄像头性能（如帧率、数据传输延迟、缓冲区处理）
+   可能不如内置相机，并且更容易受到连接稳定性和带宽的影响。推荐 HARDWARE_LEVEL_FULL/HARDWARE_LEVEL_3级别
+
+   UVC摄像头的操作可以参考这个库：https://github.com/shiyinghan/UVCAndroid
 
 
 ### 3.人脸识别1:N 搜索支持人脸库大小与速度
@@ -40,7 +41,7 @@
    
 
 ### 4.如何提升 1:N人脸识别的准确率？
-   参考专题文章 https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA ,SDK不可用于金融，高安全级别场景
+   参考专题文章 https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA ,SDK不可用于金融，高安全要求场景
    某些场景我们提供以下方法供业务侧避免搜索匹配错误无可选处理路径
 
    ```
@@ -50,7 +51,7 @@
       */
        @Override
        public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
-          //已经按照降序排列，可以弹出一个列表框
+          //已经按照降序排列，可以弹出一个列表框让用户再次确认
           Log.d("onFaceMatched",matchedResults.toString());
      }                   
    ```
@@ -92,6 +93,7 @@
 
 ### 9.为什么小朋友群体1:N ，M：N 搜索误识别率较高？
   小朋友的五官差异相对成年人确实没有那么大，需要专门为小朋友群体训练人脸识别模型了，SDK demo 为通用模型
+  默认不支持低龄儿童场景使用  
 
 ### 10.能通过File 操作直接把人脸照片放到制定目录就开始人脸搜索吗？
 
