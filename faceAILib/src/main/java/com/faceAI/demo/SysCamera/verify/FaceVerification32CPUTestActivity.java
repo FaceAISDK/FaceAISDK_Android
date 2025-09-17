@@ -10,8 +10,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,7 +32,7 @@ import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.R;
-import com.faceAI.demo.SysCamera.camera.MyCameraFragment;
+import com.faceAI.demo.SysCamera.camera.MyCameraXFragment;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.VoicePlayer;
@@ -53,7 +51,7 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private DemoFaceCoverView faceCoverView;
-    private MyCameraFragment cameraXFragment;  //摄像头管理源码暴露出来了，方便定制开发
+    private MyCameraXFragment cameraXFragment;  //摄像头管理源码暴露出来了，方便定制开发
 
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
 
@@ -95,7 +93,7 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
                 .create();
 
         //MyCameraFragment 相机管理源码暴露
-        cameraXFragment = MyCameraFragment.newInstance(cameraXBuilder);
+        cameraXFragment = MyCameraXFragment.newInstance(cameraXBuilder);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
     }

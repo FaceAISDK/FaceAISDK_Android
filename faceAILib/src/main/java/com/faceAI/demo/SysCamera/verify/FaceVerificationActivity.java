@@ -14,7 +14,6 @@ import android.os.Looper;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.camera.core.CameraSelector;
@@ -24,7 +23,7 @@ import com.ai.face.base.baseImage.FaceEmbedding;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
-import com.faceAI.demo.SysCamera.camera.MyCameraFragment;
+import com.faceAI.demo.SysCamera.camera.MyCameraXFragment;
 import com.faceAI.demo.base.view.DemoFaceCoverView;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
@@ -42,7 +41,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
  * 仅仅需要活体检测参考{@link LivenessDetectActivity}
  * <p>
  * 移动考勤签到、App免密登录、刷脸授权、刷脸解锁。请熟悉Demo主流程后根据你的业务情况再改造
- * 摄像头管理源码开放了 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment}
+ * 摄像头管理源码开放了 {@link MyCameraXFragment}
  *
  * @author FaceAISDK.Service@gmail.com
  */
@@ -52,7 +51,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private DemoFaceCoverView faceCoverView;
-    private MyCameraFragment cameraXFragment;  //摄像头管理源码暴露出来了，方便定制开发
+    private MyCameraXFragment cameraXFragment;  //摄像头管理源码暴露出来了，方便定制开发
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
 
     @Override
@@ -81,10 +80,10 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.0001f)    //焦距范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
-                .setRotation(degree)      //画面旋转方向
+                .setRotation(degree)       //画面旋转方向
                 .create();
 
-        cameraXFragment = MyCameraFragment.newInstance(cameraXBuilder);
+        cameraXFragment = MyCameraXFragment.newInstance(cameraXBuilder);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
     }

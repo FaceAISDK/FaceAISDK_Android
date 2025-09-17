@@ -23,6 +23,7 @@ import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
 import com.faceAI.demo.FaceImageConfig;
 import com.faceAI.demo.R;
+import com.faceAI.demo.SysCamera.camera.MyCameraXFragment;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.BitmapUtils;
@@ -33,7 +34,7 @@ import com.faceAI.demo.base.view.DemoFaceCoverView;
  * 活体检测 SDK 接入演示Demo 代码.
  * 使用系统相机怎么活体检测，包含动作活体，静默活体（静默需要摄像头成像清晰，宽动态大于105Db）
  *
- * 摄像头管理源码开放了 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment}
+ * 摄像头管理源码开放了 {@link MyCameraXFragment}
  * @author FaceAISDK.Service@gmail.com
  */
 public class LivenessDetectActivity extends AbsBaseActivity {

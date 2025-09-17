@@ -1,15 +1,11 @@
 package com.faceAI.demo.SysCamera.camera;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-
 import androidx.annotation.NonNull;
 import androidx.camera.camera2.Camera2Config;
 import androidx.camera.core.Camera;
@@ -39,12 +35,11 @@ import java.util.concurrent.Executors;
  *
  * @author FaceAISDK.Service@gmail.com
  */
-public class MyCameraFragment extends Fragment implements CameraXConfig.Provider{
+public class MyCameraXFragment extends Fragment implements CameraXConfig.Provider{
     private static final String CAMERA_LINEAR_ZOOM = "CAMERA_LINEAR_ZOOM";  //焦距缩放比例
     private static final String CAMERA_LENS_FACING = "CAMERA_LENS_FACING";  //前后配置
     private static final String CAMERA_ROTATION = "CAMERA_ROTATION";  //旋转
     private int rotation = Surface.ROTATION_0; //旋转角度
-    private long lastAnalyzedTimestamp;
     private int cameraLensFacing = 0; //默认前置摄像头
     private float scaleX = 0f, scaleY = 0f;
     private float linearZoom = 0.01f; //焦距
@@ -80,7 +75,7 @@ public class MyCameraFragment extends Fragment implements CameraXConfig.Provider
     }
 
 
-    public MyCameraFragment() {
+    public MyCameraXFragment() {
         // Required empty public constructor
     }
 
@@ -92,8 +87,8 @@ public class MyCameraFragment extends Fragment implements CameraXConfig.Provider
         void analyze(@NonNull ImageProxy imageProxy);
     }
 
-    public static MyCameraFragment newInstance(CameraXBuilder cameraXBuilder) {
-        MyCameraFragment fragment = new MyCameraFragment();
+    public static MyCameraXFragment newInstance(CameraXBuilder cameraXBuilder) {
+        MyCameraXFragment fragment = new MyCameraXFragment();
         Bundle args = new Bundle();
         args.putInt(CAMERA_LENS_FACING, cameraXBuilder.getCameraLensFacing());
         args.putFloat(CAMERA_LINEAR_ZOOM, cameraXBuilder.getLinearZoom());
@@ -172,24 +167,14 @@ public class MyCameraFragment extends Fragment implements CameraXConfig.Provider
 
             // Connect the preview use case to the previewView
             preview.setSurfaceProvider(previewView.getSurfaceProvider());
-            lastAnalyzedTimestamp = System.currentTimeMillis() + 500; //延迟半秒执行
             imageAnalysis.setAnalyzer(executorService, imageProxy -> {
 
-                    try {
-                        if (scaleX == 0f || scaleY == 0f) {
-                            setScaleXY(imageProxy);
-                        } else {
-                            //控制10帧每秒,SDK内部有背压处理，防止用户业务上其他处理耗费性能
-                            if (System.currentTimeMillis() - lastAnalyzedTimestamp > 200) {
-                                analyzeDataCallBack.analyze(imageProxy);
-                                lastAnalyzedTimestamp = System.currentTimeMillis();
-                            }
-                        }
-                    } catch (Exception e) {
-                        Log.e("CameraX error", "FaceAI SDK:" + e.getMessage());
-                    } finally {
-                        imageProxy.close();
-                    }
+                if (scaleX == 0f || scaleY == 0f) {
+                    setScaleXY(imageProxy);
+                } else {
+                    analyzeDataCallBack.analyze(imageProxy);
+                }
+                imageProxy.close();
 
             });
 
@@ -215,8 +200,15 @@ public class MyCameraFragment extends Fragment implements CameraXConfig.Provider
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //前面，cameraProvider.bindToLifecycle(getViewLifecycleOwner(), cameraSelector, preview, imageAnalysis);
-        //CameraX 相关都是绑定Activity生命周期的，一般不需要手动管理，特殊平台咨询平台技术供应商
+
+    }
+
+    /**
+     * CameraX 相关都是绑定Activity生命周期的，一般不需要手动管理，特殊平台咨询平台技术供应商
+     *
+     */
+    private void  releaseCamera(){
+
     }
 
     @Override
