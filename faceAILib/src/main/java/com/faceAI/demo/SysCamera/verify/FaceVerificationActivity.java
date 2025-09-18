@@ -3,6 +3,8 @@ package com.faceAI.demo.SysCamera.verify;
 import static com.faceAI.demo.FaceImageConfig.CACHE_BASE_FACE_DIR;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
+import static com.faceAI.demo.FaceImageConfig.CACHE_FACE_LOG_DIR;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,16 +16,21 @@ import android.os.Looper;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.camera.core.CameraSelector;
+
 import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.baseImage.FaceEmbedding;
+import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
+import com.faceAI.demo.FaceImageConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.SysCamera.camera.MyCameraXFragment;
+import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.view.DemoFaceCoverView;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
@@ -31,7 +38,6 @@ import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus.*;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
-import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -46,13 +52,24 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceVerificationActivity extends AbsBaseActivity {
-    private final float silentLivenessThreshold = 0.81f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
     public static final String USER_FACE_ID_KEY = "USER_FACE_ID_KEY";   //1:1 face verify ID KEY
+    public static final String THRESHOLD_KEY = "THRESHOLD_KEY";           //人脸识别通过的阈值
+    public static final String SILENT_THRESHOLD_KEY = "SILENT_THRESHOLD_KEY";   //RGB 静默活体KEY
+    public static final String FACE_LIVENESS_TYPE = "FACE_LIVENESS_TYPE";   //活体检测的类型
+    public static final String MOTION_STEP_SIZE = "MOTION_STEP_SIZE";   //动作活体的步骤数
+    public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
+
+    private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION;//活体检测类型
+    private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
+    private float verifyThreshold = 0.85f; //1:1 人脸识别对比通过的阈值
+    private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
+    private int motionStepSize = 2; //动作活体的个数
+    private int motionTimeOut = 10; //动作超时秒
+
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private DemoFaceCoverView faceCoverView;
-    private MyCameraXFragment cameraXFragment;  //摄像头管理源码暴露出来了，方便定制开发
-    private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
+    private MyCameraXFragment cameraXFragment;  //摄像头管理源码暴露出来，方便定制开发
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +81,12 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         faceCoverView = findViewById(R.id.face_cover);
         findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(0, "用户取消"));
 
+        getIntentParams(); //接收三方插件传递的参数，原生开放可以忽略
+
         initCameraX();
         initFaceVerifyEmbedding();
     }
+
 
     /**
      * 初始化摄像头
@@ -94,7 +114,6 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      */
     private void initFaceVerifyEmbedding() {
         //1:1 人脸对比，摄像头实时采集的人脸和预留的人脸底片对比。（动作活体人脸检测完成后开始1:1比对）
-        faceID = getIntent().getStringExtra(USER_FACE_ID_KEY);
         float[] faceEmbedding = FaceEmbedding.loadEmbedding(getBaseContext(), faceID);
         // 去Path 路径读取有没有faceID 对应的处理好的人脸Bitmap
         String faceFilePath = CACHE_BASE_FACE_DIR + faceID;
@@ -102,7 +121,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
 
         //本地没有faceID对应的人脸特征向量 （ 本段代码仅供演示，你需要根据自身业务完善流程）
         if (faceEmbedding.length == 0) {
-                disposeBaseBitmapGetEmbedding(baseBitmap);
+            disposeBaseBitmapGetEmbedding(baseBitmap);
         } else {
             initFaceVerificationParam(faceEmbedding);
         }
@@ -122,15 +141,15 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private void initFaceVerificationParam(float[] faceEmbedding) {
         //建议老的低配设备减少活体检测步骤，加长活体检测 人脸对比时间。
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                .setThreshold(0.85f)                    //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
+                .setThreshold(verifyThreshold)                    //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
                 .setFaceEmbedding(faceEmbedding)        //1:1 人脸识别对比的底片人脸特征向量，以前是传bitmap，2025 08 18现在优化
                 .setCameraType(FaceProcessBuilder.CameraType.SYS_CAMERA)
                 .setCompareDurationTime(3500)           //人脸识别对比时间[3000,5000] 毫秒。相似度很低会持续设置的时间
-                .setLivenessType(MotionLivenessType.SILENT_MOTION) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
+                .setLivenessType(faceLivenessType) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
                 .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.66,0.98]
                 .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
-                .setMotionLivenessStepSize(2)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
-                .setMotionLivenessTimeOut(14)           //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
+                .setMotionLivenessStepSize(motionStepSize)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
+                .setMotionLivenessTimeOut(motionTimeOut)             //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
                 //.setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑 或其他某一种
                 .setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
@@ -190,24 +209,28 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private void showVerifyResult(boolean isVerifyMatched, float similarity, float silentLivenessScore, Bitmap bitmap) {
         //切换到主线程操作UI
         runOnUiThread(() -> {
-            scoreText.setText("liveness: " + silentLivenessScore);
-            //1.静默活体分数判断
+            if (FaceImageConfig.isDebugMode(getBaseContext())) {
+                scoreText.setText("liveness: " + silentLivenessScore);
+            }
+            BitmapUtils.saveBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");//保存场景图给三方插件使用
+
+            //1.RGB静默活体分数判断，同样场景分数和摄像头成像能力有关
             if (silentLivenessScore < silentLivenessThreshold) {
                 tipsTextView.setText(R.string.silent_anti_spoofing_error);
                 new AlertDialog.Builder(FaceVerificationActivity.this)
                         .setMessage(R.string.silent_anti_spoofing_error)
                         .setCancelable(false)
                         .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                            finishFaceVerify(2, "活体分数过低，请重试",silentLivenessScore);
+                            finishFaceVerify(2, "活体分数过低，请重试", silentLivenessScore);
                         })
                         .show();
             } else if (isVerifyMatched) {
                 //2.和底片同一人
                 VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-                new ImageToast().show(getApplicationContext(), bitmap, "识别成功"+similarity);
+                new ImageToast().show(getApplicationContext(), bitmap, "识别成功" + similarity);
 
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    finishFaceVerify(1, "人脸识别成功",silentLivenessScore);
+                    finishFaceVerify(1, "人脸识别成功", silentLivenessScore);
                 }, 1500);
             } else {
                 //3.和底片不是同一个人
@@ -217,7 +240,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                         .setMessage(R.string.face_verify_failed)
                         .setCancelable(false)
                         .setPositiveButton(R.string.know, (dialogInterface, i) -> {
-                            finishFaceVerify(4, "人脸识别相似度低于阈值",silentLivenessScore);
+                            finishFaceVerify(4, "人脸识别相似度低于阈值", silentLivenessScore);
                         })
                         .setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify())
                         .show();
@@ -341,24 +364,6 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         finishFaceVerify(0, "用户取消");
     }
 
-    /**
-     * 识别结束返回结果, 为了给uniApp UTS插件，RN，Flutter统一的交互返回格式
-     *
-     * @param code
-     * @param msg
-     */
-    private void finishFaceVerify(int code, String msg) {
-        finishFaceVerify(code,msg,0f);
-    }
-
-    private void finishFaceVerify(int code, String msg,float silentLivenessScore) {
-        Intent intent = new Intent().putExtra("code", code)
-                .putExtra("faceID", faceID)
-                .putExtra("msg", msg)
-                .putExtra("silentLivenessScore", silentLivenessScore);
-        setResult(RESULT_OK, intent);
-        finish();
-    }
 
     /**
      * 资源释放
@@ -385,8 +390,8 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private void disposeBaseBitmapGetEmbedding(Bitmap baseBitmap) {
         //需要你把以前版本的人脸bitmap 转变为faceEmbedding
         if (baseBitmap != null) {
-           //如果是经过FaceAISDK 裁剪处理过的人脸处理更简单
-            float[] embedding=new BaseImageDispose().saveBaseImageGetEmbedding(baseBitmap,CACHE_BASE_FACE_DIR,faceID);
+            //如果是经过FaceAISDK 裁剪处理过的人脸处理更简单
+            float[] embedding = new BaseImageDispose().saveBaseImageGetEmbedding(baseBitmap, CACHE_BASE_FACE_DIR, faceID);
             FaceEmbedding.saveEmbedding(getBaseContext(), faceID, embedding);  //本地保存起来
             initFaceVerificationParam(embedding);
 
@@ -412,5 +417,73 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         }
     }
 
+
+    // ************************** 下面代码是为了兼容三方插件，原生开放可以忽略   ***********************************
+
+    /**
+     * 获取UNI,RN,Flutter三方插件传递的参数,以便在原生代码中生效
+     */
+    private void getIntentParams() {
+        Intent intent = getIntent(); // 获取发送过来的Intent对象
+        if (intent != null) {
+            if (intent.hasExtra(USER_FACE_ID_KEY)) {
+                faceID = intent.getStringExtra(USER_FACE_ID_KEY);
+            } else {
+                Toast.makeText(this, R.string.input_face_id_tips, Toast.LENGTH_LONG).show();
+            }
+
+            if (intent.hasExtra(THRESHOLD_KEY)) {
+                verifyThreshold = intent.getFloatExtra(THRESHOLD_KEY, 0.85f);
+            }
+            if (intent.hasExtra(SILENT_THRESHOLD_KEY)) {
+                silentLivenessThreshold = intent.getFloatExtra(SILENT_THRESHOLD_KEY, 0.85f);
+            }
+            if (intent.hasExtra(FACE_LIVENESS_TYPE)) {
+                int type = intent.getIntExtra(FACE_LIVENESS_TYPE, 3);
+                switch (type) {
+                    case 0:
+                        faceLivenessType = FaceLivenessType.NONE;
+                        break;
+                    case 1:
+                        faceLivenessType = FaceLivenessType.SILENT;
+                        break;
+                    case 2:
+                        faceLivenessType = FaceLivenessType.MOTION;
+                        break;
+                    default:
+                        faceLivenessType = FaceLivenessType.SILENT_MOTION;
+                }
+            }
+
+            if (intent.hasExtra(MOTION_STEP_SIZE)) {
+                motionStepSize = intent.getIntExtra(MOTION_STEP_SIZE, 2);
+            }
+            if (intent.hasExtra(SILENT_THRESHOLD_KEY)) {
+                motionTimeOut = intent.getIntExtra(MOTION_TIMEOUT, 10);
+            }
+        } else {
+            // 数据不存在，执行其他操作
+        }
+    }
+
+
+    /**
+     * 识别结束返回结果, 为了给uniApp UTS插件，RN，Flutter统一的交互返回格式
+     *
+     * @param code
+     * @param msg
+     */
+    private void finishFaceVerify(int code, String msg) {
+        finishFaceVerify(code, msg, 0f);
+    }
+
+    private void finishFaceVerify(int code, String msg, float silentLivenessScore) {
+        Intent intent = new Intent().putExtra("code", code)
+                .putExtra("faceID", faceID)
+                .putExtra("msg", msg)
+                .putExtra("silentLivenessScore", silentLivenessScore);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 }
 

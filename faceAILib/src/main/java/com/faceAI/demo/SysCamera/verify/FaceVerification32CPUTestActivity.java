@@ -28,7 +28,7 @@ import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM;
 import com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
-import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
+import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.R;
@@ -41,9 +41,10 @@ import com.faceAI.demo.base.view.DemoFaceCoverView;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * 32 位CPU人脸识别耗时测试，相机管理源码MyCameraFragment暴露出来了，方便定制开发
+ * 32 位CPU人脸识别耗时测试，10.10 后删除
  * @author FaceAISDK.Service@gmail.com
  */
+@Deprecated
 public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
     private final float silentLivenessThreshold = 0.81f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
 
@@ -156,7 +157,7 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
                 .setFaceEmbedding(faceEmbedding)        //1:1 人脸识别对比的底片人脸特征向量，以前是传bitmap，2025 08 18现在优化
                 .setCameraType(FaceProcessBuilder.CameraType.SYS_CAMERA)
                 .setCompareDurationTime(3500)           //人脸识别对比时间[3000,5000] 毫秒。相似度很低会持续设置的时间
-                .setLivenessType(MotionLivenessType.SILENT) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
+                .setLivenessType(FaceLivenessType.SILENT) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
                 .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(10)           //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
