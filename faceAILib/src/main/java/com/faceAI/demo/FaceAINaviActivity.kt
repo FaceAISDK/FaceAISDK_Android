@@ -139,7 +139,6 @@ class FaceAINaviActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
         val showTime = sharedPref.getLong("showFaceAISDKTips", 0)
         if (System.currentTimeMillis() - showTime > 31 * 60 * 60 * 1000) {
-
             val builder = AlertDialog.Builder(this)
             val dialog = builder.create()
             val dialogView = View.inflate(this, R.layout.dialog_face_sdk_tips, null)

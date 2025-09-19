@@ -48,9 +48,9 @@
                 android:layout_margin="18dp"
                 android:gravity="left|center_vertical"
                 android:textStyle="bold"
-                android:text="1. 使用宽动态(大于105Db)成像清晰摄像头\n2. 人脸正对摄像头，按照提示完成操作\n3. 面部光线充足且柔和避免遮挡 \n4. 摄像头固定在屏幕正上方且整洁清晰"
+                android:text="1. 使用宽动态(大于105Db)成像清晰摄像头\n2. 人脸正对摄像头，按照提示完成操作\n3. 面部光线充足且柔和避免遮挡 \n4. 摄像头固定在屏幕上方合适高度且无汗渍油污"
                 android:textColor="@color/face_lib_main_color"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
