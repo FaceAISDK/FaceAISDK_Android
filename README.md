@@ -33,14 +33,14 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-## 当前版本说明 V2025.09.08
+##  V2025.09.19
+- 更名MotionLivenessType 为 FaceLivenessType
+- 添加相机等级判断和提示
+- Demo中去除32位CPU配置减低APK 体积
+- 人脸录入时优化人脸角度校验，并分4种等级
 
-- 防止切屏模拟器作弊，去除默认相机选择尺寸
-- 添加人脸图体验优化，暴露出人脸特征向量，保留bitmap
-- 1:1 人脸识别支持传入人脸特征向量取代Bitmap
-- 人脸搜索速度更新，万张人脸库搜索速度毫秒级（新版本SDK需重新迁移同步人脸一次）
-- 添加相机管理源码MyCameraFragment（CameraX）, 准备支持camera1以及NV21 data[]
 
+更多历史版本说明参考 [历史版本SDK更新记录](doc/历史版本SDK更新记录.md)
 
 ## [使用场景和区别](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/doc/Introduce_11_1N_MN.md)
 
@@ -59,7 +59,7 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 2.  更新GitHub 最新的代码，花1天左右时间熟悉SDK API 和对应的注释备注，断点调试一下基本功能；熟悉后再接入到主工程
 3.  欲速则不达，一定要先跑成功SDK接入指引Demo。熟悉后再接入到主工程验证匹配业务功能；有问题可以GitHub 提issues
 
-人脸识别已经验证过高中低配置设备，1万人脸搜索速度表现在几款设备统计如下：
+人脸识别已经验证过高中低配置设备，1万人脸搜索速度表现在几款设备统计如下，建议分库搜索以减少误差率：
 
 | 设备型号         | 启动初始化速度 | 搜索速度(毫秒) |
 |:---------------|:-------:|:---------|

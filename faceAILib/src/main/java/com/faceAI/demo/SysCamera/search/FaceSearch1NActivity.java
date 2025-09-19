@@ -31,7 +31,7 @@ import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
-import com.faceAI.demo.SysCamera.camera.MyCameraFragment;
+import com.faceAI.demo.SysCamera.camera.MyCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
@@ -50,13 +50,13 @@ import java.util.List;
  * 网盘分享的3000 张人脸图链接: https://pan.baidu.com/s/1RfzJlc-TMDb0lQMFKpA-tQ?pwd=Face 提取码: Face
  * 可复制到工程目录 ./faceAILib/src/main/assert 下后在Demo 的人脸库管理页面一键导入模拟插入多张人脸图
  * <p>
- * 摄像头管理源码开放在 {@link com.faceAI.demo.SysCamera.camera.MyCameraFragment} 摄像头用户自行管理，不属于SDK
+ * 摄像头管理源码开放在 {@link MyCameraXFragment} 摄像头用户自行管理，不属于SDK
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceSearch1NActivity extends AbsBaseActivity {
     //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
-    private MyCameraFragment cameraXFragment; //可以使用开放的摄像头管理源码MyCameraFragment，自行管理摄像头
+    private MyCameraXFragment cameraXFragment; //可以使用开放的摄像头管理源码MyCameraFragment，自行管理摄像头
     private boolean pauseSearch =false; //控制是否送数据到SDK进行搜索
     private int cameraLensFacing;
 
@@ -85,7 +85,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 .create();
 
         //可以不用SDK 内部相机管理，自定义摄像头参考MyCameraFragment，源码开放自由修改
-        cameraXFragment = MyCameraFragment.newInstance(cameraXBuilder);
+        cameraXFragment = MyCameraXFragment.newInstance(cameraXBuilder);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
 
@@ -106,7 +106,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setSearchIntervalTime(1900) //默认2000，范围[1500,3000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
-                .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy左右翻转影响人脸框
+                .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //后面版本去除次参数
                 .setProcessCallBack(new SearchProcessCallBack() {
 
                     /**

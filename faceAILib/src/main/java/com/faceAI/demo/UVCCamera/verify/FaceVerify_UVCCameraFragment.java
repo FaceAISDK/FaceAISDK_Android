@@ -1,20 +1,15 @@
 package com.faceAI.demo.UVCCamera.verify;
 
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
-
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
-
 import com.ai.face.base.baseImage.FaceEmbedding;
+import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.faceAI.demo.FaceImageConfig;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
@@ -22,7 +17,6 @@ import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
-import com.ai.face.faceVerify.verify.liveness.MotionLivenessType;
 import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.bumptech.glide.Glide;
@@ -96,13 +90,14 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(getContext())
                 .setThreshold(0.84f)                    //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
                 .setFaceEmbedding(faceEmbedding)        //1:1 人脸识别对比底片人脸特征库
-                .setLivenessType(MotionLivenessType.IR) //IR 是指红外静默，MOTION 是有动作可以指定1-2 个
+                .setLivenessType(FaceLivenessType.IR) //IR 是指红外静默，MOTION 是有动作可以指定1-2 个
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)//硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(silentLivenessThreshold) //静默活体阈值 [0.8,0.99]
 //                .setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑 或其他某一种
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(12) //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
 //                .setCompareDurationTime(4500) //动作活体通过后人脸对比时间，[3000,6000]毫秒。低配设备可以设置时间长一点，高配设备默认就行
+                .setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
                      * 1:1 人脸识别 活体检测 对比结束

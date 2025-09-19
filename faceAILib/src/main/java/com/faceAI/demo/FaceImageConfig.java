@@ -14,6 +14,9 @@ public class FaceImageConfig {
     public static String CACHE_BASE_FACE_DIR;   //1：1 人脸识别人脸图片存储目录
     public static String CACHE_SEARCH_FACE_DIR; //1：N 人脸识别搜索人脸图片存储目录
 
+    public static String CACHE_FACE_LOG_DIR;    //本地保存某次人脸校验完成后的场景图目录
+
+
     /**
      * 初始化人脸本地图片存储目录，也可以不存图片转化为人脸特征向量保存
      *
@@ -24,7 +27,7 @@ public class FaceImageConfig {
         // https://developer.android.com/training/data-storage?hl=zh-cn
         CACHE_BASE_FACE_DIR = context.getFilesDir().getPath() + "/FaceAI/Verify/";    //1:1 人脸识别目录
         CACHE_SEARCH_FACE_DIR = context.getFilesDir().getPath() + "/FaceAI/Search/";  //人脸搜索人脸库目录
-
+        CACHE_FACE_LOG_DIR= context.getFilesDir().getPath() + "/FaceAI/Log/";  //使用场景图目录
 
         //语音提示播报
         VoicePlayer.getInstance().init(context);

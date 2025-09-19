@@ -1,6 +1,8 @@
 package com.faceAI.demo.SysCamera.addFace;
 
 import static android.view.View.GONE;
+import static com.ai.face.base.baseImage.BaseImageDispose.PERFORMANCE_MODE_ACCURATE;
+import static com.ai.face.base.baseImage.BaseImageDispose.PERFORMANCE_MODE_FAST;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
@@ -47,6 +49,7 @@ import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.faceAI.demo.FaceImageConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.base.AbsBaseActivity;
 
@@ -69,10 +72,13 @@ import java.util.Objects;
  */
 public class AddFaceImageActivity extends AbsBaseActivity {
     public static String ADD_FACE_IMAGE_TYPE_KEY = "ADD_FACE_IMAGE_TYPE_KEY";
+    public static String ADD_FACE_PERFORMANCE_MODE = "ADD_FACE_PERFORMANCE_MODE";
+
     private TextView tipsTextView, secondTips;
     private BaseImageDispose baseImageDispose;
     private String faceID, addFaceType;
     private boolean isConfirmAdd = false; //确认期间停止人脸检测
+    private int addFacePerformanceMode=PERFORMANCE_MODE_ACCURATE;
 
     //是1:1 还是1:N 人脸搜索添加人脸
     public enum AddFaceImageTypeEnum {
@@ -89,14 +95,30 @@ public class AddFaceImageActivity extends AbsBaseActivity {
         tipsTextView = findViewById(R.id.tips_view);
         secondTips = findViewById(R.id.second_tips_view);
         addFaceType = getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
-        faceID = getIntent().getStringExtra(USER_FACE_ID_KEY);
 
-        /* 检测人脸，添加人脸
-         * 2 PERFORMANCE_MODE_ACCURATE   精确模式 人脸要正对摄像头，严格要求
-         * 1 PERFORMANCE_MODE_FAST       快速模式 允许人脸方位可以有一定的偏移
-         * 0 PERFORMANCE_MODE_EASY       简单模式 允许人脸方位可以「较大」的偏移
+        if(FaceImageConfig.isDebugMode(this)){
+            addFacePerformanceMode=PERFORMANCE_MODE_FAST;
+        }
+
+        Intent intent = getIntent(); // 获取发送过来的Intent对象
+        if (intent != null) {
+            if (intent.hasExtra(USER_FACE_ID_KEY)) {
+                faceID = intent.getStringExtra(USER_FACE_ID_KEY);
+            }
+            if (intent.hasExtra(ADD_FACE_PERFORMANCE_MODE)) {
+                addFacePerformanceMode = intent.getIntExtra(ADD_FACE_PERFORMANCE_MODE,PERFORMANCE_MODE_ACCURATE);
+            }
+        }
+
+
+        /* 添加人脸,检测人脸角度是否符合当前模式设置
+         *
+         * 2 PERFORMANCE_MODE_ACCURATE   精确模式 人脸要正对摄像头，严格要求角度
+         * 1 PERFORMANCE_MODE_FAST       快速模式 允许人脸角度可以有一定的偏差
+         * 0 PERFORMANCE_MODE_EASY       简单模式 允许人脸角度可以「较大」的偏差
+         *-1 PERFORMANCE_MODE_NO_LIMIT   无限制模式 基本上检测到人脸就返回了，
          */
-        baseImageDispose = new BaseImageDispose(this, BaseImageDispose.PERFORMANCE_MODE_EASY, new BaseImageCallBack() {
+        baseImageDispose = new BaseImageDispose(this, addFacePerformanceMode, new BaseImageCallBack() {
             /**
              * 人脸检测裁剪完成
              * @param bitmap           检测裁剪后的Bitmap
