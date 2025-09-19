@@ -190,7 +190,9 @@ public class MyCameraXFragment extends Fragment implements CameraXConfig.Provide
                 if (scaleX == 0f || scaleY == 0f) {
                     setScaleXY(imageProxy);
                 } else {
-                    analyzeDataCallBack.analyze(imageProxy);
+                    if(analyzeDataCallBack!=null){
+                        analyzeDataCallBack.analyze(imageProxy);
+                    }
                 }
                 imageProxy.close();
             });

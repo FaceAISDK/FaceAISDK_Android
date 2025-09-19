@@ -33,11 +33,11 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-## 当前版本说明 V2025.09.18
+##  V2025.09.19
 - 更名MotionLivenessType 为 FaceLivenessType
 - 添加相机等级判断和提示
 - Demo中去除32位CPU配置减低APK 体积
-- 
+- 人脸录入时优化人脸角度校验，并分4种等级
 
 
 更多历史版本说明参考 [历史版本SDK更新记录](doc/历史版本SDK更新记录.md)
