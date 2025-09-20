@@ -8,7 +8,7 @@ import com.faceAI.demo.base.utils.VoicePlayer;
 /**
  * 不要直接使用File Api 直接往文件目录插入图片，要使用SDK 提供的APi写入数据，图片还需要向量化，检测质量等操作
  */
-public class FaceImageConfig {
+public class FaceSDKConfig {
 
     //不要直接使用File Api 直接往文件目录插入图片，要使用SDK 提供的APi写入数据，图片还需要向量化
     public static String CACHE_BASE_FACE_DIR;   //1：1 人脸识别人脸图片存储目录

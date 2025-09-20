@@ -1,12 +1,9 @@
 package com.faceAI.demo.SysCamera.camera;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.camera.camera2.Camera2Config;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
@@ -29,7 +25,7 @@ import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.ai.face.base.view.camera.CameraXBuilder;
-import com.faceAI.demo.FaceImageConfig;
+import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -227,7 +223,7 @@ public class MyCameraXFragment extends Fragment implements CameraXConfig.Provide
             Integer level=characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
             if(level!=null&& level !=CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3
                     && level !=CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL){
-                if(FaceImageConfig.isDebugMode(requireContext())){
+                if(FaceSDKConfig.isDebugMode(requireContext())){
                     Toast.makeText(requireContext(),"Camera level low !",Toast.LENGTH_LONG).show();
                 }
             }

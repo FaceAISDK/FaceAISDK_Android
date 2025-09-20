@@ -2,7 +2,7 @@ package com.faceAI.demo.SysCamera.verify;
 
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
-import static com.faceAI.demo.FaceImageConfig.CACHE_BASE_FACE_DIR;
+import static com.faceAI.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
 
 import android.content.Context;
 import android.content.Intent;

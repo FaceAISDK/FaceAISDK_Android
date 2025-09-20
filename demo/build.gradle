@@ -7,8 +7,8 @@ android {
     compileSdk 34        //上线Google Play需要35 了
 
     defaultConfig {
-        versionCode 20250919
-        versionName "20250919"
+        versionCode 20250921
+        versionName "20250921"
 
         applicationId "com.ai.face.verifyPub" //演示用applicationId
         minSdk 21         //暂时只支持Android 5以上，需要更低需定制

@@ -2,7 +2,7 @@ package com.faceAI.demo.SysCamera.verify;
 
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
-import static com.faceAI.demo.FaceImageConfig.CACHE_FACE_LOG_DIR;
+import static com.faceAI.demo.FaceSDKConfig.CACHE_FACE_LOG_DIR;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,7 +19,7 @@ import com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM;
 import com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
-import com.faceAI.demo.FaceImageConfig;
+import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.MyCameraXFragment;
 import com.faceAI.demo.SysCamera.search.ImageToast;
@@ -108,7 +108,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     @Override
                     public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
                         BitmapUtils.saveBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //给插件用
-                        if(FaceImageConfig.isDebugMode(getBaseContext())){
+                        if(FaceSDKConfig.isDebugMode(getBaseContext())){
                             runOnUiThread(() -> {
                                 scoreText.setText("RGB Live:"+silentLivenessValue);
                                 new ImageToast().show(getApplicationContext(), bitmap, "活体检测完成");

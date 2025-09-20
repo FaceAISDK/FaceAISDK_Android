@@ -189,7 +189,6 @@ public class DemoFaceCoverView extends View {
         currentAngle = 360f * percent ;
         //外部圈的动画效果
         if (showProgress) {
-//            Log.e("Time count","currentAngle: "+currentAngle);
             if (currentAngle >= mEndAngle) {
                 currentAngle = mEndAngle;
             }

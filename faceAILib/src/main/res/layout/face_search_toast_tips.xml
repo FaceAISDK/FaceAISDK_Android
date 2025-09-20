@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="46dp"
     android:layout_gravity="center"
-    android:background="@drawable/search_result_bg"
+    android:background="@drawable/circle_bar_bg"
     android:padding="10dp"
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android">
