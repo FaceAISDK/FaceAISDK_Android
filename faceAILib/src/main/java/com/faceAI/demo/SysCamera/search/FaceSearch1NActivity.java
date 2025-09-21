@@ -16,6 +16,7 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 
+import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import android.content.Context;
 import android.content.Intent;
@@ -81,7 +82,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0.0001f)     //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
+                .setLinearZoom(0.001f)     //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)   //画面旋转方向
                 .create();
 
@@ -109,6 +110,18 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 .setSearchIntervalTime(1900) //默认2000，范围[1500,3000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //后面版本去除次参数
                 .setProcessCallBack(new SearchProcessCallBack() {
+                    /**
+                     * 返回的人脸光线亮度，0920 添加
+                     * @param brightness
+                     */
+                    @Override
+                    public void onFaceBrightness(float brightness) {
+                            if(brightness>180){
+                                Toast.makeText(getBaseContext(),"光线过亮:"+brightness,Toast.LENGTH_SHORT).show();
+                            }else if(brightness<80){
+                                Toast.makeText(getBaseContext(),"光线过暗:"+brightness,Toast.LENGTH_SHORT).show();
+                            }
+                    }
 
                     /**
                      * 最相似的人脸搜索识别结果，得分最高

@@ -125,17 +125,11 @@ public class AddFaceImageActivity extends AbsBaseActivity {
              * @param silentLiveValue  静默活体分数
              */
             @Override
-            public void onCompleted(Bitmap bitmap, float silentLiveValue) {
+            public void onCompleted(Bitmap bitmap, float silentLiveValue,float faceBrightness) {
                 isConfirmAdd=true;
                 runOnUiThread(() -> confirmAddFaceDialog(bitmap, silentLiveValue));
             }
 
-            @Override
-            public void onGetBritiness(double v) {
-                if(FaceSDKConfig.isDebugMode(getBaseContext())){
-                    ((TextView)findViewById(R.id.title)).setText("亮度"+v);
-                }
-            }
 
             @Override
             public void onProcessTips(int actionCode) {

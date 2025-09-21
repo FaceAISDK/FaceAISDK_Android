@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'com.example.demo'
-    compileSdk 34        //上线Google Play需要35 了
+    compileSdk 33        //
 
     defaultConfig {
         versionCode 20250921
@@ -12,11 +12,11 @@ android {
 
         applicationId "com.ai.face.verifyPub" //演示用applicationId
         minSdk 21         //暂时只支持Android 5以上，需要更低需定制
-        targetSdk 34      //target SDK 还是28 的请参考question.md 文档说明
+        targetSdk 33      //target SDK 还是28 的请参考question.md 文档说明
         
         ndk {
-//            abiFilters 'arm64-v8a' //暂时只配置64位CPU，32位需要的自行配置
-            abiFilters 'armeabi-v7a', 'arm64-v8a' //根据CPU架构选择对应ABI
+            abiFilters 'arm64-v8a' //暂时只配置64位CPU，32位需要的自行配置
+//            abiFilters 'armeabi-v7a', 'arm64-v8a' //根据CPU架构选择对应ABI
         }
     }
 
@@ -33,6 +33,7 @@ android {
         debug {
             minifyEnabled true
             shrinkResources true
+            debuggable true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -40,6 +41,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
+            debuggable true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

@@ -16,6 +16,7 @@
     <!-- 可以替换成你自己的UI样式,需要 FaceCoverView 源码联系对接工程师 -->
     <com.faceAI.demo.base.view.DemoFaceCoverView
         android:id="@+id/face_cover"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         customAttr:tip_text_size="20sp"
@@ -36,7 +37,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_centerHorizontal="true"
-        android:text="平视正对摄像头"
+        android:text="@string/sdk_init"
         android:textStyle="bold"
         android:textSize="18sp" />
 

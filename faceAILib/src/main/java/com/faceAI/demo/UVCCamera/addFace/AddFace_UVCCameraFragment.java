@@ -241,7 +241,7 @@ public class AddFace_UVCCameraFragment extends Fragment {
          */
         baseImageDispose = new BaseImageDispose(requireContext(), PERFORMANCE_MODE_FAST, new BaseImageCallBack() {
             @Override
-            public void onCompleted(Bitmap bitmap, float silentLiveValue) {
+            public void onCompleted(Bitmap bitmap, float silentLiveValue,float faceBrightness) {
                 isConfirmAdd=true;
                 requireActivity().runOnUiThread(() -> confirmAddFaceDialog(bitmap, silentLiveValue));
             }
