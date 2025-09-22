@@ -1,0 +1,59 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id("com.google.devtools.ksp").version("1.9.22-1.0.17")
+}
+
+android {
+    namespace 'com.faceAI.demo'
+    compileSdk 33
+    defaultConfig {
+        minSdk 21
+        targetSdk 33 //target SDK 还是28 的请参考question.md 文档说明
+
+        ndk {
+            abiFilters 'arm64-v8a' //暂时只配置64位CPU，32位需要的自行配置
+        }
+    }
+
+    //2025.06.09 版本开始从java11 升级到java17
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+}
+
+
+dependencies {
+    //More: FaceAISDK.Service@gmail.com
+    //SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
+    api 'io.github.faceaisdk:Android:2025.09.20.luma2'
+
+    //UVC协议USB摄像头选配，源码: https://github.com/shiyinghan/UVCAndroid
+    implementation 'io.github.faceaisdk:UVCCamera:2025.07.30'
+
+
+    //以下为业务需要其他依赖，不是SDK 运行的必须依赖
+    implementation 'pub.devrel:easypermissions:3.0.0'
+    implementation 'com.github.princekin-f:EasyFloat:2.0.4'
+    implementation 'com.airbnb.android:lottie:6.5.2'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.8'
+
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    ksp("com.github.bumptech.glide:ksp:4.16.0")
+    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation "androidx.recyclerview:recyclerview:1.3.2"
+
+    //选照片，用于静态人脸图相似度对比，使用详情见 https://github.com/javakam/FileOperator
+    implementation 'com.github.javakam:file.core:3.9.8@aar'      //核心库必选(Core library required)
+    implementation 'com.github.javakam:file.selector:3.9.8@aar'  //文件选择器(File selector)
+    implementation 'com.github.javakam:file.compressor:3.9.8@aar'//图片压缩,修改自Luban
+
+}
