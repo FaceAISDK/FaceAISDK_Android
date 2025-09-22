@@ -34,7 +34,7 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-##  V2025.09.21
+##  V2025.09.22
 - 添加光线明暗判断
 - 更名MotionLivenessType 为 FaceLivenessType
 - 添加相机等级判断和提示
@@ -56,9 +56,9 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 先在[「GitHub网站」](https://github.com/FaceAISDK/FaceAISDK_Android)下载最新接入SDK 接入代码导入到Android Studio。  
 Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的业务需求自行完善。
 
-1.  去蒲公英下载APK Demo体验各种功能，查验是否满足业务需求；人脸搜索可以一键导入App内置人脸图也可录入你自己的
-2.  更新GitHub 最新的代码，花1天左右时间熟悉SDK API 和对应的注释备注，断点调试一下基本功能；熟悉后再接入到主工程
-3.  欲速则不达，一定要先跑成功SDK接入指引Demo。熟悉后再接入到主工程验证匹配业务功能；有问题可以GitHub 提issues
+1. 去蒲公英下载APK Demo体验各种功能，查验是否满足业务需求；人脸搜索可以一键导入App内置人脸图也可录入你自己的
+2. 更新GitHub 最新的代码，花1天左右时间熟悉SDK API 和对应的注释备注，断点调试一下基本功能；熟悉后再接入到主工程
+3. 欲速则不达，一定要先跑成功SDK接入指引Demo。熟悉后再接入到主工程验证匹配业务功能；有问题可以GitHub 提issues
 
 人脸识别已经验证过高中低配置设备，1万人脸搜索速度表现在几款设备统计如下，建议分库搜索以减少误差率：
 
@@ -75,15 +75,16 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 
 **工程目录结构简要介绍**
 
-| 模块           | 描述                                           |
-|---------------|----------------------------------------------|
+| 模块           | 描述                                          |
+|---------------|---------------------------------------------|
 | Demo          | Demo主工程，implementation project(':faceAILib') |
-| faceAILib     | 子Module，FaceAISDK 所有功能都在module 中演示           |
-| /verify/\*    | 1:1 人脸检测识别，活体检测页面，静态人脸对比                     |
-| /search/\*    | 1:N 人脸搜索识别，人脸库增删改管理等财政                       |
-| /addFaceImage | 人脸识别和搜索共用的添加人脸照片录入模块                         |
-| /UVCCamera/\* | UVC协议双目红外摄像头人脸识别，人脸搜索，一般是自自定义的硬件             |
-| /SysCamera/\* | 手机，平板自带的系统相机，一般系统摄像头打开就能看效果                  |
+| faceAILib     | 子Module，FaceAISDK 所有功能都在module 中演示          |
+| /verify/\*    | 1:1 人脸检测识别，活体检测页面，静态人脸对比              |
+| /search/\*    | 1:N 人脸搜索识别，人脸库增删改管理等财政                  |
+| /addFaceImage | 人脸识别和搜索共用的添加人脸照片录入模块                   |
+| /SysCamera/\* | 手机，平板自带的系统相机，一般系统摄像头打开就能看效果       |
+| /UVCCamera/\* | UVC协议双目红外摄像头人脸识别，人脸搜索，一般是自自定义的硬件 |
+
 
 *   1.调整JDK版本到java 17。AS设置Preferences -> Build -> Gradle -> JDK的版本为 17
 
