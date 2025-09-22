@@ -7,11 +7,12 @@ android {
     compileSdk 33
 
     defaultConfig {
-        versionCode 20250921
-        versionName "20250921"
+        //需要优化一下摄像头焦距和 按比例显示...
+        versionCode 20250922
+        versionName "20250922"
 
-        applicationId "com.ai.face.verifyPub" //演示用applicationId
-        minSdk 21         //暂时只支持Android 5以上，需要更低需定制
+        applicationId "com.ai.face.verifyPub"
+        minSdk 21
         targetSdk 33      //target SDK 还是28 的请参考question.md 文档说明
         
         ndk {
