@@ -1,18 +1,20 @@
 package com.faceAI.demo.SysCamera.verify;
 
-import static com.faceAI.demo.FaceImageConfig.CACHE_BASE_FACE_DIR;
+import static com.faceAI.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
-import static com.faceAI.demo.FaceImageConfig.CACHE_FACE_LOG_DIR;
+import static com.faceAI.demo.FaceSDKConfig.CACHE_FACE_LOG_DIR;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,9 +26,12 @@ import androidx.camera.core.CameraSelector;
 import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.baseImage.FaceEmbedding;
+import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
-import com.faceAI.demo.FaceImageConfig;
+import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
+import com.faceAI.demo.SysCamera.camera.Camera1Fragment;
+import com.faceAI.demo.SysCamera.camera.Camera1Preview;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.SysCamera.camera.MyCameraXFragment;
@@ -69,7 +74,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private DemoFaceCoverView faceCoverView;
-    private MyCameraXFragment cameraXFragment;  //摄像头管理源码暴露出来，方便定制开发
+    private Camera1Fragment cameraXFragment;  //摄像头管理源码暴露出来，方便定制开发
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,11 +104,13 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,_90,_180,_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0.0001f)    //焦距范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
+                .setLinearZoom(0.001f)    //焦距范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)       //画面旋转方向
                 .create();
 
-        cameraXFragment = MyCameraXFragment.newInstance(cameraXBuilder);
+//        cameraXFragment = MyCameraXFragment.newInstance(cameraXBuilder);
+
+        cameraXFragment = Camera1Fragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
     }
@@ -187,13 +194,31 @@ public class FaceVerificationActivity extends AbsBaseActivity {
 
         faceVerifyUtils.setDetectorParams(faceProcessBuilder);
 
-        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-            //防止在识别过程中关闭页面导致Crash
-            if (!isDestroyed() && !isFinishing()) {
-                //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
-                faceVerifyUtils.goVerifyWithImageProxy(imageProxy, faceCoverView.getMargin());
+//        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
+//            //防止在识别过程中关闭页面导致Crash
+//            if (!isDestroyed() && !isFinishing()) {
+//                //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
+//                faceVerifyUtils.goVerifyWithImageProxy(imageProxy, faceCoverView.getMargin());
+//            }
+//        });
+
+        /**
+         * 这还是主线程，What？
+         *
+         */
+        cameraXFragment.setCameraDataCallBack(new Camera1Preview.OnCameraData() {
+            @Override
+            public void callBack(byte[] bytes, Camera camera) {
+                int width=camera.getParameters().getPreviewSize().width;
+                int height=camera.getParameters().getPreviewSize().height;
+
+//                baseFaceImageView.setImageBitmap(DataConvertUtils.NV21Byte2Bitmap(bytes,width,height,270));
+
+                Log.e("CustomCameraActivity","Camera W H="+ width+" , "+height);
+                faceVerifyUtils.goVerifyWithNV21Bytes(bytes,width,height,270);
             }
         });
+
 
 
     }
@@ -209,7 +234,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private void showVerifyResult(boolean isVerifyMatched, float similarity, float silentLivenessScore, Bitmap bitmap) {
         //切换到主线程操作UI
         runOnUiThread(() -> {
-            if (FaceImageConfig.isDebugMode(getBaseContext())) {
+            if (FaceSDKConfig.isDebugMode(getBaseContext())) {
                 scoreText.setText("liveness: " + silentLivenessScore);
             }
             BitmapUtils.saveBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");//保存场景图给三方插件使用

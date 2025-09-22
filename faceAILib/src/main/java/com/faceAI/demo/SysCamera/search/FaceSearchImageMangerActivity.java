@@ -1,6 +1,6 @@
 package com.faceAI.demo.SysCamera.search;
 
-import static com.faceAI.demo.FaceImageConfig.CACHE_SEARCH_FACE_DIR;
+import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
 import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
 import android.app.AlertDialog;
 import android.content.Intent;

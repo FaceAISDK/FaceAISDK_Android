@@ -1,12 +1,9 @@
 package com.faceAI.demo.SysCamera.camera;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.camera.camera2.Camera2Config;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
@@ -29,10 +25,12 @@ import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.ai.face.base.view.camera.CameraXBuilder;
-import com.faceAI.demo.FaceImageConfig;
+import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.google.common.util.concurrent.ListenableFuture;
+
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -46,7 +44,7 @@ import java.util.concurrent.Executors;
  *
  * @author FaceAISDK.Service@gmail.com
  */
-public class MyCameraXFragment extends Fragment implements CameraXConfig.Provider{
+public class MyCameraXFragment extends Fragment {
     private static final String CAMERA_LINEAR_ZOOM = "CAMERA_LINEAR_ZOOM";  //焦距缩放比例
     private static final String CAMERA_LENS_FACING = "CAMERA_LENS_FACING";  //前后配置
     private static final String CAMERA_ROTATION = "CAMERA_ROTATION";  //旋转
@@ -63,26 +61,6 @@ public class MyCameraXFragment extends Fragment implements CameraXConfig.Provide
     private Preview preview;
     private Camera camera;
     private PreviewView previewView;
-
-
-    /**
-     * CameraX 会枚举和查询设备上可用摄像头的特性。由于 CameraX 需要与硬件组件通信，因此对每个摄像头执行此过程可能
-     * 需要较长时间，尤其是在低端设备上。如果您的应用仅使用设备上的特定摄像头（例如默认前置摄像头）您可以将 CameraX
-     * 设置为忽略其他摄像头，从而缩短应用所用摄像头的启动延迟时间。
-     *
-     * 注意本配置需要放置在你的Application类中，并添加到 AndroidManifest.xml 文件中
-     *
-     * 更多：https://developer.android.com/media/camera/camerax/configuration?hl=zh-cn
-     * @return CameraXConfig
-     */
-    @NonNull
-    @Override
-    public CameraXConfig getCameraXConfig() {
-        return CameraXConfig.Builder.fromConfig(Camera2Config.defaultConfig())
-                // 设置唯一固定摄像头，需要配置在Application中
-                //.setAvailableCamerasLimiter(CameraSelector.DEFAULT_FRONT_CAMERA)
-                .build();
-    }
 
 
     public MyCameraXFragment() {
@@ -126,7 +104,7 @@ public class MyCameraXFragment extends Fragment implements CameraXConfig.Provide
         mDefaultBright = BrightnessUtil.getBrightness(requireActivity());
         initCameraXAnalysis(rootView);
 
-        getCameraLevel();
+//        getCameraLevel();
 
         return rootView;
     }
@@ -134,12 +112,6 @@ public class MyCameraXFragment extends Fragment implements CameraXConfig.Provide
     /**
      * 初始化相机,使用CameraX
      *
-     * 相机等级：
-     *     CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY,
-     *     CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_EXTERNAL,
-     *     CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED,
-     *     CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL,
-     *     CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3
      */
     private void initCameraXAnalysis(View rootView) {
         executorService = Executors.newSingleThreadExecutor();
@@ -222,18 +194,26 @@ public class MyCameraXFragment extends Fragment implements CameraXConfig.Provide
             //判断当前摄像头等级 ,Android 9以上才支持判断
             CameraManager cameraManager = (CameraManager) requireContext().getSystemService(Context.CAMERA_SERVICE);
 
-            String cameraId = ""+cameraLensFacing; //假设的后置摄像头ID
+            String cameraId =Integer.toString(cameraLensFacing); //不能这样写！！！
             CameraCharacteristics characteristics = cameraManager.getCameraCharacteristics(cameraId);
             Integer level=characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
             if(level!=null&& level !=CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3
                     && level !=CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL){
-                if(FaceImageConfig.isDebugMode(requireContext())){
+                if(FaceSDKConfig.isDebugMode(requireContext())){
                     Toast.makeText(requireContext(),"Camera level low !",Toast.LENGTH_LONG).show();
                 }
             }
-        } catch (CameraAccessException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            Log.e("getCameraLevel", Objects.requireNonNull(e.getMessage()));
         }
+    }
+
+
+    /**
+     * 切换摄像头立即生效自行处理
+     */
+    public void switchCamera() {
+        //
     }
 
 
@@ -243,11 +223,13 @@ public class MyCameraXFragment extends Fragment implements CameraXConfig.Provide
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        releaseCamera();
+//        releaseCamera();  //一般不需手动处理
     }
 
+
     /**
-     * 手动释放所有资源
+     * 手动释放所有资源（不同硬件平台处理方式不一样），一般资源释放会和页面销毁自动联动
+     *
      */
     public void releaseCamera() {
         if(executorService!=null&&!executorService.isTerminated()){

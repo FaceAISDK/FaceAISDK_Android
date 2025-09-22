@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:customAttr="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootView"
+    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -24,7 +25,7 @@
         customAttr:progress_start_color="@color/green"
         customAttr:show_progress="true"
         customAttr:background_color="@color/white"
-        customAttr:tip_text_color="@color/face_lib_main_color"
+        customAttr:tip_text_color="@color/face_main_color"
         customAttr:tip_text_size="20sp" />
 
 

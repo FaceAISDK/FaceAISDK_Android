@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    tools:context="com.ai.face.com.faceAI.face.search.FaceSearchImageMangerActivity">
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -76,7 +75,7 @@
                         android:layout_gravity="center"
                         android:text="@string/add_face_from_camera"
                         android:textStyle="bold"
-                        android:textColor="@color/face_lib_main_color"
+                        android:textColor="@color/face_main_color"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -97,7 +96,7 @@
                         android:layout_gravity="center"
                         android:text="@string/add_face_from_photo"
                         android:textStyle="bold"
-                        android:textColor="@color/face_lib_main_color"
+                        android:textColor="@color/face_main_color"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>

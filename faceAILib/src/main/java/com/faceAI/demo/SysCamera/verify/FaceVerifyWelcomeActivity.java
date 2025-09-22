@@ -1,6 +1,6 @@
 package com.faceAI.demo.SysCamera.verify;
 
-import static com.faceAI.demo.FaceImageConfig.CACHE_BASE_FACE_DIR;
+import static com.faceAI.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
 import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 
@@ -104,7 +104,6 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
             ImageBean imageBean = faceImageList.get(i);
             new AlertDialog.Builder(this).setTitle("确定要删除"
                     + imageBean.name).setMessage("删除后对应的人将无法被识别").setPositiveButton("确定", (dialog, which) -> {
-                //删除FaceID
                 File file = new File(imageBean.path);
                 if (file.delete()) {
                     updateFaceList();
@@ -116,16 +115,12 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
         });
 
         //32 位CPU测试
-        faceImageListAdapter.setOnItemLongClickListener(new OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int i) {
-                startActivity(
-                        new Intent(getBaseContext(), FaceVerification32CPUTestActivity.class)
-                                .putExtra(USER_FACE_ID_KEY, faceImageList.get(i).name));
-                return false;
-            }
+        faceImageListAdapter.setOnItemLongClickListener((adapter, view, i) -> {
+            startActivity(
+                    new Intent(getBaseContext(), FaceVerification32CPUTestActivity.class)
+                            .putExtra(USER_FACE_ID_KEY, faceImageList.get(i).name));
+            return false;
         });
-
 
         faceImageListAdapter.setOnItemClickListener((adapter, view, i) -> {
                     // 根据摄像头种类启动不同的模式

@@ -7,8 +7,8 @@ import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
-import static com.faceAI.demo.FaceImageConfig.CACHE_BASE_FACE_DIR;
-import static com.faceAI.demo.FaceImageConfig.CACHE_SEARCH_FACE_DIR;
+import static com.faceAI.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
+import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
 
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
@@ -49,7 +49,7 @@ import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.faceAI.demo.FaceImageConfig;
+import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.base.AbsBaseActivity;
 
@@ -96,7 +96,7 @@ public class AddFaceImageActivity extends AbsBaseActivity {
         secondTips = findViewById(R.id.second_tips_view);
         addFaceType = getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
 
-        if(FaceImageConfig.isDebugMode(this)){
+        if(FaceSDKConfig.isDebugMode(this)){
             addFacePerformanceMode=PERFORMANCE_MODE_FAST;
         }
 
@@ -125,10 +125,11 @@ public class AddFaceImageActivity extends AbsBaseActivity {
              * @param silentLiveValue  静默活体分数
              */
             @Override
-            public void onCompleted(Bitmap bitmap, float silentLiveValue) {
+            public void onCompleted(Bitmap bitmap, float silentLiveValue,float faceBrightness) {
                 isConfirmAdd=true;
                 runOnUiThread(() -> confirmAddFaceDialog(bitmap, silentLiveValue));
             }
+
 
             @Override
             public void onProcessTips(int actionCode) {

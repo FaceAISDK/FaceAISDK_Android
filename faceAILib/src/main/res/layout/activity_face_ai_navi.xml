@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/face_lib_main_color"
+    android:background="@color/face_main_color"
     android:paddingTop="5dp"
     tools:context="com.faceAI.demo.FaceAINaviActivity">
 
@@ -87,7 +88,7 @@
                 android:gravity="center"
                 android:text="@string/face_verify_1vs1"
                 android:textStyle="bold"
-                android:textColor="@color/face_lib_main_color"
+                android:textColor="@color/face_main_color"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -131,7 +132,7 @@
                 android:gravity="center"
                 android:text="@string/face_search"
                 android:textStyle="bold"
-                android:textColor="@color/face_lib_main_color"
+                android:textColor="@color/face_main_color"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/face_search" />
 
@@ -150,7 +151,7 @@
         android:layout_marginRight="22dp"
         android:visibility="visible"
         android:text="@string/parameter_setting"
-        android:textColor="@color/face_lib_main_color"
+        android:textColor="@color/face_main_color"
         android:textStyle="bold"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -169,7 +170,7 @@
         android:layout_marginRight="22dp"
         android:visibility="visible"
         android:text="@string/binocular_camera_demo"
-        android:textColor="@color/face_lib_main_color"
+        android:textColor="@color/face_main_color"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -189,7 +190,7 @@
         android:layout_marginRight="29dp"
         android:visibility="visible"
         android:text="@string/two_face_image_verify"
-        android:textColor="@color/face_lib_main_color"
+        android:textColor="@color/face_main_color"
         android:textStyle="bold"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -207,7 +208,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
         android:text="@string/liveness_detection"
-        android:textColor="@color/face_lib_main_color"
+        android:textColor="@color/face_main_color"
         android:textStyle="bold"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -225,7 +226,7 @@
         android:layout_marginEnd="25dp"
         android:visibility="visible"
         android:text="@string/two_face_image_verify"
-        android:textColor="@color/face_lib_main_color"
+        android:textColor="@color/face_main_color"
         android:textStyle="bold"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -243,7 +244,7 @@
         android:background="@drawable/bg_btn"
         android:gravity="center"
         android:text="@string/custom_camera"
-        android:textColor="@color/face_lib_main_color"
+        android:textColor="@color/face_main_color"
         android:textSize="14sp"
         android:textStyle="bold"
         android:visibility="visible"

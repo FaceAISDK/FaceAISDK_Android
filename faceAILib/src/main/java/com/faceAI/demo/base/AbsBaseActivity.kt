@@ -5,8 +5,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.faceAI.demo.R
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
@@ -18,6 +22,8 @@ import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
  */
 open class AbsBaseActivity : AppCompatActivity(), PermissionCallbacks {
     override fun onCreate(savedInstanceState: Bundle?) {
+        //this.enableEdgeToEdge() //启用"Edge-to-Edge"（从边缘到边缘）的用户界面模式
+
         super.onCreate(savedInstanceState)
         checkNeededPermission()
     }
@@ -35,6 +41,24 @@ open class AbsBaseActivity : AppCompatActivity(), PermissionCallbacks {
             EasyPermissions.requestPermissions(
                 this, getString(R.string.facesdk_camera_permission), 11, *perms
             )
+        }
+    }
+
+    /**
+     * this.enableEdgeToEdge() //启用"Edge-to-Edge"（从边缘到边缘）的用户界面模式
+     *
+     */
+    open fun applyWindowInsets(){
+        try {
+            ViewCompat.setOnApplyWindowInsetsListener(
+                findViewById(R.id.main)
+            ) { v: View?, insets: WindowInsetsCompat? ->
+                val systemBars = insets!!.getInsets(WindowInsetsCompat.Type.systemBars())
+                v!!.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+                insets
+            }
+        }catch (e: Exception){
+            Log.e("setOnApplyWindow",e.message.toString());
         }
     }
 

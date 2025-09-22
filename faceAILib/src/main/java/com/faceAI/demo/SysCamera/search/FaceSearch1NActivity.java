@@ -1,7 +1,7 @@
 package com.faceAI.demo.SysCamera.search;
 
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
-import static com.faceAI.demo.FaceImageConfig.CACHE_SEARCH_FACE_DIR;
+import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_SIZE_FIT;
@@ -16,6 +16,7 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 
+import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 import androidx.camera.core.CameraSelector;
 import com.ai.face.base.view.camera.CameraXBuilder;
@@ -73,14 +75,14 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         });
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
-        cameraLensFacing = sharedPref.getInt( FRONT_BACK_CAMERA_FLAG, 0);
+        cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT); //默认前置
         int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //1. 摄像头相关参数配置
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0.0001f)     //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
+                .setLinearZoom(0.001f)     //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)   //画面旋转方向
                 .create();
 
@@ -108,6 +110,18 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 .setSearchIntervalTime(1900) //默认2000，范围[1500,3000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //后面版本去除次参数
                 .setProcessCallBack(new SearchProcessCallBack() {
+                    /**
+                     * 返回的人脸光线亮度，0920 添加
+                     * @param brightness
+                     */
+                    @Override
+                    public void onFaceBrightness(float brightness) {
+                            if(brightness>180){
+                                Toast.makeText(getBaseContext(),"光线过亮:"+brightness,Toast.LENGTH_SHORT).show();
+                            }else if(brightness<80){
+                                Toast.makeText(getBaseContext(),"光线过暗:"+brightness,Toast.LENGTH_SHORT).show();
+                            }
+                    }
 
                     /**
                      * 最相似的人脸搜索识别结果，得分最高
@@ -189,48 +203,49 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
      * @param code 提示Code码
      */
     private void showFaceSearchPrecessTips(int code) {
-        binding.secondSearchTips.setText("");
+//        binding.secondSearchTips.setText("");
         switch (code) {
             case NO_MATCHED:
-                //没有搜索匹配识别到任何人
-                binding.secondSearchTips.setText(R.string.no_matched_face);
+                //本次没有搜索匹配到结果，下一帧继续
+//                setSecondTips(R.string.no_matched_face);
                 break;
 
             case FACE_DIR_EMPTY:
-                //人脸库没有人脸照片，没有使用SDK API插入人脸？
-                binding.searchTips.setText(R.string.face_dir_empty);
+                //人脸库没有人脸照片，使用SDK API插入人脸
+                setSearchTips(R.string.face_dir_empty);
+                Toast.makeText(this, R.string.face_dir_empty, Toast.LENGTH_LONG).show();
                 break;
 
             case EMGINE_INITING:
-                binding.searchTips.setText(R.string.sdk_init);
+                setSearchTips(R.string.sdk_init);
                 break;
 
             case SEARCH_PREPARED:
                 //initSearchParams 后引擎需要加载人脸库等初始化，完成会回调
-                binding.searchTips.setText(R.string.keep_face_tips);
+                setSearchTips(R.string.keep_face_tips);
                 break;
 
             case  SEARCHING:
-                binding.searchTips.setText(R.string.keep_face_tips);
+                setSearchTips(R.string.keep_face_tips);
                 break;
 
             case NO_LIVE_FACE:
-                binding.searchTips.setText(R.string.no_face_detected_tips);
+                setSearchTips(R.string.no_face_detected_tips);
                 break;
 
             case FACE_TOO_SMALL:
-                binding.secondSearchTips.setText(R.string.come_closer_tips);
+                setSecondTips(R.string.come_closer_tips);
                 break;
 
             // 单独使用一个textview 提示，防止上一个提示被覆盖。
             // 也可以自行记住上个状态，FACE_SIZE_FIT 中恢复上一个提示
             case FACE_TOO_LARGE:
-                binding.secondSearchTips.setText(R.string.far_away_tips);
+                setSecondTips(R.string.far_away_tips);
                 break;
 
             //检测到正常的人脸，尺寸大小OK
             case FACE_SIZE_FIT:
-                binding.secondSearchTips.setText("");
+                setSecondTips(0);
                 break;
 
             case TOO_MUCH_FACE:
@@ -238,16 +253,35 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 break;
 
             case THRESHOLD_ERROR:
-                binding.searchTips.setText(R.string.search_threshold_scope_tips);
+                setSearchTips(R.string.search_threshold_scope_tips);
                 break;
 
             case MASK_DETECTION:
-                binding.searchTips.setText(R.string.no_mask_please);
+                setSearchTips(R.string.no_mask_please);
                 break;
 
             default:
-                binding.searchTips.setText("回调提示：" + code);
+                binding.searchTips.setText("搜索提示：" + code);
                 break;
+        }
+    }
+
+
+    private void setSearchTips(int resId) {
+        binding.searchTips.setText(resId);
+    }
+
+    /**
+     * 第二行提示
+     * @param resId
+     */
+    private void setSecondTips(int resId){
+        if(resId==0){
+            binding.secondSearchTips.setText("");
+            binding.secondSearchTips.setVisibility(View.INVISIBLE);
+        }else {
+            binding.secondSearchTips.setText(resId);
+            binding.secondSearchTips.setVisibility(View.VISIBLE);
         }
     }
 

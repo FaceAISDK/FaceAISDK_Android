@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:customAttr="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootView"
+    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -24,7 +25,7 @@
         customAttr:progress_start_color="@color/green"
         customAttr:show_progress="true"
         customAttr:background_color="@color/white"
-        customAttr:tip_text_color="@color/face_lib_main_color"
+        customAttr:tip_text_color="@color/face_main_color"
         customAttr:tip_text_size="20sp" />
 
     <ImageView
@@ -57,7 +58,7 @@
         android:paddingBottom="2dp"
         android:layout_marginTop="15dp"
         android:text="@string/keep_face_visible"
-        android:textColor="@color/face_lib_main_color"
+        android:textColor="@color/face_main_color"
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -103,7 +104,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="33dp"
         android:padding="9dp"
-        android:textColor="@color/face_lib_main_color"
+        android:textColor="@color/face_main_color"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

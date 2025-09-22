@@ -4,7 +4,6 @@
     <string name="device_list_cancel_button">Cancel</string>
     <string name="device_list_confirm_button">Confirm</string>
 
-
     <string name="sdk_init">SDK Init</string>
     <string name="no_mask_please">No mask</string>
     <string name="face_verifying">Verifying(face the camera)</string>

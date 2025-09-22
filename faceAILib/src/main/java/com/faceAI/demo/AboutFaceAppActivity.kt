@@ -17,7 +17,7 @@ import com.faceAI.demo.databinding.ActivityAboutFaceAppBinding
 
 /**
  * 关于我们
- *
+ * @author FaceAISDK.Service@gmail.com
  */
 class AboutFaceAppActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityAboutFaceAppBinding

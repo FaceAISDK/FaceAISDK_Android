@@ -25,7 +25,9 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * UI 自由修改，Demo UI仅供简单参考
+ *
  * https://github.com/FaceAISDK/FaceAISDK_Android
+ * @author FaceAISDK.Service@gmail.com
  */
 public class DemoFaceCoverView extends View {
     private final String TAG = "FaceVerifyView";
@@ -131,7 +133,7 @@ public class DemoFaceCoverView extends View {
         //保持屏幕长亮
         setKeepScreenOn(true);
 
-        mBgArcWidth = ScreenUtils.dp2px(context, 3);
+        mBgArcWidth = ScreenUtils.dp2px(context, 2);
 
         //绘制文字画笔
         mTextPaint = new Paint();
@@ -189,7 +191,6 @@ public class DemoFaceCoverView extends View {
         currentAngle = 360f * percent ;
         //外部圈的动画效果
         if (showProgress) {
-//            Log.e("Time count","currentAngle: "+currentAngle);
             if (currentAngle >= mEndAngle) {
                 currentAngle = mEndAngle;
             }

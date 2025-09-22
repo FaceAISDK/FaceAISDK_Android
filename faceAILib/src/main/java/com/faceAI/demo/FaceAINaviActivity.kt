@@ -19,7 +19,7 @@ import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
 
 /**
  * SDK 接入演示Demo，请先熟悉本Demo跑通住流程后再集成到你的主工程验证业务
- *
+ * @author FaceAISDK.Service@gmail.com
  */
 class FaceAINaviActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityFaceAiNaviBinding
@@ -29,10 +29,8 @@ class FaceAINaviActivity : AppCompatActivity() {
         viewBinding = ActivityFaceAiNaviBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-
-
         //人脸图保存路径初始化
-        FaceImageConfig.init(this)
+        FaceSDKConfig.init(this)
 
         //分享
         viewBinding.shareLayout.setOnClickListener {
@@ -139,7 +137,6 @@ class FaceAINaviActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
         val showTime = sharedPref.getLong("showFaceAISDKTips", 0)
         if (System.currentTimeMillis() - showTime > 31 * 60 * 60 * 1000) {
-
             val builder = AlertDialog.Builder(this)
             val dialog = builder.create()
             val dialogView = View.inflate(this, R.layout.dialog_face_sdk_tips, null)

@@ -11,7 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.ai.face.base.baseImage.FaceEmbedding;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.faceAI.demo.FaceImageConfig;
+import com.faceAI.demo.FaceSDKConfig;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
@@ -72,7 +72,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
         }
 
         //显示一下对应的人
-        String savedFacePath = FaceImageConfig.CACHE_BASE_FACE_DIR + faceID;
+        String savedFacePath = FaceSDKConfig.CACHE_BASE_FACE_DIR + faceID;
         Bitmap baseBitmap = BitmapFactory.decodeFile(savedFacePath);
         Glide.with(requireActivity())
                 .load(baseBitmap)
