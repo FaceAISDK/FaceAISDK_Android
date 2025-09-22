@@ -24,7 +24,7 @@
         customAttr:progress_start_color="@color/green"
         customAttr:show_progress="true"
         customAttr:background_color="@color/white"
-        customAttr:tip_text_color="@color/face_lib_main_color"
+        customAttr:tip_text_color="@color/face_main_color"
         customAttr:tip_text_size="20sp" />
 
 

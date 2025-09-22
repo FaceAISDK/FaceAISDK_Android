@@ -1,9 +1,9 @@
 package com.faceAI.demo.SysCamera.verify;
 
-import static com.faceAI.demo.FaceImageConfig.CACHE_BASE_FACE_DIR;
+import static com.faceAI.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
-import static com.faceAI.demo.FaceImageConfig.CACHE_FACE_LOG_DIR;
+import static com.faceAI.demo.FaceSDKConfig.CACHE_FACE_LOG_DIR;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +25,7 @@ import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.baseImage.FaceEmbedding;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
-import com.faceAI.demo.FaceImageConfig;
+import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
@@ -209,7 +209,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private void showVerifyResult(boolean isVerifyMatched, float similarity, float silentLivenessScore, Bitmap bitmap) {
         //切换到主线程操作UI
         runOnUiThread(() -> {
-            if (FaceImageConfig.isDebugMode(getBaseContext())) {
+            if (FaceSDKConfig.isDebugMode(getBaseContext())) {
                 scoreText.setText("liveness: " + silentLivenessScore);
             }
             BitmapUtils.saveBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");//保存场景图给三方插件使用

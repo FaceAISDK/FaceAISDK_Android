@@ -1,12 +1,9 @@
 package com.faceAI.demo.SysCamera.camera;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.camera.camera2.Camera2Config;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
@@ -29,10 +25,12 @@ import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.ai.face.base.view.camera.CameraXBuilder;
-import com.faceAI.demo.FaceImageConfig;
+import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.google.common.util.concurrent.ListenableFuture;
+
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -222,17 +220,17 @@ public class MyCameraXFragment extends Fragment implements CameraXConfig.Provide
             //判断当前摄像头等级 ,Android 9以上才支持判断
             CameraManager cameraManager = (CameraManager) requireContext().getSystemService(Context.CAMERA_SERVICE);
 
-            String cameraId = ""+cameraLensFacing; //假设的后置摄像头ID
+            String cameraId =Integer.toString(cameraLensFacing); //不能这样写！！！
             CameraCharacteristics characteristics = cameraManager.getCameraCharacteristics(cameraId);
             Integer level=characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
             if(level!=null&& level !=CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3
                     && level !=CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL){
-                if(FaceImageConfig.isDebugMode(requireContext())){
+                if(FaceSDKConfig.isDebugMode(requireContext())){
                     Toast.makeText(requireContext(),"Camera level low !",Toast.LENGTH_LONG).show();
                 }
             }
-        } catch (CameraAccessException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            Log.e("getCameraLevel", Objects.requireNonNull(e.getMessage()));
         }
     }
 
@@ -243,11 +241,12 @@ public class MyCameraXFragment extends Fragment implements CameraXConfig.Provide
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        releaseCamera();
+        releaseCamera();  //一般不需要
     }
 
     /**
-     * 手动释放所有资源
+     * 手动释放所有资源（不同硬件平台处理方式不一样），一般资源释放会和页面销毁自动联动
+     *
      */
     public void releaseCamera() {
         if(executorService!=null&&!executorService.isTerminated()){

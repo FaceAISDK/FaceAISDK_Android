@@ -9,7 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.ai.face.base.utils.DataConvertUtils;
-import com.faceAI.demo.FaceImageConfig;
+import com.faceAI.demo.FaceSDKConfig;
 import com.herohan.uvcapp.CameraHelper;
 import com.herohan.uvcapp.ICameraHelper;
 import com.serenegiant.opengl.renderer.MirrorMode;
@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * USB摄像头（UVC协议）管理
  * 根据关键字keyword 是RGB/IR（不同厂商命名方式不一样）来区分双面摄像头哪个是RGB 摄像头哪个是红外
- * 默认的分辨率设置 写在{@link FaceImageConfig},可以根据下面的方法来获取后修改合适的值
+ * 默认的分辨率设置 写在{@link FaceSDKConfig},可以根据下面的方法来获取后修改合适的值
  * <p>
  * 如果本SDK Demo不能管理你的定制摄像头，请参考https://github.com/shiyinghan/UVCAndroid
  * 熟悉后可以自己实现一个 UsbCameraManager来管理你的摄像头各种适配

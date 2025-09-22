@@ -14,6 +14,6 @@
         android:padding="3dp"
         android:textSize="15sp"
         android:layout_centerInParent="true"
-        android:textColor="@color/face_lib_main_color" />
+        android:textColor="@color/face_main_color" />
 
 </RelativeLayout>

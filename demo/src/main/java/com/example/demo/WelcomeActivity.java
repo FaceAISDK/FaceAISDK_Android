@@ -5,7 +5,7 @@ import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
-import com.faceAI.demo.FaceImageConfig;
+import com.faceAI.demo.FaceSDKConfig;
 import androidx.appcompat.app.AppCompatActivity;
 import com.faceAI.demo.FaceAINaviActivity;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -30,10 +30,10 @@ public class WelcomeActivity extends AppCompatActivity {
         sdkVersion.setText("SDK 版本： v"+getVersionName());
 
         //人脸图保存路径等初始化配置
-        FaceImageConfig.init(this);
+        FaceSDKConfig.init(this);
 
         // 收集Crash,ANR 运行日志
-        if(!FaceImageConfig.isDebugMode(getBaseContext())){
+        if(!FaceSDKConfig.isDebugMode(getBaseContext())){
             CrashReport.initCrashReport(getApplicationContext(), "36fade54d8", true);
         }
 

@@ -32,7 +32,7 @@ class FaceAINaviActivity : AppCompatActivity() {
 
 
         //人脸图保存路径初始化
-        FaceImageConfig.init(this)
+        FaceSDKConfig.init(this)
 
         //分享
         viewBinding.shareLayout.setOnClickListener {
