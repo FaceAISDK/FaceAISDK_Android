@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.CameraSelector
 import androidx.core.content.edit
 import com.faceAI.demo.UVCCamera.manger.select.DeviceListDialogFragment
 import com.faceAI.demo.databinding.ActivityFaceAiSettingsBinding
@@ -46,9 +47,10 @@ class FaceAISettingsActivity : AppCompatActivity() {
 
         val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
 
-        //1.切换系统相机前后
+        //1.切换系统相机前后摄像头
         binding.switchCamera.setOnClickListener {
-            if (sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 1) == 1) {
+            //CameraSelector.LENS_FACING_FRONT=0 ,系统对前摄的定义
+            if (sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT) == 1) {
                 sharedPref.edit(commit = true) { putInt(FRONT_BACK_CAMERA_FLAG, 0) }
                 Toast.makeText(baseContext, "Front camera now", Toast.LENGTH_SHORT).show()
             } else {
@@ -57,7 +59,7 @@ class FaceAISettingsActivity : AppCompatActivity() {
             }
         }
 
-        // 2. 切换系统相机旋转角度
+        // 2.切换系统相机旋转角度
         val degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, 3) % 4
         val degreeStr = when (degree) {
             0 -> "0°"

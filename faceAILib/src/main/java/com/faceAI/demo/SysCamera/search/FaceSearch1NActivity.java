@@ -75,7 +75,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         });
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
-        cameraLensFacing = sharedPref.getInt( FRONT_BACK_CAMERA_FLAG, 0);
+        cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT); //默认前置
         int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //1. 摄像头相关参数配置

@@ -1,12 +1,13 @@
 
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
-##  V2025.09.21
+##  V2025.09.22
 - 添加光线明暗判断
 - 更名MotionLivenessType 为 FaceLivenessType
 - 添加相机等级判断和提示
 - Demo中去除32位CPU配置减低APK 体积
 - 人脸录入时优化人脸角度校验，并分4种等级
+- Demo 首次切换摄像头错误修正
 
 
 ## V2025.09.09
