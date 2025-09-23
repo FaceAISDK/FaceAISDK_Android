@@ -74,7 +74,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private DemoFaceCoverView faceCoverView;
-    private Camera1Fragment cameraXFragment;  //摄像头管理源码暴露出来，方便定制开发
+    private MyCameraXFragment cameraXFragment;  //摄像头管理源码暴露出来，方便定制开发
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,9 +108,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 .setRotation(degree)       //画面旋转方向
                 .create();
 
-//        cameraXFragment = MyCameraXFragment.newInstance(cameraXBuilder);
-
-        cameraXFragment = Camera1Fragment.newInstance();
+        cameraXFragment = MyCameraXFragment.newInstance(cameraXBuilder);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
     }
@@ -194,33 +192,13 @@ public class FaceVerificationActivity extends AbsBaseActivity {
 
         faceVerifyUtils.setDetectorParams(faceProcessBuilder);
 
-//        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-//            //防止在识别过程中关闭页面导致Crash
-//            if (!isDestroyed() && !isFinishing()) {
-//                //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
-//                faceVerifyUtils.goVerifyWithImageProxy(imageProxy, faceCoverView.getMargin());
-//            }
-//        });
-
-        /**
-         * 这还是主线程，What？
-         *
-         */
-        cameraXFragment.setCameraDataCallBack(new Camera1Preview.OnCameraData() {
-            @Override
-            public void callBack(byte[] bytes, Camera camera) {
-                int width=camera.getParameters().getPreviewSize().width;
-                int height=camera.getParameters().getPreviewSize().height;
-
-//                baseFaceImageView.setImageBitmap(DataConvertUtils.NV21Byte2Bitmap(bytes,width,height,270));
-
-                Log.e("CustomCameraActivity","Camera W H="+ width+" , "+height);
-                faceVerifyUtils.goVerifyWithNV21Bytes(bytes,width,height,270);
+        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
+            //防止在识别过程中关闭页面导致Crash
+            if (!isDestroyed() && !isFinishing()) {
+                //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
+                faceVerifyUtils.goVerifyWithImageProxy(imageProxy, faceCoverView.getMargin());
             }
         });
-
-
-
     }
 
     /**

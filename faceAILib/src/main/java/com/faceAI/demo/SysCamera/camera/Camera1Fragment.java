@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.ai.face.base.view.camera.CameraXBuilder;
+
 
 /**
  * 老相机。https://gxh-apologize.github.io/2019/05/24/Camera%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/
- *
+ * 暂未完善
  */
 public class Camera1Fragment extends Fragment {
     private Camera1Preview mPreview;
@@ -27,7 +29,7 @@ public class Camera1Fragment extends Fragment {
 
 
 
-    public static Camera1Fragment newInstance() {
+    public static Camera1Fragment newInstance(CameraXBuilder cameraXBuilder) {
         Camera1Fragment fragment = new Camera1Fragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);

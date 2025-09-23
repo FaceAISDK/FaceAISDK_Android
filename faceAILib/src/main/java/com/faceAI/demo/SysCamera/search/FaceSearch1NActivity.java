@@ -110,18 +110,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 .setSearchIntervalTime(1900) //默认2000，范围[1500,3000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //后面版本去除次参数
                 .setProcessCallBack(new SearchProcessCallBack() {
-                    /**
-                     * 返回的人脸光线亮度，0920 添加
-                     * @param brightness
-                     */
-                    @Override
-                    public void onFaceBrightness(float brightness) {
-                            if(brightness>180){
-                                Toast.makeText(getBaseContext(),"光线过亮:"+brightness,Toast.LENGTH_SHORT).show();
-                            }else if(brightness<80){
-                                Toast.makeText(getBaseContext(),"光线过暗:"+brightness,Toast.LENGTH_SHORT).show();
-                            }
-                    }
 
                     /**
                      * 最相似的人脸搜索识别结果，得分最高
@@ -138,7 +126,9 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     }
 
                     /**
-                     * 匹配到的大于设置Threshold的所有结果，搜索识别到多个很相似的人场景允许的话可以弹框让用户选择
+                     * onMostSimilar 是返回搜索到最相似的人脸，有可能光线人脸底片不合规导致错误匹配
+                     * 业务上可以添加容错处理，onFaceMatched会返回所有大于设置阈值的结果
+                     *
                      * 但还是强烈建议使用高品质摄像头，录入高品质人脸
                      * SearchProcessBuilder setCallBackAllMatch(true) onFaceMatched才会回调
                      */
@@ -146,6 +136,23 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
                         //已经按照降序排列，可以弹出一个列表框
                         Log.d("onFaceMatched","符合设定阈值的结果: "+matchedResults.toString());
+                    }
+
+
+
+                    /**
+                     * 返回的人脸光线亮度，如果摄像头不支持宽动态（室内105db,室外120db），请硬件添加自动补光感应灯
+                     * @param brightness
+                     */
+                    @Override
+                    public void onFaceBrightness(float brightness) {
+                        if(FaceSDKConfig.isDebugMode(getBaseContext())){
+                            if(brightness>180){
+                                Toast.makeText(getBaseContext(),"光线过亮:"+brightness,Toast.LENGTH_SHORT).show();
+                            }else if(brightness<80){
+                                Toast.makeText(getBaseContext(),"光线过暗:"+brightness,Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
 
                     /**

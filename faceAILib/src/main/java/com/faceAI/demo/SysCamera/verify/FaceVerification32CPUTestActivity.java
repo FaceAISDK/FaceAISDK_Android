@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -32,7 +33,8 @@ import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.R;
-import com.faceAI.demo.SysCamera.camera.MyCameraXFragment;
+import com.faceAI.demo.SysCamera.camera.Camera1Fragment;
+import com.faceAI.demo.SysCamera.camera.Camera1Preview;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.VoicePlayer;
@@ -52,7 +54,7 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private DemoFaceCoverView faceCoverView;
-    private MyCameraXFragment cameraXFragment;  //摄像头管理源码暴露出来了，方便定制开发
+    private Camera1Fragment cameraFragment;  //摄像头管理源码暴露出来了，方便定制开发
 
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
 
@@ -94,9 +96,9 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
                 .create();
 
         //MyCameraFragment 相机管理源码暴露
-        cameraXFragment = MyCameraXFragment.newInstance(cameraXBuilder);
+        cameraFragment = Camera1Fragment.newInstance(cameraXBuilder);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_camerax, cameraXFragment).commit();
+                .replace(R.id.fragment_camerax, cameraFragment).commit();
     }
 
 
@@ -201,19 +203,27 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
 
         faceVerifyUtils.setDetectorParams(faceProcessBuilder);
 
-        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-            //防止在识别过程中关闭页面导致Crash
-            if (!isDestroyed() && !isFinishing()&&startFaceVerify) {
+//        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
+//            //防止在识别过程中关闭页面导致Crash
+//            if (!isDestroyed() && !isFinishing()&&startFaceVerify) {
+//                if(startTime == 0){ //从人脸正对摄像头，点击开始按钮计算耗时时间
+//                    startTime =System.currentTimeMillis();
+//                    Log.d("verifyTime","开始送入数据： "+ startTime);
+//                }
+//                //开始人脸识别
+//                faceVerifyUtils.goVerifyWithImageProxy(imageProxy, faceCoverView.getMargin());
+//            }
+//        });
 
-                if(startTime == 0){ //从人脸正对摄像头，点击开始按钮计算耗时时间
-                    startTime =System.currentTimeMillis();
-                    Log.d("verifyTime","开始送入数据： "+ startTime);
-                }
 
-                //开始人脸识别
-                faceVerifyUtils.goVerifyWithImageProxy(imageProxy, faceCoverView.getMargin());
+        //callBack 在主线程
+        cameraFragment.setCameraDataCallBack(new Camera1Preview.OnCameraData() {
+            @Override
+            public void callBack(byte[] bytes, Camera camera) {
+
             }
         });
+
     }
 
     /**
