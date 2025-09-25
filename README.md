@@ -34,10 +34,10 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-##  V2025.09.22
-- 添加光线明暗判断
+##  V2025.09.25
+- 添加光线强弱判断
 - 更名MotionLivenessType 为 FaceLivenessType
-- 添加相机等级判断和提示
+- 添加相机等级判断和提示（仅供调试）
 - Demo中去除32位CPU配置减低APK 体积
 - 人脸录入时优化人脸角度校验，并分4种等级
 
