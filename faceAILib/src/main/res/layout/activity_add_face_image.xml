@@ -5,22 +5,21 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
+    <!-- UI 仅供操作，根据业务自行修改 完善-->
 
     <!-- 摄像头预览画面ContainerView -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_camerax"
-        android:layout_margin="7dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- 可以替换成你自己的UI样式,需要 FaceCoverView 源码联系对接工程师 -->
     <com.faceAI.demo.base.view.DemoFaceCoverView
         android:id="@+id/face_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         customAttr:tip_text_size="20sp"
         customAttr:show_progress="true"
-        customAttr:background_color="@color/half_white"
+        customAttr:background_color="@color/white"
         customAttr:tip_text_color="@color/face_main_color"
         customAttr:circle_margin="25dp" />
 

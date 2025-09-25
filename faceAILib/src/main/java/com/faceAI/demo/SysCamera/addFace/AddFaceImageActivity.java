@@ -44,13 +44,13 @@ import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.baseImage.FaceEmbedding;
 import com.ai.face.base.utils.DataConvertUtils;
-import com.ai.face.base.view.CameraXFragment;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
+import com.faceAI.demo.SysCamera.camera.MyCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -66,7 +66,7 @@ import java.util.Objects;
  * -  1. 尽量使用较高配置设备和摄像头，光线不好带上补光灯
  * -  2. 录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
  * -  3. 光线环境好，检测的人脸化浓妆或佩戴墨镜 口罩 帽子等遮盖
- * -  4. 人脸照片要求300*300 裁剪好的仅含人脸的正方形照片，背景纯色，否则要后期处理
+ * -  4. 人脸照片要求300*300 裁剪好的仅含人脸的正方形照片
  *
  * @author FaceAISDK.Service@gmail.com
  */
@@ -113,10 +113,10 @@ public class AddFaceImageActivity extends AbsBaseActivity {
 
         /* 添加人脸,检测人脸角度是否符合当前模式设置
          *
-         * 2 PERFORMANCE_MODE_ACCURATE   精确模式 人脸要正对摄像头，严格要求角度
-         * 1 PERFORMANCE_MODE_FAST       快速模式 允许人脸角度可以有一定的偏差
-         * 0 PERFORMANCE_MODE_EASY       简单模式 允许人脸角度可以「较大」的偏差
-         *-1 PERFORMANCE_MODE_NO_LIMIT   无限制模式 基本上检测到人脸就返回了，
+         *  2 PERFORMANCE_MODE_ACCURATE   精确模式 人脸要正对摄像头，严格要求角度
+         *  1 PERFORMANCE_MODE_FAST       快速模式 允许人脸角度可以有一定的偏差
+         *  0 PERFORMANCE_MODE_EASY       简单模式 允许人脸角度可以「较大」的偏差
+         * -1 PERFORMANCE_MODE_NO_LIMIT   无限制模式 基本上检测到人脸就返回了，
          */
         baseImageDispose = new BaseImageDispose(this, addFacePerformanceMode, new BaseImageCallBack() {
             /**
@@ -148,10 +148,9 @@ public class AddFaceImageActivity extends AbsBaseActivity {
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.001f) //焦距范围[0.001f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)   //画面旋转方向
-//                .setSize(CameraXFragment.SIZE.DEFAULT) //默认一种
                 .create();
 
-        CameraXFragment cameraXFragment = CameraXFragment.newInstance(cameraXBuilder);
+        MyCameraXFragment cameraXFragment = MyCameraXFragment.newInstance(cameraXBuilder);
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             if (!isDestroyed() && !isFinishing() && !isConfirmAdd) {
                 //某些设备如果一直提示检测不到人脸，可以断点调试看看转化的Bitmap 是否有问题

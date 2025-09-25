@@ -247,11 +247,7 @@ public class MyCameraXFragment extends Fragment {
         if (previewView != null) {
             preview.setSurfaceProvider(null);
         }
-
         camera = null;
-
-        //释放相机,cameraProvider.unbindAll()
-        Log.i("FaceAISDK", "释放相机");
     }
 
     @Override
