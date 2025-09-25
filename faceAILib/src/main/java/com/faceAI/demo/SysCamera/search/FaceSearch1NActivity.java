@@ -138,14 +138,13 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                         Log.d("onFaceMatched","符合设定阈值的结果: "+matchedResults.toString());
                     }
 
-
-
                     /**
                      * 返回的人脸光线亮度，如果摄像头不支持宽动态（室内105db,室外120db），请硬件添加自动补光感应灯
                      * @param brightness
                      */
                     @Override
                     public void onFaceBrightness(float brightness) {
+                        //测试阶段，先在测试模式打开提示，大约11月中旬正式发布
                         if(FaceSDKConfig.isDebugMode(getBaseContext())){
                             if(brightness>180){
                                 Toast.makeText(getBaseContext(),"光线过亮:"+brightness,Toast.LENGTH_SHORT).show();
@@ -214,7 +213,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         switch (code) {
             case NO_MATCHED:
                 //本次没有搜索匹配到结果，下一帧继续
-//                setSecondTips(R.string.no_matched_face);
                 break;
 
             case FACE_DIR_EMPTY:
@@ -233,6 +231,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 break;
 
             case  SEARCHING:
+                //后期将废除本状态
                 setSearchTips(R.string.keep_face_tips);
                 break;
 
