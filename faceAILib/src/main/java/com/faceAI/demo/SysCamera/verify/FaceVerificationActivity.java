@@ -63,6 +63,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     public static final String FACE_LIVENESS_TYPE = "FACE_LIVENESS_TYPE";   //活体检测的类型
     public static final String MOTION_STEP_SIZE = "MOTION_STEP_SIZE";   //动作活体的步骤数
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
+    public static final String EXCEPT_MOTION_LIVENESS = "EXCEPT_MOTION_LIVENESS"; //排除的动作活体
 
     private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION;//活体检测类型
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
@@ -70,6 +71,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = 10; //动作超时秒
+    private int exceptMotionLiveness = -1; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
 
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private TextView tipsTextView, secondTipsTextView, scoreText;
@@ -155,7 +157,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setMotionLivenessStepSize(motionStepSize)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(motionTimeOut)             //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
-                //.setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑 或其他某一种
+                .setExceptMotionLivenessType(exceptMotionLiveness) //动作活体去除微笑 或其他某一种
                 .setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
@@ -224,7 +226,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                         .setMessage(R.string.silent_anti_spoofing_error)
                         .setCancelable(false)
                         .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                            finishFaceVerify(2, "活体分数过低，请重试", silentLivenessScore);
+                            finishFaceVerify(2, "活体分数过低，请重试", silentLivenessScore,similarity);
                         })
                         .show();
             } else if (isVerifyMatched) {
@@ -233,7 +235,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 new ImageToast().show(getApplicationContext(), bitmap, "识别成功" + similarity);
 
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    finishFaceVerify(1, "人脸识别成功", silentLivenessScore);
+                    finishFaceVerify(1, "人脸识别成功", silentLivenessScore,similarity);
                 }, 1500);
             } else {
                 //3.和底片不是同一个人
@@ -243,7 +245,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                         .setMessage(R.string.face_verify_failed)
                         .setCancelable(false)
                         .setPositiveButton(R.string.know, (dialogInterface, i) -> {
-                            finishFaceVerify(4, "人脸识别相似度低于阈值", silentLivenessScore);
+                            finishFaceVerify(4, "人脸识别相似度低于阈值", silentLivenessScore,similarity);
                         })
                         .setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify())
                         .show();
@@ -464,8 +466,9 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             if (intent.hasExtra(SILENT_THRESHOLD_KEY)) {
                 motionTimeOut = intent.getIntExtra(MOTION_TIMEOUT, 10);
             }
-        } else {
-            // 数据不存在，执行其他操作
+            if (intent.hasExtra(EXCEPT_MOTION_LIVENESS)) {
+                exceptMotionLiveness = intent.getIntExtra(EXCEPT_MOTION_LIVENESS, -1);
+            }
         }
     }
 
@@ -477,16 +480,26 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * @param msg
      */
     private void finishFaceVerify(int code, String msg) {
-        finishFaceVerify(code, msg, 0f);
+        finishFaceVerify(code, msg, 0f, 0f);
     }
 
-    private void finishFaceVerify(int code, String msg, float silentLivenessScore) {
+
+    /**
+     * 识别结束返回结果, 为了给uniApp UTS插件，RN，Flutter统一的交互返回格式
+     * @param code
+     * @param msg
+     * @param silentLivenessScore
+     * @param similarity
+     */
+    private void finishFaceVerify(int code, String msg, float silentLivenessScore,float similarity) {
         Intent intent = new Intent().putExtra("code", code)
                 .putExtra("faceID", faceID)
                 .putExtra("msg", msg)
+                .putExtra("similarity",similarity)
                 .putExtra("silentLivenessScore", silentLivenessScore);
         setResult(RESULT_OK, intent);
         finish();
     }
+
 }
 
