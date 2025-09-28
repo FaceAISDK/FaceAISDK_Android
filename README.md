@@ -34,12 +34,9 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-##  V2025.09.25
-- 添加光线强弱判断
-- 更名MotionLivenessType 为 FaceLivenessType
-- 添加相机等级判断和提示（仅供调试）
-- Demo中去除32位CPU配置减低APK 体积
-- 人脸录入时优化人脸角度校验，并分4种等级
+##  V2025.09.29
+- 添加光线强弱判断beta版本
+- 录入人脸低配设备画面卡顿优化
 
 更多历史版本说明参考 [历史版本SDK更新记录](doc/历史版本SDK更新记录.md)
 
@@ -69,7 +66,6 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 | 华为 P8          | 798 ms  | 678 ms   | 
 | 联想Pad2024      | 245 ms  | 197 ms   |
 
-其中硬件配置要求参考：[硬件配置要求](doc/硬件配置要求说明.md)  
 更多说明：https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
 
 
@@ -118,4 +114,5 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 
 🪐
 ![FaceAISDK](images/who_are_you.png)  
-  
+
+[更多说明，请参考：FaceAISDK产品说明及API文档](FaceAISDK产品说明及API文档.pdf)  

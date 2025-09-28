@@ -1,8 +1,9 @@
 
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
-##  V2025.09.25
-- 添加光线强弱判断beta 版本
+##  V2025.09.29
+- 添加光线强弱判断beta版本
+- 录入人脸低配设备画面卡顿优化
 
 ##  V2025.09.22
 - 更名MotionLivenessType 为 FaceLivenessType
