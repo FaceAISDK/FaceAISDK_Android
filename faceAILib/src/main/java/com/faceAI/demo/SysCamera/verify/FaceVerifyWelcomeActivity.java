@@ -67,11 +67,11 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Bundle bundle = getIntent().getExtras();
 
-        //1.判定摄像头种类
+        //1.判定摄像头种类, 目前支持系统内置摄像头，外接UVC协议双目摄像头 （后面细分外接UVC单目RGB摄像头）
         if(bundle!=null){
             dataSourceType = (DataSourceType) bundle.getSerializable(FACE_VERIFY_DATA_SOURCE_TYPE);
             if (DataSourceType.Android_HAL.equals(dataSourceType)) {
-                ((TextView) findViewById(R.id.camera_mode)).setText("系统相机模式");
+                ((TextView) findViewById(R.id.camera_mode)).setText(R.string.camera_mode_system);
             }
         }
 

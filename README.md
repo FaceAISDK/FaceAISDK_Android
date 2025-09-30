@@ -34,7 +34,8 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-##  V2025.09.29
+##  V2025.10.09
+- 添加英文文案（软件翻译可能词不达意）
 - 添加光线强弱判断beta版本
 - 录入人脸低配设备画面卡顿优化
 

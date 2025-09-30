@@ -4,20 +4,20 @@ plugins {
 
 android {
     namespace 'com.example.demo'
-    compileSdk 33
+    compileSdk = 36
 
     defaultConfig {
         //需要优化一下摄像头焦距和 按比例显示...
         versionCode 20250929
-        versionName "20250929.gq"
+        versionName "20250929facefit"
 
         applicationId "com.ai.face.verifyPub"
         minSdk 21
-        targetSdk 33      //target SDK 还是28 的请参考question.md 文档说明
+        targetSdk 36    //target SDK 还是28 的请参考question.md 文档说明
         
         ndk {
-            abiFilters 'arm64-v8a' //暂时只配置64位CPU，32位需要的自行配置
-//            abiFilters 'armeabi-v7a', 'arm64-v8a' //根据CPU架构选择对应ABI
+//            abiFilters 'arm64-v8a' //暂时只配置64位CPU，32位需要的自行配置
+            abiFilters 'armeabi-v7a', 'arm64-v8a' //根据CPU架构选择对应ABI
         }
     }
 
@@ -57,7 +57,7 @@ android {
 }
 
 //CameraX，适配Android16 KB Page请强制升级到1.4.2 以上版本
-def camera_version = "1.2.3"
+def camera_version = "1.4.2"
 configurations.configureEach {
     resolutionStrategy {
         force "androidx.camera:camera-core:$camera_version",
@@ -76,8 +76,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     // Demo 为了收集 Crash
 //    api 'com.tencent.bugly:crashreport:4.1.9.3'
-
-    api "com.tencent.bugly_16kb:bugly-pro:4.4.6.4"
 
 
 }

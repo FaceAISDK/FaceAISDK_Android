@@ -41,7 +41,8 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="add_face_from_photo">相册添加</string>
     <string name="add_face_from_camera">拍照添加</string>
     <string name="input_face_id_tips">请输入人脸名称ID</string>
-
+    <string name="confirm_add_face_title">确认保存此人脸图 ？</string>
+    <string name="confirm_add_face_tips">确认为正脸，清晰无遮挡照片</string>
 
     <!--1:N 人脸搜索 face search-->
     <string name="no_matched_face">人脸搜索中</string>
@@ -53,7 +54,8 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="face_verify_failed">人脸识别不通过，相似度低于设置阈值，请重试！</string>
     <string name="silent_anti_spoofing_error">静默活体得分过低</string>
     <string name="face_verify_pause">人脸识别被中断了！</string>
-
+    <string name="face_verify_demo">1:1 人脸识别演示</string>
+    <string name="face_verify_no_face_tips">暂未录入人脸\n点击上面按钮添加录入，长按人脸可删除</string>
 
     <!--Motion liveness detection-->
     <string name="liveness_detection">活体检测 </string>
@@ -81,6 +83,9 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="switch_camera">切换前后摄像头 </string>
     <string name="about_us">- 关于我们 About US -</string>
     <string name="custom_camera">自定义调试系统相机</string>
+    <string name="camera_mode_system">系统内置相机</string>
+    <string name="camera_mode_uvc_binocular">UVC双目摄像头</string>
+    <string name="camera_mode_uvc_rgb">UVC RGB摄像头</string>
 
 
     <!--1:N and M:N face search-->
@@ -91,6 +96,11 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="search_threshold_scope_tips">阈值Threshold范围为[0.85,0.95]</string>
     <string name="ir_live_error">红外活体检测失败</string>
     <string name="ir_image_error">红外摄像头图像采集失败</string>
+
+
+    <string name="gentle_reminder">温馨提示</string>
+    <string name="gentle_reminder_func">FaceAISDK所有功能都是离线工作，不联网不收集人脸数据。为了更好体验Demo，请确保：</string>
+    <string name="operation_manual_tips">1. 使用宽动态(大于105Db)成像清晰摄像头\n2. 人脸正对摄像头，按照提示完成操作\n3. 面部光线充足且柔和避免遮挡 \n4. 摄像头固定在屏幕正上方且整洁清晰</string>
 
 
 </resources>

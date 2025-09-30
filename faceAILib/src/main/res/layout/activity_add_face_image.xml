@@ -4,12 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/white"
     android:orientation="vertical">
     <!-- UI 仅供操作，根据业务自行修改 完善-->
 
     <!-- 摄像头预览画面ContainerView -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_camerax"
+        android:layout_margin="23dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

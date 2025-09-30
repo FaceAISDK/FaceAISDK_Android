@@ -127,7 +127,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                         }else{
                             finishFaceVerify(9,"活体检测完成",silentLivenessValue);
                         }
-
                     }
 
                     //人脸识别，活体检测过程中的各种提示

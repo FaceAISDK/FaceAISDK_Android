@@ -1,9 +1,15 @@
 
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
+##  V2025.10.09
+- 添加英文文案（软件翻译可能词不达意）
+- 
+
+
 ##  V2025.09.29
 - 添加光线强弱判断beta版本
 - 录入人脸低配设备画面卡顿优化
+- 人脸录入回调添加光线参数 - public void onCompleted(Bitmap bitmap, float silentLiveValue,float faceBrightness) 
 
 ##  V2025.09.22
 - 更名MotionLivenessType 为 FaceLivenessType

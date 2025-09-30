@@ -86,7 +86,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         tipsTextView = findViewById(R.id.tips_view);
         secondTipsTextView = findViewById(R.id.second_tips_view); //次要提示
         faceCoverView = findViewById(R.id.face_cover);
-        findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(0, "用户取消"));
+        findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(0, "Cancel by user"));
 
         getIntentParams(); //接收三方插件传递的参数，原生开放可以忽略
 
@@ -187,7 +187,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                     //发送严重错误，会中断业务流程
                     @Override
                     public void onFailed(int code, String message) {
-                        Toast.makeText(getBaseContext(), "onFailed错误!：" + message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), "onFailed error!：" + message, Toast.LENGTH_LONG).show();
                     }
 
                 }).create();
@@ -232,10 +232,10 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             } else if (isVerifyMatched) {
                 //2.和底片同一人
                 VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-                new ImageToast().show(getApplicationContext(), bitmap, "识别成功" + similarity);
+                new ImageToast().show(getApplicationContext(), bitmap, "Success " + similarity);
 
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    finishFaceVerify(1, "人脸识别成功", silentLivenessScore,similarity);
+                    finishFaceVerify(1, "Face verify success", silentLivenessScore,similarity);
                 }, 1500);
             } else {
                 //3.和底片不是同一个人
@@ -245,7 +245,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                         .setMessage(R.string.face_verify_failed)
                         .setCancelable(false)
                         .setPositiveButton(R.string.know, (dialogInterface, i) -> {
-                            finishFaceVerify(4, "人脸识别相似度低于阈值", silentLivenessScore,similarity);
+                            finishFaceVerify(4, "Face verify failed", silentLivenessScore,similarity);
                         })
                         .setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify())
                         .show();
@@ -366,7 +366,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finishFaceVerify(0, "用户取消");
+        finishFaceVerify(0, "Cancel by user");
     }
 
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="device_list_dialog_title">Device</string>
+    <string name="device_list_dialog_title">Devices</string>
     <string name="device_list_empty_tip">Please connect a USB Camera</string>
     <string name="device_list_cancel_button">Cancel</string>
     <string name="device_list_confirm_button">Confirm</string>
@@ -7,11 +7,11 @@
     <string name="sdk_init">SDK Init</string>
     <string name="no_mask_please">No mask</string>
     <string name="face_verifying">Verifying(face the camera)</string>
-    <string name="confirm">Done</string>
+    <string name="confirm">Confirm</string>
     <string name="go_setting">go setting</string>
     <string name="cancel">Cancel</string>
     <string name="know">I know</string>
-    <string name="retry">Retry</string>
+    <string name="retry">Try again</string>
     <string name="long_press_copy_msg">Tips: Long press to copy msg</string>
     <string name="share_faceai_sdk">Share FaceAI SDK </string>
     <string name="facesdk_camera_permission">Face Verify Need Camera Permission</string>
@@ -22,7 +22,7 @@
         \n\nIntegrated Source Code：https://github.com/FaceAISDK/FaceAISDK_Android </string>
 
     <!--添加人脸 add face image-->
-    <string name="keep_face_tips">Face the camera and keep your face visible</string>
+    <string name="keep_face_tips">Face the camera,keep face visible</string>
     <string name="no_close_eye_tips">Do not close eye</string>
     <string name="no_tilt_head_tips">Do not tile head</string>
     <string name="head_turn_left_tips">Dead turn left too more</string>
@@ -31,15 +31,17 @@
     <string name="no_look_down_tips">Do not look down</string>
     <string name="no_face_detected_tips">No face detected</string>
     <string name="multiple_faces_tips">Multiple faces</string>
-    <string name="come_closer_tips">Please come closer</string>
+    <string name="come_closer_tips">Move closer</string>
     <string name="far_away_tips">Please far away screen</string>
     <string name="align_face_error_tips">Align face error</string>
     <string name="not_real_face">Not real human face</string>
     <string name="not_real_face_for_debug">Not real human face </string>
     <string name="add_a_face_image">Add a face image </string>
     <string name="add_face_from_photo">add from photo</string>
-    <string name="add_face_from_camera">add from camera</string>
+    <string name="add_face_from_camera">add by camera</string>
     <string name="input_face_id_tips">Please input face name</string>
+    <string name="confirm_add_face_title">Confirm add this face？</string>
+    <string name="confirm_add_face_tips">Please ensure face head pose right</string>
 
 
     <!--1:N 人脸搜索 face search-->
@@ -52,6 +54,8 @@
     <string name="silent_anti_spoofing_error">Silent anti spoofing error</string>
     <string name="no_base_face_bitmap">No base face bitmap error</string>
     <string name="face_verify_pause">Face verify pause！Please retry</string>
+    <string name="face_verify_demo">1:1 face verify demo</string>
+    <string name="face_verify_no_face_tips">No face has been added yet\nClick the button above to add face image, long press the face to delete</string>
 
     <!--Motion liveness detection-->
     <string name="liveness_detection">Liveness detection</string>
@@ -78,8 +82,10 @@
     <string name="two_face_image_verify">two face image 1:1 verify</string>
     <string name="switch_camera">Switch front/back camera </string>
     <string name="about_us">- About us - </string>
-    <string name="custom_camera">custom system camera diy </string>
-
+    <string name="custom_camera">Custom system camera diy </string>
+    <string name="camera_mode_system">System built-in camera </string>
+    <string name="camera_mode_uvc_binocular">UVC binocular camera</string>
+    <string name="camera_mode_uvc_rgb">UVC RGB camera</string>
 
     <!--1:N and M:N face search-->
     <string name="face_image_manger">Face images manger</string>
@@ -89,5 +95,9 @@
     <string name="search_threshold_scope_tips">Threshold should in [0.85,0.95]</string>
     <string name="ir_live_error">ir live error</string>
     <string name="ir_image_error">ir camera have no image</string>
+
+    <string name="gentle_reminder">Gentle Reminder</string>
+    <string name="gentle_reminder_func">All SDK functions work offline and do not collect facial data.To better experience the demo, please ensure:</string>
+    <string name="operation_manual_tips">1. Use a wide dynamic range over 105db camera \n2. Face the camera directly and follow the prompts \n3. Enough light and whole face appears in camera view\n4. Position the camera directly above the screen</string>
 
 </resources>
