@@ -86,6 +86,7 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="camera_mode_system">系统内置相机</string>
     <string name="camera_mode_uvc_binocular">UVC双目摄像头</string>
     <string name="camera_mode_uvc_rgb">UVC RGB摄像头</string>
+    <string name="uvc_camera_type">UVC 相机类型选择</string>
 
 
     <!--1:N and M:N face search-->

@@ -71,7 +71,7 @@
     <string name="stop_verify_tips">Stop verify,keep your face visible </string>
 
     <!--Navi activity-->
-    <string name="camera_degree_set">Switch Camera Degree,Now is:</string>
+    <string name="camera_degree_set">Change Camera Degree  Now is:</string>
     <string name="parameter_setting">Camera Parameter settings</string>
     <string name="binocular_camera_demo">Binocular Camera Demo</string>
     <string name="face_verify_1vs1">1:1 Face Verify </string>
@@ -82,6 +82,7 @@
     <string name="two_face_image_verify">two face image 1:1 verify</string>
     <string name="switch_camera">Switch front/back camera </string>
     <string name="about_us">- About us - </string>
+    <string name="uvc_camera_type">UVC camera type </string>
     <string name="custom_camera">Custom system camera diy </string>
     <string name="camera_mode_system">System built-in camera </string>
     <string name="camera_mode_uvc_binocular">UVC binocular camera</string>

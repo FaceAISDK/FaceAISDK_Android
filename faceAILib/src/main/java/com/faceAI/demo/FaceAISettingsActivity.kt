@@ -24,6 +24,9 @@ class FaceAISettingsActivity : AppCompatActivity() {
         const val FRONT_BACK_CAMERA_FLAG = "cameraFlag"
         const val SYSTEM_CAMERA_DEGREE = "cameraDegree"
 
+
+        const val UVC_CAMERA_TYPE = "UVC_CAMERA_TYPE" //UVC 协议相机类型，是否带IR
+
         //UVC 相机旋转 镜像管理。神奇，竟然有相机两个不同步，那分开管理
         const val RGB_UVC_CAMERA_DEGREE = "RGB_UVCCameraDegree"
         const val RGB_UVC_CAMERA_MIRROR_H = "RGB_UVCCameraHorizontalMirror"
@@ -89,6 +92,11 @@ class FaceAISettingsActivity : AppCompatActivity() {
 
 
         //==========USB摄像头（UVC协议）管理 更多参考https://github.com/shiyinghan/UVCAndroid =========
+       //UVC协议相机类型选择，是否带IR
+        binding.uvcCameraTypeLayout.setOnClickListener {
+
+        }
+
         //UVC RGB摄像头角度旋转设置
         binding.rgbUvcCameraSwitch.setOnClickListener {
             var rgbDegree = sharedPref.getInt(RGB_UVC_CAMERA_DEGREE, 0)
