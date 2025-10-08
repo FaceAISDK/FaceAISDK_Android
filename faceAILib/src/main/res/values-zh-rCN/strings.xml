@@ -81,6 +81,7 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="switch_camera">切换前后摄像头 </string>
     <string name="about_us">- 关于我们 About US -</string>
     <string name="custom_camera">自定义调试系统相机</string>
+    <string name="uvc_camera_type">UVC 相机类型选择</string>
 
 
     <!--1:N and M:N face search-->
