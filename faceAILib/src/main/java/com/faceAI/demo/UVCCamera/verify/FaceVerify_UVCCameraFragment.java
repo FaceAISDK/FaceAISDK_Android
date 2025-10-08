@@ -57,8 +57,6 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
      * 初始化人脸识别底图
      */
     void initFaceVerify() {
-        faceVerifyUtils = new FaceVerifyUtils();
-
         //1:1 人脸对比，摄像头实时采集的人脸和预留的人脸底片对比。（动作活体人脸检测完成后开始1:1比对）
         String faceID = requireActivity().getIntent().getStringExtra(USER_FACE_ID_KEY);
         float[] faceEmbedding = FaceEmbedding.loadEmbedding(requireContext(), faceID);
@@ -70,7 +68,6 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
         }else{
             initFaceVerificationParam(faceEmbedding);
         }
-
     }
 
 

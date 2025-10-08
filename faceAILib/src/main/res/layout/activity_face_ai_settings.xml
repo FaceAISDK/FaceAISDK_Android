@@ -173,6 +173,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="end|center_vertical"
                         android:layout_marginEnd="15dp"
+                        android:layout_marginStart="10dp"
                         android:textColor="@color/black"
                         android:textSize="12sp"
                         android:textStyle="bold" />

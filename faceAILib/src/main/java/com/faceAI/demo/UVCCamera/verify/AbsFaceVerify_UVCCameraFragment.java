@@ -37,7 +37,7 @@ import com.faceAI.demo.databinding.FragmentUvcCameraBinding;
 public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
     private static final String TAG = AbsFaceVerify_UVCCameraFragment.class.getSimpleName();
     public FragmentUvcCameraBinding binding;
-    public FaceVerifyUtils faceVerifyUtils;
+    public FaceVerifyUtils faceVerifyUtils=new FaceVerifyUtils();
 
 //    private  boolean isBinocularCamera
 

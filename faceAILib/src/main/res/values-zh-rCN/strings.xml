@@ -59,6 +59,7 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
 
     <!--Motion liveness detection-->
     <string name="liveness_detection">活体检测 </string>
+    <string name="liveness_detection_done">活体检测完成</string>
     <string name="motion_liveness_detection_failed">动作活体检测失败了 </string>
     <string name="keep_face_visible">平视正对摄像头</string>
     <string name="repeat_open_close_mouse">请重复张闭嘴</string>
@@ -84,7 +85,7 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="about_us">- 关于我们 About US -</string>
     <string name="custom_camera">自定义调试系统相机</string>
     <string name="camera_mode_system">系统内置相机</string>
-    <string name="camera_mode_uvc_binocular">UVC双目摄像头</string>
+    <string name="camera_mode_uvc_binocular">UVC摄像头(RGB+IR)</string>
     <string name="camera_mode_uvc_rgb">UVC RGB摄像头</string>
     <string name="uvc_camera_type">UVC 相机类型选择</string>
 

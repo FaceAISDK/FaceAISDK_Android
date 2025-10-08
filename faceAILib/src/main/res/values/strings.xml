@@ -59,6 +59,7 @@
 
     <!--Motion liveness detection-->
     <string name="liveness_detection">Liveness detection</string>
+    <string name="liveness_detection_done">Liveness detection completed</string>
     <string name="motion_liveness_detection_failed">Motion liveness detection failed</string>
     <string name="keep_face_visible">Face the camera,verifying..</string>
     <string name="repeat_open_close_mouse">Repeat open close mouse</string>

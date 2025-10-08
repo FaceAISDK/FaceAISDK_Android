@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.core.content.edit
+import com.ai.face.core.utils.FaceAICameraType
 import com.faceAI.demo.UVCCamera.manger.select.DeviceListDialogFragment
 import com.faceAI.demo.databinding.ActivityFaceAiSettingsBinding
 import com.herohan.uvcapp.CameraHelper
@@ -71,6 +72,7 @@ class FaceAISettingsActivity : AppCompatActivity() {
             3 -> "270°"
             else -> "0°"
         }
+        //
         binding.cameraDegreeText.text = getString(R.string.camera_degree_set) + degreeStr
 
         /**
@@ -92,9 +94,24 @@ class FaceAISettingsActivity : AppCompatActivity() {
 
 
         //==========USB摄像头（UVC协议）管理 更多参考https://github.com/shiyinghan/UVCAndroid =========
-       //UVC协议相机类型选择，是否带IR
-        binding.uvcCameraTypeLayout.setOnClickListener {
 
+        val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB)
+        if(uvcCameraType==FaceAICameraType.UVC_CAMERA_RGB_IR){
+            binding.uvcCameraType.text = getString(R.string.camera_mode_uvc_binocular)
+        }else{
+            binding.uvcCameraType.text = getString(R.string.camera_mode_uvc_rgb)
+        }
+
+        //UVC协议相机类型选择，是否带IR
+        binding.uvcCameraTypeLayout.setOnClickListener {
+            val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB)
+            if(uvcCameraType==FaceAICameraType.UVC_CAMERA_RGB_IR){
+                sharedPref.edit(commit = true) { putInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB) }
+                binding.uvcCameraType.text = getString(R.string.camera_mode_uvc_rgb)
+            }else{
+                sharedPref.edit(commit = true) { putInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB_IR) }
+                binding.uvcCameraType.text = getString(R.string.camera_mode_uvc_binocular)
+            }
         }
 
         //UVC RGB摄像头角度旋转设置
