@@ -19,7 +19,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
     <!-- 横竖屏幕调整适配等参考UVC摄像头管理三方库 https://github.com/shiyinghan/UVCAndroid-->
     <com.serenegiant.widget.AspectRatioSurfaceView
         android:id="@+id/ir_camera_view"
@@ -44,11 +43,11 @@
         android:paddingBottom="5dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
         android:text="@string/keep_face_visible"
         android:textSize="19sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/rgb_camera_view"
+        app:layout_constraintBottom_toTopOf="@+id/second_tips_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -58,14 +57,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="15dp"
         android:gravity="center"
         android:textColor="@color/orange"
         android:textSize="19sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tips_view" />
+        app:layout_constraintBottom_toTopOf="@+id/rgb_camera_view"
+        />
 
     <TextView
         android:id="@+id/silent_Score"
@@ -79,7 +79,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-
     <ImageView
         android:id="@+id/back"
         android:layout_width="47dp"
@@ -90,6 +89,5 @@
         android:layout_marginBottom="15dp"
         android:padding="9dp"
         android:src="@drawable/ic_arrow_back_24" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

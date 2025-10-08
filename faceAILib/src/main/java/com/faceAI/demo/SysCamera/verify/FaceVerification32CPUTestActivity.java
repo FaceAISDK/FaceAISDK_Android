@@ -23,6 +23,7 @@ import androidx.camera.core.CameraSelector;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.baseImage.FaceEmbedding;
 import com.ai.face.base.view.camera.CameraXBuilder;
+import com.ai.face.core.utils.FaceAICameraType;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
@@ -46,7 +47,6 @@ import org.jetbrains.annotations.NotNull;
  * 32 位CPU人脸识别耗时测试，10.10 后删除
  * @author FaceAISDK.Service@gmail.com
  */
-@Deprecated
 public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
     private final float silentLivenessThreshold = 0.81f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
 
@@ -157,7 +157,7 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setThreshold(0.85f)                    //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
                 .setFaceEmbedding(faceEmbedding)        //1:1 人脸识别对比的底片人脸特征向量，以前是传bitmap，2025 08 18现在优化
-                .setCameraType(FaceProcessBuilder.CameraType.SYS_CAMERA)
+                .setCameraType(FaceAICameraType.SYSTEM_CAMERA)
                 .setCompareDurationTime(3500)           //人脸识别对比时间[3000,5000] 毫秒。相似度很低会持续设置的时间
                 .setLivenessType(FaceLivenessType.SILENT) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
                 .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式

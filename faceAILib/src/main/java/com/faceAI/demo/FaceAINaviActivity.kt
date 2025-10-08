@@ -14,6 +14,7 @@ import com.faceAI.demo.SysCamera.search.SearchNaviActivity
 import com.faceAI.demo.SysCamera.verify.FaceVerifyWelcomeActivity
 import com.faceAI.demo.SysCamera.verify.LivenessDetectActivity
 import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
+import com.faceAI.demo.UVCCamera.liveness.Liveness_UVCCameraActivity
 import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
 
 
@@ -97,6 +98,11 @@ class FaceAINaviActivity : AppCompatActivity() {
 
         viewBinding.livenessDetection.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, LivenessDetectActivity::class.java))
+        }
+
+        viewBinding.livenessDetection.setOnLongClickListener {
+            startActivity(Intent(this@FaceAINaviActivity, Liveness_UVCCameraActivity::class.java))
+            return@setOnLongClickListener true
         }
 
         //两张静态人脸图中人脸相似度 对比
