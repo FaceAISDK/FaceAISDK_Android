@@ -117,19 +117,19 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/binocular_camera_tips"
+                android:id="@+id/uvc_usb_camera_tips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"
                 android:layout_marginTop="29dp"
                 android:layout_marginBottom="2dp"
                 android:padding="3dp"
-                android:text="USB双目摄像头设置"
+                android:text="UVC协议外接摄像头设置"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 
             <LinearLayout
-                android:id="@+id/binocular_camera_search_navi"
+                android:id="@+id/uvc_usb_camera_search_navi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"
@@ -200,7 +200,7 @@
                         android:padding="1dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="false"
-                        app:lottie_rawRes="@raw/binocular_camera"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
                         app:lottie_speed="2" />
 
                     <TextView
@@ -230,7 +230,7 @@
                         android:padding="1dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="false"
-                        app:lottie_rawRes="@raw/binocular_camera"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
                         app:lottie_speed="2" />
 
                     <TextView
@@ -265,7 +265,7 @@
                         android:padding="1dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="false"
-                        app:lottie_rawRes="@raw/binocular_camera"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
                         app:lottie_speed="2" />
 
                     <TextView
@@ -295,7 +295,7 @@
                         android:padding="1dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="false"
-                        app:lottie_rawRes="@raw/binocular_camera"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
                         app:lottie_speed="2" />
 
                     <TextView
@@ -331,7 +331,7 @@
                         android:padding="1dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="false"
-                        app:lottie_rawRes="@raw/binocular_camera"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
                         app:lottie_speed="2" />
 
                     <TextView
@@ -361,7 +361,7 @@
                         android:padding="1dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="false"
-                        app:lottie_rawRes="@raw/binocular_camera"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
                         app:lottie_speed="2" />
 
                     <TextView

@@ -187,19 +187,19 @@
 
 
             <TextView
-                android:id="@+id/binocular_camera_tips"
+                android:id="@+id/uvc_usb_camera_tips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="22dp"
                 android:layout_marginBottom="8dp"
                 android:padding="3dp"
-                android:text="USB双目摄像头搜索"
+                android:text="UVC协议USB摄像头搜索"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"/>
 
             <LinearLayout
-                android:id="@+id/binocular_camera_search_navi"
+                android:id="@+id/uvc_usb_camera_search_navi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="29dp"
@@ -208,7 +208,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/binocular_camera_search"
+                    android:id="@+id/uvc_usb_camera_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -223,7 +223,7 @@
                         android:padding="1dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="false"
-                        app:lottie_rawRes="@raw/binocular_camera"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
                         app:lottie_speed="2" />
 
                     <TextView
@@ -243,7 +243,7 @@
                     android:background="@color/white" />
 
                 <LinearLayout
-                    android:id="@+id/binocular_camera_add_face"
+                    android:id="@+id/uvc_usb_camera_add_face"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"

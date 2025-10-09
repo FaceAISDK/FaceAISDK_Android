@@ -6,16 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/face_main_color"
-    android:paddingTop="5dp"
+    android:paddingTop="6dp"
     tools:context="com.faceAI.demo.FaceAINaviActivity">
 
     <ImageView
         android:id="@+id/system_info"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
         android:padding="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -46,189 +46,181 @@
             android:text="@string/share_faceai_sdk"
             android:textColor="@color/white"
             android:textStyle="italic|bold"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 
 
-    <!-- A CardView that contains a TextView -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/face_verify_card"
-        android:layout_width="0dp"
-        android:layout_height="75dp"
-        app:cardCornerRadius="6dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="11dp"
-        android:layout_marginTop="10dp"
-        app:cardBackgroundColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/face_search"
+    <LinearLayout
+        android:id="@+id/faceainavi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rect_line"
+        android:orientation="vertical"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="11dp"
+        android:padding="10dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/share_layout">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/camera_type_select"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="18dp"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:background="@drawable/camera_type_background"
+            android:text="@string/camera_type_system"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+        <LinearLayout
+            android:id="@+id/face_verify"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="@drawable/bg_rect_line"
             android:layout_gravity="center"
-            android:orientation="vertical">
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:orientation="horizontal">
 
             <com.airbnb.lottie.LottieAnimationView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="11dp"
+                android:layout_marginEnd="13dp"
                 android:layout_gravity="center_horizontal"
                 app:lottie_autoPlay="true"
-                app:lottie_loop="false"
+                app:lottie_loop="true"
                 app:lottie_speed="2"
                 app:lottie_rawRes="@raw/face_verify" />
 
             <TextView
-                android:id="@+id/face_verify"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
                 android:text="@string/face_verify_1vs1"
                 android:textStyle="bold"
-                android:textColor="@color/face_main_color"
-                android:textSize="14sp" />
+                android:textColor="@color/white"
+                android:textSize="13sp" />
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
-
-
-    <!-- A CardView that contains a TextView -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/face_search"
-        android:layout_width="0dp"
-        android:layout_height="75dp"
-        app:cardCornerRadius="6dp"
-        android:layout_marginEnd="22dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="10dp"
-        app:cardBackgroundColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/face_verify_card"
-        app:layout_constraintTop_toBottomOf="@+id/share_layout">
 
         <LinearLayout
+            android:id="@+id/face_search"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="43dp"
             android:layout_gravity="center"
-            android:orientation="vertical">
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="9dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="3dp"
+            android:background="@drawable/bg_rect_line"
+            android:orientation="horizontal">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_height="43dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginEnd="11dp"
                 android:layout_gravity="center_horizontal"
                 app:lottie_autoPlay="true"
-                app:lottie_loop="false"
+                app:lottie_loop="true"
                 app:lottie_rawRes="@raw/face_search" />
 
             <TextView
                 android:id="@+id/change_base_img"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
                 android:text="@string/face_search"
                 android:textStyle="bold"
-                android:textColor="@color/face_main_color"
-                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@+id/face_search" />
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/liveness_detection"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="@drawable/bg_rect_line"
+            android:layout_gravity="center"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="9dp"
+            android:orientation="horizontal">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="11dp"
+                android:layout_marginEnd="13dp"
+                android:layout_gravity="center_horizontal"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_speed="1"
+                app:lottie_rawRes="@raw/add_face" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/liveness_detection"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/params_setting"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginTop="22dp"
-        android:background="@drawable/bg_btn"
+        android:layout_height="42dp"
+        android:background="@drawable/bg_rect_line"
         android:gravity="center"
         android:layout_marginLeft="22dp"
         android:layout_marginRight="22dp"
+        android:layout_marginBottom="16dp"
         android:visibility="visible"
         android:text="@string/parameter_setting"
-        android:textColor="@color/face_main_color"
+        android:textColor="@color/white"
         android:textStyle="bold"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/binocular_camera" />
-
-
-    <TextView
-        android:id="@+id/binocular_camera"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginTop="44dp"
-        android:background="@drawable/bg_btn"
-        android:gravity="center"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:visibility="visible"
-        android:text="@string/binocular_camera_demo"
-        android:textColor="@color/face_main_color"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/face_verify_card" />
-
-
-
-    <TextView
-        android:id="@+id/liveness"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginBottom="18dp"
-        android:background="@drawable/bg_btn"
-        android:gravity="center"
-        android:layout_marginLeft="29dp"
-        android:layout_marginRight="29dp"
-        android:visibility="visible"
-        android:text="@string/two_face_image_verify"
-        android:textColor="@color/face_main_color"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/custom_camera" />
-
-
-    <TextView
-        android:id="@+id/liveness_detection"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_marginBottom="18dp"
-        android:background="@drawable/bg_btn"
-        android:gravity="center"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        android:text="@string/liveness_detection"
-        android:textColor="@color/face_main_color"
-        android:textStyle="bold"
-        android:textSize="14sp"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/two_face_verify" />
+
 
     <TextView
         android:id="@+id/two_face_verify"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:layout_marginBottom="18dp"
-        android:background="@drawable/bg_btn"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_rect_line"
         android:gravity="center"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
         android:visibility="visible"
         android:text="@string/two_face_image_verify"
-        android:textColor="@color/face_main_color"
+        android:textColor="@color/white"
         android:textStyle="bold"
-        android:textSize="14sp"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/custom_camera" />
@@ -238,13 +230,13 @@
         android:id="@+id/custom_camera"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/bg_btn"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="22dp"
+        android:background="@drawable/bg_rect_line"
         android:gravity="center"
         android:text="@string/custom_camera"
-        android:textColor="@color/face_main_color"
+        android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="bold"
         android:visibility="visible"
@@ -262,12 +254,9 @@
         android:visibility="visible"
         android:text="@string/about_us"
         android:textColor="@android:color/white"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent" />
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

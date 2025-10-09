@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.faceAI.demo.R;
 
 /**
- * 演示USB 双目摄像头1:1人脸识别，活体检测
+ * 演示UVC协议USB摄像头1:1人脸识别，活体检测
  * **更多外接USB外接UVC摄像头**的操作参考这个大神的库：https://github.com/shiyinghan/UVCAndroid
  * 项目中的libs/libuvccamera-release.aar 就是根据此调整部分
  *
@@ -24,8 +24,8 @@ public class FaceVerify_UVCCameraActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        FaceVerify_UVCCameraFragment binocularUVCCameraFragment = new FaceVerify_UVCCameraFragment();
-        fragmentTransaction.replace(R.id.fragment_container, binocularUVCCameraFragment);
+        FaceVerify_UVCCameraFragment myUVCCameraFragment = new FaceVerify_UVCCameraFragment();
+        fragmentTransaction.replace(R.id.fragment_container, myUVCCameraFragment);
 
         fragmentTransaction.commit();
     }

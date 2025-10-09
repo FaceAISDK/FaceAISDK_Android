@@ -1,10 +1,12 @@
 package com.faceAI.demo.SysCamera.search;
 
+import static com.faceAI.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
 import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ai.face.core.utils.FaceAICameraType;
 import com.faceAI.demo.SysCamera.verify.AbsAddFaceFromAlbumActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraFragment;
@@ -110,7 +113,11 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
 
         //添加人脸照片，UVC协议摄像头添加还是普通的系统相机
         if (getIntent().getExtras().getBoolean("isAdd")) {
-            if (getIntent().getExtras().getBoolean("isBinocularCamera")) {
+
+            SharedPreferences sharedPref =getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
+            int cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
+
+            if (cameraType==FaceAICameraType.SYSTEM_CAMERA) {
                 Intent addFaceIntent = new Intent(getBaseContext(), AddFace_UVCCameraActivity.class);
                 addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_SEARCH.name());
                 startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);

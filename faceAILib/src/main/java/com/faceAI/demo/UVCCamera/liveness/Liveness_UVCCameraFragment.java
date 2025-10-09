@@ -19,8 +19,7 @@ import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.faceAI.demo.base.utils.VoicePlayer;
 
 /**
- *
- *
+ * UVC协议USB摄像头活体检测 Liveness Detection with UVC USB Camera
  *
  * @author FaceAISDK.Service@gmail.com
  */
@@ -46,8 +45,6 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
         BrightnessUtil.setBrightness(requireActivity(), 0.9f);  //高亮白色背景屏幕光可以当补光灯
     }
 
-
-
     /**
      * 初始化认证引擎，LivenessType.IR需要你的摄像头是双目红外摄像头，如果仅仅是RGB 摄像头请使用LivenessType.SILENT_MOTION
      *
@@ -55,6 +52,7 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
     void initFaceLivenessParam(){
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(getContext())
                 .setLivenessOnly(true)
+                .setCameraType(cameraType)
                 .setLivenessType(faceLivenessType) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
                 .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.88,0.98]
                 .setMotionLivenessStepSize(motionStepSize)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
@@ -260,7 +258,7 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
     private boolean rgbReady = false, irReady = false;
 
     /**
-     * 双目摄像头设置数据，送数据到SDK 引擎
+     * UVC协议USB摄像头设置数据，送数据到SDK 引擎
      *
      * @param bitmap
      * @param type

@@ -1,11 +1,14 @@
 package com.faceAI.demo.UVCCamera.search;
 
+import static android.content.Context.MODE_PRIVATE;
+import static android.view.View.INVISIBLE;
 import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_MIRROR_H;
 import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_SELECT;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_MIRROR_H;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_SELECT;
+import static com.faceAI.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
 import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.IR_KEY_DEFAULT;
 import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
 
@@ -22,13 +25,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.ai.face.core.utils.FaceAICameraType;
 import com.faceAI.demo.UVCCamera.manger.CameraBuilder;
 import com.faceAI.demo.UVCCamera.manger.UVCCameraManager;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.faceAI.demo.databinding.FragmentFaceSearchUvcCameraBinding;
 
 /**
- * UVC协议双目摄像头人脸搜索识别 abstract 基类，管理摄像头
+ * UVC协议USB摄像头人脸搜索识别 abstract 基类，管理摄像头
  *
  * 使用宽动态（人脸搜索须大于105DB）抗逆光摄像头；保持镜头干净（用纯棉布擦拭油污）
  *
@@ -41,6 +45,8 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
     public FragmentFaceSearchUvcCameraBinding binding;
     private  UVCCameraManager rgbCameraManager ;//RBG camera
     private  UVCCameraManager irCameraManager ; //近红外摄像头
+
+    public int cameraType = FaceAICameraType.UVC_CAMERA_RGB; //UVC 可以单RGB或者RGB+IR
 
     abstract void initFaceSearchParam();
 
@@ -56,6 +62,9 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentFaceSearchUvcCameraBinding.inflate(inflater, container, false);
+
+        SharedPreferences sharedPref = requireActivity().getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
+        cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
         initViews();
         initRGBCamara();
         return binding.getRoot();
@@ -98,7 +107,12 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
                 initFaceSearchParam();
 
                 //RGB 打开了就继续去打开IR
-                initIRCamara();
+                if (cameraType == FaceAICameraType.UVC_CAMERA_RGB_IR) {
+                    initIRCamara();
+                }else{
+                    binding.irCameraView.setVisibility(INVISIBLE);
+                }
+
             }
         });
 

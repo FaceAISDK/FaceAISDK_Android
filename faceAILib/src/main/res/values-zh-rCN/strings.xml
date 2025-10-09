@@ -8,11 +8,11 @@
     <string name="face_verifying">识别中,平视正对摄像头</string>
     <string name="confirm">确定</string>
     <string name="go_setting">去设置</string>
-    <string name="cancel">确定</string>
+    <string name="cancel">取消</string>
     <string name="know">知道了</string>
     <string name="retry">重试</string>
     <string name="long_press_copy_msg">提示：长按复制联系信息</string>
-    <string name="share_faceai_sdk">分享人脸识别SDK </string>
+    <string name="share_faceai_sdk">分享人脸识别SDK</string>
     <string name="facesdk_camera_permission">人脸识别需要摄像头权限才能正常工作</string>
     <string name="share_faceai_sdk_content">FaceAISDK 人脸识别 活体检测接入源码\n\n
 Android：https://github.com/FaceAISDK/FaceAISDK_Android\n
@@ -58,7 +58,7 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="face_verify_no_face_tips">暂未录入人脸\n点击上面按钮添加录入，长按人脸可删除</string>
 
     <!--Motion liveness detection-->
-    <string name="liveness_detection">活体检测 </string>
+    <string name="liveness_detection">人脸活体检测</string>
     <string name="liveness_detection_done">活体检测完成</string>
     <string name="motion_liveness_detection_failed">动作活体检测失败了 </string>
     <string name="keep_face_visible">平视正对摄像头</string>
@@ -74,19 +74,20 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <!--Navi activity-->
     <string name="camera_degree_set">摄像头方向切换。当前：</string>
     <string name="parameter_setting">摄像头参数设置</string>
-    <string name="binocular_camera_demo">USB双目摄像头(UVC协议)演示</string>
+    <string name="uvc_usb_camera_demo">UVC协议USB摄像头演示</string>
     <string name="face_verify_1vs1">1:1人脸识别 </string>
     <string name="add_face_image">人脸底图录入</string>
     <string name="only_motion_liveness_detection">仅人脸活体检测</string>
     <string name="face_search_navi">1:N &amp; M:N人脸搜索识别 </string>
-    <string name="face_search">人脸搜索 </string>
+    <string name="face_search">人脸搜索识别</string>
     <string name="two_face_image_verify">静态人脸图1:1对比 </string>
     <string name="switch_camera">切换前后摄像头 </string>
     <string name="about_us">- 关于我们 About US -</string>
     <string name="custom_camera">自定义调试系统相机</string>
-    <string name="camera_mode_system">系统内置相机</string>
-    <string name="camera_mode_uvc_binocular">UVC摄像头(RGB+IR)</string>
-    <string name="camera_mode_uvc_rgb">UVC RGB摄像头</string>
+    <string name="camera_type_select">摄像头类型选择</string>
+    <string name="camera_type_system">系统内置相机</string>
+    <string name="camera_type_uvc_rgb_ir">UVC摄像头(RGB+IR)</string>
+    <string name="camera_type_uvc_rgb">UVC RGB摄像头</string>
     <string name="uvc_camera_type">UVC 相机类型选择</string>
 
 

@@ -5,15 +5,12 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.faceAI.demo.R;
 
 /**
- * 演示USB 双目摄像头1:1人脸识别，活体检测
- * **更多外接USB外接UVC摄像头**的操作参考这个大神的库：https://github.com/shiyinghan/UVCAndroid
- * 项目中的libs/libuvccamera-release.aar 就是根据此调整部分
- *
- * 怎么提高人脸搜索识别系统的准确度？https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
+ * UVC协议USB摄像头活体检测 Liveness Detection with UVC USB Camera
+ * 更多外接USB外接UVC摄像头**的操作参考这个大神的库：https://github.com/shiyinghan/UVCAndroid
+ * @author FaceAISDK.Service@gmail.com
  */
 public class Liveness_UVCCameraActivity extends AppCompatActivity {
 
@@ -25,8 +22,8 @@ public class Liveness_UVCCameraActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        Liveness_UVCCameraFragment binocularUVCCameraFragment = new Liveness_UVCCameraFragment();
-        fragmentTransaction.replace(R.id.fragment_container, binocularUVCCameraFragment);
+        Liveness_UVCCameraFragment myUVCCameraFragment = new Liveness_UVCCameraFragment();
+        fragmentTransaction.replace(R.id.fragment_container, myUVCCameraFragment);
 
         fragmentTransaction.commit();
     }

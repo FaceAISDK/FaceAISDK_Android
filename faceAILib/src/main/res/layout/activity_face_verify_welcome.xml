@@ -50,7 +50,7 @@
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
                 android:background="@drawable/button_rounded_background"
-                android:text="@string/camera_mode_uvc_binocular"
+                android:text="@string/camera_type_system"
                 android:textColor="@color/white"
                 android:textSize="11sp" />
 

@@ -1,11 +1,14 @@
 package com.faceAI.demo.UVCCamera.verify;
 
+import static android.content.Context.MODE_PRIVATE;
+import static android.view.View.INVISIBLE;
 import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_MIRROR_H;
 import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_SELECT;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_MIRROR_H;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_SELECT;
+import static com.faceAI.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
 import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.IR_KEY_DEFAULT;
 import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
 
@@ -20,6 +23,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.ai.face.core.utils.FaceAICameraType;
 import com.faceAI.demo.UVCCamera.manger.CameraBuilder;
 import com.faceAI.demo.UVCCamera.manger.UVCCameraManager;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
@@ -28,7 +33,7 @@ import com.faceAI.demo.databinding.FragmentUvcCameraBinding;
 /**
  * 1:1 人脸识别活体检测 abstract 基础类
  *
- * 打开双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
+ * UVC协议USB摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
  * <p>
  * 也可以支持仅仅RGB 的USB 摄像头，「调试的时候USB摄像头一定要固定住屏幕正上方」
  * <p>
@@ -39,7 +44,7 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
     public FragmentUvcCameraBinding binding;
     public FaceVerifyUtils faceVerifyUtils=new FaceVerifyUtils();
 
-//    private  boolean isBinocularCamera
+    public int cameraType = FaceAICameraType.UVC_CAMERA_RGB; //UVC 可以单RGB或者RGB+IR
 
     private  UVCCameraManager rgbCameraManager ;//RBG camera
     private  UVCCameraManager irCameraManager ; //近红外摄像头
@@ -64,6 +69,10 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentUvcCameraBinding.inflate(inflater, container, false);
+
+        SharedPreferences sharedPref = requireActivity().getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
+        cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
+
         initViews();
         initRGBCamara();
         return binding.getRoot();
@@ -83,7 +92,7 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
 
     //初始化RGB摄像头
     private void initRGBCamara() {
-        SharedPreferences sharedPref = requireContext().getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = requireContext().getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
                 .setCameraName("普通RGB摄像头")
                 .setCameraKey(sharedPref.getString(RGB_UVC_CAMERA_SELECT,RGB_KEY_DEFAULT))
@@ -101,9 +110,15 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
             }
             @Override
             public void onDeviceOpen(UsbDevice device, boolean isFirstOpen) {
-                //RGB 打开了就继续去打开IR
-                initIRCamara();
                 initFaceVerify();
+
+                //RGB 打开了就继续去打开IR
+                if (cameraType == FaceAICameraType.UVC_CAMERA_RGB_IR) {
+                    initIRCamara();
+                }else{
+                    binding.irCameraView.setVisibility(INVISIBLE);
+                }
+
             }
         });
 
@@ -120,7 +135,7 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
      * 初始化IR 摄像头
      */
     private void initIRCamara() {
-        SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
+        SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
                 .setCameraName("红外IR摄像头")
                 .setCameraKey(sp.getString(IR_UVC_CAMERA_SELECT,IR_KEY_DEFAULT))

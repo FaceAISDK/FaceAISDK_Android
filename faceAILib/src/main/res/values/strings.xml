@@ -13,7 +13,7 @@
     <string name="know">I know</string>
     <string name="retry">Try again</string>
     <string name="long_press_copy_msg">Tips: Long press to copy msg</string>
-    <string name="share_faceai_sdk">Share FaceAI SDK </string>
+    <string name="share_faceai_sdk">Share FaceAISDK </string>
     <string name="facesdk_camera_permission">Face Verify Need Camera Permission</string>
     <string name="share_faceai_sdk_content">Android On_device 1:1 Face Recognition And
         Liveness detection；1:N M:N Face Search SDK.
@@ -74,20 +74,21 @@
     <!--Navi activity-->
     <string name="camera_degree_set">Change Camera Degree  Now is:</string>
     <string name="parameter_setting">Camera Parameter settings</string>
-    <string name="binocular_camera_demo">Binocular Camera Demo</string>
+    <string name="uvc_usb_camera_demo">UVC_USB Camera Demo</string>
     <string name="face_verify_1vs1">1:1 Face Verify </string>
     <string name="add_face_image">Add face Image</string>
     <string name="only_motion_liveness_detection">Only motion liveness detection</string>
     <string name="face_search_navi">1:N &amp; M:N  Face Search </string>
     <string name="face_search">Face Search</string>
-    <string name="two_face_image_verify">two face image 1:1 verify</string>
+    <string name="two_face_image_verify">Two face image 1:1 verify</string>
     <string name="switch_camera">Switch front/back camera </string>
     <string name="about_us">- About us - </string>
     <string name="uvc_camera_type">UVC camera type </string>
     <string name="custom_camera">Custom system camera diy </string>
-    <string name="camera_mode_system">System built-in camera </string>
-    <string name="camera_mode_uvc_binocular">UVC binocular camera</string>
-    <string name="camera_mode_uvc_rgb">UVC RGB camera</string>
+    <string name="camera_type_select">Camera type select</string>
+    <string name="camera_type_system">System built-in camera </string>
+    <string name="camera_type_uvc_rgb_ir">UVC camera(RGB+IR)</string>
+    <string name="camera_type_uvc_rgb">UVC RGB camera</string>
 
     <!--1:N and M:N face search-->
     <string name="face_image_manger">Face images manger</string>

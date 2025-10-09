@@ -1,5 +1,6 @@
 package com.faceAI.demo.UVCCamera.liveness;
 
+import static android.content.Context.MODE_PRIVATE;
 import static android.view.View.INVISIBLE;
 import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_MIRROR_H;
@@ -7,6 +8,7 @@ import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_SELECT;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_MIRROR_H;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_SELECT;
+import static com.faceAI.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
 import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.IR_KEY_DEFAULT;
 import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
 
@@ -30,22 +32,18 @@ import com.faceAI.demo.UVCCamera.manger.UVCCameraManager;
 import com.faceAI.demo.databinding.FragmentUvcCameraLivenessBinding;
 
 /**
- * 1:1 人脸识别活体检测 abstract 基础类
- * <p>
- * 打开双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
- * <p>
- * 也可以支持仅仅RGB 的USB 摄像头，「调试的时候USB摄像头一定要固定住屏幕正上方」
- * <p>
- * 更多UVC 摄像头使用参考 https://blog.csdn.net/hanshiying007/article/details/124118486
+ * UVC协议USB摄像头活体检测 Liveness Detection with UVC USB Camera
+ * 更多外接USB外接UVC摄像头**的操作参考这个大神的库：https://github.com/shiyinghan/UVCAndroid
+ * @author FaceAISDK.Service@gmail.com
  */
 public abstract class AbsLiveness_UVCCameraFragment extends Fragment {
     private static final String TAG = AbsLiveness_UVCCameraFragment.class.getSimpleName();
     public FragmentUvcCameraLivenessBinding binding;
     public FaceVerifyUtils faceVerifyUtils= new FaceVerifyUtils();;
-    private UVCCameraManager rgbCameraManager;//RBG camera
-    private UVCCameraManager irCameraManager; //近红外摄像头
+    private UVCCameraManager rgbCameraManager; //RBG camera
+    private UVCCameraManager irCameraManager;  //近红外IR Camera
 
-    public int cameraType = FaceAICameraType.UVC_CAMERA_RGB; //UVC 可以单RGB或者RGB+IR
+    public int cameraType = FaceAICameraType.UVC_CAMERA_RGB; //UVC 可以单RGB 或者 RGB+IR
 
     abstract void initFaceLivenessParam();
 
@@ -53,15 +51,17 @@ public abstract class AbsLiveness_UVCCameraFragment extends Fragment {
 
     abstract void faceLivenessSetBitmap(Bitmap bitmap, FaceVerifyUtils.BitmapType type);
 
-
     public AbsLiveness_UVCCameraFragment() {
     }
-
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentUvcCameraLivenessBinding.inflate(inflater, container, false);
+
+        SharedPreferences sharedPref = requireActivity().getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
+        cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
+
         initViews();
         initRGBCamara();
         return binding.getRoot();
@@ -79,7 +79,9 @@ public abstract class AbsLiveness_UVCCameraFragment extends Fragment {
         }
     }
 
-    //初始化RGB摄像头
+    /**
+     * 初始化UVC 协议RGB摄像头
+     */
     private void initRGBCamara() {
         SharedPreferences sharedPref = requireContext().getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()

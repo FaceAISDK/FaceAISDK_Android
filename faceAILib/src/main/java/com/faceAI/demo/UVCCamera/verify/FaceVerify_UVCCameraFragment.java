@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import com.ai.face.base.baseImage.FaceEmbedding;
+import com.ai.face.core.utils.FaceAICameraType;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.faceAI.demo.FaceSDKConfig;
@@ -24,10 +25,10 @@ import com.faceAI.demo.R;
 
 
 /**
- * 演示USB 双目摄像头1:1人脸识别，活体检测
- * USB带红外双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
+ * 演示UVC协议USB摄像头1:1人脸识别，活体检测
+ * UVC协议USB带红外双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
  * <p>
- * AbstractBinocularUVCCameraFragment 是摄像头相关处理，「调试的时候USB摄像头一定要固定住屏幕正上方」
+ * AbsFaceSearch_UVCCameraFragment 是摄像头相关处理，「调试的时候USB摄像头一定要固定住屏幕正上方」
  * <p>
  * 默认LivenessType.IR需要你的摄像头是双目红外摄像头，如果仅仅是RGB 摄像头请使用LivenessType.SILENT_MOTION
  * <p>
@@ -80,13 +81,14 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(getContext())
                 .setThreshold(0.84f)                    //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
                 .setFaceEmbedding(faceEmbedding)        //1:1 人脸识别对比底片人脸特征库
-                .setLivenessType(FaceLivenessType.IR)   //IR 是指红外静默，MOTION 是有动作可以指定1-2 个
+                .setCameraType(cameraType)
+                .setLivenessType(FaceLivenessType.SILENT_MOTION)   //IR 是指红外静默，MOTION 是有动作可以指定1-2 个
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)   //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(silentLivenessThreshold) //静默活体阈值 [0.8,0.99]
 //                .setExceptMotionLivelessType(ALIVE_DETECT_TYPE_ENUM.SMILE) //动作活体去除微笑 或其他某一种
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(12)           //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
-//                .setCompareDurationTime(4500)         //动作活体通过后人脸对比时间，[3000,6000]毫秒。低配设备可以设置时间长一点，高配设备默认就行
+//                .setCompareDurationTime(4500)         //动作活体通过后人脸对比时间，[3000,6000]毫秒。低配设备可以设置时间长一点，高配设备默认就
                 .setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
@@ -110,7 +112,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                     //动作活体检测时间限制倒计时百分比
                     @Override
                     public void onTimeCountDown(float percent) {
-                        binding.faceCover.startCountDown(percent);
+
                     }
 
                     /**
@@ -306,28 +308,31 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
     private boolean rgbReady = false, irReady = false;
 
     /**
-     * 双目摄像头设置数据，送数据到SDK 引擎
+     * UVC协议USB摄像头设置数据，送数据到SDK 引擎
      *
      * @param bitmap
      * @param type
      */
     void faceVerifySetBitmap(Bitmap bitmap, FaceVerifyUtils.BitmapType type) {
-        if (type.equals(FaceVerifyUtils.BitmapType.IR)) {
-            irBitmap = bitmap;
-            irReady = true;
-        } else if (type.equals(FaceVerifyUtils.BitmapType.RGB)) {
-            rgbBitmap = bitmap;
-            rgbReady = true;
-        }
 
-        if (irReady && rgbReady) {
-            //送数据进入SDK
-            faceVerifyUtils.goVerifyWithIR(irBitmap, rgbBitmap);
-            irReady = false;
-            rgbReady = false;
-        }
+        if(cameraType== FaceAICameraType.UVC_CAMERA_RGB){
+            faceVerifyUtils.goVerifyWithBitmap(bitmap);
+        }else{
+            if (type.equals(FaceVerifyUtils.BitmapType.IR)) {
+                irBitmap = bitmap;
+                irReady = true;
+            } else if (type.equals(FaceVerifyUtils.BitmapType.RGB)) {
+                rgbBitmap = bitmap;
+                rgbReady = true;
+            }
 
+            if (irReady && rgbReady) {
+                //送数据进入SDK
+                faceVerifyUtils.goVerifyWithIR(irBitmap, rgbBitmap);
+                irReady = false;
+                rgbReady = false;
+            }
+        }
     }
-
 
 }

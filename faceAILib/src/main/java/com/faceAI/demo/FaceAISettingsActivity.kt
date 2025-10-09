@@ -25,7 +25,6 @@ class FaceAISettingsActivity : AppCompatActivity() {
         const val FRONT_BACK_CAMERA_FLAG = "cameraFlag"
         const val SYSTEM_CAMERA_DEGREE = "cameraDegree"
 
-
         const val UVC_CAMERA_TYPE = "UVC_CAMERA_TYPE" //UVC 协议相机类型，是否带IR
 
         //UVC 相机旋转 镜像管理。神奇，竟然有相机两个不同步，那分开管理
@@ -37,7 +36,6 @@ class FaceAISettingsActivity : AppCompatActivity() {
         //手动选择指定摄像头
         const val RGB_UVC_CAMERA_SELECT = "RGB_UVC_CAMERA_SELECT"
         const val IR_UVC_CAMERA_SELECT = "IR_UVC_CAMERA_SELECT"
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,9 +95,9 @@ class FaceAISettingsActivity : AppCompatActivity() {
 
         val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB)
         if(uvcCameraType==FaceAICameraType.UVC_CAMERA_RGB_IR){
-            binding.uvcCameraType.text = getString(R.string.camera_mode_uvc_binocular)
+            binding.uvcCameraType.text = getString(R.string.camera_type_uvc_rgb_ir)
         }else{
-            binding.uvcCameraType.text = getString(R.string.camera_mode_uvc_rgb)
+            binding.uvcCameraType.text = getString(R.string.camera_type_uvc_rgb)
         }
 
         //UVC协议相机类型选择，是否带IR
@@ -107,10 +105,10 @@ class FaceAISettingsActivity : AppCompatActivity() {
             val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB)
             if(uvcCameraType==FaceAICameraType.UVC_CAMERA_RGB_IR){
                 sharedPref.edit(commit = true) { putInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB) }
-                binding.uvcCameraType.text = getString(R.string.camera_mode_uvc_rgb)
+                binding.uvcCameraType.text = getString(R.string.camera_type_uvc_rgb)
             }else{
                 sharedPref.edit(commit = true) { putInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB_IR) }
-                binding.uvcCameraType.text = getString(R.string.camera_mode_uvc_binocular)
+                binding.uvcCameraType.text = getString(R.string.camera_type_uvc_rgb_ir)
             }
         }
 
