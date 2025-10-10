@@ -139,7 +139,7 @@ class FaceAINaviActivity : AppCompatActivity() {
         builderSingle.setTitle(R.string.camera_type_select)
         val arrayAdapter =
             ArrayAdapter<String?>(this@FaceAINaviActivity,
-                android.R.layout.select_dialog_singlechoice)
+                android.R.layout.select_dialog_item)
         arrayAdapter.add(getString(R.string.camera_type_system))
         arrayAdapter.add(getString(R.string.camera_type_uvc_rgb))
         arrayAdapter.add(getString(R.string.camera_type_uvc_rgb_ir))

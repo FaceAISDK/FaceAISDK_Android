@@ -118,11 +118,12 @@
                 android:layout_height="42dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="11dp"
-                android:layout_marginEnd="13dp"
+                android:layout_marginEnd="11dp"
+                android:padding="1dp"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/face_verify"
-                app:lottie_speed="2" />
+                app:lottie_rawRes="@raw/faceai2"
+                app:lottie_speed="1" />
 
             <TextView
                 android:layout_width="wrap_content"

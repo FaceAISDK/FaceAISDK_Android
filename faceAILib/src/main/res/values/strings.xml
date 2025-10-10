@@ -93,7 +93,7 @@
     <string name="about_us">- About us - </string>
     <string name="uvc_camera_type">UVC camera type </string>
     <string name="custom_camera">Custom system camera diy </string>
-    <string name="camera_type_select">Camera type select</string>
+    <string name="camera_type_select">Camera Type Select</string>
     <string name="camera_type_system">System built-in camera </string>
     <string name="camera_type_uvc_rgb_ir">UVC camera(RGB+IR)</string>
     <string name="camera_type_uvc_rgb">UVC RGB camera</string>
