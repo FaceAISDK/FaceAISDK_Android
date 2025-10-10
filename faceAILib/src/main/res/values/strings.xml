@@ -42,11 +42,19 @@
     <string name="input_face_id_tips">Please input face name</string>
     <string name="confirm_add_face_title">Confirm add this face？</string>
     <string name="confirm_add_face_tips">Please ensure face head pose right</string>
-
+    <string name="sure_delete_face_title">Sure to delete</string>
+    <string name="sure_delete_face_tips">After deletion, the corresponding face will not be recognized</string>
 
     <!--1:N 人脸搜索 face search-->
     <string name="no_matched_face">Face Searching</string>
     <string name="face_dir_empty">Face dir empty</string>
+    <string name="copy_app_assert_folder_faces">Copy app assert folder face images</string>
+    <string name="face_search_by_system_camera">Face Search by system camera</string>
+    <string name="face_search_by_uvc_camera">Face Search by UVC camera</string>
+    <string name="face_search_camera_tips">Camera WDR (Db) >105 for indoors and >120 for outdoors; use a fill light when need</string>
+    <string name="face_search_image_manger">Face images manger</string>
+    <string name="face_search_image_manger_tips">Long press delete the face,right|top button to add new face</string>
+
 
     <!--1:1 人脸识别 face verify -->
     <string name="face_verify_failed">Face verify failed！Please retry</string>
@@ -91,13 +99,26 @@
     <string name="camera_type_uvc_rgb">UVC RGB camera</string>
 
     <!--1:N and M:N face search-->
-    <string name="face_image_manger">Face images manger</string>
+    <string name="face_image_manage">Face manage</string>
     <string name="face_search_1fromN">1:N face search</string>
     <string name="face_search_uvc_camera">Search with uvc camera</string>
     <string name="face_search_MfromN">M:N face search</string>
     <string name="search_threshold_scope_tips">Threshold should in [0.85,0.95]</string>
     <string name="ir_live_error">ir live error</string>
     <string name="ir_image_error">ir camera have no image</string>
+
+    <!-- About UVC USB camera-->
+    <string name="uvc_camera_match_failed">. match failed,please go setting select right camera</string>
+
+    <!-- Setting camera-->
+    <string name="system_camera_setting">System camera setting</string>
+    <string name="uvc_camera_setting">UVC USB camera setting</string>
+    <string name="uvc_camera_select_rgb">RGB camera select</string>
+    <string name="uvc_camera_select_ir">IR camera select</string>
+    <string name="uvc_camera_degree_ir">Change IR camera degree </string>
+    <string name="uvc_camera_horizontal_mirror_ir">Horizontal mirror IR camera degree</string>
+    <string name="uvc_camera_degree_rgb">Change IR camera degree</string>
+    <string name="uvc_camera_horizontal_mirror_rgb">Horizontal mirror IR camera degree</string>
 
     <string name="gentle_reminder">Gentle Reminder</string>
     <string name="gentle_reminder_func">All SDK functions work offline and do not collect facial data.To better experience the demo, please ensure:</string>

@@ -103,7 +103,6 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             }
         }
 
-
         binding.editFaceImage.setOnClickListener {
             startActivity(
                 Intent(baseContext, FaceSearchImageMangerActivity::class.java).putExtra(

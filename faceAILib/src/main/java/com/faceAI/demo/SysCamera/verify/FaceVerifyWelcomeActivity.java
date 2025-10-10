@@ -4,7 +4,6 @@ import static com.faceAI.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
 import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
-
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,12 +14,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.ai.face.base.baseImage.FaceEmbedding;
 import com.ai.face.core.utils.FaceAICameraType;
 import com.faceAI.demo.UVCCamera.verify.FaceVerify_UVCCameraActivity;
@@ -36,9 +33,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.faceAI.demo.R;
 import com.faceAI.demo.base.utils.BitmapUtils;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,7 +51,6 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
     private FaceImageListAdapter faceImageListAdapter;
 
     private int cameraType = FaceAICameraType.SYSTEM_CAMERA;
-    private TextView cameraTypeText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,7 +60,7 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
         cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
-        cameraTypeText = findViewById(R.id.camera_mode);
+        TextView cameraTypeText = findViewById(R.id.camera_mode);
 
         if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
             cameraTypeText.setText(R.string.camera_type_system);
@@ -103,23 +97,16 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
         mRecyclerView.setAdapter(faceImageListAdapter);
         faceImageListAdapter.setOnItemLongClickListener((adapter, view, i) -> {
             ImageBean imageBean = faceImageList.get(i);
-            new AlertDialog.Builder(this).setTitle("确定要删除"
-                    + imageBean.name).setMessage("删除后对应的人将无法被识别").setPositiveButton(R.string.confirm, (dialog, which) -> {
-                File file = new File(imageBean.path);
-                if (file.delete()) {
-                    updateFaceList();
-                } else {
-                    Toast.makeText(getApplication(), "Delete failed", Toast.LENGTH_LONG).show();
-                }
-            }).setNegativeButton(R.string.cancel, null).show();
-            return false;
-        });
-
-        //32 位CPU测试
-        faceImageListAdapter.setOnItemLongClickListener((adapter, view, i) -> {
-            startActivity(
-                    new Intent(getBaseContext(), FaceVerification32CPUTestActivity.class)
-                            .putExtra(USER_FACE_ID_KEY, faceImageList.get(i).name));
+            new AlertDialog.Builder(this).setTitle(getString(R.string.sure_delete_face_title)
+                            + imageBean.name+"?").setMessage(R.string.sure_delete_face_tips)
+                    .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                        File file = new File(imageBean.path);
+                        if (file.delete()) {
+                            updateFaceList();
+                        } else {
+                            Toast.makeText(getApplication(), "Delete failed", Toast.LENGTH_LONG).show();
+                        }
+                    }).setNegativeButton(R.string.cancel, null).show();
             return false;
         });
 
@@ -185,7 +172,6 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
         }
     }
 
-
     /**
      * 加载已经录入的人脸账户列表
      */
@@ -218,7 +204,6 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
             faceName.setText(imageBean.name);
         }
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -3,8 +3,8 @@
 
 ##  V2025.10.09
 - 添加英文文案（软件翻译可能词不达意）
-- 主页支持切换3种相机类型
-
+- SDK支持切换使用3种相机类型
+- setCameraType API 更改为FaceAICameraType类型（SYSTEM，UVC_RGB,UVC_RGB_IR）
 
 ##  V2025.09.29
 - 添加光线强弱判断beta版本

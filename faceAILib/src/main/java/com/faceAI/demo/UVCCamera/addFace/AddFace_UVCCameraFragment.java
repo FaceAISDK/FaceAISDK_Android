@@ -109,7 +109,7 @@ public class AddFace_UVCCameraFragment extends Fragment {
 
         String s=sp.getString(RGB_UVC_CAMERA_SELECT,RGB_KEY_DEFAULT);
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
-                .setCameraName("普通RGB摄像头")
+                .setCameraName("UVC RGB Camera")
                 .setCameraKey(s)
                 .setCameraView(binding.rgbCameraView)
                 .setContext(requireContext())
@@ -147,7 +147,7 @@ public class AddFace_UVCCameraFragment extends Fragment {
                 if (addFaceImageType.equals(AddFaceImageActivity.AddFaceImageTypeEnum.FACE_VERIFY.name())) {
                     float[] faceEmbedding = baseImageDispose.saveBaseImageGetEmbedding(bitmap, CACHE_BASE_FACE_DIR, faceID);//保存人脸底图,并返回人脸特征向量
                     FaceEmbedding.saveEmbedding(requireContext(),faceID,faceEmbedding); //保存特征向量
-                    Toast.makeText(requireContext(), "录入成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show();
                     requireActivity().finish();
                 } else {
                     //人脸搜索(1:N ，M：N )保存人脸
@@ -158,13 +158,13 @@ public class AddFace_UVCCameraFragment extends Fragment {
                             .insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
                                 @Override
                                 public void onSuccess(@NonNull Bitmap bitmap, @NonNull float[] faceEmbedding) {
-                                    Toast.makeText(requireContext(), "录入成功", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show();
                                     requireActivity().finish();
                                 }
 
                                 @Override
                                 public void onFailed(@NotNull String msg) {
-                                    Toast.makeText(requireContext(), "人脸图入库失败：：" + msg, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(requireContext(), "Failed：：" + msg, Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }

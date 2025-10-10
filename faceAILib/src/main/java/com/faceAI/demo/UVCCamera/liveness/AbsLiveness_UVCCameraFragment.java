@@ -81,7 +81,7 @@ public abstract class AbsLiveness_UVCCameraFragment extends Fragment {
     private void initRGBCamara() {
         SharedPreferences sharedPref = requireContext().getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
-                .setCameraName("普通RGB摄像头")
+                .setCameraName("UVC RGB Camera")
                 .setCameraKey(sharedPref.getString(RGB_UVC_CAMERA_SELECT, RGB_KEY_DEFAULT))
                 .setCameraView(binding.rgbCameraView)
                 .setContext(requireContext())

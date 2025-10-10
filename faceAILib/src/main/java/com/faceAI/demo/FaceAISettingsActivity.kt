@@ -24,7 +24,6 @@ class FaceAISettingsActivity : AppCompatActivity() {
         //系统摄像头相关
         const val FRONT_BACK_CAMERA_FLAG = "cameraFlag"
         const val SYSTEM_CAMERA_DEGREE = "cameraDegree"
-
         const val UVC_CAMERA_TYPE = "UVC_CAMERA_TYPE" //UVC 协议相机类型，是否带IR
 
         //UVC 相机旋转 镜像管理。神奇，竟然有相机两个不同步，那分开管理

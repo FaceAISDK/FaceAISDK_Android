@@ -37,7 +37,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="8dp"
                 android:padding="3dp"
-                android:text="系统相机设置"
+                android:text="@string/system_camera_setting"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 
@@ -124,7 +124,7 @@
                 android:layout_marginTop="29dp"
                 android:layout_marginBottom="2dp"
                 android:padding="3dp"
-                android:text="UVC协议USB摄像头设置"
+                android:text="@string/uvc_camera_setting"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 
@@ -160,7 +160,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="11dp"
-                        android:text="RGB摄像头选择"
+                        android:text="@string/uvc_camera_select_rgb"
                         android:textColor="@color/face_main_color"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -190,7 +190,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="11dp"
-                        android:text="IR红外摄像头选择"
+                        android:text="@string/uvc_camera_select_ir"
                         android:textColor="@color/face_main_color"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -225,7 +225,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="11dp"
-                        android:text="IR摄像头画面角度旋转"
+                        android:text="@string/uvc_camera_degree_ir"
                         android:textColor="@color/face_main_color"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -255,7 +255,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="11dp"
-                        android:text="IR摄像头画面左右翻转"
+                        android:text="@string/uvc_camera_horizontal_mirror_ir"
                         android:textColor="@color/face_main_color"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -291,7 +291,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="11dp"
-                        android:text="RGB摄像头画面角度旋转"
+                        android:text="@string/uvc_camera_degree_rgb"
                         android:textColor="@color/face_main_color"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -321,7 +321,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="11dp"
-                        android:text="RGB摄像头画面左右翻转"
+                        android:text="@string/uvc_camera_horizontal_mirror_rgb"
                         android:textColor="@color/face_main_color"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -330,7 +330,6 @@
 
             </LinearLayout>
 
-
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
@@ -338,7 +337,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="更多参数设置，请工程师下载源码手动调节"
+        android:text="More Settings? See FaceAISDK souce code"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:textStyle="bold"

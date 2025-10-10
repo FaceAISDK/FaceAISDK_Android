@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.ai.face.base.utils.DataConvertUtils;
 import com.faceAI.demo.FaceSDKConfig;
+import com.faceAI.demo.R;
 import com.herohan.uvcapp.CameraHelper;
 import com.herohan.uvcapp.ICameraHelper;
 import com.serenegiant.opengl.renderer.MirrorMode;
@@ -117,7 +118,7 @@ public class UVCCameraManager {
         for (UsbDevice device : list) {
             String name = device.getProductName();
             if (TextUtils.isEmpty(name)) {
-                Toast.makeText(context, "摄像头ProductName为空", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Camera ProductName empty", Toast.LENGTH_LONG).show();
             } else if (name.toLowerCase().contains(cameraBuilder.getCameraKey().toLowerCase())) { //忽略大小写
                 isMatched = true; //匹配成功了
                 mCameraHelper.selectDevice(device);
@@ -132,7 +133,7 @@ public class UVCCameraManager {
         }
         if (!isMatched) {
             //Demo 需要允许用户手动去选择设置，傻瓜式操作
-            Toast.makeText(context, cameraBuilder.getCameraName() + "匹配失败,请手动匹配", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, cameraBuilder.getCameraName() +context.getString(R.string.uvc_camera_match_failed), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -190,7 +191,7 @@ public class UVCCameraManager {
                          }
                     }else{
                         //无匹配的分辨率
-                        Toast.makeText(context,  "无对应的分辨率，请调试修正", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context,  "unSupport camera resolution,please check", Toast.LENGTH_LONG).show();
                     }
                 }
             }
