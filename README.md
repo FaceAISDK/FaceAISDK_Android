@@ -34,9 +34,10 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-##  V2025.10.09
+##  V2025.10.10
 - 添加英文文案（软件翻译可能词不达意）
-- 主页支持切换3种相机类型
+- SDK支持切换使用3种相机类型
+- setCameraType API 更改为FaceAICameraType类型（SYSTEM,UVC_RGB,UVC_RGB_IR）
 
 更多历史版本说明参考 [历史版本SDK更新记录](doc/历史版本SDK更新记录.md)
 

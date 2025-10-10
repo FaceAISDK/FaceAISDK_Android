@@ -22,7 +22,7 @@
         \n\nIntegrated Source Code：https://github.com/FaceAISDK/FaceAISDK_Android </string>
 
     <!--添加人脸 add face image-->
-    <string name="keep_face_tips">Face the camera,keep face visible</string>
+    <string name="keep_face_tips">Face the camera</string>
     <string name="no_close_eye_tips">Do not close eye</string>
     <string name="no_tilt_head_tips">Do not tile head</string>
     <string name="head_turn_left_tips">Dead turn left too more</string>
@@ -42,7 +42,7 @@
     <string name="input_face_id_tips">Please input face name</string>
     <string name="confirm_add_face_title">Confirm add this face？</string>
     <string name="confirm_add_face_tips">Please ensure face head pose right</string>
-    <string name="sure_delete_face_title">Sure to delete</string>
+    <string name="sure_delete_face_title">Sure to delete </string>
     <string name="sure_delete_face_tips">After deletion, the corresponding face will not be recognized</string>
 
     <!--1:N 人脸搜索 face search-->

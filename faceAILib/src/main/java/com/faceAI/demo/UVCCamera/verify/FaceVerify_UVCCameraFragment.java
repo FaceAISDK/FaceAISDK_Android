@@ -122,7 +122,6 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                 }).create();
 
         faceVerifyUtils.setDetectorParams(faceProcessBuilder);
-
     }
 
     /**
@@ -272,7 +271,6 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
             });
         }
     }
-
 
     @Override
     public void onDestroyView() {
