@@ -157,7 +157,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.66,0.98]
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)    //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setMotionLivenessStepSize(motionStepSize)            //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
-                .setMotionLivenessTimeOut(motionTimeOut)              //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
+                .setMotionLivenessTimeOut(motionTimeOut)              //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
                 .setExceptMotionLivenessType(exceptMotionLiveness)    //动作活体去除微笑 或其他某一种
                 .setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {

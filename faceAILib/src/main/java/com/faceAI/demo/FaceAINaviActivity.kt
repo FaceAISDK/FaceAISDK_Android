@@ -23,6 +23,7 @@ import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
 
 /**
  * SDK 接入演示Demo，请先熟悉本Demo跑通主要流程后再集成到你的主工程 验证业务
+ *
  * @author FaceAISDK.Service@gmail.com
  */
 class FaceAINaviActivity : AppCompatActivity() {
@@ -58,7 +59,7 @@ class FaceAINaviActivity : AppCompatActivity() {
             startActivity(Intent(this@FaceAINaviActivity, FaceAISettingsActivity::class.java))
         }
 
-        //活体检测 livenessDetection
+        // 活体检测 livenessDetection
         viewBinding.livenessDetection.setOnClickListener {
             val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
             val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB)
@@ -71,12 +72,12 @@ class FaceAINaviActivity : AppCompatActivity() {
         }
 
 
-        //两张静态人脸图中人脸相似度对比，two face image similarity compare
+        // 两张静态人脸图中人脸相似度对比，two face image similarity compare
         viewBinding.twoFaceVerify.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, TwoFaceImageVerifyActivity::class.java))
         }
 
-        //分享
+        // 分享FaceAISDK
         viewBinding.shareLayout.setOnClickListener {
             val intent = Intent()
             intent.action = Intent.ACTION_SEND
@@ -99,7 +100,6 @@ class FaceAINaviActivity : AppCompatActivity() {
             FaceVerifyUtils().printInfo(this@FaceAINaviActivity);
             return@setOnLongClickListener true
         }
-
 
         viewBinding.moreAboutMe.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, AboutFaceAppActivity::class.java))
@@ -158,8 +158,6 @@ class FaceAINaviActivity : AppCompatActivity() {
                 }
             }
             setCameraType()
-            val strName = arrayAdapter.getItem(which)
-            Toast.makeText(baseContext,strName, Toast.LENGTH_SHORT).show()
         }
         builderSingle.show()
     }

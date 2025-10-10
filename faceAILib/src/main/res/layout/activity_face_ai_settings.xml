@@ -124,7 +124,7 @@
                 android:layout_marginTop="29dp"
                 android:layout_marginBottom="2dp"
                 android:padding="3dp"
-                android:text="UVC协议外接摄像头设置"
+                android:text="UVC协议USB摄像头设置"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
 
@@ -137,53 +137,6 @@
                 android:background="@drawable/bg_rect"
                 android:orientation="vertical">
 
-
-                <LinearLayout
-                    android:id="@+id/uvc_camera_type_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="6dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="33dp"
-                        android:layout_height="33dp"
-                        android:padding="3dp"
-                        app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/switch_camera"
-                        app:lottie_speed="0.6" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="11dp"
-                        android:text="@string/uvc_camera_type"
-                        android:textColor="@color/face_main_color"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-
-                    <TextView
-                        android:id="@+id/uvc_camera_type"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end|center_vertical"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginStart="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/white" />
                 <LinearLayout
                     android:id="@+id/rgb_uvc_camera_select"
                     android:layout_width="match_parent"

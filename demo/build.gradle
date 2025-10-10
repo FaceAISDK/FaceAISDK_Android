@@ -8,8 +8,8 @@ android {
 
     defaultConfig {
         //需要优化一下摄像头焦距和 按比例显示...
-        versionCode 20251009
-        versionName "20251009"
+        versionCode 20251011
+        versionName "20251011"
 
         applicationId "com.ai.face.verifyPub"
         minSdk 21

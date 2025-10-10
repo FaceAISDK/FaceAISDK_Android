@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.ai.face.base.baseImage.FaceEmbedding
 import com.faceAI.demo.databinding.ActivityAboutFaceAppBinding
+import androidx.core.net.toUri
 
 
 /**
@@ -40,7 +41,7 @@ class AboutFaceAppActivity : AppCompatActivity() {
         }
 
         viewBinding.newAppCheck.setOnClickListener {
-            val uri = Uri.parse("https://www.pgyer.com/faceVerify")
+            val uri = "https://www.pgyer.com/faceVerify".toUri()
             val intent = Intent(Intent.ACTION_VIEW)
             intent.addCategory(Intent.CATEGORY_BROWSABLE)
             intent.data = uri
@@ -75,8 +76,7 @@ class AboutFaceAppActivity : AppCompatActivity() {
 
     }
 
-
-    public fun getVersionName(context: Context): String? {
+    fun getVersionName(context: Context): String? {
         try {
             val pInfo = context.packageManager.getPackageInfo(context.packageName, 0)
             return pInfo.versionName

@@ -87,8 +87,7 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
                     .setMessage("删除后对应的人将无法被程序识别")
                     .setPositiveButton("确定", (dialog, which) -> {
                         FaceSearchImagesManger.Companion.getInstance(getApplication()).deleteFaceImage(imageBean.path);
-                        loadImageList();
-                        faceImageListAdapter.notifyDataSetChanged();
+                        updateFaceList();
                     })
                     .setNegativeButton("取消", null).show();
             return false;
@@ -104,8 +103,7 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
                     .setMessage("删除后设备本地所有人脸数据将被清除，请谨慎操作")
                     .setPositiveButton("确定", (dialog, which) -> {
                         FaceSearchImagesManger.Companion.getInstance(getApplication()).clearFaceImages(CACHE_SEARCH_FACE_DIR);
-                        loadImageList();
-                        faceImageListAdapter.notifyDataSetChanged();
+                        updateFaceList();
                     })
                     .setNegativeButton("取消", null).show();
             return false;
@@ -113,19 +111,18 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
 
         //添加人脸照片，UVC协议摄像头添加还是普通的系统相机
         if (getIntent().getExtras().getBoolean("isAdd")) {
-
             SharedPreferences sharedPref =getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
             int cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
 
+            Intent addFaceIntent;
             if (cameraType==FaceAICameraType.SYSTEM_CAMERA) {
-                Intent addFaceIntent = new Intent(getBaseContext(), AddFace_UVCCameraActivity.class);
-                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_SEARCH.name());
-                startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
-            } else {
-                Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
+                addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
                 addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
-                startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
+            } else {
+                addFaceIntent = new Intent(getBaseContext(), AddFace_UVCCameraActivity.class);
+                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_SEARCH.name());
             }
+            startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
         }
     }
 

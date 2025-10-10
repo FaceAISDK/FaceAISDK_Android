@@ -56,7 +56,7 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                 .setLivenessType(faceLivenessType) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
                 .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.88,0.98]
                 .setMotionLivenessStepSize(motionStepSize)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
-                .setMotionLivenessTimeOut(motionTimeOut)           //动作活体检测，支持设置超时时间 [9,22] 秒 。API 名字0410 修改
+                .setMotionLivenessTimeOut(motionTimeOut)           //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
                 .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setExceptMotionLivenessType(exceptMotionLiveness) //动作活体去除微笑 或其他某一种
                 .setProcessCallBack(new ProcessCallBack() {
@@ -244,7 +244,9 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
      */
     public void onStop() {
         super.onStop();
-        faceVerifyUtils.pauseProcess();
+        if (faceVerifyUtils != null) {
+            faceVerifyUtils.pauseProcess();
+        }
     }
 
 

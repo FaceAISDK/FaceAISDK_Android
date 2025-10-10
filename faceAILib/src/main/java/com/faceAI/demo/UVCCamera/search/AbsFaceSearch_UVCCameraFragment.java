@@ -33,25 +33,21 @@ import com.faceAI.demo.databinding.FragmentFaceSearchUvcCameraBinding;
 
 /**
  * UVC协议USB摄像头人脸搜索识别 abstract 基类，管理摄像头
- *
+ * <p>
  * 使用宽动态（人脸搜索须大于105DB）抗逆光摄像头；保持镜头干净（用纯棉布擦拭油污）
- *
+ * <p>
  * 也可以支持仅仅RGB 的USB 摄像头，「调试的时候USB摄像头一定要固定住屏幕正上方」保证角度合适
  * 更多UVC 摄像头使用参考 https://blog.csdn.net/hanshiying007/article/details/124118486
- *
  */
 public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
     private static final String TAG = AbsFaceSearch_UVCCameraFragment.class.getSimpleName();
     public FragmentFaceSearchUvcCameraBinding binding;
-    private  UVCCameraManager rgbCameraManager ;//RBG camera
-    private  UVCCameraManager irCameraManager ; //近红外摄像头
-
     public int cameraType = FaceAICameraType.UVC_CAMERA_RGB; //UVC 可以单RGB或者RGB+IR
+    private UVCCameraManager rgbCameraManager;//RBG camera
+    private UVCCameraManager irCameraManager; //近红外摄像头
 
     abstract void initFaceSearchParam();
-
     abstract void showFaceSearchPrecessTips(int code);
-
     abstract void faceSearchSetBitmap(Bitmap bitmap, FaceVerifyUtils.BitmapType type);
 
     public AbsFaceSearch_UVCCameraFragment() {
@@ -70,7 +66,7 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
         return binding.getRoot();
     }
 
-    public void initViews(){
+    public void initViews() {
 
     }
 
@@ -78,7 +74,7 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         rgbCameraManager.releaseCameraHelper();
-        if(irCameraManager!=null){
+        if (irCameraManager != null) {
             irCameraManager.releaseCameraHelper();
         }
     }
@@ -87,14 +83,14 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
         SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
                 .setCameraName("普通RGB摄像头")
-                .setCameraKey(sp.getString(RGB_UVC_CAMERA_SELECT,RGB_KEY_DEFAULT))
+                .setCameraKey(sp.getString(RGB_UVC_CAMERA_SELECT, RGB_KEY_DEFAULT))
                 .setCameraView(binding.rgbCameraView)
                 .setContext(requireContext())
-                .setDegree(sp.getInt(RGB_UVC_CAMERA_DEGREE,0))
+                .setDegree(sp.getInt(RGB_UVC_CAMERA_DEGREE, 0))
                 .setHorizontalMirror(sp.getBoolean(RGB_UVC_CAMERA_MIRROR_H, false))
                 .build();
 
-        rgbCameraManager=new UVCCameraManager(cameraBuilder);
+        rgbCameraManager = new UVCCameraManager(cameraBuilder);
 
         rgbCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.OnCameraStatusCallBack() {
             @Override
@@ -109,7 +105,7 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
                 //RGB 打开了就继续去打开IR
                 if (cameraType == FaceAICameraType.UVC_CAMERA_RGB_IR) {
                     initIRCamara();
-                }else{
+                } else {
                     binding.irCameraView.setVisibility(INVISIBLE);
                 }
 
@@ -128,21 +124,20 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
 
     /**
      * 初始化IR 摄像头
-     *
      */
     private void initIRCamara() {
         SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
 
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
                 .setCameraName("IR摄像头")
-                .setCameraKey(sp.getString(IR_UVC_CAMERA_SELECT,IR_KEY_DEFAULT))
+                .setCameraKey(sp.getString(IR_UVC_CAMERA_SELECT, IR_KEY_DEFAULT))
                 .setCameraView(binding.irCameraView)
                 .setContext(requireContext())
-                .setDegree(sp.getInt(IR_UVC_CAMERA_DEGREE,0))
+                .setDegree(sp.getInt(IR_UVC_CAMERA_DEGREE, 0))
                 .setHorizontalMirror(sp.getBoolean(IR_UVC_CAMERA_MIRROR_H, false))
                 .build();
 
-        irCameraManager=new UVCCameraManager(cameraBuilder);
+        irCameraManager = new UVCCameraManager(cameraBuilder);
 
         irCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.OnCameraStatusCallBack() {
             @Override
@@ -152,7 +147,7 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
             @Override
             public void onDeviceOpen(UsbDevice device, boolean isFirstOpen) {
 
-             }
+            }
         });
 
         irCameraManager.setFaceAIAnalysis(new UVCCameraManager.OnFaceAIAnalysisCallBack() {

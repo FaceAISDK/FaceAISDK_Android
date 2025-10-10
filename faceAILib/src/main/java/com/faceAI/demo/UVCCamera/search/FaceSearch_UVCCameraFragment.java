@@ -126,12 +126,9 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
 
                 }).create();
 
-
         //3.初始化引擎，是个耗时耗资源操作
         FaceSearchEngine.Companion.getInstance().initSearchParams(faceProcessBuilder);
-
     }
-
 
     @Override
     void showFaceSearchPrecessTips(int code) {
@@ -145,7 +142,6 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                 //人脸库没有人脸照片，没有使用SDK 插入人脸？
                 binding.searchTips.setText(R.string.face_dir_empty);
                 break;
-
 
             case EMGINE_INITING:
                 binding.searchTips.setText(R.string.sdk_init);
@@ -190,11 +186,9 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                 binding.searchTips.setText(R.string.no_mask_please);
                 break;
 
-
             default:
                 binding.searchTips.setText("回调提示：" + code);
                 break;
-
         }
     }
 
@@ -206,7 +200,6 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
      * @param type
      */
     void faceSearchSetBitmap(Bitmap bitmap, FaceVerifyUtils.BitmapType type) {
-
         if(cameraType== FaceAICameraType.UVC_CAMERA_RGB){
             FaceSearchEngine.Companion.getInstance().runSearchWithBitmap(bitmap);
         }else{
@@ -226,8 +219,6 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                 rgbReady = false;
             }
         }
-
-
 
     }
 

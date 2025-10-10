@@ -64,7 +64,6 @@ import java.util.Objects;
  * @author FaceAISDK.Service@gmail.com
  */
 public class AddFace_UVCCameraFragment extends Fragment {
-    private static final String TAG = "AddFace";
     public FragmentUvcCameraAddFaceBinding binding;
     public static String ADD_FACE_IMAGE_TYPE_KEY = "ADD_FACE_IMAGE_TYPE_KEY";
     private TextView tipsTextView;

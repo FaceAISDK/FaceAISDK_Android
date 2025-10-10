@@ -93,25 +93,6 @@ class FaceAISettingsActivity : AppCompatActivity() {
 
         //==========USB摄像头（UVC协议）管理 更多参考https://github.com/shiyinghan/UVCAndroid =========
 
-        val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB)
-        if(uvcCameraType==FaceAICameraType.UVC_CAMERA_RGB_IR){
-            binding.uvcCameraType.text = getString(R.string.camera_type_uvc_rgb_ir)
-        }else{
-            binding.uvcCameraType.text = getString(R.string.camera_type_uvc_rgb)
-        }
-
-        //UVC协议相机类型选择，是否带IR
-        binding.uvcCameraTypeLayout.setOnClickListener {
-            val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB)
-            if(uvcCameraType==FaceAICameraType.UVC_CAMERA_RGB_IR){
-                sharedPref.edit(commit = true) { putInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB) }
-                binding.uvcCameraType.text = getString(R.string.camera_type_uvc_rgb)
-            }else{
-                sharedPref.edit(commit = true) { putInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB_IR) }
-                binding.uvcCameraType.text = getString(R.string.camera_type_uvc_rgb_ir)
-            }
-        }
-
         //UVC RGB摄像头角度旋转设置
         binding.rgbUvcCameraSwitch.setOnClickListener {
             var rgbDegree = sharedPref.getInt(RGB_UVC_CAMERA_DEGREE, 0)

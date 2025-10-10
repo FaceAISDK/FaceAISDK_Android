@@ -34,25 +34,21 @@ import com.faceAI.demo.databinding.FragmentUvcCameraLivenessBinding;
 /**
  * UVC协议USB摄像头活体检测 Liveness Detection with UVC USB Camera
  * 更多外接USB外接UVC摄像头**的操作参考这个大神的库：https://github.com/shiyinghan/UVCAndroid
+ *
  * @author FaceAISDK.Service@gmail.com
  */
 public abstract class AbsLiveness_UVCCameraFragment extends Fragment {
     private static final String TAG = AbsLiveness_UVCCameraFragment.class.getSimpleName();
     public FragmentUvcCameraLivenessBinding binding;
-    public FaceVerifyUtils faceVerifyUtils= new FaceVerifyUtils();;
+    public FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
+    public int cameraType = FaceAICameraType.UVC_CAMERA_RGB; //UVC 可以单RGB 或者 RGB+IR
     private UVCCameraManager rgbCameraManager; //RBG camera
     private UVCCameraManager irCameraManager;  //近红外IR Camera
 
-    public int cameraType = FaceAICameraType.UVC_CAMERA_RGB; //UVC 可以单RGB 或者 RGB+IR
-
     abstract void initFaceLivenessParam();
-
     abstract void showFaceLivenessTips(int actionCode);
-
     abstract void faceLivenessSetBitmap(Bitmap bitmap, FaceVerifyUtils.BitmapType type);
-
-    public AbsLiveness_UVCCameraFragment() {
-    }
+    public AbsLiveness_UVCCameraFragment() {}
 
     @Nullable
     @Override
@@ -105,7 +101,7 @@ public abstract class AbsLiveness_UVCCameraFragment extends Fragment {
                 //RGB 打开了就继续去打开IR
                 if (cameraType == FaceAICameraType.UVC_CAMERA_RGB_IR) {
                     initIRCamara();
-                }else{
+                } else {
                     binding.irCameraView.setVisibility(INVISIBLE);
                 }
                 initFaceLivenessParam();
