@@ -51,19 +51,17 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         binding.systemCameraAddFace.setOnClickListener {
             startActivity(
                 Intent(baseContext, FaceSearchImageMangerActivity::class.java)
-                    .putExtra("isAdd", true)
-                    .putExtra("isBinocularCamera", false))
+                    .putExtra("isAdd", true))
         }
 
-        binding.binocularCameraSearch.setOnClickListener {
+        binding.uvcUsbCameraSearch.setOnClickListener {
             showConnectUVCCameraDialog()
         }
 
-        binding.binocularCameraAddFace.setOnClickListener {
+        binding.uvcUsbCameraAddFace.setOnClickListener {
             startActivity(
                 Intent(baseContext, FaceSearchImageMangerActivity::class.java)
                     .putExtra("isAdd", true)
-                    .putExtra("isBinocularCamera", true)
             )
         }
 
@@ -104,7 +102,6 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
                 ).show()
             }
         }
-
 
         binding.editFaceImage.setOnClickListener {
             startActivity(

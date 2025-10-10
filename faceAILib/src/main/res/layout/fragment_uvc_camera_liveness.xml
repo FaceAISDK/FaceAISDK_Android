@@ -19,7 +19,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
     <!-- 横竖屏幕调整适配等参考UVC摄像头管理三方库 https://github.com/shiyinghan/UVCAndroid-->
     <com.serenegiant.widget.AspectRatioSurfaceView
         android:id="@+id/ir_camera_view"
@@ -79,7 +78,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-
     <ImageView
         android:id="@+id/back"
         android:layout_width="47dp"
@@ -90,6 +88,5 @@
         android:layout_marginBottom="15dp"
         android:padding="9dp"
         android:src="@drawable/ic_arrow_back_24" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

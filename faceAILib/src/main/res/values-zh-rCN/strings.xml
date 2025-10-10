@@ -8,11 +8,11 @@
     <string name="face_verifying">识别中,平视正对摄像头</string>
     <string name="confirm">确定</string>
     <string name="go_setting">去设置</string>
-    <string name="cancel">确定</string>
+    <string name="cancel">取消</string>
     <string name="know">知道了</string>
     <string name="retry">重试</string>
     <string name="long_press_copy_msg">提示：长按复制联系信息</string>
-    <string name="share_faceai_sdk">分享人脸识别SDK </string>
+    <string name="share_faceai_sdk">分享人脸识别SDK</string>
     <string name="facesdk_camera_permission">人脸识别需要摄像头权限才能正常工作</string>
     <string name="share_faceai_sdk_content">FaceAISDK 人脸识别 活体检测接入源码\n\n
 Android：https://github.com/FaceAISDK/FaceAISDK_Android\n
@@ -41,22 +41,34 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="add_face_from_photo">相册添加</string>
     <string name="add_face_from_camera">拍照添加</string>
     <string name="input_face_id_tips">请输入人脸名称ID</string>
+    <string name="confirm_add_face_title">确认保存此人脸图 ？</string>
+    <string name="confirm_add_face_tips">确认为正脸，清晰无遮挡照片</string>
+    <string name="sure_delete_face_title">确认要删除</string>
+    <string name="sure_delete_face_tips">删除后对应的人脸将无法被识别</string>
 
 
     <!--1:N 人脸搜索 face search-->
     <string name="no_matched_face">人脸搜索中</string>
     <string name="face_dir_empty">人脸库为空</string>
     <string name="no_base_face_bitmap">没有录入人脸底片</string>
+    <string name="copy_app_assert_folder_faces">导入内置assets目录测试人脸图</string>
+    <string name="face_search_by_system_camera">系统相机搜索</string>
+    <string name="face_search_by_uvc_camera">UVC协议USB摄像头搜索</string>
+    <string name="face_search_camera_tips">摄像头宽动态值(Db)室内>105，室外>120;光线不好使用补光灯</string>
+    <string name="face_search_image_manger">人脸搜索底图管理</string>
+    <string name="face_search_image_manger_tips">长按人脸删除，右上角按钮添加内置测试人脸图</string>
 
     <!--1:1 人脸识别 face verify-->
     <string name="face_verify_failed_title">识别失败</string>
     <string name="face_verify_failed">人脸识别不通过，相似度低于设置阈值，请重试！</string>
     <string name="silent_anti_spoofing_error">静默活体得分过低</string>
     <string name="face_verify_pause">人脸识别被中断了！</string>
-
+    <string name="face_verify_demo">1:1 人脸识别演示</string>
+    <string name="face_verify_no_face_tips">暂未录入人脸\n点击上面按钮添加录入，长按人脸可删除</string>
 
     <!--Motion liveness detection-->
-    <string name="liveness_detection">活体检测 </string>
+    <string name="liveness_detection">人脸活体检测</string>
+    <string name="liveness_detection_done">活体检测完成</string>
     <string name="motion_liveness_detection_failed">动作活体检测失败了 </string>
     <string name="keep_face_visible">平视正对摄像头</string>
     <string name="repeat_open_close_mouse">请重复张闭嘴</string>
@@ -71,27 +83,49 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <!--Navi activity-->
     <string name="camera_degree_set">摄像头方向切换。当前：</string>
     <string name="parameter_setting">摄像头参数设置</string>
-    <string name="binocular_camera_demo">USB双目摄像头(UVC协议)演示</string>
+    <string name="uvc_usb_camera_demo">UVC协议USB摄像头演示</string>
     <string name="face_verify_1vs1">1:1人脸识别 </string>
     <string name="add_face_image">人脸底图录入</string>
     <string name="only_motion_liveness_detection">仅人脸活体检测</string>
     <string name="face_search_navi">1:N &amp; M:N人脸搜索识别 </string>
-    <string name="face_search">人脸搜索 </string>
+    <string name="face_search">人脸搜索识别</string>
     <string name="two_face_image_verify">静态人脸图1:1对比 </string>
     <string name="switch_camera">切换前后摄像头 </string>
     <string name="about_us">- 关于我们 About US -</string>
     <string name="custom_camera">自定义调试系统相机</string>
+    <string name="camera_type_select">摄像头类型选择</string>
+    <string name="camera_type_system">系统内置相机</string>
+    <string name="camera_type_uvc_rgb_ir">UVC摄像头(RGB+IR)</string>
+    <string name="camera_type_uvc_rgb">UVC RGB摄像头</string>
     <string name="uvc_camera_type">UVC 相机类型选择</string>
 
 
     <!--1:N and M:N face search-->
-    <string name="face_image_manger">人脸库管理</string>
+    <string name="face_image_manage">人脸库管理</string>
     <string name="face_search_1fromN">1:N 人脸搜索</string>
     <string name="face_search_uvc_camera">UVC摄像头人脸搜索</string>
     <string name="face_search_MfromN">M:N 多人脸搜索（体验版）</string>
     <string name="search_threshold_scope_tips">阈值Threshold范围为[0.85,0.95]</string>
     <string name="ir_live_error">红外活体检测失败</string>
     <string name="ir_image_error">红外摄像头图像采集失败</string>
+
+    <!-- About UVC USB camera-->
+    <string name="uvc_camera_match_failed"> 匹配失败,请手动匹配</string>
+
+    <!-- Setting camera-->
+    <string name="system_camera_setting">系统相机设置</string>
+    <string name="uvc_camera_setting">UVC协议USB摄像头设置</string>
+    <string name="uvc_camera_select_rgb">RGB 摄像头选择</string>
+    <string name="uvc_camera_select_ir">IR 红外摄像头选择</string>
+    <string name="uvc_camera_degree_ir">IR 红外摄像画面角度旋转</string>
+    <string name="uvc_camera_horizontal_mirror_ir">IR 红外摄像画面水平镜像翻转</string>
+    <string name="uvc_camera_degree_rgb">RGB 摄像头画面角度旋转</string>
+    <string name="uvc_camera_horizontal_mirror_rgb">RGB摄像画面水平镜像翻转</string>
+
+
+    <string name="gentle_reminder">温馨提示</string>
+    <string name="gentle_reminder_func">FaceAISDK所有功能都是离线工作，不联网不收集人脸数据。为了更好体验Demo，请确保：</string>
+    <string name="operation_manual_tips">1. 使用宽动态(大于105Db)成像清晰摄像头\n2. 人脸正对摄像头，按照提示完成操作\n3. 面部光线充足且柔和避免遮挡 \n4. 摄像头固定在屏幕正上方且整洁清晰</string>
 
 
 </resources>

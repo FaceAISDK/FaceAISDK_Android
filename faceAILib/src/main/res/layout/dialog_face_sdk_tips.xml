@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:layout_margin="14dp"
+    android:background="@drawable/dialog_rounded_background"
     android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
@@ -21,7 +20,7 @@
                 android:layout_height="55dp"
                 android:background="@color/white"
                 android:gravity="left|center_vertical"
-                android:text="温馨提示"
+                android:text="@string/gentle_reminder"
                 android:textColor="@color/face_main_color"
                 android:textStyle="bold"
                 android:layout_marginStart="22dp"
@@ -33,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="left|center_vertical"
-                android:text="FaceAI SDK核心功能都是离线工作，不联网不收集人脸数据。为了更好体验Demo，请确保："
+                android:text="@string/gentle_reminder_func"
                 android:textColor="@color/face_main_color"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
@@ -48,7 +47,7 @@
                 android:layout_margin="18dp"
                 android:gravity="left|center_vertical"
                 android:textStyle="bold"
-                android:text="1. 使用宽动态(大于105Db)成像清晰摄像头\n2. 人脸正对摄像头，按照提示完成操作\n3. 面部光线充足且柔和避免遮挡 \n4. 摄像头固定在屏幕正上方且整洁清晰"
+                android:text="@string/operation_manual_tips"
                 android:textColor="@color/face_main_color"
                 android:textSize="13sp" />
 
@@ -78,8 +77,8 @@
                     android:layout_height="42dp"
                     android:layout_weight="1"
                     android:layout_marginBottom="11dp"
-                    android:background="@color/face_main_color"
-                    android:text="@string/confirm"
+                    android:background="@drawable/button_rounded_background"
+                    android:text="@string/know"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
 

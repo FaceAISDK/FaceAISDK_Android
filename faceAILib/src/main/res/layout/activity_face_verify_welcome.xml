@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/face_main_color"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -24,12 +24,13 @@
         android:background="#CDB48D"
         android:gravity="center"
         android:padding="3dp"
-        android:text="模拟刷脸登陆多帐号来演示1:1 人脸识别功能"
+        android:text="@string/face_verify_demo"
         android:textColor="@color/white"
         android:textSize="12sp" />
 
 
     <androidx.core.widget.NestedScrollView
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -44,12 +45,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_margin="7dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:background="@drawable/bg_camera_mode"
-                android:text="双目摄像头(IR+RGB)"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:background="@drawable/button_rounded_background"
+                android:text="@string/camera_type_system"
                 android:textColor="@color/white"
                 android:textSize="11sp" />
 
@@ -101,9 +102,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-
-
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
@@ -119,8 +117,5 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-
-
 
 </LinearLayout>

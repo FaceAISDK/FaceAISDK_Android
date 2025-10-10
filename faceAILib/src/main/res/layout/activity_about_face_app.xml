@@ -39,7 +39,7 @@
         android:layout_marginLeft="22dp"
         android:gravity="left"
         android:padding="15dp"
-        android:text="Email:FaceAISDK.Service@gmail.com"
+        android:text="Email: FaceAISDK.Service@gmail.com"
         android:textColor="@android:color/white"
         android:textSize="14sp"
         app:layout_constraintTop_toTopOf="@+id/wechat" />
@@ -52,7 +52,7 @@
         android:layout_marginLeft="22dp"
         android:gravity="left"
         android:padding="15dp"
-        android:text="系统信息，System info"
+        android:text="获取系统信息，Get system info"
         android:textColor="@android:color/white"
         android:textSize="15sp"
         app:layout_constraintTop_toTopOf="@+id/email" />
@@ -88,9 +88,9 @@
         android:layout_marginBottom="23dp"
         android:gravity="center"
         android:padding="19dp"
-        android:text="About us，介绍说明"
+        android:text="About FaceAISDK，介绍说明"
         android:textColor="@android:color/white"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,7 +15,7 @@ FaceAI SDK is on_device Offline Face Detection 、Recognition 、Liveness Detect
 FaceAI SDK包括人脸识别、活体检测、人脸录入检测以及[1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索，可快速集成实现端侧人脸识别，人脸搜索等功能。
 
 Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
-动作活体支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），支持系统摄像头和UVC协议双目摄像头，宽动态值大于105Db成像清晰抗逆光。
+动作活体支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），支持系统摄像头和UVC协议USB摄像头，宽动态值大于105Db成像清晰抗逆光。
 开发人员也可以自定义摄像头管理，把帧数据送入到SDK。
 
 
@@ -34,9 +34,10 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-##  V2025.09.29
-- 添加光线强弱判断beta版本
-- 录入人脸低配设备画面卡顿优化
+##  V2025.10.10
+- 添加英文文案（软件翻译可能词不达意）
+- SDK支持切换使用3种相机类型
+- setCameraType API 更改为FaceAICameraType类型（SYSTEM,UVC_RGB,UVC_RGB_IR）
 
 更多历史版本说明参考 [历史版本SDK更新记录](doc/历史版本SDK更新记录.md)
 
@@ -71,15 +72,15 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 
 **工程目录结构简要介绍**
 
-| 模块           | 描述                                          |
-|---------------|---------------------------------------------|
+| 模块           | 描述                                           |
+|---------------|----------------------------------------------|
 | Demo          | Demo主工程，implementation project(':faceAILib') |
-| faceAILib     | 子Module，FaceAISDK 所有功能都在module 中演示          |
-| /verify/\*    | 1:1 人脸检测识别，活体检测页面，静态人脸对比              |
-| /search/\*    | 1:N 人脸搜索识别，人脸库增删改管理等财政                  |
-| /addFaceImage | 人脸识别和搜索共用的添加人脸照片录入模块                   |
-| /SysCamera/\* | 手机，平板自带的系统相机，一般系统摄像头打开就能看效果       |
-| /UVCCamera/\* | UVC协议双目红外摄像头人脸识别，人脸搜索，一般是自自定义的硬件 |
+| faceAILib     | 子Module，FaceAISDK 所有功能都在module 中演示           |
+| /verify/\*    | 1:1 人脸检测识别，活体检测页面，静态人脸对比                     |
+| /search/\*    | 1:N 人脸搜索识别，人脸库增删改管理等财政                       |
+| /addFaceImage | 人脸识别和搜索共用的添加人脸照片录入模块                         |
+| /SysCamera/\* | 手机，平板自带的系统相机，一般系统摄像头打开就能看效果                  |
+| /UVCCamera/\* | UVC协议USB摄像头人脸识别，人脸搜索，一般是自自定义的硬件              |
 
 
 *   1.调整JDK版本到java 17。AS设置Preferences -> Build -> Gradle -> JDK的版本为 17

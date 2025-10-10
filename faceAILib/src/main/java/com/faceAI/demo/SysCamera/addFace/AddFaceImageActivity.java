@@ -74,11 +74,11 @@ public class AddFaceImageActivity extends AbsBaseActivity {
     public static String ADD_FACE_IMAGE_TYPE_KEY = "ADD_FACE_IMAGE_TYPE_KEY";
     public static String ADD_FACE_PERFORMANCE_MODE = "ADD_FACE_PERFORMANCE_MODE";
 
-    private TextView tipsTextView, secondTips;
+    private TextView tipsTextView;
     private BaseImageDispose baseImageDispose;
     private String faceID, addFaceType;
     private boolean isConfirmAdd = false; //确认期间停止人脸检测
-    private int addFacePerformanceMode=PERFORMANCE_MODE_ACCURATE;
+    private int addFacePerformanceMode = PERFORMANCE_MODE_FAST;  //默认精确模式，要求人脸正对摄像头
 
     //是1:1 还是1:N 人脸搜索添加人脸
     public enum AddFaceImageTypeEnum {
@@ -90,10 +90,9 @@ public class AddFaceImageActivity extends AbsBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_face_image);
         findViewById(R.id.back)
-                .setOnClickListener(v -> finishFaceVerify(0, "用户取消"));
+                .setOnClickListener(v -> finishFaceVerify(0, "Cancel by user"));
 
         tipsTextView = findViewById(R.id.tips_view);
-        secondTips = findViewById(R.id.second_tips_view);
         addFaceType = getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
 
         if(FaceSDKConfig.isDebugMode(this)){
@@ -130,7 +129,6 @@ public class AddFaceImageActivity extends AbsBaseActivity {
                 runOnUiThread(() -> confirmAddFaceDialog(bitmap, silentLiveValue));
             }
 
-
             @Override
             public void onProcessTips(int actionCode) {
                 runOnUiThread(() -> {
@@ -146,7 +144,7 @@ public class AddFaceImageActivity extends AbsBaseActivity {
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0.001f) //焦距范围[0.001f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
+                .setLinearZoom(0.001f) //需摄像头支持变焦,范围[0.001f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)   //画面旋转方向
                 .create();
 
@@ -180,19 +178,15 @@ public class AddFaceImageActivity extends AbsBaseActivity {
             case FACE_TOO_LARGE:
                 tipsTextView.setText(R.string.far_away_tips);
                 break;
-
             case CLOSE_EYE:
                 tipsTextView.setText(R.string.no_close_eye_tips);
                 break;
-
             case HEAD_CENTER:
-                tipsTextView.setText(R.string.keep_face_tips); //2秒后确认图像
+                tipsTextView.setText(R.string.keep_face_tips); //英文翻译不太友善
                 break;
-
             case TILT_HEAD:
                 tipsTextView.setText(R.string.no_tilt_head_tips);
                 break;
-
             case HEAD_LEFT:
                 tipsTextView.setText(R.string.head_turn_left_tips);
                 break;
@@ -205,7 +199,6 @@ public class AddFaceImageActivity extends AbsBaseActivity {
             case HEAD_DOWN:
                 tipsTextView.setText(R.string.no_look_down_tips);
                 break;
-
         }
     }
 
@@ -220,12 +213,11 @@ public class AddFaceImageActivity extends AbsBaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         // 这样写是为了明确给UTS 插件信息
-        finishFaceVerify(0, "用户取消");
+        finishFaceVerify(0, "Cancel by user");
     }
 
-
     /**
-     * 识别结束返回结果, 为了给uniApp UTS插件统一的交互返回格式
+     * 识别结束返回结果, 为了给uniApp UTS等插件统一的交互返回格式
      *
      * @param code
      * @param msg
@@ -237,8 +229,6 @@ public class AddFaceImageActivity extends AbsBaseActivity {
         setResult(RESULT_OK, intent);
         finish();
     }
-
-
 
     /**
      * 确认人脸图
@@ -256,7 +246,7 @@ public class AddFaceImageActivity extends AbsBaseActivity {
                 if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
                     float[] faceEmbedding = baseImageDispose.saveBaseImageGetEmbedding(bitmap, CACHE_BASE_FACE_DIR, faceID);//保存人脸底图,并返回人脸特征向量
                     FaceEmbedding.saveEmbedding(getBaseContext(),faceID,faceEmbedding); //保存特征向量
-                    finishConfirm(confirmFaceDialog.dialog,1,"录入成功");
+                    finishConfirm(confirmFaceDialog.dialog,1,"Add face success");
                 } else {
                     //人脸搜索(1:N ，M：N )保存人脸
                     String faceName = confirmFaceDialog.faceIDEdit.getText().toString() + ".jpg";
@@ -266,12 +256,12 @@ public class AddFaceImageActivity extends AbsBaseActivity {
                             .insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
                                 @Override
                                 public void onSuccess(@NonNull Bitmap bitmap, @NonNull float[] faceEmbedding) {
-                                    finishConfirm(confirmFaceDialog.dialog,1,"录入成功");
+                                    finishConfirm(confirmFaceDialog.dialog,1,"Add face success");
                                 }
 
                                 @Override
                                 public void onFailed(@NotNull String msg) {
-                                    finishConfirm(confirmFaceDialog.dialog,-1,"人脸添加失败");
+                                    finishConfirm(confirmFaceDialog.dialog,-1,"Add face failed");
                                 }
                     });
                 }
