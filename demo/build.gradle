@@ -34,7 +34,7 @@ android {
         debug {
             minifyEnabled true
             shrinkResources true
-            debuggable true
+            debuggable false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -63,8 +63,7 @@ configurations.configureEach {
         force "androidx.camera:camera-core:$camera_version",
                 "androidx.camera:camera-camera2:$camera_version",
                 "androidx.camera:camera-lifecycle:$camera_version",
-                "androidx.camera:camera-view:$camera_version",
-                "com.google.ai.edge.litert:litert:1.2.0"  //有空升级到最新的试试效果
+                "androidx.camera:camera-view:$camera_version"
     }
 }
 

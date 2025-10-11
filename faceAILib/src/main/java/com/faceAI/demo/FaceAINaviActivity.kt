@@ -62,7 +62,7 @@ class FaceAINaviActivity : AppCompatActivity() {
         // 活体检测 livenessDetection
         viewBinding.livenessDetection.setOnClickListener {
             val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
-            val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB)
+            val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA)
 
             if(uvcCameraType== FaceAICameraType.SYSTEM_CAMERA){
                 startActivity(Intent(this@FaceAINaviActivity, LivenessDetectActivity::class.java))
