@@ -153,7 +153,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 .setFaceEmbedding(faceEmbedding)        //1:1 人脸识别对比的底片人脸特征向量，以前是传bitmap，2025 08 18现在优化
                 .setCameraType(FaceAICameraType.SYSTEM_CAMERA)
                 .setCompareDurationTime(3500)           //人脸识别对比时间[3000,5000] 毫秒。相似度低会持续识别比对的时间
-                .setLivenessType(faceLivenessType) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
+                .setLivenessType(faceLivenessType)      //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
                 .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.66,0.98]
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)    //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setMotionLivenessStepSize(motionStepSize)            //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
@@ -200,6 +200,8 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             if (!isDestroyed() && !isFinishing()) {
                 //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
                 faceVerifyUtils.goVerifyWithImageProxy(imageProxy, faceCoverView.getMargin());
+                //false 代表不左右翻转图
+                //faceVerifyUtils.goVerifyWithBitmap(DataConvertUtils.imageProxy2Bitmap(imageProxy,faceCoverView.getMargin(),false));
             }
         });
     }
