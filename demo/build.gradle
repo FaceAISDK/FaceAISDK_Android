@@ -12,7 +12,7 @@ android {
         versionName "20251011"
 
         applicationId "com.ai.face.verifyPub"
-        minSdk 23
+        minSdk 21
         targetSdk 36    //target SDK 还是28 的请参考question.md 文档说明
         
         ndk {
