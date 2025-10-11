@@ -164,7 +164,7 @@ class FaceAINaviActivity : AppCompatActivity() {
 
     private  fun setCameraType() {
         val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
-        val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB)
+        val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA)
         when (uvcCameraType) {
             FaceAICameraType.SYSTEM_CAMERA -> {
                 viewBinding.cameraTypeSelect.text = getString(R.string.camera_type_system)

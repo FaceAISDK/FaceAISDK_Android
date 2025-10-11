@@ -12,7 +12,7 @@ android {
         versionName "20251011"
 
         applicationId "com.ai.face.verifyPub"
-        minSdk 21
+        minSdk 23
         targetSdk 36    //target SDK 还是28 的请参考question.md 文档说明
         
         ndk {
@@ -63,7 +63,8 @@ configurations.configureEach {
         force "androidx.camera:camera-core:$camera_version",
                 "androidx.camera:camera-camera2:$camera_version",
                 "androidx.camera:camera-lifecycle:$camera_version",
-                "androidx.camera:camera-view:$camera_version"
+                "androidx.camera:camera-view:$camera_version",
+                "com.google.ai.edge.litert:litert:1.2.0"  //有空升级到最新的试试效果
     }
 }
 
