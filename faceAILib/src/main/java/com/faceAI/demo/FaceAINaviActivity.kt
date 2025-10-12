@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
@@ -49,7 +48,7 @@ class FaceAINaviActivity : AppCompatActivity() {
             startActivity(verifyIntent)
         }
 
-        // 人脸搜索(系统相机和UVC 摄像头都支持) Face Search(System camera and UVC camera)
+        // 人脸搜索(系统相机和UVC 摄像头都支持) Face Search(support System&UVC camera)
         viewBinding.faceSearch.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, SearchNaviActivity::class.java))
         }
@@ -162,6 +161,9 @@ class FaceAINaviActivity : AppCompatActivity() {
         builderSingle.show()
     }
 
+    /**
+     *  当前的相机类型
+     */
     private  fun setCameraType() {
         val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
         val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA)
@@ -204,9 +206,7 @@ class FaceAINaviActivity : AppCompatActivity() {
             }
             dialog.setCanceledOnTouchOutside(false)
             dialog.show()
-
         }
-
     }
 
 

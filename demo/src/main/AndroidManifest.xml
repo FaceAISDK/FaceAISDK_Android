@@ -8,12 +8,11 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-    <!-- 去除UVC Camera Lib声明的权限,否则Google play 每次审核 -->
+    <!-- 去除UVC Camera Lib 三方库的此权限-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="remove"/>
 
 
     <application
-        android:extractNativeLibs="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
