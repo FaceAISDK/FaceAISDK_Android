@@ -4,6 +4,8 @@ import static com.faceAI.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
 import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
+
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,7 +39,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -125,9 +126,9 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
         );
 
         faceImageListAdapter.setEmptyView(R.layout.verify_empty_layout);
-        faceImageListAdapter.getEmptyLayout().setOnClickListener(v -> addFaceView.performClick());
+        Objects.requireNonNull(faceImageListAdapter.getEmptyLayout())
+                .setOnClickListener(v -> addFaceView.performClick());
     }
-
 
     /**
      * 相册选择的照片,裁剪等处理好数据后返回了
@@ -149,17 +150,11 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
         File file = new File(CACHE_BASE_FACE_DIR);
         File[] subFaceFiles = file.listFiles();
         if (subFaceFiles != null) {
-            Arrays.sort(subFaceFiles, new Comparator<>() {
-                public int compare(File f1, File f2) {
-                    long diff = f1.lastModified() - f2.lastModified();
-                    if (diff > 0) return -1;
-                    else if (diff == 0) return 0;
-                    else return 1;
-                }
-
-                public boolean equals(Object obj) {
-                    return true;
-                }
+            Arrays.sort(subFaceFiles, (f1, f2) -> {
+                long diff = f1.lastModified() - f2.lastModified();
+                if (diff > 0) return -1;
+                else if (diff == 0) return 0;
+                else return 1;
             });
 
             for (File fileItem : subFaceFiles) {
@@ -181,6 +176,7 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
         updateFaceList();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void updateFaceList() {
         loadImageList();
         faceImageListAdapter.notifyDataSetChanged();

@@ -58,8 +58,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * 使用系统相机 添加一张规范的人脸图并裁剪调整为符合SDK规范，1:1 和1:N 公共的添加人脸图
- * 注意保存的方式有点差异。
+ * 使用系统相机添加一张规范的人脸图并裁剪调整为符合SDK规范。1:1 和1:N 公共的添加人脸图，注意保存的方式有点差异。
  * <p>
  * 其他系统的录入的人脸请自行保证人脸规范，否则会导致识别错误
  * <p>
@@ -77,8 +76,8 @@ public class AddFaceImageActivity extends AbsBaseActivity {
     private TextView tipsTextView;
     private BaseImageDispose baseImageDispose;
     private String faceID, addFaceType;
-    private boolean isConfirmAdd = false; //确认期间停止人脸检测
-    private int addFacePerformanceMode = PERFORMANCE_MODE_FAST;  //默认精确模式，要求人脸正对摄像头
+    private boolean isConfirmAdd = false;   //是否正在弹出Dialog确定人脸合规，确认期间停止人脸检测
+    private int addFacePerformanceMode = PERFORMANCE_MODE_FAST;  //默认快速模式，要求人脸正对摄像头
 
     //是1:1 还是1:N 人脸搜索添加人脸
     public enum AddFaceImageTypeEnum {
@@ -115,7 +114,7 @@ public class AddFaceImageActivity extends AbsBaseActivity {
          *  2 PERFORMANCE_MODE_ACCURATE   精确模式 人脸要正对摄像头，严格要求角度
          *  1 PERFORMANCE_MODE_FAST       快速模式 允许人脸角度可以有一定的偏差
          *  0 PERFORMANCE_MODE_EASY       简单模式 允许人脸角度可以「较大」的偏差
-         * -1 PERFORMANCE_MODE_NO_LIMIT   无限制模式 基本上检测到人脸就返回了，
+         * -1 PERFORMANCE_MODE_NO_LIMIT   无限制模式 基本上检测到人脸就返回了
          */
         baseImageDispose = new BaseImageDispose(this, addFacePerformanceMode, new BaseImageCallBack() {
             /**
@@ -141,11 +140,10 @@ public class AddFaceImageActivity extends AbsBaseActivity {
         int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 0);
         int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
-        //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.001f) //需摄像头支持变焦,范围[0.001f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
-                .setRotation(degree)   //画面旋转方向
+                .setRotation(degree)   //画面旋转角度0，90，180，270
                 .create();
 
         MyCameraXFragment cameraXFragment = MyCameraXFragment.newInstance(cameraXBuilder);
@@ -162,10 +160,10 @@ public class AddFaceImageActivity extends AbsBaseActivity {
 
     /**
      * 添加人脸过程中的提示
+     *
      */
     private void AddFaceTips(int tipsCode) {
         switch (tipsCode) {
-            //整理返回提示，2025.08.15
             case NO_FACE_REPEATEDLY:
                 tipsTextView.setText(R.string.no_face_detected_tips);
                 break;
@@ -212,15 +210,12 @@ public class AddFaceImageActivity extends AbsBaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        // 这样写是为了明确给UTS 插件信息
+        // 这样写是为了返回明确信息给UTS，RN，Flutter 等三方插件
         finishFaceVerify(0, "Cancel by user");
     }
 
     /**
      * 识别结束返回结果, 为了给uniApp UTS等插件统一的交互返回格式
-     *
-     * @param code
-     * @param msg
      */
     private void finishFaceVerify(int code, String msg) {
         Intent intent = new Intent().putExtra("code", code)
@@ -281,7 +276,7 @@ public class AddFaceImageActivity extends AbsBaseActivity {
 
 
     /**
-     * 人脸确认框View 管理
+     * 人脸录入确认弹窗
      */
     public class ConfirmFaceDialog{
         public AlertDialog dialog;

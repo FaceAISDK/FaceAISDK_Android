@@ -66,18 +66,18 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
     public static final String EXCEPT_MOTION_LIVENESS = "EXCEPT_MOTION_LIVENESS"; //排除的动作活体
 
-    private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION;//活体检测类型
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
     private float verifyThreshold = 0.85f; //1:1 人脸识别对比通过的阈值
     private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = 10; //动作超时秒
     private int exceptMotionLiveness = -1; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
+    private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION;//活体检测类型
 
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private DemoFaceCoverView faceCoverView;
-    private MyCameraXFragment cameraXFragment;  //摄像头管理源码暴露出来，方便定制开发
+    private MyCameraXFragment cameraXFragment;  //摄像头管理源码，可自行管理摄像头
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         faceCoverView = findViewById(R.id.face_cover);
         findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(0, "Cancel by user"));
 
-        getIntentParams(); //接收三方插件传递的参数，原生开放可以忽略
+        getIntentParams(); //接收三方插件传递的参数，原生开发可以忽略裁剪掉
 
         initCameraX();
         initFaceVerifyEmbedding();
@@ -104,11 +104,10 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT);
         int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
-        //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,_90,_180,_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.001f)    //焦距范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
-                .setRotation(degree)       //画面旋转方向
+                .setRotation(degree)       //画面旋转角度
                 .create();
 
         cameraXFragment = MyCameraXFragment.newInstance(cameraXBuilder);
@@ -121,7 +120,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * 初始化人脸识别底图 人脸特征向量
      */
     private void initFaceVerifyEmbedding() {
-        //1:1 人脸对比，摄像头实时采集的人脸和预留的人脸底片对比。（动作活体人脸检测完成后开始1:1比对）
+        //1:1 人脸对比，摄像头实时采集的人脸和预留的人脸底片对比
         float[] faceEmbedding = FaceEmbedding.loadEmbedding(getBaseContext(), faceID);
         // 去Path 路径读取有没有faceID 对应的处理好的人脸Bitmap
         String faceFilePath = CACHE_BASE_FACE_DIR + faceID;
@@ -150,7 +149,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         //建议老的低配设备减少活体检测步骤，加长活体检测 人脸对比时间。
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setThreshold(verifyThreshold)          //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
-                .setFaceEmbedding(faceEmbedding)        //1:1 人脸识别对比的底片人脸特征向量，以前是传bitmap，2025 08 18现在优化
+                .setFaceEmbedding(faceEmbedding)        //1:1 人脸识别对比的底片人脸特征向量，以前是传bitmap
                 .setCameraType(FaceAICameraType.SYSTEM_CAMERA)
                 .setCompareDurationTime(3500)           //人脸识别对比时间[3000,5000] 毫秒。相似度低会持续识别比对的时间
                 .setLivenessType(faceLivenessType)      //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
@@ -207,7 +206,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     }
 
     /**
-     * 检测1:1 人脸识别是否通过
+     * 1:1 人脸识别是否通过
      * <p>
      * 动作活体要有动作配合，必须先动作匹配通过再1：1 匹配
      * 静默活体不需要人配合，如果不需要静默活体检测，分数直接会被赋值 1.0

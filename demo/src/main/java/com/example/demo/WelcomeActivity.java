@@ -1,18 +1,13 @@
 package com.example.demo;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.faceAI.demo.FaceAINaviActivity;
 import com.faceAI.demo.FaceSDKConfig;
-import java.security.MessageDigest;
 
 /**
  * 演示快速集成到你的主工程，人脸识别相关放到 FaceAILIb 里面

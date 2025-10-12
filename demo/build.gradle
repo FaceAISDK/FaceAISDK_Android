@@ -54,6 +54,13 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
+    //将工程so库进行压缩
+    packaging {
+        jniLibs {
+            useLegacyPackaging true
+        }
+    }
+
 }
 
 //CameraX，适配Android16 KB Page请强制升级到1.4.2 以上版本
@@ -74,8 +81,5 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Demo 为了收集 Crash
-//    api 'com.tencent.bugly:crashreport:4.1.9.3'
-
 
 }
