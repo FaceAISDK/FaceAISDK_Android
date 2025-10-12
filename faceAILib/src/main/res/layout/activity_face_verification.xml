@@ -61,11 +61,11 @@
         android:paddingRight="15dp"
         android:layout_marginTop="15dp"
         android:text="@string/keep_face_visible"
-        android:textSize="18sp"
+        android:textSize="19sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/base_face" />
+        app:layout_constraintTop_toBottomOf="@+id/back" />
 
 
     <!-- UI 设计仅供参考 -->
@@ -83,7 +83,7 @@
         android:paddingLeft="14dp"
         android:paddingRight="14dp"
         android:visibility="invisible"
-        android:textSize="17sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -100,10 +100,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,7 +40,7 @@
         android:layout_centerHorizontal="true"
         android:text="@string/sdk_init"
         android:textStyle="bold"
-        android:textSize="18sp" />
+        android:textSize="19sp" />
 
     <TextView
         android:id="@+id/second_tips_view"
@@ -52,7 +52,7 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/orange"
         android:textStyle="bold"
-        android:textSize="17sp" />
+        android:textSize="19sp" />
 
     <ImageView
         android:id="@+id/back"
