@@ -18,8 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-
     <!-- 横竖屏幕调整适配等参考UVC摄像头管理三方库 https://github.com/shiyinghan/UVCAndroid-->
     <com.serenegiant.widget.AspectRatioSurfaceView
         android:id="@+id/ir_camera_view"
@@ -37,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="22dp"
         android:background="@drawable/circle_bar_bg"
         android:gravity="center"
         android:paddingLeft="18dp"
@@ -46,7 +44,7 @@
         android:paddingBottom="5dp"
         android:text="@string/keep_face_visible"
         android:textColor="@color/white"
-        android:textSize="19sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,8 +58,14 @@
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginTop="@dimen/dp_10"
         android:gravity="center"
-        android:textColor="@color/orange"
-        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:background="@drawable/circle_bar_bg"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:visibility="invisible"
+        android:textSize="19sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

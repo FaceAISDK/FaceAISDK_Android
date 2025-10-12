@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -268,42 +269,42 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                     // 动作活体检测完成了
                     case ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
                         VoicePlayer.getInstance().play(R.raw.face_camera);
-                        tipsTextView.setText(R.string.keep_face_visible);
+                        setSearchTips(R.string.keep_face_visible);
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:
-                        tipsTextView.setText(R.string.face_verifying);
+                        setSearchTips(R.string.face_verifying);
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:
-                        tipsTextView.setText(R.string.motion_liveness_detection_failed);
+                        setSearchTips(R.string.motion_liveness_detection_failed);
                         break;
 
                     case ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
                         VoicePlayer.getInstance().play(R.raw.open_mouse);
-                        tipsTextView.setText(R.string.repeat_open_close_mouse);
+                        setSearchTips(R.string.repeat_open_close_mouse);
                         break;
 
                     case ALIVE_DETECT_TYPE_ENUM.SMILE: {
-                        tipsTextView.setText(R.string.motion_smile);
+                        setSearchTips(R.string.motion_smile);
                         VoicePlayer.getInstance().play(R.raw.smile);
                     }
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.BLINK: {
                         VoicePlayer.getInstance().play(R.raw.blink);
-                        tipsTextView.setText(R.string.motion_blink_eye);
+                        setSearchTips(R.string.motion_blink_eye);
                     }
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD:
                         VoicePlayer.getInstance().play(R.raw.shake_head);
-                        tipsTextView.setText(R.string.motion_shake_head);
+                        setSearchTips(R.string.motion_shake_head);
                         break;
 
                     case ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
                         VoicePlayer.getInstance().play(R.raw.nod_head);
-                        tipsTextView.setText(R.string.motion_node_head);
+                        setSearchTips(R.string.motion_node_head);
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT:
@@ -331,7 +332,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
-                        tipsTextView.setText(R.string.no_face_or_repeat_switch_screen);
+                        setSearchTips(R.string.no_face_or_repeat_switch_screen);
                         new AlertDialog.Builder(this)
                                 .setMessage(R.string.stop_verify_tips)
                                 .setCancelable(false)
@@ -344,22 +345,46 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                     // 单独使用一个textview 提示，防止上一个提示被覆盖。
                     // 也可以自行记住上个状态，FACE_SIZE_FIT 中恢复上一个提示
                     case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE:
-                        secondTipsTextView.setText(R.string.far_away_tips);
+                        setSecondTips(R.string.far_away_tips);
                         break;
 
                     //人脸太小了，靠近一点摄像头
                     case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL:
-                        secondTipsTextView.setText(R.string.come_closer_tips);
+                        setSecondTips(R.string.come_closer_tips);
                         break;
 
                     //检测到正常的人脸，尺寸大小OK
                     case VERIFY_DETECT_TIPS_ENUM.FACE_SIZE_FIT:
-                        secondTipsTextView.setText("");
+                        setSecondTips(0);
+                        break;
+
+                    case VERIFY_DETECT_TIPS_ENUM. ACTION_NO_FACE:
+                        setSecondTips(R.string.no_face_detected_tips);
                         break;
                 }
             });
         }
     }
+
+
+    private void setSearchTips(int resId) {
+        tipsTextView.setText(resId);
+    }
+
+    /**
+     * 第二行提示
+     * @param resId
+     */
+    private void setSecondTips(int resId){
+        if(resId==0){
+            secondTipsTextView.setText("");
+            secondTipsTextView.setVisibility(View.INVISIBLE);
+        }else {
+            secondTipsTextView.setVisibility(View.VISIBLE);
+            secondTipsTextView.setText(resId);
+        }
+    }
+
 
 
     /**

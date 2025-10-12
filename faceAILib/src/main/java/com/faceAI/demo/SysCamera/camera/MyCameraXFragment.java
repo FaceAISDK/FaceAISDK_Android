@@ -130,22 +130,21 @@ public class MyCameraXFragment extends Fragment {
                 Log.e("FaceAI SDK", "\ncameraProviderFuture.get() 发生错误！\n" + e.toString());
             }
 
-            //imageAnalysis,preview 的默认分辨率都是640*480。根据你的场景和摄像头特性设置合理的参数
+            //imageAnalysis 人脸识别分析设置。默认分辨率640*480。根据你的场景，摄像头特性和硬件配置设置合理的参数
             imageAnalysis = new ImageAnalysis.Builder()
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                     .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
                     .setTargetRotation(rotation)
                     .build();
 
+            //摄像头画面预览默认分辨率也是640*480。
             preview = new Preview.Builder()
                     .setTargetRotation(rotation)
                     .build();
 
             previewView = rootView.findViewById(R.id.previewView);
-            //高性能模式
+            //预览画面渲染模式：高性能模式
             previewView.setImplementationMode(PreviewView.ImplementationMode.PERFORMANCE);
-
-
 
             if (cameraLensFacing == 0) {
                 // Choose the camera by requiring a lens facing

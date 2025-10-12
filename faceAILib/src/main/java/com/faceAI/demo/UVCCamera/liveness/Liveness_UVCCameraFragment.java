@@ -2,6 +2,7 @@ package com.faceAI.demo.UVCCamera.liveness;
 
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
@@ -134,53 +135,53 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                     // 动作活体检测完成了
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
                         VoicePlayer.getInstance().play(R.raw.face_camera);
-                        tipsTextView.setText(R.string.keep_face_visible);
+                        setTips(R.string.keep_face_visible);
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.IR_IMAGE_NULL:
-                        tipsTextView.setText("IR Camera Error");
+                        setTips(R.string.ir_image_error);
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.IR_LIVE_FAILED:
-                        tipsTextView.setText(R.string.ir_live_error);
+                        setTips(R.string.ir_live_error);
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:
-                        tipsTextView.setText(R.string.face_verifying);
+                        setTips(R.string.face_verifying);
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_NO_BASE_IMG:
-                        tipsTextView.setText(R.string.no_base_face_bitmap);
+                        setTips(R.string.no_base_face_bitmap);
                         break;
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:
-                        tipsTextView.setText(R.string.motion_liveness_detection_failed);
+                        setTips(R.string.motion_liveness_detection_failed);
                         break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
                         VoicePlayer.getInstance().play(R.raw.open_mouse);
-                        tipsTextView.setText(R.string.repeat_open_close_mouse);
+                        setTips(R.string.repeat_open_close_mouse);
                         break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.SMILE: {
-                        tipsTextView.setText(R.string.motion_smile);
+                        setTips(R.string.motion_smile);
                         VoicePlayer.getInstance().play(R.raw.smile);
                     }
                     break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.BLINK: {
                         VoicePlayer.getInstance().play(R.raw.blink);
-                        tipsTextView.setText(R.string.motion_blink_eye);
+                        setTips(R.string.motion_blink_eye);
                     }
                     break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD:
                         VoicePlayer.getInstance().play(R.raw.shake_head);
-                        tipsTextView.setText(R.string.motion_shake_head);
+                        setTips(R.string.motion_shake_head);
                         break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
                         VoicePlayer.getInstance().play(R.raw.nod_head);
-                        tipsTextView.setText(R.string.motion_node_head);
+                        setTips(R.string.motion_node_head);
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT:
@@ -194,7 +195,7 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
-                        tipsTextView.setText(R.string.no_face_or_repeat_switch_screen);
+                        setTips(R.string.no_face_or_repeat_switch_screen);
                         new AlertDialog.Builder(requireActivity())
                                 .setMessage(R.string.stop_verify_tips)
                                 .setCancelable(false)
@@ -206,26 +207,45 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
-                        secondTipsTextView.setText(R.string.no_face_detected_tips);
+                        setSecondTips(R.string.no_face_detected_tips);
                         break;
 
                     // 单独使用一个textview 提示，防止上一个提示被覆盖。
                     // 也可以自行记住上个状态，FACE_SIZE_FIT 中恢复上一个提示
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE:
-                        secondTipsTextView.setText(R.string.far_away_tips);
+                        setSecondTips(R.string.far_away_tips);
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL:
-                        secondTipsTextView.setText(R.string.come_closer_tips);
+                        setSecondTips(R.string.come_closer_tips);
                         break;
 
                     //检测到正常的人脸，尺寸大小OK
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_SIZE_FIT:
-                        secondTipsTextView.setText("");
+                        setSecondTips(0);
                         break;
 
                 }
             });
+        }
+    }
+
+
+    private void setTips(int resId) {
+        tipsTextView.setText(resId);
+    }
+
+    /**
+     * 第二行提示
+     * @param resId
+     */
+    private void setSecondTips(int resId){
+        if(resId==0){
+            secondTipsTextView.setText("");
+            secondTipsTextView.setVisibility(View.INVISIBLE);
+        }else {
+            secondTipsTextView.setVisibility(View.VISIBLE);
+            secondTipsTextView.setText(resId);
         }
     }
 

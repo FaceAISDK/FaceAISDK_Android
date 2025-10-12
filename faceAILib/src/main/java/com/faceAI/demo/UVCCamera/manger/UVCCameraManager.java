@@ -32,12 +32,14 @@ import java.util.List;
  * @author FaceAISDK.Service@gmail.com
  */
 public class UVCCameraManager {
-    // 配置UVC 协议摄像头默认的分辨率，请参考你的摄像头能支持的分辨率，分辨率不用那么高关键在成像能力
+    // 配置UVC协议摄像头的分辨率，参考摄像头能支持的分辨率，mCameraHelper.getSupportedSizeList()可获取
     // 分辨率太高需要高性能的硬件配置。强烈建议摄像头的宽动态值 > 105DB
     public static final int UVC_CAMERA_WIDTH = 640;
     public static final int UVC_CAMERA_HEIGHT = 480;
+//    public static final int UVC_CAMERA_WIDTH = 1920;
+//    public static final int UVC_CAMERA_HEIGHT = 1080;
 
-    //默认匹配的摄像头关键字，但并不是所有的摄像头命名都规范会带有这种关键字样
+    //默认匹配的摄像头关键字，但并不是所有的摄像头命名都规范会带有这种关键字样,你可以手动选择
     public static final String RGB_KEY_DEFAULT ="RGB";
     public static final String IR_KEY_DEFAULT="IR";
 
@@ -177,7 +179,8 @@ public class UVCCameraManager {
                 List<Size> supportedSizeList = mCameraHelper.getSupportedSizeList();
                 if (supportedSizeList != null) {
                     for (Size size : supportedSizeList) {
-                        if (size.height == previewHeight && size.type == 7) {
+                        //sizeType=5时fps=15,sizeType=7时fps=30
+                        if (size.height == previewHeight && (size.type == 7||size.type == 5)) {
                             previewSize = size;
                             break;
                         }

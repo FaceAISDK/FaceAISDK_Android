@@ -17,6 +17,7 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.view.View;
 
 import com.ai.face.core.utils.FaceAICameraType;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
@@ -133,22 +134,18 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
     @Override
     void showFaceSearchPrecessTips(int code) {
         switch (code) {
-            case NO_MATCHED:
-                //没有搜索匹配识别到任何人
-                binding.secondSearchTips.setText(R.string.no_matched_face);
-                break;
 
             case FACE_DIR_EMPTY:
                 //人脸库没有人脸照片，没有使用SDK 插入人脸？
-                binding.searchTips.setText(R.string.face_dir_empty);
+                setSearchTips(R.string.face_dir_empty);
                 break;
 
             case EMGINE_INITING:
-                binding.searchTips.setText(R.string.sdk_init);
+                setSearchTips(R.string.sdk_init);
                 break;
 
             case SEARCH_PREPARED, SEARCHING:
-                binding.searchTips.setText(R.string.keep_face_tips);
+                setSearchTips(R.string.keep_face_tips);
                 break;
 
             case IR_LIVE_ERROR:
@@ -156,39 +153,59 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                 break;
 
             case NO_LIVE_FACE:
-                binding.searchTips.setText(R.string.no_face_detected_tips);
+                setSearchTips(R.string.no_face_detected_tips);
+                break;
+
+            case THRESHOLD_ERROR:
+                setSearchTips(R.string.search_threshold_scope_tips);
+                break;
+
+            case MASK_DETECTION:
+                setSearchTips(R.string.no_mask_please);
+                break;
+
+
+            case NO_MATCHED:
+                //没有搜索匹配识别到任何人
+                setSecondTips(R.string.no_matched_face);
                 break;
 
             case FACE_TOO_SMALL:
-                binding.secondSearchTips.setText(R.string.come_closer_tips);
+                setSecondTips(R.string.come_closer_tips);
                 break;
 
             // 单独使用一个textview 提示，防止上一个提示被覆盖。
             // 也可以自行记住上个状态，FACE_SIZE_FIT 中恢复上一个提示
             case FACE_TOO_LARGE:
-                binding.secondSearchTips.setText(R.string.far_away_tips);
+                setSecondTips(R.string.far_away_tips);
                 break;
 
             //检测到正常的人脸，尺寸大小OK
             case FACE_SIZE_FIT:
-                binding.secondSearchTips.setText("");
+                setSecondTips(0);
                 break;
 
             case TOO_MUCH_FACE:
-                binding.secondSearchTips.setText(R.string.multiple_faces_tips);
+                setSecondTips(R.string.multiple_faces_tips);
                 break;
+        }
+    }
 
-            case THRESHOLD_ERROR:
-                binding.searchTips.setText(R.string.search_threshold_scope_tips);
-                break;
+    private void setSearchTips(int resId) {
+        binding.searchTips.setText(resId);
+    }
 
-            case MASK_DETECTION:
-                binding.searchTips.setText(R.string.no_mask_please);
-                break;
-
-            default:
-                binding.searchTips.setText("回调提示：" + code);
-                break;
+    /**
+     * 第二行提示
+     * @param resId
+     */
+    private void setSecondTips(int resId){
+        if(resId==0){
+            binding.secondSearchTips.setText("");
+            binding.secondSearchTips.setVisibility(View.INVISIBLE);
+        }else {
+            binding.secondSearchTips.setVisibility(View.VISIBLE);
+            binding.secondSearchTips.setText(resId);
         }
     }
 
