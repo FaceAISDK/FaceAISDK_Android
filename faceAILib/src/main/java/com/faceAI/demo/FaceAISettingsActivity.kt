@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.core.content.edit
+import com.ai.face.core.utils.FaceAICameraType
 import com.faceAI.demo.UVCCamera.manger.select.DeviceListDialogFragment
 import com.faceAI.demo.databinding.ActivityFaceAiSettingsBinding
 import com.herohan.uvcapp.CameraHelper
@@ -23,6 +24,7 @@ class FaceAISettingsActivity : AppCompatActivity() {
         //系统摄像头相关
         const val FRONT_BACK_CAMERA_FLAG = "cameraFlag"
         const val SYSTEM_CAMERA_DEGREE = "cameraDegree"
+        const val UVC_CAMERA_TYPE = "UVC_CAMERA_TYPE" //UVC 协议相机类型，是否带IR
 
         //UVC 相机旋转 镜像管理。神奇，竟然有相机两个不同步，那分开管理
         const val RGB_UVC_CAMERA_DEGREE = "RGB_UVCCameraDegree"
@@ -33,7 +35,6 @@ class FaceAISettingsActivity : AppCompatActivity() {
         //手动选择指定摄像头
         const val RGB_UVC_CAMERA_SELECT = "RGB_UVC_CAMERA_SELECT"
         const val IR_UVC_CAMERA_SELECT = "IR_UVC_CAMERA_SELECT"
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +69,7 @@ class FaceAISettingsActivity : AppCompatActivity() {
             3 -> "270°"
             else -> "0°"
         }
+        //
         binding.cameraDegreeText.text = getString(R.string.camera_degree_set) + degreeStr
 
         /**
@@ -89,6 +91,7 @@ class FaceAISettingsActivity : AppCompatActivity() {
 
 
         //==========USB摄像头（UVC协议）管理 更多参考https://github.com/shiyinghan/UVCAndroid =========
+
         //UVC RGB摄像头角度旋转设置
         binding.rgbUvcCameraSwitch.setOnClickListener {
             var rgbDegree = sharedPref.getInt(RGB_UVC_CAMERA_DEGREE, 0)

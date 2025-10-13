@@ -18,21 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <!-- 可以替换成你自己的UI样式,需要 FaceCoverView 源码联系对接工程师 -->
-    <com.faceAI.demo.base.view.DemoFaceCoverView
-        android:id="@+id/face_cover"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        customAttr:circle_margin="18dp"
-        customAttr:progress_end_color="@color/green"
-        customAttr:progress_start_color="@color/green"
-        customAttr:show_progress="false"
-        android:visibility="visible"
-        customAttr:background_color="@color/white"
-        customAttr:tip_text_color="@color/colorPrimary"
-        customAttr:tip_text_size="20sp" />
-
     <!-- 横竖屏幕调整适配等参考UVC摄像头管理三方库 https://github.com/shiyinghan/UVCAndroid-->
     <com.serenegiant.widget.AspectRatioSurfaceView
         android:id="@+id/ir_camera_view"
@@ -49,35 +34,42 @@
         android:id="@+id/tips_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginTop="6dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="22dp"
+        android:background="@drawable/circle_bar_bg"
         android:gravity="center"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
+        android:paddingLeft="18dp"
+        android:paddingTop="5dp"
+        android:paddingRight="18dp"
+        android:paddingBottom="5dp"
         android:text="@string/keep_face_visible"
-        android:textColor="@color/face_main_color"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/base_face" />
+        app:layout_constraintTop_toTopOf="@+id/rgb_camera_view" />
 
     <!-- UI 设计仅供参考 -->
     <TextView
         android:id="@+id/second_tips_view"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/dp_10"
         android:gravity="center"
-        android:textColor="@color/orange"
+        android:textColor="@color/white"
+        android:background="@drawable/circle_bar_bg"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:visibility="invisible"
         android:textSize="19sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tips_view" />
+        app:layout_constraintTop_toBottomOf="@+id/tips_view"/>
 
     <TextView
         android:id="@+id/silent_Score"
@@ -102,14 +94,6 @@
         android:layout_marginBottom="15dp"
         android:padding="9dp"
         android:src="@drawable/ic_arrow_back_24" />
-
-    <ImageView
-        android:id="@+id/base_face"
-        android:layout_width="35dp"
-        android:layout_height="32dp"
-        app:layout_constraintStart_toEndOf="@+id/back"
-        app:layout_constraintBottom_toBottomOf="@+id/back"
-        app:layout_constraintTop_toTopOf="@+id/back" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,12 @@
 package com.faceAI.demo.SysCamera.search;
 
+import static com.faceAI.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
 import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ai.face.core.utils.FaceAICameraType;
 import com.faceAI.demo.SysCamera.verify.AbsAddFaceFromAlbumActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraFragment;
@@ -80,14 +83,13 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
         faceImageListAdapter.setOnItemLongClickListener((adapter, view, i) -> {
             ImageBean imageBean = faceImageList.get(i);
             new AlertDialog.Builder(this)
-                    .setTitle("确定要删除" + imageBean.name)
-                    .setMessage("删除后对应的人将无法被程序识别")
-                    .setPositiveButton("确定", (dialog, which) -> {
+                    .setTitle(getString(R.string.sure_delete_face_title) + imageBean.name+"?")
+                    .setMessage(R.string.sure_delete_face_tips)
+                    .setPositiveButton(R.string.confirm, (dialog, which) -> {
                         FaceSearchImagesManger.Companion.getInstance(getApplication()).deleteFaceImage(imageBean.path);
-                        loadImageList();
-                        faceImageListAdapter.notifyDataSetChanged();
+                        updateFaceList();
                     })
-                    .setNegativeButton("取消", null).show();
+                    .setNegativeButton(R.string.cancel, null).show();
             return false;
         });
 
@@ -97,28 +99,30 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
         TextView tips = findViewById(R.id.tips);
         tips.setOnLongClickListener(v -> {
             new AlertDialog.Builder(FaceSearchImageMangerActivity.this)
-                    .setTitle("确定要删除所有人脸数据？")
-                    .setMessage("删除后设备本地所有人脸数据将被清除，请谨慎操作")
-                    .setPositiveButton("确定", (dialog, which) -> {
+                    .setTitle("Delete All Face Images？")
+                    .setMessage("Are you sure to delete all face images? dangerous operation!")
+                    .setPositiveButton(R.string.confirm, (dialog, which) -> {
                         FaceSearchImagesManger.Companion.getInstance(getApplication()).clearFaceImages(CACHE_SEARCH_FACE_DIR);
-                        loadImageList();
-                        faceImageListAdapter.notifyDataSetChanged();
+                        updateFaceList();
                     })
-                    .setNegativeButton("取消", null).show();
+                    .setNegativeButton(R.string.cancel, null).show();
             return false;
         });
 
         //添加人脸照片，UVC协议摄像头添加还是普通的系统相机
         if (getIntent().getExtras().getBoolean("isAdd")) {
-            if (getIntent().getExtras().getBoolean("isBinocularCamera")) {
-                Intent addFaceIntent = new Intent(getBaseContext(), AddFace_UVCCameraActivity.class);
-                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_SEARCH.name());
-                startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
-            } else {
-                Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
+            SharedPreferences sharedPref =getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
+            int cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
+
+            Intent addFaceIntent;
+            if (cameraType==FaceAICameraType.SYSTEM_CAMERA) {
+                addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
                 addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
-                startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
+            } else {
+                addFaceIntent = new Intent(getBaseContext(), AddFace_UVCCameraActivity.class);
+                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_SEARCH.name());
             }
+            startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
         }
     }
 
@@ -135,15 +139,14 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
                     @Override
                     public void onSuccess(@NonNull Bitmap bitmap, @NonNull float[] faceEmbedding) {
                         updateFaceList();
-                        Toast.makeText(getBaseContext(), "人脸添加成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "Success", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onFailed(@NotNull String msg) {
-                        Toast.makeText(getBaseContext(), "人脸添加失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "Failed", Toast.LENGTH_SHORT).show();
                     }
                 });
-
 
     }
 
@@ -199,7 +202,7 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
                     faceImageList.add(new ImageBean(filePath, filename));
                 }
             }
-            Toast.makeText(getBaseContext(), "人脸库容量：" + faceImageList.size(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "Face size：" + faceImageList.size(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -209,7 +212,7 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
      * 人脸图规范要求 大于 300*300的光线充足无遮挡的正面人脸如（./images/face_example.jpg)
      */
     private void copyFaceTestImage() {
-        Toast.makeText(getBaseContext(), "批量复制测试人脸", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Copying Test Faces", Toast.LENGTH_LONG).show();
         CopyFaceImageUtils.Companion.showAppFloat(getBaseContext());
 
         CopyFaceImageUtils.Companion.copyTestFaceImage(getApplication(), new CopyFaceImageUtils.Companion.Callback() {
@@ -221,7 +224,7 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
 
             @Override
             public void onFailed(@NotNull String msg) {
-                Toast.makeText(getBaseContext(), "失败：" + msg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Failed：" + msg, Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -4,12 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/white"
     android:orientation="vertical">
     <!-- UI 仅供操作，根据业务自行修改 完善-->
 
     <!-- 摄像头预览画面ContainerView -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_camerax"
+        android:layout_margin="23dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -38,7 +40,7 @@
         android:layout_centerHorizontal="true"
         android:text="@string/sdk_init"
         android:textStyle="bold"
-        android:textSize="18sp" />
+        android:textSize="19sp" />
 
     <TextView
         android:id="@+id/second_tips_view"
@@ -50,7 +52,7 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/orange"
         android:textStyle="bold"
-        android:textSize="17sp" />
+        android:textSize="19sp" />
 
     <ImageView
         android:id="@+id/back"

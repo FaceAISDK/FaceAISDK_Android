@@ -1,4 +1,4 @@
-package com.faceAI.demo.UVCCamera.addFace;
+package com.faceAI.demo.UVCCamera.liveness;
 
 import android.os.Bundle;
 
@@ -7,12 +7,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.faceAI.demo.R;
 
-
 /**
- * 使用UVC RGB摄像头录入人脸
- *
+ * UVC协议USB摄像头活体检测 Liveness Detection with UVC USB Camera
+ * 更多外接USB外接UVC摄像头**的操作参考这个大神的库：https://github.com/shiyinghan/UVCAndroid
+ * @author FaceAISDK.Service@gmail.com
  */
-public class AddFace_UVCCameraActivity extends AppCompatActivity {
+public class Liveness_UVCCameraActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        AddFace_UVCCameraFragment myUVCCameraFragment = new AddFace_UVCCameraFragment();
+        Liveness_UVCCameraFragment myUVCCameraFragment = new Liveness_UVCCameraFragment();
         fragmentTransaction.replace(R.id.fragment_container, myUVCCameraFragment);
 
         fragmentTransaction.commit();

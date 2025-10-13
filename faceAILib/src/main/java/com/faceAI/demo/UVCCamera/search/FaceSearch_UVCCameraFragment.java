@@ -17,6 +17,9 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.view.View;
+
+import com.ai.face.core.utils.FaceAICameraType;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
@@ -30,11 +33,11 @@ import java.util.List;
 
 
 /**
- * UVC协议双目摄像头人脸搜索识别业务逻辑管理Fragment
+ * UVC协议USB摄像头人脸搜索识别业务逻辑管理Fragment
  *
- * USB带红外双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
+ * 如果USB带红外的双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
  *
- * AbstractBinocularUVCCameraFragment 是摄像头相关处理，「调试的时候USB摄像头一定要固定住屏幕正上方」
+ * AbsFaceSearch_UVCCameraFragment 是摄像头相关处理，「调试的时候USB摄像头一定要固定住屏幕正上方」
  *
  * 怎么提高人脸搜索识别系统的准确度？https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
  * 网盘分享的3000 张人脸图链接: https://pan.baidu.com/s/1RfzJlc-TMDb0lQMFKpA-tQ?pwd=Face 提取码: Face
@@ -75,10 +78,11 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
         // 2.各种参数的初始化设置
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(requireActivity())
                 .setLifecycleOwner(this)
+                .setCameraType(cameraType)
                 .setThreshold(0.88f) //阈值设置，范围限 [0.85 , 0.95] 识别可信度，也是识别灵敏度
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
-                .setCameraType(SearchProcessBuilder.CameraType.UVC_CAMERA) //摄像头种类是UVC协议,和系统RGB摄像头要区分清楚
+                .setCameraType(FaceAICameraType.SYSTEM_CAMERA) //摄像头种类是UVC协议,和系统RGB摄像头要区分清楚
                 .setSearchIntervalTime(1900) //默认2000，范围[1500,3000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setProcessCallBack(new SearchProcessCallBack() {
 
@@ -123,33 +127,25 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
 
                 }).create();
 
-
         //3.初始化引擎，是个耗时耗资源操作
         FaceSearchEngine.Companion.getInstance().initSearchParams(faceProcessBuilder);
-
     }
-
 
     @Override
     void showFaceSearchPrecessTips(int code) {
         switch (code) {
-            case NO_MATCHED:
-                //没有搜索匹配识别到任何人
-                binding.secondSearchTips.setText(R.string.no_matched_face);
-                break;
 
             case FACE_DIR_EMPTY:
                 //人脸库没有人脸照片，没有使用SDK 插入人脸？
-                binding.searchTips.setText(R.string.face_dir_empty);
+                setSearchTips(R.string.face_dir_empty);
                 break;
 
-
             case EMGINE_INITING:
-                binding.searchTips.setText(R.string.sdk_init);
+                setSearchTips(R.string.sdk_init);
                 break;
 
             case SEARCH_PREPARED, SEARCHING:
-                binding.searchTips.setText(R.string.keep_face_tips);
+                setSearchTips(R.string.keep_face_tips);
                 break;
 
             case IR_LIVE_ERROR:
@@ -157,67 +153,90 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                 break;
 
             case NO_LIVE_FACE:
-                binding.searchTips.setText(R.string.no_face_detected_tips);
+                setSearchTips(R.string.no_face_detected_tips);
+                break;
+
+            case THRESHOLD_ERROR:
+                setSearchTips(R.string.search_threshold_scope_tips);
+                break;
+
+            case MASK_DETECTION:
+                setSearchTips(R.string.no_mask_please);
+                break;
+
+
+            case NO_MATCHED:
+                //没有搜索匹配识别到任何人
+                setSecondTips(R.string.no_matched_face);
                 break;
 
             case FACE_TOO_SMALL:
-                binding.secondSearchTips.setText(R.string.come_closer_tips);
+                setSecondTips(R.string.come_closer_tips);
                 break;
 
             // 单独使用一个textview 提示，防止上一个提示被覆盖。
             // 也可以自行记住上个状态，FACE_SIZE_FIT 中恢复上一个提示
             case FACE_TOO_LARGE:
-                binding.secondSearchTips.setText(R.string.far_away_tips);
+                setSecondTips(R.string.far_away_tips);
                 break;
 
             //检测到正常的人脸，尺寸大小OK
             case FACE_SIZE_FIT:
-                binding.secondSearchTips.setText("");
+                setSecondTips(0);
                 break;
 
             case TOO_MUCH_FACE:
-                binding.secondSearchTips.setText(R.string.multiple_faces_tips);
+                setSecondTips(R.string.multiple_faces_tips);
                 break;
+        }
+    }
 
-            case THRESHOLD_ERROR:
-                binding.searchTips.setText(R.string.search_threshold_scope_tips);
-                break;
+    private void setSearchTips(int resId) {
+        binding.searchTips.setText(resId);
+    }
 
-            case MASK_DETECTION:
-                binding.searchTips.setText(R.string.no_mask_please);
-                break;
-
-
-            default:
-                binding.searchTips.setText("回调提示：" + code);
-                break;
-
+    /**
+     * 第二行提示
+     * @param resId
+     */
+    private void setSecondTips(int resId){
+        if(resId==0){
+            binding.secondSearchTips.setText("");
+            binding.secondSearchTips.setVisibility(View.INVISIBLE);
+        }else {
+            binding.secondSearchTips.setVisibility(View.VISIBLE);
+            binding.secondSearchTips.setText(resId);
         }
     }
 
     /**
-     * 双目摄像头设置数据，送数据到SDK 引擎
+     * UVC协议USB摄像头设置数据，送数据到SDK 引擎
      * 设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
      *
      * @param bitmap
      * @param type
      */
     void faceSearchSetBitmap(Bitmap bitmap, FaceVerifyUtils.BitmapType type) {
-        if (type.equals(FaceVerifyUtils.BitmapType.IR)) {
-            irBitmap = bitmap;
-            irReady = true;
-        } else if (type.equals(FaceVerifyUtils.BitmapType.RGB)) {
-            rgbBitmap = bitmap;
-            rgbReady = true;
+        if(cameraType== FaceAICameraType.UVC_CAMERA_RGB){
+            FaceSearchEngine.Companion.getInstance().runSearchWithBitmap(bitmap);
+        }else{
+            if (type.equals(FaceVerifyUtils.BitmapType.IR)) {
+                irBitmap = bitmap;
+                irReady = true;
+            } else if (type.equals(FaceVerifyUtils.BitmapType.RGB)) {
+                rgbBitmap = bitmap;
+                rgbReady = true;
+            }
+
+            if (irReady && rgbReady) {
+                getScaleValue();
+                //送数据进入SDK
+                FaceSearchEngine.Companion.getInstance().runSearchWithIR(irBitmap, rgbBitmap);
+                irReady = false;
+                rgbReady = false;
+            }
         }
 
-        if (irReady && rgbReady) {
-            getScaleValue();
-            //送数据进入SDK
-            FaceSearchEngine.Companion.getInstance().runSearchWithIR(irBitmap, rgbBitmap);
-            irReady = false;
-            rgbReady = false;
-        }
     }
 
 

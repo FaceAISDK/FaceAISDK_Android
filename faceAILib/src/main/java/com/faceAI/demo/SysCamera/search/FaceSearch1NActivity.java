@@ -16,6 +16,7 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 
+import com.ai.face.core.utils.FaceAICameraType;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import android.content.Context;
@@ -42,10 +43,10 @@ import java.util.List;
 /**
  * 1:N 人脸搜索识别「1:N face search」
  * <p>
- * 1.  使用的宽动态（室内大于105DB,室外大于120DB）高清抗逆光摄像头；**保持镜头整洁干净（汗渍 油污）**
- * 2.  录入高质量清晰正脸图，脸部清晰
- * 3.  光线环境好否则加补光灯，人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
- * 4.  人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
+ * 1. 使用的宽动态（室内大于105DB,室外大于120DB）高清抗逆光摄像头；**保持镜头整洁干净（汗渍 油污）**
+ * 2. 录入高质量清晰正脸图，脸部清晰
+ * 3. 光线环境好否则加补光灯，人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
+ * 4. 人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
  * <p>
  * 怎么提高人脸搜索识别系统的准确度？https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
  * <p>
@@ -103,7 +104,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         // 2.各种参数的初始化设置
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
-                .setCameraType(SearchProcessBuilder.CameraType.SYS_CAMERA)
+                .setCameraType(FaceAICameraType.SYSTEM_CAMERA)
                 .setThreshold(0.85f) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值以及人脸底片质量也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
                 .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录

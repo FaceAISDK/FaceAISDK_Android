@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.camera.camera2.Camera2Config;
 import androidx.camera.core.Camera;
+import androidx.camera.core.CameraInfo;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.CameraXConfig;
 import androidx.camera.core.ImageAnalysis;
@@ -81,7 +82,6 @@ public class MyCameraXFragment extends Fragment {
         args.putInt(CAMERA_LENS_FACING, cameraXBuilder.getCameraLensFacing());
         args.putFloat(CAMERA_LINEAR_ZOOM, cameraXBuilder.getLinearZoom());
         args.putInt(CAMERA_ROTATION, cameraXBuilder.getRotation());
-//        args.putSerializable(CAMERA_SIZE, cameraXBuilder.getSize()); //默认一种
         fragment.setArguments(args);
         return fragment;
     }
@@ -130,19 +130,21 @@ public class MyCameraXFragment extends Fragment {
                 Log.e("FaceAI SDK", "\ncameraProviderFuture.get() 发生错误！\n" + e.toString());
             }
 
-            preview = new Preview.Builder()
-                    .setTargetRotation(rotation)
-                    .build();
-
-            previewView = rootView.findViewById(R.id.previewView);
-            //高性能模式
-            previewView.setImplementationMode(PreviewView.ImplementationMode.PERFORMANCE);
-
+            //imageAnalysis 人脸识别分析设置。默认分辨率640*480。根据你的场景，摄像头特性和硬件配置设置合理的参数
             imageAnalysis = new ImageAnalysis.Builder()
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                     .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
                     .setTargetRotation(rotation)
                     .build();
+
+            //摄像头画面预览默认分辨率也是640*480。
+            preview = new Preview.Builder()
+                    .setTargetRotation(rotation)
+                    .build();
+
+            previewView = rootView.findViewById(R.id.previewView);
+            //预览画面渲染模式：高性能模式
+            previewView.setImplementationMode(PreviewView.ImplementationMode.PERFORMANCE);
 
             if (cameraLensFacing == 0) {
                 // Choose the camera by requiring a lens facing
@@ -176,6 +178,8 @@ public class MyCameraXFragment extends Fragment {
                         getViewLifecycleOwner(),
                         cameraSelector,
                         preview, imageAnalysis);
+
+                //并非所有的相机支持焦距控制
                 camera.getCameraControl().setLinearZoom(linearZoom);
 
             } catch (Exception e) {
@@ -193,8 +197,7 @@ public class MyCameraXFragment extends Fragment {
         try {
             //判断当前摄像头等级 ,Android 9以上才支持判断
             CameraManager cameraManager = (CameraManager) requireContext().getSystemService(Context.CAMERA_SERVICE);
-
-            String cameraId =Integer.toString(cameraLensFacing); //不能这样写！！！
+            String cameraId =Integer.toString(cameraLensFacing);
             CameraCharacteristics characteristics = cameraManager.getCameraCharacteristics(cameraId);
             Integer level=characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
             if(level!=null&& level !=CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3
@@ -229,7 +232,6 @@ public class MyCameraXFragment extends Fragment {
 
     /**
      * 手动释放所有资源（不同硬件平台处理方式不一样），一般资源释放会和页面销毁自动联动
-     *
      */
     public void releaseCamera() {
         if(executorService!=null&&!executorService.isTerminated()){

@@ -6,6 +6,7 @@
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.faceAI.demo.UVCCamera.verify.FaceVerify_UVCCameraActivity">
 
     <androidx.fragment.app.FragmentContainerView

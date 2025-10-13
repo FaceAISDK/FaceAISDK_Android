@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="@color/face_main_color"
     tools:context=".SysCamera.search.FaceSearchImageMangerActivity">
 
 
@@ -17,14 +17,14 @@
         android:background="?attr/colorPrimary"
         app:subtitleTextColor="#FFF"
         app:titleTextColor="#FFF"
-        app:title="人脸管理"
+        app:title="@string/face_search_image_manger"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/tips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="长按删除，右上角按钮添加内置测试人脸图"
+        android:text="@string/face_search_image_manger_tips"
         android:gravity="center"
         android:padding="4dp"
         android:textSize="12sp"
@@ -34,6 +34,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

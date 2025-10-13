@@ -36,7 +36,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="8dp"
                 android:padding="3dp"
-                android:text="系统相机搜索"
+                android:text="@string/face_search_by_system_camera"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"/>
 
@@ -187,19 +187,19 @@
 
 
             <TextView
-                android:id="@+id/binocular_camera_tips"
+                android:id="@+id/uvc_usb_camera_tips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="22dp"
                 android:layout_marginBottom="8dp"
                 android:padding="3dp"
-                android:text="USB双目摄像头搜索"
+                android:text="@string/face_search_by_uvc_camera"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"/>
 
             <LinearLayout
-                android:id="@+id/binocular_camera_search_navi"
+                android:id="@+id/uvc_usb_camera_search_navi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="29dp"
@@ -208,7 +208,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/binocular_camera_search"
+                    android:id="@+id/uvc_usb_camera_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -223,7 +223,7 @@
                         android:padding="1dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="false"
-                        app:lottie_rawRes="@raw/binocular_camera"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
                         app:lottie_speed="2" />
 
                     <TextView
@@ -243,7 +243,7 @@
                     android:background="@color/white" />
 
                 <LinearLayout
-                    android:id="@+id/binocular_camera_add_face"
+                    android:id="@+id/uvc_usb_camera_add_face"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -302,7 +302,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="11dp"
-                    android:text="@string/face_image_manger"
+                    android:text="@string/face_image_manage"
                     android:textColor="@color/face_main_color"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -322,7 +322,7 @@
         android:layout_gravity="bottom"
         android:gravity="center"
         android:padding="11dp"
-        android:text="导入内置assets目录测试人脸图"
+        android:text="@string/copy_app_assert_folder_faces"
         android:textColor="@android:color/white"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -335,9 +335,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="11dp"
-        android:text="摄像头宽动态值(Db)室内>105，室外>120;光线不好使用补光灯"
+        android:text="@string/face_search_camera_tips"
         android:textColor="@color/orange"
-        android:textSize="11sp"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

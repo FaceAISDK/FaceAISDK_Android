@@ -9,15 +9,14 @@
 
     <ImageView
         android:id="@+id/back"
-        android:layout_width="47dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:padding="9dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="13dp"
+        android:padding="8dp"
         android:src="@drawable/ic_arrow_back_white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
@@ -29,25 +28,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-
+            
             <TextView
                 android:id="@+id/system_camera_tips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="28dp"
+                android:layout_marginStart="22dp"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="8dp"
                 android:padding="3dp"
-                android:text="系统相机设置"
+                android:text="@string/system_camera_setting"
                 android:textColor="@android:color/white"
-                android:textSize="14sp" />
+                android:textSize="13sp" />
 
             <LinearLayout
                 android:id="@+id/system_camera_search_navi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="29dp"
+                android:layout_marginStart="22dp"
                 android:layout_marginEnd="22dp"
                 android:background="@drawable/bg_rect"
                 android:orientation="vertical">
@@ -63,8 +61,8 @@
                     android:orientation="horizontal">
 
                     <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
                         android:padding="3dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="true"
@@ -77,17 +75,15 @@
                         android:layout_marginStart="11dp"
                         android:text="@string/switch_camera"
                         android:textColor="@color/face_main_color"
-                        android:textSize="13sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
-
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:background="@color/white" />
-
 
                 <LinearLayout
                     android:id="@+id/switch_camera_degree"
@@ -100,8 +96,8 @@
                     android:orientation="horizontal">
 
                     <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
                         app:lottie_autoPlay="true"
                         app:lottie_rawRes="@raw/add_face"
                         app:lottie_speed="1" />
@@ -113,43 +109,30 @@
                         android:layout_marginStart="11dp"
                         android:text="@string/camera_degree_set"
                         android:textColor="@color/face_main_color"
-                        android:textSize="13sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
 
-
             </LinearLayout>
 
-
             <TextView
-                android:id="@+id/binocular_camera_tips"
+                android:id="@+id/uvc_usb_camera_tips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="28dp"
+                android:layout_marginStart="22dp"
                 android:layout_marginTop="29dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="2dp"
                 android:padding="3dp"
-                android:text="USB双目摄像头设置"
+                android:text="@string/uvc_camera_setting"
                 android:textColor="@android:color/white"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/binocular_camera_tips_more"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="28dp"
-                android:layout_marginBottom="8dp"
-                android:padding="3dp"
-                android:text="SDK 管理UVC协议摄像头用的是此库：https://github.com/shiyinghan/UVCAndroid 。请自行熟悉调整代码适配你的客制摄像头"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="10sp" />
+                android:textSize="13sp" />
 
             <LinearLayout
-                android:id="@+id/binocular_camera_search_navi"
+                android:id="@+id/uvc_usb_camera_search_navi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="29dp"
+                android:layout_marginStart="22dp"
                 android:layout_marginEnd="22dp"
                 android:background="@drawable/bg_rect"
                 android:orientation="vertical">
@@ -165,21 +148,21 @@
                     android:orientation="horizontal">
 
                     <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
                         android:padding="1dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="false"
-                        app:lottie_rawRes="@raw/binocular_camera"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
                         app:lottie_speed="2" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="11dp"
-                        android:text="RGB摄像头选择"
+                        android:text="@string/uvc_camera_select_rgb"
                         android:textColor="@color/face_main_color"
-                        android:textSize="13sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -195,27 +178,24 @@
                     android:orientation="horizontal">
 
                     <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
                         android:padding="1dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="false"
-                        app:lottie_rawRes="@raw/binocular_camera"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
                         app:lottie_speed="2" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="11dp"
-                        android:text="IR红外摄像头选择"
+                        android:text="@string/uvc_camera_select_ir"
                         android:textColor="@color/face_main_color"
-                        android:textSize="13sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
-
-
-
 
                 <View
                     android:layout_width="match_parent"
@@ -233,21 +213,21 @@
                     android:orientation="horizontal">
 
                     <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
                         android:padding="1dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="false"
-                        app:lottie_rawRes="@raw/binocular_camera"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
                         app:lottie_speed="2" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="11dp"
-                        android:text="IR摄像头画面角度旋转"
+                        android:text="@string/uvc_camera_degree_ir"
                         android:textColor="@color/face_main_color"
-                        android:textSize="13sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -263,21 +243,21 @@
                     android:orientation="horizontal">
 
                     <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
                         android:padding="1dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="false"
-                        app:lottie_rawRes="@raw/binocular_camera"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
                         app:lottie_speed="2" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="11dp"
-                        android:text="IR摄像头画面左右翻转"
+                        android:text="@string/uvc_camera_horizontal_mirror_ir"
                         android:textColor="@color/face_main_color"
-                        android:textSize="13sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -287,7 +267,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:background="@color/white" />
-
 
                 <LinearLayout
                     android:id="@+id/rgb_uvc_camera_switch"
@@ -300,21 +279,21 @@
                     android:orientation="horizontal">
 
                     <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
                         android:padding="1dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="false"
-                        app:lottie_rawRes="@raw/binocular_camera"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
                         app:lottie_speed="2" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="11dp"
-                        android:text="RGB摄像头画面角度旋转"
+                        android:text="@string/uvc_camera_degree_rgb"
                         android:textColor="@color/face_main_color"
-                        android:textSize="13sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -330,27 +309,26 @@
                     android:orientation="horizontal">
 
                     <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
                         android:padding="1dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="false"
-                        app:lottie_rawRes="@raw/binocular_camera"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
                         app:lottie_speed="2" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="11dp"
-                        android:text="RGB摄像头画面左右翻转"
+                        android:text="@string/uvc_camera_horizontal_mirror_rgb"
                         android:textColor="@color/face_main_color"
-                        android:textSize="13sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
 
             </LinearLayout>
-
 
         </LinearLayout>
 
@@ -359,7 +337,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="更多参数设置，请工程师下载源码手动调节"
+        android:text="More Settings? See FaceAISDK souce code"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:textStyle="bold"

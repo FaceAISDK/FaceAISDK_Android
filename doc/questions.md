@@ -16,9 +16,9 @@
    其他集成问题，请根据报错搜索解决方案,需要降级依赖版本配置VIP用户可以联系协助解决
 
 ### 2.支持哪些摄像头？
-   SDK并不限制UVC/MIPI/USB摄像头，但需要保证各种环境成像清晰无噪点，具体参数参考/Doc目录/硬件配置要求
-   开放人脸需根据你的硬件平台特性自行管理摄像头，Demo 提供默认CameraXFragment,你也可以使用camera1
-   取的摄像头帧数据后送人SDK 进行处理，但是强烈不建议使用外接摄像头性能（如帧率、数据传输延迟、缓冲区处理）
+   SDK并不限制具体类型摄像头，当前支持System,UVC_RGB,UVC_RGB_IR，具体参数参考/Doc目录/硬件配置要求
+   需根据你的硬件平台特性自行管理摄像头，Demo提供默认CameraXFragment,你也可以使用camera1管理系统摄像头
+   取的摄像头帧数据处理后送人SDK 进行处理，使用外接摄像头性能（如帧率、数据传输延迟、缓冲区处理）
    可能不如内置相机，并且更容易受到连接稳定性和带宽的影响。推荐 HARDWARE_LEVEL_FULL/HARDWARE_LEVEL_3级别
 
    UVC摄像头的操作可以参考这个库：https://github.com/shiyinghan/UVCAndroid
