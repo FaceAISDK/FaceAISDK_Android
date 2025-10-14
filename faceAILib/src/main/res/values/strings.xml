@@ -51,7 +51,7 @@
     <string name="copy_app_assert_folder_faces">Copy app assert folder face images</string>
     <string name="face_search_by_system_camera">Face Search by system camera</string>
     <string name="face_search_by_uvc_camera">Face Search by UVC camera</string>
-    <string name="face_search_camera_tips">Camera WDR (Db) >105 for indoors and >120 for outdoors; use a fill light when need</string>
+    <string name="face_search_camera_tips">Camera WDR >105Db indoors,>120 outdoors; use a fill light when need</string>
     <string name="face_search_image_manger">Face images manger</string>
     <string name="face_search_image_manger_tips">Long press delete the face,right|top button to add new face</string>
 

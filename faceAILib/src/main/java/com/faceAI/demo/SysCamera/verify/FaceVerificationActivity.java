@@ -55,7 +55,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
  * <p>
  * 移动考勤签到、App免密登录、刷脸授权、刷脸解锁。请熟悉Demo主流程后根据你的业务情况再改造
  * 摄像头管理源码开放了 {@link MyCameraXFragment}
- *
+ * https://github.com/FaceAISDK/FaceAISDK_Android
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceVerificationActivity extends AbsBaseActivity {
@@ -218,7 +218,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         //切换到主线程操作UI
         runOnUiThread(() -> {
             if (FaceSDKConfig.isDebugMode(getBaseContext())) {
-                scoreText.setText("liveness: " + silentLivenessScore);
+                scoreText.setText("Liveness: " + silentLivenessScore);
             }
             BitmapUtils.saveBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");//保存场景图给三方插件使用
 
