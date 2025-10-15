@@ -115,10 +115,7 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                 }).create();
 
         faceVerifyUtils.setDetectorParams(faceProcessBuilder);
-
     }
-
-
 
 
     /**
@@ -128,7 +125,6 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
      */
     void showFaceLivenessTips(int actionCode) {
         if (!requireActivity().isDestroyed() && !requireActivity().isFinishing()) {
-
             Log.e("RGBUVC","---- "+actionCode);
             requireActivity().runOnUiThread(() -> {
                 switch (actionCode) {

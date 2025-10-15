@@ -178,53 +178,53 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                     // 动作活体检测完成了
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
                         VoicePlayer.getInstance().play(R.raw.face_camera);
-                        setTips(R.string.keep_face_visible);
+                        setMainTips(R.string.keep_face_visible);
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.IR_IMAGE_NULL:
-                        setTips(R.string.ir_image_error);
+                        setMainTips(R.string.ir_image_error);
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.IR_LIVE_FAILED:
-                        setTips(R.string.ir_live_error);
+                        setMainTips(R.string.ir_live_error);
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:
-                        setTips(R.string.face_verifying);
+                        setMainTips(R.string.face_verifying);
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_NO_BASE_IMG:
-                        setTips(R.string.no_base_face_bitmap);
+                        setMainTips(R.string.no_base_face_bitmap);
                         break;
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:
-                        setTips(R.string.motion_liveness_detection_failed);
+                        setMainTips(R.string.motion_liveness_detection_failed);
                         break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
                         VoicePlayer.getInstance().play(R.raw.open_mouse);
-                        setTips(R.string.repeat_open_close_mouse);
+                        setMainTips(R.string.repeat_open_close_mouse);
                         break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.SMILE: {
-                        setTips(R.string.motion_smile);
+                        setMainTips(R.string.motion_smile);
                         VoicePlayer.getInstance().play(R.raw.smile);
                     }
                     break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.BLINK: {
                         VoicePlayer.getInstance().play(R.raw.blink);
-                        setTips(R.string.motion_blink_eye);
+                        setMainTips(R.string.motion_blink_eye);
                     }
                     break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD:
                         VoicePlayer.getInstance().play(R.raw.shake_head);
-                        setTips(R.string.motion_shake_head);
+                        setMainTips(R.string.motion_shake_head);
                         break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
                         VoicePlayer.getInstance().play(R.raw.nod_head);
-                        setTips(R.string.motion_node_head);
+                        setMainTips(R.string.motion_node_head);
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT:
@@ -238,7 +238,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
-                        setTips(R.string.no_face_or_repeat_switch_screen);
+                        setMainTips(R.string.no_face_or_repeat_switch_screen);
                         new AlertDialog.Builder(requireActivity())
                                 .setMessage(R.string.stop_verify_tips)
                                 .setCancelable(false)
@@ -274,7 +274,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
         }
     }
 
-    private void setTips(int resId) {
+    private void setMainTips(int resId) {
         tipsTextView.setText(resId);
     }
 
