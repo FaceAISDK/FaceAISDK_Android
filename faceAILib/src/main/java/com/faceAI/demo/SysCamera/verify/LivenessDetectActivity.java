@@ -20,20 +20,19 @@ import com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM;
 import com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
-import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.MyCameraXFragment;
-import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.base.view.DemoFaceCoverView;
 
 /**
- * 活体检测 SDK 接入演示Demo 代码.
+ * 活体检测 SDK 接入演示代码.
  * 使用系统相机怎么活体检测，包含动作活体，静默活体（静默需要摄像头成像清晰，宽动态大于105Db）
  *
  * 摄像头管理源码开放了 {@link MyCameraXFragment}
+ * More：<a href="https://github.com/FaceAISDK/FaceAISDK_Android">人脸识别FaceAISDK</a>
  * @author FaceAISDK.Service@gmail.com
  */
 public class LivenessDetectActivity extends AbsBaseActivity {
@@ -46,8 +45,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     public static final String MOTION_STEP_SIZE = "MOTION_STEP_SIZE";   //动作活体的步骤数
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
     public static final String EXCEPT_MOTION_LIVENESS = "EXCEPT_MOTION_LIVENESS"; //排除的动作活体
-
-    private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION;//活体检测类型
+    private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION; //活体检测类型
     private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = 10; //动作超时秒
@@ -90,7 +88,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
      */
     private void initFaceVerificationParam() {
         //建议老的低配设备减少活体检测步骤
-        FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(LivenessDetectActivity.this)
+        FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setLivenessOnly(true)
                 .setLivenessType(faceLivenessType) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
                 .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.88,0.98]
@@ -147,7 +145,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         });
 
     }
-    
     
     @Override
     public void onBackPressed() {
@@ -289,7 +286,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     }
 
 
-
     /**
      * 资源释放
      */
@@ -363,5 +359,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         setResult(RESULT_OK, intent);
         finish();
     }
+
 }
 
