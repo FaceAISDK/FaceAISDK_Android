@@ -98,7 +98,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.88,0.98]
                 .setMotionLivenessStepSize(motionStepSize)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(motionTimeOut)           //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
-                .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
+                .setLivenessDetectionMode(MotionLivenessMode.ACCURACY) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setExceptMotionLivenessType(exceptMotionLiveness) //动作活体去除微笑 或其他某一种
                 .setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
@@ -190,43 +190,44 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 switch (actionCode) {
                     // 动作活体检测完成了
                     case ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
-                        VoicePlayer.getInstance().play(R.raw.face_camera);
-                        setSearchTips(R.string.keep_face_visible);
+                        VoicePlayer.getInstance().play(R.raw.verify_success);
+                        setTips(R.string.liveness_detection_done);
+                        setSecondTips(0);
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:
-                        setSearchTips(R.string.face_verifying);
+                        setTips(R.string.face_verifying);
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:
-                        setSearchTips(R.string.motion_liveness_detection_failed);
+                        setTips(R.string.motion_liveness_detection_failed);
                         break;
 
                     case ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
                         VoicePlayer.getInstance().play(R.raw.open_mouse);
-                        setSearchTips(R.string.repeat_open_close_mouse);
+                        setTips(R.string.repeat_open_close_mouse);
                         break;
 
                     case ALIVE_DETECT_TYPE_ENUM.SMILE: {
-                        setSearchTips(R.string.motion_smile);
+                        setTips(R.string.motion_smile);
                         VoicePlayer.getInstance().play(R.raw.smile);
                     }
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.BLINK: {
                         VoicePlayer.getInstance().play(R.raw.blink);
-                        setSearchTips(R.string.motion_blink_eye);
+                        setTips(R.string.motion_blink_eye);
                     }
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD:
                         VoicePlayer.getInstance().play(R.raw.shake_head);
-                        setSearchTips(R.string.motion_shake_head);
+                        setTips(R.string.motion_shake_head);
                         break;
 
                     case ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
                         VoicePlayer.getInstance().play(R.raw.nod_head);
-                        setSearchTips(R.string.motion_node_head);
+                        setTips(R.string.motion_node_head);
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.PAUSE_VERIFY:
@@ -255,7 +256,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
-                        setSearchTips(R.string.no_face_or_repeat_switch_screen);
+                        setTips(R.string.no_face_or_repeat_switch_screen);
                         new AlertDialog.Builder(this)
                                 .setMessage(R.string.stop_verify_tips)
                                 .setCancelable(false)
@@ -289,7 +290,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     }
 
 
-    private void setSearchTips(int resId) {
+    private void setTips(int resId) {
         tipsTextView.setText(resId);
     }
 
