@@ -64,6 +64,14 @@
     <string name="face_verify_pause">Face verify pause！Please retry</string>
     <string name="face_verify_demo">1:1 face verify demo</string>
     <string name="face_verify_no_face_tips">No face has been added yet\nClick the button above to add face image, long press the face to delete</string>
+    <string name="no_face_image_found">No face image found</string>
+    <string name="face_verify_result_cancel">Cancel face verify by user</string>
+    <string name="face_verify_result_success">Face verify success</string>
+    <string name="face_verify_result_silent_failed">Face verify silent failed</string>
+    <string name="face_verify_result_timeout">Face verify timeout</string>
+    <string name="face_verify_result_failed">Face verify failed</string>
+    <string name="face_verify_result_no_face_multi_time">No Face multi times</string>
+    <string name="face_verify_result_pause">Face verify pause</string>
 
     <!--Motion liveness detection-->
     <string name="liveness_detection">Liveness detection</string>

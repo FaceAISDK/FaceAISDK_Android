@@ -65,6 +65,16 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="face_verify_pause">人脸识别被中断了！</string>
     <string name="face_verify_demo">1:1 人脸识别演示</string>
     <string name="face_verify_no_face_tips">暂未录入人脸\n点击上面按钮添加录入，长按人脸可删除</string>
+    <string name="no_face_image_found">未找到对应的人脸</string>
+    <string name="face_verify_result_cancel">0用户取消人脸识别</string>
+    <string name="face_verify_result_success">1人脸识别成功</string>
+    <string name="face_verify_result_silent_failed">2静默活体分数过低</string>
+    <string name="face_verify_result_timeout">3动作活体检测超时</string>
+    <string name="face_verify_result_failed">4人脸识别失败</string>
+    <string name="face_verify_result_no_face_multi_time">5多次未检测到人脸</string>
+    <string name="face_verify_result_pause">6人脸识别暂停</string>
+
+
 
     <!--Motion liveness detection-->
     <string name="liveness_detection">人脸活体检测</string>
