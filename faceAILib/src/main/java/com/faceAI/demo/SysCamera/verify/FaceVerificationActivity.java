@@ -4,7 +4,6 @@ import static com.faceAI.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_FACE_LOG_DIR;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,11 +16,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.camera.core.CameraSelector;
-
 import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.baseImage.FaceEmbedding;
@@ -44,12 +41,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 /**
- * 1：1 的人脸识别 + 动作活体检测 SDK 接入演示Demo 代码. 正式接入集成需要你根据你的业务完善
+ * 1：1 的人脸识别 + 动作活体检测 接入演示D代码。正式接入集成需要你根据你的业务完善
  * 仅仅需要活体检测参考{@link LivenessDetectActivity}
  * <p>
  * 移动考勤签到、App免密登录、刷脸授权、刷脸解锁。请熟悉Demo主流程后根据你的业务情况再改造
  * 摄像头管理源码开放了 {@link MyCameraXFragment}
- * https://github.com/FaceAISDK/FaceAISDK_Android
+ * More：<a href="https://github.com/FaceAISDK/FaceAISDK_Android">人脸识别FaceAISDK</a>
  *
  * @author FaceAISDK.Service@gmail.com
  */
@@ -124,7 +121,9 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             initFaceVerificationParam(faceEmbedding);
         }
 
-        Glide.with(getBaseContext()).load(baseBitmap).transform(new RoundedCorners(44)).into((ImageView) findViewById(R.id.base_face));
+        Glide.with(getBaseContext()).load(baseBitmap)
+                .transform(new RoundedCorners(44))
+                .into((ImageView) findViewById(R.id.base_face));
     }
 
 
@@ -135,9 +134,11 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      */
     private void initFaceVerificationParam(float[] faceEmbedding) {
         //建议老的低配设备减少活体检测步骤，加长活体检测 人脸对比时间。
-        FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this).setThreshold(verifyThreshold)          //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
+        FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
+                .setThreshold(verifyThreshold)          //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
                 .setFaceEmbedding(faceEmbedding)        //1:1 人脸识别对比的底片人脸特征向量，以前是传bitmap
-                .setCameraType(FaceAICameraType.SYSTEM_CAMERA).setCompareDurationTime(3500)           //人脸识别对比时间[3000,5000] 毫秒。相似度低会持续识别比对的时间
+                .setCameraType(FaceAICameraType.SYSTEM_CAMERA)  //相机类型，目前分为3种
+                .setCompareDurationTime(3500)           //人脸识别对比时间[3000,5000] 毫秒。相似度低会持续识别比对的时间
                 .setLivenessType(faceLivenessType)      //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
                 .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.66,0.98]
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)    //硬件配置低用FAST动作活体模式，否则用精确模式
@@ -480,7 +481,11 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * 识别结束返回结果, 为了给uniApp UTS插件，RN，Flutter统一的交互返回格式
      */
     private void finishFaceVerify(int code, int msgStrRes, float silentLivenessScore, float similarity) {
-        Intent intent = new Intent().putExtra("code", code).putExtra("faceID", faceID).putExtra("msg", getString(msgStrRes)).putExtra("similarity", similarity).putExtra("silentLivenessScore", silentLivenessScore);
+        Intent intent = new Intent().putExtra("code", code)
+                .putExtra("faceID", faceID)
+                .putExtra("msg", getString(msgStrRes))
+                .putExtra("similarity", similarity)
+                .putExtra("silentLivenessScore", silentLivenessScore);
         setResult(RESULT_OK, intent);
         finish();
     }
