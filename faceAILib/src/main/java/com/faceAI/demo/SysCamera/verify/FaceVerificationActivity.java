@@ -4,6 +4,7 @@ import static com.faceAI.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_FACE_LOG_DIR;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,9 +17,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.camera.core.CameraSelector;
+
 import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.baseImage.FaceAIUtils;
 import com.ai.face.base.baseImage.FaceEmbedding;
@@ -94,7 +97,8 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT);
         int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
-        CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder().setCameraLensFacing(cameraLensFacing) //前后摄像头
+        CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
+                .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.001f)    //焦距范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)       //画面旋转角度
                 .create();
@@ -312,8 +316,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                                 }).show();
                         break;
 
-                    // 单独使用一个textview 提示，防止上一个提示被覆盖。
-                    // 也可以自行记住上个状态，FACE_SIZE_FIT 中恢复上一个提示
+                    // ------------   以下是setSecondTips    -----------------
                     case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE:
                         setSecondTips(R.string.far_away_tips);
                         break;
