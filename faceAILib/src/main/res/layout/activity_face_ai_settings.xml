@@ -196,6 +196,101 @@
                         android:textStyle="bold" />
 
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:id="@+id/rgb_uvc_camera_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
+                        android:padding="1dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="false"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
+                        app:lottie_speed="2" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="11dp"
+                        android:text="@string/uvc_camera_degree_rgb"
+                        android:textColor="@color/face_main_color"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rgb_uvc_camera_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
+                        android:padding="1dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="false"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
+                        app:lottie_speed="2" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="11dp"
+                        android:text="@string/uvc_camera_horizontal_mirror_rgb"
+                        android:textColor="@color/face_main_color"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rgb_uvc_camera_resolution"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
+                        android:padding="1dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="false"
+                        app:lottie_rawRes="@raw/uvc_usb_camera"
+                        app:lottie_speed="2" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="11dp"
+                        android:text="@string/uvc_camera_resolution_rgb"
+                        android:textColor="@color/face_main_color"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
 
                 <View
                     android:layout_width="match_parent"
@@ -263,13 +358,8 @@
                 </LinearLayout>
 
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/white" />
-
                 <LinearLayout
-                    android:id="@+id/rgb_uvc_camera_switch"
+                    android:id="@+id/ir_uvc_camera_resolution"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -291,42 +381,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="11dp"
-                        android:text="@string/uvc_camera_degree_rgb"
+                        android:text="@string/uvc_camera_resolution_ir"
                         android:textColor="@color/face_main_color"
                         android:textSize="12sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/rgb_uvc_camera_horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="6dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
 
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="33dp"
-                        android:layout_height="33dp"
-                        android:padding="1dp"
-                        app:lottie_autoPlay="true"
-                        app:lottie_loop="false"
-                        app:lottie_rawRes="@raw/uvc_usb_camera"
-                        app:lottie_speed="2" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="11dp"
-                        android:text="@string/uvc_camera_horizontal_mirror_rgb"
-                        android:textColor="@color/face_main_color"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
 
             </LinearLayout>
 

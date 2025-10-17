@@ -213,6 +213,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         switch (code) {
             case NO_MATCHED:
                 //本次没有搜索匹配到结果，下一帧继续
+                setSecondTips(R.string.no_matched_face);
                 break;
 
             case FACE_DIR_EMPTY:

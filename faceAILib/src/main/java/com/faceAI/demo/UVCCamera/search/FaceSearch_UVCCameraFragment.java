@@ -164,7 +164,6 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                 setSearchTips(R.string.no_mask_please);
                 break;
 
-
             case NO_MATCHED:
                 //没有搜索匹配识别到任何人
                 setSecondTips(R.string.no_matched_face);

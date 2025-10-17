@@ -117,6 +117,7 @@
 
     <!-- About UVC USB camera-->
     <string name="uvc_camera_match_failed">. match failed,please go setting select right camera</string>
+    <string name="uvc_camera_resolution_error">unSupport camera resolution %1$1d %2$1d，switch to %3$1d %4$1d</string>
 
     <!-- Setting camera-->
     <string name="system_camera_setting">System camera setting</string>
@@ -127,6 +128,9 @@
     <string name="uvc_camera_horizontal_mirror_ir">Horizontal mirror IR camera degree</string>
     <string name="uvc_camera_degree_rgb">Change IR camera degree</string>
     <string name="uvc_camera_horizontal_mirror_rgb">Horizontal mirror IR camera degree</string>
+    <string name="uvc_camera_resolution_rgb">RGB camera resolution select</string>
+    <string name="uvc_camera_resolution_ir">IR camera resolution select</string>
+
 
     <string name="gentle_reminder">Gentle Reminder</string>
     <string name="gentle_reminder_func">All SDK functions work offline and do not collect facial data.To better experience the demo, please ensure:</string>
