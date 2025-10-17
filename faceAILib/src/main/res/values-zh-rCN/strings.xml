@@ -121,6 +121,7 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
 
     <!-- About UVC USB camera-->
     <string name="uvc_camera_match_failed"> 匹配失败,请手动匹配</string>
+    <string name="uvc_camera_resolution_error">不支持分辨率%1$1d %2$1d，切换为%3$1d %4$1d</string>
 
     <!-- Setting camera-->
     <string name="system_camera_setting">系统相机设置</string>
@@ -131,6 +132,8 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="uvc_camera_horizontal_mirror_ir">IR 红外摄像画面水平镜像翻转</string>
     <string name="uvc_camera_degree_rgb">RGB 摄像头画面角度旋转</string>
     <string name="uvc_camera_horizontal_mirror_rgb">RGB摄像画面水平镜像翻转</string>
+    <string name="uvc_camera_resolution_rgb">RGB 摄像头分辨率选择</string>
+    <string name="uvc_camera_resolution_ir">IR 摄像头分辨率选择</string>
 
 
     <string name="gentle_reminder">温馨提示</string>

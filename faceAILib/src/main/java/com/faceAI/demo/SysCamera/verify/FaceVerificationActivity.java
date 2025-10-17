@@ -66,7 +66,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private float verifyThreshold = 0.85f; //1:1 人脸识别对比通过的阈值
     private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
     private int motionStepSize = 2; //动作活体的个数
-    private int motionTimeOut = 10; //动作超时秒
+    private int motionTimeOut = 7; //动作超时秒
     private int exceptMotionLiveness = -1; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
     private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION;//活体检测类型
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
@@ -145,7 +145,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 .setCompareDurationTime(3500)           //人脸识别对比时间[3000,5000] 毫秒。相似度低会持续识别比对的时间
                 .setLivenessType(faceLivenessType)      //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
                 .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.66,0.98]
-                .setLivenessDetectionMode(MotionLivenessMode.FAST)    //硬件配置低用FAST动作活体模式，否则用精确模式
+                .setLivenessDetectionMode(MotionLivenessMode.FAST)    //硬件配置低或不需太严格用FAST快速模式，否则用精确模式
                 .setMotionLivenessStepSize(motionStepSize)            //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(motionTimeOut)              //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
                 .setExceptMotionLivenessType(exceptMotionLiveness)    //动作活体去除微笑 或其他某一种
@@ -156,7 +156,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                      *
                      * @param isMatched   true匹配成功（大于setThreshold）； false 与底片不是同一人
                      * @param similarity  与底片匹配的相似度值
-                     * @param silentLivenessScore  静默活体分数，根据你的摄像头设定合理的值
+                     * @param silentLivenessScore  静默活体分数，根据你的摄像头设定合理值,需要摄像头成像清晰支持宽动态
                      * @param bitmap      识别完成的时候人脸实时图，金融级别应用可以再次和自己的服务器二次校验
                      */
                     @Override
@@ -209,7 +209,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         runOnUiThread(() -> {
             BitmapUtils.saveBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");//保存场景图给三方插件使用
 
-            //1.RGB静默活体分数判断，同样场景分数和摄像头成像能力有关
+            //1.RGB静默活体分数判断，根据你的摄像头设定合理值,需要摄像头成像清晰支持宽动态
             if (silentLivenessScore < silentLivenessThreshold) {
                 tipsTextView.setText(R.string.silent_anti_spoofing_error);
                 new AlertDialog.Builder(FaceVerificationActivity.this).setMessage(R.string.silent_anti_spoofing_error).setCancelable(false).setPositiveButton(R.string.confirm, (dialogInterface, i) -> {

@@ -27,7 +27,7 @@ import java.util.List;
  * 根据关键字keyword 是RGB/IR（不同厂商命名方式不一样）来区分双面摄像头哪个是RGB 摄像头哪个是红外
  * 默认的分辨率设置 写在{@link FaceSDKConfig},可以根据下面的方法来获取后修改合适的值
  * <p>
- * 如果本SDK Demo不能管理你的定制摄像头，请参考https://github.com/shiyinghan/UVCAndroid
+ * 如果本SDK Demo不能管理你的定制摄像头，请参考源码https://github.com/shiyinghan/UVCAndroid
  * 熟悉后可以自己实现一个 UsbCameraManager来管理你的摄像头各种适配
  * @author FaceAISDK.Service@gmail.com
  */
@@ -179,8 +179,10 @@ public class UVCCameraManager {
                 List<Size> supportedSizeList = mCameraHelper.getSupportedSizeList();
                 if (supportedSizeList != null) {
                     for (Size size : supportedSizeList) {
+                        //选择支持的分辨率
                         //sizeType=5时fps=15,sizeType=7时fps=30
-                        if (size.height == previewHeight && (size.type == 7||size.type == 5)) {
+                        if ((size.height == UVC_CAMERA_HEIGHT||size.width ==UVC_CAMERA_WIDTH)
+                                && (size.type == 7||size.type == 5)) {
                             previewSize = size;
                             break;
                         }
@@ -193,8 +195,17 @@ public class UVCCameraManager {
                              cameraBuilder.getCameraView().setAspectRatio(width, height);
                          }
                     }else{
-                        //无匹配的分辨率
-                        Toast.makeText(context,  "unSupport camera resolution,please check", Toast.LENGTH_LONG).show();
+                        //设置一个默认的摄像头分辨率
+                        Size defSize=supportedSizeList.get(0);
+                        mCameraHelper.setPreviewSize(defSize);
+                        width = defSize.width;
+                        height = defSize.height;
+                        if(autoAspectRatio){
+                            cameraBuilder.getCameraView().setAspectRatio(width, height);
+                        }
+                        String tips=context.getString(R.string.uvc_camera_resolution_error,UVC_CAMERA_WIDTH,UVC_CAMERA_HEIGHT,width,height);
+                        //无匹配的分辨率提示
+                        Toast.makeText(context,  tips, Toast.LENGTH_LONG).show();
                     }
                 }
             }
