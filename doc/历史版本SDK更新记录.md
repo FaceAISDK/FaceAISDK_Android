@@ -1,12 +1,17 @@
 
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
+##  V2025.10.22
+- 去除Debug模式的弹窗调试信息
+-
+
+
 ##  V2025.10.14
 - 添加英文文案（软件翻译可能词不达意）
 - SDK支持切换使用3种相机类型
 - setCameraType API 更改为FaceAICameraType类型（SYSTEM,UVC_RGB,UVC_RGB_IR）
 - 优化人脸过小，未检测到人脸判断
-- 优化交互过程的提升错误
+- 优化交互过程的提示错误
 
 ##  V2025.09.29
 - 添加光线强弱判断beta版本
