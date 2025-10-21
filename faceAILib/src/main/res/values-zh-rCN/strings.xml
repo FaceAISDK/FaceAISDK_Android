@@ -75,7 +75,6 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="face_verify_result_pause">6人脸识别暂停</string>
 
 
-
     <!--Motion liveness detection-->
     <string name="liveness_detection">人脸活体检测</string>
     <string name="liveness_detection_done">活体检测完成</string>

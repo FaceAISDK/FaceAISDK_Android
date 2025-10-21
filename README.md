@@ -33,7 +33,7 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-##  V2025.10.22
+##  V2025.10.21
 - 去除Debug模式的弹窗调试信息
 - 近距离但人脸完整不提示过近
 - 人脸搜索中 提示优化
