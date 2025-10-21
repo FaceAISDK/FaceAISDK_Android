@@ -22,6 +22,7 @@ import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.MyCameraXFragment;
+import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.VoicePlayer;
@@ -100,15 +101,19 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 .setProcessCallBack(new ProcessCallBack() {
 
                     /**
-                     * 活体检测完成，动作活体没有超时（如有），静默活体设置了需要（不需要返回0）
+                     * 动作活体检测完成，同时返回RGB静默活体分数(setLivenessType设置过)
                      *
-                     * @param silentLivenessValue RGB静默活体分数
+                     * @param silentLivenessValue RGB静默活体分数,RGB分数可靠性和摄像头会有关，请确认。
                      * @param bitmap 活体检测快照，可以用于log记录
                      */
                     @Override
                     public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
                         BitmapUtils.saveBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
-                        finishFaceVerify(9,R.string.liveness_detection_done,silentLivenessValue);
+
+                        runOnUiThread(() -> {
+                            new ImageToast().show(getApplicationContext(), bitmap, getString(R.string.liveness_detection_done)+" " + silentLivenessValue);
+                            finishFaceVerify(9,R.string.liveness_detection_done,silentLivenessValue);
+                        });
                     }
 
                     //人脸识别，活体检测过程中的各种提示
@@ -166,7 +171,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     // 动作活体检测完成了
                     case ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
                         VoicePlayer.getInstance().play(R.raw.verify_success);
-                        setMainTips(R.string.liveness_detection_done);
+                        setMainTips(R.string.keep_face_visible); //2秒后抓取一张正脸图
                         setSecondTips(0);
                         break;
 
