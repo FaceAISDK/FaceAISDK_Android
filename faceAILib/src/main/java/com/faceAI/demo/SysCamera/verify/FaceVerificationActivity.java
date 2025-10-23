@@ -60,14 +60,14 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     public static final String FACE_LIVENESS_TYPE = "FACE_LIVENESS_TYPE";   //活体检测的类型
     public static final String MOTION_STEP_SIZE = "MOTION_STEP_SIZE";   //动作活体的步骤数
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
-    public static final String EXCEPT_MOTION_LIVENESS = "EXCEPT_MOTION_LIVENESS"; //排除的动作活体
+    public static final String MOTION_LIVENESS_TYPES = "MOTION_LIVENESS_TYPES"; //动作活体种类
 
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
     private float verifyThreshold = 0.85f; //1:1 人脸识别对比通过的阈值
     private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = 7; //动作超时秒
-    private int exceptMotionLiveness = -1; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
+    private String motionLivenessTypes ="1,2,3,4,5" ; //动作活体种类用英文","隔开。 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
     private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION;//活体检测类型
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private TextView tipsTextView, secondTipsTextView;
@@ -148,7 +148,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)    //硬件配置低或不需太严格用FAST快速模式，否则用精确模式
                 .setMotionLivenessStepSize(motionStepSize)            //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(motionTimeOut)              //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
-                .setExceptMotionLivenessType(exceptMotionLiveness)    //动作活体去除微笑 或其他某一种
+                .setMotionLivenessTypes(motionLivenessTypes)                  //动作活体种类。1 张张嘴,2 微笑,3 眨眨眼,4 摇摇头,5 点点头
                 .setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
@@ -465,8 +465,8 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             if (intent.hasExtra(SILENT_THRESHOLD_KEY)) {
                 motionTimeOut = intent.getIntExtra(MOTION_TIMEOUT, 10);
             }
-            if (intent.hasExtra(EXCEPT_MOTION_LIVENESS)) {
-                exceptMotionLiveness = intent.getIntExtra(EXCEPT_MOTION_LIVENESS, -1);
+            if (intent.hasExtra(MOTION_LIVENESS_TYPES)) {
+                motionLivenessTypes = intent.getStringExtra(MOTION_LIVENESS_TYPES);
             }
         }
     }

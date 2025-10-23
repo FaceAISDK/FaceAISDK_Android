@@ -15,7 +15,7 @@ FaceAI SDK is on_device Offline Face Detection 、Recognition 、Liveness Detect
 FaceAI SDK包括人脸识别、活体检测、人脸录入检测以及[1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索，可快速集成实现端侧人脸识别，人脸搜索等功能。
 
 Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
-动作活体支持张嘴、微笑、眨眼、摇头、点头 随机两种组合验证（支持去除特定的动作），支持系统摄像头和UVC协议USB摄像头，宽动态值大于105Db成像清晰抗逆光。
+动作活体支持张嘴、微笑、眨眼、摇头、点头 随机1-2种组合验证，支持系统摄像头和UVC协议USB摄像头，宽动态值大于105Db成像清晰抗逆光。
 开发人员也可以自定义摄像头管理，把帧数据送入到SDK。更多说明联系邮箱： FaceAISDK.Service@gmail.com
 
 ![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
@@ -33,12 +33,9 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-##  V2025.10.21
-- 去除Debug模式的弹窗调试信息
-- 近距离但人脸完整不提示过近
-- 人脸搜索中 提示优化
-- UVC协议默认分辨率不支持情况处理
-- 完善返回给三方插件交互code message
+##  V2025.10.23
+- 排除某种动作活体setExceptMotionLivenessType，改为支持哪些类型setMotionLivenessTypes
+- 动作活体支持 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
 
 更多历史版本说明参考 [历史版本SDK更新记录](doc/历史版本SDK更新记录.md)
 
@@ -57,7 +54,7 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 
 1. 去蒲公英下载APK Demo体验各种功能，查验是否满足业务需求；人脸搜索可以一键导入App内置人脸图也可录入你自己的
 2. 更新GitHub 最新的代码，花1天左右时间熟悉SDK API 和对应的注释备注，断点调试一下基本功能；熟悉后再接入到主工程
-3. 欲速则不达，一定要先跑成功SDK接入指引Demo。熟悉后再接入到主工程验证匹配业务功能；有问题可以GitHub 提issues
+3. 欲速则不达，一定要先跑成功SDK接入示范Demo。熟悉后再接入到主工程验证匹配业务功能；有问题可以GitHub 提issues
 
 人脸识别已经验证过高中低配置设备，1万人脸搜索速度表现在几款设备统计如下，建议分库搜索以减少误差率：
 
@@ -115,6 +112,6 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 [外包FaceAISDK之UTS插件(uni-app兼容模式组件)开发](FaceAISDK%E4%B9%8BUTS%E6%8F%92%E4%BB%B6%28uni-app%E5%85%BC%E5%AE%B9%E6%A8%A1%E5%BC%8F%E7%BB%84%E4%BB%B6%29%E5%BC%80%E5%8F%91.md)  
 
 🪐
-![FaceAISDK](images/who_are_you.png)  
+![FaceAISDK](FaceAISDK.png)  
 
 [更多说明，请参考：FaceAISDK产品说明及API文档](FaceAISDK产品说明及API文档.pdf)  
