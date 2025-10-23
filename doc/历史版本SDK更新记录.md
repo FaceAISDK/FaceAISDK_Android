@@ -1,6 +1,11 @@
 
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
+##  V2025.10.23
+- 排除某种动作活体setExceptMotionLivenessType，改为支持哪些类型setMotionLivenessTypes
+- 动作活体支持 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头 ，根据上面API自由组合
+
+
 ##  V2025.10.21
 - 去除Debug模式的弹窗调试信息
 - 近距离但人脸完整不提示过近

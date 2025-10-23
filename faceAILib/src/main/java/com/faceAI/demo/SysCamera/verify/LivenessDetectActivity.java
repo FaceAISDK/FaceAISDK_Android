@@ -45,12 +45,13 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     public static final String FACE_LIVENESS_TYPE = "FACE_LIVENESS_TYPE";   //活体检测的类型
     public static final String MOTION_STEP_SIZE = "MOTION_STEP_SIZE";   //动作活体的步骤数
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
-    public static final String EXCEPT_MOTION_LIVENESS = "EXCEPT_MOTION_LIVENESS"; //排除的动作活体
+    public static final String MOTION_LIVENESS_TYPES = "MOTION_LIVENESS_TYPES"; //动作活体种类
+
     private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION; //活体检测类型
     private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = 7; //动作超时秒
-    private int exceptMotionLiveness = -1; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
+    private String motionLivenessTypes ="1,2,3,4,5" ; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,11 +93,11 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setLivenessOnly(true)
                 .setLivenessType(faceLivenessType) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
-                .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.88,0.98]
-                .setMotionLivenessStepSize(motionStepSize)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
-                .setMotionLivenessTimeOut(motionTimeOut)           //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
+                .setSilentLivenessThreshold(silentLivenessThreshold)   //静默活体阈值 [0.88,0.98]
+                .setMotionLivenessStepSize(motionStepSize)             //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
+                .setMotionLivenessTimeOut(motionTimeOut)               //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
                 .setLivenessDetectionMode(MotionLivenessMode.ACCURACY) //硬件配置低用FAST动作活体模式，否则用精确模式
-                .setExceptMotionLivenessType(exceptMotionLiveness) //动作活体去除微笑 或其他某一种
+                .setMotionLivenessTypes(motionLivenessTypes)           //动作活体种类。1 张张嘴,2 微笑,3 眨眨眼,4 摇摇头,5 点点头
                 .setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
 
@@ -343,8 +344,8 @@ public class LivenessDetectActivity extends AbsBaseActivity {
             if (intent.hasExtra(SILENT_THRESHOLD_KEY)) {
                 motionTimeOut = intent.getIntExtra(MOTION_TIMEOUT, 10);
             }
-            if (intent.hasExtra(EXCEPT_MOTION_LIVENESS)) {
-                exceptMotionLiveness = intent.getIntExtra(EXCEPT_MOTION_LIVENESS, -1);
+            if (intent.hasExtra(MOTION_LIVENESS_TYPES)) {
+                motionLivenessTypes = intent.getStringExtra(MOTION_LIVENESS_TYPES);
             }
         }
     }
