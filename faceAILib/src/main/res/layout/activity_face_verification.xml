@@ -89,18 +89,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tips_view" />
 
-    <TextView
-        android:id="@+id/silent_Score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="33dp"
-        android:padding="9dp"
-        android:textColor="@color/face_main_color"
-        android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

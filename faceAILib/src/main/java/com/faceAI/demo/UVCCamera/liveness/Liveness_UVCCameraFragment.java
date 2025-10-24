@@ -29,7 +29,7 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
     private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION;//活体检测类型
     private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
     private int motionStepSize = 2; //动作活体的个数
-    private int motionTimeOut = 10; //动作超时秒
+    private int motionTimeOut = 7; //动作超时秒
     private int exceptMotionLiveness = -1; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
 
     public Liveness_UVCCameraFragment() {
@@ -57,9 +57,9 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                 .setLivenessType(faceLivenessType) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
                 .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.88,0.98]
                 .setMotionLivenessStepSize(motionStepSize)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
-                .setMotionLivenessTimeOut(motionTimeOut)           //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
-                .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
-                .setExceptMotionLivenessType(exceptMotionLiveness) //动作活体去除微笑 或其他某一种
+                .setMotionLivenessTimeOut(motionTimeOut)            //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
+                .setLivenessDetectionMode(MotionLivenessMode.FAST)  //硬件配置低用FAST动作活体模式，否则用精确模式
+                .setMotionLivenessTypes("1,2,3,4,5")                //动作活体种类。1 张张嘴,2 微笑,3 眨眨眼,4 摇摇头,5 点点头
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
                      * 活体检测完成，动作活体没有超时（如有），静默活体设置了需要（不需要返回00）
@@ -69,7 +69,6 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                      */
                     @Override
                     public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
-
                         requireActivity().runOnUiThread(() -> {
                             tipsTextView.setText(R.string.liveness_detection_done);
                             VoicePlayer.getInstance().addPayList(R.raw.verify_success);
@@ -115,10 +114,7 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                 }).create();
 
         faceVerifyUtils.setDetectorParams(faceProcessBuilder);
-
     }
-
-
 
 
     /**
@@ -128,14 +124,14 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
      */
     void showFaceLivenessTips(int actionCode) {
         if (!requireActivity().isDestroyed() && !requireActivity().isFinishing()) {
-
             Log.e("RGBUVC","---- "+actionCode);
             requireActivity().runOnUiThread(() -> {
                 switch (actionCode) {
                     // 动作活体检测完成了
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
-                        VoicePlayer.getInstance().play(R.raw.face_camera);
-                        setTips(R.string.keep_face_visible);
+                        VoicePlayer.getInstance().play(R.raw.verify_success);
+                        setTips(R.string.liveness_detection_done);
+                        setSecondTips(0);
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.IR_IMAGE_NULL:

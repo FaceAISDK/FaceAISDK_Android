@@ -1,12 +1,24 @@
 
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
-##  V2025.10.13
+##  V2025.10.23
+- 排除某种动作活体setExceptMotionLivenessType，改为支持哪些类型setMotionLivenessTypes
+- 动作活体支持 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头 ，根据上面API自由组合
+
+
+##  V2025.10.21
+- 去除Debug模式的弹窗调试信息
+- 近距离但人脸完整不提示过近
+- 人脸搜索中 提示优化
+- UVC协议默认分辨率不支持情况处理
+- 完善返回给三方插件交互code message
+
+##  V2025.10.14
 - 添加英文文案（软件翻译可能词不达意）
 - SDK支持切换使用3种相机类型
 - setCameraType API 更改为FaceAICameraType类型（SYSTEM,UVC_RGB,UVC_RGB_IR）
 - 优化人脸过小，未检测到人脸判断
-- 优化交互过程的提升错误
+- 优化交互过程的提示错误
 
 ##  V2025.09.29
 - 添加光线强弱判断beta版本

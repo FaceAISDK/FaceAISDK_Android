@@ -20,7 +20,6 @@ import com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM;
 import com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
-import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.MyCameraXFragment;
 import com.faceAI.demo.SysCamera.search.ImageToast;
@@ -30,30 +29,29 @@ import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.base.view.DemoFaceCoverView;
 
 /**
- * 活体检测 SDK 接入演示Demo 代码.
+ * 活体检测 SDK 接入演示代码.
  * 使用系统相机怎么活体检测，包含动作活体，静默活体（静默需要摄像头成像清晰，宽动态大于105Db）
  *
  * 摄像头管理源码开放了 {@link MyCameraXFragment}
+ * More：<a href="https://github.com/FaceAISDK/FaceAISDK_Android">人脸识别FaceAISDK</a>
  * @author FaceAISDK.Service@gmail.com
  */
 public class LivenessDetectActivity extends AbsBaseActivity {
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private DemoFaceCoverView faceCoverView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
-
     private MyCameraXFragment cameraXFragment;
-
     public static final String SILENT_THRESHOLD_KEY = "SILENT_THRESHOLD_KEY";   //RGB 静默活体KEY
     public static final String FACE_LIVENESS_TYPE = "FACE_LIVENESS_TYPE";   //活体检测的类型
     public static final String MOTION_STEP_SIZE = "MOTION_STEP_SIZE";   //动作活体的步骤数
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
-    public static final String EXCEPT_MOTION_LIVENESS = "EXCEPT_MOTION_LIVENESS"; //排除的动作活体
+    public static final String MOTION_LIVENESS_TYPES = "MOTION_LIVENESS_TYPES"; //动作活体种类
 
-    private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION;//活体检测类型
+    private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION; //活体检测类型
     private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
     private int motionStepSize = 2; //动作活体的个数
-    private int motionTimeOut = 10; //动作超时秒
-    private int exceptMotionLiveness = -1; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
+    private int motionTimeOut = 7; //动作超时秒
+    private String motionLivenessTypes ="1,2,3,4,5" ; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +62,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         tipsTextView = findViewById(R.id.tips_view);
         secondTipsTextView = findViewById(R.id.second_tips_view);
         faceCoverView = findViewById(R.id.face_cover);
-        findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(0,"用户取消"));
+        findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(0, R.string.face_verify_result_cancel));
 
         getIntentParams(); //接收三方插件的参数 数据
 
@@ -92,43 +90,31 @@ public class LivenessDetectActivity extends AbsBaseActivity {
      */
     private void initFaceVerificationParam() {
         //建议老的低配设备减少活体检测步骤
-        FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(LivenessDetectActivity.this)
+        FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setLivenessOnly(true)
                 .setLivenessType(faceLivenessType) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
-                .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.88,0.98]
-                .setMotionLivenessStepSize(motionStepSize)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
-                .setMotionLivenessTimeOut(motionTimeOut)           //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
-                .setLivenessDetectionMode(MotionLivenessMode.FAST) //硬件配置低用FAST动作活体模式，否则用精确模式
-                .setExceptMotionLivenessType(exceptMotionLiveness) //动作活体去除微笑 或其他某一种
+                .setSilentLivenessThreshold(silentLivenessThreshold)   //静默活体阈值 [0.88,0.98]
+                .setMotionLivenessStepSize(motionStepSize)             //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
+                .setMotionLivenessTimeOut(motionTimeOut)               //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
+                .setLivenessDetectionMode(MotionLivenessMode.ACCURACY) //硬件配置低用FAST动作活体模式，否则用精确模式
+                .setMotionLivenessTypes(motionLivenessTypes)           //动作活体种类。1 张张嘴,2 微笑,3 眨眨眼,4 摇摇头,5 点点头
                 .setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
 
                     /**
-                     * 活体检测完成，动作活体没有超时（如有），静默活体设置了需要（不需要返回00）
+                     * 动作活体检测完成，同时返回RGB静默活体分数(setLivenessType设置过)
                      *
-                     * @param silentLivenessValue
-                     * @param bitmap
+                     * @param silentLivenessValue RGB静默活体分数,RGB分数可靠性和摄像头会有关，请确认。
+                     * @param bitmap 活体检测快照，可以用于log记录
                      */
                     @Override
                     public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
-                        BitmapUtils.saveBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //给插件用
-                        if(FaceSDKConfig.isDebugMode(getBaseContext())){
-                            runOnUiThread(() -> {
-                                scoreText.setText("RGB Live:"+silentLivenessValue);
-                                new ImageToast().show(getApplicationContext(), bitmap, "活体检测完成");
-                                new AlertDialog.Builder(LivenessDetectActivity.this)
-                                        .setTitle("Debug模式提示")
-                                        .setMessage("活体检测完成，其中RGB Live分数="+silentLivenessValue)
-                                        .setCancelable(false)
-                                        .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                                            finishFaceVerify(9,"活体检测完成",silentLivenessValue);
-                                        })
-                                        .setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify())
-                                        .show();
-                            });
-                        }else{
-                            finishFaceVerify(9,"活体检测完成",silentLivenessValue);
-                        }
+                        BitmapUtils.saveBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
+
+                        runOnUiThread(() -> {
+                            new ImageToast().show(getApplicationContext(), bitmap, getString(R.string.liveness_detection_done)+" " + silentLivenessValue);
+                            finishFaceVerify(9,R.string.liveness_detection_done,silentLivenessValue);
+                        });
                     }
 
                     //人脸识别，活体检测过程中的各种提示
@@ -165,16 +151,11 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         });
 
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
+    
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finishFaceVerify(0,"用户取消");
+        finishFaceVerify(0, R.string.face_verify_result_cancel);
     }
 
     /**
@@ -190,43 +171,44 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 switch (actionCode) {
                     // 动作活体检测完成了
                     case ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
-                        VoicePlayer.getInstance().play(R.raw.face_camera);
-                        setSearchTips(R.string.keep_face_visible);
+                        VoicePlayer.getInstance().play(R.raw.verify_success);
+                        setMainTips(R.string.keep_face_visible); //2秒后抓取一张正脸图
+                        setSecondTips(0);
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:
-                        setSearchTips(R.string.face_verifying);
+                        setMainTips(R.string.face_verifying);
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:
-                        setSearchTips(R.string.motion_liveness_detection_failed);
+                        setMainTips(R.string.motion_liveness_detection_failed);
                         break;
 
                     case ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
                         VoicePlayer.getInstance().play(R.raw.open_mouse);
-                        setSearchTips(R.string.repeat_open_close_mouse);
+                        setMainTips(R.string.repeat_open_close_mouse);
                         break;
 
                     case ALIVE_DETECT_TYPE_ENUM.SMILE: {
-                        setSearchTips(R.string.motion_smile);
+                        setMainTips(R.string.motion_smile);
                         VoicePlayer.getInstance().play(R.raw.smile);
                     }
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.BLINK: {
                         VoicePlayer.getInstance().play(R.raw.blink);
-                        setSearchTips(R.string.motion_blink_eye);
+                        setMainTips(R.string.motion_blink_eye);
                     }
                     break;
 
                     case ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD:
                         VoicePlayer.getInstance().play(R.raw.shake_head);
-                        setSearchTips(R.string.motion_shake_head);
+                        setMainTips(R.string.motion_shake_head);
                         break;
 
                     case ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
                         VoicePlayer.getInstance().play(R.raw.nod_head);
-                        setSearchTips(R.string.motion_node_head);
+                        setMainTips(R.string.motion_node_head);
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.PAUSE_VERIFY:
@@ -234,7 +216,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                                 .setMessage(R.string.face_verify_pause)
                                 .setCancelable(false)
                                 .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                                    finishFaceVerify(6,"活体检测中断");
+                                    finishFaceVerify(6, R.string.face_verify_result_pause);
                                 })
                                 .show();
                         break;
@@ -246,7 +228,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                                 .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                             retryTime++;
                                             if (retryTime > 1) {
-                                                finishFaceVerify(3,"活体检测超时");
+                                                finishFaceVerify(3, R.string.face_verify_result_timeout);
                                             } else {
                                                 faceVerifyUtils.retryVerify();
                                             }
@@ -255,12 +237,12 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                         break;
 
                     case VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
-                        setSearchTips(R.string.no_face_or_repeat_switch_screen);
+                        setMainTips(R.string.no_face_or_repeat_switch_screen);
                         new AlertDialog.Builder(this)
                                 .setMessage(R.string.stop_verify_tips)
                                 .setCancelable(false)
                                 .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                                    finishFaceVerify(5,"多次检测无人脸");
+                                    finishFaceVerify(5, R.string.face_verify_result_no_face_multi_time);
                                 })
                                 .show();
                         break;
@@ -289,24 +271,25 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     }
 
 
-    private void setSearchTips(int resId) {
+    /**
+     * 主要提示
+     */
+    private void setMainTips(int resId) {
         tipsTextView.setText(resId);
     }
 
     /**
      * 第二行提示
-     * @param resId
      */
-    private void setSecondTips(int resId){
-        if(resId==0){
+    private void setSecondTips(int resId) {
+        if (resId == 0) {
             secondTipsTextView.setText("");
             secondTipsTextView.setVisibility(View.INVISIBLE);
-        }else {
-            secondTipsTextView.setText(resId);
+        } else {
             secondTipsTextView.setVisibility(View.VISIBLE);
+            secondTipsTextView.setText(resId);
         }
     }
-
 
 
     /**
@@ -361,8 +344,8 @@ public class LivenessDetectActivity extends AbsBaseActivity {
             if (intent.hasExtra(SILENT_THRESHOLD_KEY)) {
                 motionTimeOut = intent.getIntExtra(MOTION_TIMEOUT, 10);
             }
-            if (intent.hasExtra(EXCEPT_MOTION_LIVENESS)) {
-                exceptMotionLiveness = intent.getIntExtra(EXCEPT_MOTION_LIVENESS, -1);
+            if (intent.hasExtra(MOTION_LIVENESS_TYPES)) {
+                motionLivenessTypes = intent.getStringExtra(MOTION_LIVENESS_TYPES);
             }
         }
     }
@@ -370,20 +353,18 @@ public class LivenessDetectActivity extends AbsBaseActivity {
 
     /**
      * 识别结束返回结果, 为了给uniApp UTS插件，RN，Flutter统一的交互返回格式
-     *
-     * @param code
-     * @param msg
      */
-    private void finishFaceVerify(int code, String msg) {
-        finishFaceVerify(code,msg,0f);
+    private void finishFaceVerify(int code,int msgStrRes) {
+        finishFaceVerify(code,msgStrRes,0f);
     }
 
-    private void finishFaceVerify(int code, String msg,float silentLivenessScore) {
+    private void finishFaceVerify(int code, int msgStrRes,float silentLivenessScore) {
         Intent intent = new Intent().putExtra("code", code)
-                .putExtra("msg", msg)
+                .putExtra("msg", getString(msgStrRes))
                 .putExtra("silentLivenessScore", silentLivenessScore);
         setResult(RESULT_OK, intent);
         finish();
     }
+
 }
 

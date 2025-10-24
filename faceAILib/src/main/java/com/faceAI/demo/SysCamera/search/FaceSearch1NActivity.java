@@ -41,7 +41,7 @@ import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
 import java.util.List;
 
 /**
- * 1:N 人脸搜索识别「1:N face search」
+ * 1:N 人脸搜索识别「1:N face search」，https://github.com/FaceAISDK/FaceAISDK_Android
  * <p>
  * 1. 使用的宽动态（室内大于105DB,室外大于120DB）高清抗逆光摄像头；**保持镜头整洁干净（汗渍 油污）**
  * 2. 录入高质量清晰正脸图，脸部清晰
@@ -51,9 +51,9 @@ import java.util.List;
  * 怎么提高人脸搜索识别系统的准确度？https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
  * <p>
  * 网盘分享的3000 张人脸图链接: https://pan.baidu.com/s/1RfzJlc-TMDb0lQMFKpA-tQ?pwd=Face 提取码: Face
- * 可复制到工程目录 ./faceAILib/src/main/assert 下后在Demo 的人脸库管理页面一键导入模拟插入多张人脸图
+ * 可复制到工程目录 ./faceAILib/src/main/assert 的人脸库,在管理页面一键导入模拟插入多张人脸图
  * <p>
- * 摄像头管理源码开放在 {@link MyCameraXFragment} 摄像头用户自行管理，不属于SDK
+ * 摄像头管理源码开放在 {@link MyCameraXFragment}
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceSearch1NActivity extends AbsBaseActivity {
@@ -111,6 +111,18 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 .setSearchIntervalTime(1900) //默认2000，范围[1500,3000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //后面版本去除次参数
                 .setProcessCallBack(new SearchProcessCallBack() {
+                    /**
+                     * onMostSimilar 是返回搜索到最相似的人脸，有可能光线弱，人脸底片不合规导致错误匹配
+                     * 业务上可以添加容错处理，onFaceMatched会返回所有大于设置阈值的结果并排序好
+                     *
+                     * 强烈建议使用支持宽动态的高品质摄像头，录入高品质人脸
+                     * SearchProcessBuilder setCallBackAllMatch(true) onFaceMatched才会回调
+                     */
+                    @Override
+                    public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
+                        //已经按照降序排列，可以弹出一个列表框
+                        Log.d("onFaceMatched","符合设定阈值的结果: "+matchedResults.toString());
+                    }
 
                     /**
                      * 最相似的人脸搜索识别结果，得分最高
@@ -124,19 +136,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                         new ImageToast().show(getApplicationContext(), mostSimilarBmp, faceID.replace(".jpg"," ")+score);
                         VoicePlayer.getInstance().play(R.raw.success);
                         binding.graphicOverlay.clearRect();
-                    }
-
-                    /**
-                     * onMostSimilar 是返回搜索到最相似的人脸，有可能光线人脸底片不合规导致错误匹配
-                     * 业务上可以添加容错处理，onFaceMatched会返回所有大于设置阈值的结果
-                     *
-                     * 但还是强烈建议使用高品质摄像头，录入高品质人脸
-                     * SearchProcessBuilder setCallBackAllMatch(true) onFaceMatched才会回调
-                     */
-                    @Override
-                    public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
-                        //已经按照降序排列，可以弹出一个列表框
-                        Log.d("onFaceMatched","符合设定阈值的结果: "+matchedResults.toString());
                     }
 
                     /**
@@ -214,6 +213,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         switch (code) {
             case NO_MATCHED:
                 //本次没有搜索匹配到结果，下一帧继续
+                setSecondTips(R.string.no_matched_face);
                 break;
 
             case FACE_DIR_EMPTY:
@@ -272,7 +272,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 break;
         }
     }
-
 
     private void setSearchTips(int resId) {
         binding.searchTips.setText(resId);

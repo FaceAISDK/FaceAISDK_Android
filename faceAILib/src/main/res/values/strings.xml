@@ -37,7 +37,7 @@
     <string name="not_real_face">Not real human face</string>
     <string name="not_real_face_for_debug">Not real human face </string>
     <string name="add_a_face_image">Add a face image </string>
-    <string name="add_face_from_photo">add from photo</string>
+    <string name="add_face_from_photo">add from album</string>
     <string name="add_face_from_camera">add by camera</string>
     <string name="input_face_id_tips">Please input face name</string>
     <string name="confirm_add_face_title">Confirm add this face？</string>
@@ -51,7 +51,7 @@
     <string name="copy_app_assert_folder_faces">Copy app assert folder face images</string>
     <string name="face_search_by_system_camera">Face Search by system camera</string>
     <string name="face_search_by_uvc_camera">Face Search by UVC camera</string>
-    <string name="face_search_camera_tips">Camera WDR (Db) >105 for indoors and >120 for outdoors; use a fill light when need</string>
+    <string name="face_search_camera_tips">Camera WDR >105Db indoors,>120 outdoors; use a fill light when need</string>
     <string name="face_search_image_manger">Face images manger</string>
     <string name="face_search_image_manger_tips">Long press delete the face,right|top button to add new face</string>
 
@@ -64,6 +64,14 @@
     <string name="face_verify_pause">Face verify pause！Please retry</string>
     <string name="face_verify_demo">1:1 face verify demo</string>
     <string name="face_verify_no_face_tips">No face has been added yet\nClick the button above to add face image, long press the face to delete</string>
+    <string name="no_face_image_found">No face image found</string>
+    <string name="face_verify_result_cancel">Cancel face verify by user</string>
+    <string name="face_verify_result_success">Face verify success</string>
+    <string name="face_verify_result_silent_failed">Face verify silent failed</string>
+    <string name="face_verify_result_timeout">Face verify timeout</string>
+    <string name="face_verify_result_failed">Face verify failed</string>
+    <string name="face_verify_result_no_face_multi_time">No Face multi times</string>
+    <string name="face_verify_result_pause">Face verify pause</string>
 
     <!--Motion liveness detection-->
     <string name="liveness_detection">Liveness detection</string>
@@ -109,6 +117,7 @@
 
     <!-- About UVC USB camera-->
     <string name="uvc_camera_match_failed">. match failed,please go setting select right camera</string>
+    <string name="uvc_camera_resolution_error">unSupport camera resolution %1$1d %2$1d，switch to %3$1d %4$1d</string>
 
     <!-- Setting camera-->
     <string name="system_camera_setting">System camera setting</string>
@@ -119,6 +128,9 @@
     <string name="uvc_camera_horizontal_mirror_ir">Horizontal mirror IR camera degree</string>
     <string name="uvc_camera_degree_rgb">Change IR camera degree</string>
     <string name="uvc_camera_horizontal_mirror_rgb">Horizontal mirror IR camera degree</string>
+    <string name="uvc_camera_resolution_rgb">RGB camera resolution select</string>
+    <string name="uvc_camera_resolution_ir">IR camera resolution select</string>
+
 
     <string name="gentle_reminder">Gentle Reminder</string>
     <string name="gentle_reminder_func">All SDK functions work offline and do not collect facial data.To better experience the demo, please ensure:</string>
