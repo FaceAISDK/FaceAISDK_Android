@@ -7,7 +7,7 @@
    SDK 目前托管在Maven central，SDK所有功能都是离线端侧运行。
 
 ### 1.集成SDK开发环境和Gradle 插件版本是怎样的？
-   开发环境 Android Studio Iguana | 2025.1.1
+   开发环境 Android Studio Iguana | 2025.1.4
    gradle 版本 7.4.2 ， gradle插件版本 7.6.6  
    **java17 , kotlin 1.9.22**
 
@@ -56,9 +56,12 @@
      }                   
    ```
 
-### 5.uniApp 原生插件支持
-   使用我们的公版uniAPP demo项目集成  https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS
-   目前已经支持iOS，Android 1:1人脸识别和人脸录入等，细节可以修改原生部分代码重新打包实现。
+### 5.SDK插件支持
+   SDK 插件支持并不是十分完善，需要用户自行根据业务再完善，当前已有插件
+   1.uniapp X : https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS
+   2.uniApp : https://github.com/FaceAISDK/UniPlugin-FaceAISDK  
+   3.React native: https://github.com/zkteco-home/react-native-face-ai
+   欢迎各位大佬制作完善分享flutter 等插件
 
 ### 6.人脸识别的阈值设置说明
    1:1 和 1:N 人脸识别都有相应的API设置阈值setThreshold(0.88f) //阈值设置，范围限 [0.75 , 0.95]
@@ -99,6 +102,10 @@
    不能直接通过File操作，必须要通过SDK API进行，因为要提取人脸特征向量和建立搜索库索引才能快速搜索
    如FaceSearchImagesManger.Companion.getInstance().insertOrUpdateFaceImage()
 
-
+### 11.人脸识别隐私合规
+   SDK 已经通过合规检查，业务方也应符合相关法律法规的要求，主要是2点
+   1.不能随意大规模收集，传播人脸信息
+   2.人脸识别不能是唯一业务校验通道（比如登录除了人脸识别还要支持账号密码，小区门禁还需提供扫码或刷卡）
+   更多参考 https://www.cac.gov.cn/2025-03/21/c_1744174262156096.htm
 
 

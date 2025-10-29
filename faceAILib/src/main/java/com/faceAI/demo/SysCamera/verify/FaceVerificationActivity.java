@@ -63,7 +63,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     public static final String MOTION_LIVENESS_TYPES = "MOTION_LIVENESS_TYPES"; //动作活体种类
 
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
-    private float verifyThreshold = 0.85f; //1:1 人脸识别对比通过的阈值
+    private float verifyThreshold = 0.84f; //1:1 人脸识别对比通过的阈值，根据使用场景自行调整
     private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = 7; //动作超时秒
@@ -142,7 +142,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 .setThreshold(verifyThreshold)          //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
                 .setFaceEmbedding(faceEmbedding)        //1:1 人脸识别对比的底片人脸特征向量，以前是传bitmap
                 .setCameraType(FaceAICameraType.SYSTEM_CAMERA)  //相机类型，目前分为3种
-                .setCompareDurationTime(3500)           //人脸识别对比时间[3000,5000] 毫秒。相似度低会持续识别比对的时间
+                .setCompareDurationTime(4000)           //人脸识别对比时间[3000,6000] 毫秒。相似度低会持续识别比对的时间
                 .setLivenessType(faceLivenessType)      //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
                 .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.66,0.98]
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)    //硬件配置低或不需太严格用FAST快速模式，否则用精确模式

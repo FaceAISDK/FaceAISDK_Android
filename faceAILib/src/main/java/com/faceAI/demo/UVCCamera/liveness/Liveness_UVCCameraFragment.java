@@ -1,5 +1,7 @@
 package com.faceAI.demo.UVCCamera.liveness;
 
+import static com.faceAI.demo.FaceSDKConfig.CACHE_FACE_LOG_DIR;
+
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +18,7 @@ import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
+import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.faceAI.demo.base.utils.VoicePlayer;
 
@@ -72,20 +75,8 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                         requireActivity().runOnUiThread(() -> {
                             tipsTextView.setText(R.string.liveness_detection_done);
                             VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-
-                            if(FaceSDKConfig.isDebugMode(requireContext())){
-                                scoreText.setText("RGB Live:"+silentLivenessValue);
-                                new ImageToast().show(requireContext(), bitmap, "活体检测完成");
-                                new AlertDialog.Builder(requireActivity())
-                                        .setTitle("Debug模式提示")
-                                        .setMessage("活体检测完成，其中RGB Live分数="+silentLivenessValue)
-                                        .setCancelable(false)
-                                        .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                                            requireActivity().finish();
-                                        })
-                                        .setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify())
-                                        .show();
-                            }
+                            BitmapUtils.saveBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
+                            requireActivity().finish();
                         });
                     }
 
