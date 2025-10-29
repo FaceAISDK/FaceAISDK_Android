@@ -33,9 +33,12 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-##  V2025.10.23
+##  V2025.10.31
 - 排除某种动作活体setExceptMotionLivenessType，改为支持哪些类型setMotionLivenessTypes
 - 动作活体支持 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
+- 亮度检测更新
+- Demo添加bugly 手机在线闪退日志
+- 设备配置检测并分为高中低3个档次
 
 更多历史版本说明参考 [历史版本SDK更新记录](doc/历史版本SDK更新记录.md)
 
@@ -103,8 +106,7 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 <div align=center>
 <img src="https://www.pgyer.com/app/qrcode/faceVerify" width = 19%   alt="请点击上面下载地址"/>
 </div>  
-  
-  
+
 
  **都看到这了，顺手帮忙点个🌟Star吧**   
 
