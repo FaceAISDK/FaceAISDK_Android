@@ -6,15 +6,15 @@
    SDK不读取任何敏感信息，严格限制运行获取权限仅需一个相机运行权限，充分保护隐私数据，不联网就能工作更不会收集上传人脸关键信息。
    SDK 目前托管在Maven central，SDK所有功能都是离线端侧运行。
 
-### 1.集成SDK开发环境和Gradle 插件版本是怎样的？
-   开发环境 Android Studio Iguana | 2025.1.1
-   gradle 版本 7.4.2 ， gradle插件版本 7.6.6  
-   **java17 , kotlin 1.9.22**
+### 1.集成SDK开发环境和Gradle插件版本是怎样的？
+   开发环境 Android Studio 2025.1.4 | 2025.1.4
+   AGP 版本8.13.0 java17 , kotlin 1.9.22
 
-   如果你的项目还有kapt请迁移至KSP，kapt官方已经停止维护,否则可能需要处理冲突
-   kotlin-android-extensions官方也已经停止维护，建议升级为viewbinding
-   其他集成问题，请根据报错搜索解决方案,需要降级依赖版本配置VIP用户可以联系协助解决
-
+   目前SDK Demo默认使用**Android Studio2025.1.4 + java17 + kotlin1.9.22 + AGP8.13 打包
+   不建议再使用废弃的kapt, kotlin-android-extensions
+ 
+   注：为了Debug View Bitmap以及更好的使用AI 辅助编程开发,2025年10月31号我们对开发环境升级到上述版本
+   更多：https://mp.weixin.qq.com/s/048q5A1D3U_bdJY6tfsAwQ
 ### 2.支持哪些摄像头？
    SDK并不限制具体类型摄像头，当前支持System,UVC_RGB,UVC_RGB_IR，具体参数参考/Doc目录/硬件配置要求
    需根据你的硬件平台特性自行管理摄像头，Demo提供默认CameraXFragment,你也可以使用camera1管理系统摄像头
@@ -56,9 +56,12 @@
      }                   
    ```
 
-### 5.uniApp 原生插件支持
-   使用我们的公版uniAPP demo项目集成  https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS
-   目前已经支持iOS，Android 1:1人脸识别和人脸录入等，细节可以修改原生部分代码重新打包实现。
+### 5.SDK插件支持
+   SDK 插件支持并不是十分完善，需要用户自行根据业务再完善，当前已有插件
+   1.uniapp X : https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS
+   2.uniApp : https://github.com/FaceAISDK/UniPlugin-FaceAISDK  
+   3.React native: https://github.com/zkteco-home/react-native-face-ai
+   欢迎各位大佬制作完善分享flutter 等插件
 
 ### 6.人脸识别的阈值设置说明
    1:1 和 1:N 人脸识别都有相应的API设置阈值setThreshold(0.88f) //阈值设置，范围限 [0.75 , 0.95]
@@ -99,6 +102,10 @@
    不能直接通过File操作，必须要通过SDK API进行，因为要提取人脸特征向量和建立搜索库索引才能快速搜索
    如FaceSearchImagesManger.Companion.getInstance().insertOrUpdateFaceImage()
 
-
+### 11.人脸识别隐私合规
+   SDK 已经通过合规检查，业务方也应符合相关法律法规的要求，主要是2点
+   1.不能随意大规模收集，传播人脸信息
+   2.人脸识别不能是唯一业务校验通道（比如登录除了人脸识别还要支持账号密码，小区门禁还需提供扫码或刷卡）
+   更多参考 https://www.cac.gov.cn/2025-03/21/c_1744174262156096.htm
 
 

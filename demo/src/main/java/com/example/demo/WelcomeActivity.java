@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.faceAI.demo.FaceAINaviActivity;
 import com.faceAI.demo.FaceSDKConfig;
+import com.tencent.bugly.crashreport.CrashReport;
 
 /**
  * 演示快速集成到你的主工程，人脸识别相关放到 FaceAILIb 里面
@@ -28,16 +29,21 @@ public class WelcomeActivity extends AppCompatActivity {
         TextView sdkVersion=findViewById(R.id.sdk_version);
         sdkVersion.setText("SDK Version: "+getVersionName());
 
-        //人脸图保存路径等初始化配置
+        // 人脸图保存路径等初始化配置
         FaceSDKConfig.init(this);
-
-        //获取你的应用签名，Demo SHA1: B5:CB:44:5A:18:7D:73:F4:A0:A3:E4:53:45:64:9D:D3:F1:74:10:58
-        String sha1=AppSigning.getSha1(getBaseContext());
 
         new Handler().postDelayed(() -> {
             startActivity(new Intent(WelcomeActivity.this, FaceAINaviActivity.class));
             finish();
-        }, 1600);
+        }, 2000);
+
+        //获取你的应用签名，Demo SHA1: B5:CB:44:5A:18:7D:73:F4:A0:A3:E4:53:45:64:9D:D3:F1:74:10:58
+        String sha1=AppSigning.getSha1(getBaseContext());
+
+        // 收集Crash,ANR 运行日志
+        if (!BuildConfig.DEBUG) {
+            CrashReport.initCrashReport(this, "36fade54d8", true);
+        }
 
     }
 

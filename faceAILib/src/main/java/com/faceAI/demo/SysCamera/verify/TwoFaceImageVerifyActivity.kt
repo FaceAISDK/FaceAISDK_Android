@@ -26,7 +26,7 @@ import androidx.core.graphics.drawable.toDrawable
 
 
 /**
- * 对比两张图片中人脸相似度
+ * 对比两张图片中人脸相似度，SDK开放基础功能
  *
  * 裁剪出图片中的人脸部分进行相似度比较，如果某一张照片中没有检测到人脸，则相似度返回为0。
  *

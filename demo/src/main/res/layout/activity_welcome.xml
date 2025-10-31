@@ -13,7 +13,7 @@
         android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/welcome"
+        android:src="@drawable/who_are_you"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,10 +25,22 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/white"
-        android:paddingBottom="44dp"
+        android:paddingBottom="45dp"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/logo"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:paddingBottom="15dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:text="FaceAISDK.Service@gmail.com"
+        app:layout_constraintBottom_toTopOf="@+id/sdk_version" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
