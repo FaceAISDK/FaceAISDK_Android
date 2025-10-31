@@ -17,7 +17,7 @@ import com.faceAI.demo.base.AbsBaseActivity;
 import java.nio.ByteBuffer;
 
 /**
- * 自定义调试管理摄像头，把SDK 中的源码暴露出来放在 {@link MyCameraXFragment}
+ * 自定义调试管理摄像头，把SDK 中的源码暴露出来放在 {@link FaceCameraXFragment}
  *
  */
 public class CustomCameraActivity extends AbsBaseActivity {
@@ -43,7 +43,7 @@ public class CustomCameraActivity extends AbsBaseActivity {
                 .setRotation(degree)      //画面旋转方向
                 .create();
 
-        MyCameraXFragment cameraXFragment = MyCameraXFragment.newInstance(cameraXBuilder);
+        FaceCameraXFragment cameraXFragment = FaceCameraXFragment.newInstance(cameraXBuilder);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
 

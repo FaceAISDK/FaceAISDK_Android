@@ -13,7 +13,6 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_LIVE_FACE;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_MATCHED;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCHING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -184,9 +183,6 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                 setSecondTips(0);
                 break;
 
-            case TOO_MUCH_FACE:
-                setSecondTips(R.string.multiple_faces_tips);
-                break;
         }
     }
 

@@ -3,12 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.demo'
     compileSdk = 36
 
     defaultConfig {
-        versionCode 20251023
-        versionName "20251023"
+        versionCode 20251031
+        versionName "20251031"
 
         applicationId "com.ai.face.verifyPub"
         minSdk 21
@@ -19,6 +18,7 @@ android {
             abiFilters 'armeabi-v7a', 'arm64-v8a' //根据CPU架构选择对应ABI
         }
     }
+    namespace 'com.example.demo'
 
     signingConfigs {
         release {
@@ -32,7 +32,7 @@ android {
     buildTypes {
         debug {
             minifyEnabled true
-            shrinkResources false
+            shrinkResources true
             debuggable true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -41,7 +41,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            debuggable true
+            debuggable false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -80,7 +80,7 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Demo 为了收集 Crash
+    // Demo 为了收集 Crash，上线google play 删除
     api 'com.tencent.bugly:crashreport:4.1.9.3'
 
 
