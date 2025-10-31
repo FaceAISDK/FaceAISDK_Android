@@ -1,7 +1,6 @@
 package com.faceAI.demo.SysCamera.camera;
 
 import android.content.Context;
-import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
@@ -13,11 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.camera.camera2.Camera2Config;
 import androidx.camera.core.Camera;
-import androidx.camera.core.CameraInfo;
 import androidx.camera.core.CameraSelector;
-import androidx.camera.core.CameraXConfig;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
@@ -45,14 +41,14 @@ import java.util.concurrent.Executors;
  *
  * @author FaceAISDK.Service@gmail.com
  */
-public class MyCameraXFragment extends Fragment {
+public class FaceCameraXFragment extends Fragment {
     private static final String CAMERA_LINEAR_ZOOM = "CAMERA_LINEAR_ZOOM";  //焦距缩放比例
     private static final String CAMERA_LENS_FACING = "CAMERA_LENS_FACING";  //前后配置
     private static final String CAMERA_ROTATION = "CAMERA_ROTATION";  //旋转
     private int rotation = Surface.ROTATION_0; //旋转角度
     private int cameraLensFacing = 0; //默认前置摄像头
     private float scaleX = 0f, scaleY = 0f;
-    private float linearZoom = 0.01f; //焦距
+    private float linearZoom = 0f; //焦距
     private float mDefaultBright;
     private ProcessCameraProvider cameraProvider;
     private onAnalyzeData analyzeDataCallBack;
@@ -64,7 +60,7 @@ public class MyCameraXFragment extends Fragment {
     private PreviewView previewView;
 
 
-    public MyCameraXFragment() {
+    public FaceCameraXFragment() {
         // Required empty public constructor
     }
 
@@ -76,8 +72,8 @@ public class MyCameraXFragment extends Fragment {
         void analyze(@NonNull ImageProxy imageProxy);
     }
 
-    public static MyCameraXFragment newInstance(CameraXBuilder cameraXBuilder) {
-        MyCameraXFragment fragment = new MyCameraXFragment();
+    public static FaceCameraXFragment newInstance(CameraXBuilder cameraXBuilder) {
+        FaceCameraXFragment fragment = new FaceCameraXFragment();
         Bundle args = new Bundle();
         args.putInt(CAMERA_LENS_FACING, cameraXBuilder.getCameraLensFacing());
         args.putFloat(CAMERA_LINEAR_ZOOM, cameraXBuilder.getLinearZoom());
@@ -91,7 +87,7 @@ public class MyCameraXFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             cameraLensFacing = getArguments().getInt(CAMERA_LENS_FACING, 0); //默认的摄像头
-            linearZoom = getArguments().getFloat(CAMERA_LINEAR_ZOOM, 0.01f);
+            linearZoom = getArguments().getFloat(CAMERA_LINEAR_ZOOM, 0f);
             rotation = getArguments().getInt(CAMERA_ROTATION, Surface.ROTATION_0);
         }
     }
@@ -100,7 +96,7 @@ public class MyCameraXFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.my_camera_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.face_camerax_fragment, container, false);
         mDefaultBright = BrightnessUtil.getBrightness(requireActivity());
         initCameraXAnalysis(rootView);
 
@@ -122,7 +118,6 @@ public class MyCameraXFragment extends Fragment {
         //图像预览和摄像头原始数据回调 暴露，以便后期格式转换和处理
         //图像编码默认格式 YUV_420_888。
         cameraProviderFuture.addListener(() -> {
-
             // Camera provider is now guaranteed to be available
             try {
                 cameraProvider = cameraProviderFuture.get();
@@ -130,11 +125,12 @@ public class MyCameraXFragment extends Fragment {
                 Log.e("FaceAI SDK", "\ncameraProviderFuture.get() 发生错误！\n" + e.toString());
             }
 
-            //imageAnalysis 人脸识别分析设置。默认分辨率640*480。根据你的场景，摄像头特性和硬件配置设置合理的参数
+            //送入人脸识别FaceAISDK画面分析设置。根据你的场景，摄像头特性和硬件配置设置合理的参数
             imageAnalysis = new ImageAnalysis.Builder()
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                     .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
-                    .setTargetRotation(rotation)
+                    .setTargetRotation(rotation) //画面选择角度
+//                    .setTargetResolution(new Size(1280,720)) //设置分辨率,默认640*480。无特殊场景默认就够了
                     .build();
 
             //摄像头画面预览默认分辨率也是640*480。

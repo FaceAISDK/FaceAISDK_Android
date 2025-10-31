@@ -12,7 +12,6 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_LIVE_FACE;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_MATCHED;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCHING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 
@@ -34,7 +33,7 @@ import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
 import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
-import com.faceAI.demo.SysCamera.camera.MyCameraXFragment;
+import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
@@ -53,13 +52,13 @@ import java.util.List;
  * 网盘分享的3000 张人脸图链接: https://pan.baidu.com/s/1RfzJlc-TMDb0lQMFKpA-tQ?pwd=Face 提取码: Face
  * 可复制到工程目录 ./faceAILib/src/main/assert 的人脸库,在管理页面一键导入模拟插入多张人脸图
  * <p>
- * 摄像头管理源码开放在 {@link MyCameraXFragment}
+ * 摄像头管理源码开放在 {@link FaceCameraXFragment}
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceSearch1NActivity extends AbsBaseActivity {
     //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
-    private MyCameraXFragment cameraXFragment; //可以使用开放的摄像头管理源码MyCameraFragment，自行管理摄像头
+    private FaceCameraXFragment cameraXFragment; //可以使用开放的摄像头管理源码MyCameraFragment，自行管理摄像头
     private boolean pauseSearch =false; //控制是否送数据到SDK进行搜索
     private int cameraLensFacing;
 
@@ -88,7 +87,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 .create();
 
         //可以不用SDK 内部相机管理，自定义摄像头参考MyCameraFragment，源码开放自由修改
-        cameraXFragment = MyCameraXFragment.newInstance(cameraXBuilder);
+        cameraXFragment = FaceCameraXFragment.newInstance(cameraXBuilder);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
 
@@ -255,9 +254,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 setSecondTips(0);
                 break;
 
-            case TOO_MUCH_FACE:
-                Toast.makeText(this, R.string.multiple_faces_tips, Toast.LENGTH_SHORT).show();
-                break;
 
             case THRESHOLD_ERROR:
                 setSearchTips(R.string.search_threshold_scope_tips);

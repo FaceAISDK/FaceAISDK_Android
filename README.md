@@ -14,7 +14,7 @@
 FaceAI SDK is on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK。
 FaceAI SDK包括人脸识别、活体检测、人脸录入检测以及[1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索，可快速集成实现端侧人脸识别，人脸搜索等功能。
 
-Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行，SDK本身不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
+Android SDK可支持Android[5,15] **SDK激活和使用都不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
 动作活体支持张嘴、微笑、眨眼、摇头、点头 随机1-2种组合验证，支持系统摄像头和UVC协议USB摄像头，宽动态值大于105Db成像清晰抗逆光。
 开发人员也可以自定义摄像头管理，把帧数据送入到SDK。更多说明联系邮箱： FaceAISDK.Service@gmail.com
 
@@ -25,9 +25,10 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 **Android：** https://github.com/FaceAISDK/FaceAISDK_Android  
 
 **其他实现**  
-**uni-App X：** https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS  
-**uni-App ：**  https://github.com/FaceAISDK/UniPlugin-FaceAISDK  
 **React native** https://github.com/zkteco-home/react-native-face-ai
+**uni-App X：**  https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS  
+**uni-App ：**   https://github.com/FaceAISDK/UniPlugin-FaceAISDK  
+**Flutter ：**   need your help
 
 <div align=center>
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
@@ -36,9 +37,11 @@ Android SDK可支持Android[5,15] **所有功能都在设备终端离线执行�
 ##  V2025.10.31
 - 排除某种动作活体setExceptMotionLivenessType，改为支持哪些类型setMotionLivenessTypes
 - 动作活体支持 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
-- 亮度检测更新
-- Demo添加bugly 手机在线闪退日志
 - 设备配置检测并分为高中低3个档次
+- 添加本地人脸缓存清除接口，以便相关合规整改
+- 去除多人脸检测回调提醒，自动取最大的人脸分析
+- 升级工程Android Studio到Narwhal4 和AGP8.13等，以便更好的使用AI辅助以及调试Bitmap
+  更多：https://mp.weixin.qq.com/s/048q5A1D3U_bdJY6tfsAwQ
 
 更多历史版本说明参考 [历史版本SDK更新记录](doc/历史版本SDK更新记录.md)
 
@@ -86,7 +89,7 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 
 *   1.调整JDK版本到java 17。AS设置Preferences -> Build -> Gradle -> JDK的版本为 17
 
-*   2.最好翻墙科学上网同步AGP Gradle 插件7.4.2(或者更新AGP),然后同步其他依赖
+*   2.升级AGP到8.13，升级Android Studio 到2025.1.4,并同步Demo工程中的其他依赖
 
 *   3.Demo工程成功运行后，根据你的业务需求重点熟悉对应模块后再集成到你的主工程
 
@@ -95,9 +98,9 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 
 *   5.解决项目工程中的第三方依赖库和主工程的冲突比如CameraX的版本等，Target SDK不同导致的冲突
 
-    目前SDK开发使用**java17. kotlin 1.9.22，AGP 7.x **打包，如果你的项目较老还在使用
-    kapt, kotlin-android-extensions导致集成冲突，建议尽快升级项目或者VIP联系定制
-
+    目前SDK Demo默认使用**Android Studio2025.1.4 + java17 + kotlin1.9.22 + AGP8.13 打包  
+    不建议再使用废弃的kapt, kotlin-android-extensions  
+    注：为了Debug View Bitmap以及更好的使用AI 辅助编程开发,2025年10月31号我们对开发环境升级到上述版本
 
 ## Demo APK 下载体验  
 

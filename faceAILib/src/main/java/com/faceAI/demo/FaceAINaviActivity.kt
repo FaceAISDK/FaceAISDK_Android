@@ -18,6 +18,7 @@ import com.faceAI.demo.SysCamera.verify.FaceVerifyWelcomeActivity
 import com.faceAI.demo.SysCamera.verify.LivenessDetectActivity
 import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
 import com.faceAI.demo.UVCCamera.liveness.Liveness_UVCCameraActivity
+import com.faceAI.demo.base.utils.performance.DevicePerformance
 import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
 
 /**
@@ -110,9 +111,12 @@ class FaceAINaviActivity : AppCompatActivity() {
 
     /**
      * 设备系统信息
-     *
+     * Performance 设备性能
      */
     private fun printDeviceInfo() {
+        // 判断设备性能，
+        val performance=DevicePerformance.getDevicePerformance(this@FaceAINaviActivity)
+
         val deviceInfo = arrayOf(
             " ",
             "MODEL：${android.os.Build.MODEL}",
@@ -121,7 +125,7 @@ class FaceAINaviActivity : AppCompatActivity() {
             "Android Version：${android.os.Build.VERSION.SDK_INT}",
             "HARDWARE：${android.os.Build.HARDWARE}",
             "主机（HOST）：${android.os.Build.HOST}",
-            " "
+            "Performance: $performance"
         )
         AlertDialog.Builder(this@FaceAINaviActivity)
             .setItems(deviceInfo) { _, _ ->
@@ -196,6 +200,9 @@ class FaceAINaviActivity : AppCompatActivity() {
             dialog.setView(dialogView)
             val btnOK = dialogView.findViewById<Button>(R.id.btn_ok)
             btnOK.setOnClickListener {
+                //检测配置等级，运行一下看看兼容性
+                val performance=DevicePerformance.getDevicePerformance(this@FaceAINaviActivity)
+
                 sharedPref.edit(commit = true) {
                     putLong(
                         "showFaceAISDKTips",

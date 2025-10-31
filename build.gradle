@@ -15,7 +15,6 @@ allprojects {
 
 
 buildscript {
-
     //FaceAILib 的java version 和 Kotlin 配置
     ext {
         kotlin_version = "1.9.22"
@@ -27,8 +26,9 @@ buildscript {
         mavenCentral()
     }
 
-    //SDK 为了照顾更多的用户暂时不升级到最新，用户根据自身情况升级
     dependencies {
+        //Android Studio 2025.1.4 以及APG 8.13 以上版本可以调试View Bitmap。不需要可以根据自身情况降级
+        //
         classpath 'com.android.tools.build:gradle:8.13.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22"
     }

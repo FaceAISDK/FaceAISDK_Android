@@ -12,14 +12,14 @@
     <!-- 摄像头预览画面，用户可自行调整大小 位置 -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_camerax"
-        android:layout_margin="23dp"
+        android:layout_margin="33dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <!-- 可以替换成你自己的UI样式,需要 FaceCoverView 源码已经暴露 -->
     <com.faceAI.demo.base.view.DemoFaceCoverView
         android:id="@+id/face_cover"
-        customAttr:circle_margin="25dp"
+        customAttr:circle_margin="33dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         customAttr:progress_end_color="@color/blue"

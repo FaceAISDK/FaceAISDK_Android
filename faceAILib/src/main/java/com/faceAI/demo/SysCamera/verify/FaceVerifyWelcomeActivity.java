@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.ai.face.base.baseImage.FaceEmbedding;
 import com.ai.face.core.utils.FaceAICameraType;
+import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.UVCCamera.verify.FaceVerify_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraFragment;
@@ -101,10 +102,10 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
             new AlertDialog.Builder(this).setTitle(getString(R.string.sure_delete_face_title)
                             + imageBean.name+"?").setMessage(R.string.sure_delete_face_tips)
                     .setPositiveButton(R.string.confirm, (dialog, which) -> {
-                        File file = new File(imageBean.path);
-                        if (file.delete()) {
+                        //删除图片和对应的编码
+                        if(FaceSDKConfig.deleteFace(getBaseContext(),imageBean.path,imageBean.name)){
                             updateFaceList();
-                        } else {
+                        }else{
                             Toast.makeText(getApplication(), "Delete failed", Toast.LENGTH_LONG).show();
                         }
                     }).setNegativeButton(R.string.cancel, null).show();

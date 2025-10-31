@@ -279,5 +279,4 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
         }
     }
 
-
 }
