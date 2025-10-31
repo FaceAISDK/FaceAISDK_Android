@@ -32,7 +32,7 @@
         app:layout_constraintTop_toBottomOf="@+id/back"
         android:textSize="13sp"
         android:layout_marginBottom="11dp"
-        android:text="请点击对应图片区域添加照片，人脸图应为正脸无遮挡"/>
+        android:text="请选择人脸照片，人脸应为正脸无遮挡"/>
 
 
     <TextView
