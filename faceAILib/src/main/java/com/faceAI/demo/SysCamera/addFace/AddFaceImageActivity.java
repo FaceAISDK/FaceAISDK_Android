@@ -4,7 +4,6 @@ import static android.view.View.GONE;
 import static com.ai.face.base.baseImage.BaseImageDispose.PERFORMANCE_MODE_ACCURATE;
 import static com.ai.face.base.baseImage.BaseImageDispose.PERFORMANCE_MODE_FAST;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE;
-import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
@@ -167,9 +166,7 @@ public class AddFaceImageActivity extends AbsBaseActivity {
             case NO_FACE_REPEATEDLY:
                 tipsTextView.setText(R.string.no_face_detected_tips);
                 break;
-            case FACE_TOO_MANY:
-                tipsTextView.setText(R.string.multiple_faces_tips);
-                break;
+
             case FACE_TOO_SMALL:
                 tipsTextView.setText(R.string.come_closer_tips);
                 break;
