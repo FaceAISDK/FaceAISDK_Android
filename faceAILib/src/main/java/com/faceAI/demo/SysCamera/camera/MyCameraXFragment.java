@@ -256,6 +256,58 @@ public class MyCameraXFragment extends Fragment {
     public void onResume() {
         super.onResume();
         BrightnessUtil.setBrightness(requireActivity(), 0.9f);
+        // 重新绑定相机
+        rebindCamera();
+    }
+
+    /**
+     * 重新绑定相机
+     */
+    private void rebindCamera() {
+        if (cameraProvider != null && cameraSelector != null && preview != null && imageAnalysis != null) {
+            try {
+                cameraProvider.unbindAll();
+                // 重新绑定相机用例
+                camera = cameraProvider.bindToLifecycle(
+                        getViewLifecycleOwner(),
+                        cameraSelector,
+                        preview, imageAnalysis);
+
+                // 重新设置焦距
+                if (camera != null) {
+                    camera.getCameraControl().setLinearZoom(linearZoom);
+                }
+
+                // 重新设置分析器
+                if (imageAnalysis != null && analyzeDataCallBack != null) {
+                    imageAnalysis.setAnalyzer(executorService, imageProxy -> {
+                        if (scaleX == 0f || scaleY == 0f) {
+                            setScaleXY(imageProxy);
+                        } else {
+                            if(analyzeDataCallBack!=null){
+                                analyzeDataCallBack.analyze(imageProxy);
+                            }
+                        }
+                        imageProxy.close();
+                    });
+                }
+
+            } catch (Exception e) {
+                Log.e("CameraX rebind", "FaceAI SDK rebind error:" + e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // 暂停相机资源，释放相机占用
+        if (cameraProvider != null) {
+            cameraProvider.unbindAll();
+        }
+        if (imageAnalysis != null) {
+            imageAnalysis.clearAnalyzer();
+        }
     }
 
     @Override

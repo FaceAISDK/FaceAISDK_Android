@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国海关人脸识别应用预览</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            font-family: 'Microsoft YaHei', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .phone-container {
+            width: 375px;
+            height: 667px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .status-bar {
+            background: #2196F3;
+            height: 24px;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            box-sizing: border-box;
+            font-size: 12px;
+            color: white;
+        }
+        
+        .phone-header {
+            background: #2196F3;
+            color: white;
+            padding: 12px 15px;
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .toolbar-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .settings-icon {
+            position: absolute;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        
+        .settings-icon:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .phone-content {
+            padding: 24px;
+            background: white;
+            height: calc(100% - 120px);
+            overflow-y: auto;
+        }
+        
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .face-recognition-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+            position: relative;
+        }
+        
+        .face-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .notice-section {
+            margin: 30px -24px 24px -24px;
+        }
+        
+        .notice-title {
+            background: #f0f0f0;
+            padding: 16px 24px;
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            /* 确保背景完全延伸到边缘 */
+            margin-left: -24px;
+            margin-right: -24px;
+            padding-left: 48px;
+            padding-right: 48px;
+        }
+        
+        .notice-content {
+            background: white;
+            padding: 16px 24px;
+            margin: 0;
+            /* 确保背景完全延伸到边缘 */
+            margin-left: -24px;
+            margin-right: -24px;
+            padding-left: 48px;
+            padding-right: 48px;
+        }
+        
+        .notice-item {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .notice-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .bottom-icons {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            padding: 0 20px;
+        }
+        
+        .icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .start-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .start-button:active {
+            transform: translateY(0);
+        }
+        
+        .recognition-status {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #666;
+            display: none;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>🔋 100%</span>
+        </div>
+        
+        <!-- 顶部导航栏 -->
+        <div class="phone-header">
+            <div class="toolbar-title">中国海关人脸识别</div>
+            <div class="settings-icon" onclick="showSettings()">⚙</div>
+        </div>
+        
+        <!-- 主要内容 -->
+        <div class="phone-content">
+            <div class="title">确认本人操作</div>
+            
+            <!-- 人脸识别区域 -->
+            <div class="face-recognition-area">
+                <div class="face-avatar" id="faceAvatar">👤</div>
+            </div>
+            
+            <!-- 注意事项 -->
+            <div class="notice-section">
+                <div class="notice-title">注意事项</div>
+                <div class="notice-content">
+                    <div class="notice-item">1. 为了您的账户安全，请先进行安全验证；</div>
+                    <div class="notice-item">2. 请本人亲自完成，请将脸部置于提示框内，并按操作；</div>
+                </div>
+            </div>
+            
+            <!-- 底部功能图标 -->
+            <div class="bottom-icons">
+                <div class="icon-item">
+                    <div class="icon">📱</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">💡</div>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">👤</div>
+                </div>
+            </div>
+            
+            <!-- 识别状态 -->
+            <div class="recognition-status" id="status">
+                正在进行人脸识别...
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress"></div>
+                </div>
+            </div>
+            
+            <!-- 开始按钮 -->
+            <button class="start-button" onclick="startRecognition()">开始人脸识别</button>
+        </div>
+    </div>
+
+    <script>
+        function showSettings() {
+            alert('设置功能');
+        }
+        
+        function startRecognition() {
+            const button = document.querySelector('.start-button');
+            const status = document.getElementById('status');
+            const progress = document.getElementById('progress');
+            const faceAvatar = document.getElementById('faceAvatar');
+            
+            button.disabled = true;
+            button.textContent = '识别中...';
+            status.style.display = 'block';
+            
+            // 模拟识别过程
+            let progressValue = 0;
+            const interval = setInterval(() => {
+                progressValue += 10;
+                progress.style.width = progressValue + '%';
+                
+                if (progressValue >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        status.innerHTML = '✅ 人脸识别成功！';
+                        button.textContent = '识别完成';
+                        button.style.background = '#4CAF50';
+                        faceAvatar.innerHTML = '✅';
+                        faceAvatar.style.background = '#4CAF50';
+                    }, 500);
+                }
+            }, 200);
+        }
+    </script>
+</body>
+</html>

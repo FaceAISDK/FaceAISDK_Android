@@ -20,7 +20,9 @@ import com.ai.face.core.utils.FaceAICameraType;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import androidx.appcompat.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -219,7 +221,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
             case FACE_DIR_EMPTY:
                 //人脸库没有人脸照片，使用SDK API插入人脸
                 setSearchTips(R.string.face_dir_empty);
-                Toast.makeText(this, R.string.face_dir_empty, Toast.LENGTH_LONG).show();
+                showFaceLibEmptyDialog();
                 break;
 
             case EMGINE_INITING:
@@ -304,11 +306,59 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     protected void onResume() {
         super.onResume();
         pauseSearch=false;
+        
+        // 确保人脸搜索引擎重新启动
+        if (cameraXFragment != null) {
+            // 重新设置分析器监听器，确保数据流正常
+            cameraXFragment.setOnAnalyzerListener(imageProxy -> {
+                //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
+                if (!isDestroyed() && !isFinishing()&&!pauseSearch) {
+                    //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像
+                    FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pauseSearch=true;
+        // 暂停人脸搜索引擎，释放相机资源
+        if (cameraXFragment != null) {
+            cameraXFragment.setOnAnalyzerListener(null);
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         pauseSearch=true;
+    }
+
+    /**
+     * 显示人脸库为空的对话框
+     */
+    private void showFaceLibEmptyDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("人脸库为空")
+                .setMessage("当前人脸库中没有人脸照片，需要先录入人脸才能进行识别。")
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 返回上一页
+                        finish();
+                    }
+                })
+                .setPositiveButton("立即录入", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 跳转到人脸库管理页面
+                        startActivity(new Intent(FaceSearch1NActivity.this, FaceSearchImageMangerActivity.class)
+                                .putExtra("isAdd", false));
+                    }
+                })
+                .setCancelable(false)
+                .show();
     }
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主要颜色 -->
+    <color name="primary_blue">#4A90E2</color>
+    <color name="primary_blue_light">#4FC3F7</color>
+    <color name="primary_blue_dark">#29B6F6</color>
+    
+    <!-- 文本颜色 -->
+    <color name="text_primary">#333333</color>
+    <color name="text_secondary">#666666</color>
+    <color name="text_hint">#999999</color>
+    
+    <!-- 背景颜色 -->
+    <color name="background_light">#F5F5F5</color>
+    <color name="background_white">#FFFFFF</color>
+    <color name="background_gray">#E8E8E8</color>
+    
+    <!-- 渐变颜色 -->
+    <color name="gradient_blue_start">#4FC3F7</color>
+    <color name="gradient_blue_end">#29B6F6</color>
+    <color name="gradient_blue_stroke">#81D4FA</color>
+</resources>

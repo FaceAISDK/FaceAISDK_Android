@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+    
+    <item android:duration="500">
+        <shape android:shape="oval">
+            <stroke
+                android:width="3dp"
+                android:color="@color/primary_blue"
+                android:dashWidth="8dp"
+                android:dashGap="4dp" />
+            <solid android:color="@android:color/transparent" />
+        </shape>
+    </item>
+    
+    <item android:duration="500">
+        <shape android:shape="oval">
+            <stroke
+                android:width="3dp"
+                android:color="@color/gradient_blue_start"
+                android:dashWidth="12dp"
+                android:dashGap="6dp" />
+            <solid android:color="@android:color/transparent" />
+        </shape>
+    </item>
+    
+    <item android:duration="500">
+        <shape android:shape="oval">
+            <stroke
+                android:width="3dp"
+                android:color="@color/gradient_blue_end"
+                android:dashWidth="16dp"
+                android:dashGap="8dp" />
+            <solid android:color="@android:color/transparent" />
+        </shape>
+    </item>
+    
+</animation-list>

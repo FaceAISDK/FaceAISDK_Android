@@ -11,7 +11,7 @@
         <item name="textAllCaps">false</item>
         <item name="buttonBarPositiveButtonStyle">@style/positiveBtnStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/negativeBtnStyle</item>
-        <item name="android:statusBarColor">@color/face_main_color</item> <!-- 或直接指定颜色值 -->
+        <item name="android:statusBarColor">@color/face_main_color</item> <!-- 使用颜色引用 -->
     </style>
 
     <style name="FaceAITheme" parent="Theme.AppCompat.Light.NoActionBar">
