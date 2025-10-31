@@ -40,4 +40,4 @@
   2.iOS     https://github.com/FaceAISDK/FaceAISDK_iOS
   
 
-欢迎有意愿大佬发送历史作品到FaceAISDK.Service@gmail.com 商议接单事宜
+欢迎有意愿大佬发送历史作品到 FaceAISDK.Service@gmail.com  

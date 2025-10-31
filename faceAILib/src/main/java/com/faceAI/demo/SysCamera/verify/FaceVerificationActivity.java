@@ -118,7 +118,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         String faceFilePath = CACHE_BASE_FACE_DIR + faceID;
         Bitmap baseBitmap = BitmapFactory.decodeFile(faceFilePath);
 
-        //本地没有faceID对应的人脸特征向量 （ 本段代码仅供演示，你需要根据自身业务完善流程）
+        //本地没有faceID对应的人脸特征向量 （本段代码仅供演示，你需要根据自身业务完善流程）
         if (faceEmbedding.length == 0) {
             disposeBaseBitmapGetEmbedding(baseBitmap);
         } else {

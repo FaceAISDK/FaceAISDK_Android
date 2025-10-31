@@ -139,8 +139,12 @@ public class FaceCameraXFragment extends Fragment {
                     .build();
 
             previewView = rootView.findViewById(R.id.previewView);
+
             //预览画面渲染模式：高性能模式
             previewView.setImplementationMode(PreviewView.ImplementationMode.PERFORMANCE);
+
+            //20251102，为了后面炫彩活体做准备（默认的FILL_CENTER会把人脸区域放很大）
+            previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
 
             if (cameraLensFacing == 0) {
                 // Choose the camera by requiring a lens facing

@@ -34,10 +34,10 @@ Android SDK可支持Android[5,15] **SDK激活和使用都不用联网，不保�
 <img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
 </div>
 
-##  V2025.10.31
-- 排除某种动作活体setExceptMotionLivenessType，改为支持哪些类型setMotionLivenessTypes
-- 动作活体支持 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
-- 设备配置检测并分为高中低3个档次
+##  V2025.11.02（预发版）
+- 更新相机管理CameraX（为了下一步做炫彩活体做准备），解除人脸区域占比大小限制
+- 动作活体支持自由组合1-2种（ 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头）
+- 设备硬件配置检测并分为高中低3类
 - 添加本地人脸缓存清除接口，以便相关合规整改
 - 去除多人脸检测回调提醒，自动取最大的人脸分析
 - 升级工程Android Studio到Narwhal4 和AGP8.13等，以便更好的使用AI辅助以及调试Bitmap
