@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 
 import com.ai.face.base.baseImage.FaceEmbedding;
 import com.ai.face.faceSearch.search.FaceSearchImagesManger;
+import com.bumptech.glide.Glide;
 import com.faceAI.demo.base.utils.VoicePlayer;
 
 import java.io.File;
@@ -44,6 +45,7 @@ public class FaceSDKConfig {
      */
     public static void clearAllFaceSearchLib(Context context){
         FaceSearchImagesManger.Companion.getInstance((Application) context).clearFaceImages(CACHE_SEARCH_FACE_DIR);
+        Glide.get(context).clearMemory();
     }
 
     /**

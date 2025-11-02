@@ -72,7 +72,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0f)    //焦距范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
+                .setLinearZoom(0.1f)    //焦距范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
                 .setRotation(degree)      //画面旋转方向
                 .create();
 
@@ -341,7 +341,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 motionStepSize = intent.getIntExtra(MOTION_STEP_SIZE, 2);
             }
             if (intent.hasExtra(SILENT_THRESHOLD_KEY)) {
-                motionTimeOut = intent.getIntExtra(MOTION_TIMEOUT, 10);
+                motionTimeOut = intent.getIntExtra(MOTION_TIMEOUT, 9);
             }
             if (intent.hasExtra(MOTION_LIVENESS_TYPES)) {
                 motionLivenessTypes = intent.getStringExtra(MOTION_LIVENESS_TYPES);

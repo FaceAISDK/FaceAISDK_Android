@@ -141,8 +141,8 @@ public class AddFaceImageActivity extends AbsBaseActivity {
 
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0f) //需摄像头支持变焦,范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
-                .setRotation(degree)   //画面旋转角度0，90，180，270
+                .setLinearZoom(0.1f)  //范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
+                .setRotation(degree)  //画面旋转角度0，90，180，270
                 .create();
 
         FaceCameraXFragment cameraXFragment = FaceCameraXFragment.newInstance(cameraXBuilder);

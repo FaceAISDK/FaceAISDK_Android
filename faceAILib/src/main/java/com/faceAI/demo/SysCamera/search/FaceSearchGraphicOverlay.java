@@ -57,7 +57,7 @@ public class FaceSearchGraphicOverlay extends View {
                 String faceId = rectLabel.getFaceName().replace(".jpg", "");
                 canvas.drawText(faceId + " ≈ " + rectLabel.getFaceScore(), rectLabel.getRect().left + 22.0f, rectLabel.getRect().top + 55.0f, textPaint);
             }
-            rectPaint.setStrokeWidth(4.0f);
+            rectPaint.setStrokeWidth(3.0f);
             rectPaint.setStyle(Paint.Style.STROKE);
             canvas.drawRect(rectLabel.getRect(), rectPaint);
         }
