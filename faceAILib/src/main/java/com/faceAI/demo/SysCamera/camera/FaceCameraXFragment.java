@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.camera.core.AspectRatio;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
@@ -37,8 +38,7 @@ import java.util.concurrent.Executors;
  * CameraX 说明：https://developer.android.com/codelabs/camerax-getting-started?hl=zh-cn
  *
  * 你也可以使用老的Camera2 相机等方式管理摄像头，通过预览流回调数据转为Bitmap 后持续送入SDK
- * FaceSearchEngine.Companion.getInstance().runSearchWithBitmap(bitmap); //不要在主线程调用
- *
+ * 2025.11.02
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceCameraXFragment extends Fragment {
@@ -125,17 +125,21 @@ public class FaceCameraXFragment extends Fragment {
                 Log.e("FaceAI SDK", "\ncameraProviderFuture.get() 发生错误！\n" + e.toString());
             }
 
+            int ratio = AspectRatio.RATIO_4_3; //画面比例
+
             //送入人脸识别FaceAISDK画面分析设置。根据你的场景，摄像头特性和硬件配置设置合理的参数
             imageAnalysis = new ImageAnalysis.Builder()
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                     .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
                     .setTargetRotation(rotation) //画面选择角度
-//                    .setTargetResolution(new Size(1280,720)) //设置分辨率,默认640*480。无特殊场景默认就够了
+                    .setTargetAspectRatio(ratio)
+//                    .setTargetResolution(new Size(1280,720)) //如果设置分辨率,默认640*480。无特殊场景默认就够了
                     .build();
 
             //摄像头画面预览默认分辨率也是640*480。
             preview = new Preview.Builder()
                     .setTargetRotation(rotation)
+                    .setTargetAspectRatio(ratio)
                     .build();
 
             previewView = rootView.findViewById(R.id.previewView);
@@ -144,6 +148,7 @@ public class FaceCameraXFragment extends Fragment {
             previewView.setImplementationMode(PreviewView.ImplementationMode.PERFORMANCE);
 
             //20251102，为了后面炫彩活体做准备（默认的FILL_CENTER会把人脸区域放很大）
+            //https://developer.android.com/media/camera/camerax/preview?hl=zh-cn
             previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
 
             if (cameraLensFacing == 0) {

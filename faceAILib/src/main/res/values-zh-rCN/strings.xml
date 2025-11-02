@@ -3,7 +3,7 @@
     <string name="device_list_empty_tip">请连接好UVC协议USB设备</string>
     <string name="device_list_cancel_button">取消</string>
     <string name="device_list_confirm_button">确定</string>
-    <string name="sdk_init">准备中...</string>
+    <string name="sdk_init">准备中…</string>
     <string name="no_mask_please">请勿佩戴口罩</string>
     <string name="face_verifying">识别中,平视正对摄像头</string>
     <string name="confirm">确定</string>
@@ -26,14 +26,14 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="keep_face_tips">平视正对摄像头</string>
     <string name="no_close_eye_tips">请勿闭眼</string>
     <string name="no_tilt_head_tips">请勿歪头</string>
-    <string name="head_turn_left_tips">脸偏左</string>
-    <string name="head_turn_right_tips">脸偏右</string>
+    <string name="head_turn_left_tips">向左调整脸部</string>
+    <string name="head_turn_right_tips">向右调整脸部</string>
     <string name="no_look_up_tips">请勿抬头</string>
     <string name="no_look_down_tips">请勿低头</string>
     <string name="no_face_detected_tips">未检测到人脸</string>
     <string name="multiple_faces_tips">多张人脸出现</string>
-    <string name="come_closer_tips">请靠近摄像头</string>
-    <string name="far_away_tips">请远离屏幕一点</string>
+    <string name="come_closer_tips">靠近摄像头</string>
+    <string name="far_away_tips">离摄像头远一点</string>
     <string name="align_face_error_tips">图像校准失败</string>
     <string name="not_real_face">人脸攻击，非真人</string>
     <string name="not_real_face_for_debug">人脸攻击，非真人 </string>
@@ -45,7 +45,6 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="confirm_add_face_tips">确认为正脸，清晰无遮挡照片</string>
     <string name="sure_delete_face_title">确认要删除</string>
     <string name="sure_delete_face_tips">删除后对应的人脸将无法被识别</string>
-
 
     <!--1:N 人脸搜索 face search-->
     <string name="no_matched_face">人脸搜索中</string>

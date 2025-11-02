@@ -82,7 +82,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0.001f)     //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
+                .setLinearZoom(0.1f)     //焦距范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
                 .setRotation(degree)   //画面旋转方向
                 .create();
 
@@ -145,7 +145,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     public void onFaceBrightness(float brightness) {
                         //测试阶段，先在测试模式打开提示，大约11月中旬正式发布
                         if(FaceSDKConfig.isDebugMode(getBaseContext())){
-                            if(brightness>180){
+                            if(brightness>190){
                                 Toast.makeText(getBaseContext(),"光线过亮:"+brightness,Toast.LENGTH_SHORT).show();
                             }else if(brightness<80){
                                 Toast.makeText(getBaseContext(),"光线过暗:"+brightness,Toast.LENGTH_SHORT).show();

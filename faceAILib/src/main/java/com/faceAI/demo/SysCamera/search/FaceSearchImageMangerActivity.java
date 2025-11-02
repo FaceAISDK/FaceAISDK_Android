@@ -268,12 +268,16 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
             super(R.layout.adapter_face_image_list_item, data);
         }
 
+
         @Override
         protected void convert(BaseViewHolder helper, ImageBean imageBean) {
             Glide.with(getBaseContext()).load(imageBean.path)
-                    .skipMemoryCache(false)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .skipMemoryCache(false) //使用内存缓存，以便低配置设备快速加载，同名faceID图片更换后要重新启动App 才生效
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .override(200)
+                    .placeholder(R.mipmap.ic_launcher)
                     .into((ImageView) helper.getView(R.id.face_image));
+
             TextView faceName = helper.getView(R.id.face_name);
             faceName.setText(imageBean.name);
         }

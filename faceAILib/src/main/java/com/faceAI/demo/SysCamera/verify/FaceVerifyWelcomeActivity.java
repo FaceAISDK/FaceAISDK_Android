@@ -193,7 +193,8 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
 
         @Override
         protected void convert(BaseViewHolder helper, ImageBean imageBean) {
-            Glide.with(getBaseContext()).load(imageBean.path).skipMemoryCache(true)
+            Glide.with(getBaseContext()).load(imageBean.path)
+                    .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .transform(new CenterCrop(), new RoundedCorners(15))
                     .into((ImageView) helper.getView(R.id.face_image));
