@@ -80,14 +80,14 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
 
-        initFaceVerificationParam();
+        initLivenessParam();
     }
 
 
     /**
      * 初始化认证引擎
      */
-    private void initFaceVerificationParam() {
+    private void initLivenessParam() {
         //建议老的低配设备减少活体检测步骤
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setLivenessOnly(true)
@@ -163,7 +163,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
      * 添加声音提示和动画提示定制也在这里根据返回码进行定制
      */
     int retryTime = 0;
-
     private void showFaceVerifyTips(int actionCode) {
         if (!isDestroyed() && !isFinishing()) {
             runOnUiThread(() -> {
