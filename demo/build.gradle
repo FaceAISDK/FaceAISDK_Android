@@ -6,8 +6,8 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        versionCode 20251102
-        versionName "20251102"
+        versionCode 20251103
+        versionName "20251103"
 
         applicationId "com.ai.face.verifyPub"
         minSdk 21
@@ -33,7 +33,7 @@ android {
         debug {
             minifyEnabled true
             shrinkResources true
-            debuggable true
+            debuggable false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

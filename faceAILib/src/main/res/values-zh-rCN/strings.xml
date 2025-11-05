@@ -49,7 +49,7 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <!--1:N 人脸搜索 face search-->
     <string name="no_matched_face">人脸搜索中</string>
     <string name="face_dir_empty">人脸库为空</string>
-    <string name="no_base_face_bitmap">没有录入人脸底片</string>
+    <string name="no_base_face_image">没有录入人脸底片</string>
     <string name="copy_app_assert_folder_faces">导入内置assets目录测试人脸图</string>
     <string name="face_search_by_system_camera">系统相机搜索</string>
     <string name="face_search_by_uvc_camera">UVC协议USB摄像头搜索</string>

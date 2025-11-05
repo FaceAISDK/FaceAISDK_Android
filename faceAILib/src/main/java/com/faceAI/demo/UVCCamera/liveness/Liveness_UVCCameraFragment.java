@@ -15,9 +15,7 @@ import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
-import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
-import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.faceAI.demo.base.utils.VoicePlayer;
@@ -138,7 +136,7 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_NO_BASE_IMG:
-                        setTips(R.string.no_base_face_bitmap);
+                        setTips(R.string.no_base_face_image);
                         break;
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:
                         setTips(R.string.motion_liveness_detection_failed);

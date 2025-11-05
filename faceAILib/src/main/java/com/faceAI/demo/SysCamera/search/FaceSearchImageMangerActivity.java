@@ -99,8 +99,8 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
         TextView tips = findViewById(R.id.tips);
         tips.setOnLongClickListener(v -> {
             new AlertDialog.Builder(FaceSearchImageMangerActivity.this)
-                    .setTitle("Delete All Face Images？")
-                    .setMessage("Are you sure to delete all face images? dangerous operation!")
+                    .setTitle("Delete All Faces？")
+                    .setMessage("Delete all faces is an irreversible operation!")
                     .setPositiveButton(R.string.confirm, (dialog, which) -> {
                         FaceSearchImagesManger.Companion.getInstance(getApplication()).clearFaceImages(CACHE_SEARCH_FACE_DIR);
                         updateFaceList();

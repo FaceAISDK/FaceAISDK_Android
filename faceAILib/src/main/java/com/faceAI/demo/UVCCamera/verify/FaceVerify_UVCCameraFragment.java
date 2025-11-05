@@ -194,7 +194,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_NO_BASE_IMG:
-                        setMainTips(R.string.no_base_face_bitmap);
+                        setMainTips(R.string.no_base_face_image);
                         break;
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:
                         setMainTips(R.string.motion_liveness_detection_failed);

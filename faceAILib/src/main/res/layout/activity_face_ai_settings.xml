@@ -16,12 +16,14 @@
         android:padding="8dp"
         android:src="@drawable/ic_arrow_back_white"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/nestedScrollView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/tips"
         app:layout_constraintTop_toBottomOf="@+id/back">
 
         <LinearLayout
@@ -398,14 +400,16 @@
     </androidx.core.widget.NestedScrollView>
 
     <TextView
+        android:id="@+id/tips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="More Settings? See FaceAISDK souce code"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:textStyle="bold"
-        android:padding="12dp"
+        android:padding="10dp"
         android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/nestedScrollView"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

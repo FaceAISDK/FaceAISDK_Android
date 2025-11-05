@@ -218,7 +218,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
             case FACE_DIR_EMPTY:
                 //人脸库没有人脸照片，使用SDK API插入人脸
                 setSearchTips(R.string.face_dir_empty);
-                Toast.makeText(this, R.string.face_dir_empty, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.no_base_face_image, Toast.LENGTH_LONG).show();
                 break;
 
             case EMGINE_INITING:

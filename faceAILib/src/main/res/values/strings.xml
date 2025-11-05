@@ -59,7 +59,7 @@
     <string name="face_verify_failed">Face verify failed！Please retry</string>
     <string name="face_verify_failed_title">Verify failed</string>
     <string name="silent_anti_spoofing_error">Silent anti spoofing error</string>
-    <string name="no_base_face_bitmap">No base face bitmap error</string>
+    <string name="no_base_face_image">No base face image error</string>
     <string name="face_verify_pause">Face verify pause！Please retry</string>
     <string name="face_verify_demo">1:1 face verify demo</string>
     <string name="face_verify_no_face_tips">No face has been added yet\nClick the button above to add face image, long press the face to delete</string>
