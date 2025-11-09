@@ -107,6 +107,7 @@
 
     <!--人脸搜索识别（1:N，M：N）-->
     <string name="face_image_manage">Face manage</string>
+    <string name="face_search_1fromN_liveness">liveness and 1:N face search</string>
     <string name="face_search_1fromN">1:N face search</string>
     <string name="face_search_uvc_camera">Search with uvc camera</string>
     <string name="face_search_MfromN">M:N face search</string>
