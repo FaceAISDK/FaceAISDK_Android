@@ -5,6 +5,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
@@ -45,10 +46,13 @@ public class FaceCameraXFragment extends Fragment {
     private static final String CAMERA_LINEAR_ZOOM = "CAMERA_LINEAR_ZOOM";  //焦距缩放比例
     private static final String CAMERA_LENS_FACING = "CAMERA_LENS_FACING";  //前后配置
     private static final String CAMERA_ROTATION = "CAMERA_ROTATION";  //旋转
+    private static final String CAMERA_SIZE_HIGH = "CAMERA_SIZE_HIGH";  //是否高分辨率用于分析
+
     private int rotation = Surface.ROTATION_0; //旋转角度
     private int cameraLensFacing = 0; //默认前置摄像头
     private float scaleX = 0f, scaleY = 0f;
     private float linearZoom = 0f; //焦距
+    private boolean cameraSizeHigh= false;
     private float mDefaultBright;
     private ProcessCameraProvider cameraProvider;
     private onAnalyzeData analyzeDataCallBack;
@@ -58,7 +62,6 @@ public class FaceCameraXFragment extends Fragment {
     private Preview preview;
     private Camera camera;
     private PreviewView previewView;
-
 
     public FaceCameraXFragment() {
         // Required empty public constructor
@@ -78,6 +81,8 @@ public class FaceCameraXFragment extends Fragment {
         args.putInt(CAMERA_LENS_FACING, cameraXBuilder.getCameraLensFacing());
         args.putFloat(CAMERA_LINEAR_ZOOM, cameraXBuilder.getLinearZoom());
         args.putInt(CAMERA_ROTATION, cameraXBuilder.getRotation());
+        args.putBoolean(CAMERA_SIZE_HIGH, cameraXBuilder.getCameraSizeHigh());
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -89,6 +94,7 @@ public class FaceCameraXFragment extends Fragment {
             cameraLensFacing = getArguments().getInt(CAMERA_LENS_FACING, 0); //默认的摄像头
             linearZoom = getArguments().getFloat(CAMERA_LINEAR_ZOOM, 0f);
             rotation = getArguments().getInt(CAMERA_ROTATION, Surface.ROTATION_0);
+            cameraSizeHigh = getArguments().getBoolean(CAMERA_SIZE_HIGH,false);
         }
     }
 
@@ -125,21 +131,24 @@ public class FaceCameraXFragment extends Fragment {
                 Log.e("FaceAI SDK", "\ncameraProviderFuture.get() 发生错误！\n" + e.toString());
             }
 
-            int ratio = AspectRatio.RATIO_4_3; //画面比例
-
-            //送入人脸识别FaceAISDK画面分析设置。根据你的场景，摄像头特性和硬件配置设置合理的参数
-            imageAnalysis = new ImageAnalysis.Builder()
-                    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                    .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
-                    .setTargetRotation(rotation) //画面选择角度
-                    .setTargetAspectRatio(ratio)
-//                    .setTargetResolution(new Size(1280,720)) //如果设置分辨率,默认640*480。无特殊场景默认就够了
-                    .build();
-
-            //摄像头画面预览默认分辨率也是640*480。
+            if(cameraSizeHigh){
+                //送入人脸识别FaceAISDK画面分析设置。根据你的场景，摄像头特性和硬件配置设置合理的参数
+                imageAnalysis = new ImageAnalysis.Builder()
+                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                        .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
+                        .setTargetRotation(rotation) //画面选择角度
+                        .setTargetResolution(new Size(1280,720)) //从支持的分辨率中选择最接近的一个。
+                        .build();
+            }else {
+                //系统默认匹配分辨率
+                imageAnalysis = new ImageAnalysis.Builder()
+                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                        .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
+                        .setTargetRotation(rotation) //画面选择角度
+                        .build();
+            }
             preview = new Preview.Builder()
                     .setTargetRotation(rotation)
-                    .setTargetAspectRatio(ratio)
                     .build();
 
             previewView = rootView.findViewById(R.id.previewView);
@@ -276,6 +285,7 @@ public class FaceCameraXFragment extends Fragment {
     private void setScaleXY(ImageProxy imageProxy) {
         float max = imageProxy.getWidth();
         float min = imageProxy.getHeight();
+        Log.i("FaceAISDK", "人脸分析图宽高: "+max+"*"+min);
         if (max < min) { //交换
             float temp = max;
             max = min;
