@@ -28,7 +28,7 @@ import androidx.core.graphics.drawable.toDrawable
 /**
  * 对比两张图片中人脸相似度，SDK开放基础功能
  *
- * 裁剪出图片中的人脸部分进行相似度比较，如果某一张照片中没有检测到人脸，则相似度返回为0。
+ * 裁剪出图片中的人脸正脸部分进行相似度比较，如果某一张照片中没有检测到人脸，则相似度返回为0。
  *
  * 不适合用本方法来大规模的并发进行人脸照片相似度比较，因为bitmap 的操作以及提取向量值很耗费资源
  *
@@ -64,7 +64,6 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
 
         viewBinding.goVerify.setOnClickListener {
             // 不能两张图直接比较，要先经过 checkFaceQuality 检测裁剪图片中的人脸
-            // FaceAIUtils.Companion.getInstance(application).checkFaceQuality(
             val simi = FaceVerifyUtils().evaluateFaceSimi(
                 baseContext,
                 bitmapMap[viewBinding.image1.tag],

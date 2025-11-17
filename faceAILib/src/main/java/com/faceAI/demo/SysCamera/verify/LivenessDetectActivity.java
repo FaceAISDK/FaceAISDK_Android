@@ -111,7 +111,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                         BitmapUtils.saveBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
 
                         runOnUiThread(() -> {
-                            new ImageToast().show(getApplicationContext(), bitmap, getString(R.string.liveness_detection_done)+" " + silentLivenessValue);
+//                            new ImageToast().show(getApplicationContext(), bitmap, getString(R.string.liveness_detection_done)+" " + silentLivenessValue);
                             finishFaceVerify(9,R.string.liveness_detection_done,silentLivenessValue);
                         });
                     }
