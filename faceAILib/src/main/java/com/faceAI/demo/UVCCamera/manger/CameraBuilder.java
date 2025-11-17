@@ -11,7 +11,7 @@ import com.serenegiant.widget.AspectRatioSurfaceView;
 public final  class CameraBuilder {
     private final String cameraName;  // RGB 摄像头还是， 红外IR摄像头
     private final String cameraKey;   //RGB，IR 红外摄像头设备device.getProductName() 一般会有RGB/IR 字样关键字，也有不规范命名
-    private final Context context;    //上下文
+    private final Context context;    //上下文,Activity
     private final AspectRatioSurfaceView cameraView; //预览界面
     private final int degree;         //摄像头旋转角度，0，90，180，270
     private final boolean horizontalMirror;   //是否水平镜像

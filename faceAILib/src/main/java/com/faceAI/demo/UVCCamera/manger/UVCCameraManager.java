@@ -1,5 +1,6 @@
 package com.faceAI.demo.UVCCamera.manger;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
@@ -51,6 +52,7 @@ public class UVCCameraManager {
 
     private CameraBuilder cameraBuilder;
     private Context context;
+    private Activity activity;
 
     private int width=UVC_CAMERA_WIDTH,height=UVC_CAMERA_HEIGHT;
     private Bitmap reuseBitmap=null;
@@ -75,7 +77,11 @@ public class UVCCameraManager {
      */
     public UVCCameraManager(CameraBuilder cameraBuilder) {
         this.cameraBuilder = cameraBuilder;
-        this.context=cameraBuilder.getContext().getApplicationContext();
+        this.context=cameraBuilder.getContext();
+        //Context 本身就是 Activity
+        if (context instanceof Activity) {
+            activity= (Activity) context;
+        }
         initCameraHelper();
         initUVCCamera();
     }
@@ -214,18 +220,12 @@ public class UVCCameraManager {
 
             if (cameraBuilder.getCameraView() != null) {
                 mCameraHelper.addSurface(cameraBuilder.getCameraView().getHolder().getSurface(), true);
-
                 mCameraHelper.setFrameCallback(new IFrameCallback() {
                     @Override
                     public void onFrame(ByteBuffer byteBuffer) {
-                        //转为bitmap 后
-                        if (faceAIAnalysisCallBack != null) {
-
-//                            long t1=System.currentTimeMillis();
+                        if (!activity.isDestroyed() && !activity.isFinishing()&&faceAIAnalysisCallBack != null) {
                             reuseBitmap = DataConvertUtils.NV21Data2Bitmap(byteBuffer, width, height,
                                     cameraBuilder.getDegree(), cameraBuilder.isHorizontalMirror());
-//                            Log.e("DataConvertUtils",width+"转化用时："+(System.currentTimeMillis()-t1));
-
                             faceAIAnalysisCallBack.onBitmapFrame(reuseBitmap);
                         }
                     }
