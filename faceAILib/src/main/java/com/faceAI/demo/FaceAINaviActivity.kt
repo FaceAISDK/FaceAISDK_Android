@@ -35,7 +35,6 @@ class FaceAINaviActivity : AppCompatActivity() {
         setContentView(viewBinding.root)
 
         //人脸图保存路径初始化
-        FaceSDKConfig.init(this)
         setCameraType()
 
         // 摄像头类型选择 Camera type select

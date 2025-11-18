@@ -29,6 +29,20 @@ android {
 }
 
 
+//CameraX，适配Android16 KB Page请强制升级到1.4.2 以上版本
+//如果TargetSDK 还是古老的28～30 ，你只能用1.2.3 版本
+def camera_version = "1.5.1"
+configurations.configureEach {
+    resolutionStrategy {
+        force "androidx.camera:camera-core:$camera_version",
+                "androidx.camera:camera-camera2:$camera_version",
+                "androidx.camera:camera-lifecycle:$camera_version",
+                "androidx.camera:camera-view:$camera_version"
+    }
+}
+
+
+
 dependencies {
 
     //SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android

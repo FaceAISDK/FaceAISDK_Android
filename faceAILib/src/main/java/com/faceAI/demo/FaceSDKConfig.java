@@ -3,15 +3,11 @@ package com.faceAI.demo;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.text.TextUtils;
-
 import androidx.annotation.NonNull;
-
 import com.ai.face.base.baseImage.FaceEmbedding;
 import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.bumptech.glide.Glide;
 import com.faceAI.demo.base.utils.VoicePlayer;
-
 import java.io.File;
 
 /**
@@ -25,7 +21,7 @@ public class FaceSDKConfig {
     public static String CACHE_FACE_LOG_DIR;    //本地保存某次人脸校验完成后的场景图目录
 
     /**
-     * 初始化人脸本地图片存储目录，也可以不存图片转化为人脸特征向量保存
+     * 初始化人脸本地图片存储目录，请在Application onCreate中调用
      *
      */
     public static void init(Context context) {
