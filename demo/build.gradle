@@ -6,8 +6,8 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        versionCode 20251103
-        versionName "20251103"
+        versionCode 20251107
+        versionName "20251107"
 
         applicationId "com.ai.face.verifyPub"
         minSdk 21

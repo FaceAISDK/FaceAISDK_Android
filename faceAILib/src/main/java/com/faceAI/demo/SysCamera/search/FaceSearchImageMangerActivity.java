@@ -212,19 +212,16 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
      * 人脸图规范要求 大于 300*300的光线充足无遮挡的正面人脸如（./images/face_example.jpg)
      */
     private void copyFaceTestImage() {
-        Toast.makeText(getBaseContext(), "Copying Test Faces", Toast.LENGTH_LONG).show();
-        CopyFaceImageUtils.Companion.showAppFloat(getBaseContext());
-
-        CopyFaceImageUtils.Companion.copyTestFaceImage(getApplication(), new CopyFaceImageUtils.Companion.Callback() {
+        CopyFaceImageUtils.copyTestFaceImages(getApplication(), new CopyFaceImageUtils.Callback() {
             @Override
-            public void onSuccess() {
-                EasyFloat.hide("speed");
+            public void onComplete() {
                 updateFaceList();
             }
 
             @Override
-            public void onFailed(@NotNull String msg) {
-                Toast.makeText(getBaseContext(), "Failed：" + msg, Toast.LENGTH_SHORT).show();
+            public void onFailed(int successCount, int failureCount) {
+                Toast.makeText(getBaseContext(), "Success：" + successCount+" Failed:"+failureCount, Toast.LENGTH_SHORT).show();
+                updateFaceList();
             }
         });
     }

@@ -82,9 +82,9 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0.1f)     //焦距范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
-                .setRotation(degree)   //画面旋转方向
-                .setCameraSizeHigh(true) //设置高分辨率，速度会变慢很多
+                .setLinearZoom(0.1f)      //焦距范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
+                .setRotation(degree)      //画面旋转方向
+                .setCameraSizeHigh(false) //设置高分辨率，速度会变慢很多,等待优化
                 .create();
 
         //可以不用SDK 内部相机管理，自定义摄像头参考MyCameraFragment，源码开放自由修改
