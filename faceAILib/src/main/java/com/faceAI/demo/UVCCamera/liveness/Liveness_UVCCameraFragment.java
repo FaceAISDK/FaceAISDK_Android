@@ -73,7 +73,7 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                         requireActivity().runOnUiThread(() -> {
                             tipsTextView.setText(R.string.liveness_detection_done);
                             VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-                            BitmapUtils.saveBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
+                            BitmapUtils.saveScaledBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
                             requireActivity().finish();
                         });
                     }

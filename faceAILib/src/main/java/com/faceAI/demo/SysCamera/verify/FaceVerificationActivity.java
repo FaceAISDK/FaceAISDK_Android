@@ -207,7 +207,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private void showVerifyResult(boolean isVerifyMatched, float similarity, float silentLivenessScore, Bitmap bitmap) {
         //切换到主线程操作UI
         runOnUiThread(() -> {
-            BitmapUtils.saveBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");//保存场景图给三方插件使用
+            BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");//保存场景图给三方插件使用
 
             //1.RGB静默活体分数判断，根据你的摄像头设定合理值,需要摄像头成像清晰支持宽动态
             if (silentLivenessScore < silentLivenessThreshold) {

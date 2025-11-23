@@ -22,7 +22,6 @@ import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
-import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.VoicePlayer;
@@ -108,7 +107,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
-                        BitmapUtils.saveBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
+                        BitmapUtils.saveScaledBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
 
                         runOnUiThread(() -> {
 //                            new ImageToast().show(getApplicationContext(), bitmap, getString(R.string.liveness_detection_done)+" " + silentLivenessValue);
