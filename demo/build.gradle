@@ -6,8 +6,8 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        versionCode 20251107
-        versionName "20251107"
+        versionCode 20251124
+        versionName "20251124.beta"
 
         applicationId "com.ai.face.verifyPub"
         minSdk 21
@@ -62,16 +62,16 @@ android {
 
 }
 
-////CameraX，适配Android16 KB Page请强制升级到1.4.2 以上版本
-//def camera_version = "1.4.2"
-//configurations.configureEach {
-//    resolutionStrategy {
-//        force "androidx.camera:camera-core:$camera_version",
-//                "androidx.camera:camera-camera2:$camera_version",
-//                "androidx.camera:camera-lifecycle:$camera_version",
-//                "androidx.camera:camera-view:$camera_version"
-//    }
-//}
+//CameraX，适配Android16 KB Page请强制升级到1.4.2 以上版本
+def camera_version = "1.4.2"
+configurations.configureEach {
+    resolutionStrategy {
+        force "androidx.camera:camera-core:$camera_version",
+                "androidx.camera:camera-camera2:$camera_version",
+                "androidx.camera:camera-lifecycle:$camera_version",
+                "androidx.camera:camera-view:$camera_version"
+    }
+}
 
 
 dependencies {

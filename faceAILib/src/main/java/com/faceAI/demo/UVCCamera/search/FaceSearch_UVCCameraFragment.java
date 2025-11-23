@@ -79,8 +79,9 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                 .setLifecycleOwner(this)
                 .setCameraType(cameraType)
                 .setThreshold(0.88f) //阈值设置，范围限 [0.85 , 0.95] 识别可信度，也是识别灵敏度
+//                .setFaceGroup() //根据分组来搜索，比如小区不同楼栋可以设置从1A，1B，2C等分组不但能管理权限又能加快速度
+//                .setFaceTag()   //根据标记来搜索，比如有些场所只有VIP才能权限进入
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
-                .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setCameraType(FaceAICameraType.SYSTEM_CAMERA) //摄像头种类是UVC协议,和系统RGB摄像头要区分清楚
                 .setSearchIntervalTime(1900) //默认2000，范围[1500,3000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setProcessCallBack(new SearchProcessCallBack() {

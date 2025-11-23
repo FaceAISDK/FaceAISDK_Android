@@ -58,9 +58,9 @@ import java.util.List;
 public class FaceSearch1NActivity extends AbsBaseActivity {
     //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
-    private FaceCameraXFragment cameraXFragment; //可以使用开放的摄像头管理源码MyCameraFragment，自行管理摄像头
+    private FaceCameraXFragment cameraXFragment; //摄像头请自行管理，源码全部开放
     private boolean pauseSearch =false; //控制是否送数据到SDK进行搜索
-    private int cameraLensFacing;
+    private int cameraLensFacing; //摄像头前置，后置，外接。 （UVC协议请参考UVCCamera 目录代码）
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,9 +105,10 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
                 .setCameraType(FaceAICameraType.SYSTEM_CAMERA)
+//                .setFaceGroup() //根据分组来搜索，比如小区不同楼栋可以设置从1A，1B，2C等分组不但能管理权限又能加快速度
+//                .setFaceTag()   //根据标记来搜索，比如有些场所只有VIP才能权限进入
                 .setThreshold(0.85f) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值以及人脸底片质量也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
-                .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setSearchIntervalTime(1900) //默认2000，范围[1500,3000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //后面版本去除次参数
                 .setProcessCallBack(new SearchProcessCallBack() {
@@ -144,7 +145,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onFaceBrightness(float brightness) {
-                        //测试阶段，先在测试模式打开提示，大约11月中旬正式发布
+                        //测试阶段，先在测试模式打开提示，大约12月中旬正式发布
                         if(FaceSDKConfig.isDebugMode(getBaseContext())){
                             if(brightness>190){
                                 Toast.makeText(getBaseContext(),"光线过亮:"+brightness,Toast.LENGTH_SHORT).show();
@@ -184,21 +185,10 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
             if (!isDestroyed() && !isFinishing()&&!pauseSearch) {
-                //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像
+                //默认演示CameraX的 imageProxy 传入SDK，也支持NV21，Bitmap 类型，你也可以自己管理相机
                 FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
             }
         });
-
-
-        //模拟自行管理摄像头采集人脸转为Bitmap持续送入到SDK引擎中（单帧图SDK限制不会返回结果）
-//        new Timer().schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                //0a_Search 放在Asset 并提前通过Demo导入该目录人脸入库,模拟持续获取摄像头数据传入SDK
-//                Bitmap bitmap = BitmapUtils.getBitmapFromAsset(FaceSearch1NActivity.this, "0a_Search.png");
-//                FaceSearchEngine.Companion.getInstance().runSearchWithBitmap(bitmap); //不要在主线程调用
-//            }
-//        }, 200, 1000);
 
     }
 
@@ -275,7 +265,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     }
 
     /**
-     * 第二行提示
+     * 第二行的提示
      * @param resId
      */
     private void setSecondTips(int resId){

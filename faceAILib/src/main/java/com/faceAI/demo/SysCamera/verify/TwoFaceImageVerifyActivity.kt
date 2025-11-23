@@ -18,11 +18,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.faceAI.demo.BuildConfig
-import com.ai.face.base.baseImage.FaceAIUtils
 import com.ai.face.faceVerify.verify.FaceVerifyUtils
-import com.faceAI.demo.base.utils.fileUtils.MyFileUtils
 import com.faceAI.demo.databinding.ActivityTwoFaceImageVerifyBinding
 import androidx.core.graphics.drawable.toDrawable
+import com.ai.face.faceSearch.search.Image2FaceFeature
 
 
 /**
@@ -150,31 +149,30 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
      * 裁剪出照片中的人脸储存到bitmapMap
      */
     fun disposeSelectResult(results: List<FileSelectResult>, view: TextView) {
-        val fileName = MyFileUtils.getFileMetaData(
-            baseContext, results[0].uri
-        ).displayName
 
-        view.text = fileName
+        val selectUri=results[0].uri
+        val faceName = FileUtils.getFileNameFromUri(selectUri)?:"faceID"
+        val bitmapSelected = MediaStore.Images.Media.getBitmap(contentResolver,selectUri )
 
-        val bitmap = MediaStore.Images.Media.getBitmap(
-            baseContext.contentResolver,
-            results[0].uri
-        )
+        view.text = faceName
+        view.background = bitmapSelected.toDrawable(resources)
+        Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap(bitmapSelected,faceName,object : Image2FaceFeature.Callback{
 
-        view.background = bitmap.toDrawable(resources)
+            override fun onSuccess(
+                bitmap: Bitmap,
+                faceID: String,
+                faceFeature: String
+            ) {
+                bitmapMap[view.tag.toString()] = bitmap
+                view.background = bitmap.toDrawable(resources)
+            }
 
-        //检测人脸是否合规，裁剪后返回bitmap 和对应的人脸特征向量
-        FaceAIUtils.Companion.getInstance(application)
-            .disposeBaseFaceImage(baseContext,bitmap, object : FaceAIUtils.Callback {
-                override fun onSuccess(bitmap: Bitmap, faceEmbedding: FloatArray) {
-                    bitmapMap[view.tag.toString()] = bitmap
-                }
+            override fun onFailed(msg: String) {
+                Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
+                bitmapMap.remove(view.tag.toString()) //没有检测出人脸则移除上一次可能有的数据
+            }
 
-                override fun onFailed(msg: String, errorCode: Int) {
-                    Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
-                    bitmapMap.remove(view.tag.toString()) //没有检测出人脸则移除上一次可能有的数据
-                }
-            })
+        })
 
     }
 

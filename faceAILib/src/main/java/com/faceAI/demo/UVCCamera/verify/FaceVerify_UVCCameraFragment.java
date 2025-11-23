@@ -4,6 +4,7 @@ import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FAC
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.R;
+import com.tencent.mmkv.MMKV;
 
 /**
  * 演示UVC协议USB摄像头1:1人脸识别，活体检测
@@ -50,32 +52,32 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
         BrightnessUtil.setBrightness(requireActivity(), 0.9f);  //高亮白色背景屏幕光可以当补光灯
     }
 
+
     /**
      * 初始化人脸识别底图
      */
     void initFaceVerify() {
         //1:1 人脸对比，摄像头实时采集的人脸和预留的人脸底片对比。（动作活体人脸检测完成后开始1:1比对）
         String faceID = requireActivity().getIntent().getStringExtra(USER_FACE_ID_KEY);
-        float[] faceEmbedding = FaceEmbedding.loadEmbedding(requireContext(), faceID);
+        // todo 注意老版本的数据迁移问题 ！！
 
-        if(faceEmbedding.length==0){
-            //本地没有faceID对应的人脸特征向量
-            //你的业务代码，从你的服务器拿到对应的人脸特征向量，或提示录入人脸并同步数据到你的服务器，SDK不存储敏感数据
-            Toast.makeText(requireContext(),"本地无对应的人脸特征",Toast.LENGTH_LONG).show();
+        String faceFeature = MMKV.defaultMMKV().decodeString(faceID);
+        if(TextUtils.isEmpty(faceFeature)){
+            Toast.makeText(requireContext(), "faceFeature null !!! ", Toast.LENGTH_LONG).show();
         }else{
-            initFaceVerificationParam(faceEmbedding);
+            initFaceVerificationParam(faceFeature);
         }
     }
 
     /**
      * 初始化认证引擎，LivenessType.IR需要你的摄像头是双目红外摄像头，如果仅仅是RGB 摄像头请使用LivenessType.SILENT_MOTION
      *
-     * @param faceEmbedding 1:1 人脸识别对比的底片
+     * @param faceFeature 1:1 人脸识别对比的底片
      */
-    void initFaceVerificationParam(float[] faceEmbedding){
+    void initFaceVerificationParam(String faceFeature){
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(getContext())
                 .setThreshold(0.84f)                    //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
-                .setFaceEmbedding(faceEmbedding)        //1:1 人脸识别对比底片人脸特征库
+                .setFaceFeature(faceFeature)        //1:1 人脸识别对比底片人脸特征
                 .setCameraType(cameraType)
                 .setLivenessType(FaceLivenessType.SILENT_MOTION)   //IR 是指红外静默，MOTION 是有动作可以指定1-2 个
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)   //硬件配置低用FAST动作活体模式，否则用精确模式
