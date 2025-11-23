@@ -29,9 +29,6 @@ public class WelcomeActivity extends AppCompatActivity {
         TextView sdkVersion=findViewById(R.id.sdk_version);
         sdkVersion.setText("SDK Version: "+getVersionName());
 
-        // 人脸图保存路径等初始化配置
-        FaceSDKConfig.init(this);
-
         new Handler().postDelayed(() -> {
             startActivity(new Intent(WelcomeActivity.this, FaceAINaviActivity.class));
             finish();

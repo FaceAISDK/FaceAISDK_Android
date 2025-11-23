@@ -128,7 +128,7 @@ public class FaceCameraXFragment extends Fragment {
             try {
                 cameraProvider = cameraProviderFuture.get();
             } catch (ExecutionException | InterruptedException e) {
-                Log.e("FaceAI SDK", "\ncameraProviderFuture.get() 发生错误！\n" + e.toString());
+                Log.e("FaceAI SDK", "\ncameraProviderFuture.get() 发生错误！\n" + e.getMessage());
             }
 
             if(cameraSizeHigh){

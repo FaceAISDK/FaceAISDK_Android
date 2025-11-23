@@ -50,7 +50,7 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
 
     //人脸识别相关的方法
     abstract void initFaceVerify();
-    abstract void initFaceVerificationParam(float[] face);
+    abstract void initFaceVerificationParam(String faceFeature);
     abstract void showVerifyResult(boolean isVerifyMatched, float similarity, float silentLivenessScore);
     abstract void showFaceVerifyTips(int actionCode);
     abstract void faceVerifySetBitmap(Bitmap bitmap, FaceVerifyUtils.BitmapType type);
