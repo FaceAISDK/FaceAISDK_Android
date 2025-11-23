@@ -31,7 +31,7 @@ android {
 
 //CameraX，适配Android16 KB Page请强制升级到1.4.2 以上版本
 //如果TargetSDK 还是古老的28～30 ，你只能用1.2.3 版本
-def camera_version = "1.5.1"
+def camera_version = "1.5.0"
 configurations.configureEach {
     resolutionStrategy {
         force "androidx.camera:camera-core:$camera_version",
@@ -46,7 +46,7 @@ configurations.configureEach {
 dependencies {
 
     //SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
-    api 'io.github.faceaisdk:Android:2025.11.19.test5'
+    api 'io.github.faceaisdk:Android:2025.11.23.pro'
 
     //UVC协议USB摄像头（选配，不需要可以删除）源码: https://github.com/shiyinghan/UVCAndroid
     implementation 'io.github.faceaisdk:UVCCamera:2025.07.30'

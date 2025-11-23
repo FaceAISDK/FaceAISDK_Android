@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.ai.face.base.baseImage.FaceEmbedding;
+import com.ai.face.core.mfn.FaceAISDKEngine;
 import com.ai.face.core.utils.FaceAICameraType;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.UVCCamera.verify.FaceVerify_UVCCameraActivity;
@@ -36,6 +37,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.faceAI.demo.R;
 import com.faceAI.demo.base.utils.BitmapUtils;
+import com.tencent.mmkv.MMKV;
+
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.ArrayList;
@@ -102,12 +105,8 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
             new AlertDialog.Builder(this).setTitle(getString(R.string.sure_delete_face_title)
                             + imageBean.name+"?").setMessage(R.string.sure_delete_face_tips)
                     .setPositiveButton(R.string.confirm, (dialog, which) -> {
-                        //删除图片和对应的编码
-                        if(FaceSDKConfig.deleteFace(getBaseContext(),imageBean.path,imageBean.name)){
-                            updateFaceList();
-                        }else{
-                            Toast.makeText(getApplication(), "Delete failed", Toast.LENGTH_LONG).show();
-                        }
+                        FaceSDKConfig.deleteFaceVerifyData(this,imageBean.name);
+                        updateFaceList();
                     }).setNegativeButton(R.string.cancel, null).show();
             return false;
         });
@@ -135,12 +134,14 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
      * 相册选择的照片,裁剪等处理好数据后返回了
      */
     @Override
-    public void disposeSelectImage(@NotNull String faceID, @NotNull Bitmap disposedBitmap, @NonNull float[] faceEmbedding) {
-        //1:1 人脸识别保存人脸底图 *&%^&*^%$&^%#&%^
-        BitmapUtils.saveScaledBitmap(disposedBitmap, CACHE_BASE_FACE_DIR, faceID);
+    public void disposeSelectImage(@NotNull String faceID, @NotNull Bitmap disposedBitmap, @NonNull String faceFeature) {
+        MMKV.defaultMMKV().encode(faceID, faceFeature); //保存人脸faceID 对应的特征值,SDK 只要这个
 
-        //保存在App 的私有目录，
-        FaceEmbedding.saveEmbedding(getBaseContext(), faceID, faceEmbedding);
+        //如果人脸图业务上需要人脸头像进行UI展示也可以保存到本地
+        FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(disposedBitmap, FaceSDKConfig.CACHE_BASE_FACE_DIR, faceID);
+//        //1:1 人脸识别保存人脸底图
+//        BitmapUtils.saveDisposedBitmap(disposedBitmap, FaceSDKConfig.CACHE_BASE_FACE_DIR, faceID);
+
         updateFaceList();
     }
 

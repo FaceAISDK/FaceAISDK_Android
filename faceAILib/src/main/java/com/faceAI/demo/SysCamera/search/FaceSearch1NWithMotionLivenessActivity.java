@@ -313,7 +313,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                 .setCameraType(FaceAICameraType.SYSTEM_CAMERA)
                 .setThreshold(0.85f) //阈值范围限[0.85 , 0.95] 搜索识别可信度，阈值高摄像头成像品质宽动态值以及人脸底片质量也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
-                .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setSearchIntervalTime(1900) //默认2000，范围[1500,3000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //后面版本去除此参数
                 .setProcessCallBack(new SearchProcessCallBack() {

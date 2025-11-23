@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="11dp"
+    android:layout_margin="22dp"
     android:fitsSystemWindows="true"
     android:background="@color/white"
     android:layout_width="match_parent"
@@ -38,10 +38,13 @@
     <TextView
         android:id="@+id/image1"
         android:layout_width="0dp"
-        android:layout_height="222dp"
+        android:layout_height="0dp"
         android:layout_margin="6dp"
-        android:text="  Image 1"
         android:background="@color/half_grey"
+        android:text="  Image 1"
+        android:singleLine="true"
+        android:textSize="11sp"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@+id/image2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tips" />
@@ -50,12 +53,15 @@
     <TextView
         android:id="@+id/image2"
         android:layout_width="0dp"
-        android:layout_height="222dp"
+        android:layout_height="0dp"
         android:layout_margin="6dp"
-        android:text="  Image 2"
         android:background="@color/half_grey"
-        app:layout_constraintStart_toEndOf="@+id/image1"
+        android:text="  Image 2"
+        android:singleLine="true"
+        android:textSize="11sp"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/image1"
         app:layout_constraintTop_toBottomOf="@+id/tips" />
 
     <TextView

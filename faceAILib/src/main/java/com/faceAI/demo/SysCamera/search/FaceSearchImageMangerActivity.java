@@ -1,7 +1,6 @@
 package com.faceAI.demo.SysCamera.search;
 
 import static com.faceAI.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
-import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
 import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
 
 import android.app.AlertDialog;
@@ -22,17 +21,19 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ai.face.core.mfn.FaceAISDKEngine;
 import com.ai.face.core.utils.FaceAICameraType;
+import com.ai.face.faceSearch.search.FaceSearchFeatureManger;
+import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.SysCamera.verify.AbsAddFaceFromAlbumActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraFragment;
 import com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity;
-import com.ai.face.faceSearch.search.FaceSearchImagesManger;
+import com.ai.face.faceSearch.search.Image2FaceFeature;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.lzf.easyfloat.EasyFloat;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -86,7 +87,7 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
                     .setTitle(getString(R.string.sure_delete_face_title) + imageBean.name+"?")
                     .setMessage(R.string.sure_delete_face_tips)
                     .setPositiveButton(R.string.confirm, (dialog, which) -> {
-                        FaceSearchImagesManger.Companion.getInstance(getApplication()).deleteFaceImage(imageBean.path);
+                        Image2FaceFeature.Companion.getInstance(getApplication()).deleteFaceImage(imageBean.path);
                         updateFaceList();
                     })
                     .setNegativeButton(R.string.cancel, null).show();
@@ -99,10 +100,10 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
         TextView tips = findViewById(R.id.tips);
         tips.setOnLongClickListener(v -> {
             new AlertDialog.Builder(FaceSearchImageMangerActivity.this)
-                    .setTitle("Delete All Faces？")
-                    .setMessage("Delete all faces is an irreversible operation!")
+                    .setTitle("Delete All Face Images？")
+                    .setMessage("Are you sure to delete all face images? dangerous operation!")
                     .setPositiveButton(R.string.confirm, (dialog, which) -> {
-                        FaceSearchImagesManger.Companion.getInstance(getApplication()).clearFaceImages(CACHE_SEARCH_FACE_DIR);
+                        Image2FaceFeature.Companion.getInstance(getApplication()).clearFaceImages(FaceSDKConfig.CACHE_SEARCH_FACE_DIR);
                         updateFaceList();
                     })
                     .setNegativeButton(R.string.cancel, null).show();
@@ -127,26 +128,19 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
     }
 
     /**
-     * 相册选择的照片,裁剪等处理好数据后返回了
+     * 人脸搜索(1:N ，M：N )保存人脸 相册选择的照片,裁剪等处理好数据后返回了
      */
     @Override
-    public void disposeSelectImage(@NotNull String faceID, @NotNull Bitmap disposedBitmap, @NonNull float[] faceEmbedding) {
-        //人脸搜索(1:N ，M：N )保存人脸
-        String filePathName = CACHE_SEARCH_FACE_DIR + faceID;
-        //一定要用SDK API 进行添加删除，不要直接File 接口文件添加删除，不然无法同步人脸SDK中特征值的更新
-        FaceSearchImagesManger.Companion.getInstance(getApplication())
-                .insertOrUpdateFaceImage(disposedBitmap, filePathName, new FaceSearchImagesManger.Callback() {
-                    @Override
-                    public void onSuccess(@NonNull Bitmap bitmap, @NonNull float[] faceEmbedding) {
-                        updateFaceList();
-                        Toast.makeText(getBaseContext(), "Success", Toast.LENGTH_SHORT).show();
-                    }
+    public void disposeSelectImage(@NotNull String faceID, @NotNull Bitmap disposedBitmap, @NonNull String faceFeature) {
 
-                    @Override
-                    public void onFailed(@NotNull String msg) {
-                        Toast.makeText(getBaseContext(), "Failed", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        //tag 和 group 可以用来做标记和分组。人脸搜索的时候可以加快速度降低误差
+        FaceSearchFeatureManger.getInstance(this)
+                .insertFaceFeature(faceID, faceFeature, System.currentTimeMillis(),"tag","group");
+
+        //保存到人脸搜索目录；如果你的业务不需要裁剪矫正好的人脸也可以不缓存
+        FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(disposedBitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, faceID);
+
+        updateFaceList();
 
     }
 
@@ -178,7 +172,7 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
      */
     private void loadImageList() {
         faceImageList.clear();
-        File file = new File(CACHE_SEARCH_FACE_DIR);
+        File file = new File(FaceSDKConfig.CACHE_SEARCH_FACE_DIR);
         File[] subFaceFiles = file.listFiles();
         if (subFaceFiles != null) {
             Arrays.sort(subFaceFiles, new Comparator<>() {
@@ -202,7 +196,6 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
                     faceImageList.add(new ImageBean(filePath, filename));
                 }
             }
-            Toast.makeText(getBaseContext(), "Face size：" + faceImageList.size(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -212,18 +205,16 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
      * 人脸图规范要求 大于 300*300的光线充足无遮挡的正面人脸如（./images/face_example.jpg)
      */
     private void copyFaceTestImage() {
-        CopyFaceImageUtils.copyTestFaceImages(getApplication(), new CopyFaceImageUtils.Callback() {
+        CopyFaceImageUtils.showLoadingFloat(this);
+        CopyFaceImageUtils.copyTestFaceImages(this, new CopyFaceImageUtils.Callback() {
             @Override
-            public void onComplete() {
-                updateFaceList();
-            }
-
-            @Override
-            public void onFailed(int successCount, int failureCount) {
+            public void onComplete(int successCount, int failureCount) {
                 Toast.makeText(getBaseContext(), "Success：" + successCount+" Failed:"+failureCount, Toast.LENGTH_SHORT).show();
                 updateFaceList();
+                CopyFaceImageUtils.dismissLoadingFloat();
             }
         });
+
     }
 
 
@@ -265,19 +256,16 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
             super(R.layout.adapter_face_image_list_item, data);
         }
 
-
         @Override
         protected void convert(BaseViewHolder helper, ImageBean imageBean) {
             Glide.with(getBaseContext()).load(imageBean.path)
-                    .skipMemoryCache(false) //使用内存缓存，以便低配置设备快速加载，同名faceID图片更换后要重新启动App 才生效
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .override(200)
-                    .placeholder(R.mipmap.ic_launcher)
+                    .skipMemoryCache(false)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .into((ImageView) helper.getView(R.id.face_image));
-
             TextView faceName = helper.getView(R.id.face_name);
             faceName.setText(imageBean.name);
         }
     }
+
 
 }

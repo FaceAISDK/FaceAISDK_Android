@@ -74,12 +74,9 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             binding.copyFaceImages.visibility= View.INVISIBLE
 
             CopyFaceImageUtils.copyTestFaceImages(
-                application,
+                baseContext,
                 object : CopyFaceImageUtils.Callback {
-                    override fun onComplete() {
-                    }
-
-                    override fun onFailed(successCount: Int, failureCount: Int) {
+                    override fun onComplete(successCount: Int, failureCount: Int) {
                         Toast.makeText(
                             baseContext,
                             "Success：$successCount Failed:$failureCount",

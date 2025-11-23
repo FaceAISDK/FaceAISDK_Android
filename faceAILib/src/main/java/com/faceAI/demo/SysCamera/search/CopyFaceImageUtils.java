@@ -1,6 +1,5 @@
 package com.faceAI.demo.SysCamera.search;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -12,165 +11,183 @@ import android.view.Gravity;
 
 import androidx.annotation.NonNull;
 
-import com.ai.face.faceSearch.search.FaceSearchImagesManger;
+import com.ai.face.core.mfn.FaceAISDKEngine;
+import com.ai.face.faceSearch.search.FaceSearchFeatureManger;
+import com.ai.face.faceSearch.search.Image2FaceFeature;
 import com.airbnb.lottie.LottieAnimationView;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import com.lzf.easyfloat.EasyFloat;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
- * Java版本：拷贝 Assets 目录下的人脸图到人脸搜索库
+ * 模拟同步大量图片人脸转为人脸特征值到SDK,强烈建议只维护人脸特征
+ * 为了演示简单，当前人脸图放在工程本地Assert目录。网络人脸图：https://postimg.cc/gallery/cYBKVYP
  *
- * 2025年11月20日修改：
+ * 2025年11月23日优化：
+ * 1. 改为串行递归处理，彻底解决多图并发导致的 OOM 问题。
  */
 public class CopyFaceImageUtils {
     private static final String TAG = "CopyFaceImageUtils";
 
     public interface Callback {
-        /**
-         * 当所有图片都成功处理时回调
-         */
-        void onComplete();
-
-        /**
-         * 当有部分或全部图片处理失败时回调
-         * @param successCount 成功数量
-         * @param failureCount 失败数量
-         */
-        void onFailed(int successCount, int failureCount);
+        void onComplete(int successCount, int failureCount);
     }
 
     /**
-     * 快速复制工程目录 ./app/src/main/assets 目录下的人脸图入库，以便验证人脸搜索功能。
-     * 此方法是异步的，处理完成后会通过Callback通知结果。
-     *
-     * @param context  Application Context
-     * @param callBack 结果回调
+     * 异步执行图片导入（入口）
      */
-    public static void copyTestFaceImages(@NonNull Application context, @NonNull Callback callBack) {
-        showLoadingFloat(context); // 显示悬浮窗
+    public static void copyTestFaceImages(@NonNull Context context, @NonNull Callback callBack) {
+        // 1. 先显示 Loading
+        showLoadingFloat(context);
 
-        new Thread(() -> {
-            int successCount = 0;
-            int failureCount = 0;
-
+        // 2. 在后台线程准备文件列表，避免阻塞 UI
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
             try {
-                // 1. 获取需要处理的图片文件列表
-                AssetManager assetManager = context.getAssets();
-                String[] allFiles = assetManager.list("");
-                if (allFiles == null || allFiles.length == 0) {
-                    Log.w(TAG, "Assets directory is empty or cannot be accessed.");
-                    // 没有文件，直接回调成功
-                    postSuccess(callBack);
-                    return;
-                }
-
-                // 过滤出图片文件
-                List<String> imageFiles = new ArrayList<>();
-                for (String fileName : allFiles) {
-                    if (fileName.endsWith(".jpg") || fileName.endsWith(".png") || fileName.endsWith(".jpeg") || fileName.endsWith(".webp")) {
-                        imageFiles.add(fileName);
-                    }
-                }
-
-                if (imageFiles.isEmpty()) {
-                    Log.w(TAG, "No image files found in assets directory.");
-                    postSuccess(callBack);
-                    return;
-                }
-
-                // 2. 初始化计数器和SDK管理器
-                final AtomicInteger tasksRemaining = new AtomicInteger(imageFiles.size());
-                final AtomicInteger failedCounter = new AtomicInteger(0);
-                FaceSearchImagesManger manager = FaceSearchImagesManger.getInstance(context);
-                String cacheDir = FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
-
-                // 3. 遍历图片并进行入库处理
-                for (String fileName : imageFiles) {
-                    Bitmap originBitmap = getBitmapFromAsset(assetManager, fileName);
-                    if (originBitmap != null) {
-                        String savedPath = cacheDir + fileName;
-                        manager.insertOrUpdateFaceImage(
-                                originBitmap,
-                                savedPath,
-                                new FaceSearchImagesManger.Callback() {
-                                    @Override
-                                    public void onSuccess(@NonNull Bitmap bitmap, @NonNull float[] faceEmbedding) {
-                                        Log.d(TAG, "Successfully processed: " + fileName);
-                                        // 任务完成，计数器减一
-                                        if (tasksRemaining.decrementAndGet() == 0) {
-                                            // 所有任务都已完成
-                                            finalizeProcess(callBack, imageFiles.size(), failedCounter.get());
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailed(@NonNull String msg) {
-                                        Log.e(TAG, "Failed to process: " + fileName + ", Reason: " + msg);
-                                        failedCounter.incrementAndGet(); // 失败计数器加一
-                                        if (tasksRemaining.decrementAndGet() == 0) {
-                                            // 所有任务都已完成
-                                            finalizeProcess(callBack, imageFiles.size(), failedCounter.get());
-                                        }
-                                    }
-                                }
-                        );
-                    } else {
-                        // 如果Bitmap加载失败，也算一个失败任务
-                        Log.e(TAG, "Failed to decode bitmap from asset: " + fileName);
-                        failedCounter.incrementAndGet();
-                        if (tasksRemaining.decrementAndGet() == 0) {
-                            finalizeProcess(callBack, imageFiles.size(), failedCounter.get());
-                        }
-                    }
-                }
-            } catch (IOException e) {
-                Log.e(TAG, "Error accessing assets", e);
-                // 发生严重IO异常，直接回调失败
-                postFailure(callBack, 0, 0); // 或者传递一个特殊值表示IO错误
+                prepareAndStart(context, callBack);
+            } catch (Exception e) {
+                Log.e(TAG, "Unexpected error during init", e);
+                finalizeProcess(callBack, 0, 0);
             } finally {
-                // 确保悬浮窗在后台线程结束后被关闭
-                // 注意：这里需要确保回调执行后再关闭，所以将关闭操作移到主线程回调中
+                executor.shutdown();
             }
-        }).start();
+        });
     }
 
     /**
-     * 所有任务处理完毕后，决定最终回调
+     * 准备文件列表并开始处理第一张
      */
-    private static void finalizeProcess(Callback callback, int total, int failed) {
-        int success = total - failed;
-        if (failed == 0) {
-            postSuccess(callback);
-        } else {
-            postFailure(callback, success, failed);
+    private static void prepareAndStart(@NonNull Context context, @NonNull Callback callBack) {
+        AssetManager assetManager = context.getAssets();
+        String[] allFiles;
+        try {
+            allFiles = assetManager.list("");
+        } catch (IOException e) {
+            Log.e(TAG, "Error accessing assets", e);
+            finalizeProcess(callBack, 0, 0);
+            return;
         }
+
+        if (allFiles == null || allFiles.length == 0) {
+            Log.w(TAG, "Assets directory is empty.");
+            finalizeProcess(callBack, 0, 0);
+            return;
+        }
+
+        // 过滤图片。
+        List<String> imageFiles = new ArrayList<>();
+        for (String fileName : allFiles) {
+            String lowerName = fileName.toLowerCase();
+            if (lowerName.endsWith(".jpg") || lowerName.endsWith(".png") ||
+                    lowerName.endsWith(".jpeg") || lowerName.endsWith(".webp")) {
+                imageFiles.add(fileName);
+            }
+        }
+
+        if (imageFiles.isEmpty()) {
+            Log.w(TAG, "No image files found.");
+            finalizeProcess(callBack, 0, 0);
+            return;
+        }
+
+        Log.e(TAG, "\nStart processing " + imageFiles.size() + " images sequentially...\n");
+
+        // 3. 开始递归处理第 0 张图片
+        // 注意：这里切回主线程或者继续在子线程取决于 SDK 的要求。
+        // 通常建议后续逻辑在主线程发起，SDK 内部会处理耗时操作，或者继续保持子线程调用。
+        // 这里为了安全起见，我们直接调用，SDK 内部的回调通常是异步的。
+        processNextImage(context, imageFiles, 0, 0, 0, callBack);
     }
 
-    private static void postSuccess(Callback callback) {
-        new Handler(Looper.getMainLooper()).post(() -> {
-            dismissLoadingFloat();
-            callback.onComplete();
-        });
-    }
+    /**
+     * 核心方法：递归串行处理每一张图片
+     *
+     * @param index        当前处理的图片索引
+     * @param successCount 当前成功总数
+     * @param failureCount 当前失败总数
+     */
+    private static void processNextImage(Context context, List<String> imageFiles,
+                                         int index, int successCount, int failureCount,
+                                         Callback callBack) {
 
-    private static void postFailure(Callback callback, int successCount, int failureCount) {
-        new Handler(Looper.getMainLooper()).post(() -> {
-            dismissLoadingFloat();
-            callback.onFailed(successCount, failureCount);
+        // 1. 终止条件：所有图片处理完毕
+        if (index >= imageFiles.size()) {
+            Log.e(TAG, "-------- 完成处理 ------- ");
+            finalizeProcess(callBack, successCount, failureCount);
+            return;
+        }
+
+        String fileName = imageFiles.get(index);
+        AssetManager assetManager = context.getAssets();
+
+        // 2. 加载 Bitmap (即使在这里 OOM，也只会因为一张图，而不是50张并发)
+        Bitmap originBitmap = getBitmapFromAsset(assetManager, fileName);
+
+        if (originBitmap == null) {
+            Log.e(TAG, "Failed to decode bitmap: " + fileName);
+            // 失败，直接处理下一张 (index + 1)
+            processNextImage(context, imageFiles, index + 1, successCount, failureCount + 1, callBack);
+            return;
+        }
+
+        // 3. 调用 SDK 提取特征
+        Image2FaceFeature.getInstance(context).getFaceFeatureByBitmap(originBitmap, fileName, new Image2FaceFeature.Callback() {
+            @Override
+            public void onSuccess(@NotNull Bitmap croppedBitmap, @NotNull String faceID, @NotNull String faceFeature) {
+                try {
+                    // 插入特征库
+                    FaceSearchFeatureManger.getInstance(context)
+                            .insertFaceFeature(fileName, faceFeature, System.currentTimeMillis(), "", "");
+
+                    // 保存人脸小图
+                    FaceAISDKEngine.getInstance(context).saveCroppedFaceImage(croppedBitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, fileName);
+
+                    Log.d(TAG, "Processed [" + (index + 1) + "/" + imageFiles.size() + "]: " + fileName + " (Success)");
+
+                    // 递归调用下一张：成功数 + 1
+                    processNextImage(context, imageFiles, index + 1, successCount + 1, failureCount, callBack);
+
+                } catch (Exception e) {
+                    Log.e(TAG, "Error saving data for: " + fileName, e);
+                    // 即使保存出错，也视为处理完成（算失败），继续下一张
+                    processNextImage(context, imageFiles, index + 1, successCount, failureCount + 1, callBack);
+                } finally {
+
+                }
+            }
+
+            @Override
+            public void onFailed(@NotNull String msg) {
+                Log.e(TAG, "SDK Failed [" + (index + 1) + "/" + imageFiles.size() + "]: " + fileName + ", Msg: " + msg);
+                // 递归调用下一张：失败数 + 1
+                processNextImage(context, imageFiles, index + 1, successCount, failureCount + 1, callBack);
+            }
         });
     }
 
     /**
-     * 显示等待悬浮窗
+     * 流程结束，统一出口
      */
-    private static void showLoadingFloat(Context context) {
+    private static void finalizeProcess(Callback callback, int success, int failed) {
+        // 确保在主线程执行 UI 操作和回调
+        new Handler(Looper.getMainLooper()).post(() -> {
+            callback.onComplete(success, failed);
+        });
+    }
+
+    /**
+     * 显示 Loading (主线程)
+     */
+    public static void showLoadingFloat(Context context) {
         EasyFloat.with(context.getApplicationContext())
                 .setTag("loading_float")
                 .setGravity(Gravity.CENTER, 0, 0)
@@ -185,21 +202,20 @@ public class CopyFaceImageUtils {
     }
 
     /**
-     * 关闭等待悬浮窗
+     * 关闭 Loading
      */
-    private static void dismissLoadingFloat() {
-        if (EasyFloat.getFloatView("loading_float") != null) {
-            EasyFloat.dismiss("loading_float");
-        }
+    public static void dismissLoadingFloat() {
+        EasyFloat.dismiss("loading_float");
     }
 
 
     /**
-     * 从 Assets 安全地读取 Bitmap
+     * 从 Assets 读取图片
+     * 建议：如果图片特别大，可以在这里加入 BitmapFactory.Options 进行采样压缩
      */
     private static Bitmap getBitmapFromAsset(AssetManager assetManager, String strName) {
-        try (InputStream istr = assetManager.open(strName)) {
-            return BitmapFactory.decodeStream(istr);
+        try (InputStream instr = assetManager.open(strName)) {
+            return BitmapFactory.decodeStream(instr);
         } catch (IOException e) {
             Log.e(TAG, "Cannot open asset: " + strName, e);
             return null;
