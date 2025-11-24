@@ -37,7 +37,6 @@ abstract class AbsAddFaceFromAlbumActivity : AppCompatActivity() {
     // 从相册选择
     abstract fun disposeSelectImage(faceID:String,disposedBitmap: Bitmap, faceFeature: String)
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FileOperator.init(application, BuildConfig.DEBUG)

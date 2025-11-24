@@ -21,6 +21,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.camera.core.CameraSelector;
 
+import com.ai.face.base.baseImage.FaceEmbedding;
+import com.ai.face.core.engine.FaceAISDKEngine;
 import com.ai.face.core.utils.FaceAICameraType;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.faceAI.demo.FaceSDKConfig;
@@ -84,7 +86,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         getIntentParams(); //接收三方插件传递的参数，原生开发可以忽略裁剪掉
 
         initCameraX();
-        initFaceVerifyEmbedding();
+        initFaceVerifyFeature();
     }
 
     /**
@@ -107,19 +109,22 @@ public class FaceVerificationActivity extends AbsBaseActivity {
 
 
     /**
-     * 初始化人脸识别底图 人脸特征向量
+     * 初始化人脸识别底图 人脸特征值
      */
-    private void initFaceVerifyEmbedding() {
-        //人脸图片和人脸特征向量不方便传递，以及相关法律法规不允许明文传输
-//        float[] faceEmbedding = FaceEmbedding.loadEmbedding(getBaseContext(), faceID);
+    private void initFaceVerifyFeature() {
+        //人脸图片和人脸特征向量不方便传递，以及相关法律法规不允许明文传输。注意数据迁移
+        float[] faceEmbedding = FaceEmbedding.loadEmbedding(getBaseContext(), faceID);
+        String faceFeatureOld=FaceAISDKEngine.getInstance(this).faceArray2Feature(faceEmbedding);
 
-        //从本地MMKV读取人脸特征值
+        //从本地MMKV读取人脸特征值(2025.11.23版本使用MMKV，老的人脸数据请做好迁移)
         String faceFeature = MMKV.defaultMMKV().decodeString(faceID);
-        if (TextUtils.isEmpty(faceFeature)) {
-            //根据你的业务进行提示去录入人脸 提取特征，服务器有提前同步到本地
-            Toast.makeText(getBaseContext(), "faceFeature null !!! ", Toast.LENGTH_LONG).show();
-        } else {
+        if (!TextUtils.isEmpty(faceFeature)) {
             initFaceVerificationParam(faceFeature);
+        } else if (!TextUtils.isEmpty(faceFeatureOld)) {
+            initFaceVerificationParam(faceFeatureOld);
+        }else{
+            //根据你的业务进行提示去录入人脸 提取特征，服务器有提前同步到本地
+            Toast.makeText(getBaseContext(), "faceFeature isEmpty ! ", Toast.LENGTH_LONG).show();
         }
 
         // 去Path 路径读取有没有faceID 对应的处理好的人脸Bitmap
