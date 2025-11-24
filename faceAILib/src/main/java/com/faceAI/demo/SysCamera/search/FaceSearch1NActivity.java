@@ -134,7 +134,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap) {
                         Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
-                        new ImageToast().show(getApplicationContext(), mostSimilarBmp, faceID.replace(".jpg"," ")+score);
+                        new ImageToast().show(getApplicationContext(), mostSimilarBmp, faceID+" , "+score);
                         VoicePlayer.getInstance().play(R.raw.success);
                         binding.graphicOverlay.clearRect();
                     }

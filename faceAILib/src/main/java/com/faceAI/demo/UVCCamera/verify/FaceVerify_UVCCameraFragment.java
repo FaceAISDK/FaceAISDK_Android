@@ -1,15 +1,21 @@
 package com.faceAI.demo.UVCCamera.verify;
 
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
+
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
+
 import com.ai.face.base.baseImage.FaceEmbedding;
+import com.ai.face.core.engine.FaceAISDKEngine;
 import com.ai.face.core.utils.FaceAICameraType;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
@@ -17,6 +23,9 @@ import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.R;
@@ -54,18 +63,23 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
 
 
     /**
-     * 初始化人脸识别底图
+     * 初始化人脸识别底图 人脸特征值
      */
-    void initFaceVerify() {
-        //1:1 人脸对比，摄像头实时采集的人脸和预留的人脸底片对比。（动作活体人脸检测完成后开始1:1比对）
+    void initFaceVerifyFeature() {
         String faceID = requireActivity().getIntent().getStringExtra(USER_FACE_ID_KEY);
-        // todo 注意老版本的数据迁移问题 ！！
+        //人脸图片和人脸特征向量不方便传递，以及相关法律法规不允许明文传输。注意数据迁移
+        float[] faceEmbedding = FaceEmbedding.loadEmbedding(requireContext(), faceID);
+        String faceFeatureOld = FaceAISDKEngine.getInstance(requireContext()).faceArray2Feature(faceEmbedding);
 
+        //从本地MMKV读取人脸特征值(2025.11.23版本使用MMKV，老的人脸数据请做好迁移)
         String faceFeature = MMKV.defaultMMKV().decodeString(faceID);
-        if(TextUtils.isEmpty(faceFeature)){
-            Toast.makeText(requireContext(), "faceFeature null !!! ", Toast.LENGTH_LONG).show();
-        }else{
+        if (!TextUtils.isEmpty(faceFeature)) {
             initFaceVerificationParam(faceFeature);
+        } else if (!TextUtils.isEmpty(faceFeatureOld)) {
+            initFaceVerificationParam(faceFeatureOld);
+        } else {
+            //根据你的业务进行提示去录入人脸 提取特征，服务器有提前同步到本地
+            Toast.makeText(requireContext(), "faceFeature isEmpty ! ", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -74,7 +88,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
      *
      * @param faceFeature 1:1 人脸识别对比的底片
      */
-    void initFaceVerificationParam(String faceFeature){
+    void initFaceVerificationParam(String faceFeature) {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(getContext())
                 .setThreshold(0.84f)                    //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
                 .setFaceFeature(faceFeature)        //1:1 人脸识别对比底片人脸特征
@@ -267,7 +281,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                         setSecondTips(0);
                         break;
 
-                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM. ACTION_NO_FACE:
+                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
                         setSecondTips(R.string.no_face_detected_tips);
                         break;
 
@@ -282,13 +296,14 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
 
     /**
      * 第二行提示
+     *
      * @param resId
      */
-    private void setSecondTips(int resId){
-        if(resId==0){
+    private void setSecondTips(int resId) {
+        if (resId == 0) {
             secondTipsTextView.setText("");
             secondTipsTextView.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             secondTipsTextView.setVisibility(View.VISIBLE);
             secondTipsTextView.setText(resId);
         }
@@ -329,9 +344,9 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
      */
     void faceVerifySetBitmap(Bitmap bitmap, FaceVerifyUtils.BitmapType type) {
 
-        if(cameraType== FaceAICameraType.UVC_CAMERA_RGB){
+        if (cameraType == FaceAICameraType.UVC_CAMERA_RGB) {
             faceVerifyUtils.goVerifyWithBitmap(bitmap);
-        }else{
+        } else {
             if (type.equals(FaceVerifyUtils.BitmapType.IR)) {
                 irBitmap = bitmap;
                 irReady = true;

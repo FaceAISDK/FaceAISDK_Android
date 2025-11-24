@@ -6,10 +6,10 @@ plugins {
 
 android {
     namespace 'com.faceAI.demo'
-    compileSdk 33
+    compileSdk 35
     defaultConfig {
         minSdk 21
-        targetSdk 33 //target SDK 还是28 的请参考question.md 文档说明
+        targetSdk 35 //target SDK 还是28 的请参考question.md 文档说明
 
         ndk {
             abiFilters 'arm64-v8a' //暂时只配置64位CPU，32位需要的自行配置
@@ -46,7 +46,7 @@ configurations.configureEach {
 dependencies {
 
     //SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
-    api 'io.github.faceaisdk:Android:2025.11.23.pro'
+    api 'io.github.faceaisdk:Android:2025.11.24.alpha'
 
     //UVC协议USB摄像头（选配，不需要可以删除）源码: https://github.com/shiyinghan/UVCAndroid
     implementation 'io.github.faceaisdk:UVCCamera:2025.07.30'

@@ -20,41 +20,8 @@ Android SDK可支持Android[5,15] **SDK激活和使用都不用联网，不保�
 
 ![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
-**其他平台**
-**iOS SDK：** https://github.com/FaceAISDK/FaceAISDK_iOS  
-**Android：** https://github.com/FaceAISDK/FaceAISDK_Android  
-
-**其他实现**  
-**React native** https://github.com/zkteco-home/react-native-face-ai  
-**uni-App X：**  https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS  
-**uni-App ：**   https://github.com/FaceAISDK/UniPlugin-FaceAISDK  
-**Flutter ：**   need your help
-
-<div align=center>
-<img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
-</div>
-
-##  V2025.11.03
-- 更新相机管理FaceCameraXFragment，人脸搜索解除人脸区域占比大小限制
-- 动作活体支持自由组合1-2种（ 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头）
-- 设备硬件配置检测并分为高中低3种类型
-- 添加本地人脸缓存清除接口，以便相关合规整改
-- 去除多人脸检测回调提醒，自动取最大的人脸分析
-- 升级工程Android Studio到Narwhal4 和AGP8.13等，以便更好的使用AI辅助编程以及调试Bitmap
-  更多：https://mp.weixin.qq.com/s/048q5A1D3U_bdJY6tfsAwQ
-
-更多历史版本说明参考 [历史版本SDK更新记录](doc/历史版本SDK更新记录.md)
-
-## [使用场景和区别](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/doc/Introduce_11_1N_MN.md)
-
-【1:1】 移动考勤签到、App免密登录、刷脸授权、刷脸解锁、巡更打卡真人校验
-
-【1:N】 小区门禁、公司门禁、智能门锁、智慧校园、机器人、智能家居、社区、酒店等
-
-【M:N】 公安布控、人群追踪 监控等 (测试效果可使用images/MN_face_search_test.jpg 模拟)
-
 ## 接入集成使用
-   
+
 先在[「GitHub网站」](https://github.com/FaceAISDK/FaceAISDK_Android)下载最新接入SDK 接入代码导入到Android Studio。  
 Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的业务需求自行完善。
 
@@ -88,7 +55,38 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 
     目前SDK Demo默认使用**Android Studio2025.1.4 + java17 + kotlin1.9.22 + AGP8.13 打包  
     不建议再使用废弃的kapt, kotlin-android-extensions  
-    注：为了Debug View Bitmap以及更好的使用AI 辅助编程开发,2025年10月31号我们对开发环境升级到上述版本
+    注：为了Debug View Bitmap以及更好的使用AI 辅助编程开发,2025年10月31号我们对开发环境升级到上述版本  
+
+
+##  V2025.11.25.beta
+- 提升人脸检测和搜索识别精度，人脸特征数据合规处理
+- 
+本次更新前后替换API 对比记录 https://github.com/FaceAISDK/FaceAISDK_Android/commit/ca6fc27aa58c7f33dadc76f1dfb7325701a62dc9
+
+
+更多历史版本说明参考 [历史版本SDK更新记录](doc/历史版本SDK更新记录.md)
+
+## [使用场景和区别](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/doc/Introduce_11_1N_MN.md)
+
+【1:1】 移动考勤签到、App免密登录、刷脸授权、刷脸解锁、巡更打卡真人校验
+
+【1:N】 小区门禁、公司门禁、智能门锁、智慧校园、机器人、智能家居、社区、酒店等
+
+【M:N】 公安布控、人群追踪 监控等 (测试效果可使用images/MN_face_search_test.jpg 模拟)
+
+**其他平台**
+**iOS SDK：** https://github.com/FaceAISDK/FaceAISDK_iOS  
+**Android：** https://github.com/FaceAISDK/FaceAISDK_Android
+
+**其他实现**  
+**React native** https://github.com/zkteco-home/react-native-face-ai  
+**uni-App X：**  https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS  
+**uni-App ：**   https://github.com/FaceAISDK/UniPlugin-FaceAISDK  
+**Flutter ：**   need your help
+
+<div align=center>
+<img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
+</div>
 
 ## Demo APK 下载体验  
 
@@ -96,11 +94,9 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
 
 <div align=center>
 <img src="https://www.pgyer.com/app/qrcode/faceVerify" width = 19%   alt="请点击上面下载地址"/>
-</div>  
+</div>
 
-
- **都看到这了，顺手帮忙点个🌟Star吧**   
-
+ **都看到这了，顺手帮忙点个🌟Star吧**
  
 [外包FaceAISDK之UTS插件(uni-app兼容模式组件)开发](FaceAISDK%E4%B9%8BUTS%E6%8F%92%E4%BB%B6%28uni-app%E5%85%BC%E5%AE%B9%E6%A8%A1%E5%BC%8F%E7%BB%84%E4%BB%B6%29%E5%BC%80%E5%8F%91.md)  
 
