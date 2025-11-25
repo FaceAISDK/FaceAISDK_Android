@@ -37,8 +37,8 @@
     <string name="not_real_face">Not real human face</string>
     <string name="not_real_face_for_debug">Not real human face </string>
     <string name="add_a_face_image">Add a face image </string>
-    <string name="add_face_from_photo">add from album</string>
-    <string name="add_face_from_camera">add by camera</string>
+    <string name="add_face_from_photo">Add from album</string>
+    <string name="add_face_from_camera">Add by SDK camera</string>
     <string name="input_face_id_tips">Please input face name</string>
     <string name="confirm_add_face_title">Confirm add this face？</string>
     <string name="confirm_add_face_tips">Please ensure face head pose right</string>

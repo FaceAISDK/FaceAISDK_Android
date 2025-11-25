@@ -50,7 +50,7 @@ public class FaceCameraXFragment extends Fragment {
 
     private int rotation = Surface.ROTATION_0; //旋转角度
     private int cameraLensFacing = 0; //默认前置摄像头
-    private float scaleX = 0f, scaleY = 0f;
+    private int imageWidth,imageHeight;
     private float linearZoom = 0f; //焦距
     private boolean cameraSizeHigh= false;
     private float mDefaultBright;
@@ -73,6 +73,7 @@ public class FaceCameraXFragment extends Fragment {
 
     public interface onAnalyzeData {
         void analyze(@NonNull ImageProxy imageProxy);
+        default void backImageSize(int imageWidth, int imageHeight){};
     }
 
     public static FaceCameraXFragment newInstance(CameraXBuilder cameraXBuilder) {
@@ -175,8 +176,12 @@ public class FaceCameraXFragment extends Fragment {
             // Connect the preview use case to the previewView
             preview.setSurfaceProvider(previewView.getSurfaceProvider());
             imageAnalysis.setAnalyzer(executorService, imageProxy -> {
-                if (scaleX == 0f || scaleY == 0f) {
-                    setScaleXY(imageProxy);
+                if (imageWidth == 0f || imageHeight == 0f) {
+                    imageWidth=imageProxy.getWidth();
+                    imageHeight=imageProxy.getHeight();
+                    if(analyzeDataCallBack!=null){
+                        analyzeDataCallBack.backImageSize(imageWidth,imageHeight);
+                    }
                 } else {
                     if(analyzeDataCallBack!=null){
                         analyzeDataCallBack.analyze(imageProxy);
@@ -279,33 +284,15 @@ public class FaceCameraXFragment extends Fragment {
         BrightnessUtil.setBrightness(requireActivity(), mDefaultBright);
     }
 
+
     /**
-     * 计算缩放比例
+     * 有些定制设备把后置摄像头接口画面当前置用的自己改一下逻辑
+     *
+     * @return 是否前置摄像头
      */
-    private void setScaleXY(ImageProxy imageProxy) {
-        float max = imageProxy.getWidth();
-        float min = imageProxy.getHeight();
-        Log.i("FaceAISDK", "人脸分析图宽高: "+max+"*"+min);
-        if (max < min) { //交换
-            float temp = max;
-            max = min;
-            min = temp;
-        }
-        if (previewView.getWidth() > previewView.getHeight()) {
-            scaleX = (float) previewView.getWidth() / max;
-            scaleY = (float) previewView.getHeight() / min;
-        } else {
-            scaleX = (float) previewView.getWidth() / min;
-            scaleY = (float) previewView.getHeight() / max;
-        }
+    public boolean isFrontCamera() {
+        return cameraLensFacing==CameraSelector.LENS_FACING_FRONT;
     }
 
-    public float getScaleX() {
-        return scaleX;
-    }
-
-    public float getScaleY() {
-        return scaleY;
-    }
 
 }

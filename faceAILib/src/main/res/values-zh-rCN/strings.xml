@@ -39,7 +39,7 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="not_real_face_for_debug">人脸攻击，非真人 </string>
     <string name="add_a_face_image">录入人脸照片</string>
     <string name="add_face_from_photo">相册添加</string>
-    <string name="add_face_from_camera">拍照添加</string>
+    <string name="add_face_from_camera">SDK相机添加</string>
     <string name="input_face_id_tips">请输入人脸名称ID</string>
     <string name="confirm_add_face_title">确认保存此人脸图 ？</string>
     <string name="confirm_add_face_tips">确认为正脸，清晰无遮挡照片</string>

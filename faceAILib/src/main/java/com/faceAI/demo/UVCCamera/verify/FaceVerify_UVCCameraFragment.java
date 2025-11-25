@@ -148,9 +148,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
      * 静默活体不需要人配合，如果不需要静默活体检测，分数直接会被赋值 1.0
      */
     void showVerifyResult(boolean isVerifyMatched, float similarity, float silentLivenessScore) {
-        requireActivity().runOnUiThread(() -> {
             scoreText.setText("SilentLivenessScore:" + silentLivenessScore);
-
             //1.静默活体分数判断
             if (silentLivenessScore < silentLivenessThreshold) {
                 tipsTextView.setText(R.string.silent_anti_spoofing_error);
@@ -178,7 +176,6 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                         .show();
 
             }
-        });
     }
 
 
@@ -189,7 +186,6 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
      */
     void showFaceVerifyTips(int actionCode) {
         if (!requireActivity().isDestroyed() && !requireActivity().isFinishing()) {
-            requireActivity().runOnUiThread(() -> {
                 switch (actionCode) {
                     // 动作活体检测完成了
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
@@ -286,7 +282,6 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                         break;
 
                 }
-            });
         }
     }
 

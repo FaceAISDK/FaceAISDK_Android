@@ -70,12 +70,10 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                      */
                     @Override
                     public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
-                        requireActivity().runOnUiThread(() -> {
                             tipsTextView.setText(R.string.liveness_detection_done);
                             VoicePlayer.getInstance().addPayList(R.raw.verify_success);
                             BitmapUtils.saveScaledBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
                             requireActivity().finish();
-                        });
                     }
 
                     //人脸识别，活体检测过程中的各种提示
@@ -114,7 +112,6 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
     void showFaceLivenessTips(int actionCode) {
         if (!requireActivity().isDestroyed() && !requireActivity().isFinishing()) {
             Log.e("RGBUVC","---- "+actionCode);
-            requireActivity().runOnUiThread(() -> {
                 switch (actionCode) {
                     // 动作活体检测完成了
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
@@ -211,7 +208,6 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                         break;
 
                 }
-            });
         }
     }
 

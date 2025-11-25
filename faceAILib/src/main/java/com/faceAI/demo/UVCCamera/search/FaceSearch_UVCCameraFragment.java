@@ -112,7 +112,7 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                     @Override
                     public void onFaceDetected(List<FaceSearchResult> result) {
                         //画框UI代码完全开放，用户可以根据情况自行改造
-                        binding.graphicOverlay.drawRect(result, scaleX, scaleY);
+                        binding.graphicOverlay.drawRect(result);
                     }
 
                     @Override
