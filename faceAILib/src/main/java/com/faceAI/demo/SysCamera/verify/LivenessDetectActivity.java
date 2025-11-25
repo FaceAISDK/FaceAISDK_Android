@@ -22,7 +22,6 @@ import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
-import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.VoicePlayer;
@@ -49,7 +48,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION; //活体检测类型
     private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
     private int motionStepSize = 2; //动作活体的个数
-    private int motionTimeOut = 7; //动作超时秒
+    private int motionTimeOut = 9; //动作超时秒
     private String motionLivenessTypes ="1,2,3,4,5" ; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
 
     @Override
@@ -72,7 +71,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0f)    //焦距范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
+                .setLinearZoom(0.1f)    //焦距范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
                 .setRotation(degree)      //画面旋转方向
                 .create();
 
@@ -80,14 +79,14 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
 
-        initFaceVerificationParam();
+        initLivenessParam();
     }
 
 
     /**
      * 初始化认证引擎
      */
-    private void initFaceVerificationParam() {
+    private void initLivenessParam() {
         //建议老的低配设备减少活体检测步骤
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setLivenessOnly(true)
@@ -108,12 +107,16 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
-                        BitmapUtils.saveBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
+                        BitmapUtils.saveScaledBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
 
-                        runOnUiThread(() -> {
-                            new ImageToast().show(getApplicationContext(), bitmap, getString(R.string.liveness_detection_done)+" " + silentLivenessValue);
-                            finishFaceVerify(9,R.string.liveness_detection_done,silentLivenessValue);
-                        });
+
+                        finishFaceVerify(9,R.string.liveness_detection_done,silentLivenessValue);
+
+
+//                        runOnUiThread(() -> {
+////                            new ImageToast().show(getApplicationContext(), bitmap, getString(R.string.liveness_detection_done)+" " + silentLivenessValue);
+//                            finishFaceVerify(9,R.string.liveness_detection_done,silentLivenessValue);
+//                        });
                     }
 
                     //人脸识别，活体检测过程中的各种提示
@@ -163,10 +166,8 @@ public class LivenessDetectActivity extends AbsBaseActivity {
      * 添加声音提示和动画提示定制也在这里根据返回码进行定制
      */
     int retryTime = 0;
-
     private void showFaceVerifyTips(int actionCode) {
         if (!isDestroyed() && !isFinishing()) {
-            runOnUiThread(() -> {
                 switch (actionCode) {
                     // 动作活体检测完成了
                     case ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
@@ -265,7 +266,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                         setSecondTips(R.string.no_face_detected_tips);
                         break;
                 }
-            });
+
         }
     }
 
@@ -341,7 +342,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 motionStepSize = intent.getIntExtra(MOTION_STEP_SIZE, 2);
             }
             if (intent.hasExtra(SILENT_THRESHOLD_KEY)) {
-                motionTimeOut = intent.getIntExtra(MOTION_TIMEOUT, 10);
+                motionTimeOut = intent.getIntExtra(MOTION_TIMEOUT, 9);
             }
             if (intent.hasExtra(MOTION_LIVENESS_TYPES)) {
                 motionLivenessTypes = intent.getStringExtra(MOTION_LIVENESS_TYPES);

@@ -4,7 +4,6 @@ import static android.view.View.GONE;
 import static com.ai.face.base.baseImage.BaseImageDispose.PERFORMANCE_MODE_ACCURATE;
 import static com.ai.face.base.baseImage.BaseImageDispose.PERFORMANCE_MODE_FAST;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE;
-import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
@@ -45,23 +44,23 @@ import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.baseImage.FaceEmbedding;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.base.view.camera.CameraXBuilder;
-import com.ai.face.faceSearch.search.FaceSearchImagesManger;
+import com.ai.face.core.engine.FaceAISDKEngine;
+import com.ai.face.faceSearch.search.FaceSearchFeatureManger;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
-
-import org.jetbrains.annotations.NotNull;
-
+import com.tencent.mmkv.MMKV;
 import java.util.Objects;
 
 /**
- * 使用系统相机添加一张规范的人脸图并裁剪调整为符合SDK规范。1:1 和1:N 公共的添加人脸图，注意保存的方式有点差异。
+ * 使用SDK规范人脸录入,保存人脸特征值
+ *
+ * 1:1 和1:N 人脸特征数据保存有点差异，参考代码详情
  * <p>
  * 其他系统的录入的人脸请自行保证人脸规范，否则会导致识别错误
- * <p>
  * -  1. 尽量使用较高配置设备和摄像头，光线不好带上补光灯
  * -  2. 录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
  * -  3. 光线环境好，检测的人脸化浓妆或佩戴墨镜 口罩 帽子等遮盖
@@ -125,14 +124,13 @@ public class AddFaceImageActivity extends AbsBaseActivity {
             @Override
             public void onCompleted(Bitmap bitmap, float silentLiveValue,float faceBrightness) {
                 isConfirmAdd=true;
-                runOnUiThread(() -> confirmAddFaceDialog(bitmap, silentLiveValue));
+                String s=Thread.currentThread().getName();
+                confirmAddFaceDialog(bitmap, silentLiveValue);
             }
 
             @Override
             public void onProcessTips(int actionCode) {
-                runOnUiThread(() -> {
-                    AddFaceTips(actionCode);
-                });
+                AddFaceTips(actionCode);
             }
         });
 
@@ -142,8 +140,8 @@ public class AddFaceImageActivity extends AbsBaseActivity {
 
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0f) //需摄像头支持变焦,范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
-                .setRotation(degree)   //画面旋转角度0，90，180，270
+                .setLinearZoom(0.1f)  //范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
+                .setRotation(degree)  //画面旋转角度0，90，180，270
                 .create();
 
         FaceCameraXFragment cameraXFragment = FaceCameraXFragment.newInstance(cameraXBuilder);
@@ -167,9 +165,7 @@ public class AddFaceImageActivity extends AbsBaseActivity {
             case NO_FACE_REPEATEDLY:
                 tipsTextView.setText(R.string.no_face_detected_tips);
                 break;
-            case FACE_TOO_MANY:
-                tipsTextView.setText(R.string.multiple_faces_tips);
-                break;
+
             case FACE_TOO_SMALL:
                 tipsTextView.setText(R.string.come_closer_tips);
                 break;
@@ -226,7 +222,7 @@ public class AddFaceImageActivity extends AbsBaseActivity {
     }
 
     /**
-     * 确认人脸图
+     * 经过SDK裁剪矫正处理好的bitmap 转为人脸特征值
      *
      * @param bitmap 符合对应参数设置的SDK裁剪好的人脸图
      * @param silentLiveValue 静默活体分数，和摄像头有关，自行根据业务需求处理
@@ -235,30 +231,30 @@ public class AddFaceImageActivity extends AbsBaseActivity {
         ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,bitmap,silentLiveValue);
 
         confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
-            faceID = confirmFaceDialog.faceIDEdit.getText().toString();
+            //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
+            //如果非SDK录入的人脸照片提取特征值用 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
+            String faceFeature = FaceAISDKEngine.getInstance(this).croppedBitmap2Feature(bitmap);
 
+            faceID = confirmFaceDialog.faceIDEdit.getText().toString();
             if (!TextUtils.isEmpty(faceID)) {
                 if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
-                    float[] faceEmbedding = baseImageDispose.saveBaseImageGetEmbedding(bitmap, CACHE_BASE_FACE_DIR, faceID);//保存人脸底图,并返回人脸特征向量
-                    FaceEmbedding.saveEmbedding(getBaseContext(),faceID,faceEmbedding); //保存特征向量
-                    finishConfirm(confirmFaceDialog.dialog,1,"Add face success");
-                } else {
-                    //人脸搜索(1:N ，M：N )保存人脸
-                    String faceName = confirmFaceDialog.faceIDEdit.getText().toString() + ".jpg";
-                    String filePathName = CACHE_SEARCH_FACE_DIR + faceName;
-                    // 一定要用SDK API 进行添加删除，不要直接File 接口文件添加删除，不然无法同步人脸SDK中特征值的更新
-                    FaceSearchImagesManger.Companion.getInstance(getApplication())
-                            .insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
-                                @Override
-                                public void onSuccess(@NonNull Bitmap bitmap, @NonNull float[] faceEmbedding) {
-                                    finishConfirm(confirmFaceDialog.dialog,1,"Add face success");
-                                }
+                    //保存1:1 人脸识别特征数据，直接以KEY-Value的形式保存在MMKV中
+                    MMKV.defaultMMKV().encode(faceID, faceFeature); //保存人脸faceID 对应的特征值,SDK 只要这个
 
-                                @Override
-                                public void onFailed(@NotNull String msg) {
-                                    finishConfirm(confirmFaceDialog.dialog,-1,"Add face failed");
-                                }
-                    });
+                    //如果人脸图业务上需要人脸头像进行UI展示也可以保存到本地
+                    FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(bitmap, FaceSDKConfig.CACHE_BASE_FACE_DIR, faceID);
+                    finishConfirm(confirmFaceDialog.dialog, 1, "Add face success");
+                } else {
+                    //人脸搜索(1:N) 不适合存放在MMKV中,使用SDK提供的FaceSearchFeatureManger保存。
+                    String faceIDName = confirmFaceDialog.faceIDEdit.getText().toString();
+                    //tag 和 group 可以用来做标记和分组。人脸搜索的时候可以加快速度降低误差
+                    FaceSearchFeatureManger.getInstance(this)
+                            .insertFaceFeature(faceIDName, faceFeature, System.currentTimeMillis(),"tag","group");
+
+                    //可选步骤：裁剪处理好的Bitmap保存到人脸搜索目录(注意！只保存人脸图不保存人脸特征值，人脸搜索是无法工作的)
+                    FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(bitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, faceIDName);
+
+                    finishConfirm(confirmFaceDialog.dialog, 1, "Add face success");
                 }
             } else {
                 Toast.makeText(getBaseContext(), R.string.input_face_id_tips, Toast.LENGTH_SHORT).show();

@@ -1,9 +1,11 @@
 package com.faceAI.demo.UVCCamera.manger;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -51,9 +53,11 @@ public class UVCCameraManager {
 
     private CameraBuilder cameraBuilder;
     private Context context;
+    private Activity activity;
 
     private int width=UVC_CAMERA_WIDTH,height=UVC_CAMERA_HEIGHT;
     private Bitmap reuseBitmap=null;
+
 
     public interface OnCameraStatusCallBack {
         void onAttach(UsbDevice device);
@@ -75,7 +79,11 @@ public class UVCCameraManager {
      */
     public UVCCameraManager(CameraBuilder cameraBuilder) {
         this.cameraBuilder = cameraBuilder;
-        this.context=cameraBuilder.getContext().getApplicationContext();
+        this.context=cameraBuilder.getContext();
+        //Context 本身就是 Activity
+        if (context instanceof Activity) {
+            activity= (Activity) context;
+        }
         initCameraHelper();
         initUVCCamera();
     }
@@ -98,7 +106,6 @@ public class UVCCameraManager {
      */
     public void releaseCameraHelper() {
         if (mCameraHelper != null) {
-
             mCameraHelper.setStateCallback(null );
             mCameraHelper.release();
             mCameraHelper = null;
@@ -213,19 +220,15 @@ public class UVCCameraManager {
             mCameraHelper.startPreview();
 
             if (cameraBuilder.getCameraView() != null) {
-                mCameraHelper.addSurface(cameraBuilder.getCameraView().getHolder().getSurface(), true);
-
+                mCameraHelper.addSurface(cameraBuilder.getCameraView().getHolder().getSurface(), false);
                 mCameraHelper.setFrameCallback(new IFrameCallback() {
                     @Override
                     public void onFrame(ByteBuffer byteBuffer) {
-                        //转为bitmap 后
-                        if (faceAIAnalysisCallBack != null) {
-
-//                            long t1=System.currentTimeMillis();
+                        //防止生命周期不同步,低配设备可能关闭了还在处理队列数据
+                        if (!activity.isDestroyed() && !activity.isFinishing()
+                                && faceAIAnalysisCallBack != null) {
                             reuseBitmap = DataConvertUtils.NV21Data2Bitmap(byteBuffer, width, height,
                                     cameraBuilder.getDegree(), cameraBuilder.isHorizontalMirror());
-//                            Log.e("DataConvertUtils",width+"转化用时："+(System.currentTimeMillis()-t1));
-
                             faceAIAnalysisCallBack.onBitmapFrame(reuseBitmap);
                         }
                     }
@@ -235,25 +238,26 @@ public class UVCCameraManager {
 
         @Override
         public void onCameraClose(UsbDevice device) {
+            Log.d("UVCCameraManager","onCameraClose");
             if (cameraBuilder.getCameraView() != null) {
-//                initCameraHelper();
                 mCameraHelper.removeSurface(cameraBuilder.getCameraView().getHolder().getSurface());
             }
         }
 
         @Override
         public void onDeviceClose(UsbDevice device) {
-
+            Log.d("UVCCameraManager","onDeviceClose");
         }
 
         @Override
         public void onDetach(UsbDevice device) {
-
+            Log.d("UVCCameraManager","onDetach");
         }
 
         @Override
         public void onCancel(UsbDevice device) {
-
+            Log.d("UVCCameraManager","onCancel");
         }
+
     };
 }

@@ -1,5 +1,5 @@
 package com.faceAI.demo.SysCamera.verify
-
+import com.ai.face.faceSearch.search.Image2FaceFeature
 import ando.file.core.FileOperator
 import ando.file.core.FileUtils
 import ando.file.selector.FileSelectCallBack
@@ -22,13 +22,13 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.ai.face.base.baseImage.FaceAIUtils
 import com.faceAI.demo.BuildConfig
 import com.faceAI.demo.R
 
 
 /**
- * 从相册选人脸图
+ * 从相册选人脸图,提取特征值（并没有对人脸角度等校验）。
+ * 强烈建议通过FaceAISDK 添加人脸
  *
  * @author FaceAISDK.Service@gmail.com
  */
@@ -36,8 +36,7 @@ abstract class AbsAddFaceFromAlbumActivity : AppCompatActivity() {
     private var mFileSelector: FileSelector? = null
 
     // 从相册选择
-    abstract fun disposeSelectImage(faceID:String,disposedBitmap: Bitmap, faceEmbedding: FloatArray)
-
+    abstract fun disposeSelectImage(faceID:String,disposedBitmap: Bitmap, faceFeature: String)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,11 +58,10 @@ abstract class AbsAddFaceFromAlbumActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * 选照片，大图在低端设备建议配置压缩策略
-     * 使用详情参考 https://github.com/javakam/FileOperator
-     *
-     */
+    /*
+     * 从相册选人脸图,提取特征值（并没有对人脸角度等校验）。
+     * 强烈建议通过FaceAISDK 添加人脸
+    */
     public fun chooseFaceImage() {
         val optionsImage = FileSelectOptions().apply {
             fileType = FileType.IMAGE
@@ -98,25 +96,27 @@ abstract class AbsAddFaceFromAlbumActivity : AppCompatActivity() {
                     ))
                 }
             })
+            //非FaceAI SDK的人脸可能是不规范的没有经过校准的人脸图（证件照，多人脸，过小等）
             .callback(object : FileSelectCallBack {
                 override fun onSuccess(results: List<FileSelectResult>?) {
                     if (!results.isNullOrEmpty()) {
-                        val bitmapSelected = MediaStore.Images.Media.getBitmap(contentResolver, results[0].uri)
+                        val selectUri=results[0].uri
+                        val faceName = FileUtils.getFileNameFromUri(selectUri)?:"faceID"
+                        val bitmapSelected = MediaStore.Images.Media.getBitmap(contentResolver,selectUri )
 
+                        Image2FaceFeature.getInstance(application).getFaceFeatureByBitmap(bitmapSelected,faceName,object : Image2FaceFeature.Callback{
+                            override fun onFailed(msg: String) {
+                                Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
+                            }
 
-                        //非FaceAI SDK的人脸可能是不规范的没有经过校准的人脸图（证件照，多人脸，过小等）
-                        FaceAIUtils.Companion.getInstance(application)
-                            .disposeBaseFaceImage(baseContext, bitmapSelected, object : FaceAIUtils.Callback {
-                                    override fun onSuccess(bitmap: Bitmap, faceEmbedding: FloatArray) {
-                                        showConfirmDialog(bitmap,faceEmbedding)
-                                    }
-
-                                    //底片处理异常的信息回调
-                                    override fun onFailed(msg: String, errorCode: Int) {
-                                        Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
-                                    }
-                                })
-
+                            override fun onSuccess(
+                                bitmap: Bitmap,
+                                faceID: String,
+                                faceFeature: String
+                            ) {
+                                showConfirmDialog(bitmap,faceID,faceFeature)
+                            }
+                        })
                     }
                 }
 
@@ -131,7 +131,7 @@ abstract class AbsAddFaceFromAlbumActivity : AppCompatActivity() {
     /**
      * 确认是否保存人脸底图
      */
-    private fun showConfirmDialog(bitmap: Bitmap,faceEmbedding: FloatArray) {
+    private fun showConfirmDialog(bitmap: Bitmap, faceID: String, faceFeature: String) {
         val builder = AlertDialog.Builder(this)
         val dialog = builder.create()
         val dialogView = View.inflate(this, R.layout.dialog_confirm_base, null)
@@ -146,12 +146,13 @@ abstract class AbsAddFaceFromAlbumActivity : AppCompatActivity() {
         val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
         val editText = dialogView.findViewById<EditText>(R.id.edit_text)
         editText.requestFocus()
+        editText.hint = faceID //
         editText.visibility = View.VISIBLE
 
         btnOK.setOnClickListener { v: View? ->
             val faceID = editText.text.toString()
             if (!TextUtils.isEmpty(faceID)) {
-                disposeSelectImage(faceID,bitmap,faceEmbedding)
+                disposeSelectImage(faceID,bitmap,faceFeature)
                 dialog.dismiss()
             } else {
                 Toast.makeText(baseContext, "Input FaceID Name", Toast.LENGTH_SHORT).show()

@@ -5,6 +5,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.camera.core.AspectRatio;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
@@ -37,18 +39,20 @@ import java.util.concurrent.Executors;
  * CameraX 说明：https://developer.android.com/codelabs/camerax-getting-started?hl=zh-cn
  *
  * 你也可以使用老的Camera2 相机等方式管理摄像头，通过预览流回调数据转为Bitmap 后持续送入SDK
- * FaceSearchEngine.Companion.getInstance().runSearchWithBitmap(bitmap); //不要在主线程调用
- *
+ * 2025.11.02
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceCameraXFragment extends Fragment {
     private static final String CAMERA_LINEAR_ZOOM = "CAMERA_LINEAR_ZOOM";  //焦距缩放比例
     private static final String CAMERA_LENS_FACING = "CAMERA_LENS_FACING";  //前后配置
     private static final String CAMERA_ROTATION = "CAMERA_ROTATION";  //旋转
+    private static final String CAMERA_SIZE_HIGH = "CAMERA_SIZE_HIGH";  //是否高分辨率用于分析
+
     private int rotation = Surface.ROTATION_0; //旋转角度
     private int cameraLensFacing = 0; //默认前置摄像头
-    private float scaleX = 0f, scaleY = 0f;
+    private int imageWidth,imageHeight;
     private float linearZoom = 0f; //焦距
+    private boolean cameraSizeHigh= false;
     private float mDefaultBright;
     private ProcessCameraProvider cameraProvider;
     private onAnalyzeData analyzeDataCallBack;
@@ -58,7 +62,6 @@ public class FaceCameraXFragment extends Fragment {
     private Preview preview;
     private Camera camera;
     private PreviewView previewView;
-
 
     public FaceCameraXFragment() {
         // Required empty public constructor
@@ -70,6 +73,7 @@ public class FaceCameraXFragment extends Fragment {
 
     public interface onAnalyzeData {
         void analyze(@NonNull ImageProxy imageProxy);
+        default void backImageSize(int imageWidth, int imageHeight){};
     }
 
     public static FaceCameraXFragment newInstance(CameraXBuilder cameraXBuilder) {
@@ -78,6 +82,8 @@ public class FaceCameraXFragment extends Fragment {
         args.putInt(CAMERA_LENS_FACING, cameraXBuilder.getCameraLensFacing());
         args.putFloat(CAMERA_LINEAR_ZOOM, cameraXBuilder.getLinearZoom());
         args.putInt(CAMERA_ROTATION, cameraXBuilder.getRotation());
+        args.putBoolean(CAMERA_SIZE_HIGH, cameraXBuilder.getCameraSizeHigh());
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -89,6 +95,7 @@ public class FaceCameraXFragment extends Fragment {
             cameraLensFacing = getArguments().getInt(CAMERA_LENS_FACING, 0); //默认的摄像头
             linearZoom = getArguments().getFloat(CAMERA_LINEAR_ZOOM, 0f);
             rotation = getArguments().getInt(CAMERA_ROTATION, Surface.ROTATION_0);
+            cameraSizeHigh = getArguments().getBoolean(CAMERA_SIZE_HIGH,false);
         }
     }
 
@@ -122,18 +129,25 @@ public class FaceCameraXFragment extends Fragment {
             try {
                 cameraProvider = cameraProviderFuture.get();
             } catch (ExecutionException | InterruptedException e) {
-                Log.e("FaceAI SDK", "\ncameraProviderFuture.get() 发生错误！\n" + e.toString());
+                Log.e("FaceAI SDK", "\ncameraProviderFuture.get() 发生错误！\n" + e.getMessage());
             }
 
-            //送入人脸识别FaceAISDK画面分析设置。根据你的场景，摄像头特性和硬件配置设置合理的参数
-            imageAnalysis = new ImageAnalysis.Builder()
-                    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                    .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
-                    .setTargetRotation(rotation) //画面选择角度
-//                    .setTargetResolution(new Size(1280,720)) //设置分辨率,默认640*480。无特殊场景默认就够了
-                    .build();
-
-            //摄像头画面预览默认分辨率也是640*480。
+            if(cameraSizeHigh){
+                //送入人脸识别FaceAISDK画面分析设置。根据你的场景，摄像头特性和硬件配置设置合理的参数
+                imageAnalysis = new ImageAnalysis.Builder()
+                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                        .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
+                        .setTargetRotation(rotation) //画面选择角度
+                        .setTargetResolution(new Size(1280,720)) //从支持的分辨率中选择最接近的一个。
+                        .build();
+            }else {
+                //系统默认匹配分辨率
+                imageAnalysis = new ImageAnalysis.Builder()
+                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                        .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
+                        .setTargetRotation(rotation) //画面选择角度
+                        .build();
+            }
             preview = new Preview.Builder()
                     .setTargetRotation(rotation)
                     .build();
@@ -144,6 +158,7 @@ public class FaceCameraXFragment extends Fragment {
             previewView.setImplementationMode(PreviewView.ImplementationMode.PERFORMANCE);
 
             //20251102，为了后面炫彩活体做准备（默认的FILL_CENTER会把人脸区域放很大）
+            //https://developer.android.com/media/camera/camerax/preview?hl=zh-cn
             previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
 
             if (cameraLensFacing == 0) {
@@ -161,8 +176,12 @@ public class FaceCameraXFragment extends Fragment {
             // Connect the preview use case to the previewView
             preview.setSurfaceProvider(previewView.getSurfaceProvider());
             imageAnalysis.setAnalyzer(executorService, imageProxy -> {
-                if (scaleX == 0f || scaleY == 0f) {
-                    setScaleXY(imageProxy);
+                if (imageWidth == 0f || imageHeight == 0f) {
+                    imageWidth=imageProxy.getWidth();
+                    imageHeight=imageProxy.getHeight();
+                    if(analyzeDataCallBack!=null){
+                        analyzeDataCallBack.backImageSize(imageWidth,imageHeight);
+                    }
                 } else {
                     if(analyzeDataCallBack!=null){
                         analyzeDataCallBack.analyze(imageProxy);
@@ -265,32 +284,15 @@ public class FaceCameraXFragment extends Fragment {
         BrightnessUtil.setBrightness(requireActivity(), mDefaultBright);
     }
 
+
     /**
-     * 计算缩放比例
+     * 有些定制设备把后置摄像头接口画面当前置用的自己改一下逻辑
+     *
+     * @return 是否前置摄像头
      */
-    private void setScaleXY(ImageProxy imageProxy) {
-        float max = imageProxy.getWidth();
-        float min = imageProxy.getHeight();
-        if (max < min) { //交换
-            float temp = max;
-            max = min;
-            min = temp;
-        }
-        if (previewView.getWidth() > previewView.getHeight()) {
-            scaleX = (float) previewView.getWidth() / max;
-            scaleY = (float) previewView.getHeight() / min;
-        } else {
-            scaleX = (float) previewView.getWidth() / min;
-            scaleY = (float) previewView.getHeight() / max;
-        }
+    public boolean isFrontCamera() {
+        return cameraLensFacing==CameraSelector.LENS_FACING_FRONT;
     }
 
-    public float getScaleX() {
-        return scaleX;
-    }
-
-    public float getScaleY() {
-        return scaleY;
-    }
 
 }

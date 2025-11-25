@@ -6,6 +6,8 @@ import androidx.camera.core.CameraSelector;
 import androidx.camera.core.CameraXConfig;
 import androidx.camera.camera2.Camera2Config;
 
+import com.faceAI.demo.FaceSDKConfig;
+
 
 public class FaceApplication extends Application implements CameraXConfig.Provider {
 
@@ -30,6 +32,8 @@ public class FaceApplication extends Application implements CameraXConfig.Provid
     @Override
     public void onCreate() {
         super.onCreate();
+        //初始化
+        FaceSDKConfig.init(this);
     }
 
 

@@ -3,7 +3,6 @@ package com.faceAI.demo.UVCCamera.addFace;
 import static android.view.View.GONE;
 import static com.ai.face.base.baseImage.BaseImageDispose.PERFORMANCE_MODE_FAST;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE;
-import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
@@ -43,16 +42,19 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.ai.face.base.baseImage.FaceEmbedding;
+import com.ai.face.core.engine.FaceAISDKEngine;
+import com.ai.face.faceSearch.search.FaceSearchFeatureManger;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity;
 import com.faceAI.demo.UVCCamera.manger.CameraBuilder;
 import com.faceAI.demo.UVCCamera.manger.UVCCameraManager;
 import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
-import com.ai.face.faceSearch.search.FaceSearchImagesManger;
 import com.faceAI.demo.databinding.FragmentUvcCameraAddFaceBinding;
+import com.tencent.mmkv.MMKV;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -141,32 +143,30 @@ public class AddFace_UVCCameraFragment extends Fragment {
         ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(requireContext(),bitmap,silentLiveValue);
 
         confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
-            faceID = confirmFaceDialog.faceIDEdit.getText().toString();
 
+            //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
+            //如果非SDK录入的人脸照片提取特征值用 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
+            String faceFeature = FaceAISDKEngine.getInstance(requireContext()).croppedBitmap2Feature(bitmap);
+
+            faceID = confirmFaceDialog.faceIDEdit.getText().toString();
             if (!TextUtils.isEmpty(faceID)) {
                 if (addFaceImageType.equals(AddFaceImageActivity.AddFaceImageTypeEnum.FACE_VERIFY.name())) {
-                    float[] faceEmbedding = baseImageDispose.saveBaseImageGetEmbedding(bitmap, CACHE_BASE_FACE_DIR, faceID);//保存人脸底图,并返回人脸特征向量
-                    FaceEmbedding.saveEmbedding(requireContext(),faceID,faceEmbedding); //保存特征向量
-                    Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show();
+                    //保存1:1 人脸识别特征数据，直接以KEY-Value的形式保存在MMKV中
+                    MMKV.defaultMMKV().encode(faceID, faceFeature); //保存人脸faceID 对应的特征值,SDK 只要这个
+
+                    //如果人脸图业务上需要人脸头像进行UI展示也可以保存到本地
+                    FaceAISDKEngine.getInstance(requireContext()).saveCroppedFaceImage(bitmap, FaceSDKConfig.CACHE_BASE_FACE_DIR, faceID);
                     requireActivity().finish();
                 } else {
-                    //人脸搜索(1:N ，M：N )保存人脸
-                    String faceName = confirmFaceDialog.faceIDEdit.getText().toString() + ".jpg";
-                    String filePathName = CACHE_SEARCH_FACE_DIR + faceName;
-                    // 一定要用SDK API 进行添加删除，不要直接File 接口文件添加删除，不然无法同步人脸SDK中特征值的更新
-                    FaceSearchImagesManger.Companion.getInstance(requireActivity().getApplication())
-                            .insertOrUpdateFaceImage(bitmap, filePathName, new FaceSearchImagesManger.Callback() {
-                                @Override
-                                public void onSuccess(@NonNull Bitmap bitmap, @NonNull float[] faceEmbedding) {
-                                    Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show();
-                                    requireActivity().finish();
-                                }
+                    //人脸搜索(1:N) 不适合存放在MMKV中。
+                    String faceIDName = confirmFaceDialog.faceIDEdit.getText().toString();
+                    //tag 和 group 可以用来做标记和分组。人脸搜索的时候可以加快速度降低误差
+                    FaceSearchFeatureManger.getInstance(requireContext())
+                            .insertFaceFeature(faceIDName, faceFeature, System.currentTimeMillis(),"tag","group");
 
-                                @Override
-                                public void onFailed(@NotNull String msg) {
-                                    Toast.makeText(requireContext(), "Failed：：" + msg, Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                    //保存到人脸搜索目录；
+                    FaceAISDKEngine.getInstance(requireContext()).saveCroppedFaceImage(bitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, faceIDName);
+                    requireActivity().finish();
                 }
             } else {
                 Toast.makeText(requireContext(), R.string.input_face_id_tips, Toast.LENGTH_SHORT).show();
@@ -242,14 +242,12 @@ public class AddFace_UVCCameraFragment extends Fragment {
             @Override
             public void onCompleted(Bitmap bitmap, float silentLiveValue,float faceBrightness) {
                 isConfirmAdd=true;
-                requireActivity().runOnUiThread(() -> confirmAddFaceDialog(bitmap, silentLiveValue));
+                 confirmAddFaceDialog(bitmap, silentLiveValue);
             }
 
             @Override
             public void onProcessTips(int actionCode) {
-                requireActivity().runOnUiThread(() -> {
-                    AddFaceTips(actionCode);
-                });
+                AddFaceTips(actionCode);
             }
         });
     }
@@ -260,9 +258,7 @@ public class AddFace_UVCCameraFragment extends Fragment {
             case NO_FACE_REPEATEDLY:
                 tipsTextView.setText(R.string.no_face_detected_tips);
                 break;
-            case FACE_TOO_MANY:
-                tipsTextView.setText(R.string.multiple_faces_tips);
-                break;
+
             case FACE_TOO_SMALL:
                 tipsTextView.setText(R.string.come_closer_tips);
                 break;

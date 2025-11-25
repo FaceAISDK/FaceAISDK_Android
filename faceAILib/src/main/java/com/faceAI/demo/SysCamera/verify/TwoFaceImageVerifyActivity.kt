@@ -18,17 +18,16 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.faceAI.demo.BuildConfig
-import com.ai.face.base.baseImage.FaceAIUtils
 import com.ai.face.faceVerify.verify.FaceVerifyUtils
-import com.faceAI.demo.base.utils.fileUtils.MyFileUtils
 import com.faceAI.demo.databinding.ActivityTwoFaceImageVerifyBinding
 import androidx.core.graphics.drawable.toDrawable
+import com.ai.face.faceSearch.search.Image2FaceFeature
 
 
 /**
  * 对比两张图片中人脸相似度，SDK开放基础功能
  *
- * 裁剪出图片中的人脸部分进行相似度比较，如果某一张照片中没有检测到人脸，则相似度返回为0。
+ * 裁剪出图片中的人脸正脸部分进行相似度比较，如果某一张照片中没有检测到人脸，则相似度返回为0。
  *
  * 不适合用本方法来大规模的并发进行人脸照片相似度比较，因为bitmap 的操作以及提取向量值很耗费资源
  *
@@ -64,8 +63,7 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
 
         viewBinding.goVerify.setOnClickListener {
             // 不能两张图直接比较，要先经过 checkFaceQuality 检测裁剪图片中的人脸
-            // FaceAIUtils.Companion.getInstance(application).checkFaceQuality(
-            val simi = FaceVerifyUtils().evaluateFaceSimi(
+            val simi = FaceVerifyUtils().evaluateFaceSimiByBitmap(
                 baseContext,
                 bitmapMap[viewBinding.image1.tag],
                 bitmapMap[viewBinding.image2.tag]
@@ -130,6 +128,7 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
                 }
             })
             .callback(object : FileSelectCallBack {
+                //选择图片成功
                 override fun onSuccess(results: List<FileSelectResult>?) {
                     if (results.isNullOrEmpty()) {
                         return
@@ -151,31 +150,25 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
      * 裁剪出照片中的人脸储存到bitmapMap
      */
     fun disposeSelectResult(results: List<FileSelectResult>, view: TextView) {
-        val fileName = MyFileUtils.getFileMetaData(
-            baseContext, results[0].uri
-        ).displayName
 
-        view.text = fileName
+        val selectUri=results[0].uri
+        val faceName = FileUtils.getFileNameFromUri(selectUri)?:"faceID"
+        val bitmapSelected = MediaStore.Images.Media.getBitmap(contentResolver,selectUri )
 
-        val bitmap = MediaStore.Images.Media.getBitmap(
-            baseContext.contentResolver,
-            results[0].uri
-        )
+        view.text = faceName
+        view.background = bitmapSelected.toDrawable(resources)
+        Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap(bitmapSelected,faceName,object : Image2FaceFeature.Callback{
+            override fun onSuccess(bitmap: Bitmap, faceID: String, faceFeature: String) {
+                bitmapMap[view.tag.toString()] = bitmap
+                view.background = bitmap.toDrawable(resources)
+            }
 
-        view.background = bitmap.toDrawable(resources)
+            override fun onFailed(msg: String) {
+                Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
+                bitmapMap.remove(view.tag.toString()) //没有检测出人脸则移除上一次可能有的数据
+            }
 
-        //检测人脸是否合规，裁剪后返回bitmap 和对应的人脸特征向量
-        FaceAIUtils.Companion.getInstance(application)
-            .disposeBaseFaceImage(baseContext,bitmap, object : FaceAIUtils.Callback {
-                override fun onSuccess(bitmap: Bitmap, faceEmbedding: FloatArray) {
-                    bitmapMap[view.tag.toString()] = bitmap
-                }
-
-                override fun onFailed(msg: String, errorCode: Int) {
-                    Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
-                    bitmapMap.remove(view.tag.toString()) //没有检测出人脸则移除上一次可能有的数据
-                }
-            })
+        })
 
     }
 

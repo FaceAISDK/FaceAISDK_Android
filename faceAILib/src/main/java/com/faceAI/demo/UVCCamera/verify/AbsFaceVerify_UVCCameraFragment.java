@@ -12,7 +12,6 @@ import static com.faceAI.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
 import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.IR_KEY_DEFAULT;
 import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
@@ -49,8 +48,8 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
     private UVCCameraManager irCameraManager; //近红外摄像头
 
     //人脸识别相关的方法
-    abstract void initFaceVerify();
-    abstract void initFaceVerificationParam(float[] face);
+    abstract void initFaceVerifyFeature();
+    abstract void initFaceVerificationParam(String faceFeature);
     abstract void showVerifyResult(boolean isVerifyMatched, float similarity, float silentLivenessScore);
     abstract void showFaceVerifyTips(int actionCode);
     abstract void faceVerifySetBitmap(Bitmap bitmap, FaceVerifyUtils.BitmapType type);
@@ -103,7 +102,7 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
 
             @Override
             public void onDeviceOpen(UsbDevice device, boolean isFirstOpen) {
-                initFaceVerify();
+                initFaceVerifyFeature();
                 //RGB 打开了就继续去打开IR
                 if (cameraType == FaceAICameraType.UVC_CAMERA_RGB_IR) {
                     initIRCamara();

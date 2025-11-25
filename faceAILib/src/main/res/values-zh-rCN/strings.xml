@@ -3,7 +3,7 @@
     <string name="device_list_empty_tip">请连接好UVC协议USB设备</string>
     <string name="device_list_cancel_button">取消</string>
     <string name="device_list_confirm_button">确定</string>
-    <string name="sdk_init">准备中...</string>
+    <string name="sdk_init">人脸搜索准备中…</string>
     <string name="no_mask_please">请勿佩戴口罩</string>
     <string name="face_verifying">识别中,平视正对摄像头</string>
     <string name="confirm">确定</string>
@@ -26,31 +26,30 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="keep_face_tips">平视正对摄像头</string>
     <string name="no_close_eye_tips">请勿闭眼</string>
     <string name="no_tilt_head_tips">请勿歪头</string>
-    <string name="head_turn_left_tips">脸偏左</string>
-    <string name="head_turn_right_tips">脸偏右</string>
+    <string name="head_turn_left_tips">向左调整脸部</string>
+    <string name="head_turn_right_tips">向右调整脸部</string>
     <string name="no_look_up_tips">请勿抬头</string>
     <string name="no_look_down_tips">请勿低头</string>
     <string name="no_face_detected_tips">未检测到人脸</string>
     <string name="multiple_faces_tips">多张人脸出现</string>
-    <string name="come_closer_tips">请靠近摄像头</string>
-    <string name="far_away_tips">请远离屏幕一点</string>
+    <string name="come_closer_tips">靠近摄像头</string>
+    <string name="far_away_tips">离摄像头远一点</string>
     <string name="align_face_error_tips">图像校准失败</string>
     <string name="not_real_face">人脸攻击，非真人</string>
     <string name="not_real_face_for_debug">人脸攻击，非真人 </string>
     <string name="add_a_face_image">录入人脸照片</string>
     <string name="add_face_from_photo">相册添加</string>
-    <string name="add_face_from_camera">拍照添加</string>
+    <string name="add_face_from_camera">SDK相机添加</string>
     <string name="input_face_id_tips">请输入人脸名称ID</string>
     <string name="confirm_add_face_title">确认保存此人脸图 ？</string>
     <string name="confirm_add_face_tips">确认为正脸，清晰无遮挡照片</string>
     <string name="sure_delete_face_title">确认要删除</string>
     <string name="sure_delete_face_tips">删除后对应的人脸将无法被识别</string>
 
-
     <!--1:N 人脸搜索 face search-->
     <string name="no_matched_face">人脸搜索中</string>
     <string name="face_dir_empty">人脸库为空</string>
-    <string name="no_base_face_bitmap">没有录入人脸底片</string>
+    <string name="no_base_face_image">没有录入人脸底片</string>
     <string name="copy_app_assert_folder_faces">导入内置assets目录测试人脸图</string>
     <string name="face_search_by_system_camera">系统相机搜索</string>
     <string name="face_search_by_uvc_camera">UVC协议USB摄像头搜索</string>
@@ -111,9 +110,10 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
 
     <!--1:N and M:N face search-->
     <string name="face_image_manage">人脸库管理</string>
+    <string name="face_search_1fromN_liveness">活体检测+1:N人脸搜索</string>
     <string name="face_search_1fromN">1:N 人脸搜索</string>
     <string name="face_search_uvc_camera">UVC摄像头人脸搜索</string>
-    <string name="face_search_MfromN">M:N 多人脸搜索（体验版）</string>
+    <string name="face_search_MfromN">M:N 多人脸搜索（Beta版本）</string>
     <string name="search_threshold_scope_tips">阈值Threshold范围为[0.85,0.95]</string>
     <string name="ir_live_error">红外活体检测失败</string>
     <string name="ir_image_error">红外摄像头图像采集失败</string>

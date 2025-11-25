@@ -29,20 +29,7 @@ public class BitmapUtils {
      * @param pathName       路径目录
      * @param fileName       文件名
      */
-    public static void saveDisposedBitmap(Bitmap disposedBitmap, String pathName, String fileName) {
-        saveBitmap(disposedBitmap, pathName, fileName);
-    }
-
-
-    /**
-     * 保存裁剪处理好后的Bitmap
-     *
-     * @param disposedBitmap 经过SDK裁剪处理好后的Bitmap
-     * @param pathName       路径目录
-     * @param fileName       文件名
-     */
-    @Deprecated
-    public static void saveBitmap(Bitmap disposedBitmap, String pathName, String fileName) {
+    public static void saveScaledBitmap(Bitmap disposedBitmap, String pathName, String fileName) {
         File file = new FileStorage(pathName).createTempFile(fileName);
         if (null != disposedBitmap) {
             try {

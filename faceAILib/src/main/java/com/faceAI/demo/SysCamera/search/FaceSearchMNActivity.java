@@ -17,7 +17,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ImageProxy;
+
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
@@ -30,13 +34,16 @@ import com.faceAI.demo.R;
 import java.util.List;
 
 /**
+ * (2025.11.26更新，M：N 暂未优化，请优先使用1:N人脸搜索)
+ *
  * 宽动态成像清晰摄像头，人脸正对摄像头
- * 提前再人脸库管理页面 点击右上角导入测试多人脸图，
+ * 提前在人脸库管理页面 点击右上角导入测试多人脸图，
  * 电脑上打开MN_face_search_test.jpg 手机摄像头对着图片就可以体验多人搜索
  *
  * 本功能要求设备硬件配置高，摄像头品质好。可以拿当前的各品牌手机旗舰机测试验证
  * @author FaceAISDK.Service@gmail.com
  */
+@Deprecated
 public class FaceSearchMNActivity extends AbsBaseActivity {
     //如果设备没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchMnBinding binding;
@@ -61,8 +68,9 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0f) //焦距范围[0f,1.0f]，参考{@link CameraControl#setLinearZoom(float)}
+                .setLinearZoom(0.1f)  //焦距范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
                 .setRotation(degree)   //画面旋转方向
+                .setCameraSizeHigh(false) // M:N 最好设置高分辨率，但普通配置设备不要超过1080P
                 .create();
 
         FaceCameraXFragment cameraXFragment = FaceCameraXFragment.newInstance(cameraXBuilder);
@@ -70,12 +78,20 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
 
-        //建议设备配置 CPU为八核64位2.4GHz以上  摄像头RGB 宽动态镜头分辨率720p以上，帧率大于30并且无拖影。
-        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-            //可以加个红外检测之类的，有人靠近再启动人脸搜索检索服务，不然机器性能下降机器老化快
-            if (!isDestroyed() && !isFinishing()) {
-                //MN 人脸检索，第二个参数0 画面识别区域就不裁剪了
-                FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
+        // 4.从标准默认的HAL CameraX 摄像头中取数据实时搜索
+        // 建议设备配置 CPU为八核64位2.4GHz以上,  摄像头RGB 宽动态(大于105Db)高清成像，光线不足设备加补光灯
+        cameraXFragment.setOnAnalyzerListener(new FaceCameraXFragment.onAnalyzeData() {
+            @Override
+            public void analyze(@NonNull ImageProxy imageProxy) {
+                //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
+                if (!isDestroyed() && !isFinishing()) {
+                    FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
+                }
+            }
+
+            @Override
+            public void backImageSize(int imageWidth, int imageHeight) {
+                binding.graphicOverlay.setCameraInfo(imageWidth,imageHeight,cameraXFragment.isFrontCamera());
             }
         });
 
@@ -83,7 +99,6 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(FaceSearchMNActivity.this)
                 .setLifecycleOwner(this)
                 .setThreshold(0.85f)            //识别成功阈值设置，范围仅限 0.85-0.95！默认0.85
-                .setFaceLibFolder(CACHE_SEARCH_FACE_DIR)  //内部存储目录中保存N 个图片库的目录
                 .setSearchType(SearchProcessBuilder.SearchType.N_SEARCH_M) //1:N 搜索
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy左右翻转影响人脸框
                 .setProcessCallBack(new SearchProcessCallBack() {
@@ -95,7 +110,7 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
                     @Override
                     public void onFaceDetected(List<FaceSearchResult> result) {
                         //画框UI代码完全开放，用户可以根据情况自行改造
-                        binding.graphicOverlay.drawRect(result, cameraXFragment.getScaleX(),cameraXFragment.getScaleY());
+                        binding.graphicOverlay.drawRect(result);
                         if (!result.isEmpty()) {
                             binding.searchTips.setText("");
                         }
