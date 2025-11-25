@@ -149,10 +149,9 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
-                        runOnUiThread(() -> {
                             initFaceSearchParam();
                             isLivenessPass=true;
-                        });
+
                     }
 
                     //人脸识别，活体检测过程中的各种提示
@@ -199,7 +198,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
     int retryTime = 0;
     private void showFaceVerifyTips(int actionCode) {
         if (!isDestroyed() && !isFinishing()) {
-            runOnUiThread(() -> {
                 switch (actionCode) {
                     // 动作活体检测完成了
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
@@ -298,7 +296,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                         setSecondTips(R.string.no_face_detected_tips);
                         break;
                 }
-            });
         }
     }
 
@@ -342,7 +339,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                         Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
                         new ImageToast().show(getApplicationContext(), mostSimilarBmp, faceID.replace(".jpg"," ")+score);
                         VoicePlayer.getInstance().play(R.raw.success);
-                        binding.graphicOverlay.clearRect();
                     }
 
                     /**
@@ -369,7 +365,7 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                     @Override
                     public void onFaceDetected(List<FaceSearchResult> result) {
                         //画框UI代码完全开放，用户可以根据情况自行改造
-                        binding.graphicOverlay.drawRect(result, cameraXFragment.getScaleX(),cameraXFragment.getScaleY());
+                        binding.graphicOverlay.drawRect(result);
                     }
 
                     @Override
@@ -393,7 +389,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
 //        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
 //            //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
 //            if (!isDestroyed() && !isFinishing()&&!pauseSearch) {
-//                //runSearch() 方法第二个参数是指圆形人脸框到屏幕边距，有助于加快裁剪图像
 //                FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
 //            }
 //        });

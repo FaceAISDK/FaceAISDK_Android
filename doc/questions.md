@@ -6,9 +6,9 @@
    SDK不读取任何敏感信息，严格限制运行获取权限仅需一个相机运行权限，充分保护隐私数据，不联网就能工作更不会收集上传人脸关键信息。
    SDK 目前托管在Maven central，SDK所有功能都是离线端侧运行。
 
-### 1.集成SDK开发环境和Gradle插件版本是怎样的？
+### 1.集成SDK开发环境和Gradle插件版本是怎样的？ 
    开发环境 Android Studio 2025.1.4 | 2025.1.4
-   AGP 版本8.13.0 java17 , kotlin 1.9.22
+   AGP版本8.13(非强制)  java17+, kotlin 1.9+
 
    目前SDK Demo默认使用**Android Studio2025.1.4 + java17 + kotlin1.9.22 + AGP8.13 打包
    不建议再使用废弃的kapt, kotlin-android-extensions

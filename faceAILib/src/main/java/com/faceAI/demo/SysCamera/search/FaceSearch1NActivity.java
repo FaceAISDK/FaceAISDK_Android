@@ -27,7 +27,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ImageProxy;
+
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
@@ -40,18 +44,16 @@ import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
 import java.util.List;
 
 /**
- * 1:N 人脸搜索识别「1:N face search」，https://github.com/FaceAISDK/FaceAISDK_Android
+ * 1:N 人脸搜索识别
  * <p>
  * 1. 使用的宽动态（室内大于105DB,室外大于120DB）高清抗逆光摄像头；**保持镜头整洁干净（汗渍 油污）**
- * 2. 录入高质量清晰正脸图，脸部清晰
+ * 2. 使用SDK录入高质量清晰正脸图(不建议通过相册添加人脸，这种人脸没有经过SDK严格校验)
  * 3. 光线环境好否则加补光灯，人脸无遮挡，没有化浓妆 或 粗框眼镜墨镜、口罩等大面积遮挡
- * 4. 人脸图大于 300*300（人脸部分区域大于200*200）五官清晰无遮挡，图片不能有多人脸
- * <p>
+ *
  * 怎么提高人脸搜索识别系统的准确度？https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
  * <p>
- * 网盘分享的3000 张人脸图链接: https://pan.baidu.com/s/1RfzJlc-TMDb0lQMFKpA-tQ?pwd=Face 提取码: Face
- * 可复制到工程目录 ./faceAILib/src/main/assert 的人脸库,在管理页面一键导入模拟插入多张人脸图
- * <p>
+ * 共享3000人脸图验证大数据量人脸速度等: https://pan.baidu.com/s/1RfzJlc-TMDb0lQMFKpA-tQ?pwd=Face 提取码: Face
+ *
  * 摄像头管理源码开放在 {@link FaceCameraXFragment}
  * @author FaceAISDK.Service@gmail.com
  */
@@ -136,7 +138,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                         Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
                         new ImageToast().show(getApplicationContext(), mostSimilarBmp, faceID+" , "+score);
                         VoicePlayer.getInstance().play(R.raw.success);
-                        binding.graphicOverlay.clearRect();
                     }
 
                     /**
@@ -161,7 +162,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     @Override
                     public void onFaceDetected(List<FaceSearchResult> result) {
                         //画框UI代码完全开放，用户可以根据情况自行改造
-                        binding.graphicOverlay.drawRect(result, cameraXFragment.getScaleX(),cameraXFragment.getScaleY());
+                        binding.graphicOverlay.drawRect(result);
                     }
 
                     @Override
@@ -182,11 +183,18 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
 
         // 4.从标准默认的HAL CameraX 摄像头中取数据实时搜索
         // 建议设备配置 CPU为八核64位2.4GHz以上,  摄像头RGB 宽动态(大于105Db)高清成像，光线不足设备加补光灯
-        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-            //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
-            if (!isDestroyed() && !isFinishing()&&!pauseSearch) {
-                //默认演示CameraX的 imageProxy 传入SDK，也支持NV21，Bitmap 类型，你也可以自己管理相机
-                FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
+        cameraXFragment.setOnAnalyzerListener(new FaceCameraXFragment.onAnalyzeData() {
+            @Override
+            public void analyze(@NonNull ImageProxy imageProxy) {
+                //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
+                if (!isDestroyed() && !isFinishing()&&!pauseSearch) {
+                    FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
+                }
+            }
+
+            @Override
+            public void backImageSize(int imageWidth, int imageHeight) {
+                binding.graphicOverlay.setCameraInfo(imageWidth,imageHeight,cameraXFragment.isFrontCamera());
             }
         });
 

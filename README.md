@@ -58,9 +58,10 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
     注：为了Debug View Bitmap以及更好的使用AI 辅助编程开发,2025年10月31号我们对开发环境升级到上述版本  
 
 
-##  V2025.11.25.beta
+##  V2025.11.26.beta
 - 提升人脸检测和搜索识别精度，人脸特征数据合规处理
-- 
+- SDK录入人脸优化，合并部分API
+- 性能优化
 本次更新前后替换API 对比记录 https://github.com/FaceAISDK/FaceAISDK_Android/commit/ca6fc27aa58c7f33dadc76f1dfb7325701a62dc9
 
 

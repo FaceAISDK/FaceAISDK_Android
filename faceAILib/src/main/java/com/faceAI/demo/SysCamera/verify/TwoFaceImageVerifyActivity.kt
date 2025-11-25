@@ -63,7 +63,7 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
 
         viewBinding.goVerify.setOnClickListener {
             // 不能两张图直接比较，要先经过 checkFaceQuality 检测裁剪图片中的人脸
-            val simi = FaceVerifyUtils().evaluateFaceSimi(
+            val simi = FaceVerifyUtils().evaluateFaceSimiByBitmap(
                 baseContext,
                 bitmapMap[viewBinding.image1.tag],
                 bitmapMap[viewBinding.image2.tag]
@@ -128,6 +128,7 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
                 }
             })
             .callback(object : FileSelectCallBack {
+                //选择图片成功
                 override fun onSuccess(results: List<FileSelectResult>?) {
                     if (results.isNullOrEmpty()) {
                         return
@@ -157,12 +158,7 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
         view.text = faceName
         view.background = bitmapSelected.toDrawable(resources)
         Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap(bitmapSelected,faceName,object : Image2FaceFeature.Callback{
-
-            override fun onSuccess(
-                bitmap: Bitmap,
-                faceID: String,
-                faceFeature: String
-            ) {
+            override fun onSuccess(bitmap: Bitmap, faceID: String, faceFeature: String) {
                 bitmapMap[view.tag.toString()] = bitmap
                 view.background = bitmap.toDrawable(resources)
             }

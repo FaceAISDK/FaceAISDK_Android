@@ -27,7 +27,8 @@ import com.faceAI.demo.R
 
 
 /**
- * 从相册选人脸图
+ * 从相册选人脸图,提取特征值（并没有对人脸角度等校验）。
+ * 强烈建议通过FaceAISDK 添加人脸
  *
  * @author FaceAISDK.Service@gmail.com
  */
@@ -57,11 +58,10 @@ abstract class AbsAddFaceFromAlbumActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * 选照片，大图在低端设备建议配置压缩策略
-     * 使用详情参考 https://github.com/javakam/FileOperator
-     *
-     */
+    /*
+     * 从相册选人脸图,提取特征值（并没有对人脸角度等校验）。
+     * 强烈建议通过FaceAISDK 添加人脸
+    */
     public fun chooseFaceImage() {
         val optionsImage = FileSelectOptions().apply {
             fileType = FileType.IMAGE

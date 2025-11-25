@@ -144,7 +144,8 @@ public class AddFace_UVCCameraFragment extends Fragment {
 
         confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
 
-            //提取人脸特征值
+            //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
+            //如果非SDK录入的人脸照片提取特征值用 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
             String faceFeature = FaceAISDKEngine.getInstance(requireContext()).croppedBitmap2Feature(bitmap);
 
             faceID = confirmFaceDialog.faceIDEdit.getText().toString();
@@ -241,14 +242,12 @@ public class AddFace_UVCCameraFragment extends Fragment {
             @Override
             public void onCompleted(Bitmap bitmap, float silentLiveValue,float faceBrightness) {
                 isConfirmAdd=true;
-                requireActivity().runOnUiThread(() -> confirmAddFaceDialog(bitmap, silentLiveValue));
+                 confirmAddFaceDialog(bitmap, silentLiveValue);
             }
 
             @Override
             public void onProcessTips(int actionCode) {
-                requireActivity().runOnUiThread(() -> {
-                    AddFaceTips(actionCode);
-                });
+                AddFaceTips(actionCode);
             }
         });
     }

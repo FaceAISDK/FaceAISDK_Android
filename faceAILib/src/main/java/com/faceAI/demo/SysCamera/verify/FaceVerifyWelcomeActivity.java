@@ -89,6 +89,10 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
                 }
         );
 
+        /*
+         * 从相册选人脸图,提取特征值（并没有对人脸角度等校验）。
+         * 强烈建议通过FaceAISDK 添加人脸
+         */
         LinearLayout addFaceFromPhoto = findViewById(R.id.add_face_from_photo);
         addFaceFromPhoto.setOnClickListener(view -> chooseFaceImage());
 
@@ -136,11 +140,8 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
     @Override
     public void disposeSelectImage(@NotNull String faceID, @NotNull Bitmap disposedBitmap, @NonNull String faceFeature) {
         MMKV.defaultMMKV().encode(faceID, faceFeature); //保存人脸faceID 对应的特征值,SDK 只要这个
-
         //如果人脸图业务上需要人脸头像进行UI展示也可以保存到本地
         FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(disposedBitmap, FaceSDKConfig.CACHE_BASE_FACE_DIR, faceID);
-//        //1:1 人脸识别保存人脸底图
-//        BitmapUtils.saveDisposedBitmap(disposedBitmap, FaceSDKConfig.CACHE_BASE_FACE_DIR, faceID);
 
         updateFaceList();
     }
@@ -179,7 +180,6 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
         updateFaceList();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private void updateFaceList() {
         loadImageList();
         faceImageListAdapter.notifyDataSetChanged();

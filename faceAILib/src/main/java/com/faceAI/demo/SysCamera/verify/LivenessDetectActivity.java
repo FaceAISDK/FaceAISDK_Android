@@ -109,10 +109,14 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
                         BitmapUtils.saveScaledBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
 
-                        runOnUiThread(() -> {
-//                            new ImageToast().show(getApplicationContext(), bitmap, getString(R.string.liveness_detection_done)+" " + silentLivenessValue);
-                            finishFaceVerify(9,R.string.liveness_detection_done,silentLivenessValue);
-                        });
+
+                        finishFaceVerify(9,R.string.liveness_detection_done,silentLivenessValue);
+
+
+//                        runOnUiThread(() -> {
+////                            new ImageToast().show(getApplicationContext(), bitmap, getString(R.string.liveness_detection_done)+" " + silentLivenessValue);
+//                            finishFaceVerify(9,R.string.liveness_detection_done,silentLivenessValue);
+//                        });
                     }
 
                     //人脸识别，活体检测过程中的各种提示
@@ -164,7 +168,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     int retryTime = 0;
     private void showFaceVerifyTips(int actionCode) {
         if (!isDestroyed() && !isFinishing()) {
-            runOnUiThread(() -> {
                 switch (actionCode) {
                     // 动作活体检测完成了
                     case ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
@@ -263,7 +266,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                         setSecondTips(R.string.no_face_detected_tips);
                         break;
                 }
-            });
+
         }
     }
 

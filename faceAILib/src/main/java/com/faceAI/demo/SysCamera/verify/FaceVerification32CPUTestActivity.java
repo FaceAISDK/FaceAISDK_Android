@@ -42,6 +42,7 @@ import com.tencent.mmkv.MMKV;
 
 /**
  * 32 位CPU人脸识别耗时测试，10.10 后删除
+ *
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
@@ -70,7 +71,7 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
         findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(0, "用户取消"));
 
         findViewById(R.id.start_verify).setOnClickListener(v -> {
-            startFaceVerify=true;
+            startFaceVerify = true;
         });
 
         initCameraX();
@@ -108,9 +109,9 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
 
         // todo 注意老版本的数据迁移问题 ！！
         String faceFeature = MMKV.defaultMMKV().decodeString(faceID);
-        if(TextUtils.isEmpty(faceFeature)){
+        if (TextUtils.isEmpty(faceFeature)) {
             Toast.makeText(getBaseContext(), "faceFeature null !!! ", Toast.LENGTH_LONG).show();
-        }else{
+        } else {
             initFaceVerificationParam(faceFeature);
         }
 
@@ -151,9 +152,9 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onVerifyMatched(boolean isMatched, float similarity, float silentLivenessScore, Bitmap bitmap) {
-                        startFaceVerify=false;
+                        startFaceVerify = false;
                         //以人脸正脸对着摄像头，按下开始识别按钮到返回结果耗时统计，优化直到1秒左右（～10%）
-                        Log.e("verifyTime:","32位CPU耗时："+(System.currentTimeMillis()- startTime));
+                        Log.e("verifyTime:", "32位CPU耗时：" + (System.currentTimeMillis() - startTime));
 
                         showVerifyResult(isMatched, similarity, silentLivenessScore, bitmap);
                     }
@@ -211,38 +212,36 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
     private int retryTime = 0;
 
     private void showVerifyResult(boolean isVerifyMatched, float similarity, float silentLivenessScore, Bitmap bitmap) {
-        //切换到主线程操作UI
-        runOnUiThread(() -> {
-            scoreText.setText("liveness: " + silentLivenessScore);
-            //1.静默活体分数判断
-            if (silentLivenessScore < silentLivenessThreshold) {
-                tipsTextView.setText(R.string.silent_anti_spoofing_error);
-                new AlertDialog.Builder(FaceVerification32CPUTestActivity.this)
-                        .setMessage(R.string.silent_anti_spoofing_error)
-                        .setCancelable(false)
-                        .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                            finishFaceVerify(2, "活体分数过低，请重试");
-                        })
-                        .show();
-            } else if (isVerifyMatched) {
-                //2.和底片同一人
-                VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-                finishFaceVerify(1, "人脸识别成功");
-                new ImageToast().show(getApplicationContext(), bitmap, "识别成功"+similarity);
-            } else {
-                //3.和底片不是同一个人
-                VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
-                new AlertDialog.Builder(FaceVerification32CPUTestActivity.this)
-                        .setTitle("识别失败，相似度 " + similarity)
-                        .setMessage(R.string.face_verify_failed)
-                        .setCancelable(false)
-                        .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                            finishFaceVerify(4, "人脸识别相似度低于阈值");
-                        })
-                        .setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify())
-                        .show();
-            }
-        });
+
+        scoreText.setText("liveness: " + silentLivenessScore);
+        //1.静默活体分数判断
+        if (silentLivenessScore < silentLivenessThreshold) {
+            tipsTextView.setText(R.string.silent_anti_spoofing_error);
+            new AlertDialog.Builder(FaceVerification32CPUTestActivity.this)
+                    .setMessage(R.string.silent_anti_spoofing_error)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
+                        finishFaceVerify(2, "活体分数过低，请重试");
+                    })
+                    .show();
+        } else if (isVerifyMatched) {
+            //2.和底片同一人
+            VoicePlayer.getInstance().addPayList(R.raw.verify_success);
+            finishFaceVerify(1, "人脸识别成功");
+            new ImageToast().show(getApplicationContext(), bitmap, "识别成功" + similarity);
+        } else {
+            //3.和底片不是同一个人
+            VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
+            new AlertDialog.Builder(FaceVerification32CPUTestActivity.this)
+                    .setTitle("识别失败，相似度 " + similarity)
+                    .setMessage(R.string.face_verify_failed)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
+                        finishFaceVerify(4, "人脸识别相似度低于阈值");
+                    })
+                    .setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify())
+                    .show();
+        }
     }
 
 
@@ -253,7 +252,6 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
      */
     private void showFaceVerifyTips(int actionCode) {
         if (!isDestroyed() && !isFinishing()) {
-            runOnUiThread(() -> {
                 switch (actionCode) {
                     // 动作活体检测完成了
                     case ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
@@ -347,7 +345,7 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
                         secondTipsTextView.setText("");
                         break;
                 }
-            });
+
         }
     }
 
