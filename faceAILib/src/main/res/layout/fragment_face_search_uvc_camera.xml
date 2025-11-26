@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:customAttr="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 横竖屏幕调整适配等参考UVC摄像头管理三方库 https://github.com/shiyinghan/UVCAndroid-->
+    <com.serenegiant.widget.AspectRatioSurfaceView
+        android:id="@+id/rgb_camera_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!-- Custom your Face Verify UI-->
+    <com.ai.face.faceSearch.search.GraphicOverlay
+        android:id="@+id/graphicOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        app:layout_constraintBottom_toBottomOf="@+id/rgb_camera_view"
+        app:layout_constraintEnd_toEndOf="@+id/rgb_camera_view"
+        app:layout_constraintStart_toStartOf="@+id/rgb_camera_view"
+        app:layout_constraintTop_toTopOf="@+id/rgb_camera_view"/>
+
+    <!-- 横竖屏幕调整适配等参考UVC摄像头管理三方库 https://github.com/shiyinghan/UVCAndroid-->
+    <com.serenegiant.widget.AspectRatioSurfaceView
+        android:id="@+id/ir_camera_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_max="wrap"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/rgb_camera_view"
+        app:layout_constraintWidth_max="wrap"
+        app:layout_constraintWidth_percent="0.25" />
+
+    <!-- UI 设计仅供参考 -->
+    <TextView
+        android:id="@+id/search_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:paddingLeft="16dp"
+        android:paddingTop="6dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="6dp"
+        android:text="@string/keep_face_visible"
+        android:textColor="@color/white"
+        android:background="@drawable/circle_bar_bg"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/close" />
+
+    <TextView
+        android:id="@+id/second_search_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@drawable/circle_bar_bg"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:visibility="invisible"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_tips" />
+
+    <TextView
+        android:id="@+id/log_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="9dp"
+        android:textColor="@color/half_grey"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:padding="9dp"
+        android:src="@drawable/ic_arrow_back_24" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
