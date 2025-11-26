@@ -119,7 +119,8 @@ public class AddFaceImageActivity extends AbsBaseActivity {
             /**
              * 人脸检测裁剪完成
              * @param bitmap           检测裁剪后的Bitmap
-             * @param silentLiveValue  静默活体分数
+             * @param silentLiveValue  静默活体分数（不再使用，后面静默会改为炫彩）
+             * @param faceBrightness   人脸周围环境光线亮度
              */
             @Override
             public void onCompleted(Bitmap bitmap, float silentLiveValue,float faceBrightness) {
