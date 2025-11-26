@@ -69,6 +69,7 @@ public class UVCCameraManager {
      */
     public interface OnFaceAIAnalysisCallBack {
         void onBitmapFrame(Bitmap bitmap);
+        default void onImageSize(int imageWidth, int imageHeight){}
     }
 
 
@@ -220,6 +221,9 @@ public class UVCCameraManager {
             mCameraHelper.startPreview();
 
             if (cameraBuilder.getCameraView() != null) {
+                if(faceAIAnalysisCallBack!=null){
+                    faceAIAnalysisCallBack.onImageSize(width,height);
+                }
                 mCameraHelper.addSurface(cameraBuilder.getCameraView().getHolder().getSurface(), false);
                 mCameraHelper.setFrameCallback(new IFrameCallback() {
                     @Override

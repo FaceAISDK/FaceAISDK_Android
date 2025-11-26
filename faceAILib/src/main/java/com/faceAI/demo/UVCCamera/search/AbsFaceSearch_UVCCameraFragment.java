@@ -118,6 +118,11 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
                 //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
                 faceSearchSetBitmap(bitmap, FaceVerifyUtils.BitmapType.RGB);
             }
+            @Override
+            public void onImageSize(int imageWidth, int imageHeight) {
+                //第三个参数代表 画面是否左右镜像了，有变更自行调节
+                binding.graphicOverlay.setCameraInfo(imageWidth, imageHeight,false);
+            }
         });
 
     }
