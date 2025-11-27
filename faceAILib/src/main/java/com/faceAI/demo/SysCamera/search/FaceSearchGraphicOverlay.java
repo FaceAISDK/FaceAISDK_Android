@@ -41,7 +41,7 @@ public class FaceSearchGraphicOverlay extends View {
      *
      * @param imageWidth  摄像头预览的宽度 (例如 640)
      * @param imageHeight 摄像头预览的高度 (例如 480)
-     * @param isFrontCamera 是否是前置摄像头
+     * @param isFrontCamera 是否是前置摄像头需要设置画面左右镜像
      */
     public void setCameraInfo(int imageWidth, int imageHeight, boolean isFrontCamera) {
         this.imageWidth = imageWidth;

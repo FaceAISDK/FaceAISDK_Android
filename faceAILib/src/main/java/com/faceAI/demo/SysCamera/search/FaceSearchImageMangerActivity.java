@@ -47,10 +47,9 @@ import java.util.Objects;
 import com.faceAI.demo.R;
 
 /**
- * 人脸库管理,增删 查，批量添加测试数据
- * 一定要用SDK API 进行添加删除，不要直接File 接口文件添加删除，不然无法同步人脸SDK中特征值的更新
- * <p>
- * 本页面仅仅为演示API功能，Demo并无性能优化等处理
+ * FaceAISDK 工作仅仅需要人脸特征值就可以不需图片，保存图片是为了可视化操作演示方便
+ *
+ *
  * 网盘分享的3000 张人脸图链接: https://pan.baidu.com/s/1RfzJlc-TMDb0lQMFKpA-tQ?pwd=Face 提取码: Face
  *
  * @author FaceAISDK.service@gmail.com
@@ -87,7 +86,7 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
                     .setTitle(getString(R.string.sure_delete_face_title) + imageBean.name+"?")
                     .setMessage(R.string.sure_delete_face_tips)
                     .setPositiveButton(R.string.confirm, (dialog, which) -> {
-                        Image2FaceFeature.Companion.getInstance(getApplication()).deleteFaceImage(imageBean.path);
+                        Image2FaceFeature.getInstance(getApplication()).deleteFaceImage(imageBean.path);
                         updateFaceList();
                     })
                     .setNegativeButton(R.string.cancel, null).show();
@@ -103,7 +102,7 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
                     .setTitle("Delete All Face Images？")
                     .setMessage("Are you sure to delete all face images? dangerous operation!")
                     .setPositiveButton(R.string.confirm, (dialog, which) -> {
-                        Image2FaceFeature.Companion.getInstance(getApplication()).clearFaceImages(FaceSDKConfig.CACHE_SEARCH_FACE_DIR);
+                        Image2FaceFeature.getInstance(getApplication()).clearFaceImages(FaceSDKConfig.CACHE_SEARCH_FACE_DIR);
                         updateFaceList();
                     })
                     .setNegativeButton(R.string.cancel, null).show();
@@ -133,15 +132,16 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
     @Override
     public void disposeSelectImage(@NotNull String faceID, @NotNull Bitmap disposedBitmap, @NonNull String faceFeature) {
 
+        //保存到人脸搜索目录；如果你的业务不需要裁剪矫正好的人脸也可以不缓存
+        FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(disposedBitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, faceID);
+
+
         //tag 和 group 可以用来做标记和分组。人脸搜索的时候可以加快速度降低误差
         FaceSearchFeatureManger.getInstance(this)
                 .insertFaceFeature(faceID, faceFeature, System.currentTimeMillis(),"tag","group");
 
-        //保存到人脸搜索目录；如果你的业务不需要裁剪矫正好的人脸也可以不缓存
-        FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(disposedBitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, faceID);
 
         updateFaceList();
-
     }
 
 

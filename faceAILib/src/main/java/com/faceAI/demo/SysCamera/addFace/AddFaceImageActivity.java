@@ -119,12 +119,12 @@ public class AddFaceImageActivity extends AbsBaseActivity {
             /**
              * 人脸检测裁剪完成
              * @param bitmap           检测裁剪后的Bitmap
-             * @param silentLiveValue  静默活体分数
+             * @param silentLiveValue  静默活体分数（不再使用，后面静默会改为炫彩）
+             * @param faceBrightness   人脸周围环境光线亮度
              */
             @Override
             public void onCompleted(Bitmap bitmap, float silentLiveValue,float faceBrightness) {
                 isConfirmAdd=true;
-                String s=Thread.currentThread().getName();
                 confirmAddFaceDialog(bitmap, silentLiveValue);
             }
 
@@ -229,10 +229,9 @@ public class AddFaceImageActivity extends AbsBaseActivity {
      */
     private void confirmAddFaceDialog(Bitmap bitmap, float silentLiveValue) {
         ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,bitmap,silentLiveValue);
-
         confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
             //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
-            //如果非SDK录入的人脸照片提取特征值用 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
+            //如果非SDK相机录入的人脸照片提取特征值用异步方法 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
             String faceFeature = FaceAISDKEngine.getInstance(this).croppedBitmap2Feature(bitmap);
 
             faceID = confirmFaceDialog.faceIDEdit.getText().toString();

@@ -1,6 +1,25 @@
 
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
+
+##  V2025.11.28.pro
+- SDK 体积缩减部分,解决11.26版本精度下降问题
+- 提升人脸检测和搜索识别精度，人脸特征数据合规处理
+- SDK录入人脸优化，合并部分API
+- 性能优化并解决人脸框不准确等体验问题
+- 优化人脸光线检测不准确的问题
+
+本次更新前后替换API 对比记录 https://github.com/FaceAISDK/FaceAISDK_Android/commit/ca6fc27aa58c7f33dadc76f1dfb7325701a62dc9
+
+
+##  V2025.11.26.beta
+- 提升人脸检测和搜索识别精度，人脸特征数据合规处理
+- SDK录入人脸优化，合并部分API
+- 性能优化并解决人脸框不准确等体验问题
+- 优化人脸光线检测不准确的问题
+  本次更新前后替换API 对比记录 https://github.com/FaceAISDK/FaceAISDK_Android/commit/ca6fc27aa58c7f33dadc76f1dfb7325701a62dc9
+
+
 ##  V2025.11.03
 - 更新相机管理FaceCameraXFragment，人脸搜索解除人脸区域占比大小限制
 - 动作活体支持自由组合1-2种（ 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头）
@@ -9,7 +28,7 @@
 - 去除多人脸检测回调提醒，自动取最大的人脸分析
 - 升级工程Android Studio到Narwhal4 和AGP8.13等，以便更好的使用AI辅助编程以及调试Bitmap
   更多：https://mp.weixin.qq.com/s/048q5A1D3U_bdJY6tfsAwQ
-- 
+
 ##  V2025.10.21
 - 去除Debug模式的弹窗调试信息
 - 近距离但人脸完整不提示过近

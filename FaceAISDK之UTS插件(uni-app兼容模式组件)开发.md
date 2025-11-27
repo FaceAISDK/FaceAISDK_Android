@@ -12,7 +12,7 @@
  4. uts插件 - uni-app兼容模式组件（原“组件插件”）开发 官方说明文档  
  https://doc.dcloud.net.cn/uni-app-x/plugin/uts-component-compatible.html  
 
-##  FaceAISDK之UTS插件(uni-app兼容模式组件) 开发需求
+## FaceAISDK之UTS插件(uni-app兼容模式组件) 开发需求
 
   前面说明我们已经支持了Android平台分别在uniApp和uniAppX 中的插件开发，本次需要统一为UTS插件(uni-app兼容模式组件)
   而iOS 前期没有正式上线过需要从零开发UTS插件(uni-app兼容模式组件)  
