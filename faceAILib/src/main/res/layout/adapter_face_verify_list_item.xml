@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    android:orientation="vertical"
+    android:layout_width="77dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/face_image"
+        android:layout_width="77dp"
+        android:layout_height="77dp" />
+
+    <TextView
+        android:id="@+id/face_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/face_main_color"
+        android:singleLine="true"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_marginTop="4dp"
+        android:textSize="12sp"/>
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
