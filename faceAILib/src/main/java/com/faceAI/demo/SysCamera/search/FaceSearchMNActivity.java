@@ -91,6 +91,7 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
 
             @Override
             public void backImageSize(int imageWidth, int imageHeight) {
+                //第三个参数指：是否graphicOverlay画面要左右镜像，一般前置摄像头和部分定制非标准设备要
                 binding.graphicOverlay.setCameraInfo(imageWidth,imageHeight,cameraXFragment.isFrontCamera());
             }
         });

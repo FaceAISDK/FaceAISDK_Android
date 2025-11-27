@@ -2,6 +2,7 @@ package com.faceAI.demo;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import com.ai.face.faceSearch.search.FaceSearchFeatureManger;
 import com.ai.face.faceSearch.search.Image2FaceFeature;
 import com.bumptech.glide.Glide;
 import com.faceAI.demo.base.utils.VoicePlayer;
@@ -40,6 +41,10 @@ public class FaceSDKConfig {
      * 清除所有的{人脸搜索识别}人脸特征值和本地缓存的图片
      */
     public static void clearAllFaceSearchData(Context context){
+        //清除所有人脸搜索所有特征
+        FaceSearchFeatureManger.getInstance(context).clearAllFaceFaceFeature();
+
+        //删除所有缓存的裁剪好的人脸图
         Image2FaceFeature.getInstance(context).clearFaceImages(CACHE_SEARCH_FACE_DIR);
         Glide.get(context).clearMemory();
     }
@@ -49,6 +54,9 @@ public class FaceSDKConfig {
      * 清除某个{人脸搜索识别}人脸特征值和本地缓存的图片
      */
     public static void deleteFaceSearchData(Context context,String faceID){
+        //清除所有人脸搜索所有特征
+        FaceSearchFeatureManger.getInstance(context).deleteFaceFaceFeature(faceID);
+        //删除FaceID对应缓存的裁剪好的人脸图
         Image2FaceFeature.getInstance(context).deleteFaceImage(CACHE_SEARCH_FACE_DIR+faceID);
     }
 
@@ -63,9 +71,6 @@ public class FaceSDKConfig {
         //如果缓存了图片也删除
         Image2FaceFeature.getInstance(context).deleteFaceImage(CACHE_BASE_FACE_DIR+faceID);
     }
-
-
-
 
     /**
      * 检测App 是否调试模式

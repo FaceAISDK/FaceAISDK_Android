@@ -111,7 +111,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
 //                .setFaceTag()   //根据标记来搜索，比如有些场所只有VIP才能权限进入
                 .setThreshold(0.88f) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值以及人脸底片质量也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
-                .setSearchIntervalTime(1900) //默认2000，范围[1500,3000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
+                .setSearchIntervalTime(1900) //默认2000，范围[0,9000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //后面版本去除次参数
                 .setProcessCallBack(new SearchProcessCallBack() {
                     /**
@@ -194,6 +194,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
 
             @Override
             public void backImageSize(int imageWidth, int imageHeight) {
+                //第三个参数指：是否graphicOverlay画面要左右镜像，一般前置摄像头和部分定制非标准设备要
                 binding.graphicOverlay.setCameraInfo(imageWidth,imageHeight,cameraXFragment.isFrontCamera());
             }
         });
