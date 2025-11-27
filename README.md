@@ -20,6 +20,16 @@ Android SDK可支持Android[5,16] **SDK激活和使用都不用联网，不保�
 
 ![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
+##  V2025.11.28.pro
+- SDK 体积缩减部分,解决11.26版本精度下降问题
+- 提升人脸检测和搜索识别精度，人脸特征数据合规处理
+- SDK录入人脸优化，合并部分API
+- 性能优化并解决人脸框不准确等体验问题
+- 优化人脸光线检测不准确的问题
+
+本次更新前后替换API 对比记录 https://github.com/FaceAISDK/FaceAISDK_Android/commit/ca6fc27aa58c7f33dadc76f1dfb7325701a62dc9
+
+
 ## 接入集成使用
 
 先在[「GitHub网站」](https://github.com/FaceAISDK/FaceAISDK_Android)下载最新接入SDK 接入代码导入到Android Studio。  
@@ -56,14 +66,6 @@ Demo聚焦SDK的核心功能演示，细节并不完善，需要你根据你的�
     目前SDK Demo默认使用**Android Studio2025.1.4 + java17 + kotlin1.9.22 + AGP8.13 打包  
     不建议再使用废弃的kapt, kotlin-android-extensions  
     注：为了Debug View Bitmap以及更好的使用AI 辅助编程开发,2025年10月31号我们对开发环境升级到上述版本  
-
-
-##  V2025.11.27
-- 提升人脸检测和搜索识别精度，人脸特征数据合规处理
-- SDK录入人脸优化，合并部分API
-- 性能优化并解决人脸框不准确等体验问题
-- 优化人脸光线检测不准确的问题
-本次更新前后替换API 对比记录 https://github.com/FaceAISDK/FaceAISDK_Android/commit/ca6fc27aa58c7f33dadc76f1dfb7325701a62dc9
 
 
 更多历史版本说明参考 [历史版本SDK更新记录](doc/历史版本SDK更新记录.md)
