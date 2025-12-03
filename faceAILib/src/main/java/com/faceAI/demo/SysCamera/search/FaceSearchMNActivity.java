@@ -43,7 +43,6 @@ import java.util.List;
  * 本功能要求设备硬件配置高，摄像头品质好。可以拿当前的各品牌手机旗舰机测试验证
  * @author FaceAISDK.Service@gmail.com
  */
-@Deprecated
 public class FaceSearchMNActivity extends AbsBaseActivity {
     //如果设备没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchMnBinding binding;
@@ -70,7 +69,7 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.1f)  //焦距范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
                 .setRotation(degree)   //画面旋转方向
-                .setCameraSizeHigh(false) // M:N 最好设置高分辨率，但普通配置设备不要超过1080P
+                .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降
                 .create();
 
         FaceCameraXFragment cameraXFragment = FaceCameraXFragment.newInstance(cameraXBuilder);

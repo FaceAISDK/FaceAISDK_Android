@@ -56,7 +56,7 @@ import com.tencent.mmkv.MMKV;
 import java.util.Objects;
 
 /**
- * 使用SDK规范人脸录入,保存人脸特征值
+ * 使用SDK相机规范人脸录入,保存人脸特征值
  *
  * 1:1 和1:N 人脸特征数据保存有点差异，参考代码详情
  * <p>
@@ -108,7 +108,7 @@ public class AddFaceImageActivity extends AbsBaseActivity {
         }
 
 
-        /* 添加人脸,检测人脸角度是否符合当前模式设置
+        /* 添加人脸,实时检测相机视频流人脸角度是否符合当前模式设置，并给予提示
          *
          *  2 PERFORMANCE_MODE_ACCURATE   精确模式 人脸要正对摄像头，严格要求角度
          *  1 PERFORMANCE_MODE_FAST       快速模式 允许人脸角度可以有一定的偏差
@@ -142,6 +142,7 @@ public class AddFaceImageActivity extends AbsBaseActivity {
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.1f)  //范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
                 .setRotation(degree)  //画面旋转角度0，90，180，270
+                .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降
                 .create();
 
         FaceCameraXFragment cameraXFragment = FaceCameraXFragment.newInstance(cameraXBuilder);

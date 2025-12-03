@@ -1,4 +1,5 @@
 <resources>
+    <string name="login_privacy_policy">Agree with privacy policy</string>
     <string name="device_list_dialog_title">Devices</string>
     <string name="device_list_empty_tip">Please connect a USB Camera</string>
     <string name="device_list_cancel_button">Cancel</string>
@@ -7,6 +8,7 @@
     <string name="sdk_init">SDK Init</string>
     <string name="no_mask_please">No mask</string>
     <string name="face_verifying">Verifying(face the camera)</string>
+    <string name="dis_agree">DisAgree</string>
     <string name="confirm">Confirm</string>
     <string name="go_setting">go setting</string>
     <string name="cancel">Cancel</string>

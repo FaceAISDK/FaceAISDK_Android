@@ -2,13 +2,18 @@ package com.faceAI.demo
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.edit
+import com.ai.face.core.engine.FaceAISDKEngine
 import com.ai.face.core.utils.FaceAICameraType
 import com.ai.face.faceVerify.verify.FaceVerifyUtils
 import com.faceAI.demo.FaceAISettingsActivity.Companion.UVC_CAMERA_TYPE
@@ -20,6 +25,7 @@ import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
 import com.faceAI.demo.UVCCamera.liveness.Liveness_UVCCameraActivity
 import com.faceAI.demo.base.utils.performance.DevicePerformance
 import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
+
 
 /**
  * SDK 接入演示Demo，请先熟悉本Demo跑通主要流程后再集成到你的主工程 验证业务
@@ -189,27 +195,51 @@ class FaceAINaviActivity : AppCompatActivity() {
      *
      */
     private fun showTipsDialog() {
+
         val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
-        val showTime = sharedPref.getLong("showFaceAISDKTips", 0)
-        if (System.currentTimeMillis() - showTime > 31 * 60 * 60 * 1000) {
+        val showTime = sharedPref.getLong("showTipsDialog", 0)
+        if (System.currentTimeMillis() - showTime > 131 * 60 * 60 * 1000) {
             val builder = AlertDialog.Builder(this)
             val dialog = builder.create()
             val dialogView = View.inflate(this, R.layout.dialog_face_sdk_tips, null)
             //设置对话框布局
             dialog.setView(dialogView)
+
+            val checkBox = dialogView.findViewById<AppCompatImageView>(R.id.privacy_read_checkbox)
+            checkBox.setOnClickListener {
+                checkBox.isSelected=!checkBox.isSelected
+            }
+            val privacy = dialogView.findViewById<AppCompatTextView>(R.id.privacy_read_content_view)
+            privacy.setOnClickListener {
+                val uri = Uri.parse("https://mp.weixin.qq.com/s/NojZKpNvKO8Bv-_yz6YyWw")
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.addCategory(Intent.CATEGORY_BROWSABLE)
+                intent.data = uri
+                startActivity(intent)
+            }
             val btnOK = dialogView.findViewById<Button>(R.id.btn_ok)
             btnOK.setOnClickListener {
-                //检测配置等级，运行一下看看兼容性
-                val performance=DevicePerformance.getDevicePerformance(this@FaceAINaviActivity)
-
+                if(!checkBox.isSelected){
+                    Toast.makeText(this,R.string.login_privacy_policy, Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
                 sharedPref.edit(commit = true) {
                     putLong(
-                        "showFaceAISDKTips",
+                        "showTipsDialog",
                         System.currentTimeMillis()
                     )
                 }
                 dialog.dismiss()
+
+                //检测配置等级，运行一下看看兼容性
+                val performance=DevicePerformance.getDevicePerformance(this@FaceAINaviActivity)
             }
+
+            val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
+            btnCancel.setOnClickListener {
+                dialog.dismiss()
+            }
+
             dialog.setCanceledOnTouchOutside(false)
             dialog.show()
         }
