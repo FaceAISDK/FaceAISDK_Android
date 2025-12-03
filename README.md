@@ -26,7 +26,7 @@ Android SDK可支持Android[5,16] **SDK激活和使用都不用联网，不保�
 - SDK 体积缩减部分,解决11.26版本精度下降问题
 - 提升人脸检测和搜索识别精度，人脸特征数据合规处理
 - SDK录入人脸优化，合并部分API
-- 性能优化并解决人脸框不准确等体验问题
+- 性能优化并解决人脸框不准确等 体验问题
 - iOS，Android人脸特征值互通互用（1024 长度）
 
 本次更新前后替换API 对比记录 https://github.com/FaceAISDK/FaceAISDK_Android/commit/ca6fc27aa58c7f33dadc76f1dfb7325701a62dc9
