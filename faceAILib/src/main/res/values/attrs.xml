@@ -1,6 +1,7 @@
 <resources>
-    <!-- 蒙层 -->
-    <declare-styleable name="FaceViewDemo">
+
+    <!-- 1:1 人脸识别覆盖视图，动作活体进度条，炫彩活体闪光颜色 -->
+    <declare-styleable name="FaceVerifyCoverView">
         <!--circle_margin -->
         <attr name="circle_margin" format="dimension"/>
         <!--文本-->
@@ -15,4 +16,6 @@
         <attr name="show_progress" format="boolean"/>
 
     </declare-styleable>
+
+
 </resources>

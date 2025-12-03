@@ -14,7 +14,6 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERRO
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
-import static com.faceAI.demo.FaceSDKConfig.CACHE_FACE_LOG_DIR;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
 
 import android.content.Context;
@@ -46,7 +45,6 @@ import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
-import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
 
@@ -166,7 +164,7 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onTimeCountDown(float percent) {
-                        binding.faceCover.startCountDown(percent);
+                        binding.faceCover.setProgress(percent);
                     }
 
                     //发送严重错误，会中断业务流程

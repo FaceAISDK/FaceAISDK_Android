@@ -31,7 +31,7 @@
 
 
     <!-- 可以替换成你自己的UI样式,需要 FaceCoverView 源码联系对接工程师 -->
-    <com.faceAI.demo.base.view.DemoFaceCoverView
+    <com.faceAI.demo.base.view.FaceVerifyCoverView
         android:id="@+id/face_cover"
         android:visibility="visible"
         android:layout_width="match_parent"
