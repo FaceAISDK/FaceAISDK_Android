@@ -9,14 +9,14 @@
 <a href='https://play.google.com/store/apps/details?id=com.ai.face.verifyPub'><img alt='Get FaceAI On Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='60'/></a>
 <br> 
 
-# [关于「FaceAI SDK」](https://github.com/FaceAISDK/FaceAISDK_Android)
+# [关于「FaceAISDK」](https://github.com/FaceAISDK/FaceAISDK_Android)
 
-FaceAI SDK is on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK。
-FaceAI SDK包括人脸识别、活体检测、人脸录入检测以及[1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索，可快速集成实现端侧人脸识别，人脸搜索等功能。
+FaceAISDK is on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK  
+FaceAISDK包括人脸识别、活体检测、人脸录入检测以及[1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索，可完全离线实现端侧人脸识别，人脸搜索等功能。
 
 ![SDK Work Flow](images/SDK_WORK_FLOW.png)
 
-Android SDK可支持Android[5,16] **SDK激活和使用都不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
+Android SDK可支持Android[5,16] **SDK所有功能都不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
 动作活体支持张嘴、微笑、眨眼、摇头、点头 随机1-2种组合验证，支持系统摄像头和UVC协议USB摄像头，宽动态值大于105Db成像清晰抗逆光。
 开发人员也可以自定义摄像头管理，把帧数据送入到SDK。更多说明联系邮箱： FaceAISDK.Service@gmail.com
 
@@ -93,8 +93,8 @@ Android SDK可支持Android[5,16] **SDK激活和使用都不用联网，不保�
 <img src="https://www.pgyer.com/app/qrcode/faceVerify" width = 19%   alt="请点击上面下载地址"/>
 </div>
 
- **都看到这了，顺手帮忙点个🌟Star吧**
-🪐
+ **都看到这了，顺手帮忙点个🌟Star吧**  
+🪐   
 ![FaceAISDK](FaceAISDK.png)  
 
 [更多说明，请参考：FaceAISDK产品说明及API文档](FaceAISDK产品说明及API文档.pdf)
