@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:customAttr="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <!-- UI 仅供操作，根据业务自行修改 完善-->
+
+    <!-- 摄像头预览画面ContainerView -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_camerax"
+        android:layout_margin="23dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.faceAI.demo.base.view.FaceVerifyCoverView
+        android:id="@+id/face_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        customAttr:tip_text_size="20sp"
+        customAttr:show_progress="true"
+        customAttr:background_color="@color/white"
+        customAttr:tip_text_color="@color/face_main_color"
+        customAttr:circle_margin="25dp" />
+
+    <TextView
+        android:id="@+id/tips_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:background="@drawable/circle_bar_bg"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/sdk_init"
+        android:textStyle="bold"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/second_tips_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/tips_view"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/orange"
+        android:textStyle="bold"
+        android:textSize="19sp" />
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:padding="9dp"
+        android:src="@drawable/ic_arrow_back_24" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:layout_toRightOf="@+id/back"
+        android:textSize="12sp"
+        android:gravity="center_vertical"
+        android:textColor="@color/green"
+        android:layout_alignTop="@+id/back"
+        />
+
+</RelativeLayout>
+
+

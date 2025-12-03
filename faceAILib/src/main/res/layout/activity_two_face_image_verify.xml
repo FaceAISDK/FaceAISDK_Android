@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="22dp"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:layout_margin="1dp"
+        android:padding="9dp"
+        android:src="@drawable/ic_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="6dp"
+        android:paddingBottom="6dp"
+        android:paddingTop="11dp"
+        android:textColor="@color/half_grey"
+        app:layout_constraintStart_toStartOf="@+id/image1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/back"
+        android:textSize="13sp"
+        android:layout_marginBottom="11dp"
+        android:text="请选择人脸照片，人脸应为正脸无遮挡"/>
+
+
+    <TextView
+        android:id="@+id/image1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="6dp"
+        android:background="@color/half_grey"
+        android:text="  Image 1"
+        android:singleLine="true"
+        android:textSize="11sp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/image2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tips" />
+
+
+    <TextView
+        android:id="@+id/image2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="6dp"
+        android:background="@color/half_grey"
+        android:text="  Image 2"
+        android:singleLine="true"
+        android:textSize="11sp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/image1"
+        app:layout_constraintTop_toBottomOf="@+id/tips" />
+
+    <TextView
+        android:id="@+id/go_verify"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:background="@color/blue_sky"
+        app:layout_constraintStart_toStartOf="@+id/image1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image2"
+        android:text="人脸相似度对比"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
