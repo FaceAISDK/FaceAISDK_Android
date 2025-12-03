@@ -1,4 +1,5 @@
 <resources>
+    <string name="login_privacy_policy">已阅读并同意隐私协议</string>
     <string name="device_list_dialog_title">摄像头设备</string>
     <string name="device_list_empty_tip">请连接好UVC协议USB设备</string>
     <string name="device_list_cancel_button">取消</string>
@@ -6,6 +7,7 @@
     <string name="sdk_init">人脸搜索准备中…</string>
     <string name="no_mask_please">请勿佩戴口罩</string>
     <string name="face_verifying">识别中,平视正对摄像头</string>
+    <string name="dis_agree">不同意</string>
     <string name="confirm">确定</string>
     <string name="go_setting">去设置</string>
     <string name="cancel">取消</string>
