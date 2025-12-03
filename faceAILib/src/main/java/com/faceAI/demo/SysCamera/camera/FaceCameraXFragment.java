@@ -274,7 +274,7 @@ public class FaceCameraXFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        BrightnessUtil.setBrightness(requireActivity(), 0.9f);
+        BrightnessUtil.setBrightness(requireActivity(), 0.95f);
     }
 
     @Override

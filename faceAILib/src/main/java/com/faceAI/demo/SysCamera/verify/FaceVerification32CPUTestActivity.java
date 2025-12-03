@@ -37,7 +37,7 @@ import com.faceAI.demo.SysCamera.camera.Camera1Preview;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.VoicePlayer;
-import com.faceAI.demo.base.view.DemoFaceCoverView;
+import com.faceAI.demo.base.view.FaceVerifyCoverView;
 import com.tencent.mmkv.MMKV;
 
 /**
@@ -51,7 +51,7 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
     public static final String USER_FACE_ID_KEY = "USER_FACE_ID_KEY";   //1:1 face verify ID KEY
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private TextView tipsTextView, secondTipsTextView, scoreText;
-    private DemoFaceCoverView faceCoverView;
+    private FaceVerifyCoverView faceCoverView;
     private Camera1Fragment cameraFragment;  //摄像头管理源码暴露出来了，方便定制开发
 
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
@@ -167,7 +167,7 @@ public class FaceVerification32CPUTestActivity extends AbsBaseActivity {
 
                     @Override
                     public void onTimeCountDown(float percent) {
-                        faceCoverView.startCountDown(percent);
+                        faceCoverView.setProgress(percent);
                     }
 
                     //发送严重错误，会中断业务流程
