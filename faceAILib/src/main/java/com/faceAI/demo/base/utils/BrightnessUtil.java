@@ -8,6 +8,9 @@ import android.os.CountDownTimer;
 import android.view.Window;
 import android.view.WindowManager;
 
+/**
+ * 屏幕亮度检测工具类
+ */
 public class BrightnessUtil {
 
 

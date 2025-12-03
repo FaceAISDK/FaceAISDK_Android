@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -31,7 +32,6 @@ import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.utils.BitmapUtils;
-import com.faceAI.demo.base.view.DemoFaceCoverView;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
@@ -41,6 +41,7 @@ import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.faceAI.demo.base.view.FaceVerifyCoverView;
 import com.tencent.mmkv.MMKV;
 
 /**
@@ -71,7 +72,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION;  //活体检测类型
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private TextView tipsTextView, secondTipsTextView;
-    private DemoFaceCoverView faceCoverView;
+    private FaceVerifyCoverView faceCoverView;
     private FaceCameraXFragment cameraXFragment;  //摄像头管理源码，可自行管理摄像头
 
     @Override
@@ -112,6 +113,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * 初始化人脸识别底图 人脸特征值
      */
     private void initFaceVerifyFeature() {
+
         //人脸图片和人脸特征向量不方便传递，以及相关法律法规不允许明文传输。注意数据迁移
         float[] faceEmbedding = FaceEmbedding.loadEmbedding(getBaseContext(), faceID);
         String faceFeatureOld = FaceAISDKEngine.getInstance(this).faceArray2Feature(faceEmbedding);
@@ -177,7 +179,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
 
                     @Override
                     public void onTimeCountDown(float percent) {
-                        faceCoverView.startCountDown(percent);
+                        faceCoverView.setProgress(percent);
                     }
 
                     //发送严重错误，会中断业务流程
@@ -248,6 +250,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 case ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
                     VoicePlayer.getInstance().play(R.raw.face_camera);
                     setMainTips(R.string.keep_face_visible);
+
                     break;
 
                 case VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:

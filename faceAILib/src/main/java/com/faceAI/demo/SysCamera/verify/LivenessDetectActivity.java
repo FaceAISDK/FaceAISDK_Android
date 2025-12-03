@@ -25,7 +25,7 @@ import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.VoicePlayer;
-import com.faceAI.demo.base.view.DemoFaceCoverView;
+import com.faceAI.demo.base.view.FaceVerifyCoverView;
 
 /**
  * 活体检测 SDK 接入演示代码.
@@ -37,7 +37,7 @@ import com.faceAI.demo.base.view.DemoFaceCoverView;
  */
 public class LivenessDetectActivity extends AbsBaseActivity {
     private TextView tipsTextView, secondTipsTextView, scoreText;
-    private DemoFaceCoverView faceCoverView;
+    private FaceVerifyCoverView faceCoverView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private FaceCameraXFragment cameraXFragment;
     public static final String SILENT_THRESHOLD_KEY = "SILENT_THRESHOLD_KEY";   //RGB 静默活体KEY
@@ -109,9 +109,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
                         BitmapUtils.saveScaledBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
 
-
                         finishFaceVerify(9,R.string.liveness_detection_done,silentLivenessValue);
-
 
 //                        runOnUiThread(() -> {
 ////                            new ImageToast().show(getApplicationContext(), bitmap, getString(R.string.liveness_detection_done)+" " + silentLivenessValue);
@@ -131,7 +129,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onTimeCountDown(float percent) {
-                        faceCoverView.startCountDown(percent);
+                        faceCoverView.setProgress(percent);
                     }
 
                     //发送严重错误，会中断业务流程
