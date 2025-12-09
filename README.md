@@ -1,12 +1,11 @@
 
-<div align=center>
-<img src="https://github.com/user-attachments/assets/b1e0a9c4-8b43-4eb8-bf7a-7632901cfb2c" width = 7%  alt="点击查看详情"/>
+
+<div align=right>
+<img src="https://badgen.net/badge/FaceAI%20SDK/%20%E5%BF%AB%E9%80%9F%E5%AE%9E%E7%8E%B0%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%8A%9F%E8%83%BD"/>
 </div>
 
-<img src="https://badgen.net/badge/FaceAI%20SDK/%20%E5%BF%AB%E9%80%9F%E5%AE%9E%E7%8E%B0%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%8A%9F%E8%83%BD" />
-
 <br>
-<a href='https://play.google.com/store/apps/details?id=com.ai.face.verifyPub'><img alt='Get FaceAI On Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='60'/></a>
+ <a href='https://play.google.com/store/apps/details?id=com.ai.face.verifyPub'><img alt='Get FaceAI On Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='50'/></a>
 <br> 
 
 # [关于「FaceAISDK」](https://github.com/FaceAISDK/FaceAISDK_Android)
@@ -38,7 +37,7 @@ Android SDK可支持Android[5,16] **SDK所有功能都不用联网，不保存�
 
 *   1.调整JDK版本到java 17。AS设置Preferences -> Build -> Gradle -> JDK的版本为 17
 
-*   2.升级Android Studio 到2025.1.4,同时升级AGP到8.13，并同步Demo工程中的其他依赖
+*   2.升级Android Studio到2025.2.2(可选，内置Gemini3 AI辅助开发),升级AGP到8.13，同步Demo工程中的其他依赖
 
 *   3.Demo工程成功运行后，根据你的业务需求重点熟悉对应模块后再集成到你的主工程
 

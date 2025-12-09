@@ -7,10 +7,10 @@
    SDK 目前托管在Maven central，SDK所有功能都是离线端侧运行。
 
 ### 1.集成SDK开发环境和Gradle插件版本是怎样的 ？ 
-   开发环境 Android Studio 2025.1.4 | 2025.1.4
+   开发环境 Android Studio Otter 2 Feature Drop | 2025.2.2 （可选升级，内置Gemini3 AI辅助开发）
    AGP版本8.13(非强制)  java17+, kotlin 1.9+
 
-   目前SDK Demo默认使用**Android Studio2025.1.4 + java17 + kotlin1.9.22 + AGP8.13 打包
+   目前SDK Demo默认使用**Android Studio2025.2.2 + java17 + kotlin1.9.22 + AGP8.13 打包
    不建议再使用废弃的kapt, kotlin-android-extensions
  
    注：为了Debug View Bitmap以及更好的使用AI 辅助编程开发,2025年10月31号我们对开发环境升级到上述版本

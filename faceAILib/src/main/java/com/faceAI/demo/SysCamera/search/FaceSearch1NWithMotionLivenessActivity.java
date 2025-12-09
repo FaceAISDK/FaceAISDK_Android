@@ -51,12 +51,12 @@ import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
 import java.util.List;
 
 /**
- * RGB摄像头动作活体检测+1:N 人脸搜索识别
+ * RGB摄像头动作活体检测+1:N 人脸搜索识别。
  *
  * 摄像头管理源码开放在 {@link FaceCameraXFragment}
  * @author FaceAISDK.Service@gmail.com
- *
  */
+@Deprecated
 public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
     //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
@@ -71,9 +71,7 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = 7; //动作超时秒
     private String motionLivenessTypes ="1,2,3,4,5" ; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
-
     private boolean isLivenessPass=false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,7 +147,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                     public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
                             initFaceSearchParam();
                             isLivenessPass=true;
-
                     }
 
                     //人脸识别，活体检测过程中的各种提示
@@ -176,14 +173,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                 }).create();
 
         faceVerifyUtils.setDetectorParams(faceProcessBuilder);
-//        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-//            //防止在识别过程中关闭页面导致Crash
-//            if (!isDestroyed() && !isFinishing()) {
-//                //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
-//                faceVerifyUtils.goVerifyWithImageProxy(imageProxy,  binding.faceCover.getMargin());
-//                //自定义管理相机可以使用 goVerifyWithBitmap
-//            }
-//        });
 
     }
 
@@ -382,15 +371,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
         //3.根据参数初始化引擎
         FaceSearchEngine.Companion.getInstance().initSearchParams(faceProcessBuilder);
 
-//        // 4.从标准默认的HAL CameraX 摄像头中取数据实时搜索
-//        // 建议设备配置 CPU为八核64位2.4GHz以上,  摄像头RGB 宽动态(大于105Db)高清成像，光线不足设备加补光灯
-//        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-//            //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
-//            if (!isDestroyed() && !isFinishing()&&!pauseSearch) {
-//                FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
-//            }
-//        });
-
     }
 
 
@@ -431,13 +411,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
 
                 finish();
 
-//                new AlertDialog.Builder(this)
-//                        .setMessage(R.string.stop_verify_tips)
-//                        .setCancelable(false)
-//                        .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-//                            finish();
-//                        })
-//                        .show();
                 break;
 
             case FACE_TOO_SMALL:

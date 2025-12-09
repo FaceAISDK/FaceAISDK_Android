@@ -12,8 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.R;
 
 /**
- * Toast Bitmap 和 text
- *
+ * Toast Bitmap 和 text。UI可根据自身业务修改
  * https://github.com/FaceAISDK/FaceAISDK_Android
  */
 public class ImageToast {

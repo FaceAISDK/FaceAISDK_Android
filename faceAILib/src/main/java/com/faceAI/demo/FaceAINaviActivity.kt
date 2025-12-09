@@ -76,7 +76,6 @@ class FaceAINaviActivity : AppCompatActivity() {
             }
         }
 
-
         // 两张静态人脸图中人脸相似度对比，two face image similarity compare
         viewBinding.twoFaceVerify.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, TwoFaceImageVerifyActivity::class.java))

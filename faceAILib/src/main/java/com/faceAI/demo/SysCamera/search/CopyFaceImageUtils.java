@@ -139,7 +139,7 @@ public class CopyFaceImageUtils {
             return;
         }
 
-        // 3. 调用 SDK 提取特征
+        // 3. 调用 SDK 提取特征 (没有裁剪的的图用Image2FaceFeature处理)
         Image2FaceFeature.getInstance(context).getFaceFeatureByBitmap(originBitmap, fileName, new Image2FaceFeature.Callback() {
             @Override
             public void onSuccess(@NotNull Bitmap croppedBitmap, @NotNull String faceID, @NotNull String faceFeature) {
