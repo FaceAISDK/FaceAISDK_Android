@@ -12,6 +12,7 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCHING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
+import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_TIMEOUT;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
@@ -66,7 +67,7 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
 
     //================活体检测--------------
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
-    private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION; //活体检测类型
+    private FaceLivenessType faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION; //活体检测类型
     private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = 7; //动作超时秒
@@ -113,7 +114,7 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                 if(isLivenessPass){
                     FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
                 }else{
-                    faceVerifyUtils.goVerifyWithImageProxy(imageProxy,  binding.faceCover.getMargin());
+                    faceVerifyUtils.goVerifyWithImageProxy(imageProxy);
                 }
             }
         });
@@ -187,19 +188,32 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
         if (!isDestroyed() && !isFinishing()) {
                 switch (actionCode) {
                     // 动作活体检测完成了
-                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
+                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_SUCCESS:
                         VoicePlayer.getInstance().play(R.raw.verify_success);
                         setMainTips(R.string.keep_face_visible); //2秒后抓取一张正脸图
                         setSecondTips(0);
+                        break;
+
+                    //动作活体超时
+                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_TIMEOUT:
+                        new AlertDialog.Builder(this)
+                                .setMessage(R.string.motion_liveness_detection_time_out)
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
+                                            retryTime++;
+                                            if (retryTime > 1) {
+                                                finish();
+                                            } else {
+                                                faceVerifyUtils.retryVerify();
+                                            }
+                                        }
+                                ).show();
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:
                         setMainTips(R.string.face_verifying);
                         break;
 
-                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:
-                        setMainTips(R.string.motion_liveness_detection_failed);
-                        break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
                         VoicePlayer.getInstance().play(R.raw.open_mouse);
@@ -238,20 +252,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                                 .show();
                         break;
 
-                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT:
-                        new AlertDialog.Builder(this)
-                                .setMessage(R.string.motion_liveness_detection_time_out)
-                                .setCancelable(false)
-                                .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
-                                            retryTime++;
-                                            if (retryTime > 1) {
-                                                finish();
-                                            } else {
-                                                faceVerifyUtils.retryVerify();
-                                            }
-                                        }
-                                ).show();
-                        break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
                         setMainTips(R.string.no_face_or_repeat_switch_screen);

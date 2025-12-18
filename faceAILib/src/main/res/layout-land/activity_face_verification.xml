@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:customAttr="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,17 +11,16 @@
     <!-- 摄像头预览画面，用户可自行调整大小 位置 -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_camerax"
-        android:layout_margin="40dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_margin="170dp"/>
 
     <!-- 可以替换成你自己的UI样式,需要 FaceCoverView 源码已经暴露 -->
     <com.faceAI.demo.base.view.FaceVerifyCoverView
         android:id="@+id/face_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        customAttr:circle_padding_bottom="33dp"
-        customAttr:circle_margin="40dp"
+        customAttr:circle_margin="170dp"
         customAttr:progress_end_color="@color/blue"
         customAttr:progress_start_color="@color/blue"
         customAttr:show_progress="true"
@@ -30,14 +30,22 @@
 
     <ImageView
         android:id="@+id/back"
-        android:layout_width="47dp"
-        android:layout_height="47dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="25dp"
-        android:padding="9dp"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
         android:src="@drawable/ic_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/base_face"
+        android:layout_width="25dp"
+        android:layout_height="22dp"
+        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintBottom_toBottomOf="@+id/back"
+        app:layout_constraintTop_toTopOf="@+id/back" />
 
     <TextView
         android:id="@+id/tips_view"
@@ -51,7 +59,7 @@
         android:paddingBottom="5dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:text="@string/keep_face_visible"
         android:textSize="18sp"
         android:textStyle="bold"

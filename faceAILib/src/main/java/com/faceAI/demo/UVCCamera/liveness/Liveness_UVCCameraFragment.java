@@ -27,7 +27,7 @@ import com.faceAI.demo.base.utils.VoicePlayer;
  */
 public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
     private TextView tipsTextView, secondTipsTextView, scoreText;
-    private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION;//活体检测类型
+    private FaceLivenessType faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION;//活体检测类型
     private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = 7; //动作超时秒
@@ -114,10 +114,21 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
             Log.e("RGBUVC","---- "+actionCode);
                 switch (actionCode) {
                     // 动作活体检测完成了
-                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
+                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_SUCCESS:
                         VoicePlayer.getInstance().play(R.raw.verify_success);
                         setTips(R.string.liveness_detection_done);
                         setSecondTips(0);
+                        break;
+
+                    //动作活体超时了
+                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_TIMEOUT:
+                        new AlertDialog.Builder(requireActivity())
+                                .setMessage(R.string.motion_liveness_detection_time_out)
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
+                                            faceVerifyUtils.retryVerify();
+                                        }
+                                ).show();
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.IR_IMAGE_NULL:
@@ -132,12 +143,7 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                         setTips(R.string.face_verifying);
                         break;
 
-                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_NO_BASE_IMG:
-                        setTips(R.string.no_base_face_image);
-                        break;
-                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:
-                        setTips(R.string.motion_liveness_detection_failed);
-                        break;
+
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
                         VoicePlayer.getInstance().play(R.raw.open_mouse);
@@ -166,15 +172,7 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                         setTips(R.string.motion_node_head);
                         break;
 
-                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT:
-                        new AlertDialog.Builder(requireActivity())
-                                .setMessage(R.string.motion_liveness_detection_time_out)
-                                .setCancelable(false)
-                                .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
-                                            faceVerifyUtils.retryVerify();
-                                        }
-                                ).show();
-                        break;
+
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
                         setTips(R.string.no_face_or_repeat_switch_screen);

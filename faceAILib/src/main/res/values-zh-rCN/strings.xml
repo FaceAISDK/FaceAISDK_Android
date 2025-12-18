@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">PrivateFace</string>
     <string name="login_privacy_policy">已阅读并同意隐私协议</string>
     <string name="device_list_dialog_title">摄像头设备</string>
     <string name="device_list_empty_tip">请连接好UVC协议USB设备</string>
@@ -80,6 +81,9 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="liveness_detection">人脸活体检测</string>
     <string name="liveness_detection_done">活体检测完成</string>
     <string name="motion_liveness_detection_failed">动作活体检测失败了 </string>
+    <string name="color_flash_liveness_failed">炫彩活体检测失败了 </string>
+    <string name="color_flash_light_high">炫彩活体检测失败,环境光线亮度过高</string>
+    <string name="color_flash_need_closer_camera">即将闪烁彩色光，请靠近屏幕</string>
     <string name="keep_face_visible">平视正对摄像头</string>
     <string name="repeat_open_close_mouse">请重复张闭嘴</string>
     <string name="motion_smile">重复微笑,自然表情 </string>

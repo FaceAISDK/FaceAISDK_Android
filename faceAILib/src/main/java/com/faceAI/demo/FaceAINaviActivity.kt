@@ -48,6 +48,7 @@ class FaceAINaviActivity : AppCompatActivity() {
             switchCameraType()
         }
 
+
         // 1:1 人脸识别
         viewBinding.faceVerify.setOnClickListener {
             val verifyIntent = Intent(baseContext, FaceVerifyWelcomeActivity::class.java)

@@ -3,12 +3,10 @@ package com.faceAI.demo.UVCCamera.verify;
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,10 +21,6 @@ import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.faceAI.demo.FaceSDKConfig;
-import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.R;
 import com.tencent.mmkv.MMKV;
@@ -58,7 +52,6 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
         tipsTextView = binding.tipsView;
         secondTipsTextView = binding.secondTipsView;
         binding.back.setOnClickListener(v -> requireActivity().finish());
-        BrightnessUtil.setBrightness(requireActivity(), 0.9f);  //高亮白色背景屏幕光可以当补光灯
     }
 
 
@@ -93,7 +86,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                 .setThreshold(0.84f)                    //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
                 .setFaceFeature(faceFeature)        //1:1 人脸识别对比底片人脸特征
                 .setCameraType(cameraType)
-                .setLivenessType(FaceLivenessType.SILENT_MOTION)   //IR 是指红外静默，MOTION 是有动作可以指定1-2 个
+                .setLivenessType(FaceLivenessType.COLOR_FLASH_MOTION)   //IR 是指红外静默，MOTION 是有动作可以指定1-2 个
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)   //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setSilentLivenessThreshold(silentLivenessThreshold) //静默活体阈值 [0.8,0.99]
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
@@ -187,7 +180,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
         if (!requireActivity().isDestroyed() && !requireActivity().isFinishing()) {
                 switch (actionCode) {
                     // 动作活体检测完成了
-                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
+                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_SUCCESS:
                         VoicePlayer.getInstance().play(R.raw.face_camera);
                         setMainTips(R.string.keep_face_visible);
                         break;
@@ -204,12 +197,6 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                         setMainTips(R.string.face_verifying);
                         break;
 
-                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_NO_BASE_IMG:
-                        setMainTips(R.string.no_base_face_image);
-                        break;
-                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:
-                        setMainTips(R.string.motion_liveness_detection_failed);
-                        break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
                         VoicePlayer.getInstance().play(R.raw.open_mouse);
@@ -238,7 +225,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                         setMainTips(R.string.motion_node_head);
                         break;
 
-                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT:
+                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_TIMEOUT:
                         new AlertDialog.Builder(requireActivity())
                                 .setMessage(R.string.motion_liveness_detection_time_out)
                                 .setCancelable(false)
