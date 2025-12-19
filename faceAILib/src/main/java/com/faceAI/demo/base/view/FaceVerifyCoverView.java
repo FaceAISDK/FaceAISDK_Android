@@ -32,7 +32,7 @@ import com.faceAI.demo.base.utils.ScreenUtils;
 public class FaceVerifyCoverView extends View {
 
     // --- 核心属性 ---
-    private int mBackgroundColor;
+    private int mFlashColor;
     private int mStartColor;
     private int mEndColor;
     private boolean mShowProgress;
@@ -85,7 +85,7 @@ public class FaceVerifyCoverView extends View {
             TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.FaceVerifyCoverView);
             mCircleMargin = array.getDimensionPixelSize(R.styleable.FaceVerifyCoverView_circle_margin, 30);
             mCirclePaddingBottom = array.getDimensionPixelSize(R.styleable.FaceVerifyCoverView_circle_padding_bottom, 0);
-            mBackgroundColor = array.getColor(R.styleable.FaceVerifyCoverView_background_color, Color.WHITE);
+            mFlashColor = array.getColor(R.styleable.FaceVerifyCoverView_flash_color, Color.WHITE);
             mStartColor = array.getColor(R.styleable.FaceVerifyCoverView_progress_start_color, Color.LTGRAY);
             mEndColor = array.getColor(R.styleable.FaceVerifyCoverView_progress_end_color, Color.LTGRAY);
             mShowProgress = array.getBoolean(R.styleable.FaceVerifyCoverView_show_progress, true);
@@ -93,7 +93,7 @@ public class FaceVerifyCoverView extends View {
         } else {
             mCircleMargin = 33;
             mCirclePaddingBottom = 0;
-            mBackgroundColor = Color.WHITE;
+            mFlashColor = Color.WHITE;
             mStartColor = Color.LTGRAY;
             mEndColor = Color.LTGRAY;
             mShowProgress = true;
@@ -107,7 +107,7 @@ public class FaceVerifyCoverView extends View {
 
         // 1. 背景画笔 (直接画出带孔的背景)
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mBackgroundPaint.setColor(mBackgroundColor);
+        mBackgroundPaint.setColor(mFlashColor);
         mBackgroundPaint.setStyle(Paint.Style.FILL);
 
         // 2. 进度条底色
@@ -240,9 +240,13 @@ public class FaceVerifyCoverView extends View {
         invalidate();
     }
 
-    public void setBackGroundColor(int color) {
-        mBackgroundColor = color;
-        mBackgroundPaint.setColor(mBackgroundColor); // 记得更新画笔
+    /**
+     * 炫彩活体更新屏幕颜色，人脸要离屏幕近一点
+     * @param color
+     */
+    public void setFlashColor(int color) {
+        mFlashColor = color;
+        mBackgroundPaint.setColor(mFlashColor); // 记得更新画笔
         invalidate();
     }
 

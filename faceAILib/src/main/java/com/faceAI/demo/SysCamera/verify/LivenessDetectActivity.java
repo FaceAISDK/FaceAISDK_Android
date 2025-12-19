@@ -87,7 +87,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         initLivenessParam();
     }
 
-
     /**
      * 初始化认证引擎
      */
@@ -103,7 +102,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 .setMotionLivenessTypes(motionLivenessTypes)           //动作活体种类。1 张张嘴,2 微笑,3 眨眨眼,4 摇摇头,5 点点头
                 .setStopVerifyNoFaceRealTime(false)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
-
                     /**
                      * 动作活体+炫彩活体都 检测完成，返回炫彩活体分数
                      *
@@ -122,7 +120,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onColorFlash(int color) {
-                        faceCoverView.setBackGroundColor(color);
+                        faceCoverView.setFlashColor(color);
                     }
 
                     //人脸识别，活体检测过程中的各种提示
@@ -131,16 +129,11 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                         showFaceVerifyTips(i);
                     }
 
-                    /**
-                     * 动作活体倒计时
-                     * @param percent
-                     */
                     @Override
                     public void onTimeCountDown(float percent) {
-                        faceCoverView.setProgress(percent);
+                        faceCoverView.setProgress(percent); //动作活体倒计时
                     }
 
-                    //发送严重错误，会中断业务流程
                     @Override
                     public void onFailed(int code, String message) {
                         Toast.makeText(getBaseContext(), "onFailed错误!：" + message, Toast.LENGTH_LONG).show();

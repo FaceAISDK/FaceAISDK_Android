@@ -169,12 +169,9 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                         showVerifyResult(isMatched, similarity, bitmap);
                     }
 
-                    /**
-                     * 控制屏幕闪烁哪种颜色的光线，不能在室外强光环境使用
-                     */
                     @Override
                     public void onColorFlash(int color) {
-                        faceCoverView.setBackGroundColor(color);
+                        faceCoverView.setFlashColor(color);//设置炫彩颜色，不能在室外强光环境使用
                     }
 
                     //人脸识别，活体检测过程中的各种提示

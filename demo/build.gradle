@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         versionCode 20251219
-        versionName "20251219.color"
+        versionName "20251219.colorflash"
 
         applicationId "com.ai.face.verifyPub"
         minSdk 21

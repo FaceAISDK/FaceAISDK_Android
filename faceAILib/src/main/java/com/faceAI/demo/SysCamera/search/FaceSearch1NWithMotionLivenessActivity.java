@@ -12,7 +12,6 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCHING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
-import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_TIMEOUT;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
@@ -47,6 +46,7 @@ import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.VoicePlayer;
+import com.faceAI.demo.base.view.FaceVerifyCoverView;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
 
 import java.util.List;
@@ -69,8 +69,8 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private FaceLivenessType faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION; //活体检测类型
     private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
-    private int motionStepSize = 2; //动作活体的个数
-    private int motionTimeOut = 7; //动作超时秒
+    private int motionStepSize = 1; //动作活体的个数
+    private int motionTimeOut = 5; //动作超时秒
     private String motionLivenessTypes ="1,2,3,4,5" ; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
     private boolean isLivenessPass=false;
 
@@ -148,6 +148,11 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                     public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
                             initFaceSearchParam();
                             isLivenessPass=true;
+                    }
+
+                    @Override
+                    public void onColorFlash(int color) {
+                       binding.faceCover.setFlashColor(color); //更新炫彩屏幕颜色，不能在室外强光下使用
                     }
 
                     //人脸识别，活体检测过程中的各种提示

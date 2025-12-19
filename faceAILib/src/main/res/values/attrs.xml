@@ -13,7 +13,7 @@
         <attr name="tip_text_color" format="color" />
         <!--文字大小-->
         <attr name="tip_text_size" format="dimension" />
-        <attr name="background_color" format="color" />
+        <attr name="flash_color" format="color" />
         <attr name="progress_start_color" format="color" />
         <attr name="progress_end_color" format="color" />
         <attr name="show_progress" format="boolean" />

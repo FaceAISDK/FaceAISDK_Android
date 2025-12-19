@@ -28,7 +28,6 @@
             android:exported="false"
             android:theme="@style/Theme.FaceAISDK.Fullscreen" />
 
-
         <activity
             android:name=".UVCCamera.search.FaceSearch_UVCCameraActivity"
             android:exported="true"
@@ -82,7 +81,7 @@
         <activity
             android:name=".SysCamera.search.FaceSearch1NWithMotionLivenessActivity"
             android:exported="false"
-            android:theme="@style/FaceAITheme" />
+            android:theme="@style/Theme.FaceAISDK.Fullscreen" />
         <activity
             android:name=".SysCamera.search.FaceSearchMNActivity"
             android:exported="false"
