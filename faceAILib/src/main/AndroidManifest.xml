@@ -30,8 +30,6 @@
             android:exported="true"
             android:theme="@style/FaceAITheme" />
 
-
-
         <activity
             android:name=".UVCCamera.liveness.Liveness_UVCCameraActivity"
             android:exported="true"
@@ -82,7 +80,6 @@
             android:name=".SysCamera.search.FaceSearch1NWithMotionLivenessActivity"
             android:exported="false"
             android:theme="@style/FaceAITheme" />
-
 
         <activity
             android:name=".SysCamera.search.FaceSearchMNActivity"

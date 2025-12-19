@@ -9,32 +9,38 @@ import com.faceAI.demo.base.utils.VoicePlayer;
 import com.tencent.mmkv.MMKV;
 
 /**
- * 不要直接使用File Api 直接往文件目录插入图片，要使用SDK 提供的APi写入数据，图片还需要向量化，检测质量等操作
+ * SDK 配置初始化
+ *
  */
 public class FaceSDKConfig {
 
-    //不要直接使用File Api 直接往文件目录插入图片，要使用SDK 提供的APi写入数据，图片还需要向量化
+    public static String CACHE_FACE_LOG_DIR;    //本地保存某次人脸校验完成后的场景图目录，给三方插件使用
+
+
+
+    //根据工信部人脸信息处理合规要求，不建议大规模缓存人脸图片，目前iOS&Android SDK都已经改为加密过后的人脸特征值
     public static String CACHE_BASE_FACE_DIR;   //1：1 人脸识别人脸图片存储目录
     public static String CACHE_SEARCH_FACE_DIR; //1：N 人脸识别搜索人脸图片存储目
-    public static String CACHE_FACE_LOG_DIR;    //本地保存某次人脸校验完成后的场景图目录
+
 
     /**
      * 初始化人脸本地图片存储目录，请在Application onCreate中调用
      *
      */
     public static void init(Context context) {
+
+        //使用MMKV保存简单1:1人脸特征保存key为faceID,value为特征值 （人脸搜索的人脸特征放在SDK内置数据库中管理）
+        MMKV.initialize(context);
+
+        //语音提示播报，现在都是播放录音文件。后期改为TTS吧
+        VoicePlayer.getInstance().init(context);
+
         // 人脸图存储在App内部私有空间，SDK未做分区存储
         // Warming: 目前仅能存储在context.getCacheDir() 或者context.getFilesDir() 内部私有空间
         // https://developer.android.com/training/data-storage?hl=zh-cn
         CACHE_BASE_FACE_DIR = context.getFilesDir().getPath() + "/FaceAI/Verify/";    //1:1 人脸识别目录
         CACHE_SEARCH_FACE_DIR = context.getFilesDir().getPath() + "/FaceAI/Search/";  //人脸搜索人脸库目录
         CACHE_FACE_LOG_DIR= context.getFilesDir().getPath() + "/FaceAI/Log/";  //使用场景图目录
-
-        //1:1人脸特征保存key为faceID,value为特征值
-        MMKV.initialize(context);
-
-        //语音提示播报,后面文字转语音吧
-        VoicePlayer.getInstance().init(context);
     }
 
     /**
@@ -44,7 +50,7 @@ public class FaceSDKConfig {
         //清除所有人脸搜索所有特征
         FaceSearchFeatureManger.getInstance(context).clearAllFaceFaceFeature();
 
-        //删除所有缓存的裁剪好的人脸图
+        //删除所有缓存的人脸图
         Image2FaceFeature.getInstance(context).clearFaceImages(CACHE_SEARCH_FACE_DIR);
         Glide.get(context).clearMemory();
     }
