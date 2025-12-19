@@ -96,14 +96,13 @@ abstract class AbsAddFaceFromAlbumActivity : AppCompatActivity() {
                     ))
                 }
             })
-            //非FaceAI SDK的人脸可能是不规范的没有经过校准的人脸图（证件照，多人脸，过小等）
             .callback(object : FileSelectCallBack {
                 override fun onSuccess(results: List<FileSelectResult>?) {
                     if (!results.isNullOrEmpty()) {
                         val selectUri=results[0].uri
                         val faceName = FileUtils.getFileNameFromUri(selectUri)?:"faceID"
                         val bitmapSelected = MediaStore.Images.Media.getBitmap(contentResolver,selectUri )
-
+                        //非FaceAI SDK的人脸可能是不规范的没有经过校准的人脸图需要使用异步方法处理
                         Image2FaceFeature.getInstance(application).getFaceFeatureByBitmap(bitmapSelected,faceName,object : Image2FaceFeature.Callback{
                             override fun onFailed(msg: String) {
                                 Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()

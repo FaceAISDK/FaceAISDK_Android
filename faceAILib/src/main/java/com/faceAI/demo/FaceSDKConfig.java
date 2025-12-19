@@ -50,7 +50,7 @@ public class FaceSDKConfig {
         //清除所有人脸搜索所有特征
         FaceSearchFeatureManger.getInstance(context).clearAllFaceFaceFeature();
 
-        //删除所有缓存的裁剪好的人脸图
+        //删除所有缓存的人脸图
         Image2FaceFeature.getInstance(context).clearFaceImages(CACHE_SEARCH_FACE_DIR);
         Glide.get(context).clearMemory();
     }

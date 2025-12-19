@@ -29,9 +29,9 @@ android {
 }
 
 
-//CameraX，适配Android16 KB Page请强制升级到1.4.2 以上版本
+//CameraX，适配Android16 KB Page请强制升级到1.4.2 以上版本. 炫彩活体基于1.4.2 验证
 //如果TargetSDK 还是古老的28～30 ，你只能用1.2.3 版本
-def camera_version = "1.5.0"
+def camera_version = "1.4.2"
 configurations.configureEach {
     resolutionStrategy {
         force "androidx.camera:camera-core:$camera_version",

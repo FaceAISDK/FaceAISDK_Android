@@ -129,7 +129,7 @@ public class AddFaceImageActivity extends AbsBaseActivity {
                 //如果非SDK相机录入的人脸照片提取特征值用异步方法 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
                 String faceFeature = FaceAISDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(bitmap);
 
-                if(needConfirmAdd){
+                if(needConfirmAdd){ //特殊场景不弹框确认，强烈建议需要
                     confirmAddFaceDialog(bitmap, silentLiveValue,faceFeature);
                 }else{
                     //有些1:1添加人脸场景不需要弹窗确认
