@@ -39,7 +39,6 @@ import com.tencent.mmkv.MMKV;
  */
 public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragment {
     private TextView tipsTextView, secondTipsTextView, scoreText;
-    private final float silentLivenessThreshold = 0.85f; //根据你的摄像头采用合适的静默活体阈值
 
     public FaceVerify_UVCCameraFragment() {
         // Required empty public constructor
@@ -83,12 +82,11 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
      */
     void initFaceVerificationParam(String faceFeature) {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(getContext())
-                .setThreshold(0.84f)                    //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
+                .setThreshold(0.85f)                //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
                 .setFaceFeature(faceFeature)        //1:1 人脸识别对比底片人脸特征
                 .setCameraType(cameraType)
-                .setLivenessType(FaceLivenessType.COLOR_FLASH_MOTION)   //IR 是指红外静默，MOTION 是有动作可以指定1-2 个
+                .setLivenessType(FaceLivenessType.COLOR_FLASH_MOTION)   //IR 是指红外活体，MOTION 是有动作可以指定1-2 个
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)   //硬件配置低用FAST动作活体模式，否则用精确模式
-                .setSilentLivenessThreshold(silentLivenessThreshold) //静默活体阈值 [0.8,0.99]
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(12)           //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
 //                .setCompareDurationTime(4500)         //动作活体通过后人脸对比时间，[3000,6000]毫秒。低配设备可以设置时间长一点，高配设备默认就
@@ -137,25 +135,16 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
      * 检测1:1 人脸识别是否通过
      * <p>
      * 动作活体要有动作配合，必须先动作匹配通过再1：1 匹配
-     * 静默活体不需要人配合，如果不需要静默活体检测，分数直接会被赋值 1.0
      */
-    void showVerifyResult(boolean isVerifyMatched, float similarity, float silentLivenessScore) {
-            scoreText.setText("SilentLivenessScore:" + silentLivenessScore);
-            //1.静默活体分数判断
-            if (silentLivenessScore < silentLivenessThreshold) {
-                tipsTextView.setText(R.string.silent_anti_spoofing_error);
-                new AlertDialog.Builder(requireContext())
-                        .setMessage(R.string.silent_anti_spoofing_error)
-                        .setCancelable(false)
-                        .setPositiveButton(R.string.confirm, (dialogInterface, i) -> requireActivity().finish())
-                        .show();
-            } else if (isVerifyMatched) {
-                //2.和底片同一人
+    void showVerifyResult(boolean isVerifyMatched, float similarity, float score) {
+            scoreText.setText("score:" + score);
+           if(isVerifyMatched) {
+                //1.和底片同一人
                 tipsTextView.setText("Successful,similarity= " + similarity);
                 VoicePlayer.getInstance().addPayList(R.raw.verify_success);
                 new Handler(Looper.getMainLooper()).postDelayed(requireActivity()::finish, 1000);
             } else {
-                //3.和底片不是同一个人
+                //2.和底片不是同一个人
                 tipsTextView.setText("Failed ！ similarity=" + similarity);
                 VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
                 new AlertDialog.Builder(requireContext())

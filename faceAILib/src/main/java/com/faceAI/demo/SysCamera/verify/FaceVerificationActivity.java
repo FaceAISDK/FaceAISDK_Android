@@ -56,7 +56,6 @@ import com.tencent.mmkv.MMKV;
 public class FaceVerificationActivity extends AbsBaseActivity {
     public static final String USER_FACE_ID_KEY = "USER_FACE_ID_KEY";   //1:1 face verify ID KEY
     public static final String THRESHOLD_KEY = "THRESHOLD_KEY";           //人脸识别通过的阈值
-    public static final String SILENT_THRESHOLD_KEY = "SILENT_THRESHOLD_KEY";   //RGB 静默活体KEY
     public static final String FACE_LIVENESS_TYPE = "FACE_LIVENESS_TYPE";   //活体检测的类型
     public static final String MOTION_STEP_SIZE = "MOTION_STEP_SIZE";   //动作活体的步骤数
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
@@ -149,7 +148,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 .setFaceFeature(faceFeature)            //1:1 人脸识别对比的底片人脸特征值字符串
                 .setCameraType(FaceAICameraType.SYSTEM_CAMERA)  //相机类型，目前分为3种
                 .setCompareDurationTime(4000)           //人脸识别对比时间[3000,6000] 毫秒。相似度低会持续识别比对的时间
-                .setLivenessType(faceLivenessType)      //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
+                .setLivenessType(faceLivenessType)      //活体检测可以炫彩&动作活体组合，炫彩活体不能在强光下使用
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)    //硬件配置低或不需太严格用FAST快速模式，否则用精确模式
                 .setMotionLivenessStepSize(motionStepSize)            //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(motionTimeOut)              //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
@@ -211,7 +210,6 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * 1:1 人脸识别是否通过
      * <p>
      * 动作活体要有动作配合，必须先动作匹配通过再1：1 匹配
-     * 静默活体不需要人配合，如果不需要静默活体检测，分数直接会被赋值 1.0
      */
     private int retryTime = 0;
 
@@ -471,7 +469,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             if (intent.hasExtra(MOTION_STEP_SIZE)) {
                 motionStepSize = intent.getIntExtra(MOTION_STEP_SIZE, 2);
             }
-            if (intent.hasExtra(SILENT_THRESHOLD_KEY)) {
+            if (intent.hasExtra(MOTION_TIMEOUT)) {
                 motionTimeOut = intent.getIntExtra(MOTION_TIMEOUT, 9);
             }
             if (intent.hasExtra(MOTION_LIVENESS_TYPES)) {

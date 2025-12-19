@@ -68,7 +68,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
     //================活体检测--------------
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private FaceLivenessType faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION; //活体检测类型
-    private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
     private int motionStepSize = 1; //动作活体的个数
     private int motionTimeOut = 5; //动作超时秒
     private String motionLivenessTypes ="1,2,3,4,5" ; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
@@ -79,6 +78,7 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityFaceSearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        hideSystemUI();
         binding.close.setOnClickListener(v -> finish());
 
         binding.tips.setOnClickListener(v -> {
@@ -129,8 +129,8 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
         //建议老的低配设备减少活体检测步骤
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setLivenessOnly(true)
-                .setLivenessType(faceLivenessType) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
-                .setSilentLivenessThreshold(silentLivenessThreshold)   //静默活体阈值 [0.88,0.98]
+                .setLivenessType(faceLivenessType) //活体检测可以炫彩&动作活体组合
+                .setSilentLivenessThreshold(0.7f)   //2025.12.19 改为炫彩活体检测
                 .setMotionLivenessStepSize(motionStepSize)             //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(motionTimeOut)               //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
                 .setLivenessDetectionMode(MotionLivenessMode.ACCURACY) //硬件配置低用FAST动作活体模式，否则用精确模式
@@ -139,13 +139,13 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                 .setProcessCallBack(new ProcessCallBack() {
 
                     /**
-                     * 动作活体检测完成，同时返回RGB静默活体分数(setLivenessType设置过)
+                     * 动作活体检测完成
                      *
-                     * @param silentLivenessValue RGB静默活体分数,RGB分数可靠性和摄像头会有关，请确认。
+                     * @param score  炫彩分
                      * @param bitmap 活体检测快照，可以用于log记录
                      */
                     @Override
-                    public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
+                    public void onLivenessDetected(float score, Bitmap bitmap) {
                             initFaceSearchParam();
                             isLivenessPass=true;
                     }

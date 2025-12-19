@@ -119,18 +119,18 @@ public class AddFaceImageActivity extends AbsBaseActivity {
             /**
              * 人脸检测裁剪完成
              * @param bitmap           检测裁剪后的Bitmap
-             * @param silentLiveValue  静默活体分数（不再使用，后面静默会改为炫彩）
+             * @param score           （暂时不检测）
              * @param faceBrightness   人脸周围环境光线亮度
              */
             @Override
-            public void onCompleted(Bitmap bitmap, float silentLiveValue,float faceBrightness) {
+            public void onCompleted(Bitmap bitmap, float score,float faceBrightness) {
                 isConfirmAdd=true;
                 //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
                 //如果非SDK相机录入的人脸照片提取特征值用异步方法 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
                 String faceFeature = FaceAISDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(bitmap);
 
                 if(needConfirmAdd){ //特殊场景不弹框确认，强烈建议需要
-                    confirmAddFaceDialog(bitmap, silentLiveValue,faceFeature);
+                    confirmAddFaceDialog(bitmap, score,faceFeature);
                 }else{
                     //有些1:1添加人脸场景不需要弹窗确认
                     saveFaceVerifyData(bitmap,faceID,faceFeature);
@@ -238,10 +238,10 @@ public class AddFaceImageActivity extends AbsBaseActivity {
      * 经过SDK裁剪矫正处理好的bitmap 转为人脸特征值
      *
      * @param bitmap 符合对应参数设置的SDK裁剪好的人脸图
-     * @param silentLiveValue 静默活体分数，和摄像头有关，自行根据业务需求处理
+     * @param score  暂时不检测
      */
-    private void confirmAddFaceDialog(Bitmap bitmap, float silentLiveValue,String faceFeature) {
-        ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,bitmap,silentLiveValue);
+    private void confirmAddFaceDialog(Bitmap bitmap, float score,String faceFeature) {
+        ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,bitmap,score);
         confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
 
             faceID = confirmFaceDialog.faceIDEdit.getText().toString();
@@ -313,7 +313,7 @@ public class AddFaceImageActivity extends AbsBaseActivity {
         public AlertDialog dialog;
         public Button btnConfirm,btnCancel;
         public EditText faceIDEdit;
-        public ConfirmFaceDialog(Context context,Bitmap bitmap,float silentLiveValue){
+        public ConfirmFaceDialog(Context context,Bitmap bitmap,float score){
             dialog = new AlertDialog.Builder(context).create();
             View dialogView = View.inflate(context, R.layout.dialog_confirm_base, null);
             Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -333,8 +333,8 @@ public class AddFaceImageActivity extends AbsBaseActivity {
             }else {
                 faceIDEdit.requestFocus();
             }
-            TextView livenessScore = dialogView.findViewById(R.id.liveness_score);
-            livenessScore.setText("Liveness Score: "+ silentLiveValue);
+//            TextView livenessScore = dialogView.findViewById(R.id.liveness_score);
+//            livenessScore.setText("Liveness Score: "+ score);
         }
 
         public void show(){

@@ -32,7 +32,6 @@ import com.faceAI.demo.base.view.FaceVerifyCoverView;
 
 /**
  * 活体检测 SDK 接入演示代码.
- * 使用系统相机怎么活体检测，包含动作活体，静默活体（静默需要摄像头成像清晰，宽动态大于105Db）
  * <p>
  * 摄像头管理源码开放了 {@link FaceCameraXFragment}
  * More：<a href="https://github.com/FaceAISDK/FaceAISDK_Android">人脸识别FaceAISDK</a>
@@ -44,7 +43,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     private FaceVerifyCoverView faceCoverView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private FaceCameraXFragment cameraXFragment;
-    public static final String SILENT_THRESHOLD_KEY = "SILENT_THRESHOLD_KEY";   //RGB 静默活体KEY
     public static final String FACE_LIVENESS_TYPE = "FACE_LIVENESS_TYPE";   //活体检测的类型
     public static final String MOTION_STEP_SIZE = "MOTION_STEP_SIZE";   //动作活体的步骤数
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
@@ -94,7 +92,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         //建议老的低配设备减少活体检测步骤
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setLivenessOnly(true)
-                .setLivenessType(faceLivenessType)  //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
+                .setLivenessType(faceLivenessType)      //活体检测可以炫彩&动作活体组合，炫彩活体不能在强光下使用
                 .setSilentLivenessThreshold(0.8f)   //2025.12.25 开始去除
                 .setMotionLivenessStepSize(motionStepSize)             //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(motionTimeOut)               //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
@@ -348,9 +346,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     private void getIntentParams() {
         Intent intent = getIntent(); // 获取发送过来的Intent对象
         if (intent != null) {
-//            if (intent.hasExtra(SILENT_THRESHOLD_KEY)) {
-//                silentLivenessThreshold = intent.getFloatExtra(SILENT_THRESHOLD_KEY, 0.85f);
-//            }
+
             if (intent.hasExtra(FACE_LIVENESS_TYPE)) {
                 int type = intent.getIntExtra(FACE_LIVENESS_TYPE, 3);
                 switch (type) {
@@ -372,7 +368,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
             if (intent.hasExtra(MOTION_STEP_SIZE)) {
                 motionStepSize = intent.getIntExtra(MOTION_STEP_SIZE, 2);
             }
-            if (intent.hasExtra(SILENT_THRESHOLD_KEY)) {
+            if (intent.hasExtra(MOTION_TIMEOUT)) {
                 motionTimeOut = intent.getIntExtra(MOTION_TIMEOUT, 9);
             }
             if (intent.hasExtra(MOTION_LIVENESS_TYPES)) {

@@ -28,7 +28,6 @@ import com.faceAI.demo.base.utils.VoicePlayer;
 public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
     private TextView tipsTextView, secondTipsTextView, scoreText;
     private FaceLivenessType faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION;//活体检测类型
-    private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = 7; //动作超时秒
     private int exceptMotionLiveness = -1; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
@@ -55,21 +54,20 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(getContext())
                 .setLivenessOnly(true)
                 .setCameraType(cameraType)
-                .setLivenessType(faceLivenessType) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
-                .setSilentLivenessThreshold(silentLivenessThreshold)  //静默活体阈值 [0.88,0.98]
+                .setLivenessType(faceLivenessType) //活体检测类型
                 .setMotionLivenessStepSize(motionStepSize)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(motionTimeOut)            //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)  //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setMotionLivenessTypes("1,2,3,4,5")                //动作活体种类。1 张张嘴,2 微笑,3 眨眨眼,4 摇摇头,5 点点头
                 .setProcessCallBack(new ProcessCallBack() {
                     /**
-                     * 活体检测完成，动作活体没有超时（如有），静默活体设置了需要（不需要返回00）
+                     * 活体检测完成，动作活体没有超时
                      *
-                     * @param silentLivenessValue
+                     * @param score
                      * @param bitmap
                      */
                     @Override
-                    public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
+                    public void onLivenessDetected(float score, Bitmap bitmap) {
                             tipsTextView.setText(R.string.liveness_detection_done);
                             VoicePlayer.getInstance().addPayList(R.raw.verify_success);
                             BitmapUtils.saveScaledBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
