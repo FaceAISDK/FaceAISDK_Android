@@ -9,7 +9,7 @@ android {
         versionCode 20251219
         versionName "20251219.colorflash"
 
-        applicationId "com.ai.face.verifyPub"
+        applicationId "com.ai.face.Demo"
         minSdk 21
         targetSdk 36    //target SDK 还是28 的请参考question.md 文档说明
         
