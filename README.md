@@ -21,9 +21,10 @@ Android SDK可支持Android[5,16] **SDK所有功能都不用联网，不保存�
 
 ![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
-##  V2025.12.19
+##  V2025.12.22.colorflash_beta
 - SDK 体积缩减
-- 新加炫彩活体检测alpha
+- 新加炫彩活体检测beat
+- 判断是否已有相似度很高的人脸数据存在
 
 本次更新前后替换API 对比记录 https://github.com/FaceAISDK/FaceAISDK_Android/commit/ca6fc27aa58c7f33dadc76f1dfb7325701a62dc9
 

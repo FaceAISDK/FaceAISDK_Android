@@ -63,7 +63,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     private FaceCameraXFragment cameraXFragment; //摄像头请自行管理，源码全部开放
     private boolean pauseSearch =false; //控制是否送数据到SDK进行搜索
     private int cameraLensFacing;  //摄像头前置，后置，外接。 （UVC协议请参考UVCCamera 目录代码）
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,22 +139,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     }
 
                     /**
-                     * 返回的人脸光线亮度，如果摄像头不支持宽动态（室内105db,室外120db），请硬件添加自动补光感应灯
-                     * @param brightness
-                     */
-                    @Override
-                    public void onFaceBrightness(float brightness) {
-                        //测试阶段，先在测试模式打开提示，大约12月下旬正式发布
-                        if(FaceSDKConfig.isDebugMode(getBaseContext())){
-                            if(brightness>190){
-                                Toast.makeText(getBaseContext(),"光线过亮:"+brightness,Toast.LENGTH_SHORT).show();
-                            }else if(brightness<80){
-                                Toast.makeText(getBaseContext(),"光线过暗:"+brightness,Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-
-                    /**
                      * 检测到人脸的位置信息，画框用
                      */
                     @Override
@@ -207,7 +190,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     private void showFaceSearchPrecessTips(int code) {
         switch (code) {
             case NO_MATCHED:
-                //本次没有搜索匹配到结果，下一帧继续
+                //本次没有搜索匹配到结果.没有结果会持续尝试1秒之内没有结果会返回NO_MATCHED code
                 setSecondTips(R.string.no_matched_face);
                 break;
 
