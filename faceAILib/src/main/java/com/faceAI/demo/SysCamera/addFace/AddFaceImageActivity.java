@@ -26,6 +26,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,7 +39,9 @@ import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.core.engine.FaceAISDKEngine;
+import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.FaceSearchFeatureManger;
+import com.ai.face.faceSearch.searchByFeature.FeatureSearchResult;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.FaceSDKConfig;
@@ -289,6 +292,12 @@ public class AddFaceImageActivity extends AbsBaseActivity {
      * @param faceFeature 长度为1024 的人脸特征值
      */
     private void  saveFaceSearchData(Bitmap bitmap,String faceID,String faceFeature){
+        //判断是否已有相似度很高的人脸数据存在
+        FeatureSearchResult featureSearchResult = FaceSearchEngine.getInstance().getFeatureSearcher(this).search(faceFeature);
+        if(featureSearchResult.getMaxSimilarity()>0.8){
+            Log.e("录入人脸","可能已经存在相似的人脸，请确认 "+featureSearchResult.getFaceID());
+        }
+
         //人脸搜索(1:N) 不适合存放在MMKV中,使用SDK提供的FaceSearchFeatureManger保存。
         //tag 和 group 可以用来做标记和分组。人脸搜索的时候可以作为权限场景控制以及 加快速度降低误差
         FaceSearchFeatureManger.getInstance(this)
@@ -333,8 +342,6 @@ public class AddFaceImageActivity extends AbsBaseActivity {
             }else {
                 faceIDEdit.requestFocus();
             }
-//            TextView livenessScore = dialogView.findViewById(R.id.liveness_score);
-//            livenessScore.setText("Liveness Score: "+ score);
         }
 
         public void show(){
