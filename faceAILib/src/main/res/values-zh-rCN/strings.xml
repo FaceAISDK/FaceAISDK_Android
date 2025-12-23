@@ -82,7 +82,7 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="liveness_detection_done">活体检测完成</string>
     <string name="motion_liveness_detection_failed">动作活体检测失败了 </string>
     <string name="color_flash_liveness_failed">炫彩活体检测失败了 </string>
-    <string name="color_flash_light_high">炫彩活体检测失败,环境光线亮度过高</string>
+    <string name="color_flash_light_high">炫彩活体检测失败,环境光线亮度过高;请到室内光线亮度柔和环境使用</string>
     <string name="color_flash_need_closer_camera">即将闪烁彩色光，请靠近屏幕</string>
     <string name="keep_face_visible">平视正对摄像头</string>
     <string name="repeat_open_close_mouse">请重复张闭嘴</string>

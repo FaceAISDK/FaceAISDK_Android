@@ -170,7 +170,7 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
                 break;
 
             case NO_MATCHED:
-                //本次摄像头预览帧无匹配而已，会快速取下一帧进行分析检索
+                //本次没有搜索匹配到结果.没有结果会持续尝试1秒之内没有结果会返回NO_MATCHED code
                 binding.searchTips.setText(R.string.no_matched_face);
                 break;
 

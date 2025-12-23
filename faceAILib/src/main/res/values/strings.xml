@@ -80,8 +80,8 @@
     <string name="liveness_detection_done">Detection completed</string>
     <string name="motion_liveness_detection_failed">Motion liveness detection failed</string>
     <string name="color_flash_liveness_failed">Color flash liveness failed </string>
-    <string name="color_flash_light_high">Color flash liveness failed，The light is too bright</string>
-    <string name="color_flash_need_closer_camera">即将闪烁彩色光，请靠近屏幕</string>
+    <string name="color_flash_light_high">Color flash liveness failed，The light is too bright,Please use it in a well-lit indoor environment</string>
+    <string name="color_flash_need_closer_camera">Please come closer,color Flash starting</string>
     <string name="keep_face_visible">Face the camera,verifying..</string>
     <string name="repeat_open_close_mouse">Repeat open close mouse</string>
     <string name="motion_smile">Please smile </string>

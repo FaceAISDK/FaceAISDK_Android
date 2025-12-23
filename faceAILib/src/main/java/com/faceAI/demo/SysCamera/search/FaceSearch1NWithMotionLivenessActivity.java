@@ -57,7 +57,6 @@ import java.util.List;
  * 摄像头管理源码开放在 {@link FaceCameraXFragment}
  * @author FaceAISDK.Service@gmail.com
  */
-@Deprecated
 public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
     //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
@@ -69,7 +68,7 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private FaceLivenessType faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION; //活体检测类型
     private int motionStepSize = 1; //动作活体的个数
-    private int motionTimeOut = 5; //动作超时秒
+    private int motionTimeOut = 4; //动作超时秒
     private String motionLivenessTypes ="1,2,3,4,5" ; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
     private boolean isLivenessPass=false;
 
@@ -130,7 +129,7 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setLivenessOnly(true)
                 .setLivenessType(faceLivenessType) //活体检测可以炫彩&动作活体组合
-                .setSilentLivenessThreshold(0.7f)   //2025.12.19 改为炫彩活体检测
+                .setSilentLivenessThreshold(0.7f)   //已经废弃，2025.12.19 改为炫彩活体检测
                 .setMotionLivenessStepSize(motionStepSize)             //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(motionTimeOut)               //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
                 .setLivenessDetectionMode(MotionLivenessMode.ACCURACY) //硬件配置低用FAST动作活体模式，否则用精确模式
@@ -333,23 +332,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                         VoicePlayer.getInstance().play(R.raw.success);
                     }
 
-                    /**
-                     * 返回的人脸光线亮度，如果摄像头不支持宽动态（室内105db,室外120db），请硬件添加自动补光感应灯
-                     * 20251102当前为Alpha 版本
-                     *
-                     * @param brightness
-                     */
-                    @Override
-                    public void onFaceBrightness(float brightness) {
-                        //测试阶段，先在测试模式打开提示，大约12月中旬正式发布
-                        if(FaceSDKConfig.isDebugMode(getBaseContext())){
-                            if(brightness>190){
-                                Toast.makeText(getBaseContext(),"光线过亮:"+brightness,Toast.LENGTH_SHORT).show();
-                            }else if(brightness<90){
-                                Toast.makeText(getBaseContext(),"光线过暗:"+brightness,Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
 
                     /**
                      * 检测到人脸的位置信息，画框用
@@ -387,7 +369,7 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
     private void showFaceSearchPrecessTips(int code) {
         switch (code) {
             case NO_MATCHED:
-                //本次没有搜索匹配到结果，下一帧继续
+                //本次没有搜索匹配到结果.没有结果会持续尝试1秒之内没有结果会返回NO_MATCHED code
                 setSecondTips(R.string.no_matched_face);
                 break;
 
