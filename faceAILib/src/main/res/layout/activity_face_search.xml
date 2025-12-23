@@ -32,7 +32,6 @@
         customAttr:tip_text_color="@color/face_main_color"
         customAttr:tip_text_size="20sp" />
 
-
     <TextView
         android:id="@+id/searchTips"
         android:layout_width="wrap_content"
