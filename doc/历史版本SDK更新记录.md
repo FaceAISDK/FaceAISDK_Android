@@ -1,7 +1,7 @@
 
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
-##  V2025.12.22.colorflash_beta
+##  V2025.12.22.colorflash_beta2
 - SDK 体积缩减
 - 新加炫彩活体检测beat
 - 判断是否已有相似度很高的人脸数据存在
@@ -12,7 +12,7 @@
 - SDK录入人脸优化，合并部分API  
 - 性能优化并解决人脸框不准确等 体验问题 
 - iOS，Android人脸特征值互通互用（1024 长度）
-本次更新前后替换API 对比记录 https://github.com/FaceAISDK/FaceAISDK_Android/commit/ca6fc27aa58c7f33dadc76f1dfb7325701a62dc9
+  本次更新前后替换API 对比记录 https://github.com/FaceAISDK/FaceAISDK_Android/commit/ca6fc27aa58c7f33dadc76f1dfb7325701a62dc9
 
 
 ##  V2025.11.26.beta
