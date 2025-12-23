@@ -93,7 +93,7 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0.01f)     //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
+                .setLinearZoom(0f)     //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)      //画面旋转方向
                 .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降
                 .create();
@@ -191,6 +191,44 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
     private void showFaceVerifyTips(int actionCode) {
         if (!isDestroyed() && !isFinishing()) {
                 switch (actionCode) {
+                    //炫彩活体检测需要人脸更加靠近屏幕摄像头才能通过检测
+                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.COLOR_FLASH_NEED_CLOSER_CAMERA:
+                        setSecondTips(R.string.color_flash_need_closer_camera);
+                        break;
+
+                    //炫彩活体通过✅
+                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIVE_SUCCESS:
+                        setMainTips(R.string.keep_face_visible);
+                        break;
+
+                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIVE_FAILED:
+                        new AlertDialog.Builder(this)
+                                .setMessage(R.string.color_flash_liveness_failed)
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
+                                    retryTime++;
+                                    if (retryTime > 1) {
+                                        finish();
+                                    } else {
+                                        faceVerifyUtils.retryVerify();
+                                    }
+                                }).show();
+                        break;
+
+                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIGHT_HIGH:
+                        new AlertDialog.Builder(this)
+                                .setMessage(R.string.color_flash_light_high)
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
+                                    retryTime++;
+                                    if (retryTime > 1) {
+                                        finish();
+                                    } else {
+                                        faceVerifyUtils.retryVerify();
+                                    }
+                                }).show();
+                        break;
+
                     // 动作活体检测完成了
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_SUCCESS:
                         VoicePlayer.getInstance().play(R.raw.verify_success);
@@ -198,20 +236,19 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                         setSecondTips(0);
                         break;
 
-                    //动作活体超时
+                    // 动作活体检测超时
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_TIMEOUT:
                         new AlertDialog.Builder(this)
                                 .setMessage(R.string.motion_liveness_detection_time_out)
                                 .setCancelable(false)
                                 .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
-                                            retryTime++;
-                                            if (retryTime > 1) {
-                                                finish();
-                                            } else {
-                                                faceVerifyUtils.retryVerify();
-                                            }
-                                        }
-                                ).show();
+                                    retryTime++;
+                                    if (retryTime > 1) {
+                                        finish();
+                                    } else {
+                                        faceVerifyUtils.retryVerify();
+                                    }
+                                }).show();
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:

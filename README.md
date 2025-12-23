@@ -21,7 +21,7 @@ Android SDK可支持Android[5,16] **SDK所有功能都不用联网，不保存�
 
 ![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
-##  V2025.12.22.colorflash_beta
+##  V2025.12.22.colorflash_beta1
 - SDK 体积缩减
 - 新加炫彩活体检测beat
 - 判断是否已有相似度很高的人脸数据存在
@@ -80,9 +80,6 @@ Android SDK可支持Android[5,16] **SDK所有功能都不用联网，不保存�
 **uni-App ：**   https://github.com/FaceAISDK/UniPlugin-FaceAISDK  
 **Flutter ：**   need your help
 
-<div align=center>
-<img src="https://github.com/user-attachments/assets/84da1e48-9feb-4eba-bc53-17c70e321111" width = 17%  />
-</div>
 
 ## Demo APK 下载体验  
 
