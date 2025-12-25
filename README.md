@@ -13,7 +13,7 @@
 FaceAISDK is on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK  
 FaceAISDK包括人脸识别、动作+炫彩活体检测、人脸录入检测以及[1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索，可完全离线实现端侧人脸识别，人脸搜索等功能。
 
-![SDK Work Flow](images/SDK_WORK_FLOW.png)
+![SDK Work Flow](images/SDK_WORK_FLOW.jpg)
 
 Android SDK可支持Android[5,16] **SDK所有功能都不用联网，不保存不上传任何人脸信息敏感资料更具隐私安全**
 动作活体支持张嘴、微笑、眨眼、摇头、点头 随机1-2种组合验证，支持系统摄像头和UVC协议USB摄像头，宽动态值大于105Db成像清晰抗逆光。
@@ -21,11 +21,12 @@ Android SDK可支持Android[5,16] **SDK所有功能都不用联网，不保存�
 
 ![端侧设备端离线机器学习优点](images/whyOfflineSDK.png)
 
-##  V2025.12.22.colorflash_beta2
-- SDK 体积缩减
-- 新加炫彩活体检测beat
+##  V2025.12.25.beta
+- SDK 体积缩减,去除无用资源
+- 新加炫彩活体检测，防止作弊
 - 判断是否已有相似度很高的人脸数据存在
-
+- 封装相机AbsFaceCameraXFragment，提升不同设备相机兼容性
+更多SDK升级记录：https://github.com/FaceAISDK/FaceAISDK_Android/blob/publish/doc/%E5%8E%86%E5%8F%B2%E7%89%88%E6%9C%ACSDK%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95.md
 
 ## 接入集成使用
   更新GitHub 最新的代码，花1天左右时间熟悉SDK API 和对应的注释备注，断点调试一下基本功能；熟悉后再接入到主工程   

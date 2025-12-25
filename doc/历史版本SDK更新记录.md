@@ -1,10 +1,13 @@
 
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
-##  V2025.12.22.colorflash_beta2
-- SDK 体积缩减
-- 新加炫彩活体检测beat
+##  V2025.12.25.beta
+##  V2025.12.25.beta
+- SDK 体积缩减,去除无用资源
+- 新加炫彩活体检测，防止作弊
 - 判断是否已有相似度很高的人脸数据存在
+- 封装相机AbsFaceCameraXFragment，提升不同设备相机兼容性
+- com.tencent:mmkv 依赖从SDK中剥离
 
 ##  V2025.12.02
 - SDK 体积缩减部分,解决11.26版本精度下降问题  

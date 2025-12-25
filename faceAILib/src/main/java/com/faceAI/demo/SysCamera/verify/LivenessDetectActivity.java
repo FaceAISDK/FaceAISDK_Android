@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -190,8 +191,10 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     break;
 
                 case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIGHT_HIGH:
+                    LayoutInflater inflater = LayoutInflater.from(this);
+                    View dialogView = inflater.inflate(R.layout.dialog_light_warning, null);
                     new AlertDialog.Builder(this)
-                            .setMessage(R.string.color_flash_light_high)
+                            .setView(dialogView) // 【关键】设置自定义的 View
                             .setCancelable(false)
                             .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                 retryTime++;

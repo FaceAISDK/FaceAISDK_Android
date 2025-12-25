@@ -1,8 +1,5 @@
 package com.faceAI.demo.SysCamera.camera;
 
-import android.content.Context;
-import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Size;
@@ -10,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.camera.core.AspectRatio;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraControl;
 import androidx.camera.core.CameraSelector;
@@ -21,34 +18,34 @@ import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
-import com.ai.face.base.view.camera.AbsFlashColorCameraFragment;
+import com.ai.face.base.view.camera.AbsFaceCameraXFragment;
 import com.ai.face.base.view.camera.CameraXBuilder;
-import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import com.google.common.util.concurrent.ListenableFuture;
 import org.jetbrains.annotations.NotNull;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * 炫彩活体改造版本基于CameraX1.4.2，需 extends AbsFlashColorCameraFragment
+ * 炫彩活体改造版本基于CameraX1.4.2，需 extends AbsFaceCameraXFragment(底层封装非业务相关特性)
+ * 2025.12.24 提高设备兼容性
+ *
  *
  * CameraX 说明：https://developer.android.com/codelabs/camerax-getting-started?hl=zh-cn
  *
  * @author FaceAISDK.Service@gmail.com
  */
-public class FaceCameraXFragment extends AbsFlashColorCameraFragment {
+public class FaceCameraXFragment extends AbsFaceCameraXFragment {
     private static final String CAMERA_LINEAR_ZOOM = "CAMERA_LINEAR_ZOOM";  //焦距缩放比例
     private static final String CAMERA_LENS_FACING = "CAMERA_LENS_FACING";  //前后配置
     private static final String CAMERA_ROTATION = "CAMERA_ROTATION";  //旋转
     private static final String CAMERA_SIZE_HIGH = "CAMERA_SIZE_HIGH";  //是否高分辨率用于分析
-    private int rotation = Surface.ROTATION_0; //旋转角度
-    private int cameraLensFacing = 0; //默认前置摄像头
+    private int cameraLensFacing = 0; //默认前置摄像头，
     private int imageWidth, imageHeight;
     private float linearZoom = 0f; //焦距
     private boolean cameraSizeHigh = false;
+    private int rotation = Surface.ROTATION_0; //旋转角度
     private ProcessCameraProvider cameraProvider;
     private onAnalyzeData analyzeDataCallBack;
     private ExecutorService executorService;
@@ -59,24 +56,23 @@ public class FaceCameraXFragment extends AbsFlashColorCameraFragment {
     private Camera camera;
     private PreviewView previewView;
 
-    public FaceCameraXFragment() {
-        // Required empty public constructor
-    }
+    public FaceCameraXFragment() {}
 
-    public void setOnAnalyzerListener(onAnalyzeData callback) {
-        this.analyzeDataCallBack = callback;
-    }
-
-    /**
-     * 底层控制逻辑需要使用
-     *
-     * @return
-     */
+    //底层控制,AbsFaceCameraXFragment需要
     @Override
     public @NotNull CameraControl getCameraControl() {
         return cameraControl;
     }
 
+    //当前使用的摄像头
+    @Override
+    public int getCameraLensFacing() {
+        return cameraLensFacing;
+    }
+
+    public void setOnAnalyzerListener(onAnalyzeData callback) {
+        this.analyzeDataCallBack = callback;
+    }
 
     public interface onAnalyzeData {
         void analyze(@NonNull ImageProxy imageProxy);
@@ -111,10 +107,8 @@ public class FaceCameraXFragment extends AbsFlashColorCameraFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.face_camerax_fragment, container, false);
         initCameraXAnalysis(rootView);
-//        getCameraLevel();
         return rootView;
     }
 
@@ -128,10 +122,7 @@ public class FaceCameraXFragment extends AbsFlashColorCameraFragment {
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture =
                 ProcessCameraProvider.getInstance(requireContext());
 
-        //图像预览和摄像头原始数据回调 暴露，以便后期格式转换和处理
-        //图像编码默认格式 YUV_420_888。
         cameraProviderFuture.addListener(() -> {
-            // Camera provider is now guaranteed to be available
             try {
                 cameraProvider = cameraProviderFuture.get();
             } catch (ExecutionException | InterruptedException e) {
@@ -144,14 +135,15 @@ public class FaceCameraXFragment extends AbsFlashColorCameraFragment {
                         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                         .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
                         .setTargetRotation(rotation) //画面选择角度
-                        .setTargetResolution(new Size(1280, 720)) //从支持的分辨率中选择最接近的一个
+                        .setTargetResolution(new Size(1280, 720)) //不应该写死，从支持的分辨率中选择最接近的一个
                         .build();
             } else {
-                //系统默认匹配分辨率
+                //系统默认匹配分辨率，炫彩活体检测使用默认的，人脸搜索可以用High
                 imageAnalysis = new ImageAnalysis.Builder()
                         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                         .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
                         .setTargetRotation(rotation)  //画面选择角度
+                        .setTargetAspectRatio(AspectRatio.RATIO_4_3)  //首选4:3，640*480 最好
                         .build();
             }
             preview = new Preview.Builder()
@@ -159,25 +151,34 @@ public class FaceCameraXFragment extends AbsFlashColorCameraFragment {
                     .build();
 
             previewView = rootView.findViewById(R.id.previewView);
-
-            //预览画面渲染模式：高性能模式
             previewView.setImplementationMode(PreviewView.ImplementationMode.PERFORMANCE);
 
-            //20251102，为了后面炫彩活体做准备（默认的FILL_CENTER会把人脸区域放很大）
+            //20251202，为了后面炫彩活体做准备改为 FIT_CENTER
             //https://developer.android.com/media/camera/camerax/preview?hl=zh-cn
             previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
+            CameraSelector.Builder builder = new CameraSelector.Builder();
 
-            if (cameraLensFacing == 0) {
-                // Choose the camera by requiring a lens facing
-                cameraSelector = new CameraSelector.Builder()
-                        .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
-                        .build();
+            if (cameraLensFacing == CameraSelector.LENS_FACING_FRONT) {
+                if (hasCamera(cameraProvider, CameraSelector.LENS_FACING_FRONT)) {
+                    builder.requireLensFacing(CameraSelector.LENS_FACING_FRONT);
+                } else if (hasCamera(cameraProvider, CameraSelector.LENS_FACING_BACK)) {
+                    builder.requireLensFacing(CameraSelector.LENS_FACING_BACK);
+                    Log.w("FaceSDK", "前置未找到，回退到后置");
+                } else {
+                    // 都没有？可能是 USB 外接摄像头自己调试调整哈 (LENS_FACING_EXTERNAL)
+                    // CameraX 默认策略可能会包含 External，这里可以不设置 requireLensFacing，让它选第一个
+                    Log.w("FaceSDK", "标准摄像头未找到，尝试使用默认/外接摄像头");
+                }
             } else {
-                // Choose the camera by requiring a lens facing
-                cameraSelector = new CameraSelector.Builder()
-                        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                        .build();
+                // 同理处理后置优先的情况...
+                if (hasCamera(cameraProvider, CameraSelector.LENS_FACING_BACK)) {
+                    builder.requireLensFacing(CameraSelector.LENS_FACING_BACK);
+                } else if (hasCamera(cameraProvider, CameraSelector.LENS_FACING_FRONT)) {
+                    builder.requireLensFacing(CameraSelector.LENS_FACING_FRONT);
+                }
             }
+
+            cameraSelector = builder.build();
 
             // Connect the preview use case to the previewView
             preview.setSurfaceProvider(previewView.getSurfaceProvider());
@@ -205,7 +206,6 @@ public class FaceCameraXFragment extends AbsFlashColorCameraFragment {
                         preview, imageAnalysis);
                 cameraControl = camera.getCameraControl();
 
-                //并非所有的相机支持焦距控制
                 cameraControl.setLinearZoom(linearZoom);
             } catch (Exception e) {
                 Log.e("CameraX error", "FaceAI SDK:" + e.getMessage());
@@ -214,35 +214,16 @@ public class FaceCameraXFragment extends AbsFlashColorCameraFragment {
         }, ContextCompat.getMainExecutor(requireContext()));
     }
 
-    /**
-     * 摄像头硬件等级判断，不稳定的等级Toast 提示
-     *
-     */
-    private void getCameraLevel() {
+
+    // 判断是否有对应的摄像头，定制设备比较混乱
+    private boolean hasCamera(ProcessCameraProvider provider, int lensFacing) {
         try {
-            //判断当前摄像头等级 ,Android 9以上才支持判断
-            CameraManager cameraManager = (CameraManager) requireContext().getSystemService(Context.CAMERA_SERVICE);
-            String cameraId = Integer.toString(cameraLensFacing);
-            CameraCharacteristics characteristics = cameraManager.getCameraCharacteristics(cameraId);
-            Integer level = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
-            if (level != null && level != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3
-                    && level != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL) {
-                if (FaceSDKConfig.isDebugMode(requireContext())) {
-                    Toast.makeText(requireContext(), "Camera level low !", Toast.LENGTH_LONG).show();
-                }
-            }
+            return provider.hasCamera(new CameraSelector.Builder().requireLensFacing(lensFacing).build());
         } catch (Exception e) {
-            Log.e("getCameraLevel", Objects.requireNonNull(e.getMessage()));
+            return false;
         }
     }
 
-
-    /**
-     * 切换摄像头立即生效自行处理
-     */
-    public void switchCamera() {
-
-    }
 
     /**
      * 有些定制设备把后置摄像头接口画面当前置用的自己改一下逻辑
@@ -256,6 +237,7 @@ public class FaceCameraXFragment extends AbsFlashColorCameraFragment {
     /**
      * 手动释放所有资源（不同硬件平台处理方式不一样），一般资源释放会和页面销毁自动联动
      */
+    @Deprecated
     public void releaseCamera() {
         if (executorService != null && !executorService.isTerminated()) {
             executorService.shutdownNow();
