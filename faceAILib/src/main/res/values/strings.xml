@@ -80,7 +80,7 @@
     <string name="liveness_detection_done">Detection completed</string>
     <string name="motion_liveness_detection_failed">Motion liveness detection failed</string>
     <string name="color_flash_liveness_failed">Color flash liveness failed </string>
-    <string name="color_flash_light_high">Color flash liveness failed，The light is too bright,Please use it in a well-lit indoor environment</string>
+    <string name="color_flash_light_high">Detection failed: Too bright.Please avoid direct light as below and use in a softly lit indoor environment</string>
     <string name="color_flash_need_closer_camera">Please come closer,color Flash starting</string>
     <string name="keep_face_visible">Face the camera,verifying..</string>
     <string name="repeat_open_close_mouse">Repeat open close mouse</string>
@@ -140,8 +140,6 @@
     <string name="gentle_reminder">Gentle Reminder</string>
     <string name="gentle_reminder_func">All SDK functions work offline and do not collect facial data.To better experience the demo, please ensure:</string>
     <string name="operation_manual_tips">1. Use a wide dynamic range over 105db camera \n2. Face the camera directly and follow the prompts \n3. Enough light and whole face appears in camera view\n4. Position the camera directly above the screen</string>
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 
 </resources>

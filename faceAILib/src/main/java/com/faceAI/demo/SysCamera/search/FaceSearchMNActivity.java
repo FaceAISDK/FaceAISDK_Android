@@ -68,7 +68,7 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.1f)  //焦距范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
                 .setRotation(degree)   //画面旋转方向
-                .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降
+                .setCameraSizeHigh(true) //高分辨率远距离也可以工作，但是性能速度会下降
                 .create();
 
         FaceCameraXFragment cameraXFragment = FaceCameraXFragment.newInstance(cameraXBuilder);

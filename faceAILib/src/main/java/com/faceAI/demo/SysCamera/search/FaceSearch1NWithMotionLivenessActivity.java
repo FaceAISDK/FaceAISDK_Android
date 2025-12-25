@@ -23,6 +23,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
@@ -216,8 +217,10 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                         break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIGHT_HIGH:
+                        LayoutInflater inflater = LayoutInflater.from(this);
+                        View dialogView = inflater.inflate(R.layout.dialog_light_warning, null);
                         new AlertDialog.Builder(this)
-                                .setMessage(R.string.color_flash_light_high)
+                                .setView(dialogView) // 【关键】设置自定义的 View
                                 .setCancelable(false)
                                 .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                     retryTime++;
