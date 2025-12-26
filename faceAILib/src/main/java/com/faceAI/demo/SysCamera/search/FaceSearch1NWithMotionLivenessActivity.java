@@ -67,7 +67,7 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
 
     //================活体检测--------------
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
-    private FaceLivenessType faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION; //活体检测类型
+    private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION; //活体检测类型
     private int motionStepSize = 1; //动作活体的个数
     private int motionTimeOut = 4; //动作超时秒
     private String motionLivenessTypes ="1,2,3,4,5" ; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
