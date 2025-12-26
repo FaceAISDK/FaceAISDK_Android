@@ -27,7 +27,7 @@ import com.faceAI.demo.base.utils.VoicePlayer;
  */
 public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
     private TextView tipsTextView, secondTipsTextView, scoreText;
-    private FaceLivenessType faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION;//活体检测类型
+    private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION;//活体检测类型
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = 7; //动作超时秒
     private int exceptMotionLiveness = -1; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头

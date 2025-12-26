@@ -85,7 +85,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                 .setThreshold(0.85f)                //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
                 .setFaceFeature(faceFeature)        //1:1 人脸识别对比底片人脸特征
                 .setCameraType(cameraType)
-                .setLivenessType(FaceLivenessType.COLOR_FLASH_MOTION)   //IR 是指红外活体，MOTION 是有动作可以指定1-2 个
+                .setLivenessType(FaceLivenessType.MOTION)   //IR 是指红外活体，MOTION 是有动作可以指定1-2 个
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)   //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(12)           //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
