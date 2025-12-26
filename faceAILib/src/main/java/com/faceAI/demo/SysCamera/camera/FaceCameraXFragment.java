@@ -29,6 +29,9 @@ import java.util.concurrent.Executors;
 
 /**
  *  更高的兼容性改造，2025.12.26。 炫彩活体改造版本基于CameraX 1.4.2，AbsFaceCameraXFragment
+ *  低配置设备要加快设备首次启动时间参考配置{@link com.faceAI.demo.FaceApplication}
+ *
+ *
  *  @author FaceAISDK.Service@gmail.com
  */
 public class FaceCameraXFragment extends AbsFaceCameraXFragment {
