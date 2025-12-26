@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">PrivateFace</string>
     <string name="login_privacy_policy">Agree with privacy policy</string>
     <string name="device_list_dialog_title">Devices</string>
     <string name="device_list_empty_tip">Please connect a USB Camera</string>
@@ -78,6 +79,9 @@
     <string name="liveness_detection">Liveness detection</string>
     <string name="liveness_detection_done">Detection completed</string>
     <string name="motion_liveness_detection_failed">Motion liveness detection failed</string>
+    <string name="color_flash_liveness_failed">Color flash liveness failed </string>
+    <string name="color_flash_light_high">Detection failed: Too bright.Please avoid direct light as below and use in a softly lit indoor environment</string>
+    <string name="color_flash_need_closer_camera">Please come closer,color Flash starting</string>
     <string name="keep_face_visible">Face the camera,verifying..</string>
     <string name="repeat_open_close_mouse">Repeat open close mouse</string>
     <string name="motion_smile">Please smile </string>
@@ -136,5 +140,6 @@
     <string name="gentle_reminder">Gentle Reminder</string>
     <string name="gentle_reminder_func">All SDK functions work offline and do not collect facial data.To better experience the demo, please ensure:</string>
     <string name="operation_manual_tips">1. Use a wide dynamic range over 105db camera \n2. Face the camera directly and follow the prompts \n3. Enough light and whole face appears in camera view\n4. Position the camera directly above the screen</string>
+
 
 </resources>

@@ -23,6 +23,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
@@ -46,16 +47,16 @@ import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.VoicePlayer;
+import com.faceAI.demo.base.view.FaceVerifyCoverView;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
 
 import java.util.List;
 
 /**
- * RGB摄像头动作活体检测+1:N 人脸搜索识别
+ * RGB摄像头动作活体检测+1:N 人脸搜索识别。
  *
  * 摄像头管理源码开放在 {@link FaceCameraXFragment}
  * @author FaceAISDK.Service@gmail.com
- *
  */
 public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
     //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
@@ -66,20 +67,18 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
 
     //================活体检测--------------
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
-    private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_MOTION; //活体检测类型
-    private float silentLivenessThreshold = 0.85f; //静默活体分数通过的阈值,摄像头成像能力弱的自行调低
-    private int motionStepSize = 2; //动作活体的个数
-    private int motionTimeOut = 7; //动作超时秒
+    private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION; //活体检测类型
+    private int motionStepSize = 1; //动作活体的个数
+    private int motionTimeOut = 4; //动作超时秒
     private String motionLivenessTypes ="1,2,3,4,5" ; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
-
     private boolean isLivenessPass=false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityFaceSearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        hideSystemUI();
         binding.close.setOnClickListener(v -> finish());
 
         binding.tips.setOnClickListener(v -> {
@@ -95,7 +94,7 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0.01f)     //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
+                .setLinearZoom(0f)     //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)      //画面旋转方向
                 .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降
                 .create();
@@ -115,7 +114,7 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                 if(isLivenessPass){
                     FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
                 }else{
-                    faceVerifyUtils.goVerifyWithImageProxy(imageProxy,  binding.faceCover.getMargin());
+                    faceVerifyUtils.goVerifyWithImageProxy(imageProxy);
                 }
             }
         });
@@ -130,8 +129,8 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
         //建议老的低配设备减少活体检测步骤
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setLivenessOnly(true)
-                .setLivenessType(faceLivenessType) //活体检测可以静默&动作活体组合，静默活体效果和摄像头成像能力有关(宽动态>105Db)
-                .setSilentLivenessThreshold(silentLivenessThreshold)   //静默活体阈值 [0.88,0.98]
+                .setLivenessType(faceLivenessType) //活体检测可以炫彩&动作活体组合
+                .setSilentLivenessThreshold(0.7f)   //已经废弃，2025.12.19 改为炫彩活体检测
                 .setMotionLivenessStepSize(motionStepSize)             //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(motionTimeOut)               //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
                 .setLivenessDetectionMode(MotionLivenessMode.ACCURACY) //硬件配置低用FAST动作活体模式，否则用精确模式
@@ -140,16 +139,20 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                 .setProcessCallBack(new ProcessCallBack() {
 
                     /**
-                     * 动作活体检测完成，同时返回RGB静默活体分数(setLivenessType设置过)
+                     * 动作活体检测完成
                      *
-                     * @param silentLivenessValue RGB静默活体分数,RGB分数可靠性和摄像头会有关，请确认。
+                     * @param score  炫彩分
                      * @param bitmap 活体检测快照，可以用于log记录
                      */
                     @Override
-                    public void onLivenessDetected(float silentLivenessValue, Bitmap bitmap) {
+                    public void onLivenessDetected(float score, Bitmap bitmap) {
                             initFaceSearchParam();
                             isLivenessPass=true;
+                    }
 
+                    @Override
+                    public void onColorFlash(int color) {
+                       binding.faceCover.setFlashColor(color); //更新炫彩屏幕颜色，不能在室外强光下使用
                     }
 
                     //人脸识别，活体检测过程中的各种提示
@@ -176,14 +179,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                 }).create();
 
         faceVerifyUtils.setDetectorParams(faceProcessBuilder);
-//        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-//            //防止在识别过程中关闭页面导致Crash
-//            if (!isDestroyed() && !isFinishing()) {
-//                //2.第二个参数是指圆形人脸框到屏幕边距，可加快裁剪图像和指定识别区域，设太大会裁剪掉人脸区域
-//                faceVerifyUtils.goVerifyWithImageProxy(imageProxy,  binding.faceCover.getMargin());
-//                //自定义管理相机可以使用 goVerifyWithBitmap
-//            }
-//        });
 
     }
 
@@ -197,20 +192,72 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
     private void showFaceVerifyTips(int actionCode) {
         if (!isDestroyed() && !isFinishing()) {
                 switch (actionCode) {
+                    //炫彩活体检测需要人脸更加靠近屏幕摄像头才能通过检测
+                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.COLOR_FLASH_NEED_CLOSER_CAMERA:
+                        setSecondTips(R.string.color_flash_need_closer_camera);
+                        break;
+
+                    //炫彩活体通过✅
+                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIVE_SUCCESS:
+                        setMainTips(R.string.keep_face_visible);
+                        break;
+
+                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIVE_FAILED:
+                        new AlertDialog.Builder(this)
+                                .setMessage(R.string.color_flash_liveness_failed)
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
+                                    retryTime++;
+                                    if (retryTime > 1) {
+                                        finish();
+                                    } else {
+                                        faceVerifyUtils.retryVerify();
+                                    }
+                                }).show();
+                        break;
+
+                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIGHT_HIGH:
+                        LayoutInflater inflater = LayoutInflater.from(this);
+                        View dialogView = inflater.inflate(R.layout.dialog_light_warning, null);
+                        new AlertDialog.Builder(this)
+                                .setView(dialogView) // 【关键】设置自定义的 View
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
+                                    retryTime++;
+                                    if (retryTime > 1) {
+                                        finish();
+                                    } else {
+                                        faceVerifyUtils.retryVerify();
+                                    }
+                                }).show();
+                        break;
+
                     // 动作活体检测完成了
-                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.ALIVE_CHECK_DONE:
+                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_SUCCESS:
                         VoicePlayer.getInstance().play(R.raw.verify_success);
                         setMainTips(R.string.keep_face_visible); //2秒后抓取一张正脸图
                         setSecondTips(0);
+                        break;
+
+                    // 动作活体检测超时
+                    case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_TIMEOUT:
+                        new AlertDialog.Builder(this)
+                                .setMessage(R.string.motion_liveness_detection_time_out)
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
+                                    retryTime++;
+                                    if (retryTime > 1) {
+                                        finish();
+                                    } else {
+                                        faceVerifyUtils.retryVerify();
+                                    }
+                                }).show();
                         break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:
                         setMainTips(R.string.face_verifying);
                         break;
 
-                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_FAILED:
-                        setMainTips(R.string.motion_liveness_detection_failed);
-                        break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
                         VoicePlayer.getInstance().play(R.raw.open_mouse);
@@ -249,20 +296,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                                 .show();
                         break;
 
-                    case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_TIME_OUT:
-                        new AlertDialog.Builder(this)
-                                .setMessage(R.string.motion_liveness_detection_time_out)
-                                .setCancelable(false)
-                                .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
-                                            retryTime++;
-                                            if (retryTime > 1) {
-                                                finish();
-                                            } else {
-                                                faceVerifyUtils.retryVerify();
-                                            }
-                                        }
-                                ).show();
-                        break;
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
                         setMainTips(R.string.no_face_or_repeat_switch_screen);
@@ -339,23 +372,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                         VoicePlayer.getInstance().play(R.raw.success);
                     }
 
-                    /**
-                     * 返回的人脸光线亮度，如果摄像头不支持宽动态（室内105db,室外120db），请硬件添加自动补光感应灯
-                     * 20251102当前为Alpha 版本
-                     *
-                     * @param brightness
-                     */
-                    @Override
-                    public void onFaceBrightness(float brightness) {
-                        //测试阶段，先在测试模式打开提示，大约12月中旬正式发布
-                        if(FaceSDKConfig.isDebugMode(getBaseContext())){
-                            if(brightness>190){
-                                Toast.makeText(getBaseContext(),"光线过亮:"+brightness,Toast.LENGTH_SHORT).show();
-                            }else if(brightness<90){
-                                Toast.makeText(getBaseContext(),"光线过暗:"+brightness,Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
 
                     /**
                      * 检测到人脸的位置信息，画框用
@@ -382,15 +398,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
         //3.根据参数初始化引擎
         FaceSearchEngine.Companion.getInstance().initSearchParams(faceProcessBuilder);
 
-//        // 4.从标准默认的HAL CameraX 摄像头中取数据实时搜索
-//        // 建议设备配置 CPU为八核64位2.4GHz以上,  摄像头RGB 宽动态(大于105Db)高清成像，光线不足设备加补光灯
-//        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-//            //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
-//            if (!isDestroyed() && !isFinishing()&&!pauseSearch) {
-//                FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
-//            }
-//        });
-
     }
 
 
@@ -402,7 +409,7 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
     private void showFaceSearchPrecessTips(int code) {
         switch (code) {
             case NO_MATCHED:
-                //本次没有搜索匹配到结果，下一帧继续
+                //本次没有搜索匹配到结果.没有结果会持续尝试1秒之内没有结果会返回NO_MATCHED code
                 setSecondTips(R.string.no_matched_face);
                 break;
 
@@ -431,13 +438,6 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
 
                 finish();
 
-//                new AlertDialog.Builder(this)
-//                        .setMessage(R.string.stop_verify_tips)
-//                        .setCancelable(false)
-//                        .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-//                            finish();
-//                        })
-//                        .show();
                 break;
 
             case FACE_TOO_SMALL:

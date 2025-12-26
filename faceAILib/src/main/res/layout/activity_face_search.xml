@@ -5,8 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@color/white"
     xmlns:customAttr="http://schemas.android.com/apk/res-auto"
     tools:context=".SysCamera.search.FaceSearch1NActivity">
 
@@ -19,7 +17,7 @@
     <!-- Custom your Face Verify UI-->
     <com.ai.face.faceSearch.search.GraphicOverlay
         android:id="@+id/graphicOverlay"
-        android:layout_margin="25dp"
+        android:layout_margin="33dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -28,18 +26,17 @@
         android:id="@+id/face_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        customAttr:circle_margin="25dp"
+        customAttr:circle_margin="33dp"
         customAttr:background_color="@color/white"
         customAttr:show_progress="false"
         customAttr:tip_text_color="@color/face_main_color"
         customAttr:tip_text_size="20sp" />
 
-
     <TextView
         android:id="@+id/searchTips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="15dp"
         android:textColor="@color/white"
         android:background="@drawable/circle_bar_bg"
         android:text="@string/sdk_init"
@@ -52,7 +49,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/close" />
 
     <TextView
         android:id="@+id/secondSearchTips"
@@ -85,13 +82,13 @@
 
     <ImageView
         android:id="@+id/close"
-        android:layout_width="47dp"
-        android:layout_height="47dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
-        android:padding="9dp"
-        android:src="@drawable/ic_arrow_back_24" />
+        android:layout_marginTop="30dp"
+        android:padding="10dp"
+        android:src="@drawable/ic_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

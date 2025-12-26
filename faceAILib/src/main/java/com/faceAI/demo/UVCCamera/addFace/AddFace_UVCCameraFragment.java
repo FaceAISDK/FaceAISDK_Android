@@ -137,10 +137,10 @@ public class AddFace_UVCCameraFragment extends Fragment {
      * 确认人脸图
      *
      * @param bitmap 符合对应参数设置的SDK裁剪好的人脸图
-     * @param silentLiveValue 静默活体分数，和摄像头有关，自行根据业务需求处理
+     * @param score 1
      */
-    private void confirmAddFaceDialog(Bitmap bitmap, float silentLiveValue) {
-        ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(requireContext(),bitmap,silentLiveValue);
+    private void confirmAddFaceDialog(Bitmap bitmap, float score) {
+        ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(requireContext(),bitmap,score);
 
         confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
 

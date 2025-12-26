@@ -1,7 +1,6 @@
 package com.faceAI.demo.SysCamera.search;
 
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
-import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_TOO_SMALL;
@@ -69,7 +68,7 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.1f)  //焦距范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
                 .setRotation(degree)   //画面旋转方向
-                .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降
+                .setCameraSizeHigh(true) //高分辨率远距离也可以工作，但是性能速度会下降
                 .create();
 
         FaceCameraXFragment cameraXFragment = FaceCameraXFragment.newInstance(cameraXBuilder);
@@ -171,7 +170,7 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
                 break;
 
             case NO_MATCHED:
-                //本次摄像头预览帧无匹配而已，会快速取下一帧进行分析检索
+                //本次没有搜索匹配到结果.没有结果会持续尝试1秒之内没有结果会返回NO_MATCHED code
                 binding.searchTips.setText(R.string.no_matched_face);
                 break;
 

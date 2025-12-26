@@ -62,8 +62,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     private ActivityFaceSearchBinding binding;
     private FaceCameraXFragment cameraXFragment; //摄像头请自行管理，源码全部开放
     private boolean pauseSearch =false; //控制是否送数据到SDK进行搜索
-    private int cameraLensFacing; //摄像头前置，后置，外接。 （UVC协议请参考UVCCamera 目录代码）
-
+    private int cameraLensFacing;  //摄像头前置，后置，外接。 （UVC协议请参考UVCCamera 目录代码）
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,10 +80,10 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //1. 摄像头相关参数配置
-        //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
+        /**摄像头管理源码开放在 {@link FaceCameraXFragment} **/
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0.1f)      //焦距范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
+                .setLinearZoom(0.1f)      //焦距范围[0f,1.0f]，根据应用场景自行适当调整焦距（摄像头需支持变焦）
                 .setRotation(degree)      //画面旋转方向
                 .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降
                 .create();
@@ -102,7 +101,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
      * 初始化人脸搜索参数
      */
     private void initFaceSearchParam() {
-
         // 2.各种参数的初始化设置
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
@@ -141,22 +139,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     }
 
                     /**
-                     * 返回的人脸光线亮度，如果摄像头不支持宽动态（室内105db,室外120db），请硬件添加自动补光感应灯
-                     * @param brightness
-                     */
-                    @Override
-                    public void onFaceBrightness(float brightness) {
-                        //测试阶段，先在测试模式打开提示，大约12月中旬正式发布
-                        if(FaceSDKConfig.isDebugMode(getBaseContext())){
-                            if(brightness>190){
-                                Toast.makeText(getBaseContext(),"光线过亮:"+brightness,Toast.LENGTH_SHORT).show();
-                            }else if(brightness<80){
-                                Toast.makeText(getBaseContext(),"光线过暗:"+brightness,Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-
-                    /**
                      * 检测到人脸的位置信息，画框用
                      */
                     @Override
@@ -191,16 +173,14 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
                 }
             }
-
+            //后台用于人脸搜索分析的图片宽高，画人脸检测框需要
             @Override
             public void backImageSize(int imageWidth, int imageHeight) {
                 //第三个参数指：是否graphicOverlay画面要左右镜像，一般前置摄像头和部分定制非标准设备要
                 binding.graphicOverlay.setCameraInfo(imageWidth,imageHeight,cameraXFragment.isFrontCamera());
             }
         });
-
     }
-
 
     /**
      * 显示人脸搜索识别提示，根据Code码显示对应的提示,用户根据自己业务处理细节
@@ -208,10 +188,9 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
      * @param code 提示Code码
      */
     private void showFaceSearchPrecessTips(int code) {
-//        binding.secondSearchTips.setText("");
         switch (code) {
             case NO_MATCHED:
-                //本次没有搜索匹配到结果，下一帧继续
+                //本次没有搜索匹配到结果.没有结果会持续尝试1秒之内没有结果会返回NO_MATCHED code
                 setSecondTips(R.string.no_matched_face);
                 break;
 
@@ -254,7 +233,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 setSecondTips(0);
                 break;
 
-
             case THRESHOLD_ERROR:
                 setSearchTips(R.string.search_threshold_scope_tips);
                 break;
@@ -264,7 +242,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 break;
 
             default:
-                binding.searchTips.setText("搜索提示：" + code);
+                binding.searchTips.setText("Tips Code：" + code);
                 break;
         }
     }

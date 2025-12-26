@@ -1,22 +1,27 @@
 
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
+##  V2025.12.26
+- SDK 体积缩减,去除无用资源
+- 新加炫彩活体检测，防止作弊
+- 判断是否已有相似度很高的人脸数据存在
+- 封装相机AbsFaceCameraXFragment，提升不同设备相机兼容性
+- com.tencent:mmkv 依赖从SDK中剥离
 
-##  V2025.11.28.pro
-- SDK 体积缩减部分,解决11.26版本精度下降问题
+##  V2025.12.02
+- SDK 体积缩减部分,解决11.26版本精度下降问题  
 - 提升人脸检测和搜索识别精度，人脸特征数据合规处理
-- SDK录入人脸优化，合并部分API
-- 性能优化并解决人脸框不准确等体验问题
-- 优化人脸光线检测不准确的问题
-
-本次更新前后替换API 对比记录 https://github.com/FaceAISDK/FaceAISDK_Android/commit/ca6fc27aa58c7f33dadc76f1dfb7325701a62dc9
+- SDK录入人脸优化，合并部分API  
+- 性能优化并解决人脸框不准确等 体验问题 
+- iOS，Android人脸特征值互通互用（1024 长度）
+  本次更新前后替换API 对比记录 https://github.com/FaceAISDK/FaceAISDK_Android/commit/ca6fc27aa58c7f33dadc76f1dfb7325701a62dc9
 
 
 ##  V2025.11.26.beta
-- 提升人脸检测和搜索识别精度，人脸特征数据合规处理
-- SDK录入人脸优化，合并部分API
-- 性能优化并解决人脸框不准确等体验问题
-- 优化人脸光线检测不准确的问题
+- 提升人脸检测和搜索识别精度，人脸特征数据合规处理 
+- SDK录入人脸优化，合并部分API 
+- 性能优化并解决人脸框不准确等体验问题 
+- 优化人脸光线检测不准确的问题 
   本次更新前后替换API 对比记录 https://github.com/FaceAISDK/FaceAISDK_Android/commit/ca6fc27aa58c7f33dadc76f1dfb7325701a62dc9
 
 

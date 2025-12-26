@@ -48,6 +48,7 @@ class FaceAINaviActivity : AppCompatActivity() {
             switchCameraType()
         }
 
+
         // 1:1 人脸识别
         viewBinding.faceVerify.setOnClickListener {
             val verifyIntent = Intent(baseContext, FaceVerifyWelcomeActivity::class.java)
@@ -75,7 +76,6 @@ class FaceAINaviActivity : AppCompatActivity() {
                 startActivity(Intent(this@FaceAINaviActivity, Liveness_UVCCameraActivity::class.java))
             }
         }
-
 
         // 两张静态人脸图中人脸相似度对比，two face image similarity compare
         viewBinding.twoFaceVerify.setOnClickListener {

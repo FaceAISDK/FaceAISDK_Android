@@ -157,6 +157,7 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
 
         view.text = faceName
         view.background = bitmapSelected.toDrawable(resources)
+        // 没有裁剪处理过的图用Image2FaceFeature处理提取特征值
         Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap(bitmapSelected,faceName,object : Image2FaceFeature.Callback{
             override fun onSuccess(bitmap: Bitmap, faceID: String, faceFeature: String) {
                 bitmapMap[view.tag.toString()] = bitmap

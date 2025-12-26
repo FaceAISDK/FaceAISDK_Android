@@ -3,14 +3,15 @@ package com.faceAI.demo
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.TextUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.core.content.edit
-import com.ai.face.core.utils.FaceAICameraType
 import com.faceAI.demo.UVCCamera.manger.select.DeviceListDialogFragment
 import com.faceAI.demo.databinding.ActivityFaceAiSettingsBinding
 import com.herohan.uvcapp.CameraHelper
+import com.tencent.mmkv.MMKV
 
 /**
  * 前后摄像头，角度切换等参数设置
@@ -71,6 +72,9 @@ class FaceAISettingsActivity : AppCompatActivity() {
         }
         //
         binding.cameraDegreeText.text = getString(R.string.camera_degree_set) + degreeStr
+
+
+
 
         /**
          * 共5个值，默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270

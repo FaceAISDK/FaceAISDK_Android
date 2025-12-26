@@ -1,8 +1,5 @@
 package com.faceAI.demo.SysCamera.camera;
 
-import android.content.Context;
-import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Size;
@@ -10,11 +7,10 @@ import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.camera.core.AspectRatio;
 import androidx.camera.core.Camera;
+import androidx.camera.core.CameraControl;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageProxy;
@@ -22,68 +18,80 @@ import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
+import com.ai.face.base.view.camera.AbsFaceCameraXFragment;
 import com.ai.face.base.view.camera.CameraXBuilder;
-import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
-import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.google.common.util.concurrent.ListenableFuture;
-
-import java.util.Objects;
+import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * 摄像头的管理，使用Google CameraX,用户可以根据平台特性和业务需求自行拓展
- * CameraX 说明：https://developer.android.com/codelabs/camerax-getting-started?hl=zh-cn
+ *  更高的兼容性改造，2025.12.26。 炫彩活体改造版本基于CameraX 1.4.2，AbsFaceCameraXFragment
+ *  低配置设备要加快设备首次启动时间参考配置{@link com.faceAI.demo.FaceApplication}
  *
- * 你也可以使用老的Camera2 相机等方式管理摄像头，通过预览流回调数据转为Bitmap 后持续送入SDK
- * 2025.11.02
- * @author FaceAISDK.Service@gmail.com
+ *
+ *  @author FaceAISDK.Service@gmail.com
  */
-public class FaceCameraXFragment extends Fragment {
-    private static final String CAMERA_LINEAR_ZOOM = "CAMERA_LINEAR_ZOOM";  //焦距缩放比例
-    private static final String CAMERA_LENS_FACING = "CAMERA_LENS_FACING";  //前后配置
-    private static final String CAMERA_ROTATION = "CAMERA_ROTATION";  //旋转
-    private static final String CAMERA_SIZE_HIGH = "CAMERA_SIZE_HIGH";  //是否高分辨率用于分析
+public class FaceCameraXFragment extends AbsFaceCameraXFragment {
+    // 常量定义
+    private static final String KEY_LINEAR_ZOOM = "CAMERA_LINEAR_ZOOM";
+    private static final String KEY_LENS_FACING = "CAMERA_LENS_FACING";
+    private static final String KEY_ROTATION = "CAMERA_ROTATION";
+    private static final String KEY_IS_HIGH_RES = "CAMERA_SIZE_HIGH";
+    private static final String TAG = "FaceCameraXFragment";
 
-    private int rotation = Surface.ROTATION_0; //旋转角度
-    private int cameraLensFacing = 0; //默认前置摄像头
-    private int imageWidth,imageHeight;
-    private float linearZoom = 0f; //焦距
-    private boolean cameraSizeHigh= false;
-    private float mDefaultBright;
-    private ProcessCameraProvider cameraProvider;
-    private onAnalyzeData analyzeDataCallBack;
-    private ExecutorService executorService;
-    private CameraSelector cameraSelector;
-    private ImageAnalysis imageAnalysis;
-    private Preview preview;
-    private Camera camera;
-    private PreviewView previewView;
+    // 配置参数
+    private int mCameraLensFacing = CameraSelector.LENS_FACING_FRONT;
+    private float mLinearZoom = 0f;
+    private int mRotation = Surface.ROTATION_0;
+    private boolean isHighResolution = false;
+
+    // 运行时状态
+    private volatile int mImageWidth = 0;
+    private volatile int mImageHeight = 0;
+
+    // CameraX 组件
+    private ProcessCameraProvider mCameraProvider;
+    private CameraControl mCameraControl;
+    private PreviewView mPreviewView;
+    private ExecutorService mExecutorService;
+    private onAnalyzeData mAnalyzeListener;
 
     public FaceCameraXFragment() {
         // Required empty public constructor
     }
 
     public void setOnAnalyzerListener(onAnalyzeData callback) {
-        this.analyzeDataCallBack = callback;
+        this.mAnalyzeListener = callback;
     }
 
     public interface onAnalyzeData {
+        //用于SDK内部数据分析
         void analyze(@NonNull ImageProxy imageProxy);
-        default void backImageSize(int imageWidth, int imageHeight){};
+        //回调图片帧大小，以便画框UI处理
+        default void backImageSize(int imageWidth, int imageHeight) {
+        }
     }
 
-    public static FaceCameraXFragment newInstance(CameraXBuilder cameraXBuilder) {
+    @Override
+    public @NotNull CameraControl getCameraControl() {
+        return mCameraControl;
+    }
+
+    @Override
+    public int getCameraLensFacing() {
+        return mCameraLensFacing;
+    }
+
+    public static FaceCameraXFragment newInstance(CameraXBuilder builder) {
         FaceCameraXFragment fragment = new FaceCameraXFragment();
         Bundle args = new Bundle();
-        args.putInt(CAMERA_LENS_FACING, cameraXBuilder.getCameraLensFacing());
-        args.putFloat(CAMERA_LINEAR_ZOOM, cameraXBuilder.getLinearZoom());
-        args.putInt(CAMERA_ROTATION, cameraXBuilder.getRotation());
-        args.putBoolean(CAMERA_SIZE_HIGH, cameraXBuilder.getCameraSizeHigh());
-
+        args.putInt(KEY_LENS_FACING, builder.getCameraLensFacing());
+        args.putFloat(KEY_LINEAR_ZOOM, builder.getLinearZoom());
+        args.putInt(KEY_ROTATION, builder.getRotation());
+        args.putBoolean(KEY_IS_HIGH_RES, builder.getCameraSizeHigh());
         fragment.setArguments(args);
         return fragment;
     }
@@ -91,208 +99,158 @@ public class FaceCameraXFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            cameraLensFacing = getArguments().getInt(CAMERA_LENS_FACING, 0); //默认的摄像头
-            linearZoom = getArguments().getFloat(CAMERA_LINEAR_ZOOM, 0f);
-            rotation = getArguments().getInt(CAMERA_ROTATION, Surface.ROTATION_0);
-            cameraSizeHigh = getArguments().getBoolean(CAMERA_SIZE_HIGH,false);
+        Bundle args = getArguments();
+        if (args != null) {
+            mCameraLensFacing = args.getInt(KEY_LENS_FACING, CameraSelector.LENS_FACING_FRONT);
+            mLinearZoom = args.getFloat(KEY_LINEAR_ZOOM, 0f);
+            mRotation = args.getInt(KEY_ROTATION, Surface.ROTATION_0);
+            isHighResolution = args.getBoolean(KEY_IS_HIGH_RES, false);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.face_camerax_fragment, container, false);
-        mDefaultBright = BrightnessUtil.getBrightness(requireActivity());
-        initCameraXAnalysis(rootView);
-
-//        getCameraLevel();
-
+        mPreviewView = rootView.findViewById(R.id.previewView);
+        initCameraX();
         return rootView;
     }
 
-    /**
-     * 初始化相机,使用CameraX
-     *
-     */
-    private void initCameraXAnalysis(View rootView) {
-        executorService = Executors.newSingleThreadExecutor();
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //关闭线程池，防止内存泄漏
+        if (mExecutorService != null && !mExecutorService.isShutdown()) {
+            mExecutorService.shutdown();
+        }
+    }
+
+    private void initCameraX() {
+        // 每次重新初始化时重置尺寸，防止横竖屏切换等导致尺寸变化未更新
+        mImageWidth = 0;
+        mImageHeight = 0;
+
+        mExecutorService = Executors.newSingleThreadExecutor();
 
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture =
                 ProcessCameraProvider.getInstance(requireContext());
 
-        //图像预览和摄像头原始数据回调 暴露，以便后期格式转换和处理
-        //图像编码默认格式 YUV_420_888。
         cameraProviderFuture.addListener(() -> {
-            // Camera provider is now guaranteed to be available
+            // Fragment 可能已销毁，检查上下文安全性
+            if (!isAdded() || getContext() == null) {
+                return;
+            }
             try {
-                cameraProvider = cameraProviderFuture.get();
+                mCameraProvider = cameraProviderFuture.get();
+                bindCameraUseCases();
             } catch (ExecutionException | InterruptedException e) {
-                Log.e("FaceAI SDK", "\ncameraProviderFuture.get() 发生错误！\n" + e.getMessage());
+                Log.e(TAG, "CameraProvider init failed", e);
             }
-
-            if(cameraSizeHigh){
-                //送入人脸识别FaceAISDK画面分析设置。根据你的场景，摄像头特性和硬件配置设置合理的参数
-                imageAnalysis = new ImageAnalysis.Builder()
-                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                        .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
-                        .setTargetRotation(rotation) //画面选择角度
-                        .setTargetResolution(new Size(1280,720)) //从支持的分辨率中选择最接近的一个。
-                        .build();
-            }else {
-                //系统默认匹配分辨率
-                imageAnalysis = new ImageAnalysis.Builder()
-                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                        .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
-                        .setTargetRotation(rotation) //画面选择角度
-                        .build();
-            }
-            preview = new Preview.Builder()
-                    .setTargetRotation(rotation)
-                    .build();
-
-            previewView = rootView.findViewById(R.id.previewView);
-
-            //预览画面渲染模式：高性能模式
-            previewView.setImplementationMode(PreviewView.ImplementationMode.PERFORMANCE);
-
-            //20251102，为了后面炫彩活体做准备（默认的FILL_CENTER会把人脸区域放很大）
-            //https://developer.android.com/media/camera/camerax/preview?hl=zh-cn
-            previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
-
-            if (cameraLensFacing == 0) {
-                // Choose the camera by requiring a lens facing
-                cameraSelector = new CameraSelector.Builder()
-                        .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
-                        .build();
-            } else {
-                // Choose the camera by requiring a lens facing
-                cameraSelector = new CameraSelector.Builder()
-                        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                        .build();
-            }
-
-            // Connect the preview use case to the previewView
-            preview.setSurfaceProvider(previewView.getSurfaceProvider());
-            imageAnalysis.setAnalyzer(executorService, imageProxy -> {
-                if (imageWidth == 0f || imageHeight == 0f) {
-                    imageWidth=imageProxy.getWidth();
-                    imageHeight=imageProxy.getHeight();
-                    if(analyzeDataCallBack!=null){
-                        analyzeDataCallBack.backImageSize(imageWidth,imageHeight);
-                    }
-                } else {
-                    if(analyzeDataCallBack!=null){
-                        analyzeDataCallBack.analyze(imageProxy);
-                    }
-                }
-                imageProxy.close();
-            });
-
-            try {
-                cameraProvider.unbindAll();
-                // Attach use cases to the camera with the same lifecycle owner
-                camera = cameraProvider.bindToLifecycle(
-                        getViewLifecycleOwner(),
-                        cameraSelector,
-                        preview, imageAnalysis);
-
-                //并非所有的相机支持焦距控制
-                camera.getCameraControl().setLinearZoom(linearZoom);
-
-            } catch (Exception e) {
-                Log.e("CameraX error", "FaceAI SDK:" + e.getMessage());
-            }
-
         }, ContextCompat.getMainExecutor(requireContext()));
     }
 
-    /**
-     * 摄像头硬件等级判断，不稳定的等级Toast 提示
-     *
-     */
-    private void getCameraLevel(){
-        try {
-            //判断当前摄像头等级 ,Android 9以上才支持判断
-            CameraManager cameraManager = (CameraManager) requireContext().getSystemService(Context.CAMERA_SERVICE);
-            String cameraId =Integer.toString(cameraLensFacing);
-            CameraCharacteristics characteristics = cameraManager.getCameraCharacteristics(cameraId);
-            Integer level=characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
-            if(level!=null&& level !=CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3
-                    && level !=CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL){
-                if(FaceSDKConfig.isDebugMode(requireContext())){
-                    Toast.makeText(requireContext(),"Camera level low !",Toast.LENGTH_LONG).show();
+    private void bindCameraUseCases() {
+        // 1. 配置 ImageAnalysis
+        ImageAnalysis.Builder analysisBuilder = new ImageAnalysis.Builder()
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
+                .setTargetRotation(mRotation);
+
+        if (isHighResolution) {
+            // 远距离或高精度场景
+            analysisBuilder.setTargetResolution(new Size(1280, 720));
+        } else {
+            // 默认场景，性能优先
+            analysisBuilder.setTargetAspectRatio(AspectRatio.RATIO_4_3);
+        }
+        ImageAnalysis mImageAnalysis = analysisBuilder.build();
+
+        // 2. 配置 Preview
+        Preview mPreview = new Preview.Builder()
+                .setTargetRotation(mRotation)
+                .build();
+
+        // 3. 配置 PreviewView
+        mPreviewView.setImplementationMode(PreviewView.ImplementationMode.PERFORMANCE);
+        mPreviewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
+        mPreview.setSurfaceProvider(mPreviewView.getSurfaceProvider());
+
+        // 4. 构建 CameraSelector (兼容逻辑)
+        CameraSelector mCameraSelector = createCompatibleCameraSelector();
+
+        // 5. 设置分析器
+        mImageAnalysis.setAnalyzer(mExecutorService, imageProxy -> {
+            // 这里位于子线程
+            if (mImageWidth == 0 || mImageHeight == 0) {
+                mImageWidth = imageProxy.getWidth();
+                mImageHeight = imageProxy.getHeight();
+                if (mAnalyzeListener != null) {
+                    mAnalyzeListener.backImageSize (mImageWidth, mImageHeight);
                 }
             }
+
+            if (mAnalyzeListener != null) {
+                mAnalyzeListener.analyze(imageProxy);
+            }
+            // 必须关闭，否则不会收到下一帧
+            imageProxy.close();
+        });
+
+        // 6. 绑定生命周期
+        try {
+            mCameraProvider.unbindAll();
+            Camera mCamera = mCameraProvider.bindToLifecycle(
+                    getViewLifecycleOwner(),
+                    mCameraSelector,
+                    mPreview,
+                    mImageAnalysis);
+
+            mCameraControl = mCamera.getCameraControl();
+            mCameraControl.setLinearZoom(mLinearZoom);
         } catch (Exception e) {
-            Log.e("getCameraLevel", Objects.requireNonNull(e.getMessage()));
+            Log.e(TAG, "Camera bind failed: " + e.getMessage());
         }
     }
-
 
     /**
-     * 切换摄像头立即生效自行处理
+     * 构建兼容的 CameraSelector
+     * 针对部分 RK 设备/工控机接口定义混乱的情况进行降级处理
      */
-    public void switchCamera() {
-        //
-    }
+    private CameraSelector createCompatibleCameraSelector() {
+        CameraSelector.Builder builder = new CameraSelector.Builder();
 
+        int preferredLensFacing = mCameraLensFacing;
+        // 另一种可能的 LensFacing (如果首选是 Front，备选就是 Back)
+        int fallbackLensFacing = (preferredLensFacing == CameraSelector.LENS_FACING_FRONT)
+                ? CameraSelector.LENS_FACING_BACK
+                : CameraSelector.LENS_FACING_FRONT;
 
-    /**
-     * 并不是都要使用CameraX, 开发人员也可以使用Camera1 相机管理摄像头
-     */
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-//        releaseCamera();  //一般不需手动处理
-    }
-
-
-    /**
-     * 手动释放所有资源（不同硬件平台处理方式不一样），一般资源释放会和页面销毁自动联动
-     */
-    public void releaseCamera() {
-        if(executorService!=null&&!executorService.isTerminated()){
-            executorService.shutdownNow();
+        if (hasCamera(mCameraProvider, preferredLensFacing)) {
+            // 1. 完美匹配
+            builder.requireLensFacing(preferredLensFacing);
+        } else if (hasCamera(mCameraProvider, fallbackLensFacing)) {
+            // 2. 降级匹配：找不到指定方向，就用另一个方向
+            Log.w(TAG, "Preferred camera not found, fallback to opposite facing.");
+            builder.requireLensFacing(fallbackLensFacing);
+        } else {
+            // 3. 暴力兜底：都找不到（可能是 External USB 摄像头），不过滤，接受任意摄像头
+            Log.w(TAG, "Standard cameras not found, allowing ALL cameras (External/USB).");
+            builder.addCameraFilter(cameraInfos -> cameraInfos);
         }
 
-        if (cameraProvider != null) {
-            cameraProvider.unbindAll(); // 解绑所有用例
-            cameraProvider = null;
-        }
-
-        if (imageAnalysis != null) {
-            imageAnalysis.clearAnalyzer(); // 清除图像分析
-        }
-        if (previewView != null) {
-            preview.setSurfaceProvider(null);
-        }
-        camera = null;
+        return builder.build();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        BrightnessUtil.setBrightness(requireActivity(), 0.95f);
+    private boolean hasCamera(ProcessCameraProvider provider, int lensFacing) {
+        try {
+            return provider.hasCamera(new CameraSelector.Builder().requireLensFacing(lensFacing).build());
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        //设置为原来亮度
-        BrightnessUtil.setBrightness(requireActivity(), mDefaultBright);
-    }
-
-
-    /**
-     * 有些定制设备把后置摄像头接口画面当前置用的自己改一下逻辑
-     *
-     * @return 是否前置摄像头
-     */
     public boolean isFrontCamera() {
-        return cameraLensFacing==CameraSelector.LENS_FACING_FRONT;
+        return mCameraLensFacing == CameraSelector.LENS_FACING_FRONT;
     }
-
-
 }

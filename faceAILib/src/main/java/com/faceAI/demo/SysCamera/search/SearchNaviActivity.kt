@@ -41,12 +41,10 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             startActivity(Intent(baseContext, FaceSearch1NActivity::class.java))
         }
 
-
         binding.systemCameraSearchWithLive.setOnClickListener {
             startActivity(Intent(baseContext, FaceSearch1NWithMotionLivenessActivity::class.java))
             true
         }
-
 
         binding.systemCameraSearchMn.setOnClickListener {
             startActivity(Intent(baseContext, FaceSearchMNActivity::class.java))
@@ -72,7 +70,6 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         //验证复制图片
         binding.copyFaceImages.setOnClickListener {
             binding.copyFaceImages.visibility= View.INVISIBLE
-
             CopyFaceImageUtils.copyTestFaceImages(
                 baseContext,
                 object : CopyFaceImageUtils.Callback {
@@ -84,7 +81,6 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
                         ).show()
                     }
                 })
-
         }
 
         binding.back.setOnClickListener {
@@ -118,7 +114,6 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
                 )
             )
         }
-
     }
 
 
@@ -159,7 +154,6 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
     }
 
-
     /**
      * SDK接入方 自行处理权限管理
      */
@@ -189,6 +183,5 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
 
     }
-
 
 }
