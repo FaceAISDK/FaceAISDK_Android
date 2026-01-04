@@ -111,7 +111,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     public void onLivenessDetected(float colorFlashScore, Bitmap bitmap) {
                         BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap"); //保存给插件用，原生开发忽略
                         VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-                        finishFaceVerify(9, R.string.liveness_detection_done, colorFlashScore);
+                        finishFaceVerify(10, R.string.liveness_detection_done, colorFlashScore);
                     }
 
                     /**
@@ -199,7 +199,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                             .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                 retryTime++;
                                 if (retryTime > 1) {
-                                    finishFaceVerify(8, R.string.color_flash_light_high);
+                                    finishFaceVerify(9, R.string.color_flash_light_high);
                                 } else {
                                     faceVerifyUtils.retryVerify();
                                 }
@@ -390,8 +390,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
 
     private void finishFaceVerify(int code, int msgStrRes, float silentLivenessScore) {
         Intent intent = new Intent().putExtra("code", code)
-                .putExtra("msg", getString(msgStrRes))
-                .putExtra("silentLivenessScore", silentLivenessScore);
+                .putExtra("msg", getString(msgStrRes));
         setResult(RESULT_OK, intent);
         finish();
     }
