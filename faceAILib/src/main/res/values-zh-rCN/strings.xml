@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">PrivateFace</string>
     <string name="login_privacy_policy">已阅读并同意隐私协议</string>
     <string name="device_list_dialog_title">摄像头设备</string>
     <string name="device_list_empty_tip">请连接好UVC协议USB设备</string>
@@ -116,6 +115,7 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
 
     <!--1:N and M:N face search-->
     <string name="face_image_manage">人脸库管理</string>
+    <string name="insert_face_features">批量插入人脸数据</string>
     <string name="face_search_1fromN_liveness">活体检测+1:N人脸搜索</string>
     <string name="face_search_1fromN">1:N 人脸搜索</string>
     <string name="face_search_uvc_camera">UVC摄像头人脸搜索</string>

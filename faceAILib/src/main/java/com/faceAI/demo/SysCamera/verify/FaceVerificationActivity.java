@@ -75,8 +75,8 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideSystemUI();//炫彩活体全屏显示各种颜色
         setContentView(R.layout.activity_face_verification);
-        hideSystemUI();
         tipsTextView = findViewById(R.id.tips_view);
         secondTipsTextView = findViewById(R.id.second_tips_view); //次要提示
         faceCoverView = findViewById(R.id.face_cover);
@@ -452,7 +452,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             }
 
             if (intent.hasExtra(FACE_LIVENESS_TYPE)) {
-                int type = intent.getIntExtra(FACE_LIVENESS_TYPE, 3);
+                int type = intent.getIntExtra(FACE_LIVENESS_TYPE, 1);
                 // 1.动作活体  2.动作+炫彩活体 3.炫彩活体(不能强光环境使用)
                 switch (type) {
                     case 0:

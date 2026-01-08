@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">PrivateFace</string>
     <string name="login_privacy_policy">Agree with privacy policy</string>
     <string name="device_list_dialog_title">Devices</string>
     <string name="device_list_empty_tip">Please connect a USB Camera</string>
@@ -113,6 +112,7 @@
 
     <!--人脸搜索识别（1:N，M：N）-->
     <string name="face_image_manage">Face manage</string>
+    <string name="insert_face_features">Insert many face features</string>
     <string name="face_search_1fromN_liveness">liveness and 1:N face search</string>
     <string name="face_search_1fromN">1:N face search</string>
     <string name="face_search_uvc_camera">Search with uvc camera</string>

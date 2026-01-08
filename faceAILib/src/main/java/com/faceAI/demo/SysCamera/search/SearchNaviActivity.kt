@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
+import com.ai.face.faceSearch.search.FaceSearchFeatureManger
 import com.faceAI.demo.FaceAISettingsActivity.Companion.FRONT_BACK_CAMERA_FLAG
 import com.faceAI.demo.R
 import com.faceAI.demo.UVCCamera.search.FaceSearch_UVCCameraActivity
@@ -35,6 +36,12 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         checkNeededPermission()
         binding.back.setOnClickListener {
             this@SearchNaviActivity.finish()
+        }
+
+        binding.insertFaceFeatures.setOnClickListener {
+            //模拟批量插入人脸数据，注意json 字段和格式正确
+            FaceSearchFeatureManger.getInstance(this).insertFeatures(JSONFaceFeatures.testJsonStrings)
+            Toast.makeText(baseContext, "Done", Toast.LENGTH_SHORT).show()
         }
 
         binding.systemCameraSearch.setOnClickListener {
