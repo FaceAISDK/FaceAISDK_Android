@@ -14,9 +14,7 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCHING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
-
 import com.ai.face.core.utils.FaceAICameraType;
-import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import android.content.Context;
 import android.content.Intent;
@@ -25,13 +23,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import com.faceAI.demo.SysCamera.search.FaceSearchImageMangerActivity;
 import android.view.View;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageProxy;
-
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
@@ -42,6 +39,8 @@ import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
 import java.util.List;
+import com.google.gson.Gson;
+import com.faceAI.demo.SysCamera.search.ImageToast;
 
 /**
  * 1:N 人脸搜索识别
@@ -58,11 +57,49 @@ import java.util.List;
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceSearch1NActivity extends AbsBaseActivity {
+
+    public static final String THRESHOLD_KEY = "THRESHOLD_KEY";           //人脸搜索阈值
+    public static final String SEARCH_ONE_TIME = "SEARCH_ONE_TIME";   //是否仅搜索一次就关闭搜索页
+    public static final String IS_CAMERA_SIZE_HIGH = "IS_CAMERA_SIZE_HIGH";   //高分辨率远距离也可以工作，但是性能速度会下降
+    public static final String CAMERA_ID = "CAMERA_ID";   //摄像头ID，部分摄像头可能需要适配
+
+//    public static final String SEARCH_GROUP = "SEARCH_GROUP";   //动作活体超时数据
+//    public static final String SEARCH_TAG = "MOTION_LIVENESS_TYPES"; //动作活体种类
+    private float searchThreshold = 0.88f;  //搜索阈值
+    private boolean searchOneTime = false;   //是否仅搜索一次就关闭搜索页
+    private boolean isCameraSizeHigh = false; //是否高分辨率
+    private int cameraId = CameraSelector.LENS_FACING_FRONT; //摄像头ID，部分摄像头可能需要适配
+    private int cameraLensFacing;  //摄像头前置，后置，外接
+
     //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
     private FaceCameraXFragment cameraXFragment; //摄像头请自行管理，源码全部开放
     private boolean pauseSearch =false; //控制是否送数据到SDK进行搜索
-    private int cameraLensFacing;  //摄像头前置，后置，外接。 （UVC协议请参考UVCCamera 目录代码）
+
+
+    /**
+     * 获取UNI,RN,Flutter三方插件传递的参数,以便在原生代码中生效
+     */
+    private void getIntentParams() {
+        Intent intent = getIntent(); // 获取发送过来的Intent对象
+        if (intent != null) {
+            if (intent.hasExtra(THRESHOLD_KEY)) {
+                searchThreshold = intent.getFloatExtra(THRESHOLD_KEY, 0.88f);
+            }
+            if (intent.hasExtra(SEARCH_ONE_TIME)) {
+                searchOneTime = intent.getBooleanExtra(SEARCH_ONE_TIME, false);
+            }
+            if (intent.hasExtra(IS_CAMERA_SIZE_HIGH)) {
+                isCameraSizeHigh = intent.getBooleanExtra(IS_CAMERA_SIZE_HIGH, false);
+            }
+            if (intent.hasExtra(CAMERA_ID)) {
+                cameraId = intent.getIntExtra(CAMERA_ID, CameraSelector.LENS_FACING_FRONT);
+            }
+        }
+    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,8 +112,10 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     .putExtra("isAdd", false));
         });
 
+        getIntentParams(); //接收三方插件传递的参数，原生开发可以忽略裁剪掉
+
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
-        cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT); //默认前置
+        cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, cameraId); //默认前置
         int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //1. 摄像头相关参数配置
@@ -85,7 +124,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.1f)      //焦距范围[0f,1.0f]，根据应用场景自行适当调整焦距（摄像头需支持变焦）
                 .setRotation(degree)      //画面旋转方向
-                .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降
+                .setCameraSizeHigh(isCameraSizeHigh) //高分辨率远距离也可以工作，但是性能速度会下降
                 .create();
 
         //可以不用SDK 内部相机管理，自定义摄像头参考MyCameraFragment，源码开放自由修改
@@ -107,9 +146,9 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 .setCameraType(FaceAICameraType.SYSTEM_CAMERA)
 //                .setFaceGroup() //根据分组来搜索，比如小区不同楼栋可以设置从1A，1B，2C等分组不但能管理权限又能加快速度
 //                .setFaceTag()   //根据标记来搜索，比如有些场所只有VIP才能权限进入
-                .setThreshold(0.88f) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值以及人脸底片质量也要高
+                .setThreshold(searchThreshold) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值以及人脸底片质量也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
-                .setSearchIntervalTime(1900) //默认2000，范围[0,9000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
+                .setSearchIntervalTime(2000) //默认2000，范围[0,9000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //后面版本去除次参数
                 .setProcessCallBack(new SearchProcessCallBack() {
                     /**
@@ -122,7 +161,20 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     @Override
                     public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
                         //已经按照降序排列，可以弹出一个列表框
-                        Log.d("onFaceMatched","符合设定阈值的结果: "+matchedResults.toString());
+//                        String json = new Gson().toJson(matchedResults);
+//                        Log.d("onFaceMatched","符合设定阈值的结果: "+json);
+//						// 2. 【关键】通过单例发送数据，而不关闭 Activity
+//						// 注意：这里要在主线程还是子线程发送，取决于 UTS 回调是否要求主线程
+//						// 通常建议切回主线程发送，虽然 UTS 内部可能会处理
+//						runOnUiThread(new Runnable() {
+//						        @Override
+//						        public void run() {
+//									FaceResultManager.INSTANCE.sendResult(json);
+//                                    if(searchOneTime){
+//                                        FaceSearch1NActivity.this.finish();
+//                                    }
+//						        }
+//						    });
                     }
 
                     /**

@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.CameraSelector
 import androidx.core.content.edit
 import com.ai.face.faceSearch.search.FaceSearchFeatureManger
 import com.faceAI.demo.FaceAISettingsActivity.Companion.FRONT_BACK_CAMERA_FLAG
@@ -45,7 +46,20 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
         binding.systemCameraSearch.setOnClickListener {
-            startActivity(Intent(baseContext, FaceSearch1NActivity::class.java))
+            // 1. 创建 Intent
+            val intent = Intent(baseContext, FaceSearch1NActivity::class.java)
+            // 2. 传递参数 (Extras)
+            // 搜索阈值 (Float): 范围建议 0.80f - 0.95f
+            intent.putExtra(FaceSearch1NActivity.THRESHOLD_KEY, 0.89f)
+            // 是否仅搜索一次 (Boolean): true=搜索到结果后自动 finish 关闭页面
+            intent.putExtra(FaceSearch1NActivity.SEARCH_ONE_TIME, true)
+            // 是否开启高分辨率 (Boolean): true=高分辨率(适合远距离但性能下降), false=标准
+            intent.putExtra(FaceSearch1NActivity.IS_CAMERA_SIZE_HIGH, true)
+            // 摄像头ID (Int): 使用 CameraSelector 的常量，通常 0 是后置，1 是前置
+            // 如果没有 CameraSelector 依赖，直接传 Int 即可 (1 = LENS_FACING_FRONT)
+            intent.putExtra(FaceSearch1NActivity.CAMERA_ID, CameraSelector.LENS_FACING_BACK)
+            // 3. 启动 Activity
+            startActivity(intent)
         }
 
         binding.systemCameraSearchWithLive.setOnClickListener {
