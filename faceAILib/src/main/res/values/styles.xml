@@ -1,20 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
 
-    <style name="Widget.Theme.FaceAI_Private.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
-    </style>
-
-    <style name="Widget.Theme.FaceAI_Private.ButtonBar.Fullscreen" parent="">
-        <item name="android:background">@color/black_overlay</item>
-        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
-    </style>
-
-
     <style name="Theme.FaceAISDK.Fullscreen" parent="Theme.AppCompat.Light">
-        <item name="android:actionBarStyle">
-            @style/Widget.Theme.FaceAI_Private.ActionBar.Fullscreen
-        </item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+
         <item name="buttonBarPositiveButtonStyle">@style/positiveBtnStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/negativeBtnStyle</item>
         <item name="android:windowActionBarOverlay">true</item>

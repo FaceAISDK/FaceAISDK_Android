@@ -22,6 +22,7 @@ public class FaceApplication extends Application implements CameraXConfig.Provid
     @Override
     public CameraXConfig getCameraXConfig() {
         return CameraXConfig.Builder.fromConfig(Camera2Config.defaultConfig())
+                //查询出设备上目标摄像头配置好后可以加快启动速度
 //                .setAvailableCamerasLimiter(CameraSelector.DEFAULT_FRONT_CAMERA)
                 .setMinimumLoggingLevel(Log.ERROR)
                 .build();

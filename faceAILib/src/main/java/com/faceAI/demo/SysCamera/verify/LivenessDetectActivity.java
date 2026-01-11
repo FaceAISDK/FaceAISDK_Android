@@ -57,9 +57,8 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideSystemUI();//炫彩活体全屏显示各种颜色
         setContentView(R.layout.activity_liveness_detection);
-        hideSystemUI();
-
         tipsTextView = findViewById(R.id.tips_view);
         secondTipsTextView = findViewById(R.id.second_tips_view);
         faceCoverView = findViewById(R.id.face_cover);
@@ -111,7 +110,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     public void onLivenessDetected(float colorFlashScore, Bitmap bitmap) {
                         BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap"); //保存给插件用，原生开发忽略
                         VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-                        finishFaceVerify(9, R.string.liveness_detection_done, colorFlashScore);
+                        finishFaceVerify(10, R.string.liveness_detection_done, colorFlashScore);
                     }
 
                     /**
@@ -199,7 +198,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                             .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                 retryTime++;
                                 if (retryTime > 1) {
-                                    finishFaceVerify(8, R.string.color_flash_light_high);
+                                    finishFaceVerify(9, R.string.color_flash_light_high);
                                 } else {
                                     faceVerifyUtils.retryVerify();
                                 }
@@ -351,18 +350,21 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         if (intent != null) {
 
             if (intent.hasExtra(FACE_LIVENESS_TYPE)) {
-                int type = intent.getIntExtra(FACE_LIVENESS_TYPE, 3);
+                int type = intent.getIntExtra(FACE_LIVENESS_TYPE, 1);
+                // 1.动作活体  2.动作+炫彩活体 3.炫彩活体(不能强光环境使用)
                 switch (type) {
                     case 0:
                         faceLivenessType = FaceLivenessType.NONE;
                         break;
                     case 1:
-                        faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION;
-                        break;
-                    case 2:
                         faceLivenessType = FaceLivenessType.MOTION;
                         break;
-
+                    case 2:
+                        faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION;
+                        break;
+                    case 3:
+                        faceLivenessType = FaceLivenessType.COLOR_FLASH;
+                        break;
                     default:
                         faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION;
                 }
@@ -390,8 +392,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
 
     private void finishFaceVerify(int code, int msgStrRes, float silentLivenessScore) {
         Intent intent = new Intent().putExtra("code", code)
-                .putExtra("msg", getString(msgStrRes))
-                .putExtra("silentLivenessScore", silentLivenessScore);
+                .putExtra("msg", getString(msgStrRes));
         setResult(RESULT_OK, intent);
         finish();
     }

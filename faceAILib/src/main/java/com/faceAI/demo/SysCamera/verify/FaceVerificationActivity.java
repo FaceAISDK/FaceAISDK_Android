@@ -75,8 +75,8 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideSystemUI();//炫彩活体全屏显示各种颜色
         setContentView(R.layout.activity_face_verification);
-        hideSystemUI();
         tipsTextView = findViewById(R.id.tips_view);
         secondTipsTextView = findViewById(R.id.second_tips_view); //次要提示
         faceCoverView = findViewById(R.id.face_cover);
@@ -229,7 +229,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             //3.和底片不是同一个人
             VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
             new AlertDialog.Builder(FaceVerificationActivity.this).setTitle(R.string.face_verify_failed_title).setMessage(R.string.face_verify_failed).setCancelable(false).setPositiveButton(R.string.know, (dialogInterface, i) -> {
-                finishFaceVerify(4, R.string.face_verify_result_failed, similarity);
+                finishFaceVerify(2, R.string.face_verify_result_failed, similarity);
             }).setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify()).show();
         }
 
@@ -263,7 +263,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                             .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                 retryTime++;
                                 if (retryTime > 1) {
-                                    finishFaceVerify(7, R.string.color_flash_liveness_failed);
+                                    finishFaceVerify(8, R.string.color_flash_liveness_failed);
                                 } else {
 
                                     faceVerifyUtils.retryVerify();
@@ -280,7 +280,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                             .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                 retryTime++;
                                 if (retryTime > 1) {
-                                    finishFaceVerify(8, R.string.color_flash_light_high);
+                                    finishFaceVerify(9, R.string.color_flash_light_high);
                                 } else {
                                     faceVerifyUtils.retryVerify();
                                 }
@@ -304,7 +304,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                             .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                 retryTime++;
                                 if (retryTime > 1) {
-                                    finishFaceVerify(3, R.string.face_verify_result_timeout);
+                                    finishFaceVerify(4, R.string.face_verify_result_timeout);
                                 } else {
                                     faceVerifyUtils.retryVerify();
                                 }
@@ -347,7 +347,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                             .setMessage(R.string.face_verify_pause)
                             .setCancelable(false)
                             .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                                finishFaceVerify(6, R.string.face_verify_result_pause);
+                                finishFaceVerify(5, R.string.face_verify_result_no_face_multi_time);
                             }).show();
                     break;
 
@@ -452,18 +452,21 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             }
 
             if (intent.hasExtra(FACE_LIVENESS_TYPE)) {
-                int type = intent.getIntExtra(FACE_LIVENESS_TYPE, 3);
+                int type = intent.getIntExtra(FACE_LIVENESS_TYPE, 1);
+                // 1.动作活体  2.动作+炫彩活体 3.炫彩活体(不能强光环境使用)
                 switch (type) {
                     case 0:
                         faceLivenessType = FaceLivenessType.NONE;
                         break;
                     case 1:
-                        faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION;
-                        break;
-                    case 2:
                         faceLivenessType = FaceLivenessType.MOTION;
                         break;
-
+                    case 2:
+                        faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION;
+                        break;
+                    case 3:
+                        faceLivenessType = FaceLivenessType.COLOR_FLASH;
+                        break;
                     default:
                         faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION;
                 }
@@ -480,6 +483,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             }
         }
     }
+
 
 
     /**

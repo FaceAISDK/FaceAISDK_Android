@@ -11,7 +11,6 @@
     <ImageView
         android:id="@+id/toast_image"
         android:layout_marginStart="24dp"
-        android:layout_marginEnd="16dp"
         android:layout_width="44dp"
         android:layout_height="41dp"/>
 
@@ -21,6 +20,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:maxLength="19"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="20dp"
         android:textColor="@color/white"
         android:textSize="20sp" />
