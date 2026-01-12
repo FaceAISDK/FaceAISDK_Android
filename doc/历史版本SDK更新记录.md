@@ -1,10 +1,11 @@
 
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
-##  V2025.12.26
+##  V2025.12.29
 - SDK 体积缩减,去除无用资源
 - 新加炫彩活体检测，防止作弊
 - 判断是否已有相似度很高的人脸数据存在
+- 支持批量插入人脸搜索特征值，封装UTS API插件
 - 封装相机AbsFaceCameraXFragment，提升不同设备相机兼容性
 - com.tencent:mmkv 依赖从SDK中剥离
 
