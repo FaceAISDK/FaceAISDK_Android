@@ -265,7 +265,6 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                                 if (retryTime > 1) {
                                     finishFaceVerify(8, R.string.color_flash_liveness_failed);
                                 } else {
-
                                     faceVerifyUtils.retryVerify();
                                 }
                             }).show();
