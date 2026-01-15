@@ -22,6 +22,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.ai.face.faceSearch.search.FaceSearchFeatureManger
 import com.faceAI.demo.BuildConfig
 import com.faceAI.demo.R
 

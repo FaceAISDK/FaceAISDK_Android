@@ -21,20 +21,25 @@
         <activity
             android:name=".SysCamera.verify.FaceVerificationActivity"
             android:exported="false"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.FaceAISDK.Fullscreen" />
 
         <activity
             android:name=".SysCamera.verify.LivenessDetectActivity"
             android:exported="false"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.FaceAISDK.Fullscreen" />
 
         <activity
             android:name=".UVCCamera.search.FaceSearch_UVCCameraActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:theme="@style/FaceAITheme" />
+
         <activity
             android:name=".UVCCamera.verify.FaceVerify_UVCCameraActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:theme="@style/FaceAITheme" />
         <activity
             android:name=".UVCCamera.addFace.AddFace_UVCCameraActivity"
@@ -71,13 +76,15 @@
 
 
         <activity
-            android:name=".SysCamera.addFace.AddFaceImageActivity"
+            android:name=".SysCamera.addFace.AddFaceFeatureActivity"
             android:exported="false"
             android:theme="@style/FaceAITheme" />
         <activity
             android:name=".SysCamera.search.FaceSearch1NActivity"
             android:exported="false"
+            android:launchMode="singleTop"
             android:theme="@style/FaceAITheme" />
+
         <activity
             android:name=".SysCamera.search.FaceSearch1NWithMotionLivenessActivity"
             android:exported="false"

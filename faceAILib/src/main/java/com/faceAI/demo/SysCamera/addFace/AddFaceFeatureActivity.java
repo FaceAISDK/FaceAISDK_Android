@@ -64,16 +64,15 @@ import java.util.Objects;
  *
  * @author FaceAISDK.Service@gmail.com
  */
-public class AddFaceImageActivity extends AbsBaseActivity {
+public class AddFaceFeatureActivity extends AbsBaseActivity {
     public static String ADD_FACE_IMAGE_TYPE_KEY = "ADD_FACE_IMAGE_TYPE_KEY";
     public static String ADD_FACE_PERFORMANCE_MODE = "ADD_FACE_PERFORMANCE_MODE";
     public static String NEED_CONFIRM_ADD_FACE = "NEED_CONFIRM_ADD_FACE"; //是否需要弹窗确认
-    private boolean needConfirmAdd = true;   //是否需要弹窗给用户确认人脸信息
-
+    private boolean needConfirmAdd = true;   //是否需要弹窗给用户确认人脸信息,强烈建议需要确认
     private TextView tipsTextView;
     private BaseImageDispose baseImageDispose;
     private String faceID, addFaceType;
-    private boolean isConfirmAdd = false;   //是否正在弹出Dialog确定人脸合规，确认期间停止人脸检测
+    private boolean isConfirmAdd = false;   //是否正在弹出Dialog确定人脸合规，确认期间停止人脸角度合规检测
     private int addFacePerformanceMode = PERFORMANCE_MODE_FAST;  //默认快速模式，要求人脸正对摄像头
 
     //是1:1 还是1:N 人脸搜索添加人脸
@@ -84,6 +83,7 @@ public class AddFaceImageActivity extends AbsBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideSystemUI();
         setContentView(R.layout.activity_add_face_image);
         findViewById(R.id.back)
                 .setOnClickListener(v -> finishAddFace(0, "Cancel by user",""));
@@ -132,12 +132,20 @@ public class AddFaceImageActivity extends AbsBaseActivity {
                 //如果非SDK相机录入的人脸照片提取特征值用异步方法 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
                 String faceFeature = FaceAISDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(bitmap);
 
-                if(needConfirmAdd){ //特殊场景不弹框确认，强烈建议需要
-                    confirmAddFaceDialog(bitmap, score,faceFeature);
-                }else{
-                    //有些1:1添加人脸场景不需要弹窗确认
-                    saveFaceVerifyData(bitmap,faceID,faceFeature);
+                if(!needConfirmAdd){
+                    if(TextUtils.isEmpty(faceID)){
+                        Toast.makeText(getBaseContext(), R.string.input_face_id_tips, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    //明确指示不需要弹窗确认，并且faceID指定了
+                    if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
+                        saveFaceVerifyData(bitmap,faceID,faceFeature);
+                    } else {
+                        saveFaceSearchData(bitmap,faceID,faceFeature);
+                    }
                     finishAddFace(1, "Add face success",faceFeature);
+                }else{
+                    confirmAddFaceDialog(bitmap,faceFeature);
                 }
             }
 
@@ -241,12 +249,11 @@ public class AddFaceImageActivity extends AbsBaseActivity {
      * 经过SDK裁剪矫正处理好的bitmap 转为人脸特征值
      *
      * @param bitmap 符合对应参数设置的SDK裁剪好的人脸图
-     * @param score  暂时不检测
      */
-    private void confirmAddFaceDialog(Bitmap bitmap, float score,String faceFeature) {
-        ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,bitmap,score);
-        confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
+    private void confirmAddFaceDialog(Bitmap bitmap,String faceFeature) {
+        ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,bitmap);
 
+        confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
             faceID = confirmFaceDialog.faceIDEdit.getText().toString();
             if (!TextUtils.isEmpty(faceID)) {
                 if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
@@ -322,7 +329,7 @@ public class AddFaceImageActivity extends AbsBaseActivity {
         public AlertDialog dialog;
         public Button btnConfirm,btnCancel;
         public EditText faceIDEdit;
-        public ConfirmFaceDialog(Context context,Bitmap bitmap,float score){
+        public ConfirmFaceDialog(Context context,Bitmap bitmap){
             dialog = new AlertDialog.Builder(context).create();
             View dialogView = View.inflate(context, R.layout.dialog_confirm_base, null);
             Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -337,7 +344,7 @@ public class AddFaceImageActivity extends AbsBaseActivity {
             btnCancel = dialogView.findViewById(R.id.btn_cancel);
             faceIDEdit = dialogView.findViewById(R.id.edit_text);
             faceIDEdit.setText(faceID);
-            if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name()) && !TextUtils.isEmpty(faceID)) {
+            if (!TextUtils.isEmpty(faceID)) {
                 faceIDEdit.setVisibility(GONE); //制作UTS等插件传过来的FaceID,用户不能再二次编辑
             }else {
                 faceIDEdit.requestFocus();
