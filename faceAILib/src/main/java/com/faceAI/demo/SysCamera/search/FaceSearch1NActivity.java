@@ -57,7 +57,6 @@ import com.faceAI.demo.SysCamera.search.ImageToast;
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceSearch1NActivity extends AbsBaseActivity {
-
     public static final String THRESHOLD_KEY = "THRESHOLD_KEY";           //人脸搜索阈值
     public static final String SEARCH_ONE_TIME = "SEARCH_ONE_TIME";   //是否仅搜索一次就关闭搜索页
     public static final String IS_CAMERA_SIZE_HIGH = "IS_CAMERA_SIZE_HIGH";   //高分辨率远距离也可以工作，但是性能速度会下降
@@ -103,6 +102,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideSystemUI();
         binding = ActivityFaceSearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.close.setOnClickListener(v -> finish());

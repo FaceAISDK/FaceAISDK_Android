@@ -15,10 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
+        app:contentInsetStartWithNavigation="0dp"
+        app:contentInsetStart="0dp"
         app:subtitleTextColor="#FFF"
         app:titleTextColor="#FFF"
-        app:title="@string/face_search_image_manger"
-        tools:ignore="MissingConstraints" />
+        app:title="@string/face_search_image_manger" />
 
     <TextView
         android:id="@+id/tips"
@@ -37,6 +38,5 @@
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
 
 </LinearLayout>

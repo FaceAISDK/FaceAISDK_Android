@@ -5,8 +5,6 @@ import static com.ai.face.base.baseImage.BaseImageDispose.PERFORMANCE_MODE_FAST;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
-import static com.faceAI.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
-import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
@@ -41,22 +39,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import com.ai.face.base.baseImage.FaceEmbedding;
 import com.ai.face.core.engine.FaceAISDKEngine;
 import com.ai.face.faceSearch.search.FaceSearchFeatureManger;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
-import com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity;
 import com.faceAI.demo.UVCCamera.manger.CameraBuilder;
 import com.faceAI.demo.UVCCamera.manger.UVCCameraManager;
 import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
 import com.faceAI.demo.databinding.FragmentUvcCameraAddFaceBinding;
 import com.tencent.mmkv.MMKV;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -75,10 +69,11 @@ public class AddFace_UVCCameraFragment extends Fragment {
     private UVCCameraManager irCameraManager;
     private boolean isConfirmAdd = false; //确认期间停止人脸检测
 
-    //是1:1 还是1:N 人脸搜索添加人脸
+    //是1:1 还是1:N 人脸搜索添加人脸，他们的数据处理方式有点不同
     public enum AddFaceImageTypeEnum {
         FACE_VERIFY, FACE_SEARCH;
     }
+
 
     public AddFace_UVCCameraFragment() {
         // Required empty public constructor
@@ -143,14 +138,13 @@ public class AddFace_UVCCameraFragment extends Fragment {
         ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(requireContext(),bitmap,score);
 
         confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
-
             //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
             //如果非SDK录入的人脸照片提取特征值用 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
             String faceFeature = FaceAISDKEngine.getInstance(requireContext()).croppedBitmap2Feature(bitmap);
 
             faceID = confirmFaceDialog.faceIDEdit.getText().toString();
             if (!TextUtils.isEmpty(faceID)) {
-                if (addFaceImageType.equals(AddFaceImageActivity.AddFaceImageTypeEnum.FACE_VERIFY.name())) {
+                if (addFaceImageType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
                     //保存1:1 人脸识别特征数据，直接以KEY-Value的形式保存在MMKV中
                     MMKV.defaultMMKV().encode(faceID, faceFeature); //保存人脸faceID 对应的特征值,SDK 只要这个
 
@@ -205,7 +199,7 @@ public class AddFace_UVCCameraFragment extends Fragment {
             btnCancel = dialogView.findViewById(R.id.btn_cancel);
             faceIDEdit = dialogView.findViewById(R.id.edit_text);
             faceIDEdit.setText(faceID);
-            if (addFaceImageType.equals(AddFaceImageActivity.AddFaceImageTypeEnum.FACE_VERIFY.name()) && !TextUtils.isEmpty(faceID)) {
+            if (addFaceImageType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name()) && !TextUtils.isEmpty(faceID)) {
                 faceIDEdit.setVisibility(GONE); //制作UTS等插件传过来的FaceID,用户不能再二次编辑
             }else {
                 faceIDEdit.requestFocus();
@@ -242,7 +236,7 @@ public class AddFace_UVCCameraFragment extends Fragment {
             @Override
             public void onCompleted(Bitmap bitmap, float silentLiveValue,float faceBrightness) {
                 isConfirmAdd=true;
-                 confirmAddFaceDialog(bitmap, silentLiveValue);
+                confirmAddFaceDialog(bitmap, silentLiveValue);
             }
 
             @Override

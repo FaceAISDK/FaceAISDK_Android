@@ -1,7 +1,7 @@
 package com.faceAI.demo.SysCamera.search;
 
 import static com.faceAI.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
-import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
+import static com.faceAI.demo.SysCamera.addFace.AddFaceFeatureActivity.ADD_FACE_IMAGE_TYPE_KEY;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -24,11 +24,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ai.face.core.engine.FaceAISDKEngine;
 import com.ai.face.core.utils.FaceAICameraType;
 import com.ai.face.faceSearch.search.FaceSearchFeatureManger;
+import com.bumptech.glide.signature.ObjectKey;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.SysCamera.verify.AbsAddFaceFromAlbumActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraFragment;
-import com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity;
+import com.faceAI.demo.SysCamera.addFace.AddFaceFeatureActivity;
 import com.ai.face.faceSearch.search.Image2FaceFeature;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -74,6 +75,7 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
         }
         LinearLayoutManager gridLayoutManager = new GridLayoutManager(this, spanCount);
         RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(gridLayoutManager);
 
         faceImageListAdapter = new FaceImageListAdapter(faceImageList);
@@ -116,8 +118,8 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
 
             Intent addFaceIntent;
             if (cameraType==FaceAICameraType.SYSTEM_CAMERA) {
-                addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
-                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
+                addFaceIntent = new Intent(getBaseContext(), AddFaceFeatureActivity.class);
+                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceFeatureActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
             } else {
                 addFaceIntent = new Intent(getBaseContext(), AddFace_UVCCameraActivity.class);
                 addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_SEARCH.name());
@@ -156,48 +158,72 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        updateFaceList();
+        updateFaceList(); //太粗暴了，每次刷新，Demo演示就不优化了，根据自己业务处理
     }
 
-    /**
-     * 重新刷新加载人脸图，Demo 为了演示代码少就不做加载性能优化了
-     */
+
     private void updateFaceList() {
-        loadImageList();
-        faceImageListAdapter.notifyDataSetChanged();
-    }
+        // 开启子线程处理数据
+        new Thread(() -> {
+            List<ImageBean> tempList = new ArrayList<>();
+            File file = new File(FaceSDKConfig.CACHE_SEARCH_FACE_DIR);
+            File[] subFaceFiles = file.listFiles();
 
-    /**
-     * 加载人脸文件夹CACHE_SEARCH_FACE_DIR 里面的人脸照片
-     */
-    private void loadImageList() {
-        faceImageList.clear();
-        File file = new File(FaceSDKConfig.CACHE_SEARCH_FACE_DIR);
-        File[] subFaceFiles = file.listFiles();
-        if (subFaceFiles != null) {
-            Arrays.sort(subFaceFiles, new Comparator<>() {
-                public int compare(File f1, File f2) {
-                    long diff = f1.lastModified() - f2.lastModified();
-                    if (diff > 0) return -1;
-                    else if (diff == 0) return 0;
-                    else return 1;
-                }
+            if (subFaceFiles != null) {
+                // 排序 (耗时操作)
+                Arrays.sort(subFaceFiles, (f1, f2) -> Long.compare(f2.lastModified(), f1.lastModified()));
 
-                public boolean equals(Object obj) {
-                    return true;
-                }
-            });
-
-            //最好判断一下文件类型
-            for (File value : subFaceFiles) {
-                if (!value.isDirectory()) {
-                    String filename = value.getName();
-                    String filePath = value.getPath();
-                    faceImageList.add(new ImageBean(filePath, filename));
+                for (File value : subFaceFiles) {
+                    if (!value.isDirectory()) {
+                        // 在这里读取一次时间戳，存入 Bean
+                        tempList.add(new ImageBean(value.getPath(), value.getName(), value.lastModified()));
+                    }
                 }
             }
-        }
+
+            // 切回主线程更新 UI
+            runOnUiThread(() -> {
+                faceImageList.clear();
+                faceImageList.addAll(tempList);
+                faceImageListAdapter.notifyDataSetChanged();
+            });
+        }).start();
     }
+
+
+//
+//    /**
+//     * 加载人脸文件夹CACHE_SEARCH_FACE_DIR 里面的人脸照片
+//     */
+//    private void loadImageList() {
+//        faceImageList.clear();
+//        File file = new File(FaceSDKConfig.CACHE_SEARCH_FACE_DIR);
+//        File[] subFaceFiles = file.listFiles();
+//        if (subFaceFiles != null) {
+//            Arrays.sort(subFaceFiles, new Comparator<>() {
+//                public int compare(File f1, File f2) {
+//                    long diff = f1.lastModified() - f2.lastModified();
+//                    if (diff > 0) return -1;
+//                    else if (diff == 0) return 0;
+//                    else return 1;
+//                }
+//
+//                public boolean equals(Object obj) {
+//                    return true;
+//                }
+//            });
+//
+//            //最好判断一下文件类型
+//            for (File value : subFaceFiles) {
+//                if (!value.isDirectory()) {
+//                    String filename = value.getName();
+//                    String filePath = value.getPath();
+//                    long lastModified = file.exists() ? file.lastModified() : 0;
+//                    faceImageList.add(new ImageBean(filePath, filename,lastModified));
+//                }
+//            }
+//        }
+//    }
 
 
     /**
@@ -228,8 +254,8 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();//添加一张
         if (itemId == R.id.camera_add) {
-            Intent addFaceIntent = new Intent(getBaseContext(), AddFaceImageActivity.class);
-            addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
+            Intent addFaceIntent = new Intent(getBaseContext(), AddFaceFeatureActivity.class);
+            addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceFeatureActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
             startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
         } else if (itemId == R.id.assert_add) {//批量添加很多张测试验证人脸图
             copyFaceTestImage();
@@ -258,10 +284,15 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
 
         @Override
         protected void convert(BaseViewHolder helper, ImageBean imageBean) {
-            Glide.with(getBaseContext()).load(imageBean.path)
-                    .skipMemoryCache(false)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+
+            Glide.with(helper.getView(R.id.face_image)).load(imageBean.path)
+                    .override(333, 333) // 限制加载尺寸，极大降低内存峰值
+                    .skipMemoryCache(false) //启用内存缓存
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC) //人脸图有缓存会导致同名人脸图片更新还是上一次的缓存
+                    // 【关键代码】文件被修改（时间戳变了），才会刷新
+                    .signature(new ObjectKey(imageBean.lastModified)) //如果是网络图请取后台时间
                     .into((ImageView) helper.getView(R.id.face_image));
+
             TextView faceName = helper.getView(R.id.face_name);
             faceName.setText(imageBean.name);
         }

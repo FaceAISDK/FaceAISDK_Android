@@ -2,7 +2,7 @@ package com.faceAI.demo.SysCamera.verify;
 
 import static com.faceAI.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
-import static com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity.ADD_FACE_IMAGE_TYPE_KEY;
+import static com.faceAI.demo.SysCamera.addFace.AddFaceFeatureActivity.ADD_FACE_IMAGE_TYPE_KEY;
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -24,7 +24,7 @@ import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.UVCCamera.verify.FaceVerify_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraFragment;
-import com.faceAI.demo.SysCamera.addFace.AddFaceImageActivity;
+import com.faceAI.demo.SysCamera.addFace.AddFaceFeatureActivity;
 import com.faceAI.demo.SysCamera.search.ImageBean;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -75,8 +75,8 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
         addFaceView.setOnClickListener(view -> {
                     if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
                         startActivity(
-                                new Intent(getBaseContext(), AddFaceImageActivity.class)
-                                        .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceImageActivity.AddFaceImageTypeEnum.FACE_VERIFY.name()));
+                                new Intent(getBaseContext(), AddFaceFeatureActivity.class)
+                                        .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceFeatureActivity.AddFaceImageTypeEnum.FACE_VERIFY.name()));
                     } else {
                         startActivity(
                                 new Intent(getBaseContext(), AddFace_UVCCameraActivity.class)
@@ -161,7 +161,8 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
                 if (!fileItem.isDirectory()) {
                     String fileName = fileItem.getName();
                     String filePath = fileItem.getPath();
-                    faceImageList.add(new ImageBean(filePath, fileName));
+                    long lastModified = file.exists() ? file.lastModified() : 0;
+                    faceImageList.add(new ImageBean(filePath, fileName,lastModified));
                 }
             }
         }
