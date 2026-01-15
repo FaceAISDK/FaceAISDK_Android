@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/empty_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/tipsImg"
+        android:layout_width="123dp"
+        android:layout_height="123dp"
+        android:background="@drawable/empty"
+        android:paddingBottom="55dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/text" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="人脸库目录暂无人脸\n\n点击添加内置测试人脸图"
+        android:gravity="center"
+        android:padding="3dp"
+        android:textSize="15sp"
+        android:layout_centerInParent="true"
+        android:textColor="@color/face_main_color" />
+
+</RelativeLayout>

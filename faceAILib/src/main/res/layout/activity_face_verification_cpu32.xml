@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:customAttr="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootView"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 摄像头预览画面，用户可自行调整大小 位置 -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_camerax"
+        android:layout_margin="23dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- 可以替换成你自己的UI样式,需要 FaceCoverView 源码已经暴露 -->
+    <com.faceAI.demo.base.view.FaceVerifyCoverView
+        android:id="@+id/face_cover"
+        customAttr:circle_margin="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        customAttr:progress_end_color="@color/green"
+        customAttr:progress_start_color="@color/green"
+        customAttr:show_progress="true"
+        customAttr:background_color="@color/white"
+        customAttr:tip_text_color="@color/face_main_color"
+        customAttr:tip_text_size="20sp" />
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="10dp"
+        android:padding="9dp"
+        android:src="@drawable/ic_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/base_face"
+        android:layout_width="30dp"
+        android:layout_height="28dp"
+        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintBottom_toBottomOf="@+id/back"
+        app:layout_constraintTop_toTopOf="@+id/back" />
+
+    <TextView
+        android:id="@+id/tips_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/keep_face_visible"
+        android:textColor="@color/face_main_color"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/base_face" />
+
+
+    <!-- UI 设计仅供参考 -->
+    <TextView
+        android:id="@+id/second_tips_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textColor="@color/orange"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tips_view" />
+
+
+
+
+    <Button
+        android:id="@+id/start_verify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="33dp"
+        android:padding="5dp"
+        android:textColor="@color/red"
+        android:text="开始识别"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toTopOf="@+id/silent_Score"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+    <TextView
+        android:id="@+id/silent_Score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="33dp"
+        android:padding="9dp"
+        android:textColor="@color/face_main_color"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

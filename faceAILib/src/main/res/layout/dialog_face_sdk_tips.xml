@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_rounded_background"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@color/white"
+                android:gravity="left|center_vertical"
+                android:text="@string/gentle_reminder"
+                android:textColor="@color/face_main_color"
+                android:textStyle="bold"
+                android:layout_marginStart="22dp"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/sm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="left|center_vertical"
+                android:text="@string/gentle_reminder_func"
+                android:textColor="@color/face_main_color"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="18dp"
+                android:gravity="left|center_vertical"
+                android:textStyle="bold"
+                android:text="@string/operation_manual_tips"
+                android:textColor="@color/face_main_color"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="9dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!--    服务协议选择-->
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/privacy_read_checkbox"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:gravity="center_vertical"
+                    android:padding="9dp"
+                    android:src="@drawable/radio_btn" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/privacy_read_content_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:text="@string/login_privacy_policy"
+                    android:textColor="@color/red"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <Button
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rounded_background"
+                    android:text="@string/dis_agree"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/btn_ok"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="11dp"
+                    android:background="@drawable/button_rounded_background"
+                    android:text="@string/confirm"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

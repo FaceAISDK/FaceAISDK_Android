@@ -1,0 +1,214 @@
+package com.faceAI.demo.SysCamera.verify;
+
+import static com.faceAI.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
+import static com.faceAI.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
+import static com.faceAI.demo.SysCamera.addFace.AddFaceFeatureActivity.ADD_FACE_IMAGE_TYPE_KEY;
+import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.ai.face.core.engine.FaceAISDKEngine;
+import com.ai.face.core.utils.FaceAICameraType;
+import com.faceAI.demo.FaceSDKConfig;
+import com.faceAI.demo.UVCCamera.verify.FaceVerify_UVCCameraActivity;
+import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
+import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraFragment;
+import com.faceAI.demo.SysCamera.addFace.AddFaceFeatureActivity;
+import com.faceAI.demo.SysCamera.search.ImageBean;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.faceAI.demo.R;
+import com.tencent.mmkv.MMKV;
+
+import org.jetbrains.annotations.NotNull;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * 1:1 人脸识别引导说明页面
+ * <p>
+ * 包含怎么添加人脸照片，人脸活体检测，人脸识别
+ */
+public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
+    private final List<ImageBean> faceImageList = new ArrayList<>();
+    private FaceImageListAdapter faceImageListAdapter;
+
+    private int cameraType = FaceAICameraType.SYSTEM_CAMERA;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_face_verify_welcome);
+        setSupportActionBar(findViewById(R.id.toolbar));
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
+        cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
+        TextView cameraTypeText = findViewById(R.id.camera_mode);
+
+        if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
+            cameraTypeText.setText(R.string.camera_type_system);
+        } else if (cameraType == FaceAICameraType.UVC_CAMERA_RGB) {
+            cameraTypeText.setText(R.string.camera_type_uvc_rgb);
+        } else if (cameraType == FaceAICameraType.UVC_CAMERA_RGB_IR) {
+            cameraTypeText.setText(R.string.camera_type_uvc_rgb_ir);
+        }
+
+        LinearLayout addFaceView = findViewById(R.id.add_face_from_camera);
+        addFaceView.setOnClickListener(view -> {
+                    if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
+                        startActivity(
+                                new Intent(getBaseContext(), AddFaceFeatureActivity.class)
+                                        .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceFeatureActivity.AddFaceImageTypeEnum.FACE_VERIFY.name()));
+                    } else {
+                        startActivity(
+                                new Intent(getBaseContext(), AddFace_UVCCameraActivity.class)
+                                        .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_VERIFY.name()));
+                    }
+                }
+        );
+
+        /*
+         * 从相册选人脸图,提取特征值（并没有对人脸角度等校验）。
+         * 强烈建议通过FaceAISDK 添加人脸
+         */
+        LinearLayout addFaceFromPhoto = findViewById(R.id.add_face_from_photo);
+        addFaceFromPhoto.setOnClickListener(view -> chooseFaceImage());
+
+        // 2 横向滑动列表初始化
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);//设置为横向滑动
+        RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        faceImageListAdapter = new FaceImageListAdapter(faceImageList);
+        mRecyclerView.setAdapter(faceImageListAdapter);
+        faceImageListAdapter.setOnItemLongClickListener((adapter, view, i) -> {
+            ImageBean imageBean = faceImageList.get(i);
+            new AlertDialog.Builder(this).setTitle(getString(R.string.sure_delete_face_title)
+                            + imageBean.name+"?").setMessage(R.string.sure_delete_face_tips)
+                    .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                        FaceSDKConfig.deleteFaceVerifyData(this,imageBean.name);
+                        updateFaceList();
+                    }).setNegativeButton(R.string.cancel, null).show();
+            return false;
+        });
+
+        faceImageListAdapter.setOnItemClickListener((adapter, view, i) -> {
+                    if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
+                        startActivity(
+                                new Intent(getBaseContext(), FaceVerificationActivity.class)
+                                        .putExtra(USER_FACE_ID_KEY, faceImageList.get(i).name));
+                    } else {
+                        //USB UVC协议摄像头
+                        startActivity(
+                                new Intent(getBaseContext(), FaceVerify_UVCCameraActivity.class)
+                                        .putExtra(USER_FACE_ID_KEY, faceImageList.get(i).name));
+                    }
+                }
+        );
+
+        faceImageListAdapter.setEmptyView(R.layout.verify_empty_layout);
+        Objects.requireNonNull(faceImageListAdapter.getEmptyLayout())
+                .setOnClickListener(v -> addFaceView.performClick());
+    }
+
+    /**
+     * 相册选择的照片,裁剪等处理好数据后返回了
+     */
+    @Override
+    public void disposeSelectImage(@NotNull String faceID, @NotNull Bitmap disposedBitmap, @NonNull String faceFeature) {
+        MMKV.defaultMMKV().encode(faceID, faceFeature); //保存人脸faceID 对应的特征值,SDK 只要这个
+        //如果人脸图业务上需要人脸头像进行UI展示也可以保存到本地
+        FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(disposedBitmap, FaceSDKConfig.CACHE_BASE_FACE_DIR, faceID);
+
+        updateFaceList();
+    }
+
+    /**
+     * 加载人脸文件夹CACHE_BASE_FACE_DIR 里面的人脸照片，根据修改时间排序
+     */
+    private void loadImageList() {
+        faceImageList.clear();
+        File file = new File(CACHE_BASE_FACE_DIR);
+        File[] subFaceFiles = file.listFiles();
+        if (subFaceFiles != null) {
+            Arrays.sort(subFaceFiles, (f1, f2) -> {
+                long diff = f1.lastModified() - f2.lastModified();
+                if (diff > 0) return -1;
+                else if (diff == 0) return 0;
+                else return 1;
+            });
+
+            for (File fileItem : subFaceFiles) {
+                if (!fileItem.isDirectory()) {
+                    String fileName = fileItem.getName();
+                    String filePath = fileItem.getPath();
+                    long lastModified = file.exists() ? file.lastModified() : 0;
+                    faceImageList.add(new ImageBean(filePath, fileName,lastModified));
+                }
+            }
+        }
+    }
+
+    /**
+     * 加载已经录入的人脸账户列表
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateFaceList();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void updateFaceList() {
+        loadImageList();
+        faceImageListAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 人脸横向列表适配器,
+     */
+    public class FaceImageListAdapter extends BaseQuickAdapter<ImageBean, BaseViewHolder> {
+        public FaceImageListAdapter(List<ImageBean> data) {
+            super(R.layout.adapter_face_verify_list_item, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, ImageBean imageBean) {
+            Glide.with(getBaseContext()).load(imageBean.path)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .transform(new CenterCrop(), new RoundedCorners(15))
+                    .into((ImageView) helper.getView(R.id.face_image));
+            TextView faceName = helper.getView(R.id.face_name);
+            faceName.setText(imageBean.name);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish(); //关闭页面
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+}
