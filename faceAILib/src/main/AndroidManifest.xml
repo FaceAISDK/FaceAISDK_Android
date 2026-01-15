@@ -76,7 +76,7 @@
 
 
         <activity
-            android:name=".SysCamera.addFace.AddFaceImageActivity"
+            android:name=".SysCamera.addFace.AddFaceFeatureActivity"
             android:exported="false"
             android:theme="@style/FaceAITheme" />
         <activity
