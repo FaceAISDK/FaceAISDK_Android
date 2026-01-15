@@ -190,42 +190,6 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
         }).start();
     }
 
-
-//
-//    /**
-//     * 加载人脸文件夹CACHE_SEARCH_FACE_DIR 里面的人脸照片
-//     */
-//    private void loadImageList() {
-//        faceImageList.clear();
-//        File file = new File(FaceSDKConfig.CACHE_SEARCH_FACE_DIR);
-//        File[] subFaceFiles = file.listFiles();
-//        if (subFaceFiles != null) {
-//            Arrays.sort(subFaceFiles, new Comparator<>() {
-//                public int compare(File f1, File f2) {
-//                    long diff = f1.lastModified() - f2.lastModified();
-//                    if (diff > 0) return -1;
-//                    else if (diff == 0) return 0;
-//                    else return 1;
-//                }
-//
-//                public boolean equals(Object obj) {
-//                    return true;
-//                }
-//            });
-//
-//            //最好判断一下文件类型
-//            for (File value : subFaceFiles) {
-//                if (!value.isDirectory()) {
-//                    String filename = value.getName();
-//                    String filePath = value.getPath();
-//                    long lastModified = file.exists() ? file.lastModified() : 0;
-//                    faceImageList.add(new ImageBean(filePath, filename,lastModified));
-//                }
-//            }
-//        }
-//    }
-
-
     /**
      * 快速复制工程目录 ./app/src/main/assert目录下200+张 人脸图入库，用于测试验证
      * 人脸图规范要求 大于 300*300的光线充足无遮挡的正面人脸如（./images/face_example.jpg)
