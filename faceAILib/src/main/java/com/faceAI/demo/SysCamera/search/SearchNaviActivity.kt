@@ -53,8 +53,8 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             intent.putExtra(FaceSearch1NActivity.THRESHOLD_KEY, 0.89f)
             // 是否仅搜索一次 (Boolean): true=搜索到结果后自动 finish 关闭页面
             intent.putExtra(FaceSearch1NActivity.SEARCH_ONE_TIME, true)
-            // 是否开启高分辨率 (Boolean): true=高分辨率(适合远距离但性能下降), false=标准
-            intent.putExtra(FaceSearch1NActivity.IS_CAMERA_SIZE_HIGH, true)
+            // 是否开启高分辨率 (Boolean): true=高分辨率(适合远距离但性能下降,部分定制设备不支持), false=标准
+            intent.putExtra(FaceSearch1NActivity.IS_CAMERA_SIZE_HIGH, false) //默认给false
             // 摄像头ID (Int): 使用 CameraSelector 的常量，通常 0 是后置，1 是前置
             // 如果没有 CameraSelector 依赖，直接传 Int 即可 (1 = LENS_FACING_FRONT)
             intent.putExtra(FaceSearch1NActivity.CAMERA_ID, CameraSelector.LENS_FACING_BACK)

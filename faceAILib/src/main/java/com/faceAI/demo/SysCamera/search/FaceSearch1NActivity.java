@@ -116,13 +116,13 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
         cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, cameraId); //默认前置
-        int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
+        int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //1. 摄像头相关参数配置
         /**摄像头管理源码开放在 {@link FaceCameraXFragment} **/
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0.1f)      //焦距范围[0f,1.0f]，根据应用场景自行适当调整焦距（摄像头需支持变焦）
+                .setLinearZoom(0f)      //焦距范围[0f,1.0f]，根据应用场景自行适当调整焦距（摄像头需支持变焦）
                 .setRotation(degree)      //画面旋转方向
                 .setCameraSizeHigh(isCameraSizeHigh) //高分辨率远距离也可以工作，但是性能速度会下降
                 .create();
