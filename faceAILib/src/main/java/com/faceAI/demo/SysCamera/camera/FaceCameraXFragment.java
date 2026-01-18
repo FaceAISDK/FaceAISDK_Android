@@ -39,11 +39,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 /**
- *  更高的兼容性改造，2025.12.26。 炫彩活体改造版本基于CameraX 1.4.2，AbsFaceCameraXFragment
- *  低配置设备要加快设备首次启动时间参考配置{@link com.faceAI.demo.FaceApplication}
+ * 更高的兼容性改造，2025.12.26。 炫彩活体改造版本基于CameraX 1.4.2，AbsFaceCameraXFragment
+ * 低配置设备要加快设备首次启动时间参考配置{@link com.faceAI.demo.FaceApplication}
+ * 定制设备需要工程师根据设备情况调整相机管理。
  *
- *
- *  @author FaceAISDK.Service@gmail.com
+ * @author FaceAISDK.Service@gmail.com
  */
 public class FaceCameraXFragment extends AbsFaceCameraXFragment {
     // 常量定义

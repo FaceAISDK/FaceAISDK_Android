@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.core.content.edit
+import com.ai.face.faceSearch.search.FaceSearchFeature
 import com.ai.face.faceSearch.search.FaceSearchFeatureManger
 import com.faceAI.demo.FaceAISettingsActivity.Companion.FRONT_BACK_CAMERA_FLAG
 import com.faceAI.demo.R
@@ -40,15 +41,18 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
         binding.insertFaceFeatures.setOnClickListener {
+            //导出人脸数据
+            val faceSearchFeatures:List<FaceSearchFeature> =FaceSearchFeatureManger.getInstance(this).queryAllFaceFaceFeature()
+            val faceSearchFeature: FaceSearchFeature? =FaceSearchFeatureManger.getInstance(this).queryFaceFeatureByID("test")
+
             //模拟批量插入人脸数据，注意json 字段和格式正确
             FaceSearchFeatureManger.getInstance(this).insertFeatures(JSONFaceFeatures.testJsonStrings)
             Toast.makeText(baseContext, "Done", Toast.LENGTH_SHORT).show()
         }
 
+
         binding.systemCameraSearch.setOnClickListener {
-            // 1. 创建 Intent
             val intent = Intent(baseContext, FaceSearch1NActivity::class.java)
-            // 2. 传递参数 (Extras)
             // 搜索阈值 (Float): 范围建议 0.80f - 0.95f
             intent.putExtra(FaceSearch1NActivity.THRESHOLD_KEY, 0.89f)
             // 是否仅搜索一次 (Boolean): true=搜索到结果后自动 finish 关闭页面
@@ -58,7 +62,6 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             // 摄像头ID (Int): 使用 CameraSelector 的常量，通常 0 是后置，1 是前置
             // 如果没有 CameraSelector 依赖，直接传 Int 即可 (1 = LENS_FACING_FRONT)
             intent.putExtra(FaceSearch1NActivity.CAMERA_ID, CameraSelector.LENS_FACING_BACK)
-            // 3. 启动 Activity
             startActivity(intent)
         }
 
