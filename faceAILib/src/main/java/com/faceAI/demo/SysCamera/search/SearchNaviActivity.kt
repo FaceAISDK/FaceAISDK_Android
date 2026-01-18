@@ -45,8 +45,9 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             //val faceSearchFeatures:List<FaceSearchFeature> =FaceSearchFeatureManger.getInstance(this).queryAllFaceFaceFeature()
             //val faceSearchFeature: FaceSearchFeature? =FaceSearchFeatureManger.getInstance(this).queryFaceFeatureByID("test")
 
-            //模拟批量插入人脸数据，注意json 字段和格式正确
-            FaceSearchFeatureManger.getInstance(this).insertFeatures(JSONFaceFeatures.testJsonStrings)
+            FaceSearchFeatureManger.getInstance(this).insertFeatures(JSONFaceFeatures.testJsonStrings) //json 格式
+            //FaceSearchFeatureManger.getInstance(this).insertFeatures(faceSearchFeatures) //数组对象
+
             Toast.makeText(baseContext, "Done", Toast.LENGTH_SHORT).show()
         }
 

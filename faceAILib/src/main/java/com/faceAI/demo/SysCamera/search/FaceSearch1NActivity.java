@@ -228,7 +228,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
             //后台用于人脸搜索分析的图片宽高，画人脸检测框需要
             @Override
             public void backImageSize(int imageWidth, int imageHeight) {
-                //第三个参数指：是否graphicOverlay画面要左右镜像，一般前置摄像头和部分定制非标准设备要
+                //如果发现人脸框坐标左右镜像了，第三个参数置反一下就可以了
                 binding.graphicOverlay.setCameraInfo(imageWidth,imageHeight,cameraXFragment.isFrontCamera());
             }
         });
