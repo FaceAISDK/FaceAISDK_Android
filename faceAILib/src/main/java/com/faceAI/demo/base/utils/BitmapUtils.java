@@ -73,7 +73,7 @@ public class BitmapUtils {
     public static String bitmapToBase64(String filepath) {
 
         Bitmap bitmap = BitmapFactory.decodeFile(filepath);
-        String result = null;
+        String result = "";
         ByteArrayOutputStream baos = null;
         try {
             if (bitmap != null) {

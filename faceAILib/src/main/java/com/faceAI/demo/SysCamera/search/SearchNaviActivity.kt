@@ -39,26 +39,31 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             this@SearchNaviActivity.finish()
         }
 
+
+
         binding.insertFaceFeatures.setOnClickListener {
-            //模拟批量插入人脸数据，注意json 字段和格式正确
-            FaceSearchFeatureManger.getInstance(this).insertFeatures(JSONFaceFeatures.testJsonStrings)
+            //批量导出人脸数据
+            //val faceSearchFeatures:List<FaceSearchFeature> =FaceSearchFeatureManger.getInstance(this).queryAllFaceFaceFeature()
+            //val faceSearchFeature: FaceSearchFeature? =FaceSearchFeatureManger.getInstance(this).queryFaceFeatureByID("test")
+
+            FaceSearchFeatureManger.getInstance(this).insertFeatures(JSONFaceFeatures.testJsonStrings) //json 格式
+            //FaceSearchFeatureManger.getInstance(this).insertFeatures(faceSearchFeatures) //数组对象
+
             Toast.makeText(baseContext, "Done", Toast.LENGTH_SHORT).show()
         }
 
+
         binding.systemCameraSearch.setOnClickListener {
-            // 1. 创建 Intent
             val intent = Intent(baseContext, FaceSearch1NActivity::class.java)
-            // 2. 传递参数 (Extras)
             // 搜索阈值 (Float): 范围建议 0.80f - 0.95f
             intent.putExtra(FaceSearch1NActivity.THRESHOLD_KEY, 0.89f)
             // 是否仅搜索一次 (Boolean): true=搜索到结果后自动 finish 关闭页面
             intent.putExtra(FaceSearch1NActivity.SEARCH_ONE_TIME, true)
-            // 是否开启高分辨率 (Boolean): true=高分辨率(适合远距离但性能下降), false=标准
-            intent.putExtra(FaceSearch1NActivity.IS_CAMERA_SIZE_HIGH, true)
+            // 是否开启高分辨率 (Boolean): true=高分辨率(适合远距离但性能下降,部分定制设备不支持), false=标准
+            intent.putExtra(FaceSearch1NActivity.IS_CAMERA_SIZE_HIGH, false) //默认给false
             // 摄像头ID (Int): 使用 CameraSelector 的常量，通常 0 是后置，1 是前置
             // 如果没有 CameraSelector 依赖，直接传 Int 即可 (1 = LENS_FACING_FRONT)
             intent.putExtra(FaceSearch1NActivity.CAMERA_ID, CameraSelector.LENS_FACING_BACK)
-            // 3. 启动 Activity
             startActivity(intent)
         }
 

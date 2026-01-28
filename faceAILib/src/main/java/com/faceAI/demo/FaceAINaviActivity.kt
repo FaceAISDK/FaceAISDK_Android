@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.edit
-import com.ai.face.core.engine.FaceAISDKEngine
 import com.ai.face.core.utils.FaceAICameraType
 import com.ai.face.faceVerify.verify.FaceVerifyUtils
 import com.faceAI.demo.FaceAISettingsActivity.Companion.UVC_CAMERA_TYPE
@@ -47,7 +46,6 @@ class FaceAINaviActivity : AppCompatActivity() {
         viewBinding.cameraTypeSelect.setOnClickListener {
             switchCameraType()
         }
-
 
         // 1:1 人脸识别
         viewBinding.faceVerify.setOnClickListener {
@@ -126,9 +124,9 @@ class FaceAINaviActivity : AppCompatActivity() {
             " ",
             "MODEL：${android.os.Build.MODEL}",
             "BOARD：${android.os.Build.BOARD}",
-            "FINGERPRINT：${android.os.Build.FINGERPRINT}",
             "Android Version：${android.os.Build.VERSION.SDK_INT}",
             "HARDWARE：${android.os.Build.HARDWARE}",
+            "FINGERPRINT：${android.os.Build.FINGERPRINT}",
             "主机（HOST）：${android.os.Build.HOST}",
             "Performance: $performance"
         )
@@ -198,7 +196,7 @@ class FaceAINaviActivity : AppCompatActivity() {
 
         val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
         val showTime = sharedPref.getLong("showTipsDialog", 0)
-        if (System.currentTimeMillis() - showTime > 131 * 60 * 60 * 1000) {
+        if (System.currentTimeMillis() - showTime > 300 * 60 * 60 * 1000) {
             val builder = AlertDialog.Builder(this)
             val dialog = builder.create()
             val dialogView = View.inflate(this, R.layout.dialog_face_sdk_tips, null)

@@ -75,7 +75,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0f)    //焦距范围[0f,1.0f]，炫彩请设为0；根据应用场景适当调整焦距参数（摄像头需支持变焦）
                 .setRotation(degree)  //画面旋转方向
-                .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降
+                .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降.部分定制设备不支持请工程师调试好
                 .create();
 
         cameraXFragment = FaceCameraXFragment.newInstance(cameraXBuilder);

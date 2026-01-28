@@ -13,11 +13,19 @@
 如何处理开发者所控制的个人信息，也不对其行为负责。我们建议您认真阅读开发者应用相关用户协议及隐私政策，在确认充分了解并
 同意开发者如何处理您的个人信息后再使用开发者应用。
 
+版权声明：FaceAISDK Demo的开发文档和SDK Demo源码集成示范为了方便开发者接入可以随意下载修改传播。但对SDK AAR及二进制
+文件反向工程、反汇编、反编译、拆装等行为不被允许；
 
-版权声明：FaceAISDK的开发文档和SDK源码集成指南为了方便开发者接入可以随意下载传播。严禁复制、变更、反向工程、反汇编、
-反编译、拆装、企图导出本SDK源代码、解码、其他对本SDK的源代码、构造、构思等进行解析或者复制的行为；
-严禁赠与、借用、租用、转让、售卖、再分发、其他再许可本软件的相关行为
 FaceAISDK工作室对本SDK享有和保留所有权利、其他相关权利和资格，并保留本协议未明确授予您的其他任何权利。
 
 如何联系我们
 Email：FaceAISDK.Service@gmail.com
+
+The FaceAISDK_Android demo source code of this demo is licensed under the MIT License.
+You are free to use, modify, and distribute the demo code in your own projects.
+
+Note regarding the SDK: This demo depends on the FaceAISDK, which is a proprietary
+software. The SDK libraries (io.github.faceaisdk:Android) and binary files are subject
+to their own commercial license and are NOT covered by the MIT License.
+You may use the SDK for evaluation purposes, but a valid commercial license is required
+for production deployment.

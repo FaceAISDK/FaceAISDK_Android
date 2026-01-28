@@ -133,15 +133,12 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
      */
     @Override
     public void disposeSelectImage(@NotNull String faceID, @NotNull Bitmap disposedBitmap, @NonNull String faceFeature) {
-
         //保存到人脸搜索目录；如果你的业务不需要裁剪矫正好的人脸也可以不缓存
         FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(disposedBitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, faceID);
-
 
         //tag 和 group 可以用来做标记和分组。人脸搜索的时候可以加快速度降低误差
         FaceSearchFeatureManger.getInstance(this)
                 .insertFaceFeature(faceID, faceFeature, System.currentTimeMillis(),"tag","group");
-
 
         updateFaceList();
     }
@@ -261,6 +258,5 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
             faceName.setText(imageBean.name);
         }
     }
-
 
 }

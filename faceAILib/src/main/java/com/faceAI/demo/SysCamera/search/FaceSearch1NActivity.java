@@ -98,7 +98,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,13 +115,13 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
         cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, cameraId); //默认前置
-        int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
+        int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //1. 摄像头相关参数配置
         /**摄像头管理源码开放在 {@link FaceCameraXFragment} **/
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0.1f)      //焦距范围[0f,1.0f]，根据应用场景自行适当调整焦距（摄像头需支持变焦）
+                .setLinearZoom(0f)      //焦距范围[0f,1.0f]，根据应用场景自行适当调整焦距（摄像头需支持变焦）
                 .setRotation(degree)      //画面旋转方向
                 .setCameraSizeHigh(isCameraSizeHigh) //高分辨率远距离也可以工作，但是性能速度会下降
                 .create();
@@ -160,21 +159,9 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
-                        //已经按照降序排列，可以弹出一个列表框
-//                        String json = new Gson().toJson(matchedResults);
-//                        Log.d("onFaceMatched","符合设定阈值的结果: "+json);
-//						// 2. 【关键】通过单例发送数据，而不关闭 Activity
-//						// 注意：这里要在主线程还是子线程发送，取决于 UTS 回调是否要求主线程
-//						// 通常建议切回主线程发送，虽然 UTS 内部可能会处理
-//						runOnUiThread(new Runnable() {
-//						        @Override
-//						        public void run() {
-//									FaceResultManager.INSTANCE.sendResult(json);
-//                                    if(searchOneTime){
-//                                        FaceSearch1NActivity.this.finish();
-//                                    }
-//						        }
-//						    });
+                        //已经按照降序排列，可以弹出一个列表框。传给RN，Flutter,uniapp 插件使用
+                        String json = new Gson().toJson(matchedResults);
+                        Log.d("onFaceMatched","符合设定阈值的结果: "+json);
                     }
 
                     /**
@@ -228,7 +215,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
             //后台用于人脸搜索分析的图片宽高，画人脸检测框需要
             @Override
             public void backImageSize(int imageWidth, int imageHeight) {
-                //第三个参数指：是否graphicOverlay画面要左右镜像，一般前置摄像头和部分定制非标准设备要
+                //如果发现人脸框坐标左右镜像了，第三个参数置反一下就可以了
                 binding.graphicOverlay.setCameraInfo(imageWidth,imageHeight,cameraXFragment.isFrontCamera());
             }
         });

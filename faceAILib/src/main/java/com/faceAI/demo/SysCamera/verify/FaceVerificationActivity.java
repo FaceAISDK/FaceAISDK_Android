@@ -100,7 +100,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0f)          //焦距范围[0f,1.0f]，根据应用场景自行适当调整焦距（摄像头需支持变焦）炫彩活体请设置为0f
                 .setRotation(degree)        //画面旋转角度
-                .setCameraSizeHigh(false)   //高分辨率远距离也可以工作，但是性能速度会下降
+                .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降.部分定制设备不支持请工程师调试好
                 .create();
 
         cameraXFragment = FaceCameraXFragment.newInstance(cameraXBuilder);
@@ -113,7 +113,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * //人脸图片和人脸特征向量不方便传递，以及相关法律法规不允许明文传输。注意数据迁移
      */
     private void initFaceVerifyFeature() {
-        //老的数据
+        //老的数据是float[] 需要转换为faceFeatureOld才能在新版本中使用
         float[] faceEmbeddingOld = FaceEmbedding.loadEmbedding(getBaseContext(), faceID);
         String faceFeatureOld = FaceAISDKEngine.getInstance(this).faceArray2Feature(faceEmbeddingOld);
 
@@ -123,12 +123,13 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             initFaceVerificationParam(faceFeature);
         } else if (!TextUtils.isEmpty(faceFeatureOld)) {
             initFaceVerificationParam(faceFeatureOld);
+            MMKV.defaultMMKV().encode(faceID, faceFeatureOld); //从老的数据迁移到新的MMKV
         } else {
             //根据你的业务进行提示去录入人脸 提取特征，服务器有提前同步到本地
             Toast.makeText(getBaseContext(), "faceFeature isEmpty ! ", Toast.LENGTH_LONG).show();
         }
 
-        // 去Path 路径读取有没有faceID 对应的处理好的人脸Bitmap
+        // 去Path 路径读取有没有faceID 对应的处理好的人脸Bitmap，不需要可删除
         String faceFilePath = FaceSDKConfig.CACHE_BASE_FACE_DIR + faceID;
         Bitmap baseBitmap = BitmapFactory.decodeFile(faceFilePath);
         Glide.with(getBaseContext()).load(baseBitmap)

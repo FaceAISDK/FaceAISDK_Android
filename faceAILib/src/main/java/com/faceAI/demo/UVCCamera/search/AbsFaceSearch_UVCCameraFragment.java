@@ -120,7 +120,7 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
             }
             @Override
             public void onImageSize(int imageWidth, int imageHeight) {
-                //第三个参数代表 画面是否左右镜像了，有变更自行调节
+                //如果发现人脸框坐标左右镜像了，第三个参数置反一下就可以了
                 binding.graphicOverlay.setCameraInfo(imageWidth, imageHeight,false);
             }
         });
