@@ -11,7 +11,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.core.content.edit
-import com.ai.face.faceSearch.search.FaceSearchFeature
 import com.ai.face.faceSearch.search.FaceSearchFeatureManger
 import com.faceAI.demo.FaceAISettingsActivity.Companion.FRONT_BACK_CAMERA_FLAG
 import com.faceAI.demo.R
@@ -40,13 +39,16 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             this@SearchNaviActivity.finish()
         }
 
+
+
         binding.insertFaceFeatures.setOnClickListener {
             //批量导出人脸数据
             //val faceSearchFeatures:List<FaceSearchFeature> =FaceSearchFeatureManger.getInstance(this).queryAllFaceFaceFeature()
             //val faceSearchFeature: FaceSearchFeature? =FaceSearchFeatureManger.getInstance(this).queryFaceFeatureByID("test")
 
-            //模拟批量插入人脸数据，注意json 字段和格式正确
-            FaceSearchFeatureManger.getInstance(this).insertFeatures(JSONFaceFeatures.testJsonStrings)
+            FaceSearchFeatureManger.getInstance(this).insertFeatures(JSONFaceFeatures.testJsonStrings) //json 格式
+            //FaceSearchFeatureManger.getInstance(this).insertFeatures(faceSearchFeatures) //数组对象
+
             Toast.makeText(baseContext, "Done", Toast.LENGTH_SHORT).show()
         }
 

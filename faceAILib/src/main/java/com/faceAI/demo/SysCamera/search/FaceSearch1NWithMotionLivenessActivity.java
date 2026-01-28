@@ -96,7 +96,7 @@ public class FaceSearch1NWithMotionLivenessActivity extends AbsBaseActivity {
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0f)     //焦距范围[0f,1.0f]，参考 {@link CameraControl#setLinearZoom(float)}
                 .setRotation(degree)      //画面旋转方向
-                .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降
+                .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降.部分定制设备不支持请工程师调试好
                 .create();
 
         //可以不用SDK 内部相机管理，自定义摄像头参考 FaceCameraXFragment，源码开放自由修改

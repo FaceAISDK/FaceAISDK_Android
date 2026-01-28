@@ -68,7 +68,7 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
                 .setLinearZoom(0.1f)  //焦距范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
                 .setRotation(degree)   //画面旋转方向
-                .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降
+                .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降.部分定制设备不支持请工程师调试好
                 .create();
 
         FaceCameraXFragment cameraXFragment = FaceCameraXFragment.newInstance(cameraXBuilder);
@@ -89,7 +89,7 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
 
             @Override
             public void backImageSize(int imageWidth, int imageHeight) {
-                //第三个参数指：是否graphicOverlay画面要左右镜像，一般前置摄像头和部分定制非标准设备要
+                //如果发现人脸框坐标左右镜像了，第三个参数置反一下就可以了
                 binding.graphicOverlay.setCameraInfo(imageWidth,imageHeight,cameraXFragment.isFrontCamera());
             }
         });

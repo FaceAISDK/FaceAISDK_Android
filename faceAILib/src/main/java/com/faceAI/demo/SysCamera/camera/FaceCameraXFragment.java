@@ -41,7 +41,7 @@ import java.util.List;
 /**
  * 更高的兼容性改造，2025.12.26。 炫彩活体改造版本基于CameraX 1.4.2，AbsFaceCameraXFragment
  * 低配置设备要加快设备首次启动时间参考配置{@link com.faceAI.demo.FaceApplication}
- * 定制设备需要工程师根据设备情况调整相机管理。
+ * 定制设备需要工程师根据设备情况调整相机分辨率，宽高比等管理。
  *
  * @author FaceAISDK.Service@gmail.com
  */
@@ -138,27 +138,22 @@ public class FaceCameraXFragment extends AbsFaceCameraXFragment {
     }
 
     private void initCameraX() {
-        // 每次重新初始化时重置尺寸，防止横竖屏切换等导致尺寸变化未更新
         mImageWidth = 0;
         mImageHeight = 0;
 
         mExecutorService = Executors.newSingleThreadExecutor();
-
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture =
                 ProcessCameraProvider.getInstance(requireContext());
 
         cameraProviderFuture.addListener(() -> {
-            // Fragment 可能已销毁，检查上下文安全性
             if (!isAdded() || getContext() == null) {
                 return;
             }
             try {
                 mCameraProvider = cameraProviderFuture.get();
-
                 // --- 新增：打印支持的分辨率看看 ---
 //                printSupportedResolutions(mCameraProvider, mCameraLensFacing);
                 // ---------------------------------
-
                 bindCameraUseCases();
             } catch (ExecutionException | InterruptedException e) {
                 Log.e(TAG, "CameraProvider init failed", e);
@@ -174,7 +169,7 @@ public class FaceCameraXFragment extends AbsFaceCameraXFragment {
                 .setTargetRotation(mRotation);
 
         if (isHighResolution) {
-            // 远距离，但是性能会下降，定制设备很多不支持。
+            // 远距离识别，但是性能会下降，定制设备需要配置摄像头支持的分辨率。请开发工程师切换后调试效果！
             analysisBuilder.setTargetResolution(new Size(1280, 720));
         } else {
             // 默认场景，性能优先
@@ -194,6 +189,7 @@ public class FaceCameraXFragment extends AbsFaceCameraXFragment {
 
         // 4. 构建 CameraSelector (兼容逻辑)
         CameraSelector mCameraSelector = createCompatibleCameraSelector();
+        //记住当前的摄像头，下次启动的时候不再搜索可以加快启动速度 setAvailableCamerasLimiter
 
         // 5. 设置分析器
         mImageAnalysis.setAnalyzer(mExecutorService, imageProxy -> {
@@ -272,8 +268,6 @@ public class FaceCameraXFragment extends AbsFaceCameraXFragment {
 
 
 
-
-
     /**
      * 打印或获取指定摄像头支持的分辨率列表
      * @param provider ProcessCameraProvider 实例
@@ -328,8 +322,5 @@ public class FaceCameraXFragment extends AbsFaceCameraXFragment {
             Log.e("CameraResolution", "获取分辨率失败", e);
         }
     }
-
-
-
 
 }
