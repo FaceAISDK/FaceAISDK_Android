@@ -10,14 +10,12 @@
    开发环境 Android Studio Otter 2 Feature Drop | 2025.2.2 （可选升级，内置Gemini3 AI辅助开发）
    AGP版本8.13(非强制)  java17+, kotlin 1.9+
 
-   目前SDK Demo默认使用**Android Studio2025.2.2 + java17 + kotlin1.9.22 + AGP8.13 打包
-   不建议再使用废弃的kapt, kotlin-android-extensions
- 
-   注：为了Debug View Bitmap以及更好的使用AI 辅助编程开发,2025年10月31号我们对开发环境升级到上述版本
-   更多：https://mp.weixin.qq.com/s/048q5A1D3U_bdJY6tfsAwQ
+   注：为了更好的使用AI 辅助编程开发,2025年10月31号我们对默认开发环境升级到上述版本，相信借助AI辅助你也能很快升级
+   更多：https://mp.weixin.qq.com/s/cLamDIb-yLEKIRaCDpfgew
+
 ### 2.支持哪些摄像头？
    SDK并不限制具体类型摄像头，当前支持System,UVC_RGB,UVC_RGB_IR，具体参数参考/Doc目录/硬件配置要求
-   需根据你的硬件平台特性自行管理摄像头，Demo提供默认CameraXFragment,你也可以使用camera1管理系统摄像头
+   需根据你的硬件平台特性自行管理摄像头，Demo提供默认FaceCameraXFragment,你也可以使用camera1管理系统摄像头
    取的摄像头帧数据处理后送人SDK 进行处理，使用外接摄像头性能（如帧率、数据传输延迟、缓冲区处理）
    可能不如内置相机，并且更容易受到连接稳定性和带宽的影响。推荐 HARDWARE_LEVEL_FULL/HARDWARE_LEVEL_3级别
 
@@ -25,7 +23,7 @@
 
 
 ### 3.人脸识别1:N 搜索支持人脸库大小与速度
-  人脸搜索速度和设备配置有关，摄像头成像能力是硬性要求，需成像清晰宽动态值大于105DB(室外120Db),光线暗需配置补光灯
+  人脸搜索速度和设备配置有关，摄像头成像能力是硬性要求，需成像清晰宽动态值大于105DB(室外120Db),**光线暗需配置补光灯**
   下面表格统计几款高中低配置设备使用默认分辨率640*480 运行V2025.11.02版SDK表现
 
   | 设备型号         | 启动初始化速度 | 搜索速度(毫秒) |
@@ -56,12 +54,7 @@
      }                   
    ```
 
-### 5.SDK插件支持
-   SDK 插件支持并不是十分完善，需要用户自行根据业务再完善，当前已有插件
-   1.uniapp X : https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS
-   2.uniApp : https://github.com/FaceAISDK/UniPlugin-FaceAISDK  
-   3.React native: https://github.com/zkteco-home/react-native-face-ai
-   欢迎各位大佬制作完善分享flutter 等插件
+### 5.数据
 
 ### 6.人脸识别的阈值设置说明
    1:1 和 1:N 人脸识别都有相应的API设置阈值setThreshold(0.88f) //阈值设置，范围限 [0.75 , 0.95]
@@ -98,8 +91,9 @@
   默认不支持低龄儿童场景使用。  
 
 ### 10.人脸识别隐私合规
-   SDK 已经通过合规检查，业务方也应符合相关法律法规的要求，主要是2点
-   1.不能随意大规模收集，传播人脸信息
+   SDK已经通过合规检查，2025年12月版本所有人脸数据不再使用图片，提取为1024长度人脸特征值更方便传输，管理
+   人脸搜索功能也支持人脸批量导出同步功能，同时业务方也应符合我国相关法律法规的要求，主要是2点
+   1.不能随意大规模收集，传播明文人脸信息
    2.人脸识别不能是唯一业务校验通道（比如登录除了人脸识别还要支持账号密码，小区门禁还需提供扫码或刷卡）
    更多参考 https://www.cac.gov.cn/2025-03/21/c_1744174262156096.htm
 

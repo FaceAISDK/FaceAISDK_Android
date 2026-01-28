@@ -2,11 +2,9 @@ package com.faceAI.demo;
 
 import android.app.Application;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.camera.camera2.Camera2Config;
 import androidx.camera.core.CameraXConfig;
-
 
 public class FaceApplication extends Application implements CameraXConfig.Provider {
 
@@ -28,14 +26,11 @@ public class FaceApplication extends Application implements CameraXConfig.Provid
                 .build();
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();
         //初始化
         FaceSDKConfig.init(this);
     }
-
-
 
 }

@@ -11,7 +11,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.core.content.edit
-import com.ai.face.faceSearch.search.FaceSearchFeature
 import com.ai.face.faceSearch.search.FaceSearchFeatureManger
 import com.faceAI.demo.FaceAISettingsActivity.Companion.FRONT_BACK_CAMERA_FLAG
 import com.faceAI.demo.R
@@ -39,6 +38,8 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         binding.back.setOnClickListener {
             this@SearchNaviActivity.finish()
         }
+
+
 
         binding.insertFaceFeatures.setOnClickListener {
             //批量导出人脸数据

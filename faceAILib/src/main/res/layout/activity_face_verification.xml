@@ -30,11 +30,11 @@
 
     <ImageView
         android:id="@+id/back"
-        android:layout_width="47dp"
-        android:layout_height="47dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="25dp"
-        android:padding="9dp"
+        android:layout_marginTop="30dp"
+        android:padding="10dp"
         android:src="@drawable/ic_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

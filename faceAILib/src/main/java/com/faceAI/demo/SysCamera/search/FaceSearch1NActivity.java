@@ -98,7 +98,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,21 +159,9 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
-                        //已经按照降序排列，可以弹出一个列表框
-//                        String json = new Gson().toJson(matchedResults);
-//                        Log.d("onFaceMatched","符合设定阈值的结果: "+json);
-//						// 2. 【关键】通过单例发送数据，而不关闭 Activity
-//						// 注意：这里要在主线程还是子线程发送，取决于 UTS 回调是否要求主线程
-//						// 通常建议切回主线程发送，虽然 UTS 内部可能会处理
-//						runOnUiThread(new Runnable() {
-//						        @Override
-//						        public void run() {
-//									FaceResultManager.INSTANCE.sendResult(json);
-//                                    if(searchOneTime){
-//                                        FaceSearch1NActivity.this.finish();
-//                                    }
-//						        }
-//						    });
+                        //已经按照降序排列，可以弹出一个列表框。传给RN，Flutter,uniapp 插件使用
+                        String json = new Gson().toJson(matchedResults);
+                        Log.d("onFaceMatched","符合设定阈值的结果: "+json);
                     }
 
                     /**
