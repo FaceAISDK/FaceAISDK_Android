@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="face_main_color">#0B4D46</color>
+
+    <color name="black">#FF000000</color>
+    <color name="grey">#232222</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="half_white">#99FFFFFF</color>
+    <color name="half_grey">#44121414</color>
+    <color name="red">#F20D08</color>
+    <color name="green">#4CAF50</color>
+    <color name="orange">#F05806</color>
+    <color name="blue">#DD334141</color>
+    <color name="blue_sky">#AA0B4D46</color>
+    <color name="half_blue_sky">#160B4D46</color>
+    <color name="helloColor">#6817023D</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="black_overlay">#66000000</color>
+</resources>

@@ -1,0 +1,145 @@
+<resources>
+    <string name="login_privacy_policy">Agree with privacy policy</string>
+    <string name="device_list_dialog_title">Devices</string>
+    <string name="device_list_empty_tip">Please connect a USB Camera</string>
+    <string name="device_list_cancel_button">Cancel</string>
+    <string name="device_list_confirm_button">Confirm</string>
+
+    <string name="sdk_init">SDK Init</string>
+    <string name="no_mask_please">No mask</string>
+    <string name="face_verifying">Verifying(face the camera)</string>
+    <string name="dis_agree">DisAgree</string>
+    <string name="confirm">Confirm</string>
+    <string name="go_setting">go setting</string>
+    <string name="cancel">Cancel</string>
+    <string name="know">I know</string>
+    <string name="retry">Try again</string>
+    <string name="long_press_copy_msg">Tips: Long press to copy msg</string>
+    <string name="share_faceai_sdk">Share FaceAISDK </string>
+    <string name="facesdk_camera_permission">Face Verify Need Camera Permission</string>
+    <string name="share_faceai_sdk_content">Android On_device 1:1 Face Recognition And
+        Liveness detection；1:N M:N Face Search SDK.
+        \nAPK Download：https://www.pgyer.com/faceVerify
+        \nIntroduce：https://mp.weixin.qq.com/s/_ro9zBfzAmkpazL-QAPi9w
+        \n\nIntegrated Source Code：https://github.com/FaceAISDK/FaceAISDK_Android </string>
+
+    <!--添加人脸 add face image-->
+    <string name="keep_face_tips">Face the camera</string>
+    <string name="no_close_eye_tips">Do not close eye</string>
+    <string name="no_tilt_head_tips">Do not tile head</string>
+    <string name="head_turn_left_tips">Dead turn left too more</string>
+    <string name="head_turn_right_tips">Dead turn right too more</string>
+    <string name="no_look_up_tips">Do not look up</string>
+    <string name="no_look_down_tips">Do not look down</string>
+    <string name="no_face_detected_tips">No face detected</string>
+    <string name="multiple_faces_tips">Multiple faces</string>
+    <string name="come_closer_tips">Move closer</string>
+    <string name="far_away_tips">Please far away screen</string>
+    <string name="align_face_error_tips">Align face error</string>
+    <string name="not_real_face">Not real human face</string>
+    <string name="not_real_face_for_debug">Not real human face </string>
+    <string name="add_a_face_image">Add a face image </string>
+    <string name="add_face_from_photo">Add from album</string>
+    <string name="add_face_from_camera">Add by SDK camera</string>
+    <string name="input_face_id_tips">Please input face name</string>
+    <string name="confirm_add_face_title">Confirm add this face？</string>
+    <string name="confirm_add_face_tips">Please ensure face head pose right</string>
+    <string name="sure_delete_face_title">Sure to delete </string>
+    <string name="sure_delete_face_tips">After deletion, the corresponding face will not be recognized</string>
+
+    <!--1:N 人脸搜索 face search-->
+    <string name="no_matched_face">Face Searching</string>
+    <string name="face_dir_empty">Face dir empty</string>
+    <string name="copy_app_assert_folder_faces">Copy app assert folder face images</string>
+    <string name="face_search_by_system_camera">Face Search by system camera</string>
+    <string name="face_search_by_uvc_camera">Face Search by UVC camera</string>
+    <string name="face_search_camera_tips">Camera WDR >105Db indoors,>120 outdoors; use a fill light when need</string>
+    <string name="face_search_image_manger">Face images manger</string>
+    <string name="face_search_image_manger_tips">Long press delete the face,right|top button to add new face</string>
+
+    <!--1:1 人脸识别 face verify -->
+    <string name="face_verify_failed">Face verify failed！Please retry</string>
+    <string name="face_verify_failed_title">Verify failed</string>
+    <string name="silent_anti_spoofing_error">Silent anti spoofing error</string>
+    <string name="no_base_face_image">No base face image error</string>
+    <string name="face_verify_pause">Face verify pause！Please retry</string>
+    <string name="face_verify_demo">1:1 face verify demo</string>
+    <string name="face_verify_no_face_tips">No face has been added yet\nClick the button above to add face image, long press the face to delete</string>
+    <string name="no_face_image_found">No face image found</string>
+    <string name="face_verify_result_cancel">Cancel face verify by user</string>
+    <string name="face_verify_result_success">Face verify success</string>
+    <string name="face_verify_result_silent_failed">Face verify silent failed</string>
+    <string name="face_verify_result_timeout">Face verify timeout</string>
+    <string name="face_verify_result_failed">Face verify failed</string>
+    <string name="face_verify_result_no_face_multi_time">No Face multi times</string>
+    <string name="face_verify_result_pause">Face verify pause</string>
+
+    <!--动作活体检测Motion liveness detection-->
+    <string name="liveness_detection">Liveness detection</string>
+    <string name="liveness_detection_done">Detection completed</string>
+    <string name="motion_liveness_detection_failed">Motion liveness detection failed</string>
+    <string name="color_flash_liveness_failed">Color flash liveness failed </string>
+    <string name="color_flash_light_high">Detection failed: Too bright.Please avoid direct light as below and use in a softly lit indoor environment</string>
+    <string name="color_flash_need_closer_camera">Please come closer,color Flash starting</string>
+    <string name="keep_face_visible">Face the camera,verifying..</string>
+    <string name="repeat_open_close_mouse">Repeat open close mouse</string>
+    <string name="motion_smile">Please smile </string>
+    <string name="motion_blink_eye">Please blink eye</string>
+    <string name="motion_shake_head">Please shake head</string>
+    <string name="motion_node_head">Please node head </string>
+    <string name="motion_liveness_detection_time_out">Motion liveness detection time out </string>
+    <string name="no_face_or_repeat_switch_screen">No face or repeat switch screen </string>
+    <string name="stop_verify_tips">Stop verify,keep your face visible </string>
+
+    <!--导航 activity-->
+    <string name="camera_degree_set">Change Camera Degree  Now is:</string>
+    <string name="parameter_setting">Camera Parameter settings</string>
+    <string name="uvc_usb_camera_demo">UVC_USB Camera Demo</string>
+    <string name="face_verify_1vs1">1:1 Face Verify </string>
+    <string name="add_face_image">Add face Image</string>
+    <string name="only_motion_liveness_detection">Only motion liveness detection</string>
+    <string name="face_search_navi">1:N &amp; M:N  Face Search </string>
+    <string name="face_search">Face Search</string>
+    <string name="two_face_image_verify">Two face image 1:1 verify</string>
+    <string name="switch_camera">Switch front/back camera </string>
+    <string name="about_us">- About us - </string>
+    <string name="uvc_camera_type">UVC camera type </string>
+    <string name="custom_camera">Custom system camera diy </string>
+    <string name="camera_type_select">Camera Type Select</string>
+    <string name="camera_type_system">System built-in camera </string>
+    <string name="camera_type_uvc_rgb_ir">UVC camera(RGB+IR)</string>
+    <string name="camera_type_uvc_rgb">UVC RGB camera</string>
+
+    <!--人脸搜索识别（1:N，M：N）-->
+    <string name="face_image_manage">Face manage</string>
+    <string name="insert_face_features">Insert many face features</string>
+    <string name="face_search_1fromN_liveness">liveness and 1:N face search</string>
+    <string name="face_search_1fromN">1:N face search</string>
+    <string name="face_search_uvc_camera">Search with uvc camera</string>
+    <string name="face_search_MfromN">M:N face search(Beta)</string>
+    <string name="search_threshold_scope_tips">Threshold should in [0.85,0.95]</string>
+    <string name="ir_live_error">ir live error</string>
+    <string name="ir_image_error">ir camera have no image</string>
+
+    <!-- 关于USB 外接UVC协议摄像头 -->
+    <string name="uvc_camera_match_failed">. match failed,please go setting select right camera</string>
+    <string name="uvc_camera_resolution_error">unSupport camera resolution %1$1d %2$1d，switch to %3$1d %4$1d</string>
+
+    <!-- 相机参数设置-->
+    <string name="system_camera_setting">System camera setting</string>
+    <string name="uvc_camera_setting">UVC USB camera setting</string>
+    <string name="uvc_camera_select_rgb">RGB camera select</string>
+    <string name="uvc_camera_select_ir">IR camera select</string>
+    <string name="uvc_camera_degree_ir">Change IR camera degree </string>
+    <string name="uvc_camera_horizontal_mirror_ir">Horizontal mirror IR camera degree</string>
+    <string name="uvc_camera_degree_rgb">Change IR camera degree</string>
+    <string name="uvc_camera_horizontal_mirror_rgb">Horizontal mirror IR camera degree</string>
+    <string name="uvc_camera_resolution_rgb">RGB camera resolution select</string>
+    <string name="uvc_camera_resolution_ir">IR camera resolution select</string>
+
+    <string name="gentle_reminder">Gentle Reminder</string>
+    <string name="gentle_reminder_func">All SDK functions work offline and do not collect facial data.To better experience the demo, please ensure:</string>
+    <string name="operation_manual_tips">1. Use a wide dynamic range over 105db camera \n2. Face the camera directly and follow the prompts \n3. Enough light and whole face appears in camera view\n4. Position the camera directly above the screen</string>
+
+
+</resources>

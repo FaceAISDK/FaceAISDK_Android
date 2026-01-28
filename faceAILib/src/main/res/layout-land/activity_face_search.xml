@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:customAttr="http://schemas.android.com/apk/res-auto"
+    tools:context=".SysCamera.search.FaceSearch1NActivity">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_camerax"
+        android:layout_margin="55dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Custom your Face Verify UI-->
+    <com.ai.face.faceSearch.search.GraphicOverlay
+        android:id="@+id/graphicOverlay"
+        android:layout_margin="33dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!-- 可以替换成你自己的UI样式,需要 FaceCoverView 源码联系对接工程师-->
+    <com.faceAI.demo.base.view.FaceVerifyCoverView
+        android:id="@+id/face_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        customAttr:circle_margin="55dp"
+        customAttr:background_color="@color/white"
+        customAttr:show_progress="false"
+        customAttr:tip_text_color="@color/face_main_color"
+        customAttr:tip_text_size="20sp" />
+
+    <TextView
+        android:id="@+id/searchTips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/white"
+        android:background="@drawable/circle_bar_bg"
+        android:text="@string/sdk_init"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textSize="19sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/close" />
+
+    <TextView
+        android:id="@+id/secondSearchTips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_marginTop="9dp"
+        android:textColor="@color/white"
+        android:background="@drawable/circle_bar_bg"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchTips" />
+
+    <TextView
+        android:id="@+id/tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/half_grey"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_camerax" />
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="30dp"
+        android:padding="10dp"
+        android:src="@drawable/ic_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
