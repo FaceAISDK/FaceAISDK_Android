@@ -90,7 +90,7 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap) {
                         Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
-                        new ImageToast().show(requireContext(), mostSimilarBmp, faceID.replace(".jpg"," ")+score);
+                        new ImageToast().show(requireContext(), mostSimilarBmp, faceID+" , "+score);
                         VoicePlayer.getInstance().play(R.raw.success);
                         binding.graphicOverlay.clearRect();
                     }
