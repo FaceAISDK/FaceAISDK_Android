@@ -63,7 +63,7 @@
                         android:layout_width="38dp"
                         android:layout_height="38dp"
                         app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
+                        app:lottie_repeatCount="1"
                         app:lottie_rawRes="@raw/face_search"
                         app:lottie_speed="1" />
 
@@ -101,7 +101,7 @@
                         android:layout_width="38dp"
                         android:layout_height="38dp"
                         app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
+                        app:lottie_repeatCount="1"
                         app:lottie_rawRes="@raw/face_search"
                         app:lottie_speed="1" />
 
@@ -173,7 +173,7 @@
                         android:layout_width="38dp"
                         android:layout_height="38dp"
                         app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
+                        app:lottie_repeatCount="1"
                         app:lottie_rawRes="@raw/face_search"
                         app:lottie_speed="1" />
 
@@ -209,7 +209,7 @@
                         android:layout_height="40dp"
                         android:padding="3dp"
                         app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
+                        app:lottie_repeatCount="1"
                         app:lottie_rawRes="@raw/switch_camera"
                         app:lottie_speed="0.6" />
 
@@ -299,7 +299,7 @@
                         android:layout_height="40dp"
                         android:padding="3dp"
                         app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
+                        app:lottie_repeatCount="1"
                         app:lottie_rawRes="@raw/face_manger"
                         app:lottie_speed="2" />
 
@@ -333,7 +333,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
+                        app:lottie_repeatCount="1"
                         app:lottie_rawRes="@raw/add_face"
                         app:lottie_speed="1" />
 
@@ -371,7 +371,7 @@
                     android:layout_marginBottom="6dp"
                     android:padding="3dp"
                     app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
+                    app:lottie_repeatCount="1"
                     app:lottie_rawRes="@raw/face_manger"
                     app:lottie_speed="2" />
 

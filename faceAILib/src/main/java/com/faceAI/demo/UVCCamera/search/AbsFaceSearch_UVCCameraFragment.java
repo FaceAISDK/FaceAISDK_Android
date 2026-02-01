@@ -17,6 +17,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,8 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
     private static final String TAG = AbsFaceSearch_UVCCameraFragment.class.getSimpleName();
     public FragmentFaceSearchUvcCameraBinding binding;
     public int cameraType = FaceAICameraType.UVC_CAMERA_RGB; //UVC 可以单RGB或者RGB+IR
+    private static final long DETECT_INTERVAL = 300; // 设为 300ms~500ms 检测一次足够了
+
     private UVCCameraManager rgbCameraManager;//RBG camera
     private UVCCameraManager irCameraManager; //近红外摄像头
 
@@ -60,7 +63,7 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
         binding = FragmentFaceSearchUvcCameraBinding.inflate(inflater, container, false);
 
         SharedPreferences sharedPref = requireActivity().getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
-        cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
+        cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB);
         initViews();
         initRGBCamara();
         return binding.getRoot();
@@ -69,6 +72,7 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
     public void initViews() {
 
     }
+
 
     @Override
     public void onDestroy() {
@@ -79,6 +83,9 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
         }
     }
 
+
+    // 定义一个上次检测的时间戳
+    private long lastRGBDetectTime = 0;
     private void initRGBCamara() {
         SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
@@ -95,7 +102,6 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
         rgbCameraManager.setOnCameraStatuesCallBack(new UVCCameraManager.OnCameraStatusCallBack() {
             @Override
             public void onAttach(UsbDevice device) {
-
             }
 
             @Override
@@ -115,8 +121,23 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
         rgbCameraManager.setFaceAIAnalysis(new UVCCameraManager.OnFaceAIAnalysisCallBack() {
             @Override
             public void onBitmapFrame(Bitmap bitmap) {
-                //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
+
+                long currentTime = System.currentTimeMillis();
+                // 【优化点 2】: 限流，如果距离上次检测不足 300ms，直接丢弃这一帧
+                if (currentTime - lastRGBDetectTime < DETECT_INTERVAL) {
+                    return;
+                }
+                lastRGBDetectTime = currentTime;
+
+                Log.e(TAG,"Bitmap :"+bitmap.getWidth());
                 faceSearchSetBitmap(bitmap, FaceVerifyUtils.BitmapType.RGB);
+
+                // 结合上面的深拷贝
+//                if (bitmap != null && !bitmap.isRecycled()) {
+//                    Bitmap copyBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+//                    //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
+//                    faceSearchSetBitmap(copyBitmap, FaceVerifyUtils.BitmapType.RGB);
+//                }
             }
             @Override
             public void onImageSize(int imageWidth, int imageHeight) {
@@ -130,6 +151,7 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
     /**
      * 初始化IR 摄像头
      */
+    private long lastIRDetectTime = 0;
     private void initIRCamara() {
         SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
 
@@ -158,7 +180,22 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
         irCameraManager.setFaceAIAnalysis(new UVCCameraManager.OnFaceAIAnalysisCallBack() {
             @Override
             public void onBitmapFrame(Bitmap bitmap) {
+
+                long currentTime = System.currentTimeMillis();
+                // 【优化点 2】: 限流，如果距离上次检测不足 300ms，直接丢弃这一帧
+                if (currentTime - lastIRDetectTime < DETECT_INTERVAL) {
+                    return;
+                }
+                lastIRDetectTime = currentTime;
                 faceSearchSetBitmap(bitmap, FaceVerifyUtils.BitmapType.IR);
+
+                // 结合上面的深拷贝
+//                if (bitmap != null && !bitmap.isRecycled()) {
+//                    Bitmap copyBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+//                    //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
+//                    faceSearchSetBitmap(copyBitmap, FaceVerifyUtils.BitmapType.IR);
+//                }
+
             }
         });
 

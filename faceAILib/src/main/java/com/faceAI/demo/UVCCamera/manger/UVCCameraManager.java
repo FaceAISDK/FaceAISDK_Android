@@ -187,7 +187,7 @@ public class UVCCameraManager {
                 List<Size> supportedSizeList = mCameraHelper.getSupportedSizeList();
                 if (supportedSizeList != null) {
                     for (Size size : supportedSizeList) {
-                        //选择支持的分辨率
+                        //选择支持的分辨率. FPS 不需要太高，5-10够了
                         //sizeType=5时fps=15,sizeType=7时fps=30
                         if ((size.height == UVC_CAMERA_HEIGHT||size.width ==UVC_CAMERA_WIDTH)
                                 && (size.type == 7||size.type == 5)) {

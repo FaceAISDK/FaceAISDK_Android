@@ -45,10 +45,12 @@ configurations.configureEach {
 dependencies {
 
     //SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
-    api 'io.github.faceaisdk:Android:2026.01.20'
+    api 'io.github.faceaisdk:Android:2026.01.20.t2'
 
     //UVC协议USB摄像头（选配，不需要可以删除）源码: https://github.com/shiyinghan/UVCAndroid
-    implementation 'io.github.faceaisdk:UVCCamera:2025.07.30'
+//    implementation 'io.github.faceaisdk:UVCCamera:2026.01.20'
+    implementation 'com.herohan:UVCAndroid:1.0.11'
+
 
     //以下为业务需要其他依赖，不是SDK 运行的必须依赖
     implementation 'com.google.code.gson:gson:2.13.2' //把数据转为json str给UTS/flutter/RN插件使用

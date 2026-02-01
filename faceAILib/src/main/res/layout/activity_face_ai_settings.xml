@@ -67,7 +67,7 @@
                         android:layout_height="33dp"
                         android:padding="3dp"
                         app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
+                        app:lottie_repeatCount="1"
                         app:lottie_rawRes="@raw/switch_camera"
                         app:lottie_speed="0.6" />
 
