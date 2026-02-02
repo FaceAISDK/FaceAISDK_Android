@@ -21,7 +21,7 @@ public class FaceApplication extends Application implements CameraXConfig.Provid
     @Override
     public CameraXConfig getCameraXConfig() {
         return CameraXConfig.Builder.fromConfig(Camera2Config.defaultConfig())
-                .setAvailableCamerasLimiter(CameraSelector.DEFAULT_FRONT_CAMERA) //记住上一次选择加快启动
+//                .setAvailableCamerasLimiter(CameraSelector.DEFAULT_FRONT_CAMERA) //记住上一次选择加快启动
                 .setMinimumLoggingLevel(Log.ERROR)
                 .build();
     }

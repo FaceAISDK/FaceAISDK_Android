@@ -20,8 +20,8 @@
     <string name="share_faceai_sdk_content">Android On_device 1:1 Face Recognition And
         Liveness detection；1:N M:N Face Search SDK.
         \nAPK Download：https://www.pgyer.com/faceVerify
-        \nIntroduce：https://mp.weixin.qq.com/s/_ro9zBfzAmkpazL-QAPi9w
-        \n\nIntegrated Source Code：https://github.com/FaceAISDK/FaceAISDK_Android </string>
+        \nEmail: FaceAISDK.Service@gmail.com
+        \n\nIntegrated Source Code：https://github.com/FaceAISDK </string>
 
     <!--添加人脸 add face image-->
     <string name="keep_face_tips">Face the camera</string>
