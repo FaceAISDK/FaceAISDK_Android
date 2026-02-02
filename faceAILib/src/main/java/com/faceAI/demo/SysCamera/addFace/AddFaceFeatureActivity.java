@@ -122,11 +122,11 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
             /**
              * 人脸检测裁剪完成
              * @param bitmap           检测裁剪后的Bitmap
-             * @param score           （暂时不检测）
+             * @param silentScore      静默活体分数
              * @param faceBrightness   人脸周围环境光线亮度
              */
             @Override
-            public void onCompleted(Bitmap bitmap, float score,float faceBrightness) {
+            public void onCompleted(Bitmap bitmap, float silentScore,float faceBrightness) {
                 isConfirmAdd=true;
                 //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
                 //如果非SDK相机录入的人脸照片提取特征值用异步方法 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
