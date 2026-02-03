@@ -82,7 +82,7 @@
                 android:paddingStart="5dp"
                 android:text="@string/camera_type_select"
                 android:textColor="@color/half_white"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/camera_type_select"
@@ -96,7 +96,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/camera_type_system"
                 android:textColor="@color/white"
-                android:textSize="10sp" />
+                android:textSize="13sp" />
 
         </LinearLayout>
 

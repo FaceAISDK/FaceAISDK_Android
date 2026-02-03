@@ -283,42 +283,6 @@
                     android:layout_height="1px"
                     android:background="@color/white" />
 
-
-                <LinearLayout
-                    android:id="@+id/insert_face_features"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:padding="3dp"
-                        app:lottie_autoPlay="true"
-                        app:lottie_repeatCount="1"
-                        app:lottie_rawRes="@raw/face_manger"
-                        app:lottie_speed="2" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="11dp"
-                        android:text="@string/insert_face_features"
-                        android:textColor="@color/face_main_color"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/white" />
-
                 <LinearLayout
                     android:id="@+id/uvc_usb_camera_add_face"
                     android:layout_width="match_parent"
@@ -385,6 +349,41 @@
                     android:textStyle="bold" />
 
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/insert_face_features"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="22dp"
+                android:background="@drawable/bg_rect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:padding="3dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_repeatCount="1"
+                    app:lottie_rawRes="@raw/face_manger"
+                    app:lottie_speed="2" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:text="@string/insert_face_features"
+                    android:textColor="@color/face_main_color"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

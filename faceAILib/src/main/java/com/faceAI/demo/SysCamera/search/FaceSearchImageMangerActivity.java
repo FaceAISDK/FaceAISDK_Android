@@ -169,7 +169,6 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
             if (subFaceFiles != null) {
                 // 排序 (耗时操作)
                 Arrays.sort(subFaceFiles, (f1, f2) -> Long.compare(f2.lastModified(), f1.lastModified()));
-
                 for (File value : subFaceFiles) {
                     if (!value.isDirectory()) {
                         // 在这里读取一次时间戳，存入 Bean
@@ -215,6 +214,8 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();//添加一张
         if (itemId == R.id.camera_add) {
+
+
             Intent addFaceIntent = new Intent(getBaseContext(), AddFaceFeatureActivity.class);
             addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceFeatureActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
             startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
