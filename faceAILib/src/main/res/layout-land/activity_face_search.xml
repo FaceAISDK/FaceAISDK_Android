@@ -10,14 +10,14 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_camerax"
-        android:layout_margin="55dp"
+        android:layout_margin="111dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <!-- Custom your Face Verify UI-->
     <com.ai.face.faceSearch.search.GraphicOverlay
         android:id="@+id/graphicOverlay"
-        android:layout_margin="33dp"
+        android:layout_margin="111dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -26,7 +26,7 @@
         android:id="@+id/face_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        customAttr:circle_margin="55dp"
+        customAttr:circle_margin="111dp"
         customAttr:background_color="@color/white"
         customAttr:show_progress="false"
         customAttr:tip_text_color="@color/face_main_color"

@@ -1,18 +1,19 @@
 package com.faceAI.demo.UVCCamera.search;
 
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.IR_LIVE_ERROR;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
-import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_SIZE_FIT;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_TOO_LARGE;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_TOO_SMALL;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.IR_LIVE_ERROR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.MASK_DETECTION;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_LIVE_FACE;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_MATCHED;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCHING;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
+import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -28,6 +29,7 @@ import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.faceAI.demo.base.utils.VoicePlayer;
+
 import java.util.List;
 
 
@@ -82,17 +84,23 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
 //                .setFaceGroup() //根据分组来搜索，比如小区不同楼栋可以设置从1A，1B，2C等分组不但能管理权限又能加快速度
 //                .setFaceTag()   //根据标记来搜索，比如有些场所只有VIP才能权限进入
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
+                .setNeedFaceLiveness(true) //是否需要活体能力，只有1:N 有
+                .setNeedNIRLiveness(true)  //红外活体，1:N人脸搜索需要有红外双目摄像头才有效
                 .setCameraType(FaceAICameraType.SYSTEM_CAMERA) //摄像头种类是UVC协议,和系统RGB摄像头要区分清楚
                 .setSearchIntervalTime(1900) //默认2000，范围[1500,3000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setProcessCallBack(new SearchProcessCallBack() {
 
                     // 得分最高的搜索结果
                     @Override
-                    public void onMostSimilar(String faceID, float score, Bitmap bitmap) {
+                    public void onMostSimilar(String faceID, float score, Bitmap bitmap,float livenessValue) {
                         Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
-                        new ImageToast().show(requireContext(), mostSimilarBmp, faceID+" , "+score);
-                        VoicePlayer.getInstance().play(R.raw.success);
+                        new ImageToast().show(requireContext(), mostSimilarBmp, faceID+","+score+","+livenessValue);
                         binding.graphicOverlay.clearRect();
+                        if(livenessValue>0.70){ //分数根据你的摄像头和安装场景自由定义
+                            VoicePlayer.getInstance().play(R.raw.ding_success);
+                        }else{
+                            VoicePlayer.getInstance().play(R.raw.ding_failed);
+                        }
                     }
 
                     /**

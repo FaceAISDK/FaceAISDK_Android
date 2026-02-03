@@ -68,7 +68,7 @@ class SearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
         binding.systemCameraSearchWithLive.setOnClickListener {
-            startActivity(Intent(baseContext, FaceSearch1NWithMotionLivenessActivity::class.java))
+            startActivity(Intent(baseContext, FaceSearch1N_LivenessActivity::class.java))
             true
         }
 

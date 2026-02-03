@@ -58,8 +58,8 @@ import java.util.Objects;
  * <p>
  * 其他系统的录入的人脸请自行保证人脸规范，否则会导致识别错误
  * -  1. 尽量使用较高配置设备和摄像头，光线不好带上补光灯
- * -  2. 录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
- * -  3. 光线环境好，检测的人脸化浓妆或佩戴墨镜 口罩 帽子等遮盖
+ * -  2. 录入高质量的正脸图，人脸清晰，背景简单纯色
+ * -  3. 光线环境好，人脸不能化浓妆或佩戴墨镜 口罩 帽子等遮盖
  * -  4. 人脸照片要求300*300 裁剪好的仅含人脸的正方形照片
  *
  * @author FaceAISDK.Service@gmail.com
@@ -170,7 +170,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             if (!isDestroyed() && !isFinishing() && !isConfirmAdd) {
                 //某些设备如果一直提示检测不到人脸，可以断点调试看看转化的Bitmap 是否有问题
-                baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy, 10, false));
+                baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy));
             }
         });
 
