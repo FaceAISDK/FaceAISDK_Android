@@ -100,17 +100,19 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 .setMotionLivenessTypes(motionLivenessTypes)           //动作活体种类。1 张张嘴,2 微笑,3 眨眨眼,4 摇摇头,5 点点头
                 .setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
+
+
                     /**
-                     * 动作活体+炫彩活体都 检测完成，返回炫彩活体分数
+                     * 动作活体+炫彩活体都 检测完成，返回活体分数
                      *
-                     * @param colorFlashScore 炫彩活体分数
+                     * @param livenessValue 活体分数(不同设备的情况可能不一样，建议大于0.75为真人)
                      * @param bitmap 活体检测快照，可以用于log记录
                      */
                     @Override
-                    public void onLivenessDetected(float colorFlashScore, Bitmap bitmap) {
+                    public void onLivenessDetected(float livenessValue, Bitmap bitmap) {
                         BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap"); //保存给插件用，原生开发忽略
                         VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-                        finishFaceVerify(10, R.string.liveness_detection_done, colorFlashScore);
+                        finishFaceVerify(10, R.string.liveness_detection_done, livenessValue);
                     }
 
                     /**
@@ -390,7 +392,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         finishFaceVerify(code, msgStrRes, 0f);
     }
 
-    private void finishFaceVerify(int code, int msgStrRes, float silentLivenessScore) {
+    private void finishFaceVerify(int code, int msgStrRes, float livenessValue) {
         Intent intent = new Intent().putExtra("code", code)
                 .putExtra("msg", getString(msgStrRes));
         setResult(RESULT_OK, intent);

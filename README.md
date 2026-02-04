@@ -11,7 +11,7 @@
 # [关于「FaceAISDK」](https://github.com/FaceAISDK/FaceAISDK_Android)
 
 FaceAISDK is on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK  
-FaceAISDK包括人脸识别、动作+炫彩活体检测、人脸录入检测以及[1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索，可完全离线实现端侧人脸识别，人脸搜索等功能。
+FaceAISDK包括人脸识别、活体检测、人脸录入检测以及[1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索，可完全离线实现端侧人脸识别，人脸搜索等功能。
 
 ![SDK Work Flow](images/SDK_WORK_FLOW.jpg)
 

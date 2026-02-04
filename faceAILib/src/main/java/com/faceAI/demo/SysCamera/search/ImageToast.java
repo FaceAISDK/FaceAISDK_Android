@@ -19,10 +19,9 @@ import com.faceAI.demo.R;
  * https://github.com/FaceAISDK/FaceAISDK_Android
  */
 public class ImageToast {
-
     public Toast show(Context context, Bitmap bitmap, String tips) {
         Toast toast = new Toast(context);
-        View view = View.inflate(context, R.layout.face_search_toast_tips, null);
+        View view = View.inflate(context, R.layout.face_toast_tips, null);
         ImageView image = view.findViewById(R.id.toast_image);
         TextView text = view.findViewById(R.id.toast_text);
 

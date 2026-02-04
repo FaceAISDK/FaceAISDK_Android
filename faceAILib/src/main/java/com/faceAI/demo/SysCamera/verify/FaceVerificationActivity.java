@@ -160,14 +160,14 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                     /**
                      * 1:1 人脸识别 活体检测 对比结束
                      *
-                     * @param isMatched   true匹配成功（大于setThreshold）； false 与底片不是同一人
-                     * @param similarity  与底片匹配的相似度值
-                     * @param s           后面版本会去除
-                     * @param bitmap      识别完成的时候人脸实时图，金融级别应用可以再次和自己的服务器二次校验
+                     * @param isMatched     true匹配成功（大于setThreshold）； false 与底片不是同一人
+                     * @param similarity    与底片匹配的相似度值
+                     * @param livenessValue 活体分数(不同设备的情况可能不一样，建议大于0.75为真人)
+                     * @param bitmap        识别完成的时候人脸实时图，金融级别应用可以再次和自己的服务器二次校验
                      */
                     @Override
-                    public void onVerifyMatched(boolean isMatched, float similarity, float s, Bitmap bitmap) {
-                        showVerifyResult(isMatched, similarity, bitmap);
+                    public void onVerifyMatched(boolean isMatched, float similarity, float livenessValue, Bitmap bitmap) {
+                        showVerifyResult(isMatched, similarity, livenessValue, bitmap);
                     }
 
                     @Override
@@ -215,13 +215,13 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      */
     private int retryTime = 0;
 
-    private void showVerifyResult(boolean isVerifyMatched, float similarity, Bitmap bitmap) {
+    private void showVerifyResult(boolean isVerifyMatched, float similarity,float livenessValue, Bitmap bitmap) {
         BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");//保存场景图给三方插件使用
 
         if (isVerifyMatched) {
             //2.和底片同一人
             VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-            new ImageToast().show(getApplicationContext(), bitmap, "Success " + similarity);
+            new ImageToast().show(getApplicationContext(), bitmap, similarity+"Success " + livenessValue);
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 finishFaceVerify(1, R.string.face_verify_result_success, similarity);
