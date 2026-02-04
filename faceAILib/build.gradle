@@ -46,6 +46,7 @@ dependencies {
 
     //SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
     api 'io.github.faceaisdk:Android:2026.01.21_beta2'
+    api "com.tencent.mars:mars-xlog:1.2.5" //仅仅用于测试冲突，完成后删除
 
     //UVC协议USB摄像头（选配，不需要可以删除）源码: https://github.com/shiyinghan/UVCAndroid
 //    implementation 'io.github.faceaisdk:UVCCamera:2026.01.20'
