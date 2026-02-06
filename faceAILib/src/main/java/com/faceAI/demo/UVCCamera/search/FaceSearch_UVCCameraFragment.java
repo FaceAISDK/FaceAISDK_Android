@@ -46,8 +46,6 @@ import java.util.List;
  */
 public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragment {
 
-
-
     public FaceSearch_UVCCameraFragment() {
         // Required empty public constructor
     }
@@ -90,7 +88,7 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                 .setNeedFaceLiveness(true) //是否需要活体能力，只有1:N 有
                 .setNeedNIRLiveness(true)  //红外活体，1:N人脸搜索需要有红外双目摄像头才有效
                 .setCameraType(FaceAICameraType.SYSTEM_CAMERA) //摄像头种类是UVC协议,和系统RGB摄像头要区分清楚
-                .setSearchIntervalTime(1900) //默认2000，范围[1500,3000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
+                .setSearchIntervalTime(1500) //默认2000，范围[1500,3000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setProcessCallBack(new SearchProcessCallBack() {
 
                     // 得分最高的搜索结果

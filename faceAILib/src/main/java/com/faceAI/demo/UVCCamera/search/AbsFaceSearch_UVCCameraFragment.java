@@ -44,7 +44,7 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
     private static final String TAG = AbsFaceSearch_UVCCameraFragment.class.getSimpleName();
     public FragmentFaceSearchUvcCameraBinding binding;
     public int cameraType = FaceAICameraType.UVC_CAMERA_RGB; //UVC 可以单RGB或者RGB+IR
-    private static final long DETECT_INTERVAL = 300; // 设为 300ms~500ms 检测一次足够了
+    private static final long DETECT_INTERVAL = 100; // 设为 100ms~200ms 检测一次足够了
 
     private UVCCameraManager rgbCameraManager;//RBG camera
     private UVCCameraManager irCameraManager; //近红外摄像头
@@ -123,7 +123,7 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
             public void onBitmapFrame(Bitmap bitmap) {
 
                 long currentTime = System.currentTimeMillis();
-                // 【优化点 2】: 限流，如果距离上次检测不足 300ms，直接丢弃这一帧
+                //限流，如果距离上次检测不足 DETECT_INTERVAL，直接丢弃这一帧
                 if (currentTime - lastRGBDetectTime < DETECT_INTERVAL) {
                     return;
                 }
@@ -182,7 +182,6 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
             public void onBitmapFrame(Bitmap bitmap) {
 
                 long currentTime = System.currentTimeMillis();
-                // 【优化点 2】: 限流，如果距离上次检测不足 300ms，直接丢弃这一帧
                 if (currentTime - lastIRDetectTime < DETECT_INTERVAL) {
                     return;
                 }

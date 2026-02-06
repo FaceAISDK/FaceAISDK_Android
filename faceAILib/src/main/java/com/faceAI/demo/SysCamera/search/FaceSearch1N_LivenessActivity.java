@@ -144,7 +144,7 @@ public class FaceSearch1N_LivenessActivity extends AbsBaseActivity {
                 .setSearchType(SearchProcessBuilder.SearchType.N_SEARCH_1) //1:N 搜索
                 .setThreshold(searchThreshold) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值以及人脸底片质量也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
-                .setSearchIntervalTime(2000) //默认2000，范围[0,9000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
+                .setSearchIntervalTime(1600) //默认2000，范围[0,9000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //后面版本去除次参数
                 .setProcessCallBack(new SearchProcessCallBack() {
                     /**
