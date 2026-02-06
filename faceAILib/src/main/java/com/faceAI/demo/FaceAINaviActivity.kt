@@ -17,8 +17,8 @@ import com.ai.face.core.utils.FaceAICameraType
 import com.ai.face.faceVerify.verify.FaceVerifyUtils
 import com.faceAI.demo.FaceAISettingsActivity.Companion.UVC_CAMERA_TYPE
 import com.faceAI.demo.SysCamera.camera.CustomCameraActivity
-import com.faceAI.demo.SysCamera.search.SearchNaviActivity
-import com.faceAI.demo.SysCamera.verify.FaceVerifyWelcomeActivity
+import com.faceAI.demo.SysCamera.search.FaceSearchNaviActivity
+import com.faceAI.demo.SysCamera.verify.FaceVerifyNaviActivity
 import com.faceAI.demo.SysCamera.verify.LivenessDetectActivity
 import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
 import com.faceAI.demo.UVCCamera.liveness.Liveness_UVCCameraActivity
@@ -49,13 +49,13 @@ class FaceAINaviActivity : AppCompatActivity() {
 
         // 1:1 人脸识别
         viewBinding.faceVerify.setOnClickListener {
-            val verifyIntent = Intent(baseContext, FaceVerifyWelcomeActivity::class.java)
+            val verifyIntent = Intent(baseContext, FaceVerifyNaviActivity::class.java)
             startActivity(verifyIntent)
         }
 
         // 人脸搜索(系统相机和UVC 摄像头都支持) Face Search(support System&UVC camera)
         viewBinding.faceSearch.setOnClickListener {
-            startActivity(Intent(this@FaceAINaviActivity, SearchNaviActivity::class.java))
+            startActivity(Intent(this@FaceAINaviActivity, FaceSearchNaviActivity::class.java))
         }
 
         // 参数设置 FaceAI Settings

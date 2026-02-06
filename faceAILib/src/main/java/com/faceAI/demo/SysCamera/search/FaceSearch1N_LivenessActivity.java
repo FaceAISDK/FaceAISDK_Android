@@ -102,7 +102,7 @@ public class FaceSearch1N_LivenessActivity extends AbsBaseActivity {
         binding.close.setOnClickListener(v -> finish());
 
         binding.tips.setOnClickListener(v -> {
-            startActivity(new Intent(this, FaceSearchImageMangerActivity.class)
+            startActivity(new Intent(this, FaceSearchDataMangerActivity.class)
                     .putExtra("isAdd", false));
         });
 

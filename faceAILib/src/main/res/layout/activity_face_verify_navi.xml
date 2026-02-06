@@ -49,7 +49,7 @@
                 android:paddingRight="14dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
-                android:background="@drawable/button_rounded_background"
+                android:background="@drawable/camera_type_background"
                 android:text="@string/camera_type_system"
                 android:textColor="@color/white"
                 android:textSize="11sp" />

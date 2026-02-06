@@ -54,7 +54,7 @@
     <string name="face_search_by_system_camera">Face Search by system camera</string>
     <string name="face_search_by_uvc_camera">Face Search by UVC camera</string>
     <string name="face_search_camera_tips">Camera WDR >105Db indoors,>120 outdoors; use a fill light when need</string>
-    <string name="face_search_image_manger">Face images manger</string>
+    <string name="face_search_data_manger">Face search data manger</string>
     <string name="face_search_image_manger_tips">Long press delete the face,right|top button to add new face</string>
 
     <!--1:1 人脸识别 face verify -->
@@ -96,7 +96,7 @@
     <string name="parameter_setting">Camera Parameter settings</string>
     <string name="uvc_usb_camera_demo">UVC_USB Camera Demo</string>
     <string name="face_verify_1vs1">1:1 Face Verify </string>
-    <string name="add_face_image">Add face Image</string>
+    <string name="add_face_feature">Add Face Feature data</string>
     <string name="only_motion_liveness_detection">Only motion liveness detection</string>
     <string name="face_search_navi">1:N &amp; M:N  Face Search </string>
     <string name="face_search">Face Search</string>
@@ -111,7 +111,7 @@
     <string name="camera_type_uvc_rgb">UVC RGB camera</string>
 
     <!--人脸搜索识别（1:N，M：N）-->
-    <string name="face_image_manage">Face manage</string>
+    <string name="face_data_manage">Face data manage</string>
     <string name="insert_face_features">Insert many face features</string>
     <string name="face_search_1fromN_liveness">liveness and 1:N face search</string>
     <string name="face_search_1fromN">1:N face search</string>

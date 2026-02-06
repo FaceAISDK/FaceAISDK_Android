@@ -70,7 +70,7 @@
             android:exported="false"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".SysCamera.search.FaceSearchImageMangerActivity"
+            android:name=".SysCamera.search.FaceSearchDataMangerActivity"
             android:exported="false"
             android:theme="@style/AppTheme"/>
 
@@ -95,11 +95,11 @@
             android:launchMode="singleTop"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".SysCamera.verify.FaceVerifyWelcomeActivity"
+            android:name=".SysCamera.verify.FaceVerifyNaviActivity"
             android:exported="false"
             android:theme="@style/AppTheme"/>
         <activity
-            android:name=".SysCamera.search.SearchNaviActivity"
+            android:name=".SysCamera.search.FaceSearchNaviActivity"
             android:exported="false"
             android:theme="@style/AppTheme"/>
         <activity

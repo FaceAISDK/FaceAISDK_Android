@@ -23,7 +23,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
-import com.faceAI.demo.SysCamera.search.FaceSearchImageMangerActivity;
 import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -40,7 +39,6 @@ import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
 import java.util.List;
 import com.google.gson.Gson;
-import com.faceAI.demo.SysCamera.search.ImageToast;
 
 /**
  * 1:N 人脸搜索识别
@@ -61,12 +59,14 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     public static final String SEARCH_ONE_TIME = "SEARCH_ONE_TIME";   //是否仅搜索一次就关闭搜索页
     public static final String IS_CAMERA_SIZE_HIGH = "IS_CAMERA_SIZE_HIGH";   //高分辨率远距离也可以工作，但是性能速度会下降
     public static final String CAMERA_ID = "CAMERA_ID";   //摄像头ID，部分摄像头可能需要适配
+    public static final String NEED_FACE_LIVE = "NEED_FACE_LIVE";   //是否需要活体检测
+    public static final String SEARCH_GROUP = "SEARCH_GROUP";     //分组
+    public static final String SEARCH_TAG = "SEARCH_TAG"; //标记
 
-//    public static final String SEARCH_GROUP = "SEARCH_GROUP";   //动作活体超时数据
-//    public static final String SEARCH_TAG = "MOTION_LIVENESS_TYPES"; //动作活体种类
     private float searchThreshold = 0.88f;  //搜索阈值
     private boolean searchOneTime = false;   //是否仅搜索一次就关闭搜索页
     private boolean isCameraSizeHigh = false; //是否高分辨率
+    private boolean needFaceLive = false; //是否需要活体检测（2026.03.01版本以后才支持）
     private int cameraId = CameraSelector.LENS_FACING_FRONT; //摄像头ID，部分摄像头可能需要适配
     private int cameraLensFacing;  //摄像头前置，后置，外接
 
@@ -75,13 +75,15 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     private FaceCameraXFragment cameraXFragment; //摄像头请自行管理，源码全部开放
     private boolean pauseSearch =false; //控制是否送数据到SDK进行搜索
 
-
     /**
      * 获取UNI,RN,Flutter三方插件传递的参数,以便在原生代码中生效
      */
     private void getIntentParams() {
         Intent intent = getIntent(); // 获取发送过来的Intent对象
         if (intent != null) {
+            if (intent.hasExtra(NEED_FACE_LIVE)) {
+                needFaceLive = intent.getBooleanExtra(NEED_FACE_LIVE, false);
+            }
             if (intent.hasExtra(THRESHOLD_KEY)) {
                 searchThreshold = intent.getFloatExtra(THRESHOLD_KEY, 0.88f);
             }
@@ -107,7 +109,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         binding.close.setOnClickListener(v -> finish());
 
         binding.tips.setOnClickListener(v -> {
-            startActivity(new Intent(this, FaceSearchImageMangerActivity.class)
+            startActivity(new Intent(this, FaceSearchDataMangerActivity.class)
                     .putExtra("isAdd", false));
         });
 
@@ -139,14 +141,13 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
      * 初始化人脸搜索参数
      */
     private void initFaceSearchParam() {
-        boolean needFaceLiveness=false;
         // 2.各种参数的初始化设置
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
                 .setCameraType(FaceAICameraType.SYSTEM_CAMERA)
 //                .setFaceGroup() //根据分组来搜索，比如小区不同楼栋可以设置从1A，1B，2C等分组不但能管理权限又能加快速度
 //                .setFaceTag()   //根据标记来搜索，比如有些场所只有VIP才能权限进入
-                .setNeedFaceLiveness(needFaceLiveness)     //是否需要活体检测，只有1:N 搜索 有活体（选配，默认无）
+                .setNeedFaceLiveness(needFaceLive)  //是否需要活体检测，只有1:N搜索有活体（选配，2026.03.01版本才支持）
                 .setSearchType(SearchProcessBuilder.SearchType.N_SEARCH_1) //1:N 搜索
                 .setThreshold(searchThreshold) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值以及人脸底片质量也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
@@ -178,7 +179,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap,float livenessValue) {
                         Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
                         new ImageToast().show(getApplicationContext(), mostSimilarBmp, faceID+","+score+","+livenessValue);
-                        if(livenessValue<0.72&&needFaceLiveness){ //分数根据你的摄像头和安装场景自由定义
+                        if(livenessValue<0.72&&needFaceLive){ //分数根据你的摄像头和安装场景自由定义
                             VoicePlayer.getInstance().play(R.raw.ding_failed);
                         }else{
                             VoicePlayer.getInstance().play(R.raw.ding_success);
@@ -332,4 +333,5 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         super.onStop();
         pauseSearch=true;
     }
+
 }

@@ -45,6 +45,9 @@ import java.util.List;
  *
  */
 public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragment {
+
+
+
     public FaceSearch_UVCCameraFragment() {
         // Required empty public constructor
     }

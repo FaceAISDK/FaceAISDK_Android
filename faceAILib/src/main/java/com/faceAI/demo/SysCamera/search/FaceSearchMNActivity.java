@@ -54,7 +54,7 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
         setContentView(binding.getRoot());
 
         binding.tips.setOnClickListener(v -> {
-            startActivity(new Intent(this, FaceSearchImageMangerActivity.class)
+            startActivity(new Intent(this, FaceSearchDataMangerActivity.class)
                     .putExtra("isAdd", false));
         });
 
