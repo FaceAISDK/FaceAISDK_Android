@@ -27,7 +27,6 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
     private lateinit var binding: ActivityFaceSearchNaviBinding
     private var cameraType = FaceAICameraType.SYSTEM_CAMERA
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFaceSearchNaviBinding.inflate(layoutInflater)
@@ -56,7 +55,7 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             this@FaceSearchNaviActivity.finish()
         }
 
-        //批量导入导出数据
+        //批量导入导出人脸特征数据。 SDK不需要图片，如果业务也不需要图片，强烈建议转位人脸特征
         binding.insertFaceFeatures.setOnClickListener {
             //批量导出人脸数据
             //val faceSearchFeatures:List<FaceSearchFeature> =FaceSearchFeatureManger.getInstance(this).queryAllFaceFaceFeature()

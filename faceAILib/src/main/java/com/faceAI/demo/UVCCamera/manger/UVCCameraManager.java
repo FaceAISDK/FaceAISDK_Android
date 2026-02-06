@@ -241,7 +241,7 @@ public class UVCCameraManager {
                             lastAnalysisTime = currentTime; // 更新最后处理时间
 
                             // 使用我们之前优化的高性能 LibYuv 版本
-                            reuseBitmap = DataConvertUtils.NV21Byte2Bitmap(byteBuffer, width, height,
+                            reuseBitmap = DataConvertUtils.NV21Data2Bitmap(byteBuffer, width, height,
                                     cameraBuilder.getDegree(), cameraBuilder.isHorizontalMirror());
 
                             faceAIAnalysisCallBack.onBitmapFrame(reuseBitmap);
