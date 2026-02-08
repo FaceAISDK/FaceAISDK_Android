@@ -84,7 +84,7 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         //1:N 人脸搜索.包含活体检测
         binding.faceSearchWithLive.setOnClickListener {
             if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
-                val intent = Intent(baseContext, FaceSearch1NActivity::class.java)
+                val intent = Intent(baseContext, FaceSearch1N_LivenessActivity::class.java)
                 intent.putExtra(FaceSearch1NActivity.THRESHOLD_KEY, 0.88f)
                 intent.putExtra(FaceSearch1NActivity.SEARCH_ONE_TIME, true)
                 intent.putExtra(FaceSearch1NActivity.NEED_FACE_LIVE, true)

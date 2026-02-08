@@ -100,7 +100,8 @@ class FaceAINaviActivity : AppCompatActivity() {
 
         // 长按打印Log 信息
         viewBinding.systemInfo.setOnLongClickListener {
-            FaceVerifyUtils().printInfo(this@FaceAINaviActivity);
+            FaceVerifyUtils().printInfo(this@FaceAINaviActivity)
+            finish()
             return@setOnLongClickListener true
         }
 

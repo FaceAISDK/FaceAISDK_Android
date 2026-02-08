@@ -38,6 +38,7 @@ import com.ai.face.faceSearch.utils.FaceSearchResult;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
+import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
 import com.google.gson.Gson;
@@ -116,7 +117,7 @@ public class FaceSearch1N_LivenessActivity extends AbsBaseActivity {
         /**摄像头管理源码开放在 {@link FaceCameraXFragment} **/
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0f)      //焦距范围[0f,1.0f]，根据应用场景自行适当调整焦距（摄像头需支持变焦）
+                .setLinearZoom(0.01f)      //焦距范围[0f,1.0f]，根据应用场景自行适当调整焦距（摄像头需支持变焦）
                 .setRotation(degree)      //画面旋转方向
                 .setCameraSizeHigh(isCameraSizeHigh) //高分辨率远距离也可以工作，但是性能速度会下降
                 .create();
@@ -144,7 +145,7 @@ public class FaceSearch1N_LivenessActivity extends AbsBaseActivity {
                 .setSearchType(SearchProcessBuilder.SearchType.N_SEARCH_1) //1:N 搜索
                 .setThreshold(searchThreshold) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值以及人脸底片质量也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
-                .setSearchIntervalTime(1600) //默认2000，范围[0,9000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
+                .setSearchIntervalTime(1700) //默认2000，范围[0,9000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //后面版本去除次参数
                 .setProcessCallBack(new SearchProcessCallBack() {
                     /**
@@ -155,7 +156,7 @@ public class FaceSearch1N_LivenessActivity extends AbsBaseActivity {
                      * SearchProcessBuilder setCallBackAllMatch(true) onFaceMatched才会回调
                      */
                     @Override
-                    public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
+                    public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap,float livenessValue) {
                         //已经按照降序排列，可以弹出一个列表框。传给RN，Flutter,uniapp 插件使用
                         String json = new Gson().toJson(matchedResults);
                         Log.d("onFaceMatched", "符合设定阈值的结果: " + json);

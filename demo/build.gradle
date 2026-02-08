@@ -6,8 +6,8 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        versionCode 20260130
-        versionName "20260130"
+        versionCode 20260207
+        versionName "20260207"
 
         applicationId "com.ai.face.Demo"
         minSdk 21    //后期版本minSDK 会变为24, 也就是Android 7+
@@ -53,12 +53,17 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    //将工程so库进行压缩
+
+
+    //将工程so库进行压缩,减少APK体积
     packaging {
         jniLibs {
             useLegacyPackaging true
         }
     }
+
+
+
 
 }
 

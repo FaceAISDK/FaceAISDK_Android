@@ -16,6 +16,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import android.os.Build;
+
+
 /**
  * Function:Base64和Bitmap相互转换类
  */
@@ -63,6 +66,39 @@ public class BitmapUtils {
         return bitmap;
     }
 
+
+    public static String bitmapToBase64(Bitmap bitmap) {
+        if (bitmap == null) return null;
+
+        ByteArrayOutputStream baos = null;
+        try {
+            // 1. 内存优化：预分配 Buffer 大小，假设压缩比为 1/4
+            baos = new ByteArrayOutputStream(bitmap.getAllocationByteCount() / 4);
+
+            // 2. 格式优化：优先使用 WebP
+            int quality = 90; // 90 的质量兼顾了极佳的视觉效果和体积
+
+            // 3. 执行压缩
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+            byte[] bitmapBytes = baos.toByteArray();
+
+            // 4. 字符串优化：使用 StringBuilder 避免大对象拷贝
+
+            return "data:image/webp;base64," +
+                    Base64.encodeToString(bitmapBytes, Base64.NO_WRAP);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        } finally {
+            if (baos != null) {
+                try {
+                    baos.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+    }
 
     /**
      * bitmap转为base64

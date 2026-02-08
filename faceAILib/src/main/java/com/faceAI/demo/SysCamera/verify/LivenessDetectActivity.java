@@ -93,14 +93,12 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setLivenessOnly(true)
                 .setLivenessType(faceLivenessType)  //活体检测可以炫彩&动作活体组合，炫彩活体不能在强光下使用
-                .setSilentLivenessThreshold(0.7f)   //已经废弃，2025.12.19 改为炫彩活体检测
                 .setMotionLivenessStepSize(motionStepSize)             //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(motionTimeOut)               //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
                 .setLivenessDetectionMode(MotionLivenessMode.ACCURACY) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setMotionLivenessTypes(motionLivenessTypes)           //动作活体种类。1 张张嘴,2 微笑,3 眨眨眼,4 摇摇头,5 点点头
                 .setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
-
 
                     /**
                      * 动作活体+炫彩活体都 检测完成，返回活体分数
@@ -394,7 +392,9 @@ public class LivenessDetectActivity extends AbsBaseActivity {
 
     private void finishFaceVerify(int code, int msgStrRes, float livenessValue) {
         Intent intent = new Intent().putExtra("code", code)
+                .putExtra("livenessValue",livenessValue)
                 .putExtra("msg", getString(msgStrRes));
+
         setResult(RESULT_OK, intent);
         finish();
     }

@@ -129,7 +129,6 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
                 }
                 lastRGBDetectTime = currentTime;
 
-                Log.e(TAG,"Bitmap :"+bitmap.getWidth());
                 faceSearchSetBitmap(bitmap, FaceVerifyUtils.BitmapType.RGB);
 
                 // 结合上面的深拷贝

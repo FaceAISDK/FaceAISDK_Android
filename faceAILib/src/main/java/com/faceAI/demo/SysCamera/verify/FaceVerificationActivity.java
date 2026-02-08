@@ -224,13 +224,13 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             new ImageToast().show(getApplicationContext(), bitmap, similarity+"Success " + livenessValue);
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                finishFaceVerify(1, R.string.face_verify_result_success, similarity);
+                finishFaceVerify(1, R.string.face_verify_result_success, similarity,livenessValue);
             }, 1500);
         } else {
             //3.和底片不是同一个人
             VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
             new AlertDialog.Builder(FaceVerificationActivity.this).setTitle(R.string.face_verify_failed_title).setMessage(R.string.face_verify_failed).setCancelable(false).setPositiveButton(R.string.know, (dialogInterface, i) -> {
-                finishFaceVerify(2, R.string.face_verify_result_failed, similarity);
+                finishFaceVerify(2, R.string.face_verify_result_failed, similarity,livenessValue);
             }).setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify()).show();
         }
 
@@ -490,17 +490,18 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * 识别结束返回结果, 为了给uniApp UTS插件，RN，Flutter统一的交互返回格式
      */
     private void finishFaceVerify(int code, int msgStrRes) {
-        finishFaceVerify(code, msgStrRes, 0f);
+        finishFaceVerify(code, msgStrRes, 0f,0f);
     }
 
 
     /**
      * 识别结束返回结果, 为了给uniApp UTS插件，RN，Flutter统一的交互返回格式
      */
-    private void finishFaceVerify(int code, int msgStrRes, float similarity) {
+    private void finishFaceVerify(int code, int msgStrRes, float similarity,float livenessValue) {
         Intent intent = new Intent().putExtra("code", code)
                 .putExtra("faceID", faceID)
                 .putExtra("msg", getString(msgStrRes))
+                .putExtra("livenessValue",livenessValue)
                 .putExtra("similarity", similarity);
         setResult(RESULT_OK, intent);
         finish();
