@@ -60,9 +60,9 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             //批量导出人脸数据
             //val faceSearchFeatures:List<FaceSearchFeature> =FaceSearchFeatureManger.getInstance(this).queryAllFaceFaceFeature()
             //val faceSearchFeature: FaceSearchFeature? =FaceSearchFeatureManger.getInstance(this).queryFaceFeatureByID("test")
-            FaceSearchFeatureManger.getInstance(this).insertFeatures(JSONFaceFeatures.testJsonStrings) //json格式
             //FaceSearchFeatureManger.getInstance(this).insertFeatures(faceSearchFeatures) //数组对象
-            Toast.makeText(baseContext, "Done", Toast.LENGTH_SHORT).show()
+            val num=FaceSearchFeatureManger.getInstance(this).insertFeatures(JSONFaceFeatures.testJsonStrings) //json格式
+            Toast.makeText(baseContext, "Done,$num", Toast.LENGTH_SHORT).show()
         }
 
         //1:N 人脸搜索
