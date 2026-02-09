@@ -214,26 +214,24 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * 动作活体要有动作配合，必须先动作匹配通过再1：1 匹配
      */
     private int retryTime = 0;
-
     private void showVerifyResult(boolean isVerifyMatched, float similarity,float livenessValue, Bitmap bitmap) {
-        BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");//保存场景图给三方插件使用
+        BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");  //保存场景图给三方插件使用
 
-        if (isVerifyMatched) {
-            //2.和底片同一人
+        if (isVerifyMatched&&livenessValue>0.75) {
+            //2. 相似度>verifyThreshold，并且livenessValue>0.75
             VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-            new ImageToast().show(getApplicationContext(), bitmap, similarity+"Success " + livenessValue);
+            new ImageToast().show(getApplicationContext(), bitmap, getString(R.string.face_verify_success));
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 finishFaceVerify(1, R.string.face_verify_result_success, similarity,livenessValue);
             }, 1500);
         } else {
-            //3.和底片不是同一个人
+            //3. 相似度过低
             VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
             new AlertDialog.Builder(FaceVerificationActivity.this).setTitle(R.string.face_verify_failed_title).setMessage(R.string.face_verify_failed).setCancelable(false).setPositiveButton(R.string.know, (dialogInterface, i) -> {
                 finishFaceVerify(2, R.string.face_verify_result_failed, similarity,livenessValue);
             }).setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify()).show();
         }
-
     }
 
 

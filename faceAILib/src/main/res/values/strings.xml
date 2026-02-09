@@ -58,6 +58,7 @@
     <string name="face_search_image_manger_tips">Long press delete the face,right|top button to add new face</string>
 
     <!--1:1 人脸识别 face verify -->
+    <string name="face_verify_success">Face verify Success</string>
     <string name="face_verify_failed">Face verify failed！Please retry</string>
     <string name="face_verify_failed_title">Verify failed</string>
     <string name="silent_anti_spoofing_error">Silent anti spoofing error</string>
