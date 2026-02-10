@@ -160,14 +160,14 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                     /**
                      * 1:1 人脸识别 活体检测 对比结束
                      *
-                     * @param isMatched   true匹配成功（大于setThreshold）； false 与底片不是同一人
-                     * @param similarity  与底片匹配的相似度值
-                     * @param s           后面版本会去除
-                     * @param bitmap      识别完成的时候人脸实时图，金融级别应用可以再次和自己的服务器二次校验
+                     * @param isMatched     true匹配成功（大于setThreshold）； false 与底片不是同一人
+                     * @param similarity    与底片匹配的相似度值
+                     * @param livenessValue 活体分数(不同设备的情况可能不一样，建议大于0.75为真人)
+                     * @param bitmap        识别完成的时候人脸实时图，金融级别应用可以再次和自己的服务器二次校验
                      */
                     @Override
-                    public void onVerifyMatched(boolean isMatched, float similarity, float s, Bitmap bitmap) {
-                        showVerifyResult(isMatched, similarity, bitmap);
+                    public void onVerifyMatched(boolean isMatched, float similarity, float livenessValue, Bitmap bitmap) {
+                        showVerifyResult(isMatched, similarity, livenessValue, bitmap);
                     }
 
                     @Override
@@ -214,26 +214,24 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * 动作活体要有动作配合，必须先动作匹配通过再1：1 匹配
      */
     private int retryTime = 0;
+    private void showVerifyResult(boolean isVerifyMatched, float similarity,float livenessValue, Bitmap bitmap) {
+        BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");  //保存场景图给三方插件使用
 
-    private void showVerifyResult(boolean isVerifyMatched, float similarity, Bitmap bitmap) {
-        BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");//保存场景图给三方插件使用
-
-        if (isVerifyMatched) {
-            //2.和底片同一人
+        if (isVerifyMatched&&livenessValue>0.75) {
+            //2. 相似度>verifyThreshold，并且livenessValue>0.75
             VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-            new ImageToast().show(getApplicationContext(), bitmap, "Success " + similarity);
+            new ImageToast().show(getApplicationContext(), bitmap, getString(R.string.face_verify_success));
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                finishFaceVerify(1, R.string.face_verify_result_success, similarity);
+                finishFaceVerify(1, R.string.face_verify_result_success, similarity,livenessValue);
             }, 1500);
         } else {
-            //3.和底片不是同一个人
+            //3. 相似度过低
             VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
             new AlertDialog.Builder(FaceVerificationActivity.this).setTitle(R.string.face_verify_failed_title).setMessage(R.string.face_verify_failed).setCancelable(false).setPositiveButton(R.string.know, (dialogInterface, i) -> {
-                finishFaceVerify(2, R.string.face_verify_result_failed, similarity);
+                finishFaceVerify(2, R.string.face_verify_result_failed, similarity,livenessValue);
             }).setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify()).show();
         }
-
     }
 
 
@@ -490,17 +488,18 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * 识别结束返回结果, 为了给uniApp UTS插件，RN，Flutter统一的交互返回格式
      */
     private void finishFaceVerify(int code, int msgStrRes) {
-        finishFaceVerify(code, msgStrRes, 0f);
+        finishFaceVerify(code, msgStrRes, 0f,0f);
     }
 
 
     /**
      * 识别结束返回结果, 为了给uniApp UTS插件，RN，Flutter统一的交互返回格式
      */
-    private void finishFaceVerify(int code, int msgStrRes, float similarity) {
+    private void finishFaceVerify(int code, int msgStrRes, float similarity,float livenessValue) {
         Intent intent = new Intent().putExtra("code", code)
                 .putExtra("faceID", faceID)
                 .putExtra("msg", getString(msgStrRes))
+                .putExtra("livenessValue",livenessValue)
                 .putExtra("similarity", similarity);
         setResult(RESULT_OK, intent);
         finish();

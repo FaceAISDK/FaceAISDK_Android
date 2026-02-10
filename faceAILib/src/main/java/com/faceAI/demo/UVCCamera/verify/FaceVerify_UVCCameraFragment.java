@@ -92,17 +92,20 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
 //                .setCompareDurationTime(4500)         //动作活体通过后人脸对比时间，[3000,6000]毫秒。低配设备可以设置时间长一点，高配设备默认就
                 .setStopVerifyNoFaceRealTime(false)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
+
                     /**
                      * 1:1 人脸识别 活体检测 对比结束
                      *
-                     * @param isMatched   true匹配成功（大于setThreshold）； false 与底片不是同一人
-                     * @param similarity  与底片匹配的相似度值
-                     * @param vipBitmap   识别完成的时候人脸实时图，仅授权用户会返回。可以拿这张图和你的服务器再次严格匹配
+                     * @param isMatched     true匹配成功（大于setThreshold）； false 与底片不是同一人
+                     * @param similarity    与底片匹配的相似度值
+                     * @param livenessValue 活体分数(不同设备的情况可能不一样，建议大于0.75为真人)
+                     * @param bitmap        识别完成的时候人脸实时图，金融级别应用可以再次和自己的服务器二次校验
                      */
                     @Override
-                    public void onVerifyMatched(boolean isMatched, float similarity, float silentLivenessScore, Bitmap vipBitmap) {
-                        showVerifyResult(isMatched, similarity, silentLivenessScore);
+                    public void onVerifyMatched(boolean isMatched, float similarity, float livenessValue, Bitmap bitmap) {
+                        showVerifyResult(isMatched, similarity, livenessValue);
                     }
+
 
                     //人脸识别，活体检测过程中的各种提示
                     @Override

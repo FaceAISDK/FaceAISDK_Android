@@ -45,10 +45,11 @@ configurations.configureEach {
 dependencies {
 
     //SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
-    api 'io.github.faceaisdk:Android:2026.01.20'
+    api 'io.github.faceaisdk:Android:2026.02.09'
 
     //UVC协议USB摄像头（选配，不需要可以删除）源码: https://github.com/shiyinghan/UVCAndroid
-    implementation 'io.github.faceaisdk:UVCCamera:2025.07.30'
+//    implementation 'io.github.faceaisdk:UVCCamera:2026.01.20'
+    implementation 'com.herohan:UVCAndroid:1.0.11'
 
     //以下为业务需要其他依赖，不是SDK 运行的必须依赖
     implementation 'com.google.code.gson:gson:2.13.2' //把数据转为json str给UTS/flutter/RN插件使用
@@ -58,11 +59,11 @@ dependencies {
     implementation 'com.airbnb.android:lottie:6.5.2'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.8'
 
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-    ksp("com.github.bumptech.glide:ksp:4.16.0")
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    ksp 'com.github.bumptech.glide:ksp:4.16.0'
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation "androidx.recyclerview:recyclerview:1.3.2"
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
 
     //选照片，用于静态人脸图相似度对比，使用详情见 https://github.com/javakam/FileOperator
     implementation 'com.github.javakam:file.core:3.9.8@aar'      //核心库必选(Core library required)

@@ -41,21 +41,20 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
 import com.faceAI.demo.R;
 
 /**
- * FaceAISDK 工作仅仅需要人脸特征值就可以不需图片，保存图片是为了可视化操作演示方便
+ * FaceAISDK 工作仅仅需要人脸特征值就可以工作不需图片，保存图片是为了可视化操作演示方便以及某些业务场景还要关联图片
  *
  *
  * 网盘分享的3000 张人脸图链接: https://pan.baidu.com/s/1RfzJlc-TMDb0lQMFKpA-tQ?pwd=Face 提取码: Face
  *
  * @author FaceAISDK.service@gmail.com
  */
-public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
+public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
     private final List<ImageBean> faceImageList = new ArrayList<>();
     private FaceImageListAdapter faceImageListAdapter;
     public static final int REQUEST_ADD_FACE_IMAGE = 10086;
@@ -63,7 +62,7 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_face_image_manger);
+        setContentView(R.layout.activity_face_data_manger);
         setSupportActionBar(findViewById(R.id.toolbar));
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
@@ -100,7 +99,7 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
 
         TextView tips = findViewById(R.id.tips);
         tips.setOnLongClickListener(v -> {
-            new AlertDialog.Builder(FaceSearchImageMangerActivity.this)
+            new AlertDialog.Builder(FaceSearchDataMangerActivity.this)
                     .setTitle("Delete All Face Images？")
                     .setMessage("Are you sure to delete all face images? dangerous operation!")
                     .setPositiveButton(R.string.confirm, (dialog, which) -> {
@@ -169,7 +168,6 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
             if (subFaceFiles != null) {
                 // 排序 (耗时操作)
                 Arrays.sort(subFaceFiles, (f1, f2) -> Long.compare(f2.lastModified(), f1.lastModified()));
-
                 for (File value : subFaceFiles) {
                     if (!value.isDirectory()) {
                         // 在这里读取一次时间戳，存入 Bean
@@ -215,9 +213,19 @@ public class FaceSearchImageMangerActivity extends AbsAddFaceFromAlbumActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();//添加一张
         if (itemId == R.id.camera_add) {
-            Intent addFaceIntent = new Intent(getBaseContext(), AddFaceFeatureActivity.class);
-            addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceFeatureActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
-            startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
+            SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
+            int cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
+
+            if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
+                Intent addFaceIntent = new Intent(getBaseContext(), AddFaceFeatureActivity.class);
+                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceFeatureActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
+                startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
+            } else {
+                startActivity(
+                        new Intent(getBaseContext(), AddFace_UVCCameraActivity.class)
+                                .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_SEARCH.name()));
+            }
+
         } else if (itemId == R.id.assert_add) {//批量添加很多张测试验证人脸图
             copyFaceTestImage();
         } else if (itemId == android.R.id.home) {

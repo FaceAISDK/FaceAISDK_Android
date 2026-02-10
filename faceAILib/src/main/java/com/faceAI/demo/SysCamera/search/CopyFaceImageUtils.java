@@ -29,11 +29,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * 模拟同步大量图片人脸转为人脸特征值到SDK,强烈建议只维护人脸特征
+ * 模拟同步大量图片人脸转为1024长度人脸特征值到SDK
  * 为了演示简单，当前人脸图放在工程本地Assert目录。网络人脸图：https://postimg.cc/gallery/cYBKVYP
  *
- * 2025年11月23日优化：
- * 1. 改为串行递归处理，彻底解决多图并发导致的 OOM 问题。
+ * 强烈建议使用1024长度的人脸特征字符串，图片体积大，不便序列化传输管理
+ *   val faceSearchFeatures:List<FaceSearchFeature> =FaceSearchFeatureManger.getInstance(this).queryAllFaceFaceFeature()
+ *   FaceSearchFeatureManger.getInstance(this).insertFeatures(JSONFaceFeatures.testJsonStrings) //json 格式
+ *   FaceSearchFeatureManger.getInstance(this).insertFeatures(faceSearchFeatures) //数组对象
+ *
+ *
  */
 public class CopyFaceImageUtils {
     private static final String TAG = "CopyFaceImageUtils";

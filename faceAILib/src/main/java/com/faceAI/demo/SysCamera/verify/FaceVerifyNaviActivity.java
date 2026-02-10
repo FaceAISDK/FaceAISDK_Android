@@ -47,7 +47,7 @@ import java.util.Objects;
  * <p>
  * 包含怎么添加人脸照片，人脸活体检测，人脸识别
  */
-public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
+public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
     private final List<ImageBean> faceImageList = new ArrayList<>();
     private FaceImageListAdapter faceImageListAdapter;
 
@@ -56,7 +56,7 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_face_verify_welcome);
+        setContentView(R.layout.activity_face_verify_navi);
         setSupportActionBar(findViewById(R.id.toolbar));
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
@@ -70,6 +70,7 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
         } else if (cameraType == FaceAICameraType.UVC_CAMERA_RGB_IR) {
             cameraTypeText.setText(R.string.camera_type_uvc_rgb_ir);
         }
+
 
         LinearLayout addFaceView = findViewById(R.id.add_face_from_camera);
         addFaceView.setOnClickListener(view -> {

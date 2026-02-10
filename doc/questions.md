@@ -7,7 +7,7 @@
    SDK 目前托管在Maven central，SDK所有功能都是离线端侧运行。
 
 ### 1.集成SDK开发环境和Gradle插件版本是怎样的 ？ 
-   开发环境 Android Studio Otter 2 Feature Drop | 2025.2.2 （可选升级，内置Gemini3 AI辅助开发）
+   开发环境 Android Studio Otter 2 Feature Drop | 2025.2.3 （可选升级，内置Gemini3 AI辅助开发）
    AGP版本8.13(非强制)  java17+, kotlin 1.9+
 
    注：为了更好的使用AI 辅助编程开发,2025年10月31号我们对默认开发环境升级到上述版本，相信借助AI辅助你也能很快升级
@@ -54,7 +54,20 @@
      }                   
    ```
 
-### 5.数据
+### 5.怎么裁剪SDK的体积
+   目前SDK所有功能都在一个依赖里面，包体积已经精简但对于某些场景App还是过大，你可以
+   1.配置SO压缩，安装包体积将会大大减少，但占有设备存储多一些
+   ```
+    //将工程so库进行压缩,请进行兼容测试
+    packaging {
+        jniLibs {
+            useLegacyPackaging true
+        }
+    }
+   ```
+   2.去除X86以及32位CPU 配置，大部分的设备都不需要这两种CPU
+
+   后面我们将会对依赖进行拆分，需要哪个功能就配置依赖哪个
 
 ### 6.人脸识别的阈值设置说明
    1:1 和 1:N 人脸识别都有相应的API设置阈值setThreshold(0.88f) //阈值设置，范围限 [0.75 , 0.95]

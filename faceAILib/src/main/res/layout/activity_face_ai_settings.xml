@@ -32,7 +32,7 @@
             android:orientation="vertical">
             
             <TextView
-                android:id="@+id/system_camera_tips"
+                android:id="@+id/face_search_tips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"
@@ -44,7 +44,7 @@
                 android:textSize="13sp" />
 
             <LinearLayout
-                android:id="@+id/system_camera_search_navi"
+                android:id="@+id/face_search_navi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"
@@ -67,7 +67,7 @@
                         android:layout_height="33dp"
                         android:padding="3dp"
                         app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
+                        app:lottie_repeatCount="1"
                         app:lottie_rawRes="@raw/switch_camera"
                         app:lottie_speed="0.6" />
 
@@ -119,7 +119,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/uvc_usb_camera_tips"
+                android:id="@+id/face_manger_tips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"

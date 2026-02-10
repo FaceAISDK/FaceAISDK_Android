@@ -82,7 +82,7 @@
                 android:paddingStart="5dp"
                 android:text="@string/camera_type_select"
                 android:textColor="@color/half_white"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/camera_type_select"
@@ -96,7 +96,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/camera_type_system"
                 android:textColor="@color/white"
-                android:textSize="10sp" />
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -121,7 +121,7 @@
                 android:layout_marginEnd="11dp"
                 android:padding="1dp"
                 app:lottie_autoPlay="true"
-                app:lottie_loop="true"
+                app:lottie_repeatCount="1"
                 app:lottie_rawRes="@raw/face_verify"
                 app:lottie_speed="1" />
 
@@ -154,7 +154,7 @@
                 android:layout_marginStart="13dp"
                 android:layout_marginEnd="11dp"
                 app:lottie_autoPlay="true"
-                app:lottie_loop="true"
+                app:lottie_repeatCount="1"
                 app:lottie_rawRes="@raw/face_search" />
 
             <TextView
@@ -190,7 +190,7 @@
                 android:layout_marginStart="11dp"
                 android:layout_marginEnd="13dp"
                 app:lottie_autoPlay="true"
-                app:lottie_loop="true"
+                app:lottie_repeatCount="1"
                 app:lottie_rawRes="@raw/add_face"
                 app:lottie_speed="1" />
 

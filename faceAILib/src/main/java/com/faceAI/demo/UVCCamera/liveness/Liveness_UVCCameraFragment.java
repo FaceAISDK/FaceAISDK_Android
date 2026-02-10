@@ -60,18 +60,19 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)  //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setMotionLivenessTypes("1,2,3,4,5")                //动作活体种类。1 张张嘴,2 微笑,3 眨眨眼,4 摇摇头,5 点点头
                 .setProcessCallBack(new ProcessCallBack() {
+
                     /**
-                     * 活体检测完成，动作活体没有超时
+                     * 动作活体+炫彩活体都 检测完成，返回活体分数
                      *
-                     * @param score
-                     * @param bitmap
+                     * @param livenessValue 活体分数(不同设备的情况可能不一样，建议大于0.75为真人)
+                     * @param bitmap 活体检测快照，可以用于log记录
                      */
                     @Override
-                    public void onLivenessDetected(float score, Bitmap bitmap) {
-                            tipsTextView.setText(R.string.liveness_detection_done);
-                            VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-                            BitmapUtils.saveScaledBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
-                            requireActivity().finish();
+                    public void onLivenessDetected(float livenessValue, Bitmap bitmap) {
+                        tipsTextView.setText(R.string.liveness_detection_done);
+                        VoicePlayer.getInstance().addPayList(R.raw.verify_success);
+                        BitmapUtils.saveScaledBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
+                        requireActivity().finish();
                     }
 
                     //人脸识别，活体检测过程中的各种提示
