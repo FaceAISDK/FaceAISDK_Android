@@ -258,6 +258,7 @@ public class FaceSearch1N_LivenessActivity extends AbsBaseActivity {
                 break;
 
             case NO_LIVE_FACE:
+                Log.d("NO_LIVE_FACE", "没有检测到人脸" );
                 setSearchTips(R.string.no_face_detected_tips);
                 break;
 
