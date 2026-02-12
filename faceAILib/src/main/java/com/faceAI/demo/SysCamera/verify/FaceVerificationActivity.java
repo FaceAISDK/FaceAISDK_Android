@@ -66,7 +66,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = 6; //动作超时秒
     private String motionLivenessTypes = "1,2,3,4,5"; //动作活体种类用英文","隔开； 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
-    private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION;  //活体检测类型.20251220  新加 MOTION_COLOR_FLASH炫彩活体
+    private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_LIVE;  //活体检测类型.20251220  新加 MOTION_COLOR_FLASH炫彩活体
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private TextView tipsTextView, secondTipsTextView;
     private FaceVerifyCoverView faceCoverView;
@@ -149,7 +149,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 .setThreshold(verifyThreshold)          //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
                 .setFaceFeature(faceFeature)            //1:1 人脸识别对比的底片人脸特征值字符串
                 .setCameraType(FaceAICameraType.SYSTEM_CAMERA)  //相机类型，目前分为3种
-                .setCompareDurationTime(4000)           //人脸识别对比时间[3000,6000] 毫秒。相似度低会持续识别比对的时间
+                .setCompareDurationTime(3000)           //人脸识别对比时间[3000,6000] 毫秒。相似度低会持续识别比对的时间
                 .setLivenessType(faceLivenessType)      //活体检测可以炫彩&动作活体组合，炫彩活体不能在强光下使用
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)    //硬件配置低或不需太严格用FAST快速模式，否则用精确模式
                 .setMotionLivenessStepSize(motionStepSize)            //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
