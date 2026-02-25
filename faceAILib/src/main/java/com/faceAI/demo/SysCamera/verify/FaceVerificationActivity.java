@@ -220,7 +220,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         if (isVerifyMatched&&livenessValue>0.75) {
             //2. 相似度>verifyThreshold，并且livenessValue>0.75
             VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-            new ImageToast().show(getApplicationContext(), bitmap, getString(R.string.face_verify_success));
+            new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 finishFaceVerify(1, R.string.face_verify_result_success, similarity,livenessValue);

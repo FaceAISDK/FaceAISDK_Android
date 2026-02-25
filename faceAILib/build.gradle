@@ -29,7 +29,7 @@ android {
 }
 
 
-//CameraX，适配Android16 KB Page请强制升级到1.4.2 以上版本. 炫彩活体基于1.4.2 验证
+//CameraX，适配Android16 KB Page请强制升级到1.4.2 以上版本.
 //如果TargetSDK 还是古老的28～30 ，你只能用1.2.3 版本
 def camera_version = "1.4.2"
 configurations.configureEach {
@@ -45,7 +45,7 @@ configurations.configureEach {
 dependencies {
 
     //SDK接入Demo源码及介绍：https://github.com/FaceAISDK/FaceAISDK_Android
-    api 'io.github.faceaisdk:Android:2026.02.12'
+    api 'io.github.faceaisdk:Android:2026.02.14'
 
     //UVC协议USB摄像头（选配，不需要可以删除）源码: https://github.com/shiyinghan/UVCAndroid
 //    implementation 'io.github.faceaisdk:UVCCamera:2026.01.20'

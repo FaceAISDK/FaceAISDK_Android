@@ -111,7 +111,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     public void onLivenessDetected(float livenessValue, Bitmap bitmap) {
                         BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap"); //保存给插件用，原生开发忽略
                         VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-                        new ImageToast().show(getApplicationContext(), bitmap, getString(R.string.face_verify_success)); //判断一下
+                        new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success)); //判断一下
                         finishFaceVerify(10, R.string.liveness_detection_done, livenessValue);
                     }
 
