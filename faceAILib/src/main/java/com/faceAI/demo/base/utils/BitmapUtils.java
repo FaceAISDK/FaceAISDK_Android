@@ -38,7 +38,7 @@ public class BitmapUtils {
             try {
                 FileOutputStream fos = new FileOutputStream(file);
                 disposedBitmap = Bitmap.createScaledBitmap(disposedBitmap, 280, 280, true);
-                disposedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                disposedBitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
                 fos.flush();
                 fos.close();
             } catch (IOException e) {
