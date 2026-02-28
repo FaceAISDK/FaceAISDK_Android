@@ -121,7 +121,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         baseImageDispose = new BaseImageDispose(this, addFacePerformanceMode, new BaseImageCallBack() {
             /**
              * 人脸检测裁剪完成
-             * @param bitmap           检测裁剪后的Bitmap
+             * @param bitmap           SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
              * @param silentScore      静默活体分数
              * @param faceBrightness   人脸周围环境光线亮度
              */
@@ -318,7 +318,6 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     private void finishConfirm(Dialog dialog, String faceFeature){
         dialog.dismiss();
         finishAddFace(1, "Add face success",faceFeature);
-        Toast.makeText(getBaseContext(), "Add face success", Toast.LENGTH_LONG).show();
     }
 
 
