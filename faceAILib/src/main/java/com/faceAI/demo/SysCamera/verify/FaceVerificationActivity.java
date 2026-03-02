@@ -224,7 +224,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 finishFaceVerify(1, R.string.face_verify_result_success, similarity,livenessValue);
-            }, 1500);
+            }, 1200);
         } else {
             //3. 相似度过低
             VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
