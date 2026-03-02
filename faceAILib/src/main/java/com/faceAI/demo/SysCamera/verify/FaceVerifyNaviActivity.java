@@ -23,7 +23,6 @@ import com.ai.face.core.utils.FaceAICameraType;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.UVCCamera.verify.FaceVerify_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
-import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraFragment;
 import com.faceAI.demo.SysCamera.addFace.AddFaceFeatureActivity;
 import com.faceAI.demo.SysCamera.search.ImageBean;
 import com.bumptech.glide.Glide;
@@ -81,7 +80,7 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
                     } else {
                         startActivity(
                                 new Intent(getBaseContext(), AddFace_UVCCameraActivity.class)
-                                        .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_VERIFY.name()));
+                                        .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraActivity.AddFaceImageTypeEnum.FACE_VERIFY.name()));
                     }
                 }
         );

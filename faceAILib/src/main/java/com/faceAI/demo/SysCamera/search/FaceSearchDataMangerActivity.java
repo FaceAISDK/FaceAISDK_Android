@@ -28,7 +28,6 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.SysCamera.verify.AbsAddFaceFromAlbumActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
-import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraFragment;
 import com.faceAI.demo.SysCamera.addFace.AddFaceFeatureActivity;
 import com.ai.face.faceSearch.search.Image2FaceFeature;
 import com.bumptech.glide.Glide;
@@ -111,7 +110,7 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
         });
 
         //添加人脸照片，UVC协议摄像头添加还是普通的系统相机
-        if (getIntent().getExtras().getBoolean("isAdd")) {
+        if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean("isAdd")) {
             SharedPreferences sharedPref =getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
             int cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
 
@@ -121,7 +120,7 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
                 addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFaceFeatureActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
             } else {
                 addFaceIntent = new Intent(getBaseContext(), AddFace_UVCCameraActivity.class);
-                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_SEARCH.name());
+                addFaceIntent.putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraActivity.AddFaceImageTypeEnum.FACE_SEARCH.name());
             }
             startActivityForResult(addFaceIntent, REQUEST_ADD_FACE_IMAGE);
         }
@@ -223,7 +222,7 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
             } else {
                 startActivity(
                         new Intent(getBaseContext(), AddFace_UVCCameraActivity.class)
-                                .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_SEARCH.name()));
+                                .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraActivity.AddFaceImageTypeEnum.FACE_SEARCH.name()));
             }
 
         } else if (itemId == R.id.assert_add) {//批量添加很多张测试验证人脸图
