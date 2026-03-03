@@ -16,6 +16,7 @@ import com.ai.face.faceVerify.verify.VerifyStatus;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.faceAI.demo.R;
+import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.faceAI.demo.base.utils.VoicePlayer;
@@ -27,7 +28,7 @@ import com.faceAI.demo.base.utils.VoicePlayer;
  */
 public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
     private TextView tipsTextView, secondTipsTextView, scoreText;
-    private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION;//活体检测类型
+    private FaceLivenessType faceLivenessType = FaceLivenessType.IR;//活体检测类型
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = 7; //动作超时秒
     private int exceptMotionLiveness = -1; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
@@ -64,14 +65,20 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                     /**
                      * 动作活体+炫彩活体都 检测完成，返回活体分数
                      *
-                     * @param livenessValue 活体分数(不同设备的情况可能不一样，建议大于0.75为真人)
+                     * @param livenessValue 静默活体分数(不同设备的情况可能不一样，建议大于0.75为真人)
                      * @param bitmap 活体检测快照，可以用于log记录
                      */
                     @Override
                     public void onLivenessDetected(float livenessValue, Bitmap bitmap) {
+                        if(livenessValue>0.75){ //静默活体分数，
+                            VoicePlayer.getInstance().addPayList(R.raw.verify_success);
+                            new ImageToast().show(requireContext(), getString(R.string.face_verify_success)+livenessValue);
+                        }else{
+                            VoicePlayer.getInstance().addPayList(R.raw.ding_failed);
+                            new ImageToast().show(requireContext(), getString(R.string.face_verify_failed)+livenessValue);
+                        }
                         tipsTextView.setText(R.string.liveness_detection_done);
-                        VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-                        BitmapUtils.saveScaledBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
+                        BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap");
                         requireActivity().finish();
                     }
 

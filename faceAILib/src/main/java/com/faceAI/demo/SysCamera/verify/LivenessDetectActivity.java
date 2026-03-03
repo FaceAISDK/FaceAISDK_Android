@@ -104,14 +104,19 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     /**
                      * 动作活体+炫彩活体都 检测完成，返回活体分数
                      *
-                     * @param livenessValue 活体分数(不同设备的情况可能不一样，建议大于0.75为真人)
+                     * @param livenessValue 静默&炫彩活体分数，仅动作活体可以忽略判断(不同设备的情况可能不一样，建议大于0.75为真人)
                      * @param bitmap 活体检测快照，可以用于log记录
                      */
                     @Override
                     public void onLivenessDetected(float livenessValue, Bitmap bitmap) {
-                        BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap"); //保存给插件用，原生开发忽略
-                        VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-                        new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success)); //判断一下
+                        BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap");
+                        if(livenessValue>0.75){
+                            VoicePlayer.getInstance().addPayList(R.raw.verify_success);
+                            new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
+                        }else{
+                            VoicePlayer.getInstance().addPayList(R.raw.ding_failed);
+                            new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_failed));
+                        }
                         finishFaceVerify(10, R.string.liveness_detection_done, livenessValue);
                     }
 
@@ -205,6 +210,10 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                                     faceVerifyUtils.retryVerify();
                                 }
                             }).show();
+                    break;
+
+                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_START:
+                    VoicePlayer.getInstance().play(R.raw.closer_to_screen);
                     break;
 
                 // 动作活体检测完成了
