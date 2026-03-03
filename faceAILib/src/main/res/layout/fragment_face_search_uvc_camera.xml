@@ -38,7 +38,7 @@
         app:layout_constraintHeight_max="wrap"
         app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/rgb_camera_view"
+        app:layout_constraintTop_toBottomOf="@+id/rgb_camera_view"
         app:layout_constraintWidth_max="wrap"
         app:layout_constraintWidth_percent="0.25" />
 

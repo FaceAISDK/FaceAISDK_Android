@@ -1,5 +1,6 @@
 package com.faceAI.demo.UVCCamera.verify;
 
+import static com.faceAI.demo.FaceSDKConfig.CACHE_FACE_LOG_DIR;
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 
 import android.graphics.Bitmap;
@@ -21,6 +22,9 @@ import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
+import com.faceAI.demo.SysCamera.search.ImageToast;
+import com.faceAI.demo.SysCamera.verify.FaceVerificationActivity;
+import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.R;
 import com.tencent.mmkv.MMKV;
@@ -139,27 +143,27 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
      * <p>
      * 动作活体要有动作配合，必须先动作匹配通过再1：1 匹配
      */
-    void showVerifyResult(boolean isVerifyMatched, float similarity, float score) {
-            scoreText.setText("score:" + score);
-           if(isVerifyMatched) {
-                //1.和底片同一人
-                tipsTextView.setText("Successful,similarity= " + similarity);
-                VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-                new Handler(Looper.getMainLooper()).postDelayed(requireActivity()::finish, 1000);
-            } else {
-                //2.和底片不是同一个人
-                tipsTextView.setText("Failed ！ similarity=" + similarity);
-                VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
-                new AlertDialog.Builder(requireContext())
-                        .setMessage(R.string.face_verify_failed)
-                        .setCancelable(false)
-                        .setPositiveButton(R.string.confirm, (dialogInterface, i) -> requireActivity().finish())
-                        .setNegativeButton(R.string.retry, (dialog, which) -> {
-                            faceVerifyUtils.retryVerify();
-                        })
-                        .show();
+    void  showVerifyResult(boolean isVerifyMatched, float similarity, float livenessValue) {
+        if (isVerifyMatched&&livenessValue>0.75) {
+            //2. 相似度>verifyThreshold，并且livenessValue>0.75(动作活体可以忽略这个值)
+            VoicePlayer.getInstance().addPayList(R.raw.verify_success);
+            new ImageToast().show(requireContext(), getString(R.string.face_verify_success));
 
-            }
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                requireActivity().finish();
+            }, 1200);
+        } else {
+            //3. 相似度过低
+            VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
+            new AlertDialog.Builder(requireContext())
+                    .setTitle(R.string.face_verify_failed_title)
+                    .setMessage(R.string.face_verify_failed)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.know, (dialogInterface, i) -> {
+                        requireActivity().finish();
+            }).setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify()).show();
+        }
+
     }
 
 

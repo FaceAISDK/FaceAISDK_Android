@@ -6,12 +6,12 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        versionCode 20260301
-        versionName "20260301"
+        versionCode 20260302
+        versionName "20260302"
 
         applicationId "com.ai.face.Demo"
-        minSdk 21    //后期版本minSDK 会变为24, 也就是Android 7+
-        targetSdk 35    //target SDK 还是28 的请参考question.md 文档说明
+        minSdk 21     //后期版本minSDK 会变为24, 也就是Android 7+
+        targetSdk 35  //target SDK 还是28 的请参考question.md 文档说明
         
         ndk {
 //            abiFilters 'arm64-v8a' //99% 的设备都是64位CPU了，还有32位的自行配置
