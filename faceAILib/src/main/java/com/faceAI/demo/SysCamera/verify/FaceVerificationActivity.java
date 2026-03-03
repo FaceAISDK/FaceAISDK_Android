@@ -64,9 +64,9 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
     private float verifyThreshold = 0.86f; //1:1 人脸识别对比通过的阈值，根据使用场景自行调整
     private int motionStepSize = 2; //动作活体的个数
-    private int motionTimeOut = 6; //动作超时秒
+    private int motionTimeOut = 6;  //动作超时秒
     private String motionLivenessTypes = "1,2,3,4,5"; //动作活体种类用英文","隔开； 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
-    private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_LIVE;  //活体检测类型.20251220  新加 MOTION_COLOR_FLASH炫彩活体
+    private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION;  //活体检测类型.20251220  新加 MOTION_COLOR_FLASH炫彩活体
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private TextView tipsTextView, secondTipsTextView;
     private FaceVerifyCoverView faceCoverView;
@@ -162,7 +162,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                      *
                      * @param isMatched     true匹配成功（大于setThreshold）； false 与底片不是同一人
                      * @param similarity    与底片匹配的相似度值
-                     * @param livenessValue 活体分数(不同设备的情况可能不一样，建议大于0.75为真人)
+                     * @param livenessValue 静默&炫彩活体分数，仅动作活体可以忽略判断(不同设备的情况可能不一样，建议大于0.75为真人)
                      * @param bitmap        识别完成的时候人脸实时图，金融级别应用可以再次和自己的服务器二次校验
                      */
                     @Override
@@ -218,7 +218,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");  //保存场景图给三方插件使用
 
         if (isVerifyMatched&&livenessValue>0.75) {
-            //2. 相似度>verifyThreshold，并且livenessValue>0.75
+            //2. 相似度>verifyThreshold，并且livenessValue>0.75(动作活体可以忽略这个值)
             VoicePlayer.getInstance().addPayList(R.raw.verify_success);
             new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
 
@@ -285,13 +285,13 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                             }).show();
                     break;
 
+                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_START:
+                    VoicePlayer.getInstance().play(R.raw.closer_to_screen);
+                    break;
+
                 // 动作活体检测完成了
                 case ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_SUCCESS:
                     setMainTips(R.string.keep_face_visible);
-                    if (faceLivenessType.equals(FaceLivenessType.COLOR_FLASH_MOTION)) {
-                        //如果还配置了炫彩活体，最好语音提前提示靠近屏幕，以便彩色光达到脸上
-                        VoicePlayer.getInstance().play(R.raw.closer_to_screen);
-                    }
                     break;
 
                 // 动作活体检测超时
