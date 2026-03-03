@@ -50,7 +50,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
     public static final String MOTION_LIVENESS_TYPES = "MOTION_LIVENESS_TYPES"; //动作活体种类
     private int retryTime = 0; //记录失败尝试的次数
-    private FaceLivenessType faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION; //活体检测类型
+    private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION; //活体检测类型
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = 7;  //动作超时秒
     private String motionLivenessTypes = "1,2,3,4,5"; //【配置动作活体类型】1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
@@ -219,8 +219,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 // 动作活体检测完成了
                 case ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_SUCCESS:
                     setMainTips(R.string.keep_face_visible);
-                    //如果还配置了炫彩活体，最好语音提前提示靠近屏幕，以便彩色光达到脸上
-                    VoicePlayer.getInstance().play(R.raw.closer_to_screen);
                     break;
 
                 // 动作活体检测超时
