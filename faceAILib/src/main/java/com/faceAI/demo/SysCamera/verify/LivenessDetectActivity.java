@@ -52,7 +52,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     private int retryTime = 0; //记录失败尝试的次数
     private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION; //活体检测类型
     private int motionStepSize = 2; //动作活体的个数
-    private int motionTimeOut = 7;  //动作超时秒
+    private int motionTimeOut = 3*motionStepSize+1;  //动作超时秒，低端机可以设置长一点
     private String motionLivenessTypes = "1,2,3,4,5"; //【配置动作活体类型】1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
 
     @Override

@@ -3,18 +3,18 @@ plugins {
 }
 
 android {
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
-        versionCode 20260302
-        versionName "20260302"
+        versionCode 20260306
+        versionName "20260306"
 
         applicationId "com.ai.face.Demo"
         minSdk 21     //后期版本minSDK 会变为24, 也就是Android 7+
-        targetSdk 35  //target SDK 还是28 的请参考question.md 文档说明
+        targetSdk 34  //target SDK 还是28 的请参考question.md 文档说明
         
         ndk {
-//            abiFilters 'arm64-v8a' //99% 的设备都是64位CPU了，还有32位的自行配置
+//            abiFilters 'arm64-v8a' //仅保留64位CPU 缩减APK体积
             abiFilters 'armeabi-v7a', 'arm64-v8a' //根据CPU架构选择对应ABI
         }
     }

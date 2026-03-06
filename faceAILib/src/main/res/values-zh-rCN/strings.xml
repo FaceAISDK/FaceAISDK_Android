@@ -100,7 +100,7 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="only_motion_liveness_detection">仅人脸活体检测</string>
     <string name="face_search_navi">1:N &amp; M:N人脸搜索识别 </string>
     <string name="face_search">人脸搜索识别</string>
-    <string name="two_face_image_verify">静态人脸图1:1对比 </string>
+    <string name="two_face_image_verify">静态人脸1:1对比(Beta)</string>
     <string name="switch_camera">切换前后摄像头 </string>
     <string name="about_us">- 关于我们 About US -</string>
     <string name="custom_camera">自定义调试系统相机</string>
@@ -109,7 +109,7 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="camera_type_uvc_rgb_ir">UVC摄像头(RGB+IR)</string>
     <string name="camera_type_uvc_rgb">UVC RGB摄像头</string>
     <string name="uvc_camera_type">UVC 相机类型选择</string>
-
+    <string name="copy_face_feature">复制人脸特征值</string>
 
     <!--1:N and M:N face search-->
     <string name="face_data_manage">人脸数据管理</string>

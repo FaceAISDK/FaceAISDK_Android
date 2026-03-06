@@ -3,11 +3,13 @@ package com.faceAI.demo.SysCamera.search
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import com.ai.face.core.utils.FaceAICameraType
+import com.ai.face.faceSearch.search.FaceSearchFeature
 import com.ai.face.faceSearch.search.FaceSearchFeatureManger
 import com.faceAI.demo.FaceAISettingsActivity
 import com.faceAI.demo.R
@@ -56,12 +58,14 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
         //批量导入导出人脸特征数据。 SDK不需要图片，如果业务也不需要图片，强烈建议转位人脸特征
+        //删除插入时IO线程操作的，所以插入后立即主线程查询会有延迟
         binding.insertFaceFeatures.setOnClickListener {
-            //批量导出人脸数据
-            //val faceSearchFeatures:List<FaceSearchFeature> =FaceSearchFeatureManger.getInstance(this).queryAllFaceFaceFeature()
-            //val faceSearchFeature: FaceSearchFeature? =FaceSearchFeatureManger.getInstance(this).queryFaceFeatureByID("test")
-            //FaceSearchFeatureManger.getInstance(this).insertFeatures(faceSearchFeatures) //数组对象
-            val num=FaceSearchFeatureManger.getInstance(this).insertFeatures(JSONFaceFeatures.testJsonStrings) //json格式
+            val faceSearchFeatures:List<FaceSearchFeature> =FaceSearchFeatureManger.getInstance(this).queryAllFaceFaceFeature()
+            Log.d("insertFaceFeatures","人脸库已有："+faceSearchFeatures.size);
+
+            //val testFeature: FaceSearchFeature? =FaceSearchFeatureManger.getInstance(this).queryFaceFeatureByID("test")
+            //FaceSearchFeatureManger.getInstance(this).insertFeatures(faceSearchFeatures) //批量插入数组
+            val num=FaceSearchFeatureManger.getInstance(this).insertFeatures(JSONFaceFeatures.testJsonStrings) //批量插入json格式
             Toast.makeText(baseContext, "Done,$num", Toast.LENGTH_SHORT).show()
         }
 
@@ -73,7 +77,7 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
                 intent.putExtra(FaceSearch1NActivity.SEARCH_ONE_TIME, true)
                 intent.putExtra(FaceSearch1NActivity.NEED_FACE_LIVE, false)
                 intent.putExtra(FaceSearch1NActivity.IS_CAMERA_SIZE_HIGH, false) //默认给false
-                intent.putExtra(FaceSearch1NActivity.CAMERA_ID, CameraSelector.LENS_FACING_BACK)
+                intent.putExtra(FaceSearch1NActivity.CAMERA_ID, CameraSelector.LENS_FACING_FRONT)
                 startActivity(intent)
             } else {
                 //UVC 参数后期再完善
@@ -89,7 +93,7 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
                 intent.putExtra(FaceSearch1NActivity.SEARCH_ONE_TIME, true)
                 intent.putExtra(FaceSearch1NActivity.NEED_FACE_LIVE, true)
                 intent.putExtra(FaceSearch1NActivity.IS_CAMERA_SIZE_HIGH, false) //默认给false
-                intent.putExtra(FaceSearch1NActivity.CAMERA_ID, CameraSelector.LENS_FACING_BACK)
+                intent.putExtra(FaceSearch1NActivity.CAMERA_ID, CameraSelector.LENS_FACING_FRONT)
                 startActivity(intent)
             } else {
                 //UVC 参数后期再完善
