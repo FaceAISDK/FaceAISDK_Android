@@ -44,12 +44,11 @@ import java.util.Objects;
 /**
  * 1:1 人脸识别引导说明页面
  * <p>
- * 包含怎么添加人脸照片，人脸活体检测，人脸识别
+ * 包含怎么添加人脸照片，1:1人脸比对识别
  */
 public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
     private final List<ImageBean> faceImageList = new ArrayList<>();
     private FaceImageListAdapter faceImageListAdapter;
-
     private int cameraType = FaceAICameraType.SYSTEM_CAMERA;
 
     @Override
@@ -70,7 +69,6 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
             cameraTypeText.setText(R.string.camera_type_uvc_rgb_ir);
         }
 
-
         LinearLayout addFaceView = findViewById(R.id.add_face_from_camera);
         addFaceView.setOnClickListener(view -> {
                     if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
@@ -86,7 +84,7 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
         );
 
         /*
-         * 从相册选人脸图,提取特征值（并没有对人脸角度等校验）。
+         * 从相册选人脸图,提取特征值（并没有对人脸角度等校验）
          * 强烈建议通过FaceAISDK 添加人脸
          */
         LinearLayout addFaceFromPhoto = findViewById(R.id.add_face_from_photo);
