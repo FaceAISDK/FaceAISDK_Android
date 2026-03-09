@@ -58,8 +58,8 @@ import java.util.Objects;
  * <p>
  * 其他系统的录入的人脸请自行保证人脸规范，否则会导致识别错误
  * -  1. 尽量使用较高配置设备和摄像头，光线不好带上补光灯
- * -  2. 录入高质量的人脸图，人脸清晰，背景简单（证件照输入目前优化中）
- * -  3. 光线环境好，检测的人脸化浓妆或佩戴墨镜 口罩 帽子等遮盖
+ * -  2. 录入高质量的正脸图，人脸清晰，背景简单纯色
+ * -  3. 光线环境好，人脸不能化浓妆或佩戴墨镜 口罩 帽子等遮盖
  * -  4. 人脸照片要求300*300 裁剪好的仅含人脸的正方形照片
  *
  * @author FaceAISDK.Service@gmail.com
@@ -121,12 +121,12 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         baseImageDispose = new BaseImageDispose(this, addFacePerformanceMode, new BaseImageCallBack() {
             /**
              * 人脸检测裁剪完成
-             * @param bitmap           检测裁剪后的Bitmap
-             * @param score           （暂时不检测）
+             * @param bitmap           SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
+             * @param silentScore      静默活体分数
              * @param faceBrightness   人脸周围环境光线亮度
              */
             @Override
-            public void onCompleted(Bitmap bitmap, float score,float faceBrightness) {
+            public void onCompleted(Bitmap bitmap, float silentScore,float faceBrightness) {
                 isConfirmAdd=true;
                 //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
                 //如果非SDK相机录入的人脸照片提取特征值用异步方法 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
@@ -170,7 +170,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             if (!isDestroyed() && !isFinishing() && !isConfirmAdd) {
                 //某些设备如果一直提示检测不到人脸，可以断点调试看看转化的Bitmap 是否有问题
-                baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy, 10, false));
+                baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy));
             }
         });
 
@@ -318,7 +318,6 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     private void finishConfirm(Dialog dialog, String faceFeature){
         dialog.dismiss();
         finishAddFace(1, "Add face success",faceFeature);
-        Toast.makeText(getBaseContext(), "Add face success", Toast.LENGTH_LONG).show();
     }
 
 

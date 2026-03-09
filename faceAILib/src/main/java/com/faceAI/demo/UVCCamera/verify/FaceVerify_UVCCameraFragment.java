@@ -1,5 +1,6 @@
 package com.faceAI.demo.UVCCamera.verify;
 
+import static com.faceAI.demo.FaceSDKConfig.CACHE_FACE_LOG_DIR;
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 
 import android.graphics.Bitmap;
@@ -21,6 +22,9 @@ import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
+import com.faceAI.demo.SysCamera.search.ImageToast;
+import com.faceAI.demo.SysCamera.verify.FaceVerificationActivity;
+import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.R;
 import com.tencent.mmkv.MMKV;
@@ -92,17 +96,20 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
 //                .setCompareDurationTime(4500)         //动作活体通过后人脸对比时间，[3000,6000]毫秒。低配设备可以设置时间长一点，高配设备默认就
                 .setStopVerifyNoFaceRealTime(false)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
+
                     /**
                      * 1:1 人脸识别 活体检测 对比结束
                      *
-                     * @param isMatched   true匹配成功（大于setThreshold）； false 与底片不是同一人
-                     * @param similarity  与底片匹配的相似度值
-                     * @param vipBitmap   识别完成的时候人脸实时图，仅授权用户会返回。可以拿这张图和你的服务器再次严格匹配
+                     * @param isMatched     true匹配成功（大于setThreshold）； false 与底片不是同一人
+                     * @param similarity    与底片匹配的相似度值
+                     * @param livenessValue 活体分数(不同设备的情况可能不一样，建议大于0.75为真人)
+                     * @param bitmap        识别完成的时候人脸实时图，金融级别应用可以再次和自己的服务器二次校验
                      */
                     @Override
-                    public void onVerifyMatched(boolean isMatched, float similarity, float silentLivenessScore, Bitmap vipBitmap) {
-                        showVerifyResult(isMatched, similarity, silentLivenessScore);
+                    public void onVerifyMatched(boolean isMatched, float similarity, float livenessValue, Bitmap bitmap) {
+                        showVerifyResult(isMatched, similarity, livenessValue);
                     }
+
 
                     //人脸识别，活体检测过程中的各种提示
                     @Override
@@ -136,27 +143,27 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
      * <p>
      * 动作活体要有动作配合，必须先动作匹配通过再1：1 匹配
      */
-    void showVerifyResult(boolean isVerifyMatched, float similarity, float score) {
-            scoreText.setText("score:" + score);
-           if(isVerifyMatched) {
-                //1.和底片同一人
-                tipsTextView.setText("Successful,similarity= " + similarity);
-                VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-                new Handler(Looper.getMainLooper()).postDelayed(requireActivity()::finish, 1000);
-            } else {
-                //2.和底片不是同一个人
-                tipsTextView.setText("Failed ！ similarity=" + similarity);
-                VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
-                new AlertDialog.Builder(requireContext())
-                        .setMessage(R.string.face_verify_failed)
-                        .setCancelable(false)
-                        .setPositiveButton(R.string.confirm, (dialogInterface, i) -> requireActivity().finish())
-                        .setNegativeButton(R.string.retry, (dialog, which) -> {
-                            faceVerifyUtils.retryVerify();
-                        })
-                        .show();
+    void  showVerifyResult(boolean isVerifyMatched, float similarity, float livenessValue) {
+        if (isVerifyMatched&&livenessValue>0.75) {
+            //2. 相似度>verifyThreshold，并且livenessValue>0.75(动作活体可以忽略这个值)
+            VoicePlayer.getInstance().addPayList(R.raw.verify_success);
+            new ImageToast().show(requireContext(), getString(R.string.face_verify_success));
 
-            }
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                requireActivity().finish();
+            }, 1200);
+        } else {
+            //3. 相似度过低
+            VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
+            new AlertDialog.Builder(requireContext())
+                    .setTitle(R.string.face_verify_failed_title)
+                    .setMessage(R.string.face_verify_failed)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.know, (dialogInterface, i) -> {
+                        requireActivity().finish();
+            }).setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify()).show();
+        }
+
     }
 
 

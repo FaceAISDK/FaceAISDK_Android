@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.R;
@@ -20,15 +21,20 @@ import com.faceAI.demo.R;
  */
 public class ImageToast {
 
+    public Toast show(Context context, String tips) {
+        return show(context, null, tips);
+    }
+
+
     public Toast show(Context context, Bitmap bitmap, String tips) {
         Toast toast = new Toast(context);
-        View view = View.inflate(context, R.layout.face_search_toast_tips, null);
+        View view = View.inflate(context, R.layout.face_toast_tips, null);
         ImageView image = view.findViewById(R.id.toast_image);
         TextView text = view.findViewById(R.id.toast_text);
 
-        if(bitmap==null){
+        if (bitmap == null) {
             image.setVisibility(GONE);
-        }else{
+        } else {
             image.setVisibility(VISIBLE);
             Glide.with(context)
                     .load(bitmap)

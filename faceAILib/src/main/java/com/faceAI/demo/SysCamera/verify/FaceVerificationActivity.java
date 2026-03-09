@@ -63,8 +63,8 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     public static final String MOTION_LIVENESS_TYPES = "MOTION_LIVENESS_TYPES"; //动作活体种类
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
     private float verifyThreshold = 0.86f; //1:1 人脸识别对比通过的阈值，根据使用场景自行调整
-    private int motionStepSize = 2; //动作活体的个数
-    private int motionTimeOut = 6; //动作超时秒
+    private int motionStepSize = 1; //动作活体的个数
+    private int motionTimeOut = motionStepSize*3+1;  //动作超时秒，低端机可以设置长一点
     private String motionLivenessTypes = "1,2,3,4,5"; //动作活体种类用英文","隔开； 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
     private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION;  //活体检测类型.20251220  新加 MOTION_COLOR_FLASH炫彩活体
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
@@ -149,7 +149,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 .setThreshold(verifyThreshold)          //阈值设置，范围限 [0.75,0.95] ,低配摄像头可适量放低，默认0.85
                 .setFaceFeature(faceFeature)            //1:1 人脸识别对比的底片人脸特征值字符串
                 .setCameraType(FaceAICameraType.SYSTEM_CAMERA)  //相机类型，目前分为3种
-                .setCompareDurationTime(4000)           //人脸识别对比时间[3000,6000] 毫秒。相似度低会持续识别比对的时间
+                .setCompareDurationTime(3000)           //人脸识别对比时间[3000,6000] 毫秒。相似度低会持续识别比对的时间
                 .setLivenessType(faceLivenessType)      //活体检测可以炫彩&动作活体组合，炫彩活体不能在强光下使用
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)    //硬件配置低或不需太严格用FAST快速模式，否则用精确模式
                 .setMotionLivenessStepSize(motionStepSize)            //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
@@ -160,14 +160,14 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                     /**
                      * 1:1 人脸识别 活体检测 对比结束
                      *
-                     * @param isMatched   true匹配成功（大于setThreshold）； false 与底片不是同一人
-                     * @param similarity  与底片匹配的相似度值
-                     * @param s           后面版本会去除
-                     * @param bitmap      识别完成的时候人脸实时图，金融级别应用可以再次和自己的服务器二次校验
+                     * @param isMatched     true匹配成功（大于setThreshold）； false 与底片不是同一人
+                     * @param similarity    与底片匹配的相似度值
+                     * @param livenessValue 静默&炫彩活体分数，仅动作活体可以忽略判断(不同设备的情况可能不一样，建议大于0.75为真人)
+                     * @param bitmap        识别完成的时候人脸实时图，金融级别应用可以再次和自己的服务器二次校验
                      */
                     @Override
-                    public void onVerifyMatched(boolean isMatched, float similarity, float s, Bitmap bitmap) {
-                        showVerifyResult(isMatched, similarity, bitmap);
+                    public void onVerifyMatched(boolean isMatched, float similarity, float livenessValue, Bitmap bitmap) {
+                        showVerifyResult(isMatched, similarity, livenessValue, bitmap);
                     }
 
                     @Override
@@ -214,26 +214,24 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * 动作活体要有动作配合，必须先动作匹配通过再1：1 匹配
      */
     private int retryTime = 0;
+    private void showVerifyResult(boolean isVerifyMatched, float similarity,float livenessValue, Bitmap bitmap) {
+        BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");  //保存场景图给三方插件使用
 
-    private void showVerifyResult(boolean isVerifyMatched, float similarity, Bitmap bitmap) {
-        BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");//保存场景图给三方插件使用
-
-        if (isVerifyMatched) {
-            //2.和底片同一人
+        if (isVerifyMatched&&livenessValue>0.75) {
+            //2. 相似度>verifyThreshold，并且livenessValue>0.75(动作活体可以忽略这个值)
             VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-            new ImageToast().show(getApplicationContext(), bitmap, "Success " + similarity);
+            new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                finishFaceVerify(1, R.string.face_verify_result_success, similarity);
-            }, 1500);
+                finishFaceVerify(1, R.string.face_verify_result_success, similarity,livenessValue);
+            }, 1200);
         } else {
-            //3.和底片不是同一个人
+            //3. 相似度过低
             VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
             new AlertDialog.Builder(FaceVerificationActivity.this).setTitle(R.string.face_verify_failed_title).setMessage(R.string.face_verify_failed).setCancelable(false).setPositiveButton(R.string.know, (dialogInterface, i) -> {
-                finishFaceVerify(2, R.string.face_verify_result_failed, similarity);
+                finishFaceVerify(2, R.string.face_verify_result_failed, similarity,livenessValue);
             }).setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify()).show();
         }
-
     }
 
 
@@ -287,13 +285,13 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                             }).show();
                     break;
 
+                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_START:
+                    VoicePlayer.getInstance().play(R.raw.closer_to_screen);
+                    break;
+
                 // 动作活体检测完成了
                 case ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_SUCCESS:
                     setMainTips(R.string.keep_face_visible);
-                    if (faceLivenessType.equals(FaceLivenessType.COLOR_FLASH_MOTION)) {
-                        //如果还配置了炫彩活体，最好语音提前提示靠近屏幕，以便彩色光达到脸上
-                        VoicePlayer.getInstance().play(R.raw.closer_to_screen);
-                    }
                     break;
 
                 // 动作活体检测超时
@@ -490,17 +488,18 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * 识别结束返回结果, 为了给uniApp UTS插件，RN，Flutter统一的交互返回格式
      */
     private void finishFaceVerify(int code, int msgStrRes) {
-        finishFaceVerify(code, msgStrRes, 0f);
+        finishFaceVerify(code, msgStrRes, 0f,0f);
     }
 
 
     /**
      * 识别结束返回结果, 为了给uniApp UTS插件，RN，Flutter统一的交互返回格式
      */
-    private void finishFaceVerify(int code, int msgStrRes, float similarity) {
+    private void finishFaceVerify(int code, int msgStrRes, float similarity,float livenessValue) {
         Intent intent = new Intent().putExtra("code", code)
                 .putExtra("faceID", faceID)
                 .putExtra("msg", getString(msgStrRes))
+                .putExtra("livenessValue",livenessValue)
                 .putExtra("similarity", similarity);
         setResult(RESULT_OK, intent);
         finish();

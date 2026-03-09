@@ -23,7 +23,6 @@ import com.ai.face.core.utils.FaceAICameraType;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.UVCCamera.verify.FaceVerify_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
-import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraFragment;
 import com.faceAI.demo.SysCamera.addFace.AddFaceFeatureActivity;
 import com.faceAI.demo.SysCamera.search.ImageBean;
 import com.bumptech.glide.Glide;
@@ -45,18 +44,17 @@ import java.util.Objects;
 /**
  * 1:1 人脸识别引导说明页面
  * <p>
- * 包含怎么添加人脸照片，人脸活体检测，人脸识别
+ * 包含怎么添加人脸照片，1:1人脸比对识别
  */
-public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
+public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
     private final List<ImageBean> faceImageList = new ArrayList<>();
     private FaceImageListAdapter faceImageListAdapter;
-
     private int cameraType = FaceAICameraType.SYSTEM_CAMERA;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_face_verify_welcome);
+        setContentView(R.layout.activity_face_verify_navi);
         setSupportActionBar(findViewById(R.id.toolbar));
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
@@ -80,13 +78,13 @@ public class FaceVerifyWelcomeActivity extends AbsAddFaceFromAlbumActivity {
                     } else {
                         startActivity(
                                 new Intent(getBaseContext(), AddFace_UVCCameraActivity.class)
-                                        .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraFragment.AddFaceImageTypeEnum.FACE_VERIFY.name()));
+                                        .putExtra(ADD_FACE_IMAGE_TYPE_KEY, AddFace_UVCCameraActivity.AddFaceImageTypeEnum.FACE_VERIFY.name()));
                     }
                 }
         );
 
         /*
-         * 从相册选人脸图,提取特征值（并没有对人脸角度等校验）。
+         * 从相册选人脸图,提取特征值（并没有对人脸角度等校验）
          * 强烈建议通过FaceAISDK 添加人脸
          */
         LinearLayout addFaceFromPhoto = findViewById(R.id.add_face_from_photo);

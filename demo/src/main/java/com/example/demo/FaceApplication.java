@@ -2,7 +2,6 @@ package com.example.demo;
 import android.app.Application;
 import android.util.Log;
 import androidx.annotation.NonNull;
-import androidx.camera.core.CameraSelector;
 import androidx.camera.core.CameraXConfig;
 import androidx.camera.camera2.Camera2Config;
 import com.faceAI.demo.FaceSDKConfig;
@@ -21,7 +20,7 @@ public class FaceApplication extends Application implements CameraXConfig.Provid
     @Override
     public CameraXConfig getCameraXConfig() {
         return CameraXConfig.Builder.fromConfig(Camera2Config.defaultConfig())
-                .setAvailableCamerasLimiter(CameraSelector.DEFAULT_FRONT_CAMERA) //记住上一次选择加快启动
+//                .setAvailableCamerasLimiter(CameraSelector.DEFAULT_FRONT_CAMERA) //记住上一次选择加快启动
                 .setMinimumLoggingLevel(Log.ERROR)
                 .build();
     }

@@ -16,6 +16,7 @@ import com.ai.face.faceVerify.verify.VerifyStatus;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.faceAI.demo.R;
+import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.faceAI.demo.base.utils.VoicePlayer;
@@ -27,7 +28,7 @@ import com.faceAI.demo.base.utils.VoicePlayer;
  */
 public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
     private TextView tipsTextView, secondTipsTextView, scoreText;
-    private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION;//活体检测类型
+    private FaceLivenessType faceLivenessType = FaceLivenessType.IR;//活体检测类型
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = 7; //动作超时秒
     private int exceptMotionLiveness = -1; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
@@ -60,18 +61,25 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)  //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setMotionLivenessTypes("1,2,3,4,5")                //动作活体种类。1 张张嘴,2 微笑,3 眨眨眼,4 摇摇头,5 点点头
                 .setProcessCallBack(new ProcessCallBack() {
+
                     /**
-                     * 活体检测完成，动作活体没有超时
+                     * 动作活体+炫彩活体都 检测完成，返回活体分数
                      *
-                     * @param score
-                     * @param bitmap
+                     * @param livenessValue 静默活体分数(不同设备的情况可能不一样，建议大于0.75为真人)
+                     * @param bitmap 活体检测快照，可以用于log记录
                      */
                     @Override
-                    public void onLivenessDetected(float score, Bitmap bitmap) {
-                            tipsTextView.setText(R.string.liveness_detection_done);
+                    public void onLivenessDetected(float livenessValue, Bitmap bitmap) {
+                        if(livenessValue>0.75){ //静默活体分数，
                             VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-                            BitmapUtils.saveScaledBitmap(bitmap,CACHE_FACE_LOG_DIR,"liveBitmap"); //保存给插件用，原生开发忽略
-                            requireActivity().finish();
+                            new ImageToast().show(requireContext(), getString(R.string.face_verify_success)+livenessValue);
+                        }else{
+                            VoicePlayer.getInstance().addPayList(R.raw.ding_failed);
+                            new ImageToast().show(requireContext(), getString(R.string.face_verify_failed)+livenessValue);
+                        }
+                        tipsTextView.setText(R.string.liveness_detection_done);
+                        BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap");
+                        requireActivity().finish();
                     }
 
                     //人脸识别，活体检测过程中的各种提示

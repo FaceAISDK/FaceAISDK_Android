@@ -20,8 +20,8 @@
     <string name="share_faceai_sdk_content">Android On_device 1:1 Face Recognition And
         Liveness detection；1:N M:N Face Search SDK.
         \nAPK Download：https://www.pgyer.com/faceVerify
-        \nIntroduce：https://mp.weixin.qq.com/s/_ro9zBfzAmkpazL-QAPi9w
-        \n\nIntegrated Source Code：https://github.com/FaceAISDK/FaceAISDK_Android </string>
+        \nEmail: FaceAISDK.Service@gmail.com
+        \n\nIntegrated Source Code：https://github.com/FaceAISDK </string>
 
     <!--添加人脸 add face image-->
     <string name="keep_face_tips">Face the camera</string>
@@ -54,10 +54,11 @@
     <string name="face_search_by_system_camera">Face Search by system camera</string>
     <string name="face_search_by_uvc_camera">Face Search by UVC camera</string>
     <string name="face_search_camera_tips">Camera WDR >105Db indoors,>120 outdoors; use a fill light when need</string>
-    <string name="face_search_image_manger">Face images manger</string>
+    <string name="face_search_data_manger">Face search data manger</string>
     <string name="face_search_image_manger_tips">Long press delete the face,right|top button to add new face</string>
 
     <!--1:1 人脸识别 face verify -->
+    <string name="face_verify_success">Face verify Success</string>
     <string name="face_verify_failed">Face verify failed！Please retry</string>
     <string name="face_verify_failed_title">Verify failed</string>
     <string name="silent_anti_spoofing_error">Silent anti spoofing error</string>
@@ -96,7 +97,7 @@
     <string name="parameter_setting">Camera Parameter settings</string>
     <string name="uvc_usb_camera_demo">UVC_USB Camera Demo</string>
     <string name="face_verify_1vs1">1:1 Face Verify </string>
-    <string name="add_face_image">Add face Image</string>
+    <string name="add_face_feature">Add Face Feature data</string>
     <string name="only_motion_liveness_detection">Only motion liveness detection</string>
     <string name="face_search_navi">1:N &amp; M:N  Face Search </string>
     <string name="face_search">Face Search</string>
@@ -109,11 +110,12 @@
     <string name="camera_type_system">System built-in camera </string>
     <string name="camera_type_uvc_rgb_ir">UVC camera(RGB+IR)</string>
     <string name="camera_type_uvc_rgb">UVC RGB camera</string>
+    <string name="copy_face_feature">Copy face feature</string>
 
     <!--人脸搜索识别（1:N，M：N）-->
-    <string name="face_image_manage">Face manage</string>
+    <string name="face_data_manage">Face data manage</string>
     <string name="insert_face_features">Insert many face features</string>
-    <string name="face_search_1fromN_liveness">liveness and 1:N face search</string>
+    <string name="face_search_1fromN_liveness">1:N face search with liveness</string>
     <string name="face_search_1fromN">1:N face search</string>
     <string name="face_search_uvc_camera">Search with uvc camera</string>
     <string name="face_search_MfromN">M:N face search(Beta)</string>

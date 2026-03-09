@@ -17,12 +17,9 @@
     <string name="share_faceai_sdk">分享人脸识别SDK</string>
     <string name="facesdk_camera_permission">人脸识别需要摄像头权限才能正常工作</string>
     <string name="share_faceai_sdk_content">FaceAISDK 人脸识别 活体检测接入源码\n\n
-Android：https://github.com/FaceAISDK/FaceAISDK_Android\n
-iOS SDK：https://github.com/FaceAISDK/FaceAISDK_iOS\n
-Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
-无法翻墙访问GitHub请发邮件至FaceAISDK.Service@gmail.com获取源码\n\n
-
-体验Android App 下载：https://www.pgyer.com/faceVerify</string>
+https://github.com/FaceAISDK\n
+Email: FaceAISDK.Service@gmail.com\n\n
+体验Android App下载：https://www.pgyer.com/faceVerify</string>
 
     <!--添加人脸 add face image-->
     <string name="keep_face_tips">平视正对摄像头</string>
@@ -56,12 +53,13 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="face_search_by_system_camera">系统相机搜索</string>
     <string name="face_search_by_uvc_camera">UVC协议USB摄像头搜索</string>
     <string name="face_search_camera_tips">摄像头宽动态值(Db)室内>105，室外>120;光线不好使用补光灯</string>
-    <string name="face_search_image_manger">人脸搜索底图管理</string>
+    <string name="face_search_data_manger">人脸搜索数据管理</string>
     <string name="face_search_image_manger_tips">长按人脸删除，右上角按钮添加内置测试人脸图</string>
 
     <!--1:1 人脸识别 face verify-->
+    <string name="face_verify_success">识别成功</string>
     <string name="face_verify_failed_title">识别失败</string>
-    <string name="face_verify_failed">人脸识别不通过，相似度低于设置阈值，请重试！</string>
+    <string name="face_verify_failed">识别失败，请重试！</string>
     <string name="silent_anti_spoofing_error">静默活体得分过低</string>
     <string name="face_verify_pause">人脸识别被中断了！</string>
     <string name="face_verify_demo">1:1 人脸识别演示</string>
@@ -98,11 +96,11 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="parameter_setting">摄像头参数设置</string>
     <string name="uvc_usb_camera_demo">UVC协议USB摄像头演示</string>
     <string name="face_verify_1vs1">1:1人脸识别 </string>
-    <string name="add_face_image">人脸底图录入</string>
+    <string name="add_face_feature">人脸数据录入</string>
     <string name="only_motion_liveness_detection">仅人脸活体检测</string>
     <string name="face_search_navi">1:N &amp; M:N人脸搜索识别 </string>
     <string name="face_search">人脸搜索识别</string>
-    <string name="two_face_image_verify">静态人脸图1:1对比 </string>
+    <string name="two_face_image_verify">静态人脸1:1对比(Beta)</string>
     <string name="switch_camera">切换前后摄像头 </string>
     <string name="about_us">- 关于我们 About US -</string>
     <string name="custom_camera">自定义调试系统相机</string>
@@ -111,10 +109,10 @@ Uni App：https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS\n
     <string name="camera_type_uvc_rgb_ir">UVC摄像头(RGB+IR)</string>
     <string name="camera_type_uvc_rgb">UVC RGB摄像头</string>
     <string name="uvc_camera_type">UVC 相机类型选择</string>
-
+    <string name="copy_face_feature">复制人脸特征值</string>
 
     <!--1:N and M:N face search-->
-    <string name="face_image_manage">人脸库管理</string>
+    <string name="face_data_manage">人脸数据管理</string>
     <string name="insert_face_features">批量插入人脸数据</string>
     <string name="face_search_1fromN_liveness">活体检测+1:N人脸搜索</string>
     <string name="face_search_1fromN">1:N 人脸搜索</string>

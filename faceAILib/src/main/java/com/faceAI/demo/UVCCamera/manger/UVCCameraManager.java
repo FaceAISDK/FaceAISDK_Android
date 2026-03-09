@@ -54,9 +54,11 @@ public class UVCCameraManager {
     private CameraBuilder cameraBuilder;
     private Context context;
     private Activity activity;
-
     private int width=UVC_CAMERA_WIDTH,height=UVC_CAMERA_HEIGHT;
     private Bitmap reuseBitmap=null;
+
+    private long lastAnalysisTime = 0L; // 记录上次处理的时间戳
+    private final long ANALYSIS_INTERVAL = 100L; // 100ms 间隔 = 10fps
 
 
     public interface OnCameraStatusCallBack {
@@ -197,11 +199,11 @@ public class UVCCameraManager {
                     }
                     if (previewSize != null) {
                         mCameraHelper.setPreviewSize(previewSize);
-                         width = previewSize.width;
-                         height = previewSize.height;
-                         if(autoAspectRatio){
-                             cameraBuilder.getCameraView().setAspectRatio(width, height);
-                         }
+                        width = previewSize.width;
+                        height = previewSize.height;
+                        if(autoAspectRatio){
+                            cameraBuilder.getCameraView().setAspectRatio(width, height);
+                        }
                     }else{
                         //设置一个默认的摄像头分辨率
                         Size defSize=supportedSizeList.get(0);
@@ -228,11 +230,20 @@ public class UVCCameraManager {
                 mCameraHelper.setFrameCallback(new IFrameCallback() {
                     @Override
                     public void onFrame(ByteBuffer byteBuffer) {
-                        //防止生命周期不同步,低配设备可能关闭了还在处理队列数据
+
+                        long currentTime = System.currentTimeMillis();
+                        // 1. 生命周期校验
+                        // 2. 时间戳校验 (控制每秒10帧)
                         if (!activity.isDestroyed() && !activity.isFinishing()
-                                && faceAIAnalysisCallBack != null) {
+                                && faceAIAnalysisCallBack != null
+                                && (currentTime - lastAnalysisTime >= ANALYSIS_INTERVAL)) {
+
+                            lastAnalysisTime = currentTime; // 更新最后处理时间
+
+                            // 使用我们之前优化的高性能 LibYuv 版本
                             reuseBitmap = DataConvertUtils.NV21Data2Bitmap(byteBuffer, width, height,
                                     cameraBuilder.getDegree(), cameraBuilder.isHorizontalMirror());
+
                             faceAIAnalysisCallBack.onBitmapFrame(reuseBitmap);
                         }
                     }

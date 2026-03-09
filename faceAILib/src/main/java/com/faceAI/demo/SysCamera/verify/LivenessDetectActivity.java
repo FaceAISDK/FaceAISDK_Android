@@ -26,6 +26,7 @@ import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
+import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.VoicePlayer;
@@ -49,9 +50,9 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
     public static final String MOTION_LIVENESS_TYPES = "MOTION_LIVENESS_TYPES"; //动作活体种类
     private int retryTime = 0; //记录失败尝试的次数
-    private FaceLivenessType faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION; //活体检测类型
+    private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION; //活体检测类型
     private int motionStepSize = 2; //动作活体的个数
-    private int motionTimeOut = 7;  //动作超时秒
+    private int motionTimeOut = 3*motionStepSize+1;  //动作超时秒，低端机可以设置长一点
     private String motionLivenessTypes = "1,2,3,4,5"; //【配置动作活体类型】1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
 
     @Override
@@ -93,24 +94,30 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setLivenessOnly(true)
                 .setLivenessType(faceLivenessType)  //活体检测可以炫彩&动作活体组合，炫彩活体不能在强光下使用
-                .setSilentLivenessThreshold(0.7f)   //已经废弃，2025.12.19 改为炫彩活体检测
                 .setMotionLivenessStepSize(motionStepSize)             //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(motionTimeOut)               //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
                 .setLivenessDetectionMode(MotionLivenessMode.ACCURACY) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setMotionLivenessTypes(motionLivenessTypes)           //动作活体种类。1 张张嘴,2 微笑,3 眨眨眼,4 摇摇头,5 点点头
                 .setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
+
                     /**
-                     * 动作活体+炫彩活体都 检测完成，返回炫彩活体分数
+                     * 动作活体+炫彩活体都 检测完成，返回活体分数
                      *
-                     * @param colorFlashScore 炫彩活体分数
+                     * @param livenessValue 静默&炫彩活体分数，仅动作活体可以忽略判断(不同设备的情况可能不一样，建议大于0.75为真人)
                      * @param bitmap 活体检测快照，可以用于log记录
                      */
                     @Override
-                    public void onLivenessDetected(float colorFlashScore, Bitmap bitmap) {
-                        BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap"); //保存给插件用，原生开发忽略
-                        VoicePlayer.getInstance().addPayList(R.raw.verify_success);
-                        finishFaceVerify(10, R.string.liveness_detection_done, colorFlashScore);
+                    public void onLivenessDetected(float livenessValue, Bitmap bitmap) {
+                        BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap");
+                        if(livenessValue>0.75){
+                            VoicePlayer.getInstance().addPayList(R.raw.verify_success);
+                            new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
+                        }else{
+                            VoicePlayer.getInstance().addPayList(R.raw.ding_failed);
+                            new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_failed));
+                        }
+                        finishFaceVerify(10, R.string.liveness_detection_done, livenessValue);
                     }
 
                     /**
@@ -205,11 +212,13 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                             }).show();
                     break;
 
+                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_START:
+                    VoicePlayer.getInstance().play(R.raw.closer_to_screen);
+                    break;
+
                 // 动作活体检测完成了
                 case ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_SUCCESS:
                     setMainTips(R.string.keep_face_visible);
-                    //如果还配置了炫彩活体，最好语音提前提示靠近屏幕，以便彩色光达到脸上
-                    VoicePlayer.getInstance().play(R.raw.closer_to_screen);
                     break;
 
                 // 动作活体检测超时
@@ -390,9 +399,11 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         finishFaceVerify(code, msgStrRes, 0f);
     }
 
-    private void finishFaceVerify(int code, int msgStrRes, float silentLivenessScore) {
+    private void finishFaceVerify(int code, int msgStrRes, float livenessValue) {
         Intent intent = new Intent().putExtra("code", code)
+                .putExtra("livenessValue",livenessValue)
                 .putExtra("msg", getString(msgStrRes));
+
         setResult(RESULT_OK, intent);
         finish();
     }
