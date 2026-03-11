@@ -1,9 +1,12 @@
 package com.faceAI.demo
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -114,26 +117,44 @@ class FaceAINaviActivity : AppCompatActivity() {
 
 
     /**
-     * 设备系统信息
-     * Performance 设备性能
+     * 设备系统信息，日志打印出来，dialog也可以直接复制
      */
     private fun printDeviceInfo() {
-        // 判断设备性能，
-        val performance=DevicePerformance.getDevicePerformance(this@FaceAINaviActivity)
+        // 1. 获取性能分值     2 高性能， 1 中配   0 低配
+        val performance = DevicePerformance.getDevicePerformance(this@FaceAINaviActivity)
 
         val deviceInfo = arrayOf(
-            " ",
-            "MODEL：${android.os.Build.MODEL}",
-            "BOARD：${android.os.Build.BOARD}",
-            "Android Version：${android.os.Build.VERSION.SDK_INT}",
-            "HARDWARE：${android.os.Build.HARDWARE}",
-            "FINGERPRINT：${android.os.Build.FINGERPRINT}",
-            "主机（HOST）：${android.os.Build.HOST}",
+            "Release：${android.os.Build.VERSION.RELEASE}",
+            "Model：${android.os.Build.MODEL}",
+            "Board：${android.os.Build.BOARD}",
+            "FingerPrint：${android.os.Build.FINGERPRINT}",
             "Performance: $performance"
         )
+
+        val fullInfoString = deviceInfo.joinToString(separator = "\n")
+        Log.d("Device Info", fullInfoString)
+
         AlertDialog.Builder(this@FaceAINaviActivity)
-            .setItems(deviceInfo) { _, _ ->
-            }.show()
+            .setTitle("Device Info")
+            .setItems(deviceInfo, null)
+            .setNegativeButton(R.string.copy_device_info) { dialog, _ ->
+                copyToClipboard(fullInfoString)
+                Toast.makeText(this, "copied", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+            .setPositiveButton(R.string.know) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    /**
+     * 实现复制到剪贴板的辅助方法
+     */
+    private fun copyToClipboard(text: String) {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("Device Info", text)
+        clipboard.setPrimaryClip(clip)
     }
 
     /**
