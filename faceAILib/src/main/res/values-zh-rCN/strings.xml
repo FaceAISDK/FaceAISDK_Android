@@ -110,6 +110,7 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="camera_type_uvc_rgb">UVC RGB摄像头</string>
     <string name="uvc_camera_type">UVC 相机类型选择</string>
     <string name="copy_face_feature">复制人脸特征值</string>
+    <string name="copy_device_info">复制设备信息</string>
 
     <!--1:N and M:N face search-->
     <string name="face_data_manage">人脸数据管理</string>

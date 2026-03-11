@@ -226,10 +226,16 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 finishFaceVerify(1, R.string.face_verify_result_success, similarity,livenessValue);
             }, 1200);
         } else {
+            int code;
+            if(isVerifyMatched){
+                code=11; //SILENT_LIVENESS_FAILED
+            } else {
+                code = 2; //VERIFY_FAILED
+            }
             //3. 相似度过低
             VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
             new AlertDialog.Builder(FaceVerificationActivity.this).setTitle(R.string.face_verify_failed_title).setMessage(R.string.face_verify_failed).setCancelable(false).setPositiveButton(R.string.know, (dialogInterface, i) -> {
-                finishFaceVerify(2, R.string.face_verify_result_failed, similarity,livenessValue);
+                finishFaceVerify(code, R.string.face_verify_result_failed, similarity,livenessValue);
             }).setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify()).show();
         }
     }
