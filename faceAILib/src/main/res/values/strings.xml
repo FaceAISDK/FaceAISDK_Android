@@ -111,6 +111,7 @@
     <string name="camera_type_uvc_rgb_ir">UVC camera(RGB+IR)</string>
     <string name="camera_type_uvc_rgb">UVC RGB camera</string>
     <string name="copy_face_feature">Copy face feature</string>
+    <string name="copy_device_info">Copy Device Info</string>
 
     <!--人脸搜索识别（1:N，M：N）-->
     <string name="face_data_manage">Face data manage</string>
