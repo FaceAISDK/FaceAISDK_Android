@@ -121,8 +121,7 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                 switch (actionCode) {
                     // 动作活体检测完成了
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_SUCCESS:
-                        VoicePlayer.getInstance().play(R.raw.verify_success);
-                        setTips(R.string.liveness_detection_done);
+                        setTips(R.string.keep_face_visible); //抓取快照
                         setSecondTips(0);
                         break;
 
