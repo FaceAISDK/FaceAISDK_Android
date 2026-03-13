@@ -62,7 +62,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
     public static final String MOTION_LIVENESS_TYPES = "MOTION_LIVENESS_TYPES"; //动作活体种类
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
-    private float verifyThreshold = 0.86f; //1:1 人脸识别对比通过的阈值，根据使用场景自行调整
+    private float verifyThreshold = 0.85f; //1:1 人脸识别对比通过的阈值，根据使用场景自行调整
     private int motionStepSize = 1; //动作活体的个数
     private int motionTimeOut = motionStepSize*3+1;  //动作超时秒，低端机可以设置长一点
     private String motionLivenessTypes = "1,2,3,4,5"; //动作活体种类用英文","隔开； 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
