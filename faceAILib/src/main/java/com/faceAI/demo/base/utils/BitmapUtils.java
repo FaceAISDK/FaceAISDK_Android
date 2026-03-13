@@ -2,8 +2,10 @@ package com.faceAI.demo.base.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Base64OutputStream;
 import android.util.Log;
 
 import com.ai.face.base.baseImage.FileStorage;
@@ -160,6 +162,45 @@ public class BitmapUtils {
     }
 
 
+
+    /**
+     * 将 Bitmap 转换为 Base64 字符串（JPG 格式）
+     * 优化点：流式编码减少内存拷贝、预分配缓冲区、自动资源管理
+     */
+    public static String bitmapToBase64(Bitmap bitmap) {
+        if (bitmap == null || bitmap.isRecycled()) return null;
+
+        // 1. 修改前缀为 image/jpeg
+        String prefix = "data:image/jpeg;base64,";
+
+        // 2. 预估大小：JPG 压缩比通常比 WebP 低，建议设为 1/3 左右
+        // 公式：(原始字节 / 压缩比) * Base64膨胀系数
+        int estimatedSize = (bitmap.getAllocationByteCount() / 3) * 4 / 3;
+
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream(estimatedSize)) {
+
+            // 3. 核心优化：使用 Base64OutputStream 装饰原始流
+            // 这样 bitmap.compress 压出的数据会直接经过 Base64 编码存入 baos，无需中间 byte[] 转换
+            try (Base64OutputStream b64os = new Base64OutputStream(baos, Base64.NO_WRAP)) {
+
+                // 4. 使用 JPEG 格式，quality 80-90 是性价比最高的区间
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, b64os);
+
+                // 必须手动 flush 或靠 try-with-resources 自动 close
+                // 确保 Base64 的结束符（Padding）被写入 baos
+            }
+
+            // 5. 使用 StringBuilder 拼接，并指定 US-ASCII 编码（Base64 字符集的标准编码）
+            return new StringBuilder(prefix.length() + baos.size())
+                    .append(prefix)
+                    .append(baos.toString("US-ASCII"))
+                    .toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
 
     /**
      * Base64 转为 Bitmap，增加 decode 质量控制
