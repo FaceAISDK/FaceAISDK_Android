@@ -1,6 +1,7 @@
 package com.faceAI.demo.SysCamera.search;
 
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
+import static com.faceAI.demo.FaceSDKConfig.CACHE_FACE_LOG_DIR;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
@@ -35,6 +36,7 @@ import com.ai.face.faceSearch.search.SearchProcessCallBack;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
+import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
 import java.util.List;
@@ -177,8 +179,9 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap,float livenessValue) {
-                        Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
-                        new ImageToast().show(getApplicationContext(), mostSimilarBmp, faceID+","+score+","+livenessValue);
+                        BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "searchBitmap");  //保存场景图给三方插件使用
+
+                        new ImageToast().show(getApplicationContext(), bitmap, faceID+","+score+","+livenessValue);
                         if(livenessValue<0.72&&needFaceLive){ //分数根据你的摄像头和安装场景自由定义
                             VoicePlayer.getInstance().play(R.raw.ding_failed);
                         }else{

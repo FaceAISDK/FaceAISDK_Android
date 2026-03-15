@@ -224,7 +224,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 finishFaceVerify(1, R.string.face_verify_result_success, similarity,livenessValue);
-            }, 1200);
+            }, 1100);
         } else {
             int code;
             if(isVerifyMatched){
