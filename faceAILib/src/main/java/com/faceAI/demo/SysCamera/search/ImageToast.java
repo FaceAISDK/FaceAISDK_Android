@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.R;
+import com.faceAI.demo.base.utils.BitmapUtils;
 
 /**
  * Toast Bitmap 和 text。UI可根据自身业务修改
@@ -21,11 +22,26 @@ import com.faceAI.demo.R;
  */
 public class ImageToast {
 
+
+    /**
+     * Base64 图
+     */
+    public Toast show(Context context,String base64, String tips) {
+        Bitmap bitmap = BitmapUtils.base64ToBitmap(base64);
+        return show(context, bitmap, tips);
+    }
+
+    /**
+     * 不需要图
+     */
     public Toast show(Context context, String tips) {
-        return show(context, null, tips);
+        return show(context, (String) null, tips);
     }
 
 
+    /**
+     * 图文并茂
+     */
     public Toast show(Context context, Bitmap bitmap, String tips) {
         Toast toast = new Toast(context);
         View view = View.inflate(context, R.layout.face_toast_tips, null);

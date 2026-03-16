@@ -1,6 +1,9 @@
 package com.faceAI.demo;
 
+import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
+
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import com.ai.face.faceSearch.search.FaceSearchFeatureManger;
 import com.ai.face.faceSearch.search.Image2FaceFeature;
@@ -67,7 +70,6 @@ public class FaceSDKConfig {
     }
 
 
-
     /**
      * 删除1:1 人脸识别faceID 本地对应的图片和特征向量编码
      */
@@ -76,6 +78,14 @@ public class FaceSDKConfig {
         MMKV.defaultMMKV().removeValueForKey(faceID);
         //如果缓存了图片也删除
         Image2FaceFeature.getInstance(context).deleteFaceImage(CACHE_BASE_FACE_DIR+faceID);
+    }
+
+    /**
+     * 暂时还用SP，后期统一为MMKV
+     */
+    public void setCameraID(Context context,int cameraID){
+        SharedPreferences sharedPref = context.getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
+        sharedPref.edit().putInt(FRONT_BACK_CAMERA_FLAG,cameraID).apply();
     }
 
     /**
