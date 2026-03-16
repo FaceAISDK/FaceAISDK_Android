@@ -181,7 +181,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap,float livenessValue) {
                         BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "searchBitmap");  //保存场景图给三方插件使用
 
-                        new ImageToast().show(getApplicationContext(), bitmap, faceID+","+score+","+livenessValue);
+                        new ImageToast().showBitmap(getApplicationContext(), bitmap, faceID+","+score+","+livenessValue);
                         if(livenessValue<0.72&&needFaceLive){ //分数根据你的摄像头和安装场景自由定义
                             VoicePlayer.getInstance().play(R.raw.ding_failed);
                         }else{

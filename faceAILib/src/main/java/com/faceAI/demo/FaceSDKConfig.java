@@ -83,7 +83,7 @@ public class FaceSDKConfig {
     /**
      * 暂时还用SP，后期统一为MMKV
      */
-    public void setCameraID(Context context,int cameraID){
+    public static void setCameraID(Context context,int cameraID){
         SharedPreferences sharedPref = context.getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
         sharedPref.edit().putInt(FRONT_BACK_CAMERA_FLAG,cameraID).apply();
     }

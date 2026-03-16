@@ -126,7 +126,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             MMKV.defaultMMKV().encode(faceID, faceFeatureOld); //从老的数据迁移到新的MMKV
         } else {
             //根据你的业务进行提示去录入人脸 提取特征，服务器有提前同步到本地
-            Toast.makeText(getBaseContext(), "faceFeature isEmpty ! ", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "FaceFeature isEmpty ! ", Toast.LENGTH_LONG).show();
         }
 
         // 去Path 路径读取有没有faceID 对应的处理好的人脸Bitmap，不需要可删除
