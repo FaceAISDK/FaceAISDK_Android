@@ -91,11 +91,11 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                 .setSearchIntervalTime(1500) //默认2000，范围[1500,3000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setProcessCallBack(new SearchProcessCallBack() {
 
-                    // 得分最高的搜索结果
+                    // 得分大于设置的阈值且最高的搜索结果
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap,float livenessValue) {
                         Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
-                        new ImageToast().show(requireContext(), mostSimilarBmp, faceID+","+score+","+livenessValue);
+                        new ImageToast().showBitmap(requireContext(), mostSimilarBmp, faceID+","+score+","+livenessValue);
                         binding.graphicOverlay.clearRect();
                         if(livenessValue>0.70){ //分数根据你的摄像头和安装场景自由定义
                             VoicePlayer.getInstance().play(R.raw.ding_success);

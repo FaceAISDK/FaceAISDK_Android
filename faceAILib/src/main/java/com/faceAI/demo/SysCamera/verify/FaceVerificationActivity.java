@@ -62,7 +62,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
     public static final String MOTION_LIVENESS_TYPES = "MOTION_LIVENESS_TYPES"; //动作活体种类
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
-    private float verifyThreshold = 0.86f; //1:1 人脸识别对比通过的阈值，根据使用场景自行调整
+    private float verifyThreshold = 0.85f; //1:1 人脸识别对比通过的阈值，根据使用场景自行调整
     private int motionStepSize = 1; //动作活体的个数
     private int motionTimeOut = motionStepSize*3+1;  //动作超时秒，低端机可以设置长一点
     private String motionLivenessTypes = "1,2,3,4,5"; //动作活体种类用英文","隔开； 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
@@ -126,7 +126,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             MMKV.defaultMMKV().encode(faceID, faceFeatureOld); //从老的数据迁移到新的MMKV
         } else {
             //根据你的业务进行提示去录入人脸 提取特征，服务器有提前同步到本地
-            Toast.makeText(getBaseContext(), "faceFeature isEmpty ! ", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "FaceFeature isEmpty ! ", Toast.LENGTH_LONG).show();
         }
 
         // 去Path 路径读取有没有faceID 对应的处理好的人脸Bitmap，不需要可删除
@@ -224,7 +224,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 finishFaceVerify(1, R.string.face_verify_result_success, similarity,livenessValue);
-            }, 1200);
+            }, 1100);
         } else {
             int code;
             if(isVerifyMatched){
