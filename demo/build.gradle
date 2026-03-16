@@ -6,8 +6,8 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        versionCode 20260311
-        versionName "20260311"
+        versionCode 20260315
+        versionName "20260315"
 
         applicationId "com.ai.face.Demo"
         minSdk 21     //后期版本minSDK 会变为24, 也就是Android 7+

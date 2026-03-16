@@ -2,8 +2,10 @@ package com.faceAI.demo.base.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Base64OutputStream;
 import android.util.Log;
 
 import com.ai.face.base.baseImage.FileStorage;
@@ -104,6 +106,59 @@ public class BitmapUtils {
         }
 
         return "";
+    }
+
+
+    /**
+     * bitmapToBase64
+     *
+     * @param bitmap
+     * @return
+     */
+    public static String bitmapToBase64(Bitmap bitmap) {
+        if (bitmap == null || bitmap.isRecycled()) return "";
+
+        // 1. 修复一致性：JPEG 压缩应对应 image/jpeg 的前缀
+        // 如果确定要 webp，请修改 compress 格式为 Bitmap.CompressFormat.WEBP
+        String prefix = "data:image/jpeg;base64,";
+        ByteArrayOutputStream baos = null;
+
+        try {
+            // 2. 内存预分配合理化
+            // Base64 编码后的长度约为原字节数组长度的 1.33 倍
+            // 预分配缓冲区大小：原位图分配大小的 1/4（考虑到 JPEG 压缩率）
+            int initialCapacity = bitmap.getAllocationByteCount() / 4;
+            baos = new ByteArrayOutputStream(initialCapacity > 0 ? initialCapacity : 1024);
+
+            // 3. 压缩策略
+            // 质量 80-90 是平衡点，若用于人脸比对，建议不要低于 80
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 85, baos);
+            byte[] bitmapBytes = baos.toByteArray();
+
+            // 4. Base64 编码优化
+            // 使用 NO_WRAP 避免换行符污染数据流
+            String base64Content = Base64.encodeToString(bitmapBytes, Base64.NO_WRAP);
+
+            // 使用 StringBuilder 拼接，减少临时字符串对象产生的内存碎片
+            StringBuilder sb = new StringBuilder(prefix.length() + base64Content.length());
+            sb.append(prefix);
+            sb.append(base64Content);
+
+            return sb.toString();
+
+        } catch (Exception e) {
+            // 5. 修复逻辑：日志必须在 return 之前
+            Log.e("BitmapUtil", "BitmapToBase64 Error: " + e.getMessage());
+            return "";
+        } finally {
+            if (baos != null) {
+                try {
+                    baos.close();
+                } catch (IOException ignored) {}
+            }
+            // 注意：外部传入的 bitmap 通常不应在工具类方法内 recycle，
+            // 除非该方法明确定义了会消耗（Consume）该位图。
+        }
     }
 
     /**

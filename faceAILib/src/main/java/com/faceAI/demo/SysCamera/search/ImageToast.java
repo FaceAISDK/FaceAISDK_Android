@@ -14,19 +14,29 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.R;
+import com.faceAI.demo.base.utils.BitmapUtils;
 
-/**
- * Toast Bitmap 和 text。UI可根据自身业务修改
- * https://github.com/FaceAISDK/FaceAISDK_Android
- */
 public class ImageToast {
 
-    public Toast show(Context context, String tips) {
-        return show(context, null, tips);
+    /**
+     * 接收 Base64 图 - (改名为 showBase64)
+     */
+    public Toast showBase64(Context context, String base64, String tips) {
+        Bitmap bitmap = BitmapUtils.base64ToBitmap(base64);
+        return showBitmap(context, bitmap, tips);
     }
 
+    /**
+     * 不需要图
+     */
+    public Toast show(Context context, String tips) {
+        return showBitmap(context, null, tips);
+    }
 
-    public Toast show(Context context, Bitmap bitmap, String tips) {
+    /**
+     * 接收 Bitmap 图文并茂 - (改名为 showBitmap)
+     */
+    public Toast showBitmap(Context context, Bitmap bitmap, String tips) {
         Toast toast = new Toast(context);
         View view = View.inflate(context, R.layout.face_toast_tips, null);
         ImageView image = view.findViewById(R.id.toast_image);
@@ -49,5 +59,4 @@ public class ImageToast {
         toast.show();
         return toast;
     }
-
 }
