@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -250,49 +251,9 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private void showFaceVerifyTips(int actionCode) {
         if (!isDestroyed() && !isFinishing()) {
             switch (actionCode) {
-                //炫彩活体检测需要人脸更加靠近屏幕摄像头才能通过检测
-                case VERIFY_DETECT_TIPS_ENUM.COLOR_FLASH_NEED_CLOSER_CAMERA:
-                    setSecondTips(R.string.color_flash_need_closer_camera);
-                    break;
-
-                //炫彩活体通过✅
-                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIVE_SUCCESS:
-                    VoicePlayer.getInstance().play(R.raw.face_camera);
-                    setMainTips(R.string.keep_face_visible);
-                    break;
-
-                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIVE_FAILED:
-                    new AlertDialog.Builder(this)
-                            .setMessage(R.string.color_flash_liveness_failed)
-                            .setCancelable(false)
-                            .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
-                                retryTime++;
-                                if (retryTime > 1) {
-                                    finishFaceVerify(8, R.string.color_flash_liveness_failed);
-                                } else {
-                                    faceVerifyUtils.retryVerify();
-                                }
-                            }).show();
-                    break;
-
-                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIGHT_HIGH:
-                    LayoutInflater inflater = LayoutInflater.from(this);
-                    View dialogView = inflater.inflate(R.layout.dialog_light_warning, null);
-                    new AlertDialog.Builder(this)
-                            .setView(dialogView) // 【关键】设置自定义的 View
-                            .setCancelable(false)
-                            .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
-                                retryTime++;
-                                if (retryTime > 1) {
-                                    finishFaceVerify(9, R.string.color_flash_light_high);
-                                } else {
-                                    faceVerifyUtils.retryVerify();
-                                }
-                            }).show();
-                    break;
-
-                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_START:
-                    VoicePlayer.getInstance().play(R.raw.closer_to_screen);
+                //检测到多人脸
+                case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY:
+                    //防止一真一假人脸作弊,每帧画面检测
                     break;
 
                 // 动作活体检测完成了
@@ -383,6 +344,51 @@ public class FaceVerificationActivity extends AbsBaseActivity {
 
                 case VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
                     setSecondTips(R.string.no_face_detected_tips);
+                    break;
+
+                //炫彩活体检测需要人脸更加靠近屏幕摄像头才能通过检测
+                case VERIFY_DETECT_TIPS_ENUM.COLOR_FLASH_NEED_CLOSER_CAMERA:
+                    setSecondTips(R.string.color_flash_need_closer_camera);
+                    break;
+
+                //炫彩活体通过✅
+                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIVE_SUCCESS:
+                    VoicePlayer.getInstance().play(R.raw.face_camera);
+                    setMainTips(R.string.keep_face_visible);
+                    break;
+
+                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIVE_FAILED:
+                    new AlertDialog.Builder(this)
+                            .setMessage(R.string.color_flash_liveness_failed)
+                            .setCancelable(false)
+                            .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
+                                retryTime++;
+                                if (retryTime > 1) {
+                                    finishFaceVerify(8, R.string.color_flash_liveness_failed);
+                                } else {
+                                    faceVerifyUtils.retryVerify();
+                                }
+                            }).show();
+                    break;
+
+                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIGHT_HIGH:
+                    LayoutInflater inflater = LayoutInflater.from(this);
+                    View dialogView = inflater.inflate(R.layout.dialog_light_warning, null);
+                    new AlertDialog.Builder(this)
+                            .setView(dialogView) // 【关键】设置自定义的 View
+                            .setCancelable(false)
+                            .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
+                                retryTime++;
+                                if (retryTime > 1) {
+                                    finishFaceVerify(9, R.string.color_flash_light_high);
+                                } else {
+                                    faceVerifyUtils.retryVerify();
+                                }
+                            }).show();
+                    break;
+
+                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_START:
+                    VoicePlayer.getInstance().play(R.raw.closer_to_screen);
                     break;
             }
         }

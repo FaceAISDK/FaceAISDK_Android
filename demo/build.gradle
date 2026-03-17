@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         versionCode 20260316
-        versionName "20260316"
+        versionName "20260315.pro"
 
         applicationId "com.ai.face.Demo"
         minSdk 21     //后期版本minSDK 会变为24, 也就是Android 7+
