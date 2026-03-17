@@ -17,11 +17,11 @@ import android.provider.MediaStore
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.faceAI.demo.BuildConfig
-import com.ai.face.faceVerify.verify.FaceVerifyUtils
-import com.faceAI.demo.databinding.ActivityTwoFaceImageVerifyBinding
 import androidx.core.graphics.drawable.toDrawable
 import com.ai.face.faceSearch.search.Image2FaceFeature
+import com.ai.face.faceVerify.verify.FaceVerifyUtils
+import com.faceAI.demo.BuildConfig
+import com.faceAI.demo.databinding.ActivityTwoFaceImageVerifyBinding
 
 
 /**
@@ -51,22 +51,22 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
 
         viewBinding.back.setOnClickListener { this@TwoFaceImageVerifyActivity.finish() }
 
-        viewBinding.image1.tag = "image1"
-        viewBinding.image1.setOnClickListener {
-            chooseFile(viewBinding.image1)
+        viewBinding.imageLeft.tag = "image1"
+        viewBinding.imageLeft.setOnClickListener {
+            chooseFile(viewBinding.imageLeft)
         }
 
-        viewBinding.image2.tag = "image2"
-        viewBinding.image2.setOnClickListener {
-            chooseFile(viewBinding.image2)
+        viewBinding.imageRight.tag = "image2"
+        viewBinding.imageRight.setOnClickListener {
+            chooseFile(viewBinding.imageRight)
         }
 
         viewBinding.goVerify.setOnClickListener {
             // 不能两张图直接比较，要先经过 checkFaceQuality 检测裁剪图片中的人脸
             val simi = FaceVerifyUtils().evaluateFaceSimiByBitmap(
                 baseContext,
-                bitmapMap[viewBinding.image1.tag],
-                bitmapMap[viewBinding.image2.tag]
+                bitmapMap[viewBinding.imageLeft.tag],
+                bitmapMap[viewBinding.imageRight.tag]
             ) //evaluateFaceSimi传人的两个bitmap 有是空的，则相似度直接返回0
             Toast.makeText(baseContext, "人脸相似度：$simi", Toast.LENGTH_SHORT).show()
         }
