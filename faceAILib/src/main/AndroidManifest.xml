@@ -51,8 +51,15 @@
             android:exported="true"
             android:theme="@style/AppTheme">
         </activity>
+
         <activity
             android:name=".SysCamera.verify.TwoFaceImageVerifyActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:theme="@style/FaceAITheme"/>
+
+        <activity
+            android:name=".ShareFaceFeatureActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:theme="@style/FaceAITheme"/>

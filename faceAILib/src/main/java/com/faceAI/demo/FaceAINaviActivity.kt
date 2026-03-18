@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.edit
@@ -25,20 +24,21 @@ import com.faceAI.demo.SysCamera.verify.FaceVerifyNaviActivity
 import com.faceAI.demo.SysCamera.verify.LivenessDetectActivity
 import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
 import com.faceAI.demo.UVCCamera.liveness.Liveness_UVCCameraActivity
+import com.faceAI.demo.base.AbsBaseActivity
 import com.faceAI.demo.base.utils.performance.DevicePerformance
 import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
-
 
 /**
  * SDK 接入演示Demo，请先熟悉本Demo跑通主要流程后再集成到你的主工程 验证业务
  *
  * @author FaceAISDK.Service@gmail.com
  */
-class FaceAINaviActivity : AppCompatActivity() {
+class FaceAINaviActivity : AbsBaseActivity() {
     private lateinit var viewBinding: ActivityFaceAiNaviBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        hideSystemUI()
         viewBinding = ActivityFaceAiNaviBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
@@ -81,6 +81,12 @@ class FaceAINaviActivity : AppCompatActivity() {
         // 两张静态人脸图中人脸相似度对比，two face image similarity compare
         viewBinding.twoFaceVerify.setOnClickListener {
             startActivity(Intent(this@FaceAINaviActivity, TwoFaceImageVerifyActivity::class.java))
+        }
+
+
+        // 录入分享人脸信息
+        viewBinding.addFace.setOnClickListener {
+            startActivity(Intent(this@FaceAINaviActivity, ShareFaceFeatureActivity::class.java))
         }
 
         // 分享FaceAISDK
@@ -237,7 +243,7 @@ class FaceAINaviActivity : AppCompatActivity() {
                 intent.data = uri
                 startActivity(intent)
             }
-            val btnOK = dialogView.findViewById<Button>(R.id.btn_ok)
+            val btnOK = dialogView.findViewById<Button>(R.id.share_face_feature)
             btnOK.setOnClickListener {
                 if(!checkBox.isSelected){
                     Toast.makeText(this,R.string.login_privacy_policy, Toast.LENGTH_LONG).show()

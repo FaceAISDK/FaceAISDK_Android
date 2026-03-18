@@ -41,6 +41,15 @@ class AboutFaceAppActivity : AppCompatActivity() {
             this.finish()
         }
 
+        // 分享FaceAISDK
+        viewBinding.shareLayout.setOnClickListener {
+            val intent = Intent()
+            intent.action = Intent.ACTION_SEND
+            intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_faceai_sdk_content))
+            intent.type = "text/plain"
+            startActivity(intent)
+        }
+
         viewBinding.newAppCheck.setOnClickListener {
             val uri = "https://www.pgyer.com/faceVerify".toUri()
             val intent = Intent(Intent.ACTION_VIEW)

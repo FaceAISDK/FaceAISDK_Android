@@ -1,11 +1,6 @@
-package com.faceAI.demo.SysCamera.addFace;
+package com.faceAI.demo;
 
-import static android.view.View.GONE;
-import static com.ai.face.base.baseImage.BaseImageDispose.PERFORMANCE_MODE_ACCURATE;
 import static com.ai.face.base.baseImage.BaseImageDispose.PERFORMANCE_MODE_FAST;
-import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE;
-import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
-import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
@@ -13,11 +8,11 @@ import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_RIGHT;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_UP;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.TILT_HEAD;
+import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE;
+import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
+import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
-import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
-
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,37 +20,34 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import com.ai.face.base.baseImage.BaseImageCallBack;
 import com.ai.face.base.baseImage.BaseImageDispose;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.core.engine.FaceAISDKEngine;
-import com.ai.face.faceSearch.search.FaceSearchEngine;
-import com.ai.face.faceSearch.search.FaceSearchFeatureManger;
-import com.ai.face.faceSearch.searchByFeature.FeatureSearchResult;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.faceAI.demo.FaceSDKConfig;
-import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
-import com.tencent.mmkv.MMKV;
 import java.util.Objects;
+import android.content.ContentValues;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.widget.Toast;
+
+import java.io.OutputStream;
 
 /**
  * 使用SDK相机规范人脸录入,保存人脸特征值
  *
- * 1:1 和1:N 人脸特征数据保存有点差异，参考代码详情
- * <p>
  * 其他系统的录入的人脸请自行保证人脸规范，否则会导致识别错误
  * -  1. 尽量使用较高配置设备和摄像头，光线不好带上补光灯
  * -  2. 录入高质量的正脸图，人脸清晰，背景简单纯色
@@ -64,21 +56,11 @@ import java.util.Objects;
  *
  * @author FaceAISDK.Service@gmail.com
  */
-public class AddFaceFeatureActivity extends AbsBaseActivity {
-    public static String ADD_FACE_IMAGE_TYPE_KEY = "ADD_FACE_IMAGE_TYPE_KEY";
-    public static String ADD_FACE_PERFORMANCE_MODE = "ADD_FACE_PERFORMANCE_MODE";
-    public static String NEED_CONFIRM_ADD_FACE = "NEED_CONFIRM_ADD_FACE"; //是否需要弹窗确认
-    private boolean needConfirmAdd = true;   //是否需要弹窗给用户确认人脸信息,强烈建议需要确认
+public class ShareFaceFeatureActivity extends AbsBaseActivity {
     private TextView tipsTextView;
     private BaseImageDispose baseImageDispose;
-    private String faceID, addFaceType;
     private boolean isConfirmAdd = false;   //是否正在弹出Dialog确定人脸合规，确认期间停止人脸角度合规检测
     private int addFacePerformanceMode = PERFORMANCE_MODE_FAST;  //默认快速模式，要求人脸正对摄像头
-
-    //是1:1 还是1:N 人脸搜索添加人脸
-    public enum AddFaceImageTypeEnum {
-        FACE_VERIFY, FACE_SEARCH;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,30 +68,12 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         hideSystemUI();
         setContentView(R.layout.activity_add_face_image);
         findViewById(R.id.back)
-                .setOnClickListener(v -> finishAddFace(0, "Cancel by user",""));
+                .setOnClickListener(v -> finish());
 
         tipsTextView = findViewById(R.id.tips_view);
-        addFaceType = getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
-
         if(FaceSDKConfig.isDebugMode(this)){
             addFacePerformanceMode=PERFORMANCE_MODE_FAST;
         }
-
-        Intent intent = getIntent(); // 获取发送过来的Intent对象
-        if (intent != null) {
-            if (intent.hasExtra(USER_FACE_ID_KEY)) {
-                faceID = intent.getStringExtra(USER_FACE_ID_KEY);
-            }
-            if (intent.hasExtra(ADD_FACE_PERFORMANCE_MODE)) {
-                addFacePerformanceMode = intent.getIntExtra(ADD_FACE_PERFORMANCE_MODE,PERFORMANCE_MODE_ACCURATE);
-            }
-            //默认都要确认的
-            if (intent.hasExtra(NEED_CONFIRM_ADD_FACE)) {
-                needConfirmAdd = intent.getBooleanExtra(NEED_CONFIRM_ADD_FACE,true);
-            }
-
-        }
-
 
         /* 添加人脸,实时检测相机视频流人脸角度是否符合当前模式设置，并给予提示
          *
@@ -132,21 +96,8 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
                 //如果非SDK相机录入的人脸照片提取特征值用异步方法 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
                 String faceFeature = FaceAISDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(bitmap);
 
-                if(!needConfirmAdd){
-                    if(TextUtils.isEmpty(faceID)){
-                        Toast.makeText(getBaseContext(), R.string.input_face_id_tips, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    //明确指示不需要弹窗确认，并且faceID指定了
-                    if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
-                        saveFaceVerifyData(bitmap,faceID,faceFeature);
-                    } else {
-                        saveFaceSearchData(bitmap,faceID,faceFeature);
-                    }
-                    finishAddFace(1, "Add face success",faceFeature);
-                }else{
-                    confirmAddFaceDialog(bitmap,faceFeature);
-                }
+                confirmAddFaceDialog(bitmap,faceFeature);
+
             }
 
             @Override
@@ -225,24 +176,56 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         baseImageDispose.release();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        // 这样写是为了返回明确信息给UTS，RN，Flutter 等三方插件
-        finishAddFace(0, "Cancel by user","");
+    public static void shareImageUri(Context context, Uri imageUri) {
+        if (imageUri == null) return;
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("image/png");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        // 授予临时读取权限，防止第三方 App 报错
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        context.startActivity(Intent.createChooser(shareIntent, "分享图片到"));
     }
 
-    /**
-     * 识别结束返回结果, 为了给uniApp UTS等第三方插件统一的交互返回格式
-     */
-    private void finishAddFace(int code, String msg,String faceFeature) {
-        Intent intent = new Intent().putExtra("code", code)
-                .putExtra("faceID", faceID)
-                .putExtra("msg", msg)
-                .putExtra("faceFeature", faceFeature);
+    public  Uri saveBitmapToPictures(Context context, Bitmap bitmap) {
+        long timestamp = System.currentTimeMillis();
+        String displayName = "IMG_" + timestamp + ".png";
 
-        setResult(RESULT_OK, intent);
-        finish();
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, displayName);
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
+
+        // Android 10 (API 29) 及以上处理隔离存储
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+            values.put(MediaStore.Images.Media.IS_PENDING, 1);
+        }
+
+        Uri externalUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        Uri imageUri = context.getContentResolver().insert(externalUri, values);
+
+        if (imageUri != null) {
+            try (OutputStream out = context.getContentResolver().openOutputStream(imageUri)) {
+                if (out != null) {
+                    // 压缩并写入
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+
+                    // 写入完成后，解除 PENDING 状态
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        values.clear();
+                        values.put(MediaStore.Images.Media.IS_PENDING, 0);
+                        context.getContentResolver().update(imageUri, values, null, null);
+                    }
+                    return imageUri;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                // 失败时删除记录
+                context.getContentResolver().delete(imageUri, null, null);
+            }
+        }
+        return null;
     }
 
     /**
@@ -253,22 +236,25 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     private void confirmAddFaceDialog(Bitmap bitmap,String faceFeature) {
         ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,bitmap);
 
-        confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
-            faceID = confirmFaceDialog.faceIDEdit.getText().toString();
-            if (!TextUtils.isEmpty(faceID)) {
-                if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
-                    saveFaceVerifyData(bitmap,faceID,faceFeature);
-                    finishConfirm(confirmFaceDialog.dialog, faceFeature);
-                } else {
-                    saveFaceSearchData(bitmap,faceID,faceFeature);
-                    finishConfirm(confirmFaceDialog.dialog, faceFeature);
-                }
-            } else {
-                Toast.makeText(getBaseContext(), R.string.input_face_id_tips, Toast.LENGTH_SHORT).show();
-            }
+        confirmFaceDialog.btnShareFaceFeature.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, faceFeature);
+            intent.setType("text/plain");
+            startActivity(intent);
+
+            isConfirmAdd=false;
+            confirmFaceDialog.dialog.dismiss();
+            baseImageDispose.retry();
         });
 
-        confirmFaceDialog.btnCancel.setOnClickListener(v -> {
+        confirmFaceDialog.btnShareFaceImage.setOnClickListener(v -> {
+            Uri savedUri = saveBitmapToPictures(this, bitmap);
+            if (savedUri != null) {
+                shareImageUri(this, savedUri);
+            } else {
+                Toast.makeText(this, "failed", Toast.LENGTH_SHORT).show();
+            }
             isConfirmAdd=false;
             confirmFaceDialog.dialog.dismiss();
             baseImageDispose.retry();
@@ -277,60 +263,15 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         confirmFaceDialog.dialog.show();
     }
 
-
-    /**
-     * 保存1:1 人脸识别人脸特征值
-     * @param bitmap  如果有需要,bitmap 也保存一下吧
-     * @param faceID
-     * @param faceFeature 长度为1024 的人脸特征值
-     */
-    private void saveFaceVerifyData(Bitmap bitmap,String faceID,String faceFeature){
-        //保存1:1 人脸识别特征数据，直接以KEY-Value的形式保存在MMKV中
-        MMKV.defaultMMKV().encode(faceID, faceFeature); //保存人脸faceID 对应的特征值,SDK 只要这个
-        //如果人脸图业务上需要人脸头像进行UI展示也可以保存到本地
-        FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(bitmap, FaceSDKConfig.CACHE_BASE_FACE_DIR, faceID);
-    }
-
-
-    /**
-     * 保存1:N ，M：N 人脸搜索识别人脸特征值
-     * @param bitmap 如果业务有需要,bitmap 也保存一下
-     * @param faceID
-     * @param faceFeature 长度为1024 的人脸特征值
-     */
-    private void  saveFaceSearchData(Bitmap bitmap,String faceID,String faceFeature){
-        //判断是否已有相似度很高的人脸数据存在
-        FeatureSearchResult featureSearchResult = FaceSearchEngine.getInstance().getFeatureSearcher(this).search(faceFeature);
-        if(featureSearchResult.getMaxSimilarity()>0.8){
-            Log.e("录入人脸","可能已经存在相似的人脸，请确认 "+featureSearchResult.getFaceID());
-        }
-
-        //人脸搜索(1:N) 不适合存放在MMKV中,使用SDK提供的FaceSearchFeatureManger保存。
-        //tag 和 group 可以用来做标记和分组。人脸搜索的时候可以作为权限场景控制以及 加快速度降低误差
-        FaceSearchFeatureManger.getInstance(this)
-                .insertFaceFeature(faceID, faceFeature, System.currentTimeMillis(),"tag","group");
-
-        //可选步骤：裁剪处理好的Bitmap保存到人脸搜索目录(注意！只保存人脸图不保存人脸特征值，人脸搜索是无法工作的)
-        FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(bitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, faceID);
-    }
-
-
-    private void finishConfirm(Dialog dialog, String faceFeature){
-        dialog.dismiss();
-        finishAddFace(1, "Add face success",faceFeature);
-    }
-
-
     /**
      * 人脸录入确认弹窗
      */
-    public class ConfirmFaceDialog{
+    public static class ConfirmFaceDialog{
         public AlertDialog dialog;
-        public Button btnConfirm,btnCancel;
-        public EditText faceIDEdit;
+        public Button btnShareFaceFeature, btnShareFaceImage;
         public ConfirmFaceDialog(Context context,Bitmap bitmap){
             dialog = new AlertDialog.Builder(context).create();
-            View dialogView = View.inflate(context, R.layout.dialog_confirm_base, null);
+            View dialogView = View.inflate(context, R.layout.dialog_share_face, null);
             Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.setView(dialogView);
             dialog.setCanceledOnTouchOutside(false);
@@ -339,15 +280,8 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
                     .load(bitmap)
                     .transform(new RoundedCorners(22))
                     .into(basePreView);
-            btnConfirm = dialogView.findViewById(R.id.share_face_feature);
-            btnCancel = dialogView.findViewById(R.id.btn_cancel);
-            faceIDEdit = dialogView.findViewById(R.id.edit_text);
-            faceIDEdit.setText(faceID);
-            if (!TextUtils.isEmpty(faceID)) {
-                faceIDEdit.setVisibility(GONE); //制作UTS等插件传过来的FaceID,用户不能再二次编辑
-            }else {
-                faceIDEdit.requestFocus();
-            }
+            btnShareFaceFeature = dialogView.findViewById(R.id.share_face_feature);
+            btnShareFaceImage = dialogView.findViewById(R.id.share_face_image);
         }
 
         public void show(){
