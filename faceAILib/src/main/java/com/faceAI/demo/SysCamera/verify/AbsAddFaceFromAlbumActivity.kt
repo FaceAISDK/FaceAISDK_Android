@@ -22,7 +22,6 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.ai.face.faceSearch.search.FaceSearchFeatureManger
 import com.faceAI.demo.BuildConfig
 import com.faceAI.demo.R
 
@@ -142,7 +141,7 @@ abstract class AbsAddFaceFromAlbumActivity : AppCompatActivity() {
         val basePreView = dialogView.findViewById<ImageView>(R.id.preview)
         basePreView.setImageBitmap(bitmap)
 
-        val btnOK = dialogView.findViewById<Button>(R.id.btn_ok)
+        val btnOK = dialogView.findViewById<Button>(R.id.share_face_feature)
         val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
         val editText = dialogView.findViewById<EditText>(R.id.edit_text)
         editText.requestFocus()

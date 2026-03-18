@@ -205,7 +205,7 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
                     .load(bitmap)
                     .transform(new RoundedCorners(22))
                     .into(basePreView);
-            btnConfirm = dialogView.findViewById(R.id.btn_ok);
+            btnConfirm = dialogView.findViewById(R.id.share_face_feature);
             btnCancel = dialogView.findViewById(R.id.btn_cancel);
             faceIDEdit = dialogView.findViewById(R.id.edit_text);
             faceIDEdit.setText(faceID);
