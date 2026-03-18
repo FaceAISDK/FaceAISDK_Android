@@ -207,13 +207,32 @@
 
     </LinearLayout>
 
+
+    <TextView
+        android:id="@+id/add_face"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/bg_rect_line"
+        android:gravity="center"
+        android:text="@string/add_face_feature"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/params_setting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/params_setting"
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginLeft="22dp"
         android:layout_marginRight="22dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/bg_rect_line"
         android:gravity="center"
         android:text="@string/parameter_setting"
@@ -232,7 +251,7 @@
         android:layout_height="42dp"
         android:layout_marginStart="22dp"
         android:layout_marginEnd="22dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/bg_rect_line"
         android:gravity="center"
         android:text="@string/two_face_image_verify"

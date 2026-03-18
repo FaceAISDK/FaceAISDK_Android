@@ -16,22 +16,10 @@
             android:background="@drawable/dialog_rounded_background"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="25dp"
-                android:gravity="center"
-                android:text="@string/confirm_add_face_title"
-                android:textColor="@color/face_main_color"
-                android:textStyle="bold"
-                android:textSize="16sp" />
-
             <ImageView
                 android:id="@+id/preview"
                 android:layout_gravity="center"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="6dp"
                 android:padding="7dp"
                 android:layout_width="135dp"
@@ -43,36 +31,12 @@
                 android:gravity="center"
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
+                android:padding="7dp"
                 android:text="@string/confirm_add_face_tips"
                 android:textStyle="bold"
                 android:textColor="@color/face_main_color"
                 android:textSize="13sp" />
 
-            <EditText
-                android:id="@+id/edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/input_face_id_tips"
-                android:textColorHint="@color/face_main_color"
-                android:layout_gravity="center"
-                android:theme="@style/MyEditText"
-                android:textColor="@color/face_main_color"
-                android:textSize="13sp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginStart="40dp"
-                android:paddingStart="10dp"
-                android:singleLine="true"
-                android:focusableInTouchMode="true" />
-
-            <TextView
-                android:id="@+id/liveness_score"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:visibility="invisible"
-                android:textColor="@color/face_main_color"
-                android:textStyle="bold"
-                android:textSize="10sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -80,30 +44,30 @@
                 android:layout_marginBottom="23dp"
                 android:layout_marginTop="9dp"
                 android:orientation="horizontal"
-                android:paddingLeft="22dp"
-                android:paddingRight="22dp">
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
 
                 <Button
-                    android:id="@+id/btn_cancel"
+                    android:id="@+id/share_face_image"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="12dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_rounded_background"
-                    android:text="@string/retry"
+                    android:text="@string/share_face_image"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
                 <Button
                     android:id="@+id/share_face_feature"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginStart="12dp"
                     android:background="@drawable/button_rounded_background"
-                    android:text="@string/confirm"
+                    android:text="@string/share_face_feature"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 

@@ -15,6 +15,9 @@
     <string name="retry">重试</string>
     <string name="long_press_copy_msg">提示：长按复制联系信息</string>
     <string name="share_faceai_sdk">分享人脸识别SDK</string>
+    <string name="share_face_image">分享人脸图片</string>
+    <string name="share_face_feature">分享人脸特征</string>
+
     <string name="facesdk_camera_permission">人脸识别需要摄像头权限才能正常工作</string>
     <string name="share_faceai_sdk_content">FaceAISDK 人脸识别 活体检测接入源码\n\n
 https://github.com/FaceAISDK\n
@@ -115,10 +118,10 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <!--1:N and M:N face search-->
     <string name="face_data_manage">人脸数据管理</string>
     <string name="insert_face_features">批量插入人脸数据</string>
-    <string name="face_search_1fromN_liveness">活体检测+1:N人脸搜索</string>
-    <string name="face_search_1fromN">1:N 人脸搜索</string>
+    <string name="face_search_1fromN_liveness">1:N人脸搜索+活体检测</string>
+    <string name="face_search_1fromN">1:N 人脸搜索(无活体)</string>
     <string name="face_search_uvc_camera">UVC摄像头人脸搜索</string>
-    <string name="face_search_MfromN">M:N 多人脸搜索（Beta版本）</string>
+    <string name="face_search_MfromN">M:N 多人脸搜索</string>
     <string name="search_threshold_scope_tips">阈值Threshold范围为[0.85,0.95]</string>
     <string name="ir_live_error">红外活体检测失败</string>
     <string name="ir_image_error">红外摄像头图像采集失败</string>
@@ -138,7 +141,6 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="uvc_camera_horizontal_mirror_rgb">RGB摄像画面水平镜像翻转</string>
     <string name="uvc_camera_resolution_rgb">RGB 摄像头分辨率选择</string>
     <string name="uvc_camera_resolution_ir">IR 摄像头分辨率选择</string>
-
 
     <string name="gentle_reminder">温馨提示</string>
     <string name="gentle_reminder_func">FaceAISDK所有功能都是离线工作，不联网不收集人脸数据。为了更好体验Demo，请确保：</string>

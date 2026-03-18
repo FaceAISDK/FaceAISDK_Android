@@ -1,6 +1,6 @@
 #  FaceAIDemo 人脸识别隐私声明
 
-Umbrella FaceAI SDK on_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N Face Search SDK
+FaceAI SDK on_device Offline Android Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N Face Search SDK
 
 保护伞FaceAI SDK是设备端可离线不联网Android 人脸识别、活体检测、人脸录入质量检测以及人脸搜索识别SDK，可快速集成实现人脸识别，人脸搜索功能。
 

@@ -103,7 +103,7 @@
                     android:textSize="15sp" />
 
                 <Button
-                    android:id="@+id/btn_ok"
+                    android:id="@+id/share_face_feature"
                     android:layout_width="0dp"
                     android:layout_height="42dp"
                     android:layout_weight="1"
