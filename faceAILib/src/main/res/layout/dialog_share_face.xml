@@ -11,19 +11,51 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="18dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:background="@drawable/dialog_rounded_background"
             android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginTop="19dp"
+                android:orientation="horizontal"
+                android:paddingLeft="11dp"
+                android:paddingRight="17dp">
+
+                <ImageView
+                    android:id="@+id/close"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_arrow_back_24"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <Button
+                    android:id="@+id/retry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="33dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/button_rounded_background"
+                    android:text="@string/retry"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
 
             <ImageView
                 android:id="@+id/preview"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="8dp"
                 android:padding="7dp"
-                android:layout_width="135dp"
-                android:layout_height="135dp"/>
+                android:layout_width="136dp"
+                android:layout_height="136dp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -38,38 +70,40 @@
                 android:textSize="13sp" />
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="23dp"
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="11dp"
                 android:orientation="horizontal"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
+                android:paddingLeft="17dp"
+                android:paddingRight="17dp">
 
                 <Button
                     android:id="@+id/share_face_image"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_alignParentStart="true"
                     android:background="@drawable/button_rounded_background"
                     android:text="@string/share_face_image"
-                    android:textColor="@color/black"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:textColor="@color/white"
                     android:textSize="13sp" />
 
                 <Button
                     android:id="@+id/share_face_feature"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_alignParentRight="true"
                     android:background="@drawable/button_rounded_background"
                     android:text="@string/share_face_feature"
                     android:textColor="@color/white"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
                     android:textSize="13sp" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 
