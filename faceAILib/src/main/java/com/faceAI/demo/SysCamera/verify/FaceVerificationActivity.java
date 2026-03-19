@@ -463,11 +463,8 @@ public class FaceVerificationActivity extends AbsBaseActivity {
 
             if (intent.hasExtra(FACE_LIVENESS_TYPE)) {
                 int type = intent.getIntExtra(FACE_LIVENESS_TYPE, 1);
-                // 1.动作活体  2.动作+炫彩活体 3.炫彩活体(不能强光环境使用)
+                // 1.动作活体  2.动作+炫彩活体 3.炫彩活体(不能强光环境使用) 4.静默活体检测
                 switch (type) {
-                    case 0:
-                        faceLivenessType = FaceLivenessType.NONE;
-                        break;
                     case 1:
                         faceLivenessType = FaceLivenessType.MOTION;
                         break;
@@ -477,8 +474,11 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                     case 3:
                         faceLivenessType = FaceLivenessType.COLOR_FLASH;
                         break;
+                    case 4:
+                        faceLivenessType = FaceLivenessType.SILENT_LIVE;
+                        break;
                     default:
-                        faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION;
+                        faceLivenessType = FaceLivenessType.NONE;
                 }
             }
 

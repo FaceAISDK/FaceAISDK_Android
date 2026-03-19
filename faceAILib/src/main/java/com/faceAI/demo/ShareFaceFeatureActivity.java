@@ -243,9 +243,8 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
             intent.setType("text/plain");
             startActivity(intent);
 
-            isConfirmAdd=false;
             confirmFaceDialog.dialog.dismiss();
-            baseImageDispose.retry();
+            ShareFaceFeatureActivity.this.finish();
         });
 
         confirmFaceDialog.btnShareFaceImage.setOnClickListener(v -> {
@@ -255,9 +254,19 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
             } else {
                 Toast.makeText(this, "failed", Toast.LENGTH_SHORT).show();
             }
+            confirmFaceDialog.dialog.dismiss();
+            ShareFaceFeatureActivity.this.finish();
+        });
+
+        confirmFaceDialog.btnRetry.setOnClickListener(v -> {
             isConfirmAdd=false;
             confirmFaceDialog.dialog.dismiss();
             baseImageDispose.retry();
+        });
+
+        confirmFaceDialog.close.setOnClickListener(v -> {
+            confirmFaceDialog.dialog.dismiss();
+            ShareFaceFeatureActivity.this.finish();
         });
 
         confirmFaceDialog.dialog.show();
@@ -268,7 +277,8 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
      */
     public static class ConfirmFaceDialog{
         public AlertDialog dialog;
-        public Button btnShareFaceFeature, btnShareFaceImage;
+        public ImageView close;
+        public Button btnShareFaceFeature, btnShareFaceImage ,btnRetry;
         public ConfirmFaceDialog(Context context,Bitmap bitmap){
             dialog = new AlertDialog.Builder(context).create();
             View dialogView = View.inflate(context, R.layout.dialog_share_face, null);
@@ -282,6 +292,8 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
                     .into(basePreView);
             btnShareFaceFeature = dialogView.findViewById(R.id.share_face_feature);
             btnShareFaceImage = dialogView.findViewById(R.id.share_face_image);
+            btnRetry = dialogView.findViewById(R.id.retry);
+            close = dialogView.findViewById(R.id.close);
         }
 
         public void show(){
