@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/dialog_rounded_background"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginTop="19dp"
+                android:orientation="horizontal"
+                android:paddingLeft="11dp"
+                android:paddingRight="17dp">
+
+                <ImageView
+                    android:id="@+id/close"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_arrow_back_24"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <Button
+                    android:id="@+id/retry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="33dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/button_rounded_background"
+                    android:text="@string/retry"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+
+            <ImageView
+                android:id="@+id/preview"
+                android:layout_gravity="center"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="8dp"
+                android:padding="7dp"
+                android:layout_width="136dp"
+                android:layout_height="136dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:padding="7dp"
+                android:text="@string/confirm_add_face_tips"
+                android:textStyle="bold"
+                android:textColor="@color/face_main_color"
+                android:textSize="13sp" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="23dp"
+                android:layout_marginTop="11dp"
+                android:orientation="horizontal"
+                android:paddingLeft="17dp"
+                android:paddingRight="17dp">
+
+                <Button
+                    android:id="@+id/share_face_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/button_rounded_background"
+                    android:text="@string/share_face_image"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+                <Button
+                    android:id="@+id/share_face_feature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/button_rounded_background"
+                    android:text="@string/share_face_feature"
+                    android:textColor="@color/white"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
