@@ -69,26 +69,11 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             Toast.makeText(baseContext, "Done,$num", Toast.LENGTH_SHORT).show()
         }
 
-        //1:N 人脸搜索
-        binding.faceSearch1n.setOnClickListener {
-            if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
-                val intent = Intent(baseContext, FaceSearch1NActivity::class.java)
-                intent.putExtra(FaceSearch1NActivity.THRESHOLD_KEY, 0.88f)
-                intent.putExtra(FaceSearch1NActivity.SEARCH_ONE_TIME, true)
-                intent.putExtra(FaceSearch1NActivity.NEED_FACE_LIVE, false)
-                intent.putExtra(FaceSearch1NActivity.IS_CAMERA_SIZE_HIGH, false) //默认给false
-                intent.putExtra(FaceSearch1NActivity.CAMERA_ID, CameraSelector.LENS_FACING_FRONT)
-                startActivity(intent)
-            } else {
-                //UVC 参数后期再完善
-                startActivity(Intent(baseContext, FaceSearch_UVCCameraActivity::class.java))
-            }
-        }
 
         //1:N 人脸搜索.包含活体检测
         binding.faceSearchWithLive.setOnClickListener {
             if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
-                val intent = Intent(baseContext, FaceSearch1N_LivenessActivity::class.java)
+                val intent = Intent(baseContext, FaceSearch1NActivity::class.java)
                 intent.putExtra(FaceSearch1NActivity.THRESHOLD_KEY, 0.88f)
                 intent.putExtra(FaceSearch1NActivity.SEARCH_ONE_TIME, true)
                 intent.putExtra(FaceSearch1NActivity.NEED_FACE_LIVE, true)

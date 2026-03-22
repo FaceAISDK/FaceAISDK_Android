@@ -81,19 +81,13 @@
             android:exported="false"
             android:theme="@style/AppTheme"/>
 
-
         <activity
             android:name=".SysCamera.addFace.AddFaceFeatureActivity"
             android:exported="false"
             android:theme="@style/FaceAITheme" />
-        <activity
-            android:name=".SysCamera.search.FaceSearch1NActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:theme="@style/FaceAITheme" />
 
         <activity
-            android:name=".SysCamera.search.FaceSearch1N_LivenessActivity"
+            android:name=".SysCamera.search.FaceSearch1NActivity"
             android:exported="false"
             android:theme="@style/Theme.FaceAISDK.Fullscreen" />
         <activity
