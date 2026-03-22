@@ -218,11 +218,10 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private void showVerifyResult(boolean isVerifyMatched, float similarity,float livenessValue, Bitmap bitmap) {
         BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");  //保存场景图给三方插件使用
 
-        if (isVerifyMatched&&livenessValue>0.75) {
-            //2. 相似度>verifyThreshold，并且livenessValue>0.75(动作活体可以忽略这个值)
+        if (isVerifyMatched&&livenessValue>0.8) {
+            //2. 相似度>verifyThreshold，并且livenessValue>0.8
             VoicePlayer.getInstance().addPayList(R.raw.verify_success);
             new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
-
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 finishFaceVerify(1, R.string.face_verify_result_success, similarity,livenessValue);
             }, 1100);
@@ -233,7 +232,6 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             } else {
                 code = 2; //VERIFY_FAILED
             }
-            //3. 相似度过低
             VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
             new AlertDialog.Builder(FaceVerificationActivity.this).setTitle(R.string.face_verify_failed_title).setMessage(R.string.face_verify_failed).setCancelable(false).setPositiveButton(R.string.know, (dialogInterface, i) -> {
                 finishFaceVerify(code, R.string.face_verify_result_failed, similarity,livenessValue);
