@@ -81,7 +81,7 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(requireActivity())
                 .setLifecycleOwner(this)
                 .setCameraType(cameraType)
-                .setThreshold(0.88f) //阈值设置，范围限 [0.85 , 0.95] 识别可信度，也是识别灵敏度
+                .setThreshold(0.86f) //阈值设置，范围限 [0.85 , 0.95] 识别可信度，也是识别灵敏度
 //                .setFaceGroup() //根据分组来搜索，比如小区不同楼栋可以设置从1A，1B，2C等分组不但能管理权限又能加快速度
 //                .setFaceTag()   //根据标记来搜索，比如有些场所只有VIP才能权限进入
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
