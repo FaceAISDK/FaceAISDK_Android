@@ -1,0 +1,25 @@
+<resources>
+
+    <!-- 1:1 人脸识别覆盖视图，动作活体进度条，炫彩活体闪光颜色 -->
+    <declare-styleable name="FaceVerifyCoverView">
+        <!--circle_margin -->
+        <attr name="circle_margin" format="dimension" />
+
+        <attr name="circle_padding_bottom" format="dimension" />
+
+        <!--文本-->
+        <attr name="tip_text" format="string" />
+        <!--颜色-->
+        <attr name="tip_text_color" format="color" />
+        <!--文字大小-->
+        <attr name="tip_text_size" format="dimension" />
+        <attr name="flash_color" format="color" />
+        <attr name="progress_start_color" format="color" />
+        <attr name="progress_end_color" format="color" />
+        <attr name="show_progress" format="boolean" />
+
+    </declare-styleable>
+
+
+
+</resources>

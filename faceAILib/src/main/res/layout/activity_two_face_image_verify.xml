@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="20dp"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:layout_margin="1dp"
+        android:padding="9dp"
+        android:src="@drawable/ic_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="15dp"
+        android:paddingBottom="7dp"
+        android:paddingTop="11dp"
+        android:textColor="@color/half_grey"
+        app:layout_constraintStart_toStartOf="@+id/image_left"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/back"
+        android:textSize="13sp"
+        android:layout_marginBottom="11dp"
+        android:text="@string/face_verify_two_image_tips"/>
+
+
+    <TextView
+        android:id="@+id/image_left"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="15dp"
+        android:background="@color/half_grey"
+        android:text="  Image Left"
+        android:textColor="@color/white"
+        android:singleLine="true"
+        android:textSize="12sp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/image_right"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tips" />
+
+
+    <TextView
+        android:id="@+id/image_right"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="15dp"
+        android:background="@android:color/darker_gray"
+        android:text="  Image Right"
+        android:textColor="@color/white"
+        android:singleLine="true"
+        android:textSize="12sp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/image_left"
+        app:layout_constraintTop_toBottomOf="@+id/tips" />
+
+    <TextView
+        android:id="@+id/go_verify"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:background="@color/blue_sky"
+        app:layout_constraintStart_toStartOf="@+id/image_left"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_right"
+        android:text="@string/face_verify_two_image"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
