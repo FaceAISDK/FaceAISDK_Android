@@ -109,8 +109,8 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onLivenessDetected(float livenessValue, Bitmap bitmap) {
-                        BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap");
-                        if(livenessValue>0.75){
+                        BitmapUtils.saveCompressBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap");
+                        if(livenessValue>0.8){
                             VoicePlayer.getInstance().addPayList(R.raw.verify_success);
                             new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
                         }else{

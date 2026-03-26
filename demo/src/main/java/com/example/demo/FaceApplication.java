@@ -32,7 +32,7 @@ public class FaceApplication extends Application implements CameraXConfig.Provid
         //初始化
         FaceSDKConfig.init(this);
 
-//        FaceSDKConfig.deleteFaceSearchData(this,"User_1001");
+        FaceSDKConfig.deleteFaceSearchData(this,"广告");
 //        FaceSDKConfig.deleteFaceSearchData(this,"FaceAI");
 
     }
