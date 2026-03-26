@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -216,7 +215,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      */
     private int retryTime = 0;
     private void showVerifyResult(boolean isVerifyMatched, float similarity,float livenessValue, Bitmap bitmap) {
-        BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");  //保存场景图给三方插件使用
+        BitmapUtils.saveCompressBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");  //保存场景图给三方插件使用
 
         if (isVerifyMatched&&livenessValue>0.8) {
             //2. 相似度>verifyThreshold，并且livenessValue>0.8
@@ -224,7 +223,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 finishFaceVerify(1, R.string.face_verify_result_success, similarity,livenessValue);
-            }, 1100);
+            }, 999);
         } else {
             int code;
             if(isVerifyMatched){

@@ -2,15 +2,14 @@ package com.faceAI.demo.base.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Base64OutputStream;
 import android.util.Log;
 
 import com.ai.face.base.baseImage.FileStorage;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,10 +23,55 @@ public class BitmapUtils {
 
     private static final String TAG = "BitmapUtils";
 
+
+
+
+    /**
+     * 保存压缩图（同步安全版）
+     *
+     * @param originBitmap   原图
+     * @param pathName       路径目录
+     * @param fileName       文件名
+     * @return boolean       返回是否保存成功，方便上层做业务判断
+     */
+    public static boolean saveCompressBitmap2(Bitmap originBitmap, String pathName, String fileName) {
+        // 1. Fail-Fast: 优先拦截无效 Bitmap，避免产生无用的空文件
+        if (originBitmap == null || originBitmap.isRecycled()) {
+            Log.e("FaceAISDK", "Save Error: Bitmap is null or recycled.");
+            return false;
+        }
+
+        File file = new FileStorage(pathName).createTempFile(fileName);
+        if (file == null) {
+            Log.e("FaceAISDK", "Save Error: Cannot create temp file.");
+            return false;
+        }
+
+        // 2. Try-With-Resources: 自动管理流的生命周期，绝对防止内存/句柄泄漏
+        // 3. BufferedOutputStream: 增加 8KB 缓冲区，减少 I/O 阻塞时间
+        try (FileOutputStream fos = new FileOutputStream(file);
+             BufferedOutputStream bos = new BufferedOutputStream(fos, 8192)) {
+
+            // 压缩并写入缓冲区
+            boolean success = originBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bos);
+
+            // 确保缓冲区内最后剩余的数据被刷入磁盘
+            bos.flush();
+
+            return success;
+
+        } catch (IOException e) {
+            Log.e("FaceAISDK", "Save Error: " + e.getMessage());
+            return false;
+        }
+    }
+
+
+
     /**
      * 保存缩放后的图片，增加内存异常处理与副本回收优化
      */
-    public static void saveScaledBitmap(Bitmap srcBitmap, String pathName, String fileName) {
+    public static void saveCompressBitmap(Bitmap srcBitmap, String pathName, String fileName) {
         if (srcBitmap == null || srcBitmap.isRecycled() || TextUtils.isEmpty(pathName) || TextUtils.isEmpty(fileName)) {
             Log.e(TAG, "Save Failed: srcBitmap is null, recycled, or invalid paths.");
             return;
@@ -37,7 +81,7 @@ public class BitmapUtils {
         int srcHeight = srcBitmap.getHeight();
         int targetWidth = srcWidth;
         int targetHeight = srcHeight;
-        float MAX_SIDE = 480f; // 目标最大边长
+        float MAX_SIDE = 640f; // 目标最大边长
 
         // 计算等比缩放比例
         if (srcWidth > MAX_SIDE || srcHeight > MAX_SIDE) {

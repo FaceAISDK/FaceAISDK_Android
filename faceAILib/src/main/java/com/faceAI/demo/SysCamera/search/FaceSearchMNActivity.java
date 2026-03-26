@@ -1,5 +1,6 @@
 package com.faceAI.demo.SysCamera.search;
 
+import static android.view.View.GONE;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
@@ -11,10 +12,15 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCHING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
+import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,10 +36,12 @@ import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.databinding.ActivityFaceSearchMnBinding;
 import com.faceAI.demo.R;
+import com.google.gson.Gson;
+
 import java.util.List;
 
 /**
- * (2025.11.26更新，M：N 暂未优化，请优先使用1:N人脸搜索)
+ * M:N 人脸搜索，暂不支持活体检测
  *
  * 宽动态成像清晰摄像头，人脸正对摄像头
  * 提前在人脸库管理页面 点击右上角导入测试多人脸图，
@@ -49,9 +57,12 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideSystemUI();
 
         binding = ActivityFaceSearchMnBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        binding.close.setOnClickListener(v -> finish());
+        binding.faceCover.setVisibility(GONE);
 
         binding.tips.setOnClickListener(v -> {
             startActivity(new Intent(this, FaceSearchDataMangerActivity.class)
@@ -102,17 +113,30 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy左右翻转影响人脸框
                 .setProcessCallBack(new SearchProcessCallBack() {
 
+
                     /**
-                     * 检测到人脸的位置信息，画框用.MN 人脸搜索人脸检测，人脸搜索识别结果都在这个回调里面
-                     * @param result
+                     * M：N人脸搜索结果
+                     * @param matchedResults  所有大于设置阈值的结果
+                     * @param searchBitmap    场景图用于log分析
+                     * @param livenessValue   预留字段（M：N 暂无活体检测）
                      */
                     @Override
-                    public void onFaceDetected(List<FaceSearchResult> result) {
+                    public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap, float livenessValue) {
+                        binding.graphicOverlay.drawRect(matchedResults);
+                        String json = new Gson().toJson(matchedResults);
+                        Log.d("onFaceMatched","符合设定阈值的结果: "+json);
+                    }
+
+
+                    /**
+                     * 检测到人脸的位置信息，画框用.
+                     * @param detectResult 人脸检测结果
+                     */
+                    @Override
+                    public void onFaceDetected(List<FaceSearchResult> detectResult) {
                         //画框UI代码完全开放，用户可以根据情况自行改造
-                        binding.graphicOverlay.drawRect(result);
-                        if (!result.isEmpty()) {
-                            binding.searchTips.setText("");
-                        }
+                        binding.graphicOverlay.drawRect(detectResult);
+
                     }
 
                     @Override

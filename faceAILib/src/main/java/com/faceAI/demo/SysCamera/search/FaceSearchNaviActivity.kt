@@ -74,11 +74,10 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         binding.faceSearchWithLive.setOnClickListener {
             if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
                 val intent = Intent(baseContext, FaceSearch1NActivity::class.java)
-                intent.putExtra(FaceSearch1NActivity.THRESHOLD_KEY, 0.88f)
+                intent.putExtra(FaceSearch1NActivity.THRESHOLD_KEY, 0.85f)
                 intent.putExtra(FaceSearch1NActivity.SEARCH_ONE_TIME, true)
                 intent.putExtra(FaceSearch1NActivity.NEED_FACE_LIVE, true)
                 intent.putExtra(FaceSearch1NActivity.IS_CAMERA_SIZE_HIGH, false) //默认给false
-                intent.putExtra(FaceSearch1NActivity.CAMERA_ID, CameraSelector.LENS_FACING_FRONT)
                 startActivity(intent)
             } else {
                 //UVC 参数后期再完善

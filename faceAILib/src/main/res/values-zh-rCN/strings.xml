@@ -75,6 +75,8 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="face_verify_result_failed">4人脸识别失败</string>
     <string name="face_verify_result_no_face_multi_time">5多次未检测到人脸</string>
     <string name="face_verify_result_pause">6人脸识别暂停</string>
+    <string name="face_verify_two_image">人脸相似度对比</string>
+    <string name="face_verify_two_image_tips">请选择正脸无遮挡人脸照片</string>
 
 
     <!--Motion liveness detection-->

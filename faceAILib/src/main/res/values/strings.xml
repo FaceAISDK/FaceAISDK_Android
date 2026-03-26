@@ -76,6 +76,8 @@
     <string name="face_verify_result_failed">Face verify failed</string>
     <string name="face_verify_result_no_face_multi_time">No Face multi times</string>
     <string name="face_verify_result_pause">Face verify pause</string>
+    <string name="face_verify_two_image">Face similarity Verify</string>
+    <string name="face_verify_two_image_tips">Please select a front-facing, unobstructed Image</string>
 
     <!--动作活体检测Motion liveness detection-->
     <string name="liveness_detection">Liveness detection</string>
