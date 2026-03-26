@@ -18,7 +18,7 @@
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="人脸库目录暂无人脸\n\n点击添加内置测试人脸图"
+        android:text="Add Face First"
         android:gravity="center"
         android:padding="3dp"
         android:textSize="15sp"

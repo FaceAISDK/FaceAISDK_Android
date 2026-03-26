@@ -110,7 +110,7 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
                      * setCallBackAllMatch(true) 才有值
                      */
                     @Override
-                    public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap) {
+                    public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap,float liveness) {
                         Log.e("onFaceMatched",matchedResults.toString());
                     }
 

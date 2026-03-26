@@ -25,13 +25,11 @@ import com.faceAI.demo.databinding.ActivityTwoFaceImageVerifyBinding
 
 
 /**
- * 对比两张图片中人脸相似度，SDK开放基础功能
+ * 对比两张图片中人脸相似度，FaceVerifyUtils().evaluateFaceSimiByBitmap
  *
  * 裁剪出图片中的人脸正脸部分进行相似度比较，如果某一张照片中没有检测到人脸，则相似度返回为0。
  *
  * 不适合用本方法来大规模的并发进行人脸照片相似度比较，因为bitmap 的操作以及提取向量值很耗费资源
- *
- * TwoFaceImageVerifyActivity 采用Kotlin 演示，使用java 的同学请自行翻译，有兴趣的同学可以重命名后提交新的PR
  */
 class TwoFaceImageVerifyActivity : AppCompatActivity() {
 

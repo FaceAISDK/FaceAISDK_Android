@@ -56,12 +56,10 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     public static final String NEED_FACE_LIVE = "NEED_FACE_LIVE";   //是否开启活体检测
     public static final String SEARCH_ONE_TIME = "SEARCH_ONE_TIME";   //是否仅搜索一次就关闭搜索页
     public static final String IS_CAMERA_SIZE_HIGH = "IS_CAMERA_SIZE_HIGH";   //高分辨率远距离也可以工作，但是性能速度会下降
-    public static final String CAMERA_ID = "CAMERA_ID";   //摄像头ID，部分摄像头可能需要适配
     private float searchThreshold = 0.85f;  //搜索阈值
     private boolean searchOneTime = false;   //是否仅搜索一次就关闭搜索页
     private boolean needFaceLive = true;   //是否开启活体检测
     private boolean isCameraSizeHigh = false; //是否高分辨率
-    private int cameraId = CameraSelector.LENS_FACING_FRONT; //摄像头ID，部分摄像头可能需要适配
     private int cameraLensFacing;  //摄像头前置，后置，外接
 
     //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
@@ -76,7 +74,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         Intent intent = getIntent(); // 获取发送过来的Intent对象
         if (intent != null) {
             if (intent.hasExtra(THRESHOLD_KEY)) {
-                searchThreshold = intent.getFloatExtra(THRESHOLD_KEY, 0.88f);
+                searchThreshold = intent.getFloatExtra(THRESHOLD_KEY, 0.85f);
             }
             if (intent.hasExtra(SEARCH_ONE_TIME)) {
                 searchOneTime = intent.getBooleanExtra(SEARCH_ONE_TIME, false);
@@ -86,9 +84,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
             }
             if (intent.hasExtra(NEED_FACE_LIVE)) {
                 needFaceLive = intent.getBooleanExtra(NEED_FACE_LIVE, false);
-            }
-            if (intent.hasExtra(CAMERA_ID)) {
-                cameraId = intent.getIntExtra(CAMERA_ID, CameraSelector.LENS_FACING_FRONT);
             }
         }
     }
@@ -110,7 +105,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         getIntentParams(); //接收三方插件传递的参数，原生开发可以忽略裁剪掉
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
-        cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, cameraId); //默认前置
+        cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 0); //默认前置
         int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //1. 摄像头相关参数配置
@@ -171,7 +166,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap, float livenessValue) {
-                        Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
+                        Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);//传给插件，其他可以忽略
                         new ImageToast().showBitmap(getApplicationContext(), mostSimilarBmp, faceID + "," + score + "," + livenessValue);
                         if (livenessValue > 0.72) { //分数根据你的摄像头和安装场景自由定义
                             VoicePlayer.getInstance().play(R.raw.ding_success);

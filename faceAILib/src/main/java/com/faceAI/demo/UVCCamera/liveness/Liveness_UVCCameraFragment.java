@@ -78,7 +78,7 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                             new ImageToast().show(requireContext(), getString(R.string.face_verify_failed)+livenessValue);
                         }
                         tipsTextView.setText(R.string.liveness_detection_done);
-                        BitmapUtils.saveScaledBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap");
+                        BitmapUtils.saveCompressBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap");
                         requireActivity().finish();
                     }
 

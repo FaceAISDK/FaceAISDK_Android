@@ -10,14 +10,12 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_camerax"
-        android:layout_margin="30dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <!-- Custom your Face Verify UI-->
     <com.ai.face.faceSearch.search.GraphicOverlay
         android:id="@+id/graphicOverlay"
-        android:layout_margin="33dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -37,7 +35,7 @@
         android:id="@+id/searchTips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="12dp"
         android:textColor="@color/white"
         android:background="@drawable/circle_bar_bg"
         android:text="@string/sdk_init"
@@ -75,18 +73,18 @@
         android:id="@+id/tips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/half_grey"
-        android:textSize="14sp"
+        android:textColor="@color/face_main_color"
+        android:textSize="12sp"
         android:gravity="center"
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="3dp"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_camerax" />
 
     <ImageView
         android:id="@+id/close"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="33dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="30dp"
         android:padding="10dp"
         android:src="@drawable/ic_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
