@@ -15,21 +15,18 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.TOO_MUCH_FACE;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
-
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.camera.core.CameraSelector;
-
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.core.utils.FaceAICameraType;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
@@ -47,7 +44,6 @@ import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
-
 import java.util.List;
 
 /**
@@ -68,8 +64,7 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
     private int motionStepSize = 1; //动作活体的步骤个数
     private int motionTimeOut = 5; //动作超时秒
     private String motionLivenessTypes ="1,2,3,4,5" ; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
-    private boolean isLivenessPass=false; //动作活体是否通过
-    private boolean isFaceExist=false;    //镜头前是否有人
+    private boolean isNeedMotionLiveness =true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +73,6 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
         setContentView(binding.getRoot());
         hideSystemUI();
         binding.close.setOnClickListener(v -> finish());
-
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
         cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT); //默认前置
@@ -106,12 +100,10 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
             if (!isDestroyed() && !isFinishing()&&!pauseSearch) {
-                if(isLivenessPass){
-                    FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
+                if(isNeedMotionLiveness){
+                    faceVerifyUtils.goVerifyWithImageProxy(imageProxy);//动作活体检测送入数据
                 }else{
-                    if (isFaceExist){
-                        faceVerifyUtils.goVerifyWithImageProxy(imageProxy);
-                    }
+                    FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
                 }
             }
         });
@@ -142,8 +134,8 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
                      */
                     @Override
                     public void onLivenessDetected(float score, Bitmap bitmap) {
+                        isNeedMotionLiveness=false;
                         initFaceSearchParam();
-                        isLivenessPass=true;
                     }
 
                     @Override
@@ -151,7 +143,7 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
                         binding.faceCover.setFlashColor(color); //更新炫彩屏幕颜色，不能在室外强光下使用
                     }
 
-                    //人脸识别，活体检测过程中的各种提示
+                    //活体检测过程中的各种提示
                     @Override
                     public void onProcessTips(int i) {
                         showFaceVerifyTips(i);
@@ -180,37 +172,33 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
 
 
     /**
-     * 根据业务和设计师UI交互修改你的 UI，Demo 仅供参考
-     * <p>
-     * 添加声音提示和动画提示定制也在这里根据返回码进行定制
+     * 动作活体过程中的各种状态回调
+     *
      */
     private void showFaceVerifyTips(int actionCode) {
         if (!isDestroyed() && !isFinishing()) {
             switch (actionCode) {
 
-                // 动作活体检测完成了
-                case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_SUCCESS:
-                    VoicePlayer.getInstance().play(R.raw.verify_success);
-                    setMainTips(R.string.keep_face_visible);
-                    setSecondTips(0);
-                    break;
+//                // 动作活体检测完成了
+//                case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_SUCCESS:
+//                    VoicePlayer.getInstance().play(R.raw.verify_success);
+//                    setMainTips(R.string.keep_face_visible);
+//                    setSecondTips(0);
+//                    break;
 
                 // 动作活体检测超时
                 case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_TIMEOUT:
-                    //重新生成一个活体检测,
-                    if(isFaceExist){
-                        faceVerifyUtils.retryVerify();
-                    }
-                    break;
-
-                case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FIRST_FACE:
-                    faceVerifyUtils.retryVerify();
+                    new AlertDialog.Builder(this)
+                            .setMessage(R.string.motion_liveness_detection_time_out)
+                            .setCancelable(false)
+                            .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
+                                faceVerifyUtils.retryVerify();
+                            }).show();
                     break;
 
                 case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:
                     setMainTips(R.string.face_verifying);
                     break;
-
 
                 case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
                     VoicePlayer.getInstance().play(R.raw.open_mouse);
@@ -250,9 +238,9 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
                     break;
 
 
+                //多次检测没有人脸
                 case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
-                    isLivenessPass=false;
-                    isFaceExist=false;
+//                    setMainTips(R.string.no_face_or_repeat_switch_screen);
                     break;
 
                 // 单独使用一个textview 提示，防止上一个提示被覆盖。
@@ -269,13 +257,24 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
                 //检测到正常的人脸，尺寸大小OK
                 case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_SIZE_FIT:
                     setSecondTips(0);
-                    isFaceExist=true;
                     break;
                 case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
                     setSecondTips(R.string.no_face_detected_tips);
                     break;
             }
         }
+    }
+
+    /**
+     * 倒计时3秒重新启动动作活体检测
+     */
+    private void retryMotionLiveCheck(){
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                faceVerifyUtils.retryVerify();
+            }
+        }, 3000);
     }
 
 
@@ -297,7 +296,6 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
                      * onMostSimilar回调方法 是返回搜索到最相似的人脸
                      * 业务上可以添加容错处理，onFaceMatched会返回所有大于设置阈值的结果并排序好
                      *
-                     * 强烈建议使用支持宽动态的高品质摄像头，录入高品质人脸
                      * SearchProcessBuilder setCallBackAllMatch(true) onFaceMatched才会回调
                      */
                     @Override
@@ -314,11 +312,22 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
                      * @param bitmap  场景图，可以用来做使用记录log
                      */
                     @Override
-                    public void onMostSimilar(String faceID, float score, Bitmap bitmap, float l) {
-                        isLivenessPass=false;
+                    public void onMostSimilar(String faceID, float score, Bitmap bitmap, float liveness) {
+                        retryMotionLiveCheck();
+                        isNeedMotionLiveness =true;
+
+                        VoicePlayer.getInstance().play(R.raw.ding_success);
                         Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
                         new ImageToast().showBitmap(getApplicationContext(), mostSimilarBmp, faceID+","+score);
-                        VoicePlayer.getInstance().play(R.raw.ding_success);
+
+//                        if(liveness>0.7){
+//                            VoicePlayer.getInstance().play(R.raw.ding_success);
+//                            Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
+//                            new ImageToast().showBitmap(getApplicationContext(), mostSimilarBmp, faceID+","+score);
+//                        }else{
+//                            VoicePlayer.getInstance().play(R.raw.ding_failed);
+//                        }
+
                     }
 
                     /**
@@ -326,7 +335,6 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
                      */
                     @Override
                     public void onFaceDetected(List<FaceSearchResult> result) {
-                        //画框UI代码完全开放，用户可以根据情况自行改造
                         binding.graphicOverlay.drawRect(result);
                     }
 
@@ -345,7 +353,6 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
 
         //3.根据参数初始化引擎
         FaceSearchEngine.Companion.getInstance().initSearchParams(faceProcessBuilder);
-
     }
 
 
@@ -357,7 +364,8 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
     private void showFaceSearchPrecessTips(int code) {
         switch (code) {
             case NO_MATCHED:
-                //本次没有搜索匹配到结果.没有结果会持续尝试1秒之内没有结果会返回NO_MATCHED code
+                //本次没有搜索匹配到结果.2秒之内没结果重新启动人脸活体？
+//                retryMotionLiveCheck();
                 setSecondTips(R.string.no_matched_face);
                 break;
 
@@ -376,13 +384,13 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
                 setMainTips(R.string.keep_face_tips);
                 break;
 
-            case  SEARCHING:
+            case SEARCHING:
                 //后期将废除本状态
                 setMainTips(R.string.keep_face_tips);
                 break;
 
+            //没有人脸
             case NO_LIVE_FACE:
-                isLivenessPass=false;
 
                 break;
 
