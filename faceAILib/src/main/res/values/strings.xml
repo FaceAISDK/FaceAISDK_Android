@@ -120,7 +120,8 @@
     <!--人脸搜索识别（1:N，M：N）-->
     <string name="face_data_manage">Face data manage</string>
     <string name="insert_face_features">Insert many face features</string>
-    <string name="face_search_1fromN_liveness">1:N face search with liveness</string>
+    <string name="face_search_1fromN_motionliven">1:N face search with motion live</string>
+    <string name="face_search_1fromN_silentlive">1:N face search with silent live</string>
     <string name="face_search_1fromN">1:N face search only</string>
     <string name="face_search_uvc_camera">Search with uvc camera</string>
     <string name="face_search_MfromN">M:N face search(Beta)</string>
