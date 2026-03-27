@@ -68,7 +68,8 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
     private int motionStepSize = 1; //动作活体的步骤个数
     private int motionTimeOut = 5; //动作超时秒
     private String motionLivenessTypes ="1,2,3,4,5" ; //1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
-    private boolean isLivenessPass=false;
+    private boolean isLivenessPass=false; //动作活体是否通过
+    private boolean isFaceExist=false;    //镜头前是否有人
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +109,9 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
                 if(isLivenessPass){
                     FaceSearchEngine.Companion.getInstance().runSearchWithImageProxy(imageProxy, 0);
                 }else{
-                    faceVerifyUtils.goVerifyWithImageProxy(imageProxy);
+                    if (isFaceExist){
+                        faceVerifyUtils.goVerifyWithImageProxy(imageProxy);
+                    }
                 }
             }
         });
@@ -181,70 +184,27 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
      * <p>
      * 添加声音提示和动画提示定制也在这里根据返回码进行定制
      */
-    int retryTime = 0;
     private void showFaceVerifyTips(int actionCode) {
         if (!isDestroyed() && !isFinishing()) {
             switch (actionCode) {
-                //炫彩活体检测需要人脸更加靠近屏幕摄像头才能通过检测
-                case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.COLOR_FLASH_NEED_CLOSER_CAMERA:
-                    setSecondTips(R.string.color_flash_need_closer_camera);
-                    break;
-
-                //炫彩活体通过✅
-                case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIVE_SUCCESS:
-                    setMainTips(R.string.keep_face_visible);
-                    break;
-
-                case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIVE_FAILED:
-                    new AlertDialog.Builder(this)
-                            .setMessage(R.string.color_flash_liveness_failed)
-                            .setCancelable(false)
-                            .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
-                                retryTime++;
-                                if (retryTime > 1) {
-                                    finish();
-                                } else {
-                                    faceVerifyUtils.retryVerify();
-                                }
-                            }).show();
-                    break;
-
-                case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIGHT_HIGH:
-                    LayoutInflater inflater = LayoutInflater.from(this);
-                    View dialogView = inflater.inflate(R.layout.dialog_light_warning, null);
-                    new AlertDialog.Builder(this)
-                            .setView(dialogView) // 【关键】设置自定义的 View
-                            .setCancelable(false)
-                            .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
-                                retryTime++;
-                                if (retryTime > 1) {
-                                    finish();
-                                } else {
-                                    faceVerifyUtils.retryVerify();
-                                }
-                            }).show();
-                    break;
 
                 // 动作活体检测完成了
                 case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_SUCCESS:
                     VoicePlayer.getInstance().play(R.raw.verify_success);
-                    setMainTips(R.string.keep_face_visible); //2秒后抓取一张正脸图
+                    setMainTips(R.string.keep_face_visible);
                     setSecondTips(0);
                     break;
 
                 // 动作活体检测超时
                 case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_TIMEOUT:
-                    new AlertDialog.Builder(this)
-                            .setMessage(R.string.motion_liveness_detection_time_out)
-                            .setCancelable(false)
-                            .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
-                                retryTime++;
-                                if (retryTime > 1) {
-                                    finish();
-                                } else {
-                                    faceVerifyUtils.retryVerify();
-                                }
-                            }).show();
+                    //重新生成一个活体检测,
+                    if(isFaceExist){
+                        faceVerifyUtils.retryVerify();
+                    }
+                    break;
+
+                case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FIRST_FACE:
+                    faceVerifyUtils.retryVerify();
                     break;
 
                 case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:
@@ -291,14 +251,8 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
 
 
                 case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
-                    setMainTips(R.string.no_face_or_repeat_switch_screen);
-                    new AlertDialog.Builder(this)
-                            .setMessage(R.string.stop_verify_tips)
-                            .setCancelable(false)
-                            .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                                finish();
-                            })
-                            .show();
+                    isLivenessPass=false;
+                    isFaceExist=false;
                     break;
 
                 // 单独使用一个textview 提示，防止上一个提示被覆盖。
@@ -315,6 +269,7 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
                 //检测到正常的人脸，尺寸大小OK
                 case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_SIZE_FIT:
                     setSecondTips(0);
+                    isFaceExist=true;
                     break;
                 case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
                     setSecondTips(R.string.no_face_detected_tips);
@@ -360,6 +315,7 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
                      */
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap, float l) {
+                        isLivenessPass=false;
                         Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
                         new ImageToast().showBitmap(getApplicationContext(), mostSimilarBmp, faceID+","+score);
                         VoicePlayer.getInstance().play(R.raw.ding_success);
@@ -426,9 +382,7 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
                 break;
 
             case NO_LIVE_FACE:
-                Toast.makeText(this, R.string.no_face_detected_tips, Toast.LENGTH_LONG).show();
-
-                finish();
+                isLivenessPass=false;
 
                 break;
 
