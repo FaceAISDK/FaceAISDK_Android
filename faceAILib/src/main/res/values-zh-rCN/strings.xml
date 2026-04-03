@@ -79,7 +79,7 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="face_verify_two_image_tips">请选择正脸无遮挡人脸照片</string>
 
 
-    <!--Motion liveness detection-->
+    <!--动作活体Motion liveness detection-->
     <string name="liveness_detection">人脸活体检测</string>
     <string name="liveness_detection_done">活体检测完成</string>
     <string name="motion_liveness_detection_failed">动作活体检测失败了 </string>

@@ -5,15 +5,15 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager.NameNotFoundException
-import android.graphics.BitmapFactory
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.ai.face.base.baseImage.FaceEmbedding
-import com.faceAI.demo.databinding.ActivityAboutFaceAppBinding
 import androidx.core.net.toUri
+import com.faceAI.demo.databinding.ActivityAboutFaceAppBinding
 
 
 /**
@@ -30,7 +30,7 @@ class AboutFaceAppActivity : AppCompatActivity() {
         setContentView(viewBinding.root)
 
         viewBinding.moreAboutMe.setOnClickListener {
-            val uri = Uri.parse("https://mp.weixin.qq.com/s/_ro9zBfzAmkpazL-QAPi9w")
+            val uri = Uri.parse("https://mp.weixin.qq.com/s/yCyxtg0SCZ-kBCiOIu0kTA")
             val intent = Intent(Intent.ACTION_VIEW)
             intent.addCategory(Intent.CATEGORY_BROWSABLE)
             intent.data = uri

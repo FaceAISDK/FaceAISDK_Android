@@ -104,6 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:visibility="gone"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center_vertical"
