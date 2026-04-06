@@ -166,8 +166,8 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap, float livenessValue) {
-                        Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);//传给插件，其他可以忽略
-                        new ImageToast().showBitmap(getApplicationContext(), mostSimilarBmp, faceID + "," + score + "," + livenessValue);
+                        Bitmap faceBitmap = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);//传给插件，其他可以忽略
+                        new ImageToast().showBitmap(getApplicationContext(), faceBitmap, faceID + "," + score + "," + livenessValue);
                         if (livenessValue > 0.72) { //分数根据你的摄像头和安装场景自由定义
                             VoicePlayer.getInstance().play(R.raw.ding_success);
                         } else {

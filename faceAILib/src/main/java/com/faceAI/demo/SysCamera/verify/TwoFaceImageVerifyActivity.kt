@@ -11,6 +11,7 @@ import ando.file.selector.FileType
 import ando.file.selector.IFileType
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -18,18 +19,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toDrawable
+import androidx.exifinterface.media.ExifInterface
 import com.ai.face.faceSearch.search.Image2FaceFeature
 import com.ai.face.faceVerify.verify.FaceVerifyUtils
 import com.faceAI.demo.BuildConfig
 import com.faceAI.demo.databinding.ActivityTwoFaceImageVerifyBinding
+import java.io.InputStream
 
 
 /**
  * 对比两张图片中人脸相似度，FaceVerifyUtils().evaluateFaceSimiByBitmap
- *
- * 裁剪出图片中的人脸正脸部分进行相似度比较，如果某一张照片中没有检测到人脸，则相似度返回为0。
- *
- * 不适合用本方法来大规模的并发进行人脸照片相似度比较，因为bitmap 的操作以及提取向量值很耗费资源
+ * 已优化：增加对三星等手机拍照旋转角度的自动矫正处理
  */
 class TwoFaceImageVerifyActivity : AppCompatActivity() {
 
@@ -60,45 +60,30 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
         }
 
         viewBinding.goVerify.setOnClickListener {
-            // 不能两张图直接比较，要先经过 checkFaceQuality 检测裁剪图片中的人脸
             val simi = FaceVerifyUtils().evaluateFaceSimiByBitmap(
                 baseContext,
                 bitmapMap[viewBinding.imageLeft.tag],
                 bitmapMap[viewBinding.imageRight.tag]
-            ) //evaluateFaceSimi传人的两个bitmap 有是空的，则相似度直接返回0
+            )
             Toast.makeText(baseContext, "人脸相似度：$simi", Toast.LENGTH_SHORT).show()
         }
-
     }
 
-
-    /**
-     * 处理照片选择，详情参考三方库 https://github.com/javakam/FileOperator
-     *
-     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_ADD_FACE_IMAGE) {
-                //处理多项选择后的处理
                 mFileSelector?.obtainResult(requestCode, resultCode, data)
             }
         }
     }
 
-    /**
-     * 选照片，大图在低端设备建议配置压缩策略
-     * 使用详情参考 https://github.com/javakam/FileOperator
-     *
-     */
     private fun chooseFile(view: TextView) {
         val optionsImage = FileSelectOptions().apply {
             fileType = FileType.IMAGE
             fileTypeMismatchTip = "File type mismatch !"
             singleFileMaxSize = 9242880
-            singleFileMaxSizeTip = "A single picture does not exceed 5M !"
             allFilesMaxSize = 9242880
-            allFilesMaxSizeTip = "The total size of the picture does not exceed 10M !"
             minCount = 1
             maxCount = 1
 
@@ -114,66 +99,97 @@ class TwoFaceImageVerifyActivity : AppCompatActivity() {
         mFileSelector = FileSelector
             .with(this)
             .setRequestCode(REQUEST_ADD_FACE_IMAGE)
-            .setMinCount(1, "Choose at least one picture!")
-            .setSingleFileMaxSize(9145728, "The size of a single picture cannot exceed 3M !")
             .setExtraMimeTypes("image/*")
             .applyOptions(optionsImage)
-            .filter(object : FileSelectCondition {
-                override fun accept(fileType: IFileType, uri: Uri?): Boolean {
-                    return (fileType == FileType.IMAGE) && (uri != null && !uri.path.isNullOrBlank() && !FileUtils.isGif(
-                        uri
-                    ))
-                }
-            })
             .callback(object : FileSelectCallBack {
-                //选择图片成功
                 override fun onSuccess(results: List<FileSelectResult>?) {
-                    if (results.isNullOrEmpty()) {
-                        return
-                    }
-
-                    if (results.isNotEmpty()) {
+                    if (!results.isNullOrEmpty()) {
                         disposeSelectResult(results, view)
                     }
                 }
 
-                override fun onError(e: Throwable?) {
-
-                }
+                override fun onError(e: Throwable?) {}
             })
             .choose()
     }
 
     /**
-     * 裁剪出照片中的人脸储存到bitmapMap
+     * 裁剪并处理旋转角度
      */
     fun disposeSelectResult(results: List<FileSelectResult>, view: TextView) {
+        results.firstOrNull()?.uri?.let { selectUri -> // 只有 uri 不为空才进入
+            val faceName = FileUtils.getFileNameFromUri(selectUri) ?: "faceID"
+            // 1. 获取原始 Bitmap
+            val originalBitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectUri)
 
-        val selectUri=results[0].uri
-        val faceName = FileUtils.getFileNameFromUri(selectUri)?:"faceID"
-        val bitmapSelected = MediaStore.Images.Media.getBitmap(contentResolver,selectUri )
+            // 2. 获取旋转角度并校正
+            val degree = getExifRotationDegree(selectUri)
+            val bitmapSelected = if (degree != 0) rotateBitmap(originalBitmap, degree) else originalBitmap
 
-        view.text = faceName
-        view.background = bitmapSelected.toDrawable(resources)
-        // 没有裁剪处理过的图用Image2FaceFeature处理提取特征值
-        Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap(bitmapSelected,faceName,object : Image2FaceFeature.Callback{
-            override fun onSuccess(bitmap: Bitmap, faceID: String, faceFeature: String) {
-                bitmapMap[view.tag.toString()] = bitmap
-                view.background = bitmap.toDrawable(resources)
-            }
+            view.text = faceName
+            view.background = bitmapSelected.toDrawable(resources)
 
-            override fun onFailed(msg: String) {
-                Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
-                bitmapMap.remove(view.tag.toString()) //没有检测出人脸则移除上一次可能有的数据
-            }
+            // 提取特征值
+            Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap(bitmapSelected, faceName, object : Image2FaceFeature.Callback {
+                override fun onSuccess(bitmap: Bitmap, faceID: String, faceFeature: String) {
+                    bitmapMap[view.tag.toString()] = bitmap
+                    view.background = bitmap.toDrawable(resources)
+                }
 
-        })
-
+                override fun onFailed(msg: String) {
+                    Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
+                    bitmapMap.remove(view.tag.toString())
+                }
+            })
+        }
     }
 
+    /**
+     * 读取图片的 EXIF 旋转信息
+     */
+    private fun getExifRotationDegree(uri: Uri): Int {
+        var degree = 0
+        var inputStream: InputStream? = null
+        try {
+            inputStream = contentResolver.openInputStream(uri)
+            inputStream?.let {
+                val exifInterface = ExifInterface(it)
+                val orientation = exifInterface.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL
+                )
+                degree = when (orientation) {
+                    ExifInterface.ORIENTATION_ROTATE_90 -> 90
+                    ExifInterface.ORIENTATION_ROTATE_180 -> 180
+                    ExifInterface.ORIENTATION_ROTATE_270 -> 270
+                    else -> 0
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            inputStream?.close()
+        }
+        return degree
+    }
+
+    /**
+     * 旋转 Bitmap 图像
+     */
+    private fun rotateBitmap(bitmap: Bitmap, degree: Int): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(degree.toFloat())
+        val rotatedBitmap = Bitmap.createBitmap(
+            bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true
+        )
+        // 回收旧的 Bitmap 以释放内存
+        if (rotatedBitmap != bitmap && !bitmap.isRecycled) {
+            bitmap.recycle()
+        }
+        return rotatedBitmap
+    }
 
     companion object {
         const val REQUEST_ADD_FACE_IMAGE = 1
     }
-
 }
