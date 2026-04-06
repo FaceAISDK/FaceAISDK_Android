@@ -1,4 +1,5 @@
 package com.faceAI.demo.SysCamera.verify
+
 import com.ai.face.faceSearch.search.Image2FaceFeature
 import ando.file.core.FileOperator
 import ando.file.core.FileUtils
@@ -11,6 +12,7 @@ import ando.file.selector.FileType
 import ando.file.selector.IFileType
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -22,9 +24,10 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.exifinterface.media.ExifInterface
 import com.faceAI.demo.BuildConfig
 import com.faceAI.demo.R
-
+import java.io.InputStream
 
 /**
  * 从相册选人脸图,提取特征值（并没有对人脸角度等校验）。
@@ -36,17 +39,15 @@ abstract class AbsAddFaceFromAlbumActivity : AppCompatActivity() {
     private var mFileSelector: FileSelector? = null
 
     // 从相册选择
-    abstract fun disposeSelectImage(faceID:String,disposedBitmap: Bitmap, faceFeature: String)
+    abstract fun disposeSelectImage(faceID: String, disposedBitmap: Bitmap, faceFeature: String)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FileOperator.init(application, BuildConfig.DEBUG)
     }
 
-
     /**
      * 处理照片选择，详情参考三方库 https://github.com/javakam/FileOperator
-     *
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -98,12 +99,24 @@ abstract class AbsAddFaceFromAlbumActivity : AppCompatActivity() {
             })
             .callback(object : FileSelectCallBack {
                 override fun onSuccess(results: List<FileSelectResult>?) {
-                    if (!results.isNullOrEmpty()) {
-                        val selectUri=results[0].uri
-                        val faceName = FileUtils.getFileNameFromUri(selectUri)?:"faceID"
-                        val bitmapSelected = MediaStore.Images.Media.getBitmap(contentResolver,selectUri )
+                    results?.firstOrNull()?.uri?.let { selectUri -> // 只有 uri 不为空才进入
+                        val faceName = FileUtils.getFileNameFromUri(selectUri) ?: "faceID"
+
+                        // 1. 获取原始 Bitmap
+                        val originalBitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectUri)
+
+                        // 2. 获取图片的 EXIF 旋转角度 (解决三星等手机拍照旋转问题)
+                        val rotationDegree = getExifRotationDegree(selectUri)
+
+                        // 3. 根据角度修正 Bitmap
+                        val bitmapSelected = if (rotationDegree != 0) {
+                            rotateBitmap(originalBitmap, rotationDegree)
+                        } else {
+                            originalBitmap
+                        }
+
                         //非FaceAI SDK的人脸可能是不规范的没有经过校准的人脸图需要使用异步方法处理
-                        Image2FaceFeature.getInstance(application).getFaceFeatureByBitmap(bitmapSelected,faceName,object : Image2FaceFeature.Callback{
+                        Image2FaceFeature.getInstance(application).getFaceFeatureByBitmap(bitmapSelected, faceName, object : Image2FaceFeature.Callback {
                             override fun onFailed(msg: String) {
                                 Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
                             }
@@ -113,7 +126,7 @@ abstract class AbsAddFaceFromAlbumActivity : AppCompatActivity() {
                                 faceID: String,
                                 faceFeature: String
                             ) {
-                                showConfirmDialog(bitmap,faceID,faceFeature)
+                                showConfirmDialog(bitmap, faceID, faceFeature)
                             }
                         })
                     }
@@ -149,9 +162,9 @@ abstract class AbsAddFaceFromAlbumActivity : AppCompatActivity() {
         editText.visibility = View.VISIBLE
 
         btnOK.setOnClickListener { v: View? ->
-            val faceID = editText.text.toString()
-            if (!TextUtils.isEmpty(faceID)) {
-                disposeSelectImage(faceID,bitmap,faceFeature)
+            val finalFaceID = editText.text.toString()
+            if (!TextUtils.isEmpty(finalFaceID)) {
+                disposeSelectImage(finalFaceID, bitmap, faceFeature)
                 dialog.dismiss()
             } else {
                 Toast.makeText(baseContext, "Input FaceID Name", Toast.LENGTH_SHORT).show()
@@ -166,8 +179,54 @@ abstract class AbsAddFaceFromAlbumActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    /**
+     * 根据 Uri 读取图片的 EXIF 信息，获取旋转角度
+     */
+    private fun getExifRotationDegree(uri: Uri): Int {
+        var degree = 0
+        var inputStream: InputStream? = null
+        try {
+            inputStream = contentResolver.openInputStream(uri)
+            if (inputStream != null) {
+                val exifInterface = ExifInterface(inputStream)
+                val orientation = exifInterface.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL
+                )
+                degree = when (orientation) {
+                    ExifInterface.ORIENTATION_ROTATE_90 -> 90
+                    ExifInterface.ORIENTATION_ROTATE_180 -> 180
+                    ExifInterface.ORIENTATION_ROTATE_270 -> 270
+                    else -> 0
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            try {
+                inputStream?.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        return degree
+    }
 
-
+    /**
+     * 根据角度旋转 Bitmap
+     */
+    private fun rotateBitmap(bitmap: Bitmap, degree: Int): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(degree.toFloat())
+        val rotatedBitmap = Bitmap.createBitmap(
+            bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true
+        )
+        // 释放原始 bitmap 内存
+        if (rotatedBitmap != bitmap && !bitmap.isRecycled) {
+            bitmap.recycle()
+        }
+        return rotatedBitmap
+    }
 
     companion object {
         const val REQUEST_ADD_FACE_IMAGE = 1882
