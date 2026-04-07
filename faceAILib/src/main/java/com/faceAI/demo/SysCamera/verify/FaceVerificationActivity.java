@@ -217,8 +217,9 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private void showVerifyResult(boolean isVerifyMatched, float similarity,float livenessValue, Bitmap bitmap) {
         BitmapUtils.saveCompressBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");  //保存场景图给三方插件使用
 
-        if (isVerifyMatched&&livenessValue>0.8) {
-            //2. 相似度>verifyThreshold，并且livenessValue>0.8
+        if (isVerifyMatched&&(livenessValue>0.75||faceLivenessType.equals(FaceLivenessType.NONE))) {
+
+                //2. 相似度>verifyThreshold，并且livenessValue>0.8
             VoicePlayer.getInstance().addPayList(R.raw.verify_success);
             new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
