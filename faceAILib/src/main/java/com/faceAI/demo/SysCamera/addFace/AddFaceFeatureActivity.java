@@ -62,6 +62,9 @@ import java.util.Objects;
  * -  3. 光线环境好，人脸不能化浓妆或佩戴墨镜 口罩 帽子等遮盖
  * -  4. 人脸照片要求300*300 裁剪好的仅含人脸的正方形照片
  *
+ * 通过图片录入人脸特征 {@link AddFaceByImageTestDemo} 我们提供2个API（请尽量使用SDK相机录入人脸信息）
+ * Image2FaceFeature.getFaceFeatureByBitmap /getFaceFeatureByBase64
+ *
  * @author FaceAISDK.Service@gmail.com
  */
 public class AddFaceFeatureActivity extends AbsBaseActivity {
@@ -84,6 +87,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         hideSystemUI();
+
         setContentView(R.layout.activity_add_face_image);
         findViewById(R.id.back)
                 .setOnClickListener(v -> finishAddFace(0, "Cancel by user",""));

@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.R;
 import com.faceAI.demo.base.utils.BitmapUtils;
@@ -48,7 +50,9 @@ public class ImageToast {
             image.setVisibility(VISIBLE);
             Glide.with(context)
                     .load(bitmap)
-                    .transform(new RoundedCorners(44))
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .transform(new CenterCrop(), new RoundedCorners(22))
                     .into(image);
         }
 

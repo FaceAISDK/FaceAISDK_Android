@@ -70,8 +70,8 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         }
 
 
-        //1:N 人脸搜索.包含活体检测
-        binding.faceSearchWithLive.setOnClickListener {
+        //1:N 人脸搜索.包含静默活体检测
+        binding.faceSearchWithSilentlive.setOnClickListener {
             if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
                 val intent = Intent(baseContext, FaceSearch1NActivity::class.java)
                 intent.putExtra(FaceSearch1NActivity.THRESHOLD_KEY, 0.85f)
@@ -82,6 +82,21 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             } else {
                 //UVC 参数后期再完善
                 startActivity(Intent(baseContext, FaceSearch_UVCCameraActivity::class.java))
+            }
+        }
+
+        //1:N 人脸搜索.包含动作活体检测，
+        binding.faceSearchWithMotionlive.setOnClickListener {
+            if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
+                val intent = Intent(baseContext, FaceSearch_MotionLiveness_Activity::class.java)
+                intent.putExtra(FaceSearch1NActivity.THRESHOLD_KEY, 0.85f)
+                intent.putExtra(FaceSearch1NActivity.SEARCH_ONE_TIME, true)
+                intent.putExtra(FaceSearch1NActivity.NEED_FACE_LIVE, true)
+                intent.putExtra(FaceSearch1NActivity.IS_CAMERA_SIZE_HIGH, false)
+                startActivity(intent)
+            } else {
+                //仅仅RGB SYSTEM摄像头演示
+                Toast.makeText(baseContext, "only system camera", Toast.LENGTH_SHORT).show()
             }
         }
 

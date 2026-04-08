@@ -79,7 +79,7 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="face_verify_two_image_tips">请选择正脸无遮挡人脸照片</string>
 
 
-    <!--Motion liveness detection-->
+    <!--动作活体Motion liveness detection-->
     <string name="liveness_detection">人脸活体检测</string>
     <string name="liveness_detection_done">活体检测完成</string>
     <string name="motion_liveness_detection_failed">动作活体检测失败了 </string>
@@ -120,7 +120,9 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <!--1:N and M:N face search-->
     <string name="face_data_manage">人脸数据管理</string>
     <string name="insert_face_features">批量插入人脸数据</string>
-    <string name="face_search_1fromN_liveness">1:N人脸搜索+活体检测</string>
+    <string name="face_search_1fromN_motionliven">1:N人脸搜索+动作活体检测</string>
+    <string name="face_search_1fromN_silentlive">1:N人脸搜索+静默活体检测</string>
+
     <string name="face_search_1fromN">1:N 人脸搜索(无活体)</string>
     <string name="face_search_uvc_camera">UVC摄像头人脸搜索</string>
     <string name="face_search_MfromN">M:N 多人脸搜索</string>
