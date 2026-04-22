@@ -1,0 +1,77 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdk = 35
+
+    defaultConfig {
+        versionCode 20260420
+        versionName "20260420"
+        applicationId "com.ai.face.Demo" //Demo App Name
+        minSdk 21
+        targetSdk 35
+        
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+    }
+    namespace 'com.example.demo'
+
+    signingConfigs {
+        release {
+            storeFile file("FaceAIPublic")
+            storePassword "FaceAIPublic"
+            keyAlias "FaceAIPublic"
+            keyPassword "FaceAIPublic"
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+}
+
+//CameraX，Android 16KB Page
+def camera_version = "1.4.2"
+configurations.configureEach {
+    resolutionStrategy {
+        force "androidx.camera:camera-core:$camera_version",
+                "androidx.camera:camera-camera2:$camera_version",
+                "androidx.camera:camera-lifecycle:$camera_version",
+                "androidx.camera:camera-view:$camera_version"
+    }
+}
+
+
+dependencies {
+    //Face SDK API Demo Lib,人脸识别SDK API演示,얼굴인식 SDK API 데모，顔認証SDK APIデモ
+    implementation project(':FaceSDKLib')
+
+    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    // Demo 为了收集 Crash，上线google play 删除
+    implementation 'com.tencent.bugly:crashreport:4.1.9.3'
+
+}
