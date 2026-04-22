@@ -187,8 +187,13 @@ public class TTSPlayer {
         // 使用 Bundle 传递参数，可以设置音频流类型等
         Bundle params = new Bundle();
         params.putInt(TextToSpeech.Engine.KEY_PARAM_STREAM, AudioManager.STREAM_MUSIC);
-        // KEY_FEATURE_NETWORK_SYNTHESIS: 优先使用网络合成（音质更高）
-        params.putString("networkTts", "true");
+
+        // 兼容性优化：
+        // 1. Android 8.0 (API 26) 及以上版本，网络合成（High Quality）相对稳定。
+        // 2. Android 7.0 及以下版本建议禁用网络合成（networkTts=false），
+        //    防止在弱网环境下因为引擎尝试在线取词而导致长时间静音或失败。
+        boolean useNetwork = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
+        params.putString(TextToSpeech.Engine.KEY_FEATURE_NETWORK_SYNTHESIS, String.valueOf(useNetwork));
 
         mTTS.speak(text, TextToSpeech.QUEUE_ADD, params, id);
     }
@@ -274,4 +279,3 @@ public class TTSPlayer {
         }
     }
 }
-
