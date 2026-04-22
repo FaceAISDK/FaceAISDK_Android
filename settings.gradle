@@ -1,2 +1,2 @@
-include ':demo'
-include ':faceAILib'
+include ':Launcher'
+include ':FaceSDKLib'

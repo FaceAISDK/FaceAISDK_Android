@@ -1,6 +1,11 @@
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
-##  V2026.03.18(大更新)
+##  V2026.04.22
+- Default Java version 11
+- Update play TTS voice
+- Simplified code
+
+##  V2026.04.18(大更新)
 - Google Play 上架安全认证审核
 - 解决部分机型可能闪退的问题
 - 提高成像不清晰摄像头识别精确度

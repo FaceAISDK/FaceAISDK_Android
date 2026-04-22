@@ -6,8 +6,8 @@ You are free to use, modify, and distribute the demo code in your own projects.
 Note regarding the SDK: This demo depends on the FaceAISDK, which is a proprietary
 software. The SDK libraries (io.github.faceaisdk:Android) and binary files are subject
 to their own commercial license and are NOT covered by the MIT License.
-You may use the SDK for evaluation purposes, but a valid commercial license is required
-for production deployment.
+You may use the SDK for evaluation purposes with no limit, but a valid commercial
+license is required for production deployment.
 
 Email：FaceAISDK.Service@gmail.com
 
