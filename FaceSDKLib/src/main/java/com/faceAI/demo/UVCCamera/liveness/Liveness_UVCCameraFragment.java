@@ -19,6 +19,7 @@ import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.BrightnessUtil;
+import com.faceAI.demo.base.utils.TTSPlayer;
 import com.faceAI.demo.base.utils.VoicePlayer;
 
 /**
@@ -71,7 +72,7 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
                     @Override
                     public void onLivenessDetected(float livenessValue, Bitmap bitmap) {
                         if(livenessValue>0.75){ //静默活体分数，
-                            VoicePlayer.getInstance().addPayList(R.raw.verify_success);
+                            TTSPlayer.getInstance().playTTS(R.string.face_verify_success);
                             new ImageToast().show(requireContext(), getString(R.string.face_verify_success)+livenessValue);
                         }else{
                             VoicePlayer.getInstance().addPayList(R.raw.ding_failed);
@@ -151,33 +152,31 @@ public class Liveness_UVCCameraFragment extends AbsLiveness_UVCCameraFragment {
 
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
-                        VoicePlayer.getInstance().play(R.raw.open_mouse);
+                        TTSPlayer.getInstance().playTTS(R.string.repeat_open_close_mouse);
                         setTips(R.string.repeat_open_close_mouse);
                         break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.SMILE: {
                         setTips(R.string.motion_smile);
-                        VoicePlayer.getInstance().play(R.raw.smile);
+                        TTSPlayer.getInstance().playTTS(R.string.motion_smile);
                     }
                     break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.BLINK: {
-                        VoicePlayer.getInstance().play(R.raw.blink);
+                        TTSPlayer.getInstance().playTTS(R.string.motion_blink_eye);
                         setTips(R.string.motion_blink_eye);
                     }
                     break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD:
-                        VoicePlayer.getInstance().play(R.raw.shake_head);
+                        TTSPlayer.getInstance().playTTS(R.string.motion_shake_head);
                         setTips(R.string.motion_shake_head);
                         break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
-                        VoicePlayer.getInstance().play(R.raw.nod_head);
+                        TTSPlayer.getInstance().playTTS(R.string.motion_node_head);
                         setTips(R.string.motion_node_head);
                         break;
-
-
 
                     case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
                         setTips(R.string.no_face_or_repeat_switch_screen);

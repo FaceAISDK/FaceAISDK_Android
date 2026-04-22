@@ -32,18 +32,36 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 模拟同步大量图片人脸转为1024长度人脸特征值到SDK
- * 【已优化】：并发降维解码 + 并发特征提取 + 线程池复用文件存盘 + 单线程分批次安全入库
+ * 【已优化】：根据设备性能动态调整并发数、及时回收 Bitmap、线程池全生命周期管理
  */
 public class CopyFaceImageUtils {
     private static final String TAG = "CopyFaceImageUtils";
 
-    // 限制最大并发数，防止同时加载过多 Bitmap 导致 OOM
-    private static final int MAX_CONCURRENT_TASKS = Math.max(2, Runtime.getRuntime().availableProcessors());
+    /**
+     * 根据设备可用堆内存和 CPU 核心数动态计算并发数，低配设备自动降级
+     * - 可用堆 < 128MB → 并发 1
+     * - 可用堆 < 256MB → 并发 2
+     * - 否则取 CPU 核心数，上限 4（避免过高并发导致 Bitmap 内存峰值过大）
+     */
+    private static int calcConcurrency() {
+        long maxHeapMB = Runtime.getRuntime().maxMemory() / (1024 * 1024);
+        int cpuCores = Runtime.getRuntime().availableProcessors();
+        if (maxHeapMB < 128) return 1;
+        if (maxHeapMB < 256) return 2;
+        return Math.min(cpuCores, 4);
+    }
 
-    // 目标图片最大长宽，用于缩放优化解码速度
-    private static final int MAX_IMAGE_SIZE = 1080;
+    /**
+     * 根据可用堆内存动态选择解码目标尺寸，低配设备使用更小分辨率加速解码并减少内存占用
+     */
+    private static int calcMaxImageSize() {
+        long maxHeapMB = Runtime.getRuntime().maxMemory() / (1024 * 1024);
+        if (maxHeapMB < 128) return 640;
+        if (maxHeapMB < 256) return 800;
+        return 1080;
+    }
 
-    // 【新增】分批入库阈值：每满 50 条就立刻执行一次数据库插入，防止中途中断导致数据全部丢失
+    // 分批入库阈值
     private static final int BATCH_SIZE = 50;
 
     public interface Callback {
@@ -102,10 +120,15 @@ public class CopyFaceImageUtils {
     }
 
     /**
-     * 核心优化：并发处理图片，分批次持久化入库
+     * 核心优化：根据设备性能动态调整并发数，及时回收 Bitmap，线程池全生命周期管理
      */
     private static void processImagesConcurrently(Context context, List<String> imageFiles, Callback callBack) {
         int totalImages = imageFiles.size();
+        int concurrency = calcConcurrency();
+        int maxImageSize = calcMaxImageSize();
+
+        Log.i(TAG, "设备并发数: " + concurrency + ", 解码目标尺寸: " + maxImageSize
+                + ", 最大堆: " + (Runtime.getRuntime().maxMemory() / 1024 / 1024) + "MB");
 
         AtomicInteger successCount = new AtomicInteger(0);
         AtomicInteger failureCount = new AtomicInteger(0);
@@ -114,14 +137,14 @@ public class CopyFaceImageUtils {
         // 用于缓存当前批次的特征对象
         List<FaceSearchFeature> featureBuffer = new ArrayList<>();
 
-        // 图像解码与特征提取的并发线程池
-        ExecutorService extractExecutor = Executors.newFixedThreadPool(MAX_CONCURRENT_TASKS);
-        // 【新增】专门用于保存图片的 IO 线程池（复用线程，防止原代码频繁 new 导致的内存泄漏）
-        ExecutorService ioExecutor = Executors.newFixedThreadPool(2);
-        // 【新增】专门用于 SQLite 数据库串行写入的单线程池（防止数据库并发写入锁冲突）
+        // 图像解码与特征提取的并发线程池（动态并发数）
+        ExecutorService extractExecutor = Executors.newFixedThreadPool(concurrency);
+        // IO 线程池：低配设备 1 个线程即可，避免磁盘 IO 争抢
+        ExecutorService ioExecutor = Executors.newFixedThreadPool(concurrency <= 2 ? 1 : 2);
+        // SQLite 串行写入
         ExecutorService dbExecutor = Executors.newSingleThreadExecutor();
 
-        Semaphore semaphore = new Semaphore(MAX_CONCURRENT_TASKS);
+        Semaphore semaphore = new Semaphore(concurrency);
         AssetManager assetManager = context.getAssets();
 
         for (int i = 0; i < totalImages; i++) {
@@ -130,46 +153,45 @@ public class CopyFaceImageUtils {
 
             extractExecutor.execute(() -> {
                 try {
-                    // 获取许可，控制并发防止 OOM
                     semaphore.acquire();
 
-                    // 优化解码：使用采样压缩读取 Bitmap
-                    Bitmap originBitmap = decodeSampledBitmapFromAsset(assetManager, fileName, MAX_IMAGE_SIZE, MAX_IMAGE_SIZE);
+                    Bitmap originBitmap = decodeSampledBitmapFromAsset(assetManager, fileName, maxImageSize, maxImageSize);
 
                     if (originBitmap == null) {
                         Log.e(TAG, "Failed to decode bitmap: " + fileName);
-                        handleImageComplete(false, totalImages, successCount, failureCount, processedCount, semaphore, featureBuffer, dbExecutor, context, callBack);
+                        handleImageComplete(false, totalImages, successCount, failureCount, processedCount,
+                                semaphore, featureBuffer, dbExecutor, ioExecutor, context, callBack);
                         return;
                     }
 
-                    // 调用 SDK 提取特征
                     Image2FaceFeature.getInstance(context).getFaceFeatureByBitmap(originBitmap, fileName, new Image2FaceFeature.Callback() {
                         @Override
                         public void onSuccess(@NotNull Bitmap croppedBitmap, @NotNull String faceID, @NotNull String faceFeature) {
+                            // 原始大图已不再需要，立即回收释放内存
+                            recycleBitmap(originBitmap);
 
-                            // 1. 异步保存裁剪图到本地
+                            // 异步保存裁剪图，保存完成后回收
                             ioExecutor.execute(() -> {
                                 try {
                                     FaceAISDKEngine.getInstance(context).saveCroppedFaceImage(croppedBitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, fileName);
                                 } catch (Exception e) {
                                     Log.e(TAG, "Error saving image for: " + fileName, e);
+                                } finally {
+                                    recycleBitmap(croppedBitmap);
                                 }
                             });
 
                             FaceSearchFeature featureEntity = new FaceSearchFeature(fileName, faceFeature, System.currentTimeMillis());
                             List<FaceSearchFeature> batchToInsert = null;
 
-                            // 2. 线程安全地控制特征缓存区
                             synchronized (featureBuffer) {
                                 featureBuffer.add(featureEntity);
-                                // 如果缓存区达到批量阈值，则拷贝一份用于异步入库，并清空当前缓存区
                                 if (featureBuffer.size() >= BATCH_SIZE) {
                                     batchToInsert = new ArrayList<>(featureBuffer);
                                     featureBuffer.clear();
                                 }
                             }
 
-                            // 3. 异步执行批量入库（不阻塞特征提取流程）
                             if (batchToInsert != null) {
                                 final List<FaceSearchFeature> finalBatch = batchToInsert;
                                 dbExecutor.execute(() -> {
@@ -183,25 +205,36 @@ public class CopyFaceImageUtils {
                             }
 
                             Log.d(TAG, "Processed [" + (currentIndex + 1) + "/" + totalImages + "]: " + fileName + " (Success)");
-                            handleImageComplete(true, totalImages, successCount, failureCount, processedCount, semaphore, featureBuffer, dbExecutor, context, callBack);
+                            handleImageComplete(true, totalImages, successCount, failureCount, processedCount,
+                                    semaphore, featureBuffer, dbExecutor, ioExecutor, context, callBack);
                         }
 
                         @Override
                         public void onFailed(@NotNull String msg) {
+                            // 提取失败也要回收原始 Bitmap
+                            recycleBitmap(originBitmap);
                             Log.e(TAG, "Image2FaceFeature Failed [" + (currentIndex + 1) + "/" + totalImages + "]: " + fileName + ", Msg: " + msg);
-                            handleImageComplete(false, totalImages, successCount, failureCount, processedCount, semaphore, featureBuffer, dbExecutor, context, callBack);
+                            handleImageComplete(false, totalImages, successCount, failureCount, processedCount,
+                                    semaphore, featureBuffer, dbExecutor, ioExecutor, context, callBack);
                         }
                     });
 
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
-                    handleImageComplete(false, totalImages, successCount, failureCount, processedCount, semaphore, featureBuffer, dbExecutor, context, callBack);
+                    handleImageComplete(false, totalImages, successCount, failureCount, processedCount,
+                            semaphore, featureBuffer, dbExecutor, ioExecutor, context, callBack);
                 }
             });
         }
 
-        // 提交完所有特征提取任务后，平滑关闭提取线程池
         extractExecutor.shutdown();
+    }
+
+    /** 安全回收 Bitmap，防止重复回收异常 */
+    private static void recycleBitmap(Bitmap bitmap) {
+        if (bitmap != null && !bitmap.isRecycled()) {
+            bitmap.recycle();
+        }
     }
 
     /**
@@ -210,7 +243,8 @@ public class CopyFaceImageUtils {
     private static void handleImageComplete(boolean isSuccess, int totalImages,
                                             AtomicInteger successCount, AtomicInteger failureCount, AtomicInteger processedCount,
                                             Semaphore semaphore, List<FaceSearchFeature> featureBuffer,
-                                            ExecutorService dbExecutor, Context context, Callback callBack) {
+                                            ExecutorService dbExecutor, ExecutorService ioExecutor,
+                                            Context context, Callback callBack) {
         if (isSuccess) {
             successCount.incrementAndGet();
         } else {
@@ -247,7 +281,8 @@ public class CopyFaceImageUtils {
             // 确保在所有数据库操作执行完毕后，再通知 UI 和关闭线程池
             dbExecutor.execute(() -> {
                 finalizeProcess(callBack, successCount.get(), failureCount.get());
-                dbExecutor.shutdown(); // 关闭数据库专属线程池
+                ioExecutor.shutdown();  // 关闭 IO 线程池
+                dbExecutor.shutdown();  // 关闭数据库专属线程池
             });
         }
     }

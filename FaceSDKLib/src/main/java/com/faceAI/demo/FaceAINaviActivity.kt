@@ -18,13 +18,13 @@ import androidx.core.content.edit
 import com.ai.face.core.utils.FaceAICameraType
 import com.ai.face.faceVerify.verify.FaceVerifyUtils
 import com.faceAI.demo.FaceAISettingsActivity.Companion.UVC_CAMERA_TYPE
-import com.faceAI.demo.SysCamera.camera.CustomCameraActivity
 import com.faceAI.demo.SysCamera.search.FaceSearchNaviActivity
 import com.faceAI.demo.SysCamera.verify.FaceVerifyNaviActivity
 import com.faceAI.demo.SysCamera.verify.LivenessDetectActivity
 import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
 import com.faceAI.demo.UVCCamera.liveness.Liveness_UVCCameraActivity
 import com.faceAI.demo.base.AbsBaseActivity
+import com.faceAI.demo.base.utils.TTSPlayer
 import com.faceAI.demo.base.utils.performance.DevicePerformance
 import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
 
@@ -113,6 +113,9 @@ class FaceAINaviActivity : AbsBaseActivity() {
         }
 
         showTipsDialog()
+
+
+
     }
 
 

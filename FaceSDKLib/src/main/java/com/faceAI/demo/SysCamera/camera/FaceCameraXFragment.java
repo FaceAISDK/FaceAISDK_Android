@@ -39,9 +39,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 /**
- * 更高的兼容性改造，2025.12.26。 炫彩活体改造版本基于CameraX 1.4.2，AbsFaceCameraXFragment
- * 低配置设备要加快设备首次启动时间参考配置{@link com.faceAI.demo.FaceApplication}
- * 定制设备需要工程师根据设备情况调整相机分辨率，宽高比等管理。
+ * 自定义FaceSDK相机
+ * 低配置设备要加快相机首次启动时间参考配置{@link com.faceAI.demo.FaceApplication}
  *
  * @author FaceAISDK.Service@gmail.com
  */
@@ -151,9 +150,6 @@ public class FaceCameraXFragment extends AbsFaceCameraXFragment {
             }
             try {
                 mCameraProvider = cameraProviderFuture.get();
-                // --- 新增：打印支持的分辨率看看 ---
-//                printSupportedResolutions(mCameraProvider, mCameraLensFacing);
-                // ---------------------------------
                 bindCameraUseCases();
             } catch (ExecutionException | InterruptedException e) {
                 Log.e(TAG, "CameraProvider init failed", e);
@@ -266,61 +262,5 @@ public class FaceCameraXFragment extends AbsFaceCameraXFragment {
         return mCameraLensFacing == CameraSelector.LENS_FACING_FRONT;
     }
 
-
-
-    /**
-     * 打印或获取指定摄像头支持的分辨率列表
-     * @param provider ProcessCameraProvider 实例
-     * @param lensFacing 摄像头方向 (CameraSelector.LENS_FACING_FRONT / BACK)
-     */
-    private void printSupportedResolutions(ProcessCameraProvider provider, int lensFacing) {
-        try {
-            // 1. 筛选出目标摄像头（前置或后置）的 CameraInfo
-            CameraSelector selector = new CameraSelector.Builder()
-                    .requireLensFacing(lensFacing)
-                    .build();
-
-            // 注意：provider.getAvailableCameraInfos() 返回的是所有摄像头的列表
-            List<CameraInfo> cameraInfos = provider.getAvailableCameraInfos();
-
-            for (CameraInfo info : cameraInfos) {
-                // 2. 检查这个 info 是否符合我们想要的方向
-                try {
-                    if (selector.filter(Collections.singletonList(info)).isEmpty()) {
-                        continue; // 不是我们想要的摄像头，跳过
-                    }
-                } catch (Exception e) {
-                    continue;
-                }
-
-                // 3. 【关键步骤】将 CameraX 的 CameraInfo 转为 Camera2 的对象
-                Camera2CameraInfo camera2Info = Camera2CameraInfo.from(info);
-
-                // 4. 获取 StreamConfigurationMap (包含所有尺寸信息)
-                StreamConfigurationMap map = camera2Info.getCameraCharacteristic(
-                        CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-
-                if (map == null) continue;
-
-                // 5. 获取特定格式的尺寸列表
-                // 对于 ImageAnalysis，通常关心 ImageFormat.YUV_420_888
-                // 对于 预览 Preview，通常关心 SurfaceTexture.class
-                Size[] sizes = map.getOutputSizes(ImageFormat.YUV_420_888);
-
-                if (sizes != null) {
-                    Log.d("CameraResolution", "--- 摄像头 " + lensFacing + " 支持的 YUV 分辨率 ---");
-                    // 排序，方便查看（从大到小）
-                    Arrays.sort(sizes, (o1, o2) -> Integer.compare(o2.getWidth() * o2.getHeight(), o1.getWidth() * o1.getHeight()));
-
-                    for (Size size : sizes) {
-                        Log.d("CameraResolution", "Size: " + size.getWidth() + " x " + size.getHeight() +
-                                " (比例: " + String.format("%.2f", (float)size.getWidth()/size.getHeight()) + ")");
-                    }
-                }
-            }
-        } catch (Exception e) {
-            Log.e("CameraResolution", "获取分辨率失败", e);
-        }
-    }
 
 }

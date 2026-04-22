@@ -52,15 +52,8 @@ import com.tencent.mmkv.MMKV;
 import java.util.Objects;
 
 /**
- * 使用SDK相机规范人脸录入,保存人脸特征值
- *
+ * 演示使用SDK相机规范人脸录入,保存人脸特征值
  * 1:1 和1:N 人脸特征数据保存有点差异，参考代码详情
- * <p>
- * 其他系统的录入的人脸请自行保证人脸规范，否则会导致识别错误
- * -  1. 尽量使用较高配置设备和摄像头，光线不好带上补光灯
- * -  2. 录入高质量的正脸图，人脸清晰，背景简单纯色
- * -  3. 光线环境好，人脸不能化浓妆或佩戴墨镜 口罩 帽子等遮盖
- * -  4. 人脸照片要求300*300 裁剪好的仅含人脸的正方形照片
  *
  * 通过图片录入人脸特征 {@link AddFaceByImageTestDemo} 我们提供2个API（请尽量使用SDK相机录入人脸信息）
  * Image2FaceFeature.getFaceFeatureByBitmap /getFaceFeatureByBase64
@@ -80,7 +73,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     //PERFORMANCE_MODE_EASY | PERFORMANCE_MODE_ACCURATE |PERFORMANCE_MODE_NO_LIMIT
     private int addFacePerformanceMode = PERFORMANCE_MODE_FAST;
 
-    //是1:1 还是1:N 人脸搜索添加人脸
+    //是1:1识别还是1:N人脸搜索录入添加人脸特征信息
     public enum AddFaceImageTypeEnum {
         FACE_VERIFY, FACE_SEARCH;
     }
@@ -101,7 +94,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
             addFacePerformanceMode=PERFORMANCE_MODE_FAST;
         }
 
-        Intent intent = getIntent(); // 获取发送过来的Intent对象
+        Intent intent = getIntent();
         if (intent != null) {
             if (intent.hasExtra(USER_FACE_ID_KEY)) {
                 faceID = intent.getStringExtra(USER_FACE_ID_KEY);
@@ -109,7 +102,6 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
             if (intent.hasExtra(ADD_FACE_PERFORMANCE_MODE)) {
                 addFacePerformanceMode = intent.getIntExtra(ADD_FACE_PERFORMANCE_MODE,PERFORMANCE_MODE_ACCURATE);
             }
-            //默认都要确认的
             if (intent.hasExtra(NEED_CONFIRM_ADD_FACE)) {
                 needConfirmAdd = intent.getBooleanExtra(NEED_CONFIRM_ADD_FACE,true);
             }
@@ -204,7 +196,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
                 tipsTextView.setText(R.string.no_close_eye_tips);
                 break;
             case HEAD_CENTER:
-                tipsTextView.setText(R.string.keep_face_tips); //英文翻译不太友善
+                tipsTextView.setText(R.string.keep_face_tips);
                 break;
             case TILT_HEAD:
                 tipsTextView.setText(R.string.no_tilt_head_tips);
@@ -239,7 +231,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     }
 
     /**
-     * 识别结束返回结果, 为了给uniApp UTS等第三方插件统一的交互返回格式
+     * 识别结束返回结果, 为了给Flutter，RN，uniApp UTS等第三方插件统一的交互返回格式
      */
     private void finishAddFace(int code, String msg,String faceFeature) {
         Intent intent = new Intent().putExtra("code", code)
@@ -350,7 +342,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
             faceIDEdit = dialogView.findViewById(R.id.edit_text);
             faceIDEdit.setText(faceID);
             if (!TextUtils.isEmpty(faceID)) {
-                faceIDEdit.setVisibility(GONE); //制作UTS等插件传过来的FaceID,用户不能再二次编辑
+                faceIDEdit.setVisibility(GONE);
             }else {
                 faceIDEdit.requestFocus();
             }

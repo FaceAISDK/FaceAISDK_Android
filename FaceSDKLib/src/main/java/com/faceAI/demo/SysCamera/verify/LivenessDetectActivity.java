@@ -29,6 +29,7 @@ import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.BitmapUtils;
+import com.faceAI.demo.base.utils.TTSPlayer;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.base.view.FaceVerifyCoverView;
 
@@ -45,7 +46,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     private FaceVerifyCoverView faceCoverView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private FaceCameraXFragment cameraXFragment;
-    public static final String FACE_LIVENESS_TYPE = "FACE_LIVENESS_TYPE";   //活体检测的类型
+    public static final String FACE_LIVENESS_TYPE = "FACE_LIVENESS_TYPE";  //活体检测的类型
     public static final String MOTION_STEP_SIZE = "MOTION_STEP_SIZE";   //动作活体的步骤数
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
     public static final String MOTION_LIVENESS_TYPES = "MOTION_LIVENESS_TYPES"; //动作活体种类
@@ -93,7 +94,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         //建议老的低配设备减少活体检测步骤
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
                 .setLivenessOnly(true)
-                .setLivenessType(faceLivenessType)  //活体检测可以炫彩&动作活体组合，炫彩活体不能在强光下使用
+                .setLivenessType(faceLivenessType)         //活体检测可以炫彩&动作活体组合，炫彩活体不能在强光下使用
                 .setMotionLivenessStepSize(motionStepSize)             //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(motionTimeOut)               //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
                 .setLivenessDetectionMode(MotionLivenessMode.ACCURACY) //硬件配置低用FAST动作活体模式，否则用精确模式
@@ -111,10 +112,10 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     public void onLivenessDetected(float livenessValue, Bitmap bitmap) {
                         BitmapUtils.saveCompressBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap");
                         if(livenessValue>0.8){
-                            VoicePlayer.getInstance().addPayList(R.raw.verify_success);
+                            TTSPlayer.getInstance().playTTS(R.string.face_verify_success);
                             new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
                         }else{
-                            VoicePlayer.getInstance().addPayList(R.raw.ding_failed);
+                            TTSPlayer.getInstance().playTTS(R.string.face_verify_failed);
                             new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_failed));
                         }
                         finishFaceVerify(10, R.string.liveness_detection_done, livenessValue);
@@ -165,9 +166,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
 
     /**
      * 根据业务和设计师UI交互修改你的 UI，Demo 仅供参考
-     * <p>
-     * 添加声音提示和动画提示定制也在这里根据返回码进行定制
-     * 制作自定义声音：https://www.minimax.io/audio/text-to-speech
+     *
      */
     private void showFaceVerifyTips(int actionCode) {
         if (!isDestroyed() && !isFinishing()) {
@@ -200,7 +199,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     LayoutInflater inflater = LayoutInflater.from(this);
                     View dialogView = inflater.inflate(R.layout.dialog_light_warning, null);
                     new AlertDialog.Builder(this)
-                            .setView(dialogView) // 【关键】设置自定义的 View
+                            .setView(dialogView)
                             .setCancelable(false)
                             .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                 retryTime++;
@@ -213,7 +212,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     break;
 
                 case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_START:
-                    VoicePlayer.getInstance().play(R.raw.closer_to_screen);
+                    TTSPlayer.getInstance().playTTS(R.string.color_flash_need_closer_camera);
                     break;
 
                 // 动作活体检测完成了
@@ -242,27 +241,27 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     break;
 
                 case ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
-                    VoicePlayer.getInstance().play(R.raw.open_mouse);
+                    TTSPlayer.getInstance().playTTS(R.string.repeat_open_close_mouse);
                     setMainTips(R.string.repeat_open_close_mouse);
                     break;
 
                 case ALIVE_DETECT_TYPE_ENUM.SMILE:
                     setMainTips(R.string.motion_smile);
-                    VoicePlayer.getInstance().play(R.raw.smile);
+                    TTSPlayer.getInstance().playTTS(R.string.motion_smile);
                     break;
 
                 case ALIVE_DETECT_TYPE_ENUM.BLINK:
-                    VoicePlayer.getInstance().play(R.raw.blink);
+                    TTSPlayer.getInstance().playTTS(R.string.motion_blink_eye);
                     setMainTips(R.string.motion_blink_eye);
                     break;
 
                 case ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD:
-                    VoicePlayer.getInstance().play(R.raw.shake_head);
+                    TTSPlayer.getInstance().playTTS(R.string.motion_shake_head);
                     setMainTips(R.string.motion_shake_head);
                     break;
 
                 case ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
-                    VoicePlayer.getInstance().play(R.raw.nod_head);
+                    TTSPlayer.getInstance().playTTS(R.string.motion_node_head);
                     setMainTips(R.string.motion_node_head);
                     break;
 

@@ -25,6 +25,7 @@ import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.SysCamera.verify.FaceVerificationActivity;
 import com.faceAI.demo.base.utils.BitmapUtils;
+import com.faceAI.demo.base.utils.TTSPlayer;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.R;
 import com.tencent.mmkv.MMKV;
@@ -43,6 +44,7 @@ import com.tencent.mmkv.MMKV;
  */
 public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragment {
     private TextView tipsTextView, secondTipsTextView, scoreText;
+    private final FaceLivenessType faceLivenessType = FaceLivenessType.MOTION;  //活体检测类型
 
     public FaceVerify_UVCCameraFragment() {
         // Required empty public constructor
@@ -63,16 +65,10 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
      */
     void initFaceVerifyFeature() {
         String faceID = requireActivity().getIntent().getStringExtra(USER_FACE_ID_KEY);
-        //人脸图片和人脸特征向量不方便传递，以及相关法律法规不允许明文传输。注意数据迁移
-        float[] faceEmbedding = FaceEmbedding.loadEmbedding(requireContext(), faceID);
-        String faceFeatureOld = FaceAISDKEngine.getInstance(requireContext()).faceArray2Feature(faceEmbedding);
-
         //从本地MMKV读取人脸特征值(2025.11.23版本使用MMKV，老的人脸数据请做好迁移)
         String faceFeature = MMKV.defaultMMKV().decodeString(faceID);
         if (!TextUtils.isEmpty(faceFeature)) {
             initFaceVerificationParam(faceFeature);
-        } else if (!TextUtils.isEmpty(faceFeatureOld)) {
-            initFaceVerificationParam(faceFeatureOld);
         } else {
             //根据你的业务进行提示去录入人脸 提取特征，服务器有提前同步到本地
             Toast.makeText(requireContext(), "faceFeature isEmpty ! ", Toast.LENGTH_LONG).show();
@@ -89,7 +85,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                 .setThreshold(0.85f)                //阈值设置，范围限 [0.75,0.9] ,低配摄像头可适量放低，默认0.85
                 .setFaceFeature(faceFeature)        //1:1 人脸识别对比底片人脸特征
                 .setCameraType(cameraType)
-                .setLivenessType(FaceLivenessType.MOTION)   //IR 是指红外活体，MOTION 是有动作可以指定1-2 个
+                .setLivenessType(faceLivenessType)   //IR 是指红外活体，MOTION 是有动作可以指定1-2 个
                 .setLivenessDetectionMode(MotionLivenessMode.FAST)   //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setMotionLivenessStepSize(1)           //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(12)           //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
@@ -144,17 +140,18 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
      * 动作活体要有动作配合，必须先动作匹配通过再1：1 匹配
      */
     void  showVerifyResult(boolean isVerifyMatched, float similarity, float livenessValue) {
-        if (isVerifyMatched&&livenessValue>0.75) {
+        if (isVerifyMatched&&(livenessValue>0.75||faceLivenessType.equals(FaceLivenessType.NONE))) {
             //2. 相似度>verifyThreshold，并且livenessValue>0.75(动作活体可以忽略这个值)
-            VoicePlayer.getInstance().addPayList(R.raw.verify_success);
+            TTSPlayer.getInstance().playTTS(R.string.face_verify_success);
             new ImageToast().show(requireContext(), getString(R.string.face_verify_success));
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 requireActivity().finish();
-            }, 1200);
+            }, 500);
         } else {
             //3. 相似度过低
-            VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
+            TTSPlayer.getInstance().playTTS(R.string.face_verify_failed);
+
             new AlertDialog.Builder(requireContext())
                     .setTitle(R.string.face_verify_failed_title)
                     .setMessage(R.string.face_verify_failed)
@@ -177,7 +174,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
                 switch (actionCode) {
                     // 动作活体检测完成了
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_SUCCESS:
-                        VoicePlayer.getInstance().play(R.raw.face_camera);
+                        TTSPlayer.getInstance().playTTS(R.string.keep_face_visible);
                         setMainTips(R.string.keep_face_visible);
                         break;
 
@@ -195,29 +192,29 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
 
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
-                        VoicePlayer.getInstance().play(R.raw.open_mouse);
+                        TTSPlayer.getInstance().playTTS(R.string.repeat_open_close_mouse);
                         setMainTips(R.string.repeat_open_close_mouse);
                         break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.SMILE: {
                         setMainTips(R.string.motion_smile);
-                        VoicePlayer.getInstance().play(R.raw.smile);
+                        TTSPlayer.getInstance().playTTS(R.string.motion_smile);
                     }
                     break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.BLINK: {
-                        VoicePlayer.getInstance().play(R.raw.blink);
+                        TTSPlayer.getInstance().playTTS(R.string.motion_blink_eye);
                         setMainTips(R.string.motion_blink_eye);
                     }
                     break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD:
-                        VoicePlayer.getInstance().play(R.raw.shake_head);
+                        TTSPlayer.getInstance().playTTS(R.string.motion_shake_head);
                         setMainTips(R.string.motion_shake_head);
                         break;
 
                     case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
-                        VoicePlayer.getInstance().play(R.raw.nod_head);
+                        TTSPlayer.getInstance().playTTS(R.string.motion_node_head);
                         setMainTips(R.string.motion_node_head);
                         break;
 

@@ -60,6 +60,7 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="face_search_image_manger_tips">长按人脸删除，右上角按钮添加内置测试人脸图</string>
 
     <!--1:1 人脸识别 face verify-->
+    <string name="no_face_feature">人脸信息不存在</string>
     <string name="face_verify_success">识别成功</string>
     <string name="face_verify_failed_title">识别失败</string>
     <string name="face_verify_failed">识别失败，请重试！</string>

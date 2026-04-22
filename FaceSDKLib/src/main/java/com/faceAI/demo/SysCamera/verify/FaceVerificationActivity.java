@@ -38,6 +38,7 @@ import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus.*;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
+import com.faceAI.demo.base.utils.TTSPlayer;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -117,8 +118,12 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         if (!TextUtils.isEmpty(faceFeature)) {
             initFaceVerificationParam(faceFeature);
         }  else {
-            //根据你的业务进行提示去录入人脸 提取特征，服务器有提前同步到本地
-            Toast.makeText(getBaseContext(), "FaceFeature isEmpty ! ", Toast.LENGTH_LONG).show();
+            //根据你的业务进行提示去录入人脸特征信息，或从你的服务器提前同步到本地
+            TTSPlayer.getInstance().playTTS(R.string.no_face_feature);
+            Toast.makeText(getBaseContext(), R.string.no_face_feature, Toast.LENGTH_LONG).show();
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                finishFaceVerify(12, R.string.no_face_feature, 0,0);
+            }, 1111);
         }
 
         //option， 去Path 路径读取有没有faceID 对应的处理好的人脸Bitmap，不需要可删除
@@ -210,7 +215,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
 
         if (isVerifyMatched&&(livenessValue>0.75||faceLivenessType.equals(FaceLivenessType.NONE))) {
             //2. 相似度>verifyThreshold，并且livenessValue>0.8
-            VoicePlayer.getInstance().addPayList(R.raw.verify_success);
+            TTSPlayer.getInstance().playTTS(R.string.face_verify_success);
             new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 finishFaceVerify(1, R.string.face_verify_result_success, similarity,livenessValue);
@@ -222,7 +227,8 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             } else {
                 code = 2; //VERIFY_FAILED
             }
-            VoicePlayer.getInstance().addPayList(R.raw.verify_failed);
+            TTSPlayer.getInstance().playTTS(R.string.face_verify_failed);
+
             new AlertDialog.Builder(FaceVerificationActivity.this).setTitle(R.string.face_verify_failed_title).setMessage(R.string.face_verify_failed).setCancelable(false).setPositiveButton(R.string.know, (dialogInterface, i) -> {
                 finishFaceVerify(code, R.string.face_verify_result_failed, similarity,livenessValue);
             }).setNegativeButton(R.string.retry, (dialog, which) -> faceVerifyUtils.retryVerify()).show();
@@ -232,9 +238,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
 
     /**
      * 根据业务和设计师UI交互修改你的 UI，Demo 仅供参考
-     * <p>
-     * 添加声音提示和动画提示定制也在这里根据返回码进行定制
-     * 制作自定义声音：https://www.minimax.io/audio/text-to-speech
+     *
      */
     private void showFaceVerifyTips(int actionCode) {
         if (!isDestroyed() && !isFinishing()) {
@@ -270,27 +274,27 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                     break;
 
                 case ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
-                    VoicePlayer.getInstance().play(R.raw.open_mouse);
+                    TTSPlayer.getInstance().playTTS(R.string.repeat_open_close_mouse);
                     setMainTips(R.string.repeat_open_close_mouse);
                     break;
 
                 case ALIVE_DETECT_TYPE_ENUM.SMILE:
                     setMainTips(R.string.motion_smile);
-                    VoicePlayer.getInstance().play(R.raw.smile);
+                    TTSPlayer.getInstance().playTTS(R.string.motion_smile);
                     break;
 
                 case ALIVE_DETECT_TYPE_ENUM.BLINK:
-                    VoicePlayer.getInstance().play(R.raw.blink);
+                    TTSPlayer.getInstance().playTTS(R.string.motion_blink_eye);
                     setMainTips(R.string.motion_blink_eye);
                     break;
 
                 case ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD:
-                    VoicePlayer.getInstance().play(R.raw.shake_head);
+                    TTSPlayer.getInstance().playTTS(R.string.motion_shake_head);
                     setMainTips(R.string.motion_shake_head);
                     break;
 
                 case ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
-                    VoicePlayer.getInstance().play(R.raw.nod_head);
+                    TTSPlayer.getInstance().playTTS(R.string.motion_node_head);
                     setMainTips(R.string.motion_node_head);
                     break;
 
@@ -341,7 +345,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
 
                 //炫彩活体通过✅
                 case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIVE_SUCCESS:
-                    VoicePlayer.getInstance().play(R.raw.face_camera);
+                    TTSPlayer.getInstance().playTTS(R.string.keep_face_visible);
                     setMainTips(R.string.keep_face_visible);
                     break;
 
@@ -376,7 +380,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                     break;
 
                 case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_START:
-                    VoicePlayer.getInstance().play(R.raw.closer_to_screen);
+                    TTSPlayer.getInstance().playTTS(R.string.color_flash_need_closer_camera);
                     break;
             }
         }

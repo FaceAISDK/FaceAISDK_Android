@@ -57,7 +57,7 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             this@FaceSearchNaviActivity.finish()
         }
 
-        //批量导入导出人脸特征数据。 SDK不需要图片，如果业务也不需要图片，强烈建议转位人脸特征
+        //批量导入导出人脸特征数据。 SDK不需要图片，如果业务也不需要图片，强烈建议提取人脸特征
         //删除插入时IO线程操作的，所以插入后立即主线程查询会有延迟
         binding.insertFaceFeatures.setOnClickListener {
             val faceSearchFeatures:List<FaceSearchFeature> =FaceSearchFeatureManger.getInstance(this).queryAllFaceFaceFeature()

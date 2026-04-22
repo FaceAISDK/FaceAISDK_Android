@@ -8,6 +8,7 @@ import android.content.pm.ApplicationInfo;
 import com.ai.face.faceSearch.search.FaceSearchFeatureManger;
 import com.ai.face.faceSearch.search.Image2FaceFeature;
 import com.bumptech.glide.Glide;
+import com.faceAI.demo.base.utils.TTSPlayer;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.tencent.mmkv.MMKV;
 
@@ -34,6 +35,8 @@ public class FaceSDKConfig {
 
         //语音提示播报，现在都是播放录音文件。后期改为TTS吧
         VoicePlayer.getInstance().init(context);
+
+        TTSPlayer.getInstance().init(context);
 
         // 人脸图存储在App内部私有空间，SDK未做分区存储
         // Warming: 目前仅能存储在context.getCacheDir() 或者context.getFilesDir() 内部私有空间

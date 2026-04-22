@@ -202,29 +202,24 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
                     break;
 
                 case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
-                    VoicePlayer.getInstance().play(R.raw.open_mouse);
                     setMainTips(R.string.repeat_open_close_mouse);
                     break;
 
                 case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.SMILE: {
                     setMainTips(R.string.motion_smile);
-                    VoicePlayer.getInstance().play(R.raw.smile);
                 }
                 break;
 
                 case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.BLINK: {
-                    VoicePlayer.getInstance().play(R.raw.blink);
                     setMainTips(R.string.motion_blink_eye);
                 }
                 break;
 
                 case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD:
-                    VoicePlayer.getInstance().play(R.raw.shake_head);
                     setMainTips(R.string.motion_shake_head);
                     break;
 
                 case VerifyStatus.ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
-                    VoicePlayer.getInstance().play(R.raw.nod_head);
                     setMainTips(R.string.motion_node_head);
                     break;
 
@@ -238,14 +233,12 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
                             .show();
                     break;
 
-
                 //多次检测没有人脸
                 case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
 //                    setMainTips(R.string.no_face_or_repeat_switch_screen);
                     break;
 
-                // 单独使用一个textview 提示，防止上一个提示被覆盖。
-                // 也可以自行记住上个状态，FACE_SIZE_FIT 中恢复上一个提示
+                //太靠近摄像头了
                 case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE:
                     setSecondTips(R.string.far_away_tips);
                     break;
@@ -259,6 +252,7 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
                 case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_SIZE_FIT:
                     setSecondTips(0);
                     break;
+
                 case VerifyStatus.VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
                     setSecondTips(R.string.no_face_detected_tips);
                     break;
@@ -320,15 +314,6 @@ public class FaceSearch_MotionLiveness_Activity extends AbsBaseActivity {
                         VoicePlayer.getInstance().play(R.raw.ding_success);
                         Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
                         new ImageToast().showBitmap(getApplicationContext(), mostSimilarBmp, faceID+","+score);
-
-//                        if(liveness>0.7){
-//                            VoicePlayer.getInstance().play(R.raw.ding_success);
-//                            Bitmap mostSimilarBmp = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);
-//                            new ImageToast().showBitmap(getApplicationContext(), mostSimilarBmp, faceID+","+score);
-//                        }else{
-//                            VoicePlayer.getInstance().play(R.raw.ding_failed);
-//                        }
-
                     }
 
                     /**

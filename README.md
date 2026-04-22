@@ -7,20 +7,21 @@
 on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK  
 人脸识别、活体检测、人脸录入检测以及[1：N以及M：N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索SDK，可完全离线实现端侧人脸识别，人脸搜索等功能。
 
-SDK可支持Android[5,16] **SDK所有功能都不用联网，不上传不存储任何人脸信息敏感资料更具隐私安全**
-动作活体支持张嘴、微笑、眨眼、摇头、点头 随机1-2种组合验证，支持UVC协议USB摄像头，需成像清晰宽动态值>105Db。
+SDK支持Android[5,16] **SDK所有功能都不用联网，不上传不存储任何人脸信息敏感资料更具隐私安全**
+支持静默活体，动作活体支持张嘴、微笑、眨眼、摇头、点头，支持UVC协议USB摄像头，需成像清晰宽动态值>105Db。
 
 | 🚀 | 🔑 | 📡 | 💰 |
 | :--- | :--- | :--- | :--- |
 | **高效集成** | **数据安全** | **可离线使用** | **节约费用** |
 | 少量简洁的 SDK API 可快速接入，节省研发维护费用 | 在设备本地执行推断，无需将用户数据发送到云端 | 无需网络连接或在云端运行服务，小场景一台设备就能 Hold 业务需求 | 在设备端运行机器学习功能，减少云端费用 |
 
-首页说明： https://faceaisdk.github.io/index/
+
 
 ##  V2026.04.22
 
-- default Java version 11
-- update readme
+- Default Java version 11
+- Update play TTS voice
+- Simplified code
 
 更多历史版本说明参考 [历史版本SDK更新记录](doc/历史版本SDK更新记录.md)
 
