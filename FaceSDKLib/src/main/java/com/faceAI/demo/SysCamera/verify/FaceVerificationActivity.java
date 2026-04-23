@@ -64,7 +64,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private int motionStepSize = 1; //动作活体的个数
     private int motionTimeOut = motionStepSize*3+1;  //动作超时秒，低端机可以设置长一点
     private String motionLivenessTypes = "1,2,3,4,5"; //动作活体种类用英文","隔开； 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
-    private FaceLivenessType faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION;  //活体检测类型
+    private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION;  //活体检测类型
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private FaceCoverView faceCoverView;
     private FaceCameraXFragment cameraXFragment;  //Camera Manger
