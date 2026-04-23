@@ -97,11 +97,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         setContentView(binding.getRoot());
         binding.close.setOnClickListener(v -> finish());
 
-        binding.tips.setOnClickListener(v -> {
-            startActivity(new Intent(this, FaceSearchDataMangerActivity.class)
-                    .putExtra("isAdd", false));
-        });
-
         getIntentParams(); //接收三方插件传递的参数，原生开发可以忽略裁剪掉
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
@@ -191,7 +186,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
 
                     @Override
                     public void onLog(String log) {
-                        binding.tips.setText(log);
+
                     }
 
                 }).create();
@@ -229,7 +224,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         switch (code) {
             case NO_MATCHED:
                 //本次没有搜索匹配到结果.没有结果会持续尝试1秒之内没有结果会返回NO_MATCHED code
-                setSecondTips(R.string.no_matched_face);
+
                 break;
 
             case FACE_DIR_EMPTY:
@@ -281,13 +276,13 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 break;
 
             default:
-                binding.searchTips.setText("Tips Code：" + code);
+                binding.faceCover.setTipsText("Tips Code：" + code);
                 break;
         }
     }
 
     private void setSearchTips(int resId) {
-        binding.searchTips.setText(resId);
+        binding.faceCover.setTipsText(resId);
     }
 
     /**
@@ -296,13 +291,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
      * @param resId
      */
     private void setSecondTips(int resId) {
-        if (resId == 0) {
-            binding.secondSearchTips.setText("");
-            binding.secondSearchTips.setVisibility(View.INVISIBLE);
-        } else {
-            binding.secondSearchTips.setText(resId);
-            binding.secondSearchTips.setVisibility(View.VISIBLE);
-        }
+//        binding.faceCover.setSecondTipsText(resId);
     }
 
     /**

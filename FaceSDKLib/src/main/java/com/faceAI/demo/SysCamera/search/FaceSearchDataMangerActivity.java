@@ -90,7 +90,7 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
         faceImageListAdapter.setEmptyView(R.layout.empty_layout);
         faceImageListAdapter.getEmptyLayout().setOnClickListener(v -> copyFaceTestImage());
 
-        TextView tips = findViewById(R.id.tips);
+        TextView tips = findViewById(R.id.message);
         tips.setOnLongClickListener(v -> {
             new AlertDialog.Builder(FaceSearchDataMangerActivity.this)
                     .setTitle("Delete All Face Images？")

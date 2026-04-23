@@ -62,12 +62,6 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
         binding = ActivityFaceSearchMnBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.close.setOnClickListener(v -> finish());
-        binding.faceCover.setVisibility(GONE);
-
-        binding.tips.setOnClickListener(v -> {
-            startActivity(new Intent(this, FaceSearchDataMangerActivity.class)
-                    .putExtra("isAdd", false));
-        });
 
         SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
 
@@ -146,7 +140,7 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
 
                     @Override
                     public void onLog(String log) {
-                        binding.tips.setText(log);
+                        binding.message.setText(log);
                     }
 
                 }).create();
@@ -196,6 +190,9 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
             case NO_MATCHED:
                 //本次没有搜索匹配到结果.没有结果会持续尝试1秒之内没有结果会返回NO_MATCHED code
                 binding.searchTips.setText(R.string.no_matched_face);
+                break;
+            case SEARCHING:
+
                 break;
 
             default:

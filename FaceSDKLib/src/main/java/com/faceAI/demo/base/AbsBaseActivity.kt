@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowManager
@@ -14,8 +15,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import com.faceAI.demo.R
+import com.faceAI.demo.base.view.FaceCoverView
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
+import kotlin.math.min
 
 
 /**
@@ -28,6 +31,26 @@ open class AbsBaseActivity : AppCompatActivity(), PermissionCallbacks {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         checkNeededPermission()
+
+        adjustCameraMargin()
+    }
+
+
+    /**
+     * 适配横竖屏，动态调整相机预览区域的边距为屏幕短边的 1/MARGIN_SIZE，注意和FaceCoverView内部设置保持一致
+     */
+     fun adjustCameraMargin() {
+        val fragmentCamera = findViewById<View?>(R.id.fragment_camerax) // id = fragment_camerax
+        if (fragmentCamera != null && fragmentCamera.layoutParams is MarginLayoutParams) {
+            val width = getResources().displayMetrics.widthPixels
+            val height = getResources().displayMetrics.heightPixels
+            val shorterSide = min(width, height)
+            val margin = shorterSide / FaceCoverView.MARGIN_SIZE
+
+            val lp = fragmentCamera.layoutParams as MarginLayoutParams
+            lp.setMargins(margin, margin, margin, margin)
+            fragmentCamera.setLayoutParams(lp)
+        }
     }
 
     override fun onResume() {

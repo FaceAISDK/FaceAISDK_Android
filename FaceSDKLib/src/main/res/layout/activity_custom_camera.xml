@@ -17,7 +17,7 @@
         android:layout_height="match_parent" />
 
     <!-- 可以替换成你自己的UI样式,需要 FaceCoverView 源码已经暴露 -->
-    <com.faceAI.demo.base.view.FaceVerifyCoverView
+    <com.faceAI.demo.base.view.FaceCoverView
         android:id="@+id/face_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,8 +26,9 @@
         customAttr:progress_start_color="@color/green"
         customAttr:show_progress="true"
         customAttr:background_color="@color/white"
-        customAttr:tip_text_color="@color/face_main_color"
-        customAttr:tip_text_size="20sp" />
+        customAttr:tip_text_bg_color="@color/face_main_color"
+        customAttr:tip_text_color="@color/white"
+        customAttr:tip_text_size="19sp" />
 
 
 
