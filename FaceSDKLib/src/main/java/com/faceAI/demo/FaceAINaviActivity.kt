@@ -113,9 +113,6 @@ class FaceAINaviActivity : AbsBaseActivity() {
         }
 
         showTipsDialog()
-
-
-
     }
 
 
@@ -250,10 +247,9 @@ class FaceAINaviActivity : AbsBaseActivity() {
                     putLong(
                         "showTipsDialog",
                         System.currentTimeMillis()
-                    )
+                    ).commit()
                 }
                 dialog.dismiss()
-
                 //检测配置等级，运行一下看看兼容性
                 val performance=DevicePerformance.getDevicePerformance(this@FaceAINaviActivity)
             }

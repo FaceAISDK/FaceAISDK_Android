@@ -23,7 +23,7 @@
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/tips"
+        app:layout_constraintBottom_toTopOf="@+id/message"
         app:layout_constraintTop_toBottomOf="@+id/back">
 
         <LinearLayout
@@ -400,7 +400,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <TextView
-        android:id="@+id/tips"
+        android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="More Settings? See FaceAISDK souce code"

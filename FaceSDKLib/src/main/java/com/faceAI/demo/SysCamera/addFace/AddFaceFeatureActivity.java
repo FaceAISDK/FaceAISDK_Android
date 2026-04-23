@@ -16,6 +16,7 @@ import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
+import static com.faceAI.demo.base.view.FaceCoverView.MARGIN_SIZE;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -28,9 +29,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
@@ -48,6 +51,7 @@ import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
+import com.faceAI.demo.base.view.FaceCoverView;
 import com.tencent.mmkv.MMKV;
 import java.util.Objects;
 
@@ -65,7 +69,8 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     public static String ADD_FACE_PERFORMANCE_MODE = "ADD_FACE_PERFORMANCE_MODE";
     public static String NEED_CONFIRM_ADD_FACE = "NEED_CONFIRM_ADD_FACE"; //是否需要弹窗确认
     private boolean needConfirmAdd = true;   //是否需要弹窗给用户确认人脸信息,强烈建议需要确认
-    private TextView tipsTextView;
+    private FaceCoverView faceCoverView;
+
     private BaseImageDispose baseImageDispose;
     private String faceID, addFaceType;
     private boolean isConfirmAdd = false;   //是否弹出Dialog等待确定人脸
@@ -83,11 +88,11 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         super.onCreate(savedInstanceState);
         hideSystemUI();
 
-        setContentView(R.layout.activity_add_face_image);
+        setContentView(R.layout.activity_add_face_feature);
         findViewById(R.id.back)
                 .setOnClickListener(v -> finishAddFace(0, "Cancel by user",""));
 
-        tipsTextView = findViewById(R.id.tips_view);
+        faceCoverView = findViewById(R.id.face_cover);
         addFaceType = getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
 
         if(FaceSDKConfig.isDebugMode(this)){
@@ -174,7 +179,9 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
+
     }
+
 
     /**
      * 添加人脸过程中的提示
@@ -183,35 +190,35 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     private void AddFaceTips(int tipsCode) {
         switch (tipsCode) {
             case NO_FACE_REPEATEDLY:
-                tipsTextView.setText(R.string.no_face_detected_tips);
+                faceCoverView.setTipsText(R.string.no_face_detected_tips);
                 break;
 
             case FACE_TOO_SMALL:
-                tipsTextView.setText(R.string.come_closer_tips);
+                faceCoverView.setTipsText(R.string.come_closer_tips);
                 break;
             case FACE_TOO_LARGE:
-                tipsTextView.setText(R.string.far_away_tips);
+                faceCoverView.setTipsText(R.string.far_away_tips);
                 break;
             case CLOSE_EYE:
-                tipsTextView.setText(R.string.no_close_eye_tips);
+                faceCoverView.setTipsText(R.string.no_close_eye_tips);
                 break;
             case HEAD_CENTER:
-                tipsTextView.setText(R.string.keep_face_tips);
+                faceCoverView.setTipsText(R.string.keep_face_tips);
                 break;
             case TILT_HEAD:
-                tipsTextView.setText(R.string.no_tilt_head_tips);
+                faceCoverView.setTipsText(R.string.no_tilt_head_tips);
                 break;
             case HEAD_LEFT:
-                tipsTextView.setText(R.string.head_turn_left_tips);
+                faceCoverView.setTipsText(R.string.head_turn_left_tips);
                 break;
             case HEAD_RIGHT:
-                tipsTextView.setText(R.string.head_turn_right_tips);
+                faceCoverView.setTipsText(R.string.head_turn_right_tips);
                 break;
             case HEAD_UP:
-                tipsTextView.setText(R.string.no_look_up_tips);
+                faceCoverView.setTipsText(R.string.no_look_up_tips);
                 break;
             case HEAD_DOWN:
-                tipsTextView.setText(R.string.no_look_down_tips);
+                faceCoverView.setTipsText(R.string.no_look_down_tips);
                 break;
         }
     }

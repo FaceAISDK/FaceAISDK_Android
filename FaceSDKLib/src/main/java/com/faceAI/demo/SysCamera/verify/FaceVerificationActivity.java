@@ -22,8 +22,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.camera.core.CameraSelector;
 
-import com.ai.face.base.baseImage.FaceEmbedding;
-import com.ai.face.core.engine.FaceAISDKEngine;
 import com.ai.face.core.utils.FaceAICameraType;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.faceAI.demo.FaceSDKConfig;
@@ -39,10 +37,9 @@ import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus.*;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.faceAI.demo.base.utils.TTSPlayer;
-import com.faceAI.demo.base.utils.VoicePlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.faceAI.demo.base.view.FaceVerifyCoverView;
+import com.faceAI.demo.base.view.FaceCoverView;
 import com.tencent.mmkv.MMKV;
 
 /**
@@ -70,7 +67,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION;  //活体检测类型
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private TextView tipsTextView, secondTipsTextView;
-    private FaceVerifyCoverView faceCoverView;
+    private FaceCoverView faceCoverView;
     private FaceCameraXFragment cameraXFragment;  //Camera Manger
 
     @Override
@@ -78,8 +75,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         super.onCreate(savedInstanceState);
         hideSystemUI(); //full screen
         setContentView(R.layout.activity_face_verification);
-        tipsTextView = findViewById(R.id.tips_view);
-        secondTipsTextView = findViewById(R.id.second_tips_view);
+
         faceCoverView = findViewById(R.id.face_cover);
         findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(0, R.string.face_verify_result_cancel));
 
@@ -391,20 +387,14 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * 主要提示
      */
     private void setMainTips(int resId) {
-        tipsTextView.setText(resId);
+        faceCoverView.setTipsText(resId);
     }
 
     /**
      * 第二行提示
      */
     private void setSecondTips(int resId) {
-        if (resId == 0) {
-            secondTipsTextView.setText("");
-            secondTipsTextView.setVisibility(View.INVISIBLE);
-        } else {
-            secondTipsTextView.setVisibility(View.VISIBLE);
-            secondTipsTextView.setText(resId);
-        }
+        faceCoverView.setSecondTipsText(resId);
     }
 
     /**

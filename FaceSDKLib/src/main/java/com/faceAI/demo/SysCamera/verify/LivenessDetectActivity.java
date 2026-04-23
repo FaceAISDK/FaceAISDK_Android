@@ -30,8 +30,7 @@ import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.TTSPlayer;
-import com.faceAI.demo.base.utils.VoicePlayer;
-import com.faceAI.demo.base.view.FaceVerifyCoverView;
+import com.faceAI.demo.base.view.FaceCoverView;
 
 /**
  * 活体检测 SDK 接入演示代码.
@@ -42,8 +41,7 @@ import com.faceAI.demo.base.view.FaceVerifyCoverView;
  * @author FaceAISDK.Service@gmail.com
  */
 public class LivenessDetectActivity extends AbsBaseActivity {
-    private TextView tipsTextView, secondTipsTextView;
-    private FaceVerifyCoverView faceCoverView;
+    private FaceCoverView faceCoverView;
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private FaceCameraXFragment cameraXFragment;
     public static final String FACE_LIVENESS_TYPE = "FACE_LIVENESS_TYPE";  //活体检测的类型
@@ -61,8 +59,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         super.onCreate(savedInstanceState);
         hideSystemUI();//炫彩活体全屏显示各种颜色
         setContentView(R.layout.activity_liveness_detection);
-        tipsTextView = findViewById(R.id.tips_view);
-        secondTipsTextView = findViewById(R.id.second_tips_view);
         faceCoverView = findViewById(R.id.face_cover);
         findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(0, R.string.face_verify_result_cancel));
 
@@ -313,20 +309,14 @@ public class LivenessDetectActivity extends AbsBaseActivity {
      * 主要提示
      */
     private void setMainTips(int resId) {
-        tipsTextView.setText(resId);
+        faceCoverView.setTipsText(resId);
     }
 
     /**
      * 第二行提示
      */
     private void setSecondTips(int resId) {
-        if (resId == 0) {
-            secondTipsTextView.setText("");
-            secondTipsTextView.setVisibility(View.INVISIBLE);
-        } else {
-            secondTipsTextView.setVisibility(View.VISIBLE);
-            secondTipsTextView.setText(resId);
-        }
+        faceCoverView.setSecondTipsText(resId);
     }
 
 

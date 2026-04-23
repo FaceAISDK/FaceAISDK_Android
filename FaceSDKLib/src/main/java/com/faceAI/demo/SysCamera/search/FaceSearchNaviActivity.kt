@@ -87,17 +87,7 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         //1:N 人脸搜索.包含动作活体检测，
         binding.faceSearchWithMotionlive.setOnClickListener {
-            if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
-                val intent = Intent(baseContext, FaceSearch_MotionLiveness_Activity::class.java)
-                intent.putExtra(FaceSearch1NActivity.THRESHOLD_KEY, 0.85f)
-                intent.putExtra(FaceSearch1NActivity.SEARCH_ONE_TIME, true)
-                intent.putExtra(FaceSearch1NActivity.NEED_FACE_LIVE, true)
-                intent.putExtra(FaceSearch1NActivity.IS_CAMERA_SIZE_HIGH, false)
-                startActivity(intent)
-            } else {
-                //仅仅RGB SYSTEM摄像头演示
-                Toast.makeText(baseContext, "only system camera", Toast.LENGTH_SHORT).show()
-            }
+
         }
 
         //MN人脸搜索，Beta版本，仅仅系统摄像头，不包含UVC协议摄像头

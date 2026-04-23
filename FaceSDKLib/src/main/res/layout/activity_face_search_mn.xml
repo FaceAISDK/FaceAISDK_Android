@@ -19,18 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <!-- 可以替换成你自己的UI样式,需要 FaceCoverView 源码联系对接工程师-->
-    <com.faceAI.demo.base.view.FaceVerifyCoverView
-        android:id="@+id/face_cover"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        customAttr:circle_margin="30dp"
-        customAttr:circle_padding_bottom="30dp"
-        customAttr:background_color="@color/white"
-        customAttr:show_progress="false"
-        customAttr:tip_text_color="@color/face_main_color"
-        customAttr:tip_text_size="20sp" />
-
     <TextView
         android:id="@+id/searchTips"
         android:layout_width="wrap_content"
@@ -50,27 +38,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/close" />
 
-    <TextView
-        android:id="@+id/secondSearchTips"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:layout_marginTop="9dp"
-        android:textColor="@color/white"
-        android:background="@drawable/circle_bar_bg"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="14dp"
-        android:paddingRight="14dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchTips" />
 
     <TextView
-        android:id="@+id/tips"
+        android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/face_main_color"

@@ -22,8 +22,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import com.ai.face.base.baseImage.BaseImageCallBack;
@@ -66,7 +66,7 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         hideSystemUI();
-        setContentView(R.layout.activity_add_face_image);
+        setContentView(R.layout.activity_add_face_feature);
         findViewById(R.id.back)
                 .setOnClickListener(v -> finish());
 
@@ -127,7 +127,10 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
+
     }
+
+
 
     /**
      * 添加人脸过程中的提示

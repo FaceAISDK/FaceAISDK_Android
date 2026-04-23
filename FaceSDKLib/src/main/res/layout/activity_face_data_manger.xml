@@ -22,7 +22,7 @@
         app:title="@string/face_search_data_manger" />
 
     <TextView
-        android:id="@+id/tips"
+        android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/face_search_image_manger_tips"
