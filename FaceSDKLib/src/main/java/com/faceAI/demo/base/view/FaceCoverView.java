@@ -28,7 +28,7 @@ import com.faceAI.demo.base.utils.ScreenUtils;
  * 人脸识别覆盖视图
  * - 半透明遮罩 + 圆形镂空（支持展开动画）
  * - 环形进度条（渐变色）
- * - 上方双行提示文本（第二行支持淡入淡出）
+ * - 上方双行提示文本（支持淡入淡出）
  */
 public class FaceCoverView extends View {
 
@@ -41,6 +41,9 @@ public class FaceCoverView extends View {
     private final int mStartColor;
     private final int mEndColor;
     private final boolean mShowProgress;
+    private final int mTipTextColor;
+    private final int mTipTextBgColor;
+    private final float mTipTextSize;
     private int mCircleMargin = -1;
     private int mCirclePaddingBottom;
 
@@ -93,10 +96,21 @@ public class FaceCoverView extends View {
     public FaceCoverView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.FaceVerifyCoverView);
+
+        // 读取通用属性
         mFlashColor = array.getColor(R.styleable.FaceVerifyCoverView_flash_color, Color.WHITE);
         mStartColor = array.getColor(R.styleable.FaceVerifyCoverView_progress_start_color, Color.LTGRAY);
         mEndColor = array.getColor(R.styleable.FaceVerifyCoverView_progress_end_color, Color.LTGRAY);
         mShowProgress = array.getBoolean(R.styleable.FaceVerifyCoverView_show_progress, true);
+
+        // 读取与 attrs.xml 关联的文字属性
+        mTipTextColor = array.getColor(R.styleable.FaceVerifyCoverView_tip_text_color, Color.WHITE);
+        mTipTextBgColor = array.getColor(R.styleable.FaceVerifyCoverView_tip_text_bg_color, ContextCompat.getColor(context, R.color.face_main_color));
+
+        // 默认 18sp
+        float defaultTextSize = 19 * context.getResources().getDisplayMetrics().scaledDensity;
+        mTipTextSize = array.getDimension(R.styleable.FaceVerifyCoverView_tip_text_size, defaultTextSize);
+
         array.recycle();
 
         initPaints(context);
@@ -117,18 +131,20 @@ public class FaceCoverView extends View {
         mProgressPaint.setStrokeWidth(mBgArcWidth);
         mProgressPaint.setStrokeCap(Paint.Cap.ROUND);
 
-        float density = context.getResources().getDisplayMetrics().scaledDensity;
-        mTipsPaint.setColor(Color.WHITE);
-        mTipsPaint.setTextSize(density * 19);
+        // 使用从 XML 中获取的文字属性
+        mTipsPaint.setColor(mTipTextColor);
+        mTipsPaint.setTextSize(mTipTextSize);
         mTipsPaint.setTextAlign(Paint.Align.CENTER);
         mTipsPaint.setFakeBoldText(true);
 
-        mSecondTipsPaint.setColor(Color.WHITE);
-        mSecondTipsPaint.setTextSize(density * 17);
+        mSecondTipsPaint.setColor(mTipTextColor);
+        // 副标题稍微小一点，或者也可以保持一致
+        mSecondTipsPaint.setTextSize(mTipTextSize * 0.9f);
         mSecondTipsPaint.setTextAlign(Paint.Align.CENTER);
         mSecondTipsPaint.setFakeBoldText(true);
 
-        mTextBgPaint.setColor(ContextCompat.getColor(context, R.color.face_main_color));
+        // 使用从 XML 获取的背景颜色
+        mTextBgPaint.setColor(mTipTextBgColor);
         mTextBgPaint.setStyle(Paint.Style.FILL);
 
         mTextSpacing = ScreenUtils.dp2px(context, 6);
@@ -230,16 +246,11 @@ public class FaceCoverView extends View {
 
     public void setTipsText(String tips) {
         String newTips = tips != null ? tips : "";
-
-        // 【关键修复】文字未变化时直接拦截，防止高频回调导致副提示不断被重置为 0
         if (TextUtils.equals(this.mTipsText, newTips)) {
             return;
         }
-
         this.mTipsText = newTips;
         this.mTipsWidth = mTipsPaint.measureText(mTipsText);
-
-        // 主提示更新且非空时隐藏副提示，防止重叠
         if (!TextUtils.isEmpty(mTipsText)) {
             if (mSecondTipsAnimator != null) mSecondTipsAnimator.cancel();
             mSecondTipsAlpha = 0;
@@ -257,13 +268,10 @@ public class FaceCoverView extends View {
             animateSecondTipsAlpha(0);
             return;
         }
-
-        // 【关键修复】文字未变时，仅确保它在淡入状态即可，避免高频重启导致动画卡死在 0
         if (TextUtils.equals(tips, mSecondTipsText)) {
             animateSecondTipsAlpha(255);
             return;
         }
-
         this.mSecondTipsText = tips;
         this.mSecondTipsWidth = mSecondTipsPaint.measureText(mSecondTipsText);
         animateSecondTipsAlpha(255);
@@ -306,17 +314,13 @@ public class FaceCoverView extends View {
     // ==================== 动画处理 ====================
 
     private void animateSecondTipsAlpha(int targetAlpha) {
-        // 如果当前已经达到目标，或者正在前往该目标的路上，则不干预
         if (mSecondTipsAlpha == targetAlpha || mTargetSecondAlpha == targetAlpha) {
             return;
         }
-
         mTargetSecondAlpha = targetAlpha;
-
         if (mSecondTipsAnimator != null) {
             mSecondTipsAnimator.cancel();
         }
-
         int baseDuration = targetAlpha == 255 ? 200 : 400;
         int duration = (int) (Math.abs(targetAlpha - mSecondTipsAlpha) / 255f * baseDuration);
 

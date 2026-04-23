@@ -291,8 +291,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
      * @param resId
      */
     private void setSecondTips(int resId) {
-        binding.faceCover.setSecondTipsText(resId);
-        Log.d("setSecondTips", "setSecondTips: " + resId);
+//        binding.faceCover.setSecondTipsText(resId);
     }
 
     /**

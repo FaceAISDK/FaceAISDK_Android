@@ -70,7 +70,6 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     public static String NEED_CONFIRM_ADD_FACE = "NEED_CONFIRM_ADD_FACE"; //是否需要弹窗确认
     private boolean needConfirmAdd = true;   //是否需要弹窗给用户确认人脸信息,强烈建议需要确认
     private FaceCoverView faceCoverView;
-
     private BaseImageDispose baseImageDispose;
     private String faceID, addFaceType;
     private boolean isConfirmAdd = false;   //是否弹出Dialog等待确定人脸
@@ -110,7 +109,6 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
             if (intent.hasExtra(NEED_CONFIRM_ADD_FACE)) {
                 needConfirmAdd = intent.getBooleanExtra(NEED_CONFIRM_ADD_FACE,true);
             }
-
         }
 
 
