@@ -32,7 +32,7 @@ import com.faceAI.demo.base.utils.ScreenUtils;
  */
 public class FaceCoverView extends View {
 
-    public static final int MARGIN_SIZE = 8;
+    public static  int MARGIN_SIZE = 8;
     private static final int START_ANGLE = 270;
     private static final int MAX_ANGLE = 360;
 
@@ -164,10 +164,16 @@ public class FaceCoverView extends View {
 
         mFullRect.set(0, 0, w, h);
         int shorterSide = min(w, h);
+        if(w>h) {
+            MARGIN_SIZE = 5;
+        }else {
+            MARGIN_SIZE = 8;
+        }
+
         if (mCircleMargin < 0) mCircleMargin = shorterSide / MARGIN_SIZE;
 
         int basePadding = shorterSide / MARGIN_SIZE;
-        mCirclePaddingBottom = (w > h) ? -basePadding : basePadding;
+        mCirclePaddingBottom = (w > h) ? -basePadding/3 : basePadding;
 
         mCenterPoint.set(w / 2f, h / 2f - mCirclePaddingBottom);
         mTargetRadius = (shorterSide / 2f) - mCircleMargin;
