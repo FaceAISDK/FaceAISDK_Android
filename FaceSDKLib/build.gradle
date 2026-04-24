@@ -45,10 +45,10 @@ configurations.configureEach {
 dependencies {
 
     //Face SDK API Demo(Android)：https://github.com/FaceAISDK/FaceAISDK_Android
-    api 'io.github.faceaisdk:Android:2026.04.22.robot2'
+    api 'io.github.faceaisdk:Android:2026.04.23.rea'
 
     //Library and sample to access UVC camera: https://github.com/shiyinghan/UVCAndroid
-    implementation 'com.herohan:UVCAndroid:1.0.11' //For custom Android Device use UVC camera
+    implementation 'com.herohan:UVCAndroid:1.0.11' //For Custom Android device use UVC camera
 
 
 
