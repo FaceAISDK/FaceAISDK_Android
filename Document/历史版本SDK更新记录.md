@@ -1,6 +1,6 @@
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
-##  V2026.04.22
+##  V2026.04.23
 - Default Java version 11
 - Update play TTS voice
 - Simplified code

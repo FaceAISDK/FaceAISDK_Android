@@ -111,11 +111,11 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         binding.copyFaceImages.setOnClickListener {
             binding.copyFaceImages.visibility= View.INVISIBLE
             CopyFaceImageUtils.copyTestFaceImages(
-                baseContext,
+                this@FaceSearchNaviActivity,
                 object : CopyFaceImageUtils.Callback {
                     override fun onComplete(successCount: Int, failureCount: Int) {
                         Toast.makeText(
-                            baseContext,
+                            this@FaceSearchNaviActivity,
                             "Success：$successCount Failed:$failureCount",
                             Toast.LENGTH_SHORT
                         ).show()
