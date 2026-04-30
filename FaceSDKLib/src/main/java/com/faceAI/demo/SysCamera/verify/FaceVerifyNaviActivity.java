@@ -6,11 +6,13 @@ import static com.faceAI.demo.SysCamera.addFace.AddFaceFeatureActivity.ADD_FACE_
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,8 +31,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.chad.library.adapter4.BaseQuickAdapter;
+import com.chad.library.adapter4.viewholder.QuickViewHolder;
 import com.faceAI.demo.R;
 import com.tencent.mmkv.MMKV;
 
@@ -99,7 +101,7 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
         faceImageListAdapter = new FaceImageListAdapter(faceImageList);
         mRecyclerView.setAdapter(faceImageListAdapter);
         faceImageListAdapter.setOnItemLongClickListener((adapter, view, i) -> {
-            ImageBean imageBean = faceImageList.get(i);
+            ImageBean imageBean = faceImageListAdapter.getItem(i);
             new AlertDialog.Builder(this).setTitle(getString(R.string.sure_delete_face_title)
                             + imageBean.name+"?").setMessage(R.string.sure_delete_face_tips)
                     .setPositiveButton(R.string.confirm, (dialog, which) -> {
@@ -110,22 +112,25 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
         });
 
         faceImageListAdapter.setOnItemClickListener((adapter, view, i) -> {
+                    ImageBean item = faceImageListAdapter.getItem(i);
                     if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
                         startActivity(
                                 new Intent(getBaseContext(), FaceVerificationActivity.class)
-                                        .putExtra(USER_FACE_ID_KEY, faceImageList.get(i).name));
+                                        .putExtra(USER_FACE_ID_KEY, item.name));
                     } else {
                         //USB UVC协议摄像头
                         startActivity(
                                 new Intent(getBaseContext(), FaceVerify_UVCCameraActivity.class)
-                                        .putExtra(USER_FACE_ID_KEY, faceImageList.get(i).name));
+                                        .putExtra(USER_FACE_ID_KEY, item.name));
                     }
                 }
         );
 
-        faceImageListAdapter.setEmptyView(R.layout.verify_empty_layout);
-        Objects.requireNonNull(faceImageListAdapter.getEmptyLayout())
-                .setOnClickListener(v -> addFaceView.performClick());
+        faceImageListAdapter.setStateViewLayout(this, R.layout.verify_empty_layout);
+        faceImageListAdapter.setStateViewEnable(true);
+        if (faceImageListAdapter.getStateView() != null) {
+            faceImageListAdapter.getStateView().setOnClickListener(v -> addFaceView.performClick());
+        }
     }
 
     /**
@@ -178,24 +183,32 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
     @SuppressLint("NotifyDataSetChanged")
     private void updateFaceList() {
         loadImageList();
-        faceImageListAdapter.notifyDataSetChanged();
+        faceImageListAdapter.submitList(new ArrayList<>(faceImageList));
     }
 
     /**
      * 人脸横向列表适配器,
      */
-    public class FaceImageListAdapter extends BaseQuickAdapter<ImageBean, BaseViewHolder> {
+    public class FaceImageListAdapter extends BaseQuickAdapter<ImageBean, QuickViewHolder> {
         public FaceImageListAdapter(List<ImageBean> data) {
-            super(R.layout.adapter_face_verify_list_item, data);
+            super();
+            submitList(data);
+        }
+
+        @NonNull
+        @Override
+        protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup parent, int viewType) {
+            return new QuickViewHolder(R.layout.adapter_face_verify_list_item, parent);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, ImageBean imageBean) {
+        protected void onBindViewHolder(@NonNull QuickViewHolder helper, int position, @Nullable ImageBean imageBean) {
+            if (imageBean == null) return;
             Glide.with(getBaseContext()).load(imageBean.path)
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .transform(new CenterCrop(), new RoundedCorners(15))
-                    .into((ImageView) helper.getView(R.id.face_image));
+                    .into(helper.<ImageView>getView(R.id.face_image));
             TextView faceName = helper.getView(R.id.face_name);
             faceName.setText(imageBean.name);
         }

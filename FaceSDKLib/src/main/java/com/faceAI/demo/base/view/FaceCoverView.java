@@ -147,9 +147,9 @@ public class FaceCoverView extends View {
         mTextBgPaint.setColor(mTipTextBgColor);
         mTextBgPaint.setStyle(Paint.Style.FILL);
 
-        mTextSpacing = ScreenUtils.dp2px(context, 6);
+        mTextSpacing = ScreenUtils.dp2px(context, 7);
         mTextPaddingHorizontal = ScreenUtils.dp2px(context, 17);
-        mTextPaddingVertical = ScreenUtils.dp2px(context, 6);
+        mTextPaddingVertical = ScreenUtils.dp2px(context, 7);
         mTextBgRadius = ScreenUtils.dp2px(context, 20);
     }
 
