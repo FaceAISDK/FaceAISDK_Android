@@ -88,8 +88,8 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="color_flash_light_high">炫彩失败,请到室内柔和光线处或用手遮挡过亮环境光</string>
     <string name="color_flash_need_closer_camera">即将闪烁彩色光，请靠近屏幕</string>
     <string name="keep_face_visible">平视正对摄像头</string>
-    <string name="repeat_open_close_mouse">请重复张闭嘴</string>
-    <string name="motion_smile">重复微笑,自然表情 </string>
+    <string name="repeat_open_close_mouse">请张张嘴</string>
+    <string name="motion_smile">请微笑</string>
     <string name="motion_blink_eye">请缓慢眨眼 </string>
     <string name="motion_shake_head">请左右摇头</string>
     <string name="motion_node_head">请上下点头 </string>

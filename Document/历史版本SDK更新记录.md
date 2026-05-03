@@ -1,9 +1,10 @@
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
-##  V2026.04.23
+##  V2026.04.24
 - Default Java version 11
 - Update play TTS voice
-- Simplified code
+- optimise silent liveness
+- Fix color flash liveness crash
 
 ##  V2026.04.18(大更新)
 - Google Play 上架安全认证审核

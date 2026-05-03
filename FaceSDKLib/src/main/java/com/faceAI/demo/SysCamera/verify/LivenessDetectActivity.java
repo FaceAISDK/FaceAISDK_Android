@@ -101,7 +101,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     /**
                      * 动作活体+炫彩活体都 检测完成，返回活体分数
                      *
-                     * @param livenessValue 静默&炫彩活体分数，仅动作活体可以忽略判断(不同设备的情况可能不一样，建议大于0.75为真人)
+                     * @param livenessValue 静默&炫彩活体分数，仅动作活体可以忽略判断(不同设备的情况可能不一样，建议大于0.8为真人)
                      * @param bitmap  活体检测快照，可以用于log记录，后期抽查
                      */
                     @Override

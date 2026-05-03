@@ -88,7 +88,7 @@
     <string name="color_flash_light_high">Detection failed: Too bright.Please avoid direct light as below and use in a softly lit indoor environment</string>
     <string name="color_flash_need_closer_camera">Please come closer,color Flash starting</string>
     <string name="keep_face_visible">Face the camera,verifying..</string>
-    <string name="repeat_open_close_mouse">Repeat open close mouse</string>
+    <string name="repeat_open_close_mouse">Repeat open mouse</string>
     <string name="motion_smile">Please smile </string>
     <string name="motion_blink_eye">Please blink eye</string>
     <string name="motion_shake_head">Please shake head</string>
