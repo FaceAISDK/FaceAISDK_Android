@@ -3,6 +3,7 @@ package com.faceAI.demo.SysCamera.search;
 import static com.faceAI.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
 import static com.faceAI.demo.SysCamera.addFace.AddFaceFeatureActivity.ADD_FACE_IMAGE_TYPE_KEY;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -10,6 +11,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,8 +31,8 @@ import com.faceAI.demo.SysCamera.addFace.AddFaceFeatureActivity;
 import com.ai.face.faceSearch.search.Image2FaceFeature;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.chad.library.adapter4.BaseQuickAdapter;
+import com.chad.library.adapter4.viewholder.QuickViewHolder;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.ArrayList;
@@ -65,9 +67,8 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
         if (ori == Configuration.ORIENTATION_LANDSCAPE) {
             spanCount = 5;
         }
-        LinearLayoutManager gridLayoutManager = new GridLayoutManager(this, spanCount);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, spanCount);
         RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
-        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(gridLayoutManager);
 
         faceImageListAdapter = new FaceImageListAdapter(faceImageList);
@@ -75,7 +76,7 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
 
         //删除本地的人脸照片和对应的特征值，删除后对应的人将无法被程序识别
         faceImageListAdapter.setOnItemLongClickListener((adapter, view, i) -> {
-            ImageBean imageBean = faceImageList.get(i);
+            ImageBean imageBean = faceImageListAdapter.getItem(i);
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.sure_delete_face_title) + imageBean.name+"?")
                     .setMessage(R.string.sure_delete_face_tips)
@@ -87,8 +88,11 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
             return false;
         });
 
-        faceImageListAdapter.setEmptyView(R.layout.empty_layout);
-        faceImageListAdapter.getEmptyLayout().setOnClickListener(v -> copyFaceTestImage());
+        faceImageListAdapter.setStateViewLayout(this,R.layout.empty_layout);
+        faceImageListAdapter.setStateViewEnable(true);
+        if (faceImageListAdapter.getStateView() != null) {
+            faceImageListAdapter.getStateView().setOnClickListener(v -> copyFaceTestImage());
+        }
 
         TextView tips = findViewById(R.id.message);
         tips.setOnLongClickListener(v -> {
@@ -173,23 +177,21 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
             runOnUiThread(() -> {
                 faceImageList.clear();
                 faceImageList.addAll(tempList);
-                faceImageListAdapter.notifyDataSetChanged();
+                faceImageListAdapter.submitList(new ArrayList<>(faceImageList));
             });
         }).start();
     }
 
     /**
-     * 快速复制工程目录 ./app/src/main/assert目录下200+张 人脸图入库，用于测试验证
+     * 快速复制工程目录 ./app/src/main/assert目录下100+张 人脸图入库，用于测试验证
      * 人脸图规范要求 大于 300*300的光线充足无遮挡的正面人脸如（./images/face_example.jpg)
      */
     private void copyFaceTestImage() {
-        CopyFaceImageUtils.showLoadingFloat(this);
         CopyFaceImageUtils.copyTestFaceImages(this, new CopyFaceImageUtils.Callback() {
             @Override
             public void onComplete(int successCount, int failureCount) {
-                Toast.makeText(getBaseContext(), "Success：" + successCount+" Failed:"+failureCount, Toast.LENGTH_SHORT).show();
+                Toast.makeText(FaceSearchDataMangerActivity.this, "Success：" + successCount+" Failed:"+failureCount, Toast.LENGTH_SHORT).show();
                 updateFaceList();
-                CopyFaceImageUtils.dismissLoadingFloat();
             }
         });
 
@@ -239,21 +241,29 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
     /**
      * 简单的图片列表适配器写法
      */
-    public class FaceImageListAdapter extends BaseQuickAdapter<ImageBean, BaseViewHolder> {
+    public class FaceImageListAdapter extends BaseQuickAdapter<ImageBean, QuickViewHolder> {
         public FaceImageListAdapter(List<ImageBean> data) {
-            super(R.layout.adapter_face_image_list_item, data);
+            super();
+            submitList(data);
+        }
+
+        @NonNull
+        @Override
+        protected QuickViewHolder onCreateViewHolder(@NonNull Context context, @NonNull ViewGroup parent, int viewType) {
+            return new QuickViewHolder(R.layout.adapter_face_image_list_item, parent);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, ImageBean imageBean) {
+        protected void onBindViewHolder(@NonNull QuickViewHolder helper, int position, @Nullable ImageBean imageBean) {
+            if (imageBean == null) return;
 
-            Glide.with(helper.getView(R.id.face_image)).load(imageBean.path)
+            Glide.with(helper.<ImageView>getView(R.id.face_image)).load(imageBean.path)
                     .override(333, 333) // 限制加载尺寸，极大降低内存峰值
                     .skipMemoryCache(false) //启用内存缓存
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC) //人脸图有缓存会导致同名人脸图片更新还是上一次的缓存
                     // 【关键代码】文件被修改（时间戳变了），才会刷新
                     .signature(new ObjectKey(imageBean.lastModified)) //如果是网络图请取后台时间
-                    .into((ImageView) helper.getView(R.id.face_image));
+                    .into(helper.<ImageView>getView(R.id.face_image));
 
             TextView faceName = helper.getView(R.id.face_name);
             faceName.setText(imageBean.name);

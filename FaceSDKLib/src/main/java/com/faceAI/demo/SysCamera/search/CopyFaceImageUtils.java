@@ -1,13 +1,21 @@
 package com.faceAI.demo.SysCamera.search;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
+import android.app.AlertDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import androidx.annotation.NonNull;
 
 import com.ai.face.core.engine.FaceAISDKEngine;
@@ -17,7 +25,6 @@ import com.ai.face.faceSearch.search.Image2FaceFeature;
 import com.airbnb.lottie.LottieAnimationView;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
-import com.lzf.easyfloat.EasyFloat;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -296,23 +303,67 @@ public class CopyFaceImageUtils {
         });
     }
 
-    // --- Loading UI 方法保持不变 ---
+    // --- Loading UI 方法 ---
+    private static AlertDialog loadingDialog;
+
     public static void showLoadingFloat(Context context) {
-        EasyFloat.with(context.getApplicationContext())
-                .setTag("loading_float")
-                .setGravity(Gravity.CENTER, 0, 0)
-                .setDragEnable(false)
-                .setLayout(R.layout.float_loading, view -> {
-                    LottieAnimationView entry = view.findViewById(R.id.entry);
-                    entry.setAnimation(R.raw.waiting);
-                    entry.loop(true);
-                    entry.playAnimation();
-                })
-                .show();
+        if (!(context instanceof Activity)) {
+            Log.e(TAG, "Context must be an Activity to show a dialog");
+            return;
+        }
+        Activity activity = (Activity) context;
+        if (activity.isFinishing()) {
+            return;
+        }
+
+        new Handler(Looper.getMainLooper()).post(() -> {
+            if (activity.isFinishing()) {
+                return;
+            }
+
+            if (loadingDialog != null && loadingDialog.isShowing()) return;
+
+            try {
+                View view = LayoutInflater.from(activity).inflate(R.layout.float_loading, null);
+                LottieAnimationView entry = view.findViewById(R.id.entry);
+                entry.setAnimation(R.raw.waiting);
+                entry.loop(true);
+                entry.playAnimation();
+
+                loadingDialog = new AlertDialog.Builder(activity, R.style.TransparentDialog)
+                        .setView(view)
+                        .setCancelable(false)
+                        .create();
+
+                Window window = loadingDialog.getWindow();
+                if (window != null) {
+                    window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    // 解决 Dialog 宽度不全屏的问题（可选）
+                    WindowManager.LayoutParams lp = window.getAttributes();
+                    lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                    lp.gravity = Gravity.CENTER;
+                    window.setAttributes(lp);
+                }
+                loadingDialog.show();
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to show loading dialog", e);
+            }
+        });
     }
 
     public static void dismissLoadingFloat() {
-        EasyFloat.dismiss("loading_float");
+        new Handler(Looper.getMainLooper()).post(() -> {
+            try {
+                if (loadingDialog != null && loadingDialog.isShowing()) {
+                    loadingDialog.dismiss();
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to dismiss loading dialog", e);
+            } finally {
+                loadingDialog = null;
+            }
+        });
     }
 
     // --- 图像解码压缩方法保持不变 ---

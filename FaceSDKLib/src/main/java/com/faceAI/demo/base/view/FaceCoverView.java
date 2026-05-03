@@ -139,7 +139,7 @@ public class FaceCoverView extends View {
 
         mSecondTipsPaint.setColor(mTipTextColor);
         // 副标题稍微小一点，或者也可以保持一致
-        mSecondTipsPaint.setTextSize(mTipTextSize * 0.9f);
+        mSecondTipsPaint.setTextSize(mTipTextSize * 0.88f);
         mSecondTipsPaint.setTextAlign(Paint.Align.CENTER);
         mSecondTipsPaint.setFakeBoldText(true);
 
@@ -147,9 +147,9 @@ public class FaceCoverView extends View {
         mTextBgPaint.setColor(mTipTextBgColor);
         mTextBgPaint.setStyle(Paint.Style.FILL);
 
-        mTextSpacing = ScreenUtils.dp2px(context, 6);
+        mTextSpacing = ScreenUtils.dp2px(context, 7);
         mTextPaddingHorizontal = ScreenUtils.dp2px(context, 17);
-        mTextPaddingVertical = ScreenUtils.dp2px(context, 6);
+        mTextPaddingVertical = ScreenUtils.dp2px(context, 5);
         mTextBgRadius = ScreenUtils.dp2px(context, 20);
     }
 
@@ -173,7 +173,7 @@ public class FaceCoverView extends View {
         if (mCircleMargin < 0) mCircleMargin = shorterSide / MARGIN_SIZE;
 
         int basePadding = shorterSide / MARGIN_SIZE;
-        mCirclePaddingBottom = (w > h) ? -basePadding/3 : basePadding;
+        mCirclePaddingBottom = (w > h) ? 0 : basePadding;
 
         mCenterPoint.set(w / 2f, h / 2f - mCirclePaddingBottom);
         mTargetRadius = (shorterSide / 2f) - mCircleMargin;

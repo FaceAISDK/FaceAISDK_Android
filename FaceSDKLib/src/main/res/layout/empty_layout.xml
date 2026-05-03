@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/empty_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/tipsImg"
         android:layout_width="123dp"
         android:layout_height="123dp"
-        android:background="@drawable/empty"
-        android:paddingBottom="55dp"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/text" />
+        android:src="@drawable/empty"
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:id="@+id/text"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Face First"
         android:gravity="center"
         android:padding="3dp"
         android:textSize="15sp"
-        android:layout_centerInParent="true"
         android:textColor="@color/face_main_color" />
 
-</RelativeLayout>
+</LinearLayout>

@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.edit
+import com.ai.face.base.utils.performance.DevicePerformance
 import com.ai.face.core.utils.FaceAICameraType
 import com.ai.face.faceVerify.verify.FaceVerifyUtils
 import com.faceAI.demo.FaceAISettingsActivity.Companion.UVC_CAMERA_TYPE
@@ -25,7 +26,6 @@ import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
 import com.faceAI.demo.UVCCamera.liveness.Liveness_UVCCameraActivity
 import com.faceAI.demo.base.AbsBaseActivity
 import com.faceAI.demo.base.utils.TTSPlayer
-import com.faceAI.demo.base.utils.performance.DevicePerformance
 import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
 
 /**
@@ -250,13 +250,13 @@ class FaceAINaviActivity : AbsBaseActivity() {
                     ).commit()
                 }
                 dialog.dismiss()
-                //检测配置等级，运行一下看看兼容性
-                val performance=DevicePerformance.getDevicePerformance(this@FaceAINaviActivity)
             }
 
             val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
             btnCancel.setOnClickListener {
                 dialog.dismiss()
+                //检测配置等级，运行一下看看兼容性
+                val performance=DevicePerformance.getDevicePerformance(this@FaceAINaviActivity)
             }
 
             dialog.setCanceledOnTouchOutside(false)
