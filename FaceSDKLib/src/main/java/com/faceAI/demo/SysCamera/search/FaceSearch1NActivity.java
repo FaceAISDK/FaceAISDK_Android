@@ -38,6 +38,7 @@ import com.ai.face.faceSearch.utils.FaceSearchResult;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
+import com.faceAI.demo.base.utils.TTSPlayer;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
 import com.google.gson.Gson;
@@ -135,7 +136,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 .setSearchType(SearchProcessBuilder.SearchType.N_SEARCH_1) //1:N 搜索
                 .setThreshold(searchThreshold) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值以及人脸底片质量也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
-                .setSearchIntervalTime(1700) //默认2000，范围[0,9000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
+                .setSearchIntervalTime(1800) //默认2000，范围[0,9000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //后面版本去除次参数
                 .setProcessCallBack(new SearchProcessCallBack() {
                     /**
@@ -163,7 +164,8 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap, float livenessValue) {
                         Bitmap faceBitmap = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);//传给插件，其他可以忽略
                         new ImageToast().showBitmap(getApplicationContext(), faceBitmap, faceID + "," + score + "," + livenessValue);
-                        if (livenessValue > 0.72) { //分数根据你的摄像头和安装场景自由定义
+                        if (livenessValue > 0.75) { //分数根据你的摄像头和安装场景自由定义
+                            TTSPlayer.getInstance().playTTS(faceID);
                             VoicePlayer.getInstance().play(R.raw.ding_success);
                         } else {
                             VoicePlayer.getInstance().play(R.raw.ding_failed);

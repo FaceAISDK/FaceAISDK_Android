@@ -153,8 +153,8 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                      *
                      * @param isMatched     true匹配成功（大于setThreshold）； false 与底片不是同一人
                      * @param similarity    与底片匹配的相似度值
-                     * @param livenessValue 静默&炫彩活体分数，仅动作活体可以忽略判断(不同设备的情况可能不一样，建议大于0.75为真人)
-                     * @param bitmap        识别完成的时候人脸实时图，金融级别应用可以再次和自己的服务器二次校验
+                     * @param livenessValue 静默&炫彩活体分数，仅动作活体可以忽略判断(不同设备的情况可能不一样，建议大于0.8为真人)
+                     * @param bitmap        识别完成的时候人脸实时图，可以用于保存日志，后期抽查
                      */
                     @Override
                     public void onVerifyMatched(boolean isMatched, float similarity, float livenessValue, Bitmap bitmap) {
@@ -199,16 +199,20 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         });
     }
 
-    /**
-     * 1:1 人脸识别是否通过
-     * <p>
-     * 动作活体要有动作配合，必须先动作匹配通过再1：1 匹配
-     */
     private int retryTime = 0;
+
+    /**
+     * dispose face verify and liveness. 人脸识别活体检测是否通过
+     *
+     * @param isVerifyMatched is similarity >threshold ，相似度是否大于阈值
+     * @param similarity      similarity score 。 相似度得分
+     * @param livenessValue   liveness score 静默活体分数不同设备可能有差异
+     * @param bitmap 快照可用于log记录
+     */
     private void showVerifyResult(boolean isVerifyMatched, float similarity,float livenessValue, Bitmap bitmap) {
         BitmapUtils.saveCompressBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");  //保存场景图给三方插件使用
 
-        if (isVerifyMatched&&(livenessValue>0.75||faceLivenessType.equals(FaceLivenessType.NONE))) {
+        if (isVerifyMatched&&(livenessValue>0.8||faceLivenessType.equals(FaceLivenessType.NONE))) {
             //2. 相似度>verifyThreshold，并且livenessValue>0.8
             TTSPlayer.getInstance().playTTS(R.string.face_verify_success);
             new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
