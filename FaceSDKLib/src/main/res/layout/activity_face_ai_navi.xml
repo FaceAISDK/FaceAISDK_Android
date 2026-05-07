@@ -28,8 +28,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/share_face"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:padding="6dp"
+            android:src="@drawable/share"
+            app:layout_constraintLeft_toRightOf="@+id/system_info"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <LinearLayout
-            android:id="@+id/share_layout"
+            android:id="@+id/update_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -44,13 +56,13 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
                 android:padding="5dp"
-                android:src="@drawable/share" />
+                android:src="@drawable/update" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="@string/share_faceai_sdk"
+                android:text="@string/update_face_app"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="italic|bold" />
@@ -70,7 +82,7 @@
             android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/share_layout">
+            app:layout_constraintTop_toBottomOf="@+id/update_layout">
 
 
             <LinearLayout

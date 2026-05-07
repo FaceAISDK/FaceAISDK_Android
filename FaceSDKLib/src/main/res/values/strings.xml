@@ -15,7 +15,8 @@
     <string name="know">I know</string>
     <string name="retry">Try again</string>
     <string name="long_press_copy_msg">Tips: Long press to copy msg</string>
-    <string name="share_faceai_sdk">Share FaceAISDK </string>
+    <string name="share_face_app">Share</string>
+    <string name="update_face_app">Update</string>
     <string name="share_face_image">Share face image</string>
     <string name="share_face_feature">Share face feature</string>
     <string name="facesdk_camera_permission">FaceSDK API Demo Need Camera Permission</string>

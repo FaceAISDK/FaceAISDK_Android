@@ -166,10 +166,6 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
                 binding.searchTips.setText(R.string.search_threshold_scope_tips);
                 break;
 
-            case MASK_DETECTION:
-                binding.searchTips.setText(R.string.no_mask_please); //默认无
-                break;
-
             case NO_LIVE_FACE:
                 binding.searchTips.setText(R.string.no_face_detected_tips);
                 break;

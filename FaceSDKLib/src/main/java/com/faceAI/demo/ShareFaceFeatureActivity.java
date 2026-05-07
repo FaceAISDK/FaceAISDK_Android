@@ -35,6 +35,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
+import com.faceAI.demo.base.view.FaceCoverView;
+
 import java.util.Objects;
 import android.content.ContentValues;
 import android.net.Uri;
@@ -42,7 +44,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
-
 import java.io.OutputStream;
 
 /**
@@ -57,7 +58,7 @@ import java.io.OutputStream;
  * @author FaceAISDK.Service@gmail.com
  */
 public class ShareFaceFeatureActivity extends AbsBaseActivity {
-    private TextView tipsTextView;
+    private FaceCoverView faceCoverView;
     private BaseImageDispose baseImageDispose;
     private boolean isConfirmAdd = false;   //是否正在弹出Dialog确定人脸合规，确认期间停止人脸角度合规检测
     private int addFacePerformanceMode = PERFORMANCE_MODE_FAST;  //默认快速模式，要求人脸正对摄像头
@@ -69,8 +70,7 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
         setContentView(R.layout.activity_add_face_feature);
         findViewById(R.id.back)
                 .setOnClickListener(v -> finish());
-
-        tipsTextView = findViewById(R.id.tips_view);
+        faceCoverView = findViewById(R.id.face_cover);
         if(FaceSDKConfig.isDebugMode(this)){
             addFacePerformanceMode=PERFORMANCE_MODE_FAST;
         }
@@ -139,35 +139,35 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
     private void AddFaceTips(int tipsCode) {
         switch (tipsCode) {
             case NO_FACE_REPEATEDLY:
-                tipsTextView.setText(R.string.no_face_detected_tips);
+                faceCoverView.setTipsText(R.string.no_face_detected_tips);
                 break;
 
             case FACE_TOO_SMALL:
-                tipsTextView.setText(R.string.come_closer_tips);
+                faceCoverView.setTipsText(R.string.come_closer_tips);
                 break;
             case FACE_TOO_LARGE:
-                tipsTextView.setText(R.string.far_away_tips);
+                faceCoverView.setTipsText(R.string.far_away_tips);
                 break;
             case CLOSE_EYE:
-                tipsTextView.setText(R.string.no_close_eye_tips);
+                faceCoverView.setTipsText(R.string.no_close_eye_tips);
                 break;
             case HEAD_CENTER:
-                tipsTextView.setText(R.string.keep_face_tips); //英文翻译不太友善
+                faceCoverView.setTipsText(R.string.keep_face_tips);
                 break;
             case TILT_HEAD:
-                tipsTextView.setText(R.string.no_tilt_head_tips);
+                faceCoverView.setTipsText(R.string.no_tilt_head_tips);
                 break;
             case HEAD_LEFT:
-                tipsTextView.setText(R.string.head_turn_left_tips);
+                faceCoverView.setTipsText(R.string.head_turn_left_tips);
                 break;
             case HEAD_RIGHT:
-                tipsTextView.setText(R.string.head_turn_right_tips);
+                faceCoverView.setTipsText(R.string.head_turn_right_tips);
                 break;
             case HEAD_UP:
-                tipsTextView.setText(R.string.no_look_up_tips);
+                faceCoverView.setTipsText(R.string.no_look_up_tips);
                 break;
             case HEAD_DOWN:
-                tipsTextView.setText(R.string.no_look_down_tips);
+                faceCoverView.setTipsText(R.string.no_look_down_tips);
                 break;
         }
     }
