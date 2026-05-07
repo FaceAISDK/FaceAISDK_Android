@@ -49,7 +49,10 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
     public static final String MOTION_LIVENESS_TYPES = "MOTION_LIVENESS_TYPES"; //动作活体种类
     private int retryTime = 0; //记录失败尝试的次数
-    private FaceLivenessType faceLivenessType = FaceLivenessType.SILENT_LIVE; //活体检测类型
+
+    //NONE表示无活体，MOTION表示动作活体，COLOR_FLASH表示炫彩活体（其他种类默认都会包含静默活体，如果仅仅需静默可指定SILENT_LIVE）
+    //静默活体效果和摄像头成像有关，炫彩活体不能在强光下使用
+    private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION;  //活体检测类型建议MOTION或COLOR_FLASH_MOTION
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = 3*motionStepSize+1;  //动作超时秒，低端机可以设置长一点
     private String motionLivenessTypes = "1,2,3,4,5"; //【配置动作活体类型】1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
@@ -282,7 +285,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                             }).show();
                     break;
 
-                // ------------   以下是setSecondTips    -----------------
+                // ------------ 以下是setSecondTips  -----------------
                 case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE:
                     setSecondTips(R.string.far_away_tips);
                     break;
@@ -349,11 +352,9 @@ public class LivenessDetectActivity extends AbsBaseActivity {
 
             if (intent.hasExtra(FACE_LIVENESS_TYPE)) {
                 int type = intent.getIntExtra(FACE_LIVENESS_TYPE, 1);
-                // 1.动作活体  2.动作+炫彩活体 3.炫彩活体(不能强光环境使用)
+                // 1.动作活体  2.动作+炫彩活体 3.炫彩活体(不能强光环境使用) 4.仅仅静默活体检测
+                // 1，2，3 都包含静默活体
                 switch (type) {
-                    case 0:
-                        faceLivenessType = FaceLivenessType.NONE;
-                        break;
                     case 1:
                         faceLivenessType = FaceLivenessType.MOTION;
                         break;
@@ -363,8 +364,11 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     case 3:
                         faceLivenessType = FaceLivenessType.COLOR_FLASH;
                         break;
+                    case 4:
+                        faceLivenessType = FaceLivenessType.SILENT_LIVE;//仅仅静默活体
+                        break;
                     default:
-                        faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION;
+                        faceLivenessType = FaceLivenessType.NONE;
                 }
             }
 

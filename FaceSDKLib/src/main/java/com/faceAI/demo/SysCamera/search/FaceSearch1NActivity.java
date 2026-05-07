@@ -155,20 +155,23 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
 
                     /**
                      * 最相似的人脸搜索识别结果，得分最高
-                     * @param faceID  人脸ID
-                     * @param score   相似度值
-                     * @param bitmap  场景图，可以用来做使用记录log
-                     * @param livenessValue 静默活体分数
+                     * @param faceID  最相似的人脸ID
+                     * @param score   相似度值分数（大于searchThreshold）
+                     * @param bitmap  当前场景图bitmap，可以用来做使用记录log
+                     * @param livenessValue 静默活体分数(RGB摄像头静默活体表现和不同设备的相机有关)
                      */
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap, float livenessValue) {
                         Bitmap faceBitmap = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);//传给插件，其他可以忽略
-                        new ImageToast().showBitmap(getApplicationContext(), faceBitmap, faceID + "," + score + "," + livenessValue);
-                        if (livenessValue > 0.75) { //分数根据你的摄像头和安装场景自由定义
-                            TTSPlayer.getInstance().playTTS(faceID);
+                        String tips=faceID + "," + score + "," + livenessValue;
+                        TTSPlayer.getInstance().playTTS(faceID); //语音播报faceID
+
+                        if (livenessValue > 0.8) { //根据你的摄像头和使用场景 自定义管理活体分数业务逻辑
                             VoicePlayer.getInstance().play(R.raw.ding_success);
+                            new ImageToast().showBitmap(getApplication(), faceBitmap, tips);
                         } else {
                             VoicePlayer.getInstance().play(R.raw.ding_failed);
+                            new ImageToast().showBitmap(getApplication(), faceBitmap, tips,false);
                         }
                     }
 

@@ -14,7 +14,8 @@
     <string name="know">知道了</string>
     <string name="retry">重试</string>
     <string name="long_press_copy_msg">提示：长按复制联系信息</string>
-    <string name="share_faceai_sdk">分享人脸识别SDK</string>
+    <string name="share_face_app">分享</string>
+    <string name="update_face_app">更新</string>
     <string name="share_face_image">分享人脸图片</string>
     <string name="share_face_feature">分享人脸特征</string>
 
