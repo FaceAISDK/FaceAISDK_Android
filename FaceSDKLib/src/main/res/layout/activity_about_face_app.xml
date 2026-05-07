@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/share_faceai_sdk"
+            android:text="@string/share_face_app"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="italic|bold" />

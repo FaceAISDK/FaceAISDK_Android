@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.edit
+import androidx.core.net.toUri
 import com.ai.face.base.utils.performance.DevicePerformance
 import com.ai.face.core.utils.FaceAICameraType
 import com.ai.face.faceVerify.verify.FaceVerifyUtils
@@ -25,7 +26,6 @@ import com.faceAI.demo.SysCamera.verify.LivenessDetectActivity
 import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
 import com.faceAI.demo.UVCCamera.liveness.Liveness_UVCCameraActivity
 import com.faceAI.demo.base.AbsBaseActivity
-import com.faceAI.demo.base.utils.TTSPlayer
 import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
 
 /**
@@ -82,6 +82,13 @@ class FaceAINaviActivity : AbsBaseActivity() {
             startActivity(Intent(this@FaceAINaviActivity, TwoFaceImageVerifyActivity::class.java))
         }
 
+        viewBinding.updateLayout.setOnClickListener {
+            val uri = "https://www.pgyer.com/faceVerify".toUri()
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.addCategory(Intent.CATEGORY_BROWSABLE)
+            intent.data = uri
+            startActivity(intent)
+        }
 
         // 录入分享人脸信息
         viewBinding.addFace.setOnClickListener {
@@ -89,7 +96,7 @@ class FaceAINaviActivity : AbsBaseActivity() {
         }
 
         // 分享FaceAISDK
-        viewBinding.shareLayout.setOnClickListener {
+        viewBinding.shareFace.setOnClickListener {
             val intent = Intent()
             intent.action = Intent.ACTION_SEND
             intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_faceai_sdk_content))

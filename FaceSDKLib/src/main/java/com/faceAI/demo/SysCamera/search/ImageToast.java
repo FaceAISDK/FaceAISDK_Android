@@ -2,6 +2,7 @@ package com.faceAI.demo.SysCamera.search;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.Gravity;
@@ -9,12 +10,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.R;
 import com.faceAI.demo.base.utils.BitmapUtils;
+
 public class ImageToast {
 
     /**
@@ -25,19 +28,23 @@ public class ImageToast {
         return showBitmap(context, bitmap, tips);
     }
 
-    /**
-     * 不需要图
-     */
+
     public Toast show(Context context, String tips) {
         return showBitmap(context, null, tips);
     }
 
-    /**
-     * 接收 Bitmap 图文并茂 - (改名为 showBitmap)
-     */
     public Toast showBitmap(Context context, Bitmap bitmap, String tips) {
+        return showBitmap(context, bitmap, tips, true);
+    }
+
+
+    public Toast showBitmap(Context context, Bitmap bitmap, String tips, boolean isSuccess) {
         Toast toast = new Toast(context);
         View view = View.inflate(context, R.layout.face_toast_tips, null);
+        if(!isSuccess){
+            view.setBackgroundResource(R.drawable.circle_bar_bg_red);
+        }
+
         ImageView image = view.findViewById(R.id.toast_image);
         TextView text = view.findViewById(R.id.toast_text);
 

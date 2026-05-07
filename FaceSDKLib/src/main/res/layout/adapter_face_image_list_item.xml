@@ -26,6 +26,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:textSize="11sp"
+        android:singleLine="true"
         android:paddingStart="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/face_image"
