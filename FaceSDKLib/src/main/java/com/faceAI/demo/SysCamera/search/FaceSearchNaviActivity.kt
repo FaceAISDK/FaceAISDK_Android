@@ -71,7 +71,7 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
 
         //1:N 人脸搜索.包含静默活体检测
-        binding.faceSearchWithSilentlive.setOnClickListener {
+        binding.faceSearch1n.setOnClickListener {
             if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
                 val intent = Intent(baseContext, FaceSearch1NActivity::class.java)
                 intent.putExtra(FaceSearch1NActivity.THRESHOLD_KEY, 0.85f)
@@ -85,9 +85,10 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
             }
         }
 
-        //1:N 人脸搜索.包含动作活体检测，
-        binding.faceSearchWithMotionlive.setOnClickListener {
-
+        //图片人脸搜索
+        binding.faceSearchByImage.setOnClickListener {
+            val intent = Intent(baseContext, FaceSearchByImageActivity::class.java)
+            startActivity(intent)
         }
 
         //MN人脸搜索，Beta版本，仅仅系统摄像头，不包含UVC协议摄像头
