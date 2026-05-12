@@ -6,9 +6,9 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        versionCode 20260511
-        versionName "20260511"
-        applicationId "com.ai.face.verifyPub" //Demo App Name
+        versionCode 20260512
+        versionName "20260512"
+        applicationId "com.ai.face.Demo" //Demo App Name
         minSdk 21
         targetSdk 36
         
