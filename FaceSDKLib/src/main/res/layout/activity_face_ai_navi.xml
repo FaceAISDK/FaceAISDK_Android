@@ -228,28 +228,8 @@
 
 
         <TextView
-            android:id="@+id/add_face"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_marginLeft="22dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="22dp"
-            android:background="@drawable/bg_rect_line"
-            android:gravity="center"
-            android:text="@string/add_face_feature"
-            android:textColor="@color/white"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@+id/params_setting"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/face_sdk_navi"
-            app:layout_constraintVertical_bias="1.0"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
             android:id="@+id/params_setting"
+            android:text="@string/parameter_setting"
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:layout_marginLeft="22dp"
@@ -257,7 +237,6 @@
             android:layout_marginRight="22dp"
             android:background="@drawable/bg_rect_line"
             android:gravity="center"
-            android:text="@string/parameter_setting"
             android:textColor="@color/white"
             android:textSize="13sp"
             android:textStyle="bold"
@@ -265,8 +244,9 @@
             app:layout_constraintBottom_toTopOf="@+id/two_face_verify"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_face" />
-
+            app:layout_constraintTop_toBottomOf="@+id/face_sdk_navi"
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
             android:id="@+id/two_face_verify"
@@ -286,7 +266,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/params_setting" />
-
 
         <TextView
             android:id="@+id/more_about_me"
