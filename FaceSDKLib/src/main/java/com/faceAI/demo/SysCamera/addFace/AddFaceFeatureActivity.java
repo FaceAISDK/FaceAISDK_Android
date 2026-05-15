@@ -1,8 +1,8 @@
 package com.faceAI.demo.SysCamera.addFace;
 
 import static android.view.View.GONE;
-import static com.ai.face.base.baseImage.BaseImageDispose.PERFORMANCE_MODE_ACCURATE;
-import static com.ai.face.base.baseImage.BaseImageDispose.PERFORMANCE_MODE_FAST;
+import static com.ai.face.base.addFace.AddFaceDispose.PERFORMANCE_MODE_ACCURATE;
+import static com.ai.face.base.addFace.AddFaceDispose.PERFORMANCE_MODE_FAST;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
 import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
@@ -32,8 +32,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
-import com.ai.face.base.baseImage.BaseImageCallBack;
-import com.ai.face.base.baseImage.BaseImageDispose;
+
+import com.ai.face.base.addFace.AddFaceCallBack;
+import com.ai.face.base.addFace.AddFaceDispose;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.core.engine.FaceAISDKEngine;
@@ -51,7 +52,7 @@ import com.tencent.mmkv.MMKV;
 import java.util.Objects;
 
 /**
- * 演示使用SDK相机规范人脸录入,保存人脸特征值
+ * 演示使用SDK相机规范人脸录入,保存人脸特征值 https://i.postimg.cc/RCwNy0kV/add-Face.jpg
  * 1:1 和1:N 人脸特征数据保存有点差异，参考代码详情
  *
  * 通过图片录入人脸特征 {@link AddFaceByImageTestDemo} 我们提供2个API（请尽量使用SDK相机录入人脸信息）
@@ -65,7 +66,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     public static String NEED_CONFIRM_ADD_FACE = "NEED_CONFIRM_ADD_FACE"; //是否需要弹窗确认
     private boolean needConfirmAdd = true;   //是否需要弹窗给用户确认人脸信息,强烈建议需要确认
     private FaceCoverView faceCoverView;
-    private BaseImageDispose baseImageDispose;
+    private AddFaceDispose addFaceDispose;
     private String faceID, addFaceType;
     private boolean isConfirmAdd = false;   //是否弹出Dialog等待确定人脸
 
@@ -114,15 +115,14 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
          *  0 PERFORMANCE_MODE_EASY       简单模式 允许人脸角度可以「较大」的偏差
          * -1 PERFORMANCE_MODE_NO_LIMIT   无限制模式 基本上检测到人脸就返回了
          */
-        baseImageDispose = new BaseImageDispose(this, addFacePerformanceMode, new BaseImageCallBack() {
+        addFaceDispose = new AddFaceDispose(this, addFacePerformanceMode,false, new AddFaceCallBack() {
             /**
              * 人脸检测裁剪完成
              * @param bitmap           SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
-             * @param silentScore      静默活体分数
-             * @param faceBrightness   人脸周围环境光线亮度
+             * @param silentScore      静默活体分数(摄像头品质有关)，needLivenessCheck=true才有值
              */
             @Override
-            public void onCompleted(Bitmap bitmap, float silentScore,float faceBrightness) {
+            public void onCompleted(Bitmap bitmap, float silentScore) {
                 isConfirmAdd=true;
                 //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
                 //如果非SDK相机录入的人脸照片提取特征值用异步方法 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
@@ -166,7 +166,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             if (!isDestroyed() && !isFinishing() && !isConfirmAdd) {
                 //某些设备如果一直提示检测不到人脸，可以断点调试看看转化的Bitmap 是否有问题
-                baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy));
+                addFaceDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy));
             }
         });
 
@@ -220,7 +220,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        baseImageDispose.release();
+        addFaceDispose.release();
     }
 
     @Override
@@ -269,7 +269,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         confirmFaceDialog.btnCancel.setOnClickListener(v -> {
             isConfirmAdd=false;
             confirmFaceDialog.dialog.dismiss();
-            baseImageDispose.retry();
+            addFaceDispose.retry();
         });
 
         confirmFaceDialog.dialog.show();

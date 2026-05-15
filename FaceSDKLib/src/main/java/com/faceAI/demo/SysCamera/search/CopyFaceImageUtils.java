@@ -38,8 +38,12 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 模拟同步大量图片人脸转为1024长度人脸特征值到SDK
- * 【已优化】：根据设备性能动态调整并发数、及时回收 Bitmap、线程池全生命周期管理
+ * 模拟同步大量图片人脸转为人脸特征值保存到SDK
+ *
+ * https://i.postimg.cc/RCwNy0kV/add-Face.jpg
+ * 如果你的老系统还在收集人脸图请做好人脸图基础裁剪，无损压缩，太大的图解码和特征提取都非常慢
+ *
+ * 注意：人脸数据更新时候请暂停人脸搜索识别，新起一个页面提示数据更新维护中
  */
 public class CopyFaceImageUtils {
     private static final String TAG = "CopyFaceImageUtils";
@@ -68,8 +72,8 @@ public class CopyFaceImageUtils {
         return 1080;
     }
 
-    // 分批入库阈值
-    private static final int BATCH_SIZE = 50;
+    // 分批入库阈值，满100就更新插入数据库防止数据丢失
+    private static final int BATCH_SIZE = 100;
 
     public interface Callback {
         void onComplete(int successCount, int failureCount);

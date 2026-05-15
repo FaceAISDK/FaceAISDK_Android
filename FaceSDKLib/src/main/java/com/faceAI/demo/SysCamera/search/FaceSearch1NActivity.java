@@ -164,10 +164,10 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap, float livenessValue) {
                         Bitmap faceBitmap = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);//传给插件，其他可以忽略
                         String tips=faceID + "," + score + "," + livenessValue;
-                        TTSPlayer.getInstance().playTTS(faceID); //语音播报faceID
 
-                        if (livenessValue > 0.8) { //根据你的摄像头和使用场景 自定义管理活体分数业务逻辑
+                        if (livenessValue > 0.85) { //根据你的摄像头和使用场景 自定义管理活体分数业务逻辑
                             VoicePlayer.getInstance().play(R.raw.ding_success);
+                            TTSPlayer.getInstance().playTTS(faceID); //检测为活体才语音提示
                             new ImageToast().showBitmap(getApplication(), faceBitmap, tips);
                         } else {
                             VoicePlayer.getInstance().play(R.raw.ding_failed);
@@ -296,7 +296,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
      * @param resId
      */
     private void setSecondTips(int resId) {
-//        binding.faceCover.setSecondTipsText(resId);
+        binding.faceCover.setSecondTipsText(resId);
     }
 
     /**
