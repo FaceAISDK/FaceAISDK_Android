@@ -158,41 +158,13 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
      */
     private void showPrecessTips(int code) {
         switch (code) {
-            case FACE_TOO_SMALL:
-                Toast.makeText(this, R.string.come_closer_tips, Toast.LENGTH_SHORT).show();
-                break;
-
             case THRESHOLD_ERROR:
                 binding.searchTips.setText(R.string.search_threshold_scope_tips);
-                break;
-
-            case NO_LIVE_FACE:
-                binding.searchTips.setText(R.string.no_face_detected_tips);
-                break;
-
-            case EMGINE_INITING:
-                binding.searchTips.setText(R.string.sdk_init);
-                break;
-
-            case SEARCH_PREPARED:
-                binding.searchTips.setText(R.string.keep_face_tips);
                 break;
 
             case FACE_DIR_EMPTY:
                 //人脸库没有录入照片
                 binding.searchTips.setText(R.string.face_dir_empty);
-                break;
-
-            case NO_MATCHED:
-                //本次没有搜索匹配到结果.没有结果会持续尝试1秒之内没有结果会返回NO_MATCHED code
-                binding.searchTips.setText(R.string.no_matched_face);
-                break;
-            case SEARCHING:
-
-                break;
-
-            default:
-                binding.searchTips.setText("Tips Code：" + code);
                 break;
         }
     }

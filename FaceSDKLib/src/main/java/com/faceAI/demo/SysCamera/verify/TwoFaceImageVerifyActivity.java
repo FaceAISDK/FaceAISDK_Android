@@ -24,6 +24,10 @@ import androidx.exifinterface.media.ExifInterface;
 import com.ai.face.faceSearch.search.Image2FaceFeature;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.faceAI.demo.BuildConfig;
+import com.faceAI.demo.R;
+import com.faceAI.demo.SysCamera.search.ImageToast;
+import com.faceAI.demo.base.utils.TTSPlayer;
+import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityTwoFaceImageVerifyBinding;
 
 import java.io.IOException;
@@ -42,9 +46,9 @@ import ando.file.selector.FileType;
 
 /**
  * 对比两张图片中人脸相似度
+ * 图片规范 https://i.postimg.cc/RCwNy0kV/add-Face.jpg
  */
 public class TwoFaceImageVerifyActivity extends AppCompatActivity {
-
     private static final int REQUEST_ADD_FACE_IMAGE = 1;
     private static final String DEFAULT_FACE_ID = "faceID";
 
@@ -55,7 +59,6 @@ public class TwoFaceImageVerifyActivity extends AppCompatActivity {
     private Bitmap leftBitmap;
     private Bitmap rightBitmap;
 
-    // 记录当前正在操作的视图，使用更规范的 ImageView + TextView 组合
     private ImageView currentImageView;
     private TextView currentTextView;
     private boolean isSelectingLeft = true;
@@ -171,10 +174,16 @@ public class TwoFaceImageVerifyActivity extends AppCompatActivity {
             Toast.makeText(this, "Select image first", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        // 图片规范 https://i.postimg.cc/RCwNy0kV/add-Face.jpg
         executorService.execute(() -> {
             float simi = new FaceVerifyUtils().evaluateFaceSimiByBitmap(this, leftBitmap, rightBitmap);
-            runOnUiThread(() -> Toast.makeText(this, "simi：" + simi, Toast.LENGTH_SHORT).show());
+            runOnUiThread(() -> {
+                if (simi > 0.82) { // 0.82 是一个经验值，实际使用中可以根据需求调整
+                    new ImageToast().showBitmap(getApplication(), null, "Simi: "+simi);
+                } else {
+                    new ImageToast().showBitmap(getApplication(), null, "Simi: "+simi,false);
+                }
+            });
         });
     }
 
@@ -184,7 +193,6 @@ public class TwoFaceImageVerifyActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             return ImageDecoder.decodeBitmap(ImageDecoder.createSource(resolver, uri), (decoder, info, src) -> {
                 decoder.setMutableRequired(true);
-                // 【核心修复】：必须分配为 Software 模式。底层 C++ SDK 无法直接读取 GPU(Hardware) 中的像素数据。
                 decoder.setAllocator(ImageDecoder.ALLOCATOR_SOFTWARE);
             });
         }

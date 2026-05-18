@@ -13,33 +13,27 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="11dp"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="返回"
         android:src="@drawable/ic_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="返回" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_image"
+
+    <ImageView
+        android:id="@+id/iv_selected_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="22dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="4dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
+        android:background="#EEEEEE"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@id/tv_search_result"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_back">
+        app:layout_constraintTop_toBottomOf="@id/btn_back"/>
 
-        <ImageView
-            android:id="@+id/iv_selected_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#EEEEEE"
-            android:scaleType="fitCenter" />
-
-    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/tv_search_result"
@@ -47,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginBottom="12dp"
+        android:layout_marginTop="6dp"
         android:gravity="center"
         android:textColor="#666666"
         android:textSize="14sp"
@@ -60,10 +55,10 @@
         android:layout_height="45dp"
         android:layout_marginHorizontal="32dp"
         android:layout_marginBottom="24dp"
-        android:text="@string/add_face_from_photo"
-        android:textSize="16sp"
         android:background="@drawable/circle_bar_bg"
-        app:cornerRadius="8dp"
+        android:text="@string/add_face_from_photo"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

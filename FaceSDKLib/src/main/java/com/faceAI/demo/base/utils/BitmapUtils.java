@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
-import com.ai.face.base.baseImage.FileStorage;
+import com.ai.face.base.utils.FileStorage;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

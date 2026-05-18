@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
 
-    <style name="Theme.FaceAISDK.Fullscreen" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.FaceAISDK.Fullscreen" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
@@ -15,7 +15,7 @@
 
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorControlNormal">@color/white</item>
         <item name="colorPrimaryDark">@color/face_main_color</item>
@@ -27,7 +27,7 @@
         <item name="android:statusBarColor">@color/face_main_color</item> <!-- 或直接指定颜色值 -->
     </style>
 
-    <style name="FaceAITheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="FaceAITheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorControlNormal">@color/white</item>
         <item name="colorPrimaryDark">@color/white</item>

@@ -1,7 +1,7 @@
 package com.faceAI.demo.UVCCamera.addFace;
 
 import static android.view.View.GONE;
-import static com.ai.face.base.baseImage.BaseImageDispose.PERFORMANCE_MODE_FAST;
+import static com.ai.face.base.addFace.AddFaceDispose.PERFORMANCE_MODE_FAST;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
@@ -35,8 +35,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ai.face.base.baseImage.BaseImageCallBack;
-import com.ai.face.base.baseImage.BaseImageDispose;
+import com.ai.face.base.addFace.AddFaceCallBack;
+import com.ai.face.base.addFace.AddFaceDispose;
 import com.ai.face.core.engine.FaceAISDKEngine;
 import com.ai.face.faceSearch.search.FaceSearchFeatureManger;
 import com.bumptech.glide.Glide;
@@ -59,7 +59,7 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
     public ActivityUvcCameraAddFaceBinding binding;
     public static String ADD_FACE_IMAGE_TYPE_KEY = "ADD_FACE_IMAGE_TYPE_KEY";
     private TextView tipsTextView;
-    private BaseImageDispose baseImageDispose;
+    private AddFaceDispose addFaceDispose;
     private String faceID, addFaceImageType;
     private UVCCameraManager rgbCameraManager; //添加人脸只用到 RBG camera
     private boolean isConfirmAdd = false; //确认期间停止人脸检测
@@ -106,7 +106,7 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
             @Override
             public void onBitmapFrame(Bitmap bitmap) {
                 if (!isConfirmAdd) {
-                    baseImageDispose.dispose(bitmap);
+                    addFaceDispose.dispose(bitmap);
                 }
             }
         });
@@ -125,9 +125,9 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
          * 1 PERFORMANCE_MODE_FAST 快速模式 允许人脸方位可以有一定的偏移
          * 0 PERFORMANCE_MODE_EASY 简单模式 允许人脸方位可以「较大」的偏移
          */
-        baseImageDispose = new BaseImageDispose(this, PERFORMANCE_MODE_FAST, new BaseImageCallBack() {
+        addFaceDispose = new AddFaceDispose(this, PERFORMANCE_MODE_FAST, false,new AddFaceCallBack() {
             @Override
-            public void onCompleted(Bitmap bitmap, float silentLiveValue, float faceBrightness) {
+            public void onCompleted(Bitmap bitmap, float silentLiveValue) {
                 isConfirmAdd = true;
                 confirmAddFaceDialog(bitmap, silentLiveValue);
             }
@@ -179,7 +179,7 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
 
         confirmFaceDialog.btnCancel.setOnClickListener(v -> {
             confirmFaceDialog.dialog.dismiss();
-            baseImageDispose.retry();
+            addFaceDispose.retry();
             isConfirmAdd = false;
         });
 

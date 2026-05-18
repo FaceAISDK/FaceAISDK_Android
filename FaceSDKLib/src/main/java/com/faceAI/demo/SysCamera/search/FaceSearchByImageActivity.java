@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -37,8 +36,6 @@ import com.ai.face.faceSearch.search.SearchProcessTipsCode;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
 import com.faceAI.demo.BuildConfig;
 import com.faceAI.demo.R;
-import com.google.android.material.button.MaterialButton;
-
 import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
@@ -55,7 +52,9 @@ import ando.file.selector.FileSelector;
 import ando.file.selector.FileType;
 
 /**
- * 图片人脸搜索，以图搜人 (精简重构版)
+ * 图片人脸搜索，以图搜人
+ * 图片规范 https://i.postimg.cc/RCwNy0kV/add-Face.jpg
+ *
  */
 public class FaceSearchByImageActivity extends AppCompatActivity {
     private static final int REQUEST_SELECT_IMAGE = 1001;
@@ -72,7 +71,6 @@ public class FaceSearchByImageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_face_search_by_image);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
