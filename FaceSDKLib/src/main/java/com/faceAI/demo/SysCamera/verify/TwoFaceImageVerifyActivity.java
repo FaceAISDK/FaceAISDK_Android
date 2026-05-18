@@ -59,7 +59,6 @@ public class TwoFaceImageVerifyActivity extends AppCompatActivity {
     private Bitmap leftBitmap;
     private Bitmap rightBitmap;
 
-    // 记录当前正在操作的视图，使用更规范的 ImageView + TextView 组合
     private ImageView currentImageView;
     private TextView currentTextView;
     private boolean isSelectingLeft = true;
@@ -194,7 +193,6 @@ public class TwoFaceImageVerifyActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             return ImageDecoder.decodeBitmap(ImageDecoder.createSource(resolver, uri), (decoder, info, src) -> {
                 decoder.setMutableRequired(true);
-                // 【核心修复】：必须分配为 Software 模式。底层 C++ SDK 无法直接读取 GPU(Hardware) 中的像素数据。
                 decoder.setAllocator(ImageDecoder.ALLOCATOR_SOFTWARE);
             });
         }
