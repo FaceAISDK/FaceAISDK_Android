@@ -44,21 +44,22 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="add_face_from_photo">相册添加</string>
     <string name="add_face_from_camera">SDK相机添加</string>
     <string name="input_face_id_tips">请输入人脸名称ID</string>
-    <string name="confirm_add_face_title">确认保存此人脸图 ？</string>
-    <string name="confirm_add_face_tips">确认为正脸，清晰无遮挡照片</string>
+    <string name="confirm_add_face_title">确认保存此人脸？</string>
+    <string name="confirm_add_face_tips">确认为清晰无遮挡正脸</string>
     <string name="sure_delete_face_title">确认要删除</string>
     <string name="sure_delete_face_tips">删除后对应的人脸将无法被识别</string>
 
     <!--1:N 人脸搜索 face search-->
-    <string name="no_matched_face">人脸搜索中</string>
-    <string name="face_dir_empty">人脸库为空</string>
-    <string name="no_base_face_image">没有录入人脸底片</string>
-    <string name="copy_app_assert_folder_faces">导入内置assets目录测试人脸图</string>
+    <string name="face_angle_not_fit">人脸角度大，未正对摄像头</string>
+    <string name="no_matched_face">暂无匹配人脸</string>
+    <string name="local_face_database_empty">人脸库为空</string>
+    <string name="no_face_data_tips">没有录入人脸数据</string>
+    <string name="copy_app_assert_folder_faces">导入内置assets目录测试人数据</string>
     <string name="face_search_by_system_camera">系统相机搜索</string>
     <string name="face_search_by_uvc_camera">UVC协议USB摄像头搜索</string>
     <string name="face_search_camera_tips">摄像头宽动态值(Db)室内>105，室外>120;光线不好使用补光灯</string>
     <string name="face_search_data_manger">人脸搜索数据管理</string>
-    <string name="face_search_image_manger_tips">长按人脸删除，右上角按钮添加内置测试人脸图</string>
+    <string name="face_search_image_manger_tips">长按人脸删除，右上角按钮添加内置测试人脸数据</string>
 
     <!--1:1 人脸识别 face verify-->
     <string name="no_face_feature">人脸信息不存在</string>
@@ -69,7 +70,7 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="face_verify_pause">人脸识别被中断了！</string>
     <string name="face_verify_demo">1:1 人脸识别演示</string>
     <string name="face_verify_no_face_tips">暂未录入人脸\n点击上面按钮添加录入，长按人脸可删除</string>
-    <string name="no_face_image_found">未找到对应的人脸</string>
+<!--    <string name="no_face_image_found">未找到对应的人脸</string>-->
     <string name="face_verify_result_cancel">0用户取消人脸识别</string>
     <string name="face_verify_result_success">1人脸识别成功</string>
     <string name="face_verify_result_silent_failed">2静默活体分数过低</string>
@@ -122,10 +123,8 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <!--1:N and M:N face search-->
     <string name="face_data_manage">人脸数据管理</string>
     <string name="insert_face_features">批量插入人脸数据</string>
-    <string name="face_search_1fromN_motionliven">1:N人脸搜索+动作活体检测</string>
-    <string name="face_search_1fromN_silentlive">1:N人脸搜索+静默活体检测</string>
-
-    <string name="face_search_1fromN">1:N 人脸搜索(无活体)</string>
+    <string name="face_search_by_image">图片人脸搜索</string>
+    <string name="face_search_1fromN">1:N 人脸搜索</string>
     <string name="face_search_uvc_camera">UVC摄像头人脸搜索</string>
     <string name="face_search_MfromN">M:N 多人脸搜索</string>
     <string name="search_threshold_scope_tips">阈值Threshold范围为[0.8,0.9]</string>

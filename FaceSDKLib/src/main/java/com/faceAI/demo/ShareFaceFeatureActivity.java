@@ -1,6 +1,6 @@
 package com.faceAI.demo;
 
-import static com.ai.face.base.baseImage.BaseImageDispose.PERFORMANCE_MODE_FAST;
+import static com.ai.face.base.addFace.AddFaceDispose.PERFORMANCE_MODE_FAST;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
@@ -23,11 +23,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
-import com.ai.face.base.baseImage.BaseImageCallBack;
-import com.ai.face.base.baseImage.BaseImageDispose;
+import com.ai.face.base.addFace.*;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.core.engine.FaceAISDKEngine;
@@ -59,7 +56,7 @@ import java.io.OutputStream;
  */
 public class ShareFaceFeatureActivity extends AbsBaseActivity {
     private FaceCoverView faceCoverView;
-    private BaseImageDispose baseImageDispose;
+    private AddFaceDispose addFaceDispose;
     private boolean isConfirmAdd = false;   //是否正在弹出Dialog确定人脸合规，确认期间停止人脸角度合规检测
     private int addFacePerformanceMode = PERFORMANCE_MODE_FAST;  //默认快速模式，要求人脸正对摄像头
 
@@ -82,15 +79,14 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
          *  0 PERFORMANCE_MODE_EASY       简单模式 允许人脸角度可以「较大」的偏差
          * -1 PERFORMANCE_MODE_NO_LIMIT   无限制模式 基本上检测到人脸就返回了
          */
-        baseImageDispose = new BaseImageDispose(this, addFacePerformanceMode, new BaseImageCallBack() {
+        addFaceDispose = new AddFaceDispose(this, addFacePerformanceMode, false,new AddFaceCallBack() {
             /**
              * 人脸检测裁剪完成
              * @param bitmap           SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
              * @param silentScore      静默活体分数
-             * @param faceBrightness   人脸周围环境光线亮度
              */
             @Override
-            public void onCompleted(Bitmap bitmap, float silentScore,float faceBrightness) {
+            public void onCompleted(Bitmap bitmap, float silentScore) {
                 isConfirmAdd=true;
                 //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
                 //如果非SDK相机录入的人脸照片提取特征值用异步方法 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
@@ -121,7 +117,7 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             if (!isDestroyed() && !isFinishing() && !isConfirmAdd) {
                 //某些设备如果一直提示检测不到人脸，可以断点调试看看转化的Bitmap 是否有问题
-                baseImageDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy));
+                addFaceDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy));
             }
         });
 
@@ -176,7 +172,7 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        baseImageDispose.release();
+        addFaceDispose.release();
     }
 
     public static void shareImageUri(Context context, Uri imageUri) {
@@ -264,7 +260,7 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
         confirmFaceDialog.btnRetry.setOnClickListener(v -> {
             isConfirmAdd=false;
             confirmFaceDialog.dialog.dismiss();
-            baseImageDispose.retry();
+            addFaceDispose.retry();
         });
 
         confirmFaceDialog.close.setOnClickListener(v -> {

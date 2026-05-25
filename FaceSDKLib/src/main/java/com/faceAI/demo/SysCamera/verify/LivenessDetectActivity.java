@@ -11,7 +11,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -22,7 +21,6 @@ import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM;
 import com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM;
-import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
@@ -48,13 +46,15 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     public static final String MOTION_STEP_SIZE = "MOTION_STEP_SIZE";   //动作活体的步骤数
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
     public static final String MOTION_LIVENESS_TYPES = "MOTION_LIVENESS_TYPES"; //动作活体种类
+    public static final String ALLOW_MULTI_FACES = "ALLOW_MULTI_FACES"; //是否允许有多人出现在镜头Key
+    private  boolean allowMultiFaces = true; //是否允许有多人出现在镜头
     private int retryTime = 0; //记录失败尝试的次数
 
     //NONE表示无活体，MOTION表示动作活体，COLOR_FLASH表示炫彩活体（其他种类默认都会包含静默活体，如果仅仅需静默可指定SILENT_LIVE）
     //静默活体效果和摄像头成像有关，炫彩活体不能在强光下使用
-    private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION;  //活体检测类型建议MOTION或COLOR_FLASH_MOTION
+    private FaceLivenessType faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION;  //活体检测类型建议MOTION或COLOR_FLASH_MOTION
     private int motionStepSize = 2; //动作活体的个数
-    private int motionTimeOut = 3*motionStepSize+1;  //动作超时秒，低端机可以设置长一点
+    private int motionTimeOut = 3*motionStepSize;  //动作超时秒，低端机可以设置长一点
     private String motionLivenessTypes = "1,2,3,4,5"; //【配置动作活体类型】1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
 
     @Override
@@ -96,7 +96,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 .setLivenessType(faceLivenessType)         //活体检测可以炫彩&动作活体组合，炫彩活体不能在强光下使用
                 .setMotionLivenessStepSize(motionStepSize)             //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(motionTimeOut)               //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
-                .setLivenessDetectionMode(MotionLivenessMode.ACCURACY) //硬件配置低用FAST动作活体模式，否则用精确模式
                 .setMotionLivenessTypes(motionLivenessTypes)           //动作活体种类。1 张张嘴,2 微笑,3 眨眨眼,4 摇摇头,5 点点头
                 .setStopVerifyNoFaceRealTime(true)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
                 .setProcessCallBack(new ProcessCallBack() {
@@ -303,6 +302,15 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 case VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
                     setSecondTips(R.string.no_face_detected_tips);
                     break;
+
+                //检测到多人脸
+                case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY:
+                    //防止一真一假人脸作弊,每帧画面检测
+                    if(!allowMultiFaces){
+                        finishFaceVerify(13, R.string.multiple_faces_tips);
+                        Toast.makeText(this,R.string.multiple_faces_tips,Toast.LENGTH_LONG).show();
+                    }
+                    break;
             }
         }
     }
@@ -370,6 +378,10 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     default:
                         faceLivenessType = FaceLivenessType.NONE;
                 }
+            }
+
+            if (intent.hasExtra(ALLOW_MULTI_FACES)) {
+                allowMultiFaces = intent.getBooleanExtra(ALLOW_MULTI_FACES, true);
             }
 
             if (intent.hasExtra(MOTION_STEP_SIZE)) {

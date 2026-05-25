@@ -90,11 +90,6 @@ class FaceAINaviActivity : AbsBaseActivity() {
             startActivity(intent)
         }
 
-        // 录入分享人脸信息
-        viewBinding.addFace.setOnClickListener {
-            startActivity(Intent(this@FaceAINaviActivity, ShareFaceFeatureActivity::class.java))
-        }
-
         // 分享FaceAISDK
         viewBinding.shareFace.setOnClickListener {
             val intent = Intent()

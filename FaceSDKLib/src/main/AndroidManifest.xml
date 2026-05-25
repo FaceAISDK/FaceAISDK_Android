@@ -87,7 +87,7 @@
             android:theme="@style/Theme.FaceAISDK.Fullscreen" />
 
         <activity
-            android:name=".SysCamera.search.FaceSearch_MotionLiveness_Activity"
+            android:name=".SysCamera.search.FaceSearchByImageActivity"
             android:exported="false"
             android:theme="@style/Theme.FaceAISDK.Fullscreen" />
 

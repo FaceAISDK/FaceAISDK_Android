@@ -12,9 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-
-import com.ai.face.base.baseImage.FaceEmbedding;
-import com.ai.face.core.engine.FaceAISDKEngine;
 import com.ai.face.core.utils.FaceAICameraType;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
@@ -23,10 +20,7 @@ import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus;
 import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.faceAI.demo.SysCamera.search.ImageToast;
-import com.faceAI.demo.SysCamera.verify.FaceVerificationActivity;
-import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.TTSPlayer;
-import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.R;
 import com.tencent.mmkv.MMKV;
 

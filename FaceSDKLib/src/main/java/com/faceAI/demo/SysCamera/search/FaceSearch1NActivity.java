@@ -1,7 +1,7 @@
 package com.faceAI.demo.SysCamera.search;
-
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_ANGLE_NOT_FIT;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.LOCAL_FACE_DATABASE_EMPTY;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_SIZE_FIT;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_TOO_LARGE;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_TOO_SMALL;
@@ -22,7 +22,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -46,7 +45,7 @@ import com.google.gson.Gson;
 import java.util.List;
 
 /**
- * RGB摄像头动作活体检测+1:N 人脸搜索识别。
+ * RGB摄像头动作活体检测+1:N 人脸搜索识别。当前人脸库默认最大5000，未成年搜索精度待提升
  * <p>
  * 摄像头管理源码开放在 {@link FaceCameraXFragment}
  *
@@ -57,7 +56,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     public static final String NEED_FACE_LIVE = "NEED_FACE_LIVE";   //是否开启活体检测
     public static final String SEARCH_ONE_TIME = "SEARCH_ONE_TIME";   //是否仅搜索一次就关闭搜索页
     public static final String IS_CAMERA_SIZE_HIGH = "IS_CAMERA_SIZE_HIGH";   //高分辨率远距离也可以工作，但是性能速度会下降
-    private float searchThreshold = 0.85f;  //搜索阈值
+    private float searchThreshold = 0.86f;  //搜索阈值,场景越严格阈值应该设的越高
     private boolean searchOneTime = false;  //是否仅搜索一次就关闭搜索页
     private boolean needFaceLive = true;   //是否开启活体检测
     private boolean isCameraSizeHigh = false; //是否高分辨率
@@ -137,6 +136,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 .setThreshold(searchThreshold) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值以及人脸底片质量也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
                 .setSearchIntervalTime(1800) //默认2000，范围[0,9000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
+                .setSearchTimeOut(4000)    //搜索超时时间，超时后会提示无结果,默认3000，范围[3000,6000]毫秒
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //后面版本去除次参数
                 .setProcessCallBack(new SearchProcessCallBack() {
                     /**
@@ -164,10 +164,10 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap, float livenessValue) {
                         Bitmap faceBitmap = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);//传给插件，其他可以忽略
                         String tips=faceID + "," + score + "," + livenessValue;
-                        TTSPlayer.getInstance().playTTS(faceID); //语音播报faceID
 
-                        if (livenessValue > 0.8) { //根据你的摄像头和使用场景 自定义管理活体分数业务逻辑
+                        if (livenessValue > 0.85) { //根据你的摄像头和使用场景 自定义管理活体分数业务逻辑
                             VoicePlayer.getInstance().play(R.raw.ding_success);
+                            TTSPlayer.getInstance().playTTS(faceID); //检测为活体才语音提示
                             new ImageToast().showBitmap(getApplication(), faceBitmap, tips);
                         } else {
                             VoicePlayer.getInstance().play(R.raw.ding_failed);
@@ -227,15 +227,19 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
      */
     private void showFaceSearchPrecessTips(int code) {
         switch (code) {
-            case NO_MATCHED:
-                //本次没有搜索匹配到结果.没有结果会持续尝试1秒之内没有结果会返回NO_MATCHED code
-
+            case NO_MATCHED: //setSearchTimeOut 超时没有搜索成功的提示
+                //setSearchTimeOut超时没有搜索匹配到结果.
+                Toast.makeText(this, R.string.no_matched_face, Toast.LENGTH_SHORT).show();
                 break;
 
-            case FACE_DIR_EMPTY:
+            case FACE_ANGLE_NOT_FIT:
+                setSecondTips(R.string.face_angle_not_fit);
+                break;
+
+            case LOCAL_FACE_DATABASE_EMPTY:
                 //人脸库没有人脸照片，使用SDK API插入人脸
-                setSearchTips(R.string.face_dir_empty);
-                Toast.makeText(this, R.string.no_base_face_image, Toast.LENGTH_LONG).show();
+                setSearchTips(R.string.local_face_database_empty);
+                Toast.makeText(this, R.string.no_face_data_tips, Toast.LENGTH_LONG).show();
                 break;
 
             case EMGINE_INITING:
@@ -296,7 +300,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
      * @param resId
      */
     private void setSecondTips(int resId) {
-//        binding.faceCover.setSecondTipsText(resId);
+        binding.faceCover.setSecondTipsText(resId);
     }
 
     /**

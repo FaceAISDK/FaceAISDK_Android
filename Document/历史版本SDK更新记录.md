@@ -1,5 +1,11 @@
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
+
+##  V2026.05.20
+- 图片人脸搜索
+- 处理人脸角度过大导致的搜索误差
+- 超时没有人脸搜索结果回调提示
+
 ##  V2026.04.26
 - Performance optimization of low-end equipment
 - publish to google play

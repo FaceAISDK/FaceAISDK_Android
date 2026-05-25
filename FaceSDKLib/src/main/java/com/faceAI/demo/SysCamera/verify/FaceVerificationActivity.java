@@ -8,15 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -24,7 +21,6 @@ import androidx.camera.core.CameraSelector;
 
 import com.ai.face.core.utils.FaceAICameraType;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
-import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
@@ -35,10 +31,7 @@ import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus.*;
-import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.faceAI.demo.base.utils.TTSPlayer;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.base.view.FaceCoverView;
 import com.tencent.mmkv.MMKV;
 
@@ -59,6 +52,9 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     public static final String MOTION_STEP_SIZE = "MOTION_STEP_SIZE";   //动作活体的步骤数
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
     public static final String MOTION_LIVENESS_TYPES = "MOTION_LIVENESS_TYPES"; //动作活体种类
+    public static final String ALLOW_MULTI_FACES = "ALLOW_MULTI_FACES"; //是否允许有多人出现在镜头Key
+    private  boolean allowMultiFaces = true; //是否允许有多人出现在镜头
+
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
     private float verifyThreshold = 0.84f; //1:1人脸识别对比通过的阈值，根据使用场景自行调整
 
@@ -66,9 +62,8 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     //静默活体效果和摄像头成像有关，炫彩活体不能在强光下使用
     private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION;  //活体检测类型建议MOTION或COLOR_FLASH_MOTION
 
-
-    private int motionStepSize = 1; //动作活体的个数
-    private int motionTimeOut = motionStepSize*3+1;  //动作超时秒，低端机可以设置长一点
+    private int motionStepSize = 2; //动作活体的个数
+    private int motionTimeOut = motionStepSize*3;  //动作超时秒
     private String motionLivenessTypes = "1,2,3,4,5"; //动作活体种类用英文","隔开； 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
 
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
@@ -114,6 +109,11 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * 初始化1:1人脸识别人脸特征值信息
      */
     private void initFaceVerifyFeature() {
+        //老的数据是float[] 需要转换为String faceFeature才能在新版本中使用
+        //float[] faceEmbeddingOld = FaceEmbedding.loadEmbedding(getBaseContext(), faceID);
+        //String faceFeature = FaceAISDKEngine.getInstance(this).faceArray2Feature(faceEmbeddingOld);
+
+
         //从本地MMKV读取人脸特征值(2025.11.23版本使用MMKV，老的人脸数据请做好迁移)
         String faceFeature = MMKV.defaultMMKV().decodeString(faceID);
         if (!TextUtils.isEmpty(faceFeature)) {
@@ -148,7 +148,6 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 .setCameraType(FaceAICameraType.SYSTEM_CAMERA)  //相机类型，目前分为3种
                 .setCompareDurationTime(3000)           //人脸识别超时时间[3000,6000] 毫秒
                 .setLivenessType(faceLivenessType)      //活体检测类型。
-                .setLivenessDetectionMode(MotionLivenessMode.FAST)    //硬件配置低或不需太严格用FAST快速模式，否则用精确模式
                 .setMotionLivenessStepSize(motionStepSize)            //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
                 .setMotionLivenessTimeOut(motionTimeOut)              //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
                 .setMotionLivenessTypes(motionLivenessTypes)          //动作活体种类。1 张张嘴,2 微笑,3 眨眨眼,4 摇摇头,5 点点头
@@ -251,6 +250,10 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 //检测到多人脸
                 case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY:
                     //防止一真一假人脸作弊,每帧画面检测
+                    if(!allowMultiFaces){
+                        finishFaceVerify(13, R.string.multiple_faces_tips);
+                        Toast.makeText(this,R.string.multiple_faces_tips,Toast.LENGTH_LONG).show();
+                    }
                     break;
 
                 // 动作活体检测完成了
@@ -452,10 +455,14 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 verifyThreshold = intent.getFloatExtra(THRESHOLD_KEY, 0.85f);
             }
 
+            if (intent.hasExtra(ALLOW_MULTI_FACES)) {
+                allowMultiFaces = intent.getBooleanExtra(ALLOW_MULTI_FACES, true);
+            }
+
             if (intent.hasExtra(FACE_LIVENESS_TYPE)) {
                 int type = intent.getIntExtra(FACE_LIVENESS_TYPE, 1);
                 // 1.动作活体  2.动作+炫彩活体 3.炫彩活体(不能强光环境使用) 4.仅仅静默活体检测
-                // 1，2，3 都包含静默活体
+                // 1，2，3 类型都包含静默活体；如果仅需静默活体请设置为4（表现和设备摄像头有关）
                 switch (type) {
                     case 1:
                         faceLivenessType = FaceLivenessType.MOTION;
