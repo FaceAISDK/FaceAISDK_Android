@@ -55,7 +55,7 @@ import java.util.Objects;
  * 演示使用SDK相机规范人脸录入,保存人脸特征值 https://i.postimg.cc/RCwNy0kV/add-Face.jpg
  * 1:1 和1:N 人脸特征数据保存有点差异，参考代码详情
  *
- * 通过图片录入人脸特征 {@link AddFaceByImageTestDemo} 我们提供2个API（请尽量使用SDK相机录入人脸信息）
+ * 通过图片录入人脸特征 {@link AddFaceByImageTestDemo} 我们提供2个API（请使用SDK相机录入人脸信息,会检验人脸角度和大小）
  * Image2FaceFeature.getFaceFeatureByBitmap /getFaceFeatureByBase64
  *
  * @author FaceAISDK.Service@gmail.com
