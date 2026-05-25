@@ -51,8 +51,9 @@
     <string name="sure_delete_face_tips">After deletion, the corresponding face will not be recognized</string>
 
     <!--1:N 人脸搜索 face search-->
-    <string name="no_matched_face">Face Searching</string>
-    <string name="face_dir_empty">Face dir empty</string>
+    <string name="face_angle_not_fit">Face Angle Not Fit</string>
+    <string name="no_matched_face">No Matched face</string>
+    <string name="local_face_database_empty">Face database is empty</string>
     <string name="copy_app_assert_folder_faces">Copy app assert folder face images</string>
     <string name="face_search_by_system_camera">Face Search by system camera</string>
     <string name="face_search_by_uvc_camera">Face Search by UVC camera</string>
@@ -66,11 +67,11 @@
     <string name="face_verify_failed">Face verify failed！Please retry</string>
     <string name="face_verify_failed_title">Verify failed</string>
     <string name="silent_anti_spoofing_error">Silent anti spoofing error</string>
-    <string name="no_base_face_image">No base face image error</string>
+    <string name="no_face_data_tips">No face data error</string>
     <string name="face_verify_pause">Face verify pause！Please retry</string>
     <string name="face_verify_demo">1:1 face verify demo</string>
-    <string name="face_verify_no_face_tips">No face has been added yet\nClick the button above to add face image, long press the face to delete</string>
-    <string name="no_face_image_found">No face image found</string>
+    <string name="face_verify_no_face_tips">No face has been added yet\nClick the button above to add face data, long press the face to delete</string>
+<!--    <string name="no_face_image_found">No face data found</string>-->
     <string name="face_verify_result_cancel">Cancel face verify by user</string>
     <string name="face_verify_result_success">Face verify success</string>
     <string name="face_verify_result_silent_failed">Face verify silent failed</string>
