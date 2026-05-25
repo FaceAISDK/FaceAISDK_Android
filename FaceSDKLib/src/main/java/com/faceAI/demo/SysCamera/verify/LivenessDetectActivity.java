@@ -11,7 +11,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -22,7 +21,6 @@ import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
 import com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM;
 import com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM;
-import com.ai.face.faceVerify.verify.liveness.MotionLivenessMode;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
@@ -48,6 +46,8 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     public static final String MOTION_STEP_SIZE = "MOTION_STEP_SIZE";   //动作活体的步骤数
     public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
     public static final String MOTION_LIVENESS_TYPES = "MOTION_LIVENESS_TYPES"; //动作活体种类
+    public static final String ALLOW_MULTI_FACES = "ALLOW_MULTI_FACES"; //是否允许有多人出现在镜头Key
+    private  boolean allowMultiFaces = true; //是否允许有多人出现在镜头
     private int retryTime = 0; //记录失败尝试的次数
 
     //NONE表示无活体，MOTION表示动作活体，COLOR_FLASH表示炫彩活体（其他种类默认都会包含静默活体，如果仅仅需静默可指定SILENT_LIVE）
@@ -302,6 +302,15 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 case VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
                     setSecondTips(R.string.no_face_detected_tips);
                     break;
+
+                //检测到多人脸
+                case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY:
+                    //防止一真一假人脸作弊,每帧画面检测
+                    if(!allowMultiFaces){
+                        finishFaceVerify(13, R.string.multiple_faces_tips);
+                        Toast.makeText(this,R.string.multiple_faces_tips,Toast.LENGTH_LONG).show();
+                    }
+                    break;
             }
         }
     }
@@ -369,6 +378,10 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     default:
                         faceLivenessType = FaceLivenessType.NONE;
                 }
+            }
+
+            if (intent.hasExtra(ALLOW_MULTI_FACES)) {
+                allowMultiFaces = intent.getBooleanExtra(ALLOW_MULTI_FACES, true);
             }
 
             if (intent.hasExtra(MOTION_STEP_SIZE)) {

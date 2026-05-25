@@ -90,10 +90,6 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         faceCoverView = findViewById(R.id.face_cover);
         addFaceType = getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
 
-        if(FaceSDKConfig.isDebugMode(this)){
-            addFacePerformanceMode=PERFORMANCE_MODE_FAST;
-        }
-
         Intent intent = getIntent();
         if (intent != null) {
             if (intent.hasExtra(USER_FACE_ID_KEY)) {

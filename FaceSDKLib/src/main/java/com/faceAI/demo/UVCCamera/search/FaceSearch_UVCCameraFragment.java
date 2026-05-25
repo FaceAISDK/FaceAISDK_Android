@@ -1,7 +1,7 @@
 package com.faceAI.demo.UVCCamera.search;
 
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.LOCAL_FACE_DATABASE_EMPTY;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_SIZE_FIT;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_TOO_LARGE;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_TOO_SMALL;
@@ -144,9 +144,9 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
     void showFaceSearchPrecessTips(int code) {
         switch (code) {
 
-            case FACE_DIR_EMPTY:
+            case LOCAL_FACE_DATABASE_EMPTY:
                 //人脸库没有人脸照片，没有使用SDK 插入人脸？
-                setSearchTips(R.string.face_dir_empty);
+                setSearchTips(R.string.local_face_database_empty);
                 break;
 
             case EMGINE_INITING:

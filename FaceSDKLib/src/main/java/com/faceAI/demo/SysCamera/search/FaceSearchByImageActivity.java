@@ -36,6 +36,7 @@ import com.ai.face.faceSearch.search.SearchProcessTipsCode;
 import com.ai.face.faceSearch.utils.FaceSearchResult;
 import com.faceAI.demo.BuildConfig;
 import com.faceAI.demo.R;
+
 import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
@@ -207,7 +208,7 @@ public class FaceSearchByImageActivity extends AppCompatActivity {
         SearchProcessBuilder builder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
                 .setSearchType(SearchProcessBuilder.SearchType.SINGLE_IMAGE)
-                .setThreshold(0.81f)
+                .setThreshold(0.82f) //默认0.85，可设置范围[0.8,0.9]
                 .setProcessCallBack(new SearchProcessCallBack() {
                     @Override
                     public void onFaceMatched(List<FaceSearchResult> results, Bitmap bitmap, float liveness) {
@@ -216,7 +217,9 @@ public class FaceSearchByImageActivity extends AppCompatActivity {
                     @Override
                     public void onProcessTips(int i) {
                         if(i== SearchProcessTipsCode.NO_LIVE_FACE){
-                            tvSearchResult.setText("未检测到人脸");
+                            tvSearchResult.setText("NO_LIVE_FACE");
+                        }else if(i== SearchProcessTipsCode.LOCAL_FACE_DATABASE_EMPTY){
+                            tvSearchResult.setText("LOCAL_FACE_DATABASE_EMPTY");
                         }
                     }
                 }).create();

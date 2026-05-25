@@ -1,9 +1,8 @@
 package com.faceAI.demo.SysCamera.search;
 
-import static android.view.View.GONE;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_DIR_EMPTY;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.LOCAL_FACE_DATABASE_EMPTY;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_TOO_SMALL;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.MASK_DETECTION;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_LIVE_FACE;
@@ -12,16 +11,12 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCHING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
-import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
@@ -102,7 +97,7 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
         // 2.各种参数的初始化设置 （M：N 建议阈值放低）
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(FaceSearchMNActivity.this)
                 .setLifecycleOwner(this)
-                .setThreshold(0.84f)            //识别成功阈值设置，范围仅限 0.8-0.9！默认0.85
+                .setThreshold(0.85f)            //识别成功阈值设置，范围仅限 0.8-0.9！默认0.85
                 .setSearchType(SearchProcessBuilder.SearchType.N_SEARCH_M) //1:N 搜索
                 .setMirror(cameraLensFacing == CameraSelector.LENS_FACING_FRONT) //手机的前置摄像头imageProxy左右翻转影响人脸框
                 .setProcessCallBack(new SearchProcessCallBack() {
@@ -130,7 +125,6 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
                     public void onFaceDetected(List<FaceSearchResult> detectResult) {
                         //画框UI代码完全开放，用户可以根据情况自行改造
                         binding.graphicOverlay.drawRect(detectResult);
-
                     }
 
                     @Override
@@ -162,9 +156,9 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
                 binding.searchTips.setText(R.string.search_threshold_scope_tips);
                 break;
 
-            case FACE_DIR_EMPTY:
+            case LOCAL_FACE_DATABASE_EMPTY:
                 //人脸库没有录入照片
-                binding.searchTips.setText(R.string.face_dir_empty);
+                binding.searchTips.setText(R.string.local_face_database_empty);
                 break;
         }
     }
