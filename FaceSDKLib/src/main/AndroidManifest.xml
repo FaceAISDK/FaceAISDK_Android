@@ -83,8 +83,7 @@
             android:theme="@style/FaceAITheme" />
         <activity
             android:name=".SysCamera.search.FaceSearch1NActivity"
-            android:exported="false"
-            android:theme="@style/Theme.FaceAISDK.Fullscreen" />
+            android:exported="false"/>
 
         <activity
             android:name=".SysCamera.search.FaceSearchByImageActivity"

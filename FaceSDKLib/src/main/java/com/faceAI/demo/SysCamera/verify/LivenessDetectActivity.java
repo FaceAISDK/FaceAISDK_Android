@@ -109,14 +109,15 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     @Override
                     public void onLivenessDetected(float livenessValue, Bitmap bitmap) {
                         BitmapUtils.saveCompressBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap");
-                        if(livenessValue>0.8){
+                        if(livenessValue>0.81){
                             TTSPlayer.getInstance().playTTS(R.string.face_verify_success);
                             new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
+                            finishFaceVerify(10, R.string.liveness_detection_done, livenessValue);
                         }else{
-                            TTSPlayer.getInstance().playTTS(R.string.face_verify_failed);
-                            new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_failed));
+                            TTSPlayer.getInstance().playTTS(R.string.silent_anti_spoofing_error);
+                            new ImageToast().show(getApplicationContext(), getString(R.string.silent_anti_spoofing_error));
+                            finishFaceVerify(11, R.string.silent_anti_spoofing_error, livenessValue);
                         }
-                        finishFaceVerify(10, R.string.liveness_detection_done, livenessValue);
                     }
 
                     /**
@@ -172,6 +173,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 //炫彩活体检测需要人脸更加靠近屏幕摄像头才能通过检测
                 case VERIFY_DETECT_TIPS_ENUM.COLOR_FLASH_NEED_CLOSER_CAMERA:
                     setSecondTips(R.string.color_flash_need_closer_camera);
+                    TTSPlayer.getInstance().playTTS(R.string.color_flash_need_closer_camera,TTSPlayer.PlayMode.DROP_IF_BUSY);
                     break;
 
                 //炫彩活体通过✅
@@ -210,7 +212,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     break;
 
                 case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_START:
-                    TTSPlayer.getInstance().playTTS(R.string.color_flash_need_closer_camera);
                     break;
 
                 // 动作活体检测完成了

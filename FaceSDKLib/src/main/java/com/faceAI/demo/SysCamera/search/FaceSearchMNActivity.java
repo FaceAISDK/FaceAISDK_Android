@@ -1,27 +1,17 @@
 package com.faceAI.demo.SysCamera.search;
 
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.LOCAL_FACE_DATABASE_EMPTY;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_TOO_SMALL;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.MASK_DETECTION;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_LIVE_FACE;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_MATCHED;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCHING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageProxy;
-
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
@@ -32,7 +22,6 @@ import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.databinding.ActivityFaceSearchMnBinding;
 import com.faceAI.demo.R;
 import com.google.gson.Gson;
-
 import java.util.List;
 
 /**
@@ -46,7 +35,6 @@ import java.util.List;
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceSearchMNActivity extends AbsBaseActivity {
-    //如果设备没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchMnBinding binding;
 
     @Override
@@ -111,7 +99,7 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onFaceMatched(List<FaceSearchResult> matchedResults, Bitmap searchBitmap, float livenessValue) {
-                        binding.graphicOverlay.drawRect(matchedResults);
+                        binding.graphicOverlay.drawRect(matchedResults); //搜索匹配成功的人脸坐标和Name,Score
                         String json = new Gson().toJson(matchedResults);
                         Log.d("onFaceMatched","符合设定阈值的结果: "+json);
                     }
@@ -123,13 +111,13 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
                      */
                     @Override
                     public void onFaceDetected(List<FaceSearchResult> detectResult) {
-                        //画框UI代码完全开放，用户可以根据情况自行改造
+                        //检测到的人脸坐标
                         binding.graphicOverlay.drawRect(detectResult);
                     }
 
                     @Override
                     public void onProcessTips(int i) {
-                        showPrecessTips(i);
+                        showProcessTips(i);
                     }
 
                     @Override
@@ -140,17 +128,15 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
                 }).create();
 
 
-        //3.初始化r引擎
+        //3.初始化引擎
         FaceSearchEngine.Companion.getInstance().initSearchParams(faceProcessBuilder);
     }
 
 
     /**
      * 显示提示
-     *
-     * @param code
      */
-    private void showPrecessTips(int code) {
+    private void showProcessTips(int code) {
         switch (code) {
             case THRESHOLD_ERROR:
                 binding.searchTips.setText(R.string.search_threshold_scope_tips);

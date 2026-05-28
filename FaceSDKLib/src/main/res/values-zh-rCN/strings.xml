@@ -52,6 +52,7 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <!--1:N 人脸搜索 face search-->
     <string name="face_angle_not_fit">人脸角度大，未正对摄像头</string>
     <string name="no_matched_face">暂无匹配人脸</string>
+    <string name="face_data_update">人脸数据更新中</string>
     <string name="local_face_database_empty">人脸库为空</string>
     <string name="no_face_data_tips">没有录入人脸数据</string>
     <string name="copy_app_assert_folder_faces">导入内置assets目录测试人数据</string>
@@ -66,18 +67,17 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="face_verify_success">识别成功</string>
     <string name="face_verify_failed_title">识别失败</string>
     <string name="face_verify_failed">识别失败，请重试！</string>
-    <string name="silent_anti_spoofing_error">静默活体得分过低</string>
+    <string name="silent_anti_spoofing_error">静默活体检测失败</string>
     <string name="face_verify_pause">人脸识别被中断了！</string>
     <string name="face_verify_demo">1:1 人脸识别演示</string>
     <string name="face_verify_no_face_tips">暂未录入人脸\n点击上面按钮添加录入，长按人脸可删除</string>
-<!--    <string name="no_face_image_found">未找到对应的人脸</string>-->
-    <string name="face_verify_result_cancel">0用户取消人脸识别</string>
-    <string name="face_verify_result_success">1人脸识别成功</string>
-    <string name="face_verify_result_silent_failed">2静默活体分数过低</string>
-    <string name="face_verify_result_timeout">3动作活体检测超时</string>
-    <string name="face_verify_result_failed">4人脸识别失败</string>
-    <string name="face_verify_result_no_face_multi_time">5多次未检测到人脸</string>
-    <string name="face_verify_result_pause">6人脸识别暂停</string>
+    <string name="face_verify_result_cancel">用户取消人脸识别</string>
+    <string name="face_verify_result_success">人脸识别成功</string>
+    <string name="face_verify_result_silent_failed">静默活体分数过低</string>
+    <string name="face_verify_result_timeout">动作活体检测超时</string>
+    <string name="face_verify_result_failed">人脸识别失败</string>
+    <string name="face_verify_result_no_face_multi_time">多次未检测到人脸</string>
+    <string name="face_verify_result_pause">人脸识别暂停</string>
     <string name="face_verify_two_image">人脸相似度对比</string>
     <string name="face_verify_two_image_tips">请选择正脸无遮挡人脸照片</string>
 
@@ -88,7 +88,7 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="motion_liveness_detection_failed">动作活体检测失败了 </string>
     <string name="color_flash_liveness_failed">炫彩活体检测失败了 </string>
     <string name="color_flash_light_high">炫彩失败,请到室内柔和光线处或用手遮挡过亮环境光</string>
-    <string name="color_flash_need_closer_camera">即将闪烁彩色光，请靠近屏幕</string>
+    <string name="color_flash_need_closer_camera">即将闪烁彩色光，请靠近屏幕 </string>
     <string name="keep_face_visible">平视正对摄像头</string>
     <string name="repeat_open_close_mouse">请张张嘴</string>
     <string name="motion_smile">请微笑</string>

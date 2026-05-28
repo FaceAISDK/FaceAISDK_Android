@@ -1,6 +1,6 @@
 package com.faceAI.demo.SysCamera.search;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.ENGINE_INITING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_ANGLE_NOT_FIT;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.EMGINE_INITING;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.LOCAL_FACE_DATABASE_EMPTY;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_SIZE_FIT;
 import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_TOO_LARGE;
@@ -15,8 +15,10 @@ import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageProxy;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.core.utils.FaceAICameraType;
@@ -46,9 +49,9 @@ import java.util.List;
 
 /**
  * RGB摄像头动作活体检测+1:N 人脸搜索识别。当前人脸库默认最大5000，未成年搜索精度待提升
- * <p>
+ * 数据合规建议不要再收集人脸原始图片数据 https://mp.weixin.qq.com/s/aGPwYUYxnr6ZDRxwAQd8vg
  * 摄像头管理源码开放在 {@link FaceCameraXFragment}
- *
+ * 内置1W测试人脸APK特制版本（点击导入Asset目录人脸）：https://www.pgyer.com/4c1e43a4e28bc50885ab942b41b1b85d
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceSearch1NActivity extends AbsBaseActivity {
@@ -56,37 +59,37 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     public static final String NEED_FACE_LIVE = "NEED_FACE_LIVE";   //是否开启活体检测
     public static final String SEARCH_ONE_TIME = "SEARCH_ONE_TIME";   //是否仅搜索一次就关闭搜索页
     public static final String IS_CAMERA_SIZE_HIGH = "IS_CAMERA_SIZE_HIGH";   //高分辨率远距离也可以工作，但是性能速度会下降
-    private float searchThreshold = 0.86f;  //搜索阈值,场景越严格阈值应该设的越高
+    private float searchThreshold = 0.87f;  //搜索阈值,场景越严格阈值应该设的越高(同时要求录入人脸使用SDK相机校验，不要随便拍一张照片)
     private boolean searchOneTime = false;  //是否仅搜索一次就关闭搜索页
     private boolean needFaceLive = true;   //是否开启活体检测
     private boolean isCameraSizeHigh = false; //是否高分辨率
     private int cameraLensFacing;  //摄像头前置，后置，外接
-
-    //如果设备在弱光环境没有补光灯，UI界面背景多一点白色的区域，利用屏幕的光作为补光
     private ActivityFaceSearchBinding binding;
     private FaceCameraXFragment cameraXFragment; //摄像头请自行管理，源码全部开放
     private boolean pauseSearch = false; //控制是否送数据到SDK进行搜索
 
-    /**
-     * 获取UNI,RN,Flutter三方插件传递的参数,以便在原生代码中生效
-     */
-    private void getIntentParams() {
-        Intent intent = getIntent(); // 获取发送过来的Intent对象
-        if (intent != null) {
-            if (intent.hasExtra(THRESHOLD_KEY)) {
-                searchThreshold = intent.getFloatExtra(THRESHOLD_KEY, 0.85f);
-            }
-            if (intent.hasExtra(SEARCH_ONE_TIME)) {
-                searchOneTime = intent.getBooleanExtra(SEARCH_ONE_TIME, false);
-            }
-            if (intent.hasExtra(IS_CAMERA_SIZE_HIGH)) {
-                isCameraSizeHigh = intent.getBooleanExtra(IS_CAMERA_SIZE_HIGH, false);
-            }
-            if (intent.hasExtra(NEED_FACE_LIVE)) {
-                needFaceLive = intent.getBooleanExtra(NEED_FACE_LIVE, false);
+
+    // 如果你在后台通过人脸图检测人脸提取人脸特征（非常不建议收集人脸原始图片），需要暂停前台的通过相机检测人脸
+    // 直接更新人脸特征数据不涉及到检测人脸提取特征不需要暂停人脸搜索
+    // https://mp.weixin.qq.com/s/aGPwYUYxnr6ZDRxwAQd8vg
+    private  class FaceUpdateReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null){
+                if (ACTION_START_UPDATE_FACE_DATA.equals(intent.getAction())) {
+                    pauseSearch=true;
+                    setSearchTips(R.string.face_data_update);
+                }else if (ACTION_COMPLETE_UPDATE_FACE_DATA.equals(intent.getAction())) {
+                    pauseSearch=false;
+                    setParamsThenFaceSearch();//重新设置参数开始人脸搜索
+                }
             }
         }
     }
+    public static final String ACTION_START_UPDATE_FACE_DATA = "FACESDK.ACTION_START_UPDATE_FACE_DATA";
+    public static final String ACTION_COMPLETE_UPDATE_FACE_DATA = "FACESDK.ACTION_COMPLETE_UPDATE_FACE_DATA";
+    private LocalBroadcastManager FaceUpdateBroadcastManager;
+    private FaceUpdateReceiver faceUpdateReceiver;
 
 
     @Override
@@ -117,14 +120,17 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();
 
-        initFaceSearchParam();
+        setParamsThenFaceSearch(); //设置参数然后开始人脸搜索识别
+
+        // 2. 获取 LocalBroadcastManager 实例
+        FaceUpdateBroadcastManager = LocalBroadcastManager.getInstance(this);
     }
 
 
     /**
-     * 初始化人脸搜索参数
+     * 初始化人脸搜索参数,开始人脸搜索
      */
-    private void initFaceSearchParam() {
+    private void setParamsThenFaceSearch() {
         // 2.各种参数的初始化设置
         SearchProcessBuilder faceProcessBuilder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
@@ -241,14 +247,12 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 setSearchTips(R.string.local_face_database_empty);
                 Toast.makeText(this, R.string.no_face_data_tips, Toast.LENGTH_LONG).show();
                 break;
-
-            case EMGINE_INITING:
-                setSearchTips(R.string.sdk_init);
+            case ENGINE_INITING:
+                setSecondTips(R.string.sdk_init);
                 break;
 
             case SEARCH_PREPARED:
-                //initSearchParams 后引擎需要加载人脸库等初始化，完成会回调
-                setSearchTips(R.string.keep_face_tips);
+                Log.d("SEARCH_PREPARED", "SEARCH_PREPARED" );
                 break;
 
             case SEARCHING:
@@ -284,7 +288,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 setSearchTips(R.string.no_mask_please);
                 break;
 
-            default:
+            default: //其他tips code
                 binding.faceCover.setTipsText("Tips Code：" + code);
                 break;
         }
@@ -310,6 +314,22 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         FaceSearchEngine.Companion.getInstance().stopSearchProcess();
+
+        //防止内存泄漏
+        if (FaceUpdateBroadcastManager != null && faceUpdateReceiver != null) {
+            FaceUpdateBroadcastManager.unregisterReceiver(faceUpdateReceiver);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // 动态注册广播接收器,当正在后台通过人脸图更新人脸数据时候(不建议)，需要暂停前台的通过相机检测人脸，避免冲突
+        faceUpdateReceiver = new FaceUpdateReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_START_UPDATE_FACE_DATA);
+        filter.addAction(ACTION_COMPLETE_UPDATE_FACE_DATA);
+        FaceUpdateBroadcastManager.registerReceiver(faceUpdateReceiver, filter);
     }
 
     @Override
@@ -323,4 +343,28 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         super.onStop();
         pauseSearch = true;
     }
+
+
+
+    /**
+     * 获取UNI,RN,Flutter三方插件传递的参数,以便在原生代码中生效
+     */
+    private void getIntentParams() {
+        Intent intent = getIntent(); // 获取发送过来的Intent对象
+        if (intent != null) {
+            if (intent.hasExtra(THRESHOLD_KEY)) {
+                searchThreshold = intent.getFloatExtra(THRESHOLD_KEY, 0.85f);
+            }
+            if (intent.hasExtra(SEARCH_ONE_TIME)) {
+                searchOneTime = intent.getBooleanExtra(SEARCH_ONE_TIME, false);
+            }
+            if (intent.hasExtra(IS_CAMERA_SIZE_HIGH)) {
+                isCameraSizeHigh = intent.getBooleanExtra(IS_CAMERA_SIZE_HIGH, false);
+            }
+            if (intent.hasExtra(NEED_FACE_LIVE)) {
+                needFaceLive = intent.getBooleanExtra(NEED_FACE_LIVE, false);
+            }
+        }
+    }
+
 }

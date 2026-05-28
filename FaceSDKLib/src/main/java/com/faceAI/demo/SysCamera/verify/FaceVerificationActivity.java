@@ -196,7 +196,6 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         faceVerifyUtils.setDetectorParams(faceProcessBuilder);
 
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
-            //防止在识别过程中关闭页面导致Crash
             if (!isDestroyed() && !isFinishing()) {
                 //默认演示CameraX的 imageProxy 传入SDK，也支持NV21，Bitmap 类型，你也可以自己管理相机
                 faceVerifyUtils.goVerifyWithImageProxy(imageProxy);
@@ -251,8 +250,10 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY:
                     //防止一真一假人脸作弊,每帧画面检测
                     if(!allowMultiFaces){
-                        finishFaceVerify(13, R.string.multiple_faces_tips);
                         Toast.makeText(this,R.string.multiple_faces_tips,Toast.LENGTH_LONG).show();
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                            finishFaceVerify(13, R.string.multiple_faces_tips);
+                        }, 999);
                     }
                     break;
 
@@ -349,6 +350,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 //炫彩活体检测需要人脸更加靠近屏幕摄像头才能通过检测
                 case VERIFY_DETECT_TIPS_ENUM.COLOR_FLASH_NEED_CLOSER_CAMERA:
                     setSecondTips(R.string.color_flash_need_closer_camera);
+                    TTSPlayer.getInstance().playTTS(R.string.color_flash_need_closer_camera,TTSPlayer.PlayMode.DROP_IF_BUSY);
                     break;
 
                 //炫彩活体通过✅
@@ -388,7 +390,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                     break;
 
                 case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_START:
-                    TTSPlayer.getInstance().playTTS(R.string.color_flash_need_closer_camera);
+
                     break;
             }
         }
