@@ -67,6 +67,59 @@ public class BitmapUtils {
     }
 
 
+    /**
+     * 删除对应路径的图片文件（基于 FileStorage 深度优化版）
+     *
+     * @param pathName 路径目录
+     * @param fileName 文件名
+     * @return boolean  是否成功（若文件本来就不存在，亦视为删除成功，符合幂等性原则）
+     */
+    public static boolean deleteCompressBitmap(String pathName, String fileName) {
+        // 1. Fail-Fast: 校验基础参数
+        if (TextUtils.isEmpty(pathName) || TextUtils.isEmpty(fileName)) {
+            Log.e(TAG, "Delete Failed: pathName or fileName is empty.");
+            return false;
+        }
+
+        try {
+            // 2. 构造存储对象并获取文件句柄
+            FileStorage storage = new FileStorage(pathName);
+            File file = storage.createTempFile(fileName);
+
+            if (file == null) {
+                Log.e(TAG, "Delete Failed: File object unresolved.");
+                return false;
+            }
+
+            // 3. 核心优化：处理文件不存在的情况（幂等性设计）
+            // 既然 createTempFile 不会真的建文件，那么 !exists() 就坐实了“无此文件”
+            if (!file.exists()) {
+                // 路径下没有这个文件，说明已经处于预期的“无文件”状态，直接返回 true
+                Log.d(TAG, "Delete Skip: File already deleted or does not exist. Path: " + file.getAbsolutePath());
+                return true;
+            }
+
+            // 4. 安全校验：确保是常规文件，谨防误删目录
+            if (!file.isFile()) {
+                Log.w(TAG, "Delete Warning: Target path is a directory, not a file. Path: " + file.getAbsolutePath());
+                return false;
+            }
+
+            // 5. 执行物理删除
+            boolean deleted = file.delete();
+            if (deleted) {
+                Log.d(TAG, "Delete Success: " + file.getAbsolutePath());
+            } else {
+                Log.w(TAG, "Delete Failed: file.delete() returned false (check permissions or file locks). Path: " + file.getAbsolutePath());
+            }
+            return deleted;
+
+        } catch (Exception e) {
+            // 打印异常堆栈，便于排查 SD 卡未挂载或其他 I/O 异常
+            Log.e(TAG, "Delete Error: " + e.getMessage(), e);
+            return false;
+        }
+    }
 
     /**
      * 保存缩放后的图片，增加内存异常处理与副本回收优化

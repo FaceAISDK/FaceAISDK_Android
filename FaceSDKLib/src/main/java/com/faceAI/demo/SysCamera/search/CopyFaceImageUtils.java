@@ -1,7 +1,11 @@
 package com.faceAI.demo.SysCamera.search;
 
+import static com.faceAI.demo.SysCamera.search.FaceSearch1NActivity.ACTION_COMPLETE_UPDATE_FACE_DATA;
+import static com.faceAI.demo.SysCamera.search.FaceSearch1NActivity.ACTION_START_UPDATE_FACE_DATA;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +21,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.ai.face.core.engine.FaceAISDKEngine;
 import com.ai.face.faceSearch.search.FaceSearchFeature;
@@ -25,6 +30,7 @@ import com.ai.face.faceSearch.search.Image2FaceFeature;
 import com.airbnb.lottie.LottieAnimationView;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
+import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -38,13 +44,13 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 模拟同步大量图片人脸转为人脸特征值保存到SDK
- *
- * https://i.postimg.cc/RCwNy0kV/add-Face.jpg
- * 如果你的老系统还在收集人脸图请做好人脸图基础裁剪，无损压缩，太大的图解码和特征提取都非常慢
+ * 同步人脸原始图转为人脸特征值保存到SDK（直接采集照片不但面临数据合规问题，人脸角度大小没经过SDK校验精度也会降低）
+ * 不建议收集人脸图片提取人脸特征的方式,人脸录入的时候就直接提取特征值
+ * 详细见：https://mp.weixin.qq.com/s/aGPwYUYxnr6ZDRxwAQd8vg
  *
  * 注意：人脸数据更新时候请暂停人脸搜索识别，新起一个页面提示数据更新维护中
  */
+@Deprecated
 public class CopyFaceImageUtils {
     private static final String TAG = "CopyFaceImageUtils";
 
@@ -85,13 +91,17 @@ public class CopyFaceImageUtils {
     public static void copyTestFaceImages(@NonNull Context context, @NonNull Callback callBack) {
         showLoadingFloat(context);
 
+        //发送广播停止人脸搜索
+        Intent intent = new Intent(ACTION_START_UPDATE_FACE_DATA);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+
         ExecutorService initExecutor = Executors.newSingleThreadExecutor();
         initExecutor.execute(() -> {
             try {
                 prepareAndStart(context, callBack);
             } catch (Exception e) {
                 Log.e(TAG, "Unexpected error during init", e);
-                finalizeProcess(callBack, 0, 0);
+                finalizeProcess(context,callBack, 0, 0);
             } finally {
                 initExecutor.shutdown();
             }
@@ -105,7 +115,7 @@ public class CopyFaceImageUtils {
             allFiles = assetManager.list("");
         } catch (IOException e) {
             Log.e(TAG, "Error accessing assets", e);
-            finalizeProcess(callBack, 0, 0);
+            finalizeProcess(context,callBack, 0, 0);
             return;
         }
 
@@ -122,7 +132,7 @@ public class CopyFaceImageUtils {
 
         if (imageFiles.isEmpty()) {
             Log.w(TAG, "No image files found.");
-            finalizeProcess(callBack, 0, 0);
+            finalizeProcess(context,callBack, 0, 0);
             return;
         }
 
@@ -181,7 +191,7 @@ public class CopyFaceImageUtils {
                             // 原始大图已不再需要，立即回收释放内存
                             recycleBitmap(originBitmap);
 
-                            // 异步保存裁剪图，保存完成后回收
+                            // 异步保存裁剪图，仅仅是Demo演示需要保存这种临时图，实际根据你的业务处理
                             ioExecutor.execute(() -> {
                                 try {
                                     FaceAISDKEngine.getInstance(context).saveCroppedFaceImage(croppedBitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, fileName);
@@ -291,15 +301,20 @@ public class CopyFaceImageUtils {
 
             // 确保在所有数据库操作执行完毕后，再通知 UI 和关闭线程池
             dbExecutor.execute(() -> {
-                finalizeProcess(callBack, successCount.get(), failureCount.get());
+                finalizeProcess(context,callBack, successCount.get(), failureCount.get());
                 ioExecutor.shutdown();  // 关闭 IO 线程池
                 dbExecutor.shutdown();  // 关闭数据库专属线程池
             });
         }
     }
 
-    private static void finalizeProcess(Callback callback, int success, int failed) {
+    private static void finalizeProcess(@NonNull Context context,Callback callback, int success, int failed) {
         new Handler(Looper.getMainLooper()).post(() -> {
+
+            //发送广播可以重新人脸搜索
+            Intent intent = new Intent(ACTION_COMPLETE_UPDATE_FACE_DATA);
+            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+
             dismissLoadingFloat(); // 关闭 Loading 动画
             if (callback != null) {
                 callback.onComplete(success, failed);
