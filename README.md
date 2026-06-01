@@ -3,7 +3,7 @@
 </div>
 
 <br>
- <a href='https://play.google.com/store/apps/details?id=com.ai.face.verifyPub'><img alt='Get FaceAI On Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='50'/></a>
+ <a href='https://play.google.com/store/apps/details?id=com.sdk.hiface.verifyPub'><img alt='Get FaceAI On Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='50'/></a>
 <br> 
 
 # [关于Android「FaceAISDK」](https://github.com/FaceAISDK/FaceAISDK_Android)

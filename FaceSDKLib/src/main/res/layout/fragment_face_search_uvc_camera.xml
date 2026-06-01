@@ -20,7 +20,7 @@
 
 
     <!-- Custom your Face Verify UI-->
-    <com.ai.face.faceSearch.search.GraphicOverlay
+    <com.sdk.hiface.search.GraphicOverlay
         android:id="@+id/graphicOverlay"
         android:layout_width="0dp"
         android:layout_height="0dp"

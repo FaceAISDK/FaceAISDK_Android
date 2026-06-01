@@ -14,7 +14,7 @@
         android:layout_height="match_parent" />
 
     <!-- Custom your Face Verify UI-->
-    <com.ai.face.faceSearch.search.GraphicOverlay
+    <com.sdk.hiface.search.GraphicOverlay
         android:id="@+id/graphicOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

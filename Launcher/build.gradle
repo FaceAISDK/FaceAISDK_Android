@@ -8,7 +8,7 @@ android {
     defaultConfig {
         versionCode 20260528
         versionName "20260528"
-        applicationId "com.ai.face.Demo" //Demo App Name
+        applicationId "com.sdk.hiface.Demo" //Demo App Name
         minSdk 21
         targetSdk 36
         
@@ -16,7 +16,7 @@ android {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
         }
     }
-    namespace 'com.example.demo'
+    namespace 'com.sdk.hiface.Demo'
 
     signingConfigs {
         release {

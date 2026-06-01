@@ -5,9 +5,12 @@ import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
-import com.faceAI.demo.FaceAINaviActivity;
-import com.faceAI.demo.FaceSDKConfig;
-import com.faceAI.demo.base.AbsBaseActivity;
+
+import com.hiface.demo.BuildConfig;
+import com.hiface.demo.FaceAINaviActivity;
+import com.hiface.demo.FaceSDKConfig;
+import com.hiface.demo.base.AbsBaseActivity;
+import com.sdk.hiface.Demo.R;
 import com.tencent.bugly.crashreport.CrashReport;
 
 /**

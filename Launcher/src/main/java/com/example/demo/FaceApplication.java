@@ -4,7 +4,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraXConfig;
 import androidx.camera.camera2.Camera2Config;
-import com.faceAI.demo.FaceSDKConfig;
+import com.hiface.demo.FaceSDKConfig;
 
 /**
  * FaceSDKConfig.init(this); in your Application onCreate()

@@ -8,7 +8,7 @@
     android:fillViewport="true"
     android:fitsSystemWindows="true"
     android:scrollbars="none"
-    tools:context="com.faceAI.demo.FaceAINaviActivity">
+    tools:context="com.hiface.demo.FaceAINaviActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
