@@ -20,8 +20,8 @@
     <string name="share_face_feature">分享人脸特征</string>
 
     <string name="facesdk_camera_permission">人脸识别SDK需要摄像头才能正常演示</string>
-    <string name="share_faceai_sdk_content">FaceAISDK 人脸识别 活体检测接入源码\n\n
-https://github.com/FaceAISDK\n
+    <string name="share_faceai_sdk_content">HiFaceSDK 人脸识别 活体检测接入源码\n\n
+https://github.com/HiFaceSDK\n
 Email: FaceAISDK.Service@gmail.com\n\n
 体验Android App下载：https://www.pgyer.com/faceVerify</string>
 
@@ -108,7 +108,7 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="only_motion_liveness_detection">仅人脸活体检测</string>
     <string name="face_search_navi">1:N &amp; M:N人脸搜索识别 </string>
     <string name="face_search">人脸搜索识别</string>
-    <string name="two_face_image_verify">静态人脸1:1对比(Beta)</string>
+    <string name="two_face_image_verify">静态人脸1:1对比</string>
     <string name="switch_camera">切换前后摄像头 </string>
     <string name="about_us">- 关于我们 About US -</string>
     <string name="custom_camera">自定义调试系统相机</string>
@@ -148,7 +148,7 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="uvc_camera_resolution_ir">IR 摄像头分辨率选择</string>
 
     <string name="gentle_reminder">温馨提示</string>
-    <string name="gentle_reminder_func">FaceAISDK所有功能都是离线工作，不联网不收集人脸数据。为了更好体验Demo，请确保：</string>
+    <string name="gentle_reminder_func">HiFaceSDK所有功能都是离线工作，不联网不收集人脸数据。为了更好体验Demo，请确保：</string>
     <string name="operation_manual_tips">1. 使用宽动态(大于105Db)成像清晰摄像头\n2. 人脸正对摄像头，按照提示完成操作\n3. 面部光线充足且柔和避免遮挡 \n4. 摄像头固定在屏幕正上方且整洁清晰</string>
 
 

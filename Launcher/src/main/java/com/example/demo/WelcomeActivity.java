@@ -5,7 +5,6 @@ import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
-
 import com.example.demo.R;
 import com.hiface.demo.BuildConfig;
 import com.hiface.demo.FaceAINaviActivity;
@@ -27,7 +26,7 @@ public class WelcomeActivity extends AbsBaseActivity {
         hideSystemUI();
         setContentView(R.layout.activity_welcome);
         TextView sdkVersion=findViewById(R.id.sdk_version);
-        sdkVersion.setText("FaceAISDK "+getVersionName());
+        sdkVersion.setText("HiFaceSDK "+getVersionName());
 
         new Handler().postDelayed(() -> {
             startActivity(new Intent(WelcomeActivity.this, FaceAINaviActivity.class));
@@ -48,7 +47,7 @@ public class WelcomeActivity extends AbsBaseActivity {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             return pInfo.versionName;
         } catch (Exception e){
-            return "FaceAISDK";
+            return "HiFaceSDK";
         }
     }
 

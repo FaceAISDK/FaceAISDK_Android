@@ -107,7 +107,7 @@
         android:layout_marginBottom="23dp"
         android:gravity="center"
         android:padding="19dp"
-        android:text="About FaceAISDK，介绍说明"
+        android:text="About HiFaceSDK，介绍说明"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent" />

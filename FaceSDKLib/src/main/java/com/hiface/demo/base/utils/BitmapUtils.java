@@ -37,13 +37,13 @@ public class BitmapUtils {
     public static boolean saveCompressBitmap2(Bitmap originBitmap, String pathName, String fileName) {
         // 1. Fail-Fast: 优先拦截无效 Bitmap，避免产生无用的空文件
         if (originBitmap == null || originBitmap.isRecycled()) {
-            Log.e("FaceAISDK", "Save Error: Bitmap is null or recycled.");
+            Log.e("HiFaceSDK", "Save Error: Bitmap is null or recycled.");
             return false;
         }
 
         File file = new FileStorage(pathName).createTempFile(fileName);
         if (file == null) {
-            Log.e("FaceAISDK", "Save Error: Cannot create temp file.");
+            Log.e("HiFaceSDK", "Save Error: Cannot create temp file.");
             return false;
         }
 
@@ -61,7 +61,7 @@ public class BitmapUtils {
             return success;
 
         } catch (IOException e) {
-            Log.e("FaceAISDK", "Save Error: " + e.getMessage());
+            Log.e("HiFaceSDK", "Save Error: " + e.getMessage());
             return false;
         }
     }

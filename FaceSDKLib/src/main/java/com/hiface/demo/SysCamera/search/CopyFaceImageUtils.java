@@ -49,7 +49,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * 注意：人脸数据更新时候请暂停人脸搜索识别，新起一个页面提示数据更新维护中
  */
-@Deprecated
 public class CopyFaceImageUtils {
     private static final String TAG = "CopyFaceImageUtils";
 

@@ -1,7 +1,7 @@
 package com.hiface.demo.SysCamera.search;
 
 /**
- * https://github.com/FaceAISDK/FaceAISDK_Android
+ * https://github.com/HiFaceSDK/HiFaceSDK_Android
  */
 public class ImageBean {
     public String path; //完整的路径

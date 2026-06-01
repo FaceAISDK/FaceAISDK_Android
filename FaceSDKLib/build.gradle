@@ -50,7 +50,7 @@ configurations.configureEach {
 
 dependencies {
 
-    //Face SDK API Demo(Android)：https://github.com/FaceAISDK/FaceAISDK_Android
+    //Face SDK API Demo(Android)：https://github.com/HiFaceSDK/HiFaceSDK_Android
     api 'io.github.faceaisdk:Android:2026.05.26.pro5'
 
     //Library and sample to access UVC camera: https://github.com/shiyinghan/UVCAndroid

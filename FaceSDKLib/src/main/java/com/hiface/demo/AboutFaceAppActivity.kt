@@ -37,7 +37,7 @@ class AboutFaceAppActivity : AppCompatActivity() {
             this.finish()
         }
 
-        // Share FaceAISDK
+        // Share HiFaceSDK
         viewBinding.shareLayout.setOnClickListener {
             val intent = Intent()
             intent.action = Intent.ACTION_SEND

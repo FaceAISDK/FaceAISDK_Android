@@ -403,7 +403,7 @@
         android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="More Settings? See FaceAISDK souce code"
+        android:text="More Settings? See HiFaceSDK souce code"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:textStyle="bold"
