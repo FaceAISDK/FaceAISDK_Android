@@ -75,7 +75,7 @@ public class FaceVerify_UVCCameraFragment extends AbsFaceVerify_UVCCameraFragmen
      */
     void initFaceVerificationParam(String faceFeature) {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(getContext())
-                .setThreshold(0.85f)                //阈值设置，范围限 [0.75,0.9] ,低配摄像头可适量放低，默认0.85
+                .setThreshold(0.81f)                //阈值设置，范围限 [0.75,0.9] ,低配摄像头可适量放低，默认0.85
                 .setFaceFeature(faceFeature)        //1:1 人脸识别对比底片人脸特征
                 .setCameraType(cameraType)
                 .setLivenessType(faceLivenessType)   //IR 是指红外活体，MOTION 是有动作可以指定1-2 个

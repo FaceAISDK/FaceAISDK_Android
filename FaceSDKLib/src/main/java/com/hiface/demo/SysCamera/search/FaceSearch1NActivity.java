@@ -59,7 +59,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     public static final String NEED_FACE_LIVE = "NEED_FACE_LIVE";   //是否开启活体检测
     public static final String SEARCH_ONE_TIME = "SEARCH_ONE_TIME";   //是否仅搜索一次就关闭搜索页
     public static final String IS_CAMERA_SIZE_HIGH = "IS_CAMERA_SIZE_HIGH";   //高分辨率远距离也可以工作，但是性能速度会下降
-    private float searchThreshold = 0.87f;  //搜索阈值,场景越严格阈值应该设的越高(同时要求录入人脸使用SDK相机校验，不要随便拍一张照片)
+    private float searchThreshold = 0.81f;  //搜索阈值,场景越严格阈值应该设的越高(同时要求录入人脸使用SDK相机校验，不要随便拍一张照片)
     private boolean searchOneTime = false;  //是否仅搜索一次就关闭搜索页
     private boolean needFaceLive = true;   //是否开启活体检测
     private boolean isCameraSizeHigh = false; //是否高分辨率

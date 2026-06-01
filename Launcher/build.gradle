@@ -16,14 +16,14 @@ android {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
         }
     }
-    namespace 'com.sdk.hiface.Demo'
+    namespace 'com.example.demo'
 
     signingConfigs {
         release {
-            storeFile file("FaceAIPublic")
-            storePassword "FaceAIPublic"
-            keyAlias "FaceAIPublic"
-            keyPassword "FaceAIPublic"
+            storeFile file("HiFace.jks")
+            storePassword "HiFace"
+            keyAlias "HiFace"
+            keyPassword "HiFace"
         }
     }
 

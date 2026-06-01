@@ -208,7 +208,7 @@ public class FaceSearchByImageActivity extends AppCompatActivity {
         SearchProcessBuilder builder = new SearchProcessBuilder.Builder(this)
                 .setLifecycleOwner(this)
                 .setSearchType(SearchProcessBuilder.SearchType.SINGLE_IMAGE)
-                .setThreshold(0.82f) //默认0.85，可设置范围[0.8,0.9]
+                .setThreshold(0.81f) //默认0.85，可设置范围[0.8,0.9]
                 .setProcessCallBack(new SearchProcessCallBack() {
                     @Override
                     public void onFaceMatched(List<FaceSearchResult> results, Bitmap bitmap, float liveness) {
