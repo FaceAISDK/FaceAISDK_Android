@@ -182,7 +182,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     }
 
                     /**
-                     * 检测到人脸的位置信息，画框用
+                     * 检测到的最大的人脸的位置信息，画框用
                      */
                     @Override
                     public void onFaceDetected(List<FaceSearchResult> result) {
