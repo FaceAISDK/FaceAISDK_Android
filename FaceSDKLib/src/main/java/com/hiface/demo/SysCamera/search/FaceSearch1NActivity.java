@@ -25,12 +25,10 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageProxy;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import com.sdk.hiface.base.view.camera.CameraXBuilder;
 import com.sdk.hiface.core.utils.FaceAICameraType;
 import com.sdk.hiface.search.FaceSearchEngine;

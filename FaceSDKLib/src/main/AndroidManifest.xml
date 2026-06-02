@@ -22,13 +22,13 @@
             android:name=".SysCamera.verify.FaceVerificationActivity"
             android:exported="false"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.FaceAISDK.Fullscreen" />
+            android:theme="@style/Theme.HiFaceSDK.Fullscreen" />
 
         <activity
             android:name=".SysCamera.verify.LivenessDetectActivity"
             android:exported="false"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.FaceAISDK.Fullscreen" />
+            android:theme="@style/Theme.HiFaceSDK.Fullscreen" />
 
         <activity
             android:name=".UVCCamera.search.FaceSearch_UVCCameraActivity"
@@ -88,7 +88,7 @@
         <activity
             android:name=".SysCamera.search.FaceSearchByImageActivity"
             android:exported="false"
-            android:theme="@style/Theme.FaceAISDK.Fullscreen" />
+            android:theme="@style/Theme.HiFaceSDK.Fullscreen" />
 
         <activity
             android:name=".SysCamera.search.FaceSearchMNActivity"

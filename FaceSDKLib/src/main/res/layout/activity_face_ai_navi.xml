@@ -14,13 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="24dp"
-        android:paddingVertical="24dp">
+        android:paddingVertical="22dp">
 
-        <!-- Header Section -->
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="31dp"
             android:text="HiFaceSDK"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -43,7 +42,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="5dp"
+                android:padding="4dp"
                 android:src="@drawable/info_icon_24"
                 app:tint="@color/white" />
 
@@ -53,80 +52,79 @@
                 android:layout_height="30dp"
                 android:layout_marginStart="10dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="5dp"
+                android:padding="4dp"
                 android:src="@drawable/share"
                 app:tint="@color/white" />
 
             <LinearLayout
                 android:id="@+id/update_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginStart="12dp"
+                android:layout_height="wrap_content"
+                android:minHeight="30dp"
+                android:layout_marginStart="11dp"
                 android:background="@drawable/bg_rect_line"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingHorizontal="10dp">
+                android:paddingHorizontal="9dp">
 
                 <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
                     android:src="@drawable/update"
                     app:tint="@color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
+                    android:layout_marginStart="5dp"
                     android:text="@string/update_face_app"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Camera Configuration Card -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/camera_selector_card"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="32dp"
-            android:paddingHorizontal="5dp"
+        <LinearLayout
+            android:id="@+id/camera_type_select_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/camera_type_background"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title">
 
-            <!-- 文字前面加一个切换图标 -->
+            <ImageView
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:src="@drawable/update"
+                app:tint="@color/white" />
+
             <TextView
                 android:id="@+id/camera_type_select"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/camera_type_background"
-                android:drawableStart="@android:drawable/ic_popup_sync"
-                android:drawablePadding="9dp"
-                android:drawableTint="@color/white"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="7dp"
+                android:layout_marginStart="6dp"
                 android:text="@string/camera_type_system"
                 android:textColor="@color/white"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-        <!-- Features Menu List -->
         <LinearLayout
             android:id="@+id/features_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="22dp"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/camera_selector_card">
+            app:layout_constraintTop_toBottomOf="@id/camera_type_select_layout">
 
-            <!-- Face Verify -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/face_verify"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="52dp"
                 android:layout_marginBottom="14dp"
                 android:background="@drawable/bg_rect_line"
                 android:clickable="true"
@@ -169,11 +167,10 @@
                     app:tint="@color/half_white" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- Face Search -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/face_search"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="52dp"
                 android:layout_marginBottom="14dp"
                 android:background="@drawable/bg_rect_line"
                 android:clickable="true"
@@ -217,11 +214,10 @@
                     app:tint="@color/half_white" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- Liveness Detection -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/liveness_detection"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="52dp"
                 android:layout_marginBottom="14dp"
                 android:background="@drawable/bg_rect_line"
                 android:clickable="true"
@@ -264,11 +260,10 @@
                     app:tint="@color/half_white" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- Static Face 1:1 Comparison -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/two_face_verify"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="52dp"
                 android:layout_marginBottom="14dp"
                 android:background="@drawable/bg_rect_line"
                 android:clickable="true"
@@ -311,11 +306,10 @@
                     app:tint="@color/half_white" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- Camera Parameter Settings -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/params_setting"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="52dp"
                 android:layout_marginBottom="14dp"
                 android:background="@drawable/bg_rect_line"
                 android:clickable="true"
@@ -359,7 +353,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
-        <!-- Footer Section -->
         <TextView
             android:id="@+id/more_about_me"
             android:layout_width="match_parent"

@@ -17,7 +17,7 @@
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="52dp"
                 android:background="@color/white"
                 android:gravity="left|center_vertical"
                 android:text="@string/gentle_reminder"

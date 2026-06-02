@@ -227,6 +227,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                             .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                 retryTime++;
                                 if (retryTime > 1) {
+                                    // 3 还是 4？？
                                     finishFaceVerify(3, R.string.face_verify_result_timeout);
                                 } else {
                                     faceVerifyUtils.retryVerify();

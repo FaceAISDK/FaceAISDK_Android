@@ -45,7 +45,7 @@ class FaceAINaviActivity : AbsBaseActivity() {
         setCameraType()
 
         // 摄像头类型选择 Camera type select
-        viewBinding.cameraTypeSelect.setOnClickListener {
+        viewBinding.cameraTypeSelectLayout.setOnClickListener {
             switchCameraType()
         }
 

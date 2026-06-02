@@ -176,7 +176,7 @@ public class TwoFaceImageVerifyActivity extends AppCompatActivity {
         executorService.execute(() -> {
             float simi = new FaceVerifyUtils().evaluateFaceSimiByBitmap(this, leftBitmap, rightBitmap);
             runOnUiThread(() -> {
-                if (simi > 0.82) { // 0.82 是一个经验值，实际使用中可以根据需求调整
+                if (simi > 0.75) { //是一个经验值，实际使用中可以根据需求调整
                     new ImageToast().showBitmap(getApplication(), null, "Simi: "+simi);
                 } else {
                     new ImageToast().showBitmap(getApplication(), null, "Simi: "+simi,false);

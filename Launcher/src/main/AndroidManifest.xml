@@ -24,7 +24,7 @@
 
         <activity
             android:name=".WelcomeActivity"
-            android:theme="@style/Theme.FaceAISDK.Fullscreen"
+            android:theme="@style/Theme.HiFaceSDK.Fullscreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
