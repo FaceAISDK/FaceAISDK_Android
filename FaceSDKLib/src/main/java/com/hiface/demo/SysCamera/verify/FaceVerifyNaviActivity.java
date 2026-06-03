@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.sdk.hiface.core.engine.FaceAISDKEngine;
+import com.sdk.hiface.core.engine.HiFaceSDKEngine;
 import com.sdk.hiface.core.utils.FaceAICameraType;
 import com.hiface.demo.FaceSDKConfig;
 import com.hiface.demo.UVCCamera.verify.FaceVerify_UVCCameraActivity;
@@ -140,7 +140,7 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
     public void disposeSelectImage(@NotNull String faceID, @NotNull Bitmap disposedBitmap, @NonNull String faceFeature) {
         MMKV.defaultMMKV().encode(faceID, faceFeature); //保存人脸faceID 对应的特征值,SDK 只要这个
         //如果人脸图业务上需要人脸头像进行UI展示也可以保存到本地
-        FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(disposedBitmap, FaceSDKConfig.CACHE_BASE_FACE_DIR, faceID);
+        HiFaceSDKEngine.getInstance(this).saveCroppedFaceImage(disposedBitmap, FaceSDKConfig.CACHE_BASE_FACE_DIR, faceID);
 
         updateFaceList();
     }

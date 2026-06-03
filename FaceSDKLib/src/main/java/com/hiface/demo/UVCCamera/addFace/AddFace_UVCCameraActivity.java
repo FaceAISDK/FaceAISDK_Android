@@ -37,7 +37,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.sdk.hiface.base.addFace.AddFaceCallBack;
 import com.sdk.hiface.base.addFace.AddFaceDispose;
-import com.sdk.hiface.core.engine.FaceAISDKEngine;
+import com.sdk.hiface.core.engine.HiFaceSDKEngine;
 import com.sdk.hiface.search.FaceSearchFeatureManger;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -151,7 +151,7 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
         confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
             //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
             //如果非SDK录入的人脸照片提取特征值用 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
-            String faceFeature = FaceAISDKEngine.getInstance(this).croppedBitmap2Feature(bitmap);
+            String faceFeature = HiFaceSDKEngine.getInstance(this).croppedBitmap2Feature(bitmap);
 
             String faceIDName = confirmFaceDialog.faceIDEdit.getText().toString();
             if (!TextUtils.isEmpty(faceIDName)) {
@@ -160,7 +160,7 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
                     MMKV.defaultMMKV().encode(faceIDName, faceFeature); //保存人脸faceID 对应的特征值,SDK 只要这个
 
                     //如果人脸图业务上需要人脸头像进行UI展示也可以保存到本地
-                    FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(bitmap, FaceSDKConfig.CACHE_BASE_FACE_DIR, faceIDName);
+                    HiFaceSDKEngine.getInstance(this).saveCroppedFaceImage(bitmap, FaceSDKConfig.CACHE_BASE_FACE_DIR, faceIDName);
                     finish();
                 } else {
                     //人脸搜索(1:N) 不适合存放在MMKV中。
@@ -169,7 +169,7 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
                             .insertFaceFeature(faceIDName, faceFeature, System.currentTimeMillis(), "tag", "group");
 
                     //保存到人脸搜索目录；
-                    FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(bitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, faceIDName);
+                    HiFaceSDKEngine.getInstance(this).saveCroppedFaceImage(bitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, faceIDName);
                     finish();
                 }
             } else {

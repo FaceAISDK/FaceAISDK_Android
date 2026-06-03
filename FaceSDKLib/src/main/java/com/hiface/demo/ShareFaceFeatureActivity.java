@@ -27,7 +27,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.sdk.hiface.base.addFace.*;
 import com.sdk.hiface.base.utils.DataConvertUtils;
 import com.sdk.hiface.base.view.camera.CameraXBuilder;
-import com.sdk.hiface.core.engine.FaceAISDKEngine;
+import com.sdk.hiface.core.engine.HiFaceSDKEngine;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.hiface.demo.SysCamera.camera.FaceCameraXFragment;
@@ -90,7 +90,7 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
                 isConfirmAdd=true;
                 //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
                 //如果非SDK相机录入的人脸照片提取特征值用异步方法 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
-                String faceFeature = FaceAISDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(bitmap);
+                String faceFeature = HiFaceSDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(bitmap);
 
                 confirmAddFaceDialog(bitmap,faceFeature);
 

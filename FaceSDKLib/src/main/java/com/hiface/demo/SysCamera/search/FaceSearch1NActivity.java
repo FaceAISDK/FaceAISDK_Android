@@ -57,7 +57,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     public static final String NEED_FACE_LIVE = "NEED_FACE_LIVE";   //是否开启活体检测
     public static final String SEARCH_ONE_TIME = "SEARCH_ONE_TIME";   //是否仅搜索一次就关闭搜索页
     public static final String IS_CAMERA_SIZE_HIGH = "IS_CAMERA_SIZE_HIGH";   //高分辨率远距离也可以工作，但是性能速度会下降
-    private float searchThreshold = 0.81f;  //搜索阈值,场景越严格阈值应该设的越高(同时要求录入人脸使用SDK相机校验，不要随便拍一张照片)
+    private float searchThreshold = 0.8f;  //搜索阈值,场景越严格阈值应该设的越高(同时要求录入人脸使用SDK相机校验，不要随便拍一张照片)
     private boolean searchOneTime = false;  //是否仅搜索一次就关闭搜索页
     private boolean needFaceLive = true;   //是否开启活体检测
     private boolean isCameraSizeHigh = false; //是否高分辨率
@@ -137,7 +137,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
 //                .setFaceTag()   //根据标记来搜索，比如有些场所只有VIP才能权限进入
                 .setNeedFaceLiveness(needFaceLive)//是否需要活体检测，只有1:N 搜索 有活体（选配，默认无）
                 .setSearchType(SearchProcessBuilder.SearchType.N_SEARCH_1) //1:N 搜索
-                .setThreshold(searchThreshold) //阈值范围限 [0.85 , 0.95] 识别可信度，阈值高摄像头成像品质宽动态值以及人脸底片质量也要高
+                .setThreshold(searchThreshold) //阈值范围限 [0.75 , 0.85] 识别可信度，阈值高摄像头成像品质宽动态值以及人脸底片质量也要高
                 .setCallBackAllMatch(true) //默认是false,是否返回所有的大于设置阈值的搜索结果
                 .setSearchIntervalTime(1800) //默认2000，范围[0,9000]毫秒。搜索成功后的继续下一次搜索的间隔时间，不然会一直搜索一直回调结果
                 .setSearchTimeOut(4000)    //搜索超时时间，超时后会提示无结果,默认3000，范围[3000,6000]毫秒
@@ -236,14 +236,11 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 Toast.makeText(this, R.string.no_matched_face, Toast.LENGTH_SHORT).show();
                 break;
 
-            case FACE_ANGLE_NOT_FIT:
-                setSecondTips(R.string.face_angle_not_fit);
-                break;
+
 
             case LOCAL_FACE_DATABASE_EMPTY:
                 //人脸库没有人脸照片，使用SDK API插入人脸
                 setSearchTips(R.string.local_face_database_empty);
-                Toast.makeText(this, R.string.no_face_data_tips, Toast.LENGTH_LONG).show();
                 break;
             case ENGINE_INITING:
                 setSecondTips(R.string.sdk_init);
@@ -253,10 +250,10 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 Log.d("SEARCH_PREPARED", "SEARCH_PREPARED" );
                 break;
 
-            case SEARCHING:
-                //后期将废除本状态
-                setSearchTips(R.string.keep_face_tips);
+            case FACE_ANGLE_NOT_FIT:
+                setSecondTips(R.string.face_angle_not_fit);
                 break;
+
 
             case NO_LIVE_FACE:
                 Log.d("NO_LIVE_FACE", "没有检测到人脸" );
@@ -285,6 +282,11 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
             case MASK_DETECTION:
                 setSearchTips(R.string.no_mask_please);
                 break;
+
+//            case SEARCHING:
+//                //后期将废除本状态
+//                setSearchTips(R.string.keep_face_tips);
+//                break;
 
             default: //其他tips code
                 binding.faceCover.setTipsText("Tips Code：" + code);

@@ -37,7 +37,7 @@ import com.sdk.hiface.base.addFace.AddFaceCallBack;
 import com.sdk.hiface.base.addFace.AddFaceDispose;
 import com.sdk.hiface.base.utils.DataConvertUtils;
 import com.sdk.hiface.base.view.camera.CameraXBuilder;
-import com.sdk.hiface.core.engine.FaceAISDKEngine;
+import com.sdk.hiface.core.engine.HiFaceSDKEngine;
 import com.sdk.hiface.search.FaceSearchEngine;
 import com.sdk.hiface.search.FaceSearchFeatureManger;
 import com.bumptech.glide.Glide;
@@ -121,7 +121,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
                 isConfirmAdd=true;
                 //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
                 //如果非SDK相机录入的人脸照片提取特征值用异步方法 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
-                String faceFeature = FaceAISDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(bitmap);
+                String faceFeature = HiFaceSDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(bitmap);
 
                 if(!needConfirmAdd){
                     if(TextUtils.isEmpty(faceID)){
@@ -281,7 +281,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         //保存1:1 人脸识别特征数据，直接以KEY-Value的形式保存在MMKV中
         MMKV.defaultMMKV().encode(faceID, faceFeature); //保存人脸faceID 对应的特征值,SDK 只要这个
         //如果人脸图业务上需要人脸头像进行UI展示也可以保存到本地
-        FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(bitmap, FaceSDKConfig.CACHE_BASE_FACE_DIR, faceID);
+        HiFaceSDKEngine.getInstance(this).saveCroppedFaceImage(bitmap, FaceSDKConfig.CACHE_BASE_FACE_DIR, faceID);
     }
 
 
@@ -299,7 +299,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
                 .insertFaceFeature(faceID, faceFeature, System.currentTimeMillis(),"tag","group");
 
         //可选步骤：裁剪处理好的Bitmap保存到人脸搜索目录(注意！只保存人脸图不保存人脸特征值，人脸搜索是无法工作的)
-        FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(bitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, faceID);
+        HiFaceSDKEngine.getInstance(this).saveCroppedFaceImage(bitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, faceID);
     }
 
 

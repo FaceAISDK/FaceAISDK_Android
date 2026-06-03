@@ -23,7 +23,7 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.sdk.hiface.core.engine.FaceAISDKEngine;
+import com.sdk.hiface.core.engine.HiFaceSDKEngine;
 import com.sdk.hiface.search.FaceSearchFeature;
 import com.sdk.hiface.search.FaceSearchFeatureManger;
 import com.sdk.hiface.search.Image2FaceFeature;
@@ -192,7 +192,7 @@ public class CopyFaceImageUtils {
                             // 异步保存裁剪图，仅仅是Demo演示需要保存这种临时图，实际根据你的业务处理
                             ioExecutor.execute(() -> {
                                 try {
-                                    FaceAISDKEngine.getInstance(context).saveCroppedFaceImage(croppedBitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, fileName);
+                                    HiFaceSDKEngine.getInstance(context).saveCroppedFaceImage(croppedBitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, fileName);
                                 } catch (Exception e) {
                                     Log.e(TAG, "Error saving image for: " + fileName, e);
                                 } finally {

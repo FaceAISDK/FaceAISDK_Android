@@ -19,7 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.sdk.hiface.core.engine.FaceAISDKEngine;
+import com.sdk.hiface.core.engine.HiFaceSDKEngine;
 import com.sdk.hiface.core.utils.FaceAICameraType;
 import com.sdk.hiface.search.FaceSearchFeatureManger;
 import com.bumptech.glide.signature.ObjectKey;
@@ -129,7 +129,7 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
     @Override
     public void disposeSelectImage(@NotNull String faceID, @NotNull Bitmap disposedBitmap, @NonNull String faceFeature) {
         //保存到人脸搜索目录；如果你的业务不需要裁剪矫正好的人脸也可以不缓存
-        FaceAISDKEngine.getInstance(this).saveCroppedFaceImage(disposedBitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, faceID);
+        HiFaceSDKEngine.getInstance(this).saveCroppedFaceImage(disposedBitmap, FaceSDKConfig.CACHE_SEARCH_FACE_DIR, faceID);
 
         //tag 和 group 可以用来做标记和分组。人脸搜索的时候可以加快速度降低误差
         FaceSearchFeatureManger.getInstance(this)

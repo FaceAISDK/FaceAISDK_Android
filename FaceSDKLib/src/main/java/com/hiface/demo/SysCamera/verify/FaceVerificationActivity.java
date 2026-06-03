@@ -56,7 +56,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private  boolean allowMultiFaces = true; //是否允许有多人出现在镜头
 
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
-    private float verifyThreshold = 0.84f; //1:1人脸识别对比通过的阈值，根据使用场景自行调整
+    private float verifyThreshold = 0.8f; //1:1人脸识别对比通过的阈值，根据使用场景自行调整
 
     //NONE表示无活体，MOTION表示动作活体，COLOR_FLASH表示炫彩活体（其他种类默认都会包含静默活体，如果仅仅需静默可指定SILENT_LIVE）
     //静默活体效果和摄像头成像有关，炫彩活体不能在强光下使用
@@ -111,7 +111,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private void initFaceVerifyFeature() {
         //老的数据是float[] 需要转换为String faceFeature才能在新版本中使用
         //float[] faceEmbeddingOld = FaceEmbedding.loadEmbedding(getBaseContext(), faceID);
-        //String faceFeature = FaceAISDKEngine.getInstance(this).faceArray2Feature(faceEmbeddingOld);
+        //String faceFeature = HiFaceSDKEngine.getInstance(this).faceArray2Feature(faceEmbeddingOld);
 
 
         //从本地MMKV读取人脸特征值(2025.11.23版本使用MMKV，老的人脸数据请做好迁移)
@@ -143,7 +143,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      */
     private void initFaceVerificationParam(String faceFeature) {
         FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
-                .setThreshold(verifyThreshold)          //阈值设置，范围限 [0.8,0.9]
+                .setThreshold(verifyThreshold)          //阈值设置，范围限 [0.75,0.85]
                 .setFaceFeature(faceFeature)            //1:1 人脸识别对比的底片人脸特征值
                 .setCameraType(FaceAICameraType.SYSTEM_CAMERA)  //相机类型，目前分为3种
                 .setCompareDurationTime(3000)           //人脸识别超时时间[3000,6000] 毫秒

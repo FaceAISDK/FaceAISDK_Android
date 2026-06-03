@@ -152,7 +152,7 @@ public class FaceCoverView extends View {
         mTextPaddingVertical = ScreenUtils.dp2px(context, 5);
         mTextBgRadius = ScreenUtils.dp2px(context, 20);
 
-        setTipsText(R.string.keep_face_tips); //默认提示
+        setTipsText(R.string.sdk_init); //默认提示
     }
 
     @Override
