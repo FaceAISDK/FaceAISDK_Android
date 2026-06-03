@@ -10,7 +10,7 @@ android {
     namespace 'com.hiface.demo'
     compileSdk 35
     defaultConfig {
-        minSdk 21
+        minSdk 23
         targetSdk 35
         ndk {
             abiFilters 'armeabi-v7a','arm64-v8a'
@@ -51,7 +51,7 @@ configurations.configureEach {
 dependencies {
 
     //高精度Pro SDK API Demo(Android)：https://github.com/HiFaceSDK/HiFaceSDK_Android
-    api 'io.github.facesdkpro:HiFace:0.0.4' //GPU代理没有生效时模型的问题还是设置？？？？？》
+    api 'io.github.facesdkpro:HiFace:0.0.5' //GPU代理没有生效时模型的问题还是设置？？？？？》
 
     //Library and sample to access UVC camera: https://github.com/shiyinghan/UVCAndroid
     implementation 'com.herohan:UVCAndroid:1.0.12' //For Custom Android device use UVC camera

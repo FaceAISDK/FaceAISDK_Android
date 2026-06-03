@@ -236,24 +236,26 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 Toast.makeText(this, R.string.no_matched_face, Toast.LENGTH_SHORT).show();
                 break;
 
-
-
             case LOCAL_FACE_DATABASE_EMPTY:
                 //人脸库没有人脸照片，使用SDK API插入人脸
                 setSearchTips(R.string.local_face_database_empty);
                 break;
-            case ENGINE_INITING:
+
+            case SEARCH_INITIALIZING:
                 setSecondTips(R.string.sdk_init);
                 break;
 
             case SEARCH_PREPARED:
-                Log.d("SEARCH_PREPARED", "SEARCH_PREPARED" );
+                setSearchTips(R.string.keep_face_tips);
                 break;
 
             case FACE_ANGLE_NOT_FIT:
                 setSecondTips(R.string.face_angle_not_fit);
                 break;
 
+            case SEARCHING:
+                setSearchTips(R.string.keep_face_tips);
+                break;
 
             case NO_LIVE_FACE:
                 Log.d("NO_LIVE_FACE", "没有检测到人脸" );
@@ -282,11 +284,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
             case MASK_DETECTION:
                 setSearchTips(R.string.no_mask_please);
                 break;
-
-//            case SEARCHING:
-//                //后期将废除本状态
-//                setSearchTips(R.string.keep_face_tips);
-//                break;
 
             default: //其他tips code
                 binding.faceCover.setTipsText("Tips Code：" + code);

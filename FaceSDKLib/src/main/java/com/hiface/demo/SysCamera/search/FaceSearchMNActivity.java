@@ -1,6 +1,7 @@
 package com.hiface.demo.SysCamera.search;
 
 import static com.sdk.hiface.search.SearchProcessTipsCode.LOCAL_FACE_DATABASE_EMPTY;
+import static com.sdk.hiface.search.SearchProcessTipsCode.SEARCH_PREPARED;
 import static com.sdk.hiface.search.SearchProcessTipsCode.THRESHOLD_ERROR;
 import static com.hiface.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.hiface.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
@@ -138,6 +139,14 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
      */
     private void showProcessTips(int code) {
         switch (code) {
+            case SEARCH_INITIALIZING:
+                binding.searchTips.setText(R.string.sdk_init);
+                break;
+
+            case SEARCH_PREPARED:
+                binding.searchTips.setText(R.string.keep_face_tips);
+                break;
+
             case THRESHOLD_ERROR:
                 binding.searchTips.setText(R.string.search_threshold_scope_tips);
                 break;
