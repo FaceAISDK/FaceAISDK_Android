@@ -83,7 +83,7 @@ class FaceAINaviActivity : AbsBaseActivity() {
         }
 
         viewBinding.updateLayout.setOnClickListener {
-            val uri = "https://www.pgyer.com/faceVerify".toUri()
+            val uri = "https://www.pgyer.com/hiface".toUri()
             val intent = Intent(Intent.ACTION_VIEW)
             intent.addCategory(Intent.CATEGORY_BROWSABLE)
             intent.data = uri
@@ -241,10 +241,10 @@ class FaceAINaviActivity : AbsBaseActivity() {
             }
             val btnOK = dialogView.findViewById<Button>(R.id.share_face_feature)
             btnOK.setOnClickListener {
-                if(!checkBox.isSelected){
-                    Toast.makeText(this,R.string.login_privacy_policy, Toast.LENGTH_LONG).show()
-                    return@setOnClickListener
-                }
+//                if(!checkBox.isSelected){
+//                    Toast.makeText(this,R.string.login_privacy_policy, Toast.LENGTH_LONG).show()
+//                    return@setOnClickListener
+//                }
                 sharedPref.edit(commit = true) {
                     putLong(
                         "showTipsDialog",

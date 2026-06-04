@@ -20,10 +20,10 @@
     <string name="share_face_feature">分享人脸特征</string>
 
     <string name="facesdk_camera_permission">人脸识别SDK需要摄像头才能正常演示</string>
-    <string name="share_faceai_sdk_content">HiFaceSDK 人脸识别 活体检测接入源码\n\n
+    <string name="share_faceai_sdk_content">HiFace人脸识别 活体检测接入源码\n\n
 https://github.com/HiFaceSDK\n
 Email: FaceAISDK.Service@gmail.com\n\n
-体验Android App下载：https://www.pgyer.com/faceVerify</string>
+体验Android App下载：https://www.pgyer.com/hiface</string>
 
     <!--添加人脸 add face image-->
     <string name="keep_face_tips">平视正对摄像头</string>

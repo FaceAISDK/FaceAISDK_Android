@@ -182,7 +182,6 @@ class FaceAISettingsActivity : AppCompatActivity() {
         }
 
         mDeviceDialog.show(supportFragmentManager, "device_list")
-
     }
 
 }
