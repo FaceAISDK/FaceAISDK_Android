@@ -109,12 +109,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * 初始化1:1人脸识别人脸特征值信息
      */
     private void initFaceVerifyFeature() {
-        //老的数据是float[] 需要转换为String faceFeature才能在新版本中使用
-        //float[] faceEmbeddingOld = FaceEmbedding.loadEmbedding(getBaseContext(), faceID);
-        //String faceFeature = HiFaceSDKEngine.getInstance(this).faceArray2Feature(faceEmbeddingOld);
 
-
-        //从本地MMKV读取人脸特征值(2025.11.23版本使用MMKV，老的人脸数据请做好迁移)
         String faceFeature = MMKV.defaultMMKV().decodeString(faceID);
         if (!TextUtils.isEmpty(faceFeature)) {
             initFaceVerificationParam(faceFeature);
@@ -127,12 +122,6 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             }, 1111);
         }
 
-        //option， 去Path 路径读取有没有faceID 对应的处理好的人脸Bitmap，不需要可删除
-//        String faceFilePath = FaceSDKConfig.CACHE_BASE_FACE_DIR + faceID;
-//        Bitmap baseBitmap = BitmapFactory.decodeFile(faceFilePath);
-//        Glide.with(getBaseContext()).load(baseBitmap)
-//                .transform(new RoundedCorners(33))
-//                .into((ImageView) findViewById(R.id.base_face));
     }
 
 

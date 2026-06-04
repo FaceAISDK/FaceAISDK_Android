@@ -25,7 +25,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,12 +32,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.sdk.hiface.base.addFace.AddFaceCallBack;
 import com.sdk.hiface.base.addFace.AddFaceDispose;
 import com.sdk.hiface.base.utils.DataConvertUtils;
 import com.sdk.hiface.base.view.camera.CameraXBuilder;
 import com.sdk.hiface.core.engine.HiFaceSDKEngine;
-import com.sdk.hiface.search.FaceSearchEngine;
 import com.sdk.hiface.search.FaceSearchFeatureManger;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -51,13 +50,13 @@ import com.tencent.mmkv.MMKV;
 import java.util.Objects;
 
 /**
- * 演示使用SDK相机规范人脸录入,保存人脸特征值 https://i.postimg.cc/RCwNy0kV/add-Face.jpg
+ * 演示使用SDK相机规范人脸录入,保存人脸特征值
  * 1:1 和1:N 人脸特征数据保存有点差异，参考代码详情
  *
- * 通过图片录入人脸特征 {@link AddFaceByImageTestDemo} 我们提供2个API（请使用SDK相机录入人脸信息,会检验人脸角度和大小）
+ * 通过图片录入人脸特征 {@link AddFaceByImageTestDemo} 我们提供2个API（请尽量使用SDK相机录入人脸信息）
  * Image2FaceFeature.getFaceFeatureByBitmap /getFaceFeatureByBase64
  *
- * @author FaceAISDK.Service@gmail.com
+ * @author FaceSDK.Support@gmail.com
  */
 public class AddFaceFeatureActivity extends AbsBaseActivity {
     public static String ADD_FACE_IMAGE_TYPE_KEY = "ADD_FACE_IMAGE_TYPE_KEY";
@@ -89,6 +88,10 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         faceCoverView = findViewById(R.id.face_cover);
         addFaceType = getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
 
+        if(FaceSDKConfig.isDebugMode(this)){
+            addFacePerformanceMode=PERFORMANCE_MODE_FAST;
+        }
+
         Intent intent = getIntent();
         if (intent != null) {
             if (intent.hasExtra(USER_FACE_ID_KEY)) {
@@ -113,15 +116,16 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         addFaceDispose = new AddFaceDispose(this, addFacePerformanceMode,false, new AddFaceCallBack() {
             /**
              * 人脸检测裁剪完成
-             * @param bitmap           SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
-             * @param silentScore      静默活体分数(摄像头品质有关)，needLivenessCheck=true才有值
+             * @param cropped         SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
+             * @param silentScore     静默活体分数(摄像头品质有关)，needLivenessCheck=true才有值
+             * @param origin          640*480 原图
              */
             @Override
-            public void onCompleted(Bitmap bitmap, float silentScore) {
+            public void onCompleted(Bitmap cropped, float silentScore,Bitmap origin) {
                 isConfirmAdd=true;
                 //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
                 //如果非SDK相机录入的人脸照片提取特征值用异步方法 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
-                String faceFeature = HiFaceSDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(bitmap);
+                String faceFeature = HiFaceSDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(cropped);
 
                 if(!needConfirmAdd){
                     if(TextUtils.isEmpty(faceID)){
@@ -130,13 +134,13 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
                     }
                     //明确指示不需要弹窗确认，并且faceID指定了
                     if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
-                        saveFaceVerifyData(bitmap,faceID,faceFeature);
+                        saveFaceVerifyData(cropped,faceID,faceFeature);
                     } else {
-                        saveFaceSearchData(bitmap,faceID,faceFeature);
+                        saveFaceSearchData(cropped,faceID,faceFeature);
                     }
                     finishAddFace(1, "Add face success",faceFeature);
                 }else{
-                    confirmAddFaceDialog(bitmap,faceFeature);
+                    confirmAddFaceDialog(cropped,faceFeature,origin);
                 }
             }
 
@@ -241,19 +245,19 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     /**
      * 经过SDK裁剪矫正处理好的bitmap 转为人脸特征值
      *
-     * @param bitmap 符合对应参数设置的SDK裁剪好的人脸图
+     * @param croppedBitmap 符合对应参数设置的SDK裁剪好的人脸图
      */
-    private void confirmAddFaceDialog(Bitmap bitmap,String faceFeature) {
-        ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,bitmap);
+    private void confirmAddFaceDialog(Bitmap croppedBitmap,String faceFeature,Bitmap originBitmap) {
+        ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,originBitmap);
 
         confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
             faceID = confirmFaceDialog.faceIDEdit.getText().toString();
             if (!TextUtils.isEmpty(faceID)) {
                 if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
-                    saveFaceVerifyData(bitmap,faceID,faceFeature);
+                    saveFaceVerifyData(croppedBitmap,faceID,faceFeature);
                     finishConfirm(confirmFaceDialog.dialog, faceFeature);
                 } else {
-                    saveFaceSearchData(bitmap,faceID,faceFeature);
+                    saveFaceSearchData(croppedBitmap,faceID,faceFeature);
                     finishConfirm(confirmFaceDialog.dialog, faceFeature);
                 }
             } else {
@@ -275,7 +279,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
      * 保存1:1 人脸识别人脸特征值
      * @param bitmap  如果有需要,bitmap 也保存一下吧
      * @param faceID
-     * @param faceFeature 长度为1024 的人脸特征值
+     * @param faceFeature 人脸特征值
      */
     private void saveFaceVerifyData(Bitmap bitmap,String faceID,String faceFeature){
         //保存1:1 人脸识别特征数据，直接以KEY-Value的形式保存在MMKV中
@@ -289,10 +293,9 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
      * 保存1:N ，M：N 人脸搜索识别人脸特征值
      * @param bitmap 如果业务有需要,bitmap 也保存一下
      * @param faceID
-     * @param faceFeature 长度为1024 的人脸特征值
+     * @param faceFeature 人脸特征值
      */
     private void  saveFaceSearchData(Bitmap bitmap,String faceID,String faceFeature){
-
         //人脸搜索(1:N) 不适合存放在MMKV中,使用SDK提供的FaceSearchFeatureManger保存。
         //tag 和 group 可以用来做标记和分组。人脸搜索的时候可以作为权限场景控制以及 加快速度降低误差
         FaceSearchFeatureManger.getInstance(this)
@@ -318,15 +321,15 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         public EditText faceIDEdit;
         public ConfirmFaceDialog(Context context,Bitmap bitmap){
             dialog = new AlertDialog.Builder(context).create();
-            View dialogView = View.inflate(context, R.layout.dialog_confirm_base, null);
+            View dialogView = View.inflate(context, R.layout.dialog_confirm_add_face, null);
             Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.setView(dialogView);
             dialog.setCanceledOnTouchOutside(false);
-            ImageView basePreView = dialogView.findViewById(R.id.preview);
+            ImageView facePreView = dialogView.findViewById(R.id.preview);
             Glide.with(context)
                     .load(bitmap)
-                    .transform(new RoundedCorners(22))
-                    .into(basePreView);
+                    .transform(new CenterCrop(), new RoundedCorners(55))
+                    .into(facePreView);
             btnConfirm = dialogView.findViewById(R.id.share_face_feature);
             btnCancel = dialogView.findViewById(R.id.btn_cancel);
             faceIDEdit = dialogView.findViewById(R.id.edit_text);

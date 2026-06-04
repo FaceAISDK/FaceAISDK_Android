@@ -1,5 +1,5 @@
 package com.hiface.demo.SysCamera.search;
-import static com.sdk.hiface.search.SearchProcessTipsCode.ENGINE_INITING;
+
 import static com.sdk.hiface.search.SearchProcessTipsCode.FACE_ANGLE_NOT_FIT;
 import static com.sdk.hiface.search.SearchProcessTipsCode.LOCAL_FACE_DATABASE_EMPTY;
 import static com.sdk.hiface.search.SearchProcessTipsCode.FACE_SIZE_FIT;
@@ -9,6 +9,7 @@ import static com.sdk.hiface.search.SearchProcessTipsCode.MASK_DETECTION;
 import static com.sdk.hiface.search.SearchProcessTipsCode.NO_LIVE_FACE;
 import static com.sdk.hiface.search.SearchProcessTipsCode.NO_MATCHED;
 import static com.sdk.hiface.search.SearchProcessTipsCode.SEARCHING;
+import static com.sdk.hiface.search.SearchProcessTipsCode.SEARCH_INITIALIZING;
 import static com.sdk.hiface.search.SearchProcessTipsCode.SEARCH_PREPARED;
 import static com.sdk.hiface.search.SearchProcessTipsCode.THRESHOLD_ERROR;
 import static com.hiface.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
@@ -245,16 +246,16 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 setSecondTips(R.string.sdk_init);
                 break;
 
-            case SEARCH_PREPARED:
+            case SEARCH_PREPARED: //搜索准备就绪
+                setSearchTips(R.string.keep_face_tips);
+                break;
+
+            case SEARCHING: //人脸角度等条件OK，人脸搜索中
                 setSearchTips(R.string.keep_face_tips);
                 break;
 
             case FACE_ANGLE_NOT_FIT:
                 setSecondTips(R.string.face_angle_not_fit);
-                break;
-
-            case SEARCHING:
-                setSearchTips(R.string.keep_face_tips);
                 break;
 
             case NO_LIVE_FACE:

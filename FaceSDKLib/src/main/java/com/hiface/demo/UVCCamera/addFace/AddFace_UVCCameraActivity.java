@@ -126,10 +126,16 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
          * 0 PERFORMANCE_MODE_EASY 简单模式 允许人脸方位可以「较大」的偏移
          */
         addFaceDispose = new AddFaceDispose(this, PERFORMANCE_MODE_FAST, false,new AddFaceCallBack() {
+            /**
+             * 人脸检测裁剪完成
+             * @param cropped         SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
+             * @param silentScore     静默活体分数(摄像头品质有关)，needLivenessCheck=true才有值
+             * @param origin          640*480 原图
+             */
             @Override
-            public void onCompleted(Bitmap bitmap, float silentLiveValue) {
+            public void onCompleted(Bitmap cropped, float silentScore,Bitmap origin) {
                 isConfirmAdd = true;
-                confirmAddFaceDialog(bitmap, silentLiveValue);
+                confirmAddFaceDialog(cropped, silentScore);
             }
 
             @Override
@@ -196,7 +202,7 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
 
         public ConfirmFaceDialog(Context context, Bitmap bitmap, float silentLiveValue) {
             dialog = new AlertDialog.Builder(context).create();
-            View dialogView = View.inflate(context, R.layout.dialog_confirm_base, null);
+            View dialogView = View.inflate(context, R.layout.dialog_confirm_add_face, null);
             Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.setView(dialogView);
             dialog.setCanceledOnTouchOutside(false);

@@ -1,6 +1,7 @@
 package com.hiface.demo.SysCamera.search;
 
 import static com.sdk.hiface.search.SearchProcessTipsCode.LOCAL_FACE_DATABASE_EMPTY;
+import static com.sdk.hiface.search.SearchProcessTipsCode.SEARCH_INITIALIZING;
 import static com.sdk.hiface.search.SearchProcessTipsCode.SEARCH_PREPARED;
 import static com.sdk.hiface.search.SearchProcessTipsCode.THRESHOLD_ERROR;
 import static com.hiface.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
@@ -26,7 +27,7 @@ import com.google.gson.Gson;
 import java.util.List;
 
 /**
- * M:N 人脸搜索，暂不支持活体检测
+ * M:N 人脸搜索Beta，暂不支持活体检测。请尽量使用1:N人脸搜索
  *
  * 宽动态成像清晰摄像头，人脸正对摄像头
  * 提前在人脸库管理页面 点击右上角导入测试多人脸图，
@@ -35,6 +36,7 @@ import java.util.List;
  * 本功能要求设备硬件配置高，摄像头品质好。可以拿当前的各品牌手机旗舰机测试验证
  * @author FaceAISDK.Service@gmail.com
  */
+@Deprecated
 public class FaceSearchMNActivity extends AbsBaseActivity {
     private ActivityFaceSearchMnBinding binding;
 

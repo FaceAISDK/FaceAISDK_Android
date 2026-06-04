@@ -79,20 +79,21 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
          *  0 PERFORMANCE_MODE_EASY       简单模式 允许人脸角度可以「较大」的偏差
          * -1 PERFORMANCE_MODE_NO_LIMIT   无限制模式 基本上检测到人脸就返回了
          */
-        addFaceDispose = new AddFaceDispose(this, addFacePerformanceMode, false,new AddFaceCallBack() {
+        addFaceDispose = new AddFaceDispose(this, addFacePerformanceMode,false,new AddFaceCallBack() {
             /**
              * 人脸检测裁剪完成
-             * @param bitmap           SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
-             * @param silentScore      静默活体分数
+             * @param cropped         SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
+             * @param silentScore     静默活体分数(摄像头品质有关)，needLivenessCheck=true才有值
+             * @param origin          640*480 原图
              */
             @Override
-            public void onCompleted(Bitmap bitmap, float silentScore) {
+            public void onCompleted(Bitmap cropped, float silentScore,Bitmap origin) {
                 isConfirmAdd=true;
                 //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
                 //如果非SDK相机录入的人脸照片提取特征值用异步方法 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
-                String faceFeature = HiFaceSDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(bitmap);
+                String faceFeature = HiFaceSDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(cropped);
 
-                confirmAddFaceDialog(bitmap,faceFeature);
+                confirmAddFaceDialog(cropped,faceFeature);
 
             }
 
