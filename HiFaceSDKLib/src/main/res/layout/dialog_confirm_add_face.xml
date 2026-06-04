@@ -29,26 +29,13 @@
                 android:textStyle="bold"
                 android:textSize="18sp" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-
-                <ImageView
-                    android:id="@+id/preview"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="38dp"
-                    android:layout_marginEnd="38dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="11dp"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/preview"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="11dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -71,6 +58,7 @@
                 android:theme="@style/MyEditText"
                 android:textColor="@color/face_main_color"
                 android:textSize="13sp"
+                android:layout_marginTop="11dp"
                 android:layout_marginEnd="33dp"
                 android:layout_marginStart="33dp"
                 android:paddingStart="10dp"

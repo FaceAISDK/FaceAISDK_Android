@@ -18,6 +18,7 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:hardwareAccelerated="true"
+        android:extractNativeLibs="true"
         android:supportsRtl="true"
         android:name=".FaceApplication"
         android:theme="@style/AppTheme">

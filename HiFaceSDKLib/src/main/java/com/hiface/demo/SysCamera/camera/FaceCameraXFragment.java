@@ -152,9 +152,9 @@ public class FaceCameraXFragment extends AbsFaceCameraXFragment {
     private void bindCameraUseCases() {
         // 1. 配置 ImageAnalysis
         ImageAnalysis.Builder analysisBuilder = new ImageAnalysis.Builder()
+                .setTargetRotation(mRotation)
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
-                .setTargetRotation(mRotation);
+                .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888);
 
         if (isHighResolution) {
             // 远距离识别，但是性能会下降，定制设备需要配置摄像头支持的分辨率。请开发工程师切换后调试效果！
@@ -171,7 +171,8 @@ public class FaceCameraXFragment extends AbsFaceCameraXFragment {
                 .build();
 
         // 3. 配置 PreviewView
-        mPreviewView.setImplementationMode(PreviewView.ImplementationMode.PERFORMANCE);
+        mPreviewView.setImplementationMode(PreviewView.ImplementationMode.COMPATIBLE); //兼容模式可以旋转角度
+//        mPreviewView.setImplementationMode(PreviewView.ImplementationMode.PERFORMANCE); //高性能模式
         mPreviewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
         mPreview.setSurfaceProvider(mPreviewView.getSurfaceProvider());
 
