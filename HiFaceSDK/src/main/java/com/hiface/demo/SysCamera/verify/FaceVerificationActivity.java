@@ -42,7 +42,7 @@ import com.tencent.mmkv.MMKV;
  * 摄像头管理源码开放了 {@link FaceCameraXFragment}
  * 仅仅需要活体检测参考 {@link LivenessDetectActivity}
  *
- * @github  <a href="https://github.com/FaceAISDK/FaceAISDK_Android">Android Face recognize</a>
+ * GitHub  <a href="https://github.com/FaceSDKPro/HiFace_Android">Android Face recognize</a>
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceVerificationActivity extends AbsBaseActivity {
@@ -54,21 +54,19 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     public static final String MOTION_LIVENESS_TYPES = "MOTION_LIVENESS_TYPES"; //动作活体种类
     public static final String ALLOW_MULTI_FACES = "ALLOW_MULTI_FACES"; //是否允许有多人出现在镜头Key
     private  boolean allowMultiFaces = true; //是否允许有多人出现在镜头
-
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
     private float verifyThreshold = 0.8f; //1:1人脸识别对比通过的阈值，根据使用场景自行调整
 
     //NONE表示无活体，MOTION表示动作活体，COLOR_FLASH表示炫彩活体（其他种类默认都会包含静默活体，如果仅仅需静默可指定SILENT_LIVE）
     //静默活体效果和摄像头成像有关，炫彩活体不能在强光下使用
     private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION;  //活体检测类型建议MOTION或COLOR_FLASH_MOTION
-
     private int motionStepSize = 2; //动作活体的个数
     private int motionTimeOut = motionStepSize*3;  //动作超时秒
     private String motionLivenessTypes = "1,2,3,4,5"; //动作活体种类用英文","隔开； 1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
 
     private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     private FaceCoverView faceCoverView;
-    private FaceCameraXFragment cameraXFragment;  //Camera Manger
+    private FaceCameraXFragment cameraXFragment;  //Camera Manager
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +75,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
         setContentView(R.layout.activity_face_verification);
 
         faceCoverView = findViewById(R.id.face_cover);
-        findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(0, R.string.face_verify_result_cancel));
+        findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(VerifyStatue.DEFAULT, R.string.face_verify_result_cancel));
 
         getIntentParams(); //接收三方插件传递的参数，原生开发可以忽略裁剪掉
 
@@ -118,7 +116,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             TTSPlayer.getInstance().playTTS(R.string.no_face_feature);
             Toast.makeText(getBaseContext(), R.string.no_face_feature, Toast.LENGTH_LONG).show();
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                finishFaceVerify(12, R.string.no_face_feature, 0,0);
+                finishFaceVerify(VerifyStatue.NO_BASE_FACE_FEATURE, R.string.no_face_feature, 0,0);
             }, 1111);
         }
 
@@ -210,11 +208,11 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             TTSPlayer.getInstance().playTTS(R.string.face_verify_success);
             new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                finishFaceVerify(1, R.string.face_verify_result_success, similarity,livenessValue);
+                finishFaceVerify(VerifyStatue.VERIFY_SUCCESS, R.string.face_verify_result_success, similarity,livenessValue);
             }, 500);
         } else {
             // 如果匹配成功但活体检测失败(code=11)，否则为匹配失败(code=2)
-            int code = isVerifyMatched ? 11 : 2;
+            int code = isVerifyMatched ? VerifyStatue.SILENT_LIVENESS_FAILED : VerifyStatue.VERIFY_FAILED;
             TTSPlayer.getInstance().playTTS(R.string.face_verify_failed);
 
             new AlertDialog.Builder(FaceVerificationActivity.this).setTitle(R.string.face_verify_failed_title).setMessage(R.string.face_verify_failed).setCancelable(false).setPositiveButton(R.string.know, (dialogInterface, i) -> {
@@ -237,7 +235,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                     if(!allowMultiFaces){
                         Toast.makeText(this,R.string.multiple_faces_tips,Toast.LENGTH_LONG).show();
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                            finishFaceVerify(13, R.string.multiple_faces_tips);
+                            finishFaceVerify(VerifyStatue.NOT_ALLOW_MULTI_FACES, R.string.multiple_faces_tips);
                         }, 999);
                     }
                     break;
@@ -255,7 +253,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                             .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                 retryTime++;
                                 if (retryTime > 1) {
-                                    finishFaceVerify(4, R.string.face_verify_result_timeout);
+                                    finishFaceVerify(VerifyStatue.MOTION_LIVENESS_TIMEOUT, R.string.face_verify_result_timeout);
                                 } else {
                                     faceVerifyUtils.retryVerify();
                                 }
@@ -298,7 +296,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                             .setMessage(R.string.face_verify_pause)
                             .setCancelable(false)
                             .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                                finishFaceVerify(5, R.string.face_verify_result_no_face_multi_time);
+                                finishFaceVerify(VerifyStatue.NO_FACE_MULTI, R.string.face_verify_result_no_face_multi_time);
                             }).show();
                     break;
 
@@ -309,7 +307,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                             .setMessage(R.string.stop_verify_tips)
                             .setCancelable(false)
                             .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                                finishFaceVerify(5, R.string.face_verify_result_no_face_multi_time);
+                                finishFaceVerify(VerifyStatue.NO_FACE_MULTI, R.string.face_verify_result_no_face_multi_time);
                             }).show();
                     break;
 
@@ -338,7 +336,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                     TTSPlayer.getInstance().playTTS(R.string.color_flash_need_closer_camera,TTSPlayer.PlayMode.DROP_IF_BUSY);
                     break;
 
-                //炫彩活体通过✅
+                //炫彩活体通过
                 case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIVE_SUCCESS:
                     TTSPlayer.getInstance().playTTS(R.string.keep_face_visible);
                     setMainTips(R.string.keep_face_visible);
@@ -351,7 +349,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                             .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                 retryTime++;
                                 if (retryTime > 1) {
-                                    finishFaceVerify(8, R.string.color_flash_liveness_failed);
+                                    finishFaceVerify(VerifyStatue.COLOR_LIVENESS_FAILED, R.string.color_flash_liveness_failed);
                                 } else {
                                     faceVerifyUtils.retryVerify();
                                 }
@@ -367,7 +365,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                             .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                 retryTime++;
                                 if (retryTime > 1) {
-                                    finishFaceVerify(9, R.string.color_flash_light_high);
+                                    finishFaceVerify(VerifyStatue.COLOR_LIVENESS_LIGHT_TOO_HIGH, R.string.color_flash_light_high);
                                 } else {
                                     faceVerifyUtils.retryVerify();
                                 }
@@ -402,7 +400,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finishFaceVerify(0, R.string.face_verify_result_cancel);
+        finishFaceVerify(VerifyStatue.DEFAULT, R.string.face_verify_result_cancel);
     }
 
 
@@ -424,7 +422,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     }
 
 
-    // ************************** 下面代码是为了兼容三方插件，原生开放可以忽略   ***********************************
+    // ************************** 下面代码是为了兼容三方插件，原生开发可以忽略   ***********************************
 
     /**
      * 获取UNI,RN,Flutter三方插件传递的参数,以便在原生代码中生效
@@ -479,8 +477,6 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             }
         }
     }
-
-
 
     /**
      * 识别结束返回结果, 为了给uniApp UTS插件，RN，Flutter统一的交互返回格式

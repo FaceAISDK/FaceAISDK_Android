@@ -11,7 +11,7 @@ on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoof
 | 少量简洁的 SDK API 可快速接入，节省研发维护费用 | 在设备本地执行推断，无需将用户数据发送到云端 | 无需网络连接或在云端运行服务，小场景一台设备就能 Hold 业务需求 | 在设备端运行机器学习功能，减少云端费用 |
 
 
-## [使用场景](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/doc/Introduce_11_1N_MN.md)
+## [使用场景](https://github.com/FaceSDKPro/HiFace_Android/blob/main/doc/Introduce_11_1N_MN.md)
 
 【1:1】 设备解锁、人证核验、App个人考勤免密登录。证明你就是你  
 【1:N】 小区门禁、大堂闸机、公司考勤名单内验证。证明你在名单内  

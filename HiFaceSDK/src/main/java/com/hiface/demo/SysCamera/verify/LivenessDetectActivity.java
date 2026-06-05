@@ -34,7 +34,7 @@ import com.hiface.demo.base.view.FaceCoverView;
  * 活体检测 SDK 接入演示代码.
  * <p>
  * 摄像头管理源码开放了 {@link FaceCameraXFragment}
- * More：<a href="https://github.com/FaceAISDK/FaceAISDK_Android">人脸识别FaceAISDK</a>
+ * More：<a href="https://github.com/FaceSDKPro/HiFace_Android">人脸识别FaceAISDK</a>
  *
  * @author FaceAISDK.Service@gmail.com
  */
@@ -63,7 +63,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         hideSystemUI();//炫彩活体全屏显示各种颜色
         setContentView(R.layout.activity_liveness_detection);
         faceCoverView = findViewById(R.id.face_cover);
-        findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(0, R.string.face_verify_result_cancel));
+        findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(VerifyStatue.DEFAULT, R.string.face_verify_result_cancel));
 
         getIntentParams();    //接收三方插件的参数 数据
 
@@ -112,11 +112,11 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                         if(livenessValue>0.81){
                             TTSPlayer.getInstance().playTTS(R.string.face_verify_success);
                             new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
-                            finishFaceVerify(10, R.string.liveness_detection_done, livenessValue);
+                            finishFaceVerify(VerifyStatue.ALL_LIVENESS_SUCCESS, R.string.liveness_detection_done, livenessValue);
                         }else{
                             TTSPlayer.getInstance().playTTS(R.string.silent_anti_spoofing_error);
                             new ImageToast().show(getApplicationContext(), getString(R.string.silent_anti_spoofing_error));
-                            finishFaceVerify(11, R.string.silent_anti_spoofing_error, livenessValue);
+                            finishFaceVerify(VerifyStatue.SILENT_LIVENESS_FAILED, R.string.silent_anti_spoofing_error, livenessValue);
                         }
                     }
 
@@ -160,7 +160,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finishFaceVerify(0, R.string.face_verify_result_cancel);
+        finishFaceVerify(VerifyStatue.DEFAULT, R.string.face_verify_result_cancel);
     }
 
     /**
@@ -188,7 +188,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                             .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                 retryTime++;
                                 if (retryTime > 1) {
-                                    finishFaceVerify(7, R.string.color_flash_liveness_failed);
+                                    finishFaceVerify(VerifyStatue.COLOR_LIVENESS_FAILED, R.string.color_flash_liveness_failed);
                                 } else {
                                     faceVerifyUtils.retryVerify();
                                 }
@@ -204,7 +204,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                             .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                 retryTime++;
                                 if (retryTime > 1) {
-                                    finishFaceVerify(9, R.string.color_flash_light_high);
+                                    finishFaceVerify(VerifyStatue.COLOR_LIVENESS_LIGHT_TOO_HIGH, R.string.color_flash_light_high);
                                 } else {
                                     faceVerifyUtils.retryVerify();
                                 }
@@ -228,7 +228,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                                 retryTime++;
                                 if (retryTime > 1) {
                                     // 3 还是 4？？
-                                    finishFaceVerify(3, R.string.face_verify_result_timeout);
+                                    finishFaceVerify(VerifyStatue.MOTION_LIVENESS_TIMEOUT, R.string.face_verify_result_timeout);
                                 } else {
                                     faceVerifyUtils.retryVerify();
                                 }
@@ -271,7 +271,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                             .setMessage(R.string.face_verify_pause)
                             .setCancelable(false)
                             .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                                finishFaceVerify(6, R.string.face_verify_result_pause);
+                                finishFaceVerify(VerifyStatue.NO_FACE_FEATURE, R.string.face_verify_result_pause);
                             }).show();
                     break;
 
@@ -282,7 +282,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                             .setMessage(R.string.stop_verify_tips)
                             .setCancelable(false)
                             .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                                finishFaceVerify(5, R.string.face_verify_result_no_face_multi_time);
+                                finishFaceVerify(VerifyStatue.NO_FACE_MULTI, R.string.face_verify_result_no_face_multi_time);
                             }).show();
                     break;
 
@@ -309,7 +309,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                 case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY:
                     //防止一真一假人脸作弊,每帧画面检测
                     if(!allowMultiFaces){
-                        finishFaceVerify(13, R.string.multiple_faces_tips);
+                        finishFaceVerify(VerifyStatue.NOT_ALLOW_MULTI_FACES, R.string.multiple_faces_tips);
                         Toast.makeText(this,R.string.multiple_faces_tips,Toast.LENGTH_LONG).show();
                     }
                     break;

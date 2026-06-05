@@ -1,7 +1,7 @@
 package com.hiface.demo.SysCamera.verify;
 
 public class VerifyStatue {
-    public static final int  DEFAULT = 0;                  // 0   初始化状态，流程没有开始
+    public static final int  DEFAULT = 0;                  // 0   初始化状态，流程没有开始/中断
     public static final int  VERIFY_SUCCESS = 1;           // 1   人脸识别对比成功大于设置的threshold
     public static final int  VERIFY_FAILED = 2;            // 2   人脸识别对比识别小于设置的threshold
     public static final int  MOTION_LIVENESS_SUCCESS = 3;  // 3   动作活体检测成功（基本不用，还有后续动作）
