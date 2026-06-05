@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import com.tencent.mmkv.MMKV;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -108,7 +109,7 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
 
         //添加人脸照片，UVC协议摄像头添加还是普通的系统相机
         if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean("isAdd")) {
-            SharedPreferences sharedPref =getSharedPreferences("HiFaceSDK_SP", MODE_PRIVATE);
+            SharedPreferences sharedPref = MMKV.defaultMMKV();
             int cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
 
             Intent addFaceIntent;
@@ -207,7 +208,7 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();//添加一张
         if (itemId == R.id.camera_add) {
-            SharedPreferences sharedPref = getSharedPreferences("HiFaceSDK_SP", MODE_PRIVATE);
+            SharedPreferences sharedPref = MMKV.defaultMMKV();
             int cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
 
             if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {

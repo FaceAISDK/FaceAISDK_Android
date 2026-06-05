@@ -3,7 +3,6 @@ package com.hiface.demo;
 import static com.hiface.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import com.sdk.hiface.search.FaceSearchFeatureManger;
 import com.sdk.hiface.search.Image2FaceFeature;
@@ -80,11 +79,11 @@ public class FaceSDKConfig {
     }
 
     /**
-     * 暂时还用SP，后期统一为MMKV
+     * 全部使用MMKV
      */
     public static void setCameraID(Context context,int cameraID){
-        SharedPreferences sharedPref = context.getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE);
-        sharedPref.edit().putInt(FRONT_BACK_CAMERA_FLAG,cameraID).apply();
+        MMKV mmkv = MMKV.defaultMMKV();
+        mmkv.encode(FRONT_BACK_CAMERA_FLAG, cameraID);
     }
 
     /**

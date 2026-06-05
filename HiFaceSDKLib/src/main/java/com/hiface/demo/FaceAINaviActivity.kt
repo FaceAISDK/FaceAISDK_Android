@@ -27,6 +27,7 @@ import com.hiface.demo.SysCamera.verify.TwoFaceImageVerifyActivity
 import com.hiface.demo.UVCCamera.liveness.Liveness_UVCCameraActivity
 import com.hiface.demo.base.AbsBaseActivity
 import com.hiface.demo.databinding.ActivityFaceAiNaviBinding
+import com.tencent.mmkv.MMKV
 
 /**
  * SDK 接入演示Demo，请先熟悉本Demo跑通主要流程后再集成到你的主工程 验证业务
@@ -67,8 +68,8 @@ class FaceAINaviActivity : AbsBaseActivity() {
 
         // 活体检测 livenessDetection
         viewBinding.livenessDetection.setOnClickListener {
-            val sharedPref = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE)
-            val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA)
+            val mmkv = MMKV.defaultMMKV()
+            val uvcCameraType = mmkv.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA)
 
             if(uvcCameraType== FaceAICameraType.SYSTEM_CAMERA){
                 startActivity(Intent(this@FaceAINaviActivity, LivenessDetectActivity::class.java))
@@ -175,16 +176,16 @@ class FaceAINaviActivity : AbsBaseActivity() {
         arrayAdapter.add(getString(R.string.camera_type_uvc_rgb_ir))
         builderSingle.setNegativeButton(R.string.cancel) { dialog, which -> dialog.dismiss() }
         builderSingle.setAdapter(arrayAdapter) { dialog, which ->
-            val sharedPref = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE)
+            val mmkv = MMKV.defaultMMKV()
             when (which) {
                 0 -> {
-                    sharedPref.edit(commit = true) { putInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA) }
+                    mmkv.edit(commit = true) { putInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA) }
                 }
                 1 -> {
-                    sharedPref.edit(commit = true) { putInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB) }
+                    mmkv.edit(commit = true) { putInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB) }
                 }
                 else -> {
-                    sharedPref.edit(commit = true) { putInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB_IR) }
+                    mmkv.edit(commit = true) { putInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB_IR) }
                 }
             }
             setCameraType()
@@ -196,8 +197,8 @@ class FaceAINaviActivity : AbsBaseActivity() {
      *  当前的相机类型
      */
     private  fun setCameraType() {
-        val sharedPref = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE)
-        val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA)
+        val mmkv = MMKV.defaultMMKV()
+        val uvcCameraType = mmkv.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA)
         when (uvcCameraType) {
             FaceAICameraType.SYSTEM_CAMERA -> {
                 viewBinding.cameraTypeSelect.text = getString(R.string.camera_type_system)
@@ -218,8 +219,8 @@ class FaceAINaviActivity : AbsBaseActivity() {
      */
     private fun showTipsDialog() {
 
-        val sharedPref = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE)
-        val showTime = sharedPref.getLong("showTipsDialog", 0)
+        val mmkv = MMKV.defaultMMKV()
+        val showTime = mmkv.getLong("showTipsDialog", 0)
         if (System.currentTimeMillis() - showTime > 300 * 60 * 60 * 1000) {
             val builder = AlertDialog.Builder(this)
             val dialog = builder.create()
@@ -245,7 +246,7 @@ class FaceAINaviActivity : AbsBaseActivity() {
 //                    Toast.makeText(this,R.string.login_privacy_policy, Toast.LENGTH_LONG).show()
 //                    return@setOnClickListener
 //                }
-                sharedPref.edit(commit = true) {
+                mmkv.edit(commit = true) {
                     putLong(
                         "showTipsDialog",
                         System.currentTimeMillis()

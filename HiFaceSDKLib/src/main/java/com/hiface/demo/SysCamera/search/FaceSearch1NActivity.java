@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import com.tencent.mmkv.MMKV;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -101,7 +102,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
 
         getIntentParams(); //接收三方插件传递的参数，原生开发可以忽略裁剪掉
 
-        SharedPreferences sharedPref = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = MMKV.defaultMMKV();
         cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 0); //默认前置
         int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 

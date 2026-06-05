@@ -14,6 +14,7 @@ import static com.hiface.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import com.tencent.mmkv.MMKV;
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
 import android.os.Bundle;
@@ -55,7 +56,7 @@ public abstract class AbsLiveness_UVCCameraFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentUvcCameraLivenessBinding.inflate(inflater, container, false);
 
-        SharedPreferences sharedPref = requireActivity().getSharedPreferences("HiFaceSDK_SP", MODE_PRIVATE);
+        SharedPreferences sharedPref = MMKV.defaultMMKV();
         cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
 
         initViews();
@@ -79,7 +80,7 @@ public abstract class AbsLiveness_UVCCameraFragment extends Fragment {
      * 初始化UVC 协议RGB摄像头
      */
     private void initRGBCamara() {
-        SharedPreferences sharedPref = requireContext().getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = MMKV.defaultMMKV();
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
                 .setCameraName("UVC RGB Camera")
                 .setCameraKey(sharedPref.getString(RGB_UVC_CAMERA_SELECT, RGB_KEY_DEFAULT))
@@ -121,7 +122,7 @@ public abstract class AbsLiveness_UVCCameraFragment extends Fragment {
      * 初始化IR 摄像头
      */
     private void initIRCamara() {
-        SharedPreferences sp = requireContext().getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE);
+        SharedPreferences sp = MMKV.defaultMMKV();
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
                 .setCameraName("红外IR摄像头")
                 .setCameraKey(sp.getString(IR_UVC_CAMERA_SELECT, IR_KEY_DEFAULT))

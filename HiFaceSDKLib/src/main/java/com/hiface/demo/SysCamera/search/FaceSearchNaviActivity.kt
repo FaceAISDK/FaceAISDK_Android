@@ -14,6 +14,7 @@ import com.hiface.demo.FaceAISettingsActivity
 import com.hiface.demo.R
 import com.hiface.demo.UVCCamera.search.FaceSearch_UVCCameraActivity
 import com.hiface.demo.databinding.ActivityFaceSearchNaviBinding
+import com.tencent.mmkv.MMKV
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 
@@ -34,8 +35,8 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         setContentView(binding.root)
         checkNeededPermission()
 
-        val sharedPref = getSharedPreferences("HiFaceSDK_SP", MODE_PRIVATE)
-        cameraType = sharedPref.getInt(
+        val mmkv = MMKV.mmkvWithID("HiFaceSDK_SP")
+        cameraType = mmkv.getInt(
             FaceAISettingsActivity.Companion.UVC_CAMERA_TYPE,
             FaceAICameraType.SYSTEM_CAMERA
         )

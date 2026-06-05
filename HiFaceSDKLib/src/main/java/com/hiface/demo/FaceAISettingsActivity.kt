@@ -1,7 +1,7 @@
 package com.hiface.demo
 
 import android.content.Context
-import android.content.SharedPreferences
+import com.tencent.mmkv.MMKV
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -45,22 +45,22 @@ class FaceAISettingsActivity : AppCompatActivity() {
             this@FaceAISettingsActivity.finish()
         }
 
-        val sharedPref = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE)
+        val mmkv = MMKV.defaultMMKV()
 
         //1.切换系统相机前后摄像头
         binding.switchCamera.setOnClickListener {
             //CameraSelector.LENS_FACING_FRONT=0 ,系统对前摄的定义
-            if (sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT) == 1) {
-                sharedPref.edit(commit = true) { putInt(FRONT_BACK_CAMERA_FLAG, 0) }
+            if (mmkv.getInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT) == 1) {
+                mmkv.edit(commit = true) { putInt(FRONT_BACK_CAMERA_FLAG, 0) }
                 Toast.makeText(baseContext, "Front camera now", Toast.LENGTH_SHORT).show()
             } else {
-                sharedPref.edit(commit = true) { putInt(FRONT_BACK_CAMERA_FLAG, 1) }
+                mmkv.edit(commit = true) { putInt(FRONT_BACK_CAMERA_FLAG, 1) }
                 Toast.makeText(baseContext, "Back/USB Camera", Toast.LENGTH_SHORT).show()
             }
         }
 
         // 2.切换系统相机旋转角度
-        val degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, 0) % 4
+        val degree = mmkv.getInt(SYSTEM_CAMERA_DEGREE, 0) % 4
         val degreeStr = when (degree) {
             0 -> "0°"
             1 -> "90°"
@@ -77,8 +77,8 @@ class FaceAISettingsActivity : AppCompatActivity() {
          * {@link Surface.ROTATION_0}
          */
         binding.switchCameraDegree.setOnClickListener {
-            val degreeSys = (sharedPref.getInt(SYSTEM_CAMERA_DEGREE, 3) + 1) % 4
-            sharedPref.edit(commit = true) { putInt(SYSTEM_CAMERA_DEGREE, degreeSys) }
+            val degreeSys = (mmkv.getInt(SYSTEM_CAMERA_DEGREE, 3) + 1) % 4
+            mmkv.edit(commit = true) { putInt(SYSTEM_CAMERA_DEGREE, degreeSys) }
             val degreeStrSys = when (degreeSys) {
                 0 -> "0°"
                 1 -> "90°"
@@ -94,13 +94,13 @@ class FaceAISettingsActivity : AppCompatActivity() {
 
         //UVC RGB摄像头角度旋转设置
         binding.rgbUvcCameraSwitch.setOnClickListener {
-            var rgbDegree = sharedPref.getInt(RGB_UVC_CAMERA_DEGREE, 0)
+            var rgbDegree = mmkv.getInt(RGB_UVC_CAMERA_DEGREE, 0)
             rgbDegree += 90
             rgbDegree %= 360
             if (rgbDegree < 0) {
                 rgbDegree += 360
             }
-            sharedPref.edit(commit = true) { putInt(RGB_UVC_CAMERA_DEGREE, rgbDegree) }
+            mmkv.edit(commit = true) { putInt(RGB_UVC_CAMERA_DEGREE, rgbDegree) }
             Toast.makeText(
                 baseContext,
                 "RGB Camera degree: $rgbDegree",
@@ -110,8 +110,8 @@ class FaceAISettingsActivity : AppCompatActivity() {
 
         //RGB画面左右水平翻转
         binding.rgbUvcCameraHorizontal.setOnClickListener {
-            val rgbHorizontalMirror = !sharedPref.getBoolean(RGB_UVC_CAMERA_MIRROR_H, false)
-            sharedPref.edit(commit = true) {
+            val rgbHorizontalMirror = !mmkv.getBoolean(RGB_UVC_CAMERA_MIRROR_H, false)
+            mmkv.edit(commit = true) {
                 putBoolean(
                     RGB_UVC_CAMERA_MIRROR_H,
                     rgbHorizontalMirror
@@ -127,13 +127,13 @@ class FaceAISettingsActivity : AppCompatActivity() {
 
         //UVC IR摄像头角度旋转设置
         binding.irUvcCameraSwitch.setOnClickListener {
-            var irDegree = sharedPref.getInt(IR_UVC_CAMERA_DEGREE, 0)
+            var irDegree = mmkv.getInt(IR_UVC_CAMERA_DEGREE, 0)
             irDegree += 90
             irDegree %= 360
             if (irDegree < 0) {
                 irDegree += 360
             }
-            sharedPref.edit(commit = true) { putInt(IR_UVC_CAMERA_DEGREE, irDegree) }
+            mmkv.edit(commit = true) { putInt(IR_UVC_CAMERA_DEGREE, irDegree) }
             Toast.makeText(
                 baseContext,
                 "IRCamera degree: $irDegree",
@@ -143,8 +143,8 @@ class FaceAISettingsActivity : AppCompatActivity() {
 
         //IR画面左右水平翻转
         binding.irUvcCameraHorizontal.setOnClickListener {
-            val horizontalMirror = !sharedPref.getBoolean(IR_UVC_CAMERA_MIRROR_H, false)
-            sharedPref.edit(commit = true) { putBoolean(IR_UVC_CAMERA_MIRROR_H, horizontalMirror) }
+            val horizontalMirror = !mmkv.getBoolean(IR_UVC_CAMERA_MIRROR_H, false)
+            mmkv.edit(commit = true) { putBoolean(IR_UVC_CAMERA_MIRROR_H, horizontalMirror) }
             Toast.makeText(
                 baseContext,
                 "IRCameraHorizontal: $horizontalMirror",
@@ -154,12 +154,12 @@ class FaceAISettingsActivity : AppCompatActivity() {
 
         //RGB摄像头选择
         binding.rgbUvcCameraSelect.setOnClickListener {
-            selectCamera("RGB 摄像头选择",RGB_UVC_CAMERA_SELECT,sharedPref);
+            selectCamera("RGB 摄像头选择",RGB_UVC_CAMERA_SELECT,mmkv);
         }
 
         //IR摄像头选择
         binding.irUvcCameraSelect.setOnClickListener {
-            selectCamera("IR 摄像头选择",IR_UVC_CAMERA_SELECT,sharedPref);
+            selectCamera("IR 摄像头选择",IR_UVC_CAMERA_SELECT,mmkv);
         }
 
     }
@@ -168,7 +168,7 @@ class FaceAISettingsActivity : AppCompatActivity() {
     /**
      * 选择摄像头
      */
-    private fun selectCamera(cameraName: String,cameraKey: String,sharedPref: SharedPreferences) {
+    private fun selectCamera(cameraName: String,cameraKey: String,mmkv: MMKV) {
         val mCameraHelper = CameraHelper()
         val mDeviceDialog =
             DeviceListDialogFragment(
@@ -176,7 +176,7 @@ class FaceAISettingsActivity : AppCompatActivity() {
                 cameraName
             )
         mDeviceDialog.setOnDeviceItemSelectListener { usbDevice ->
-            sharedPref.edit(commit = true) { putString(cameraKey, usbDevice.productName.toString()) }
+            mmkv.edit(commit = true) { putString(cameraKey, usbDevice.productName.toString()) }
             Toast.makeText(baseContext, usbDevice.productName.toString(), Toast.LENGTH_SHORT).show()
             mDeviceDialog.dismiss()
         }

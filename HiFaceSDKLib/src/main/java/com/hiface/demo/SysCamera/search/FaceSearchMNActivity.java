@@ -8,6 +8,7 @@ import static com.hiface.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.hiface.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import android.content.Context;
 import android.content.SharedPreferences;
+import com.tencent.mmkv.MMKV;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,7 +50,7 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
         setContentView(binding.getRoot());
         binding.close.setOnClickListener(v -> finish());
 
-        SharedPreferences sharedPref = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = MMKV.mmkvWithID("HiFaceSDK_SP");
 
         int cameraLensFacing = sharedPref.getInt( FRONT_BACK_CAMERA_FLAG, 0);
         int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());

@@ -150,7 +150,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
             }
         });
 
-        SharedPreferences sharedPref = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = MMKV.defaultMMKV();
         int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 0);
         int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 

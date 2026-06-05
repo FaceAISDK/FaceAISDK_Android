@@ -20,6 +20,7 @@ import static com.hiface.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import com.tencent.mmkv.MMKV;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -88,7 +89,7 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
     }
 
     private void initRGBCamara() {
-        SharedPreferences sp = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE);
+        SharedPreferences sp = MMKV.mmkvWithID("HiFaceSDK_SP");
 
         String s = sp.getString(RGB_UVC_CAMERA_SELECT, RGB_KEY_DEFAULT);
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()

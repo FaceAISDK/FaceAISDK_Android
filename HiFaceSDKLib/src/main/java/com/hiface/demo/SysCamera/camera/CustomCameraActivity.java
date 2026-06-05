@@ -5,6 +5,7 @@ import static com.hiface.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import com.tencent.mmkv.MMKV;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -32,7 +33,7 @@ public class CustomCameraActivity extends AbsBaseActivity {
             finish();
         });
 
-        SharedPreferences sharedPref = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = MMKV.defaultMMKV();
         int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT);
         int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 

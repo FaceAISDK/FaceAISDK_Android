@@ -59,7 +59,7 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
         setContentView(R.layout.activity_face_verify_navi);
         setSupportActionBar(findViewById(R.id.toolbar));
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        SharedPreferences sharedPref = getSharedPreferences("HiFaceSDK_SP", MODE_PRIVATE);
+        SharedPreferences sharedPref = MMKV.mmkvWithID("HiFaceSDK_SP");
         cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
         TextView cameraTypeText = findViewById(R.id.camera_mode);
 
