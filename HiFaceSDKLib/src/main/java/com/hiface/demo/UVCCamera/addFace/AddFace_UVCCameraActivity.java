@@ -88,7 +88,7 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
     }
 
     private void initRGBCamara() {
-        SharedPreferences sp = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE);
 
         String s = sp.getString(RGB_UVC_CAMERA_SELECT, RGB_KEY_DEFAULT);
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()

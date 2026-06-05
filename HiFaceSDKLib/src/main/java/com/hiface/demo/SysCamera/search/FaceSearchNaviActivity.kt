@@ -34,7 +34,7 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         setContentView(binding.root)
         checkNeededPermission()
 
-        val sharedPref = getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE)
+        val sharedPref = getSharedPreferences("HiFaceSDK_SP", MODE_PRIVATE)
         cameraType = sharedPref.getInt(
             FaceAISettingsActivity.Companion.UVC_CAMERA_TYPE,
             FaceAICameraType.SYSTEM_CAMERA

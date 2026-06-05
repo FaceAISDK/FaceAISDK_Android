@@ -101,7 +101,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
 
         getIntentParams(); //接收三方插件传递的参数，原生开发可以忽略裁剪掉
 
-        SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE);
         cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 0); //默认前置
         int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 

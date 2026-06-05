@@ -32,11 +32,10 @@ public class FaceSDKConfig {
 
         //使用MMKV保存简单1:1人脸特征保存key为faceID,value为特征值 （人脸搜索的人脸特征放在SDK内置数据库中管理）
         MMKV.initialize(context);
+        TTSPlayer.getInstance().init(context);
 
         //语音提示播报，现在都是播放录音文件。后期改为TTS吧
         VoicePlayer.getInstance().init(context);
-
-        TTSPlayer.getInstance().init(context);
 
         // 人脸图存储在App内部私有空间，SDK未做分区存储
         // Warming: 目前仅能存储在context.getCacheDir() 或者context.getFilesDir() 内部私有空间
@@ -84,7 +83,7 @@ public class FaceSDKConfig {
      * 暂时还用SP，后期统一为MMKV
      */
     public static void setCameraID(Context context,int cameraID){
-        SharedPreferences sharedPref = context.getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = context.getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE);
         sharedPref.edit().putInt(FRONT_BACK_CAMERA_FLAG,cameraID).apply();
     }
 

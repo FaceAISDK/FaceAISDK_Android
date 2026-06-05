@@ -31,8 +31,8 @@
 
             <ImageView
                 android:id="@+id/preview"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="188dp"
+                android:layout_height="222dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="11dp" />

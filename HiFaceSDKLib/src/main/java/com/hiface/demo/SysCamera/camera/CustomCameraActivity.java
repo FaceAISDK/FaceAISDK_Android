@@ -32,7 +32,7 @@ public class CustomCameraActivity extends AbsBaseActivity {
             finish();
         });
 
-        SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE);
         int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT);
         int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 

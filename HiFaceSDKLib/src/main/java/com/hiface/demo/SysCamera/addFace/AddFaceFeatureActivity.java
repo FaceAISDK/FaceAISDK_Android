@@ -150,7 +150,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
             }
         });
 
-        SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE);
         int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 0);
         int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
@@ -328,7 +328,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
             ImageView facePreView = dialogView.findViewById(R.id.preview);
             Glide.with(context)
                     .load(bitmap)
-                    .transform(new CenterCrop(), new RoundedCorners(55))
+                    .transform(new CenterCrop(), new RoundedCorners(33))
                     .into(facePreView);
             btnConfirm = dialogView.findViewById(R.id.share_face_feature);
             btnCancel = dialogView.findViewById(R.id.btn_cancel);

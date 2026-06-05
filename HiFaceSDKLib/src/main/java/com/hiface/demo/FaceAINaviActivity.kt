@@ -67,7 +67,7 @@ class FaceAINaviActivity : AbsBaseActivity() {
 
         // 活体检测 livenessDetection
         viewBinding.livenessDetection.setOnClickListener {
-            val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
+            val sharedPref = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE)
             val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA)
 
             if(uvcCameraType== FaceAICameraType.SYSTEM_CAMERA){
@@ -175,7 +175,7 @@ class FaceAINaviActivity : AbsBaseActivity() {
         arrayAdapter.add(getString(R.string.camera_type_uvc_rgb_ir))
         builderSingle.setNegativeButton(R.string.cancel) { dialog, which -> dialog.dismiss() }
         builderSingle.setAdapter(arrayAdapter) { dialog, which ->
-            val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
+            val sharedPref = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE)
             when (which) {
                 0 -> {
                     sharedPref.edit(commit = true) { putInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA) }
@@ -196,7 +196,7 @@ class FaceAINaviActivity : AbsBaseActivity() {
      *  当前的相机类型
      */
     private  fun setCameraType() {
-        val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE)
         val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA)
         when (uvcCameraType) {
             FaceAICameraType.SYSTEM_CAMERA -> {
@@ -218,7 +218,7 @@ class FaceAINaviActivity : AbsBaseActivity() {
      */
     private fun showTipsDialog() {
 
-        val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences("HiFaceSDK_SP", Context.MODE_PRIVATE)
         val showTime = sharedPref.getLong("showTipsDialog", 0)
         if (System.currentTimeMillis() - showTime > 300 * 60 * 60 * 1000) {
             val builder = AlertDialog.Builder(this)
