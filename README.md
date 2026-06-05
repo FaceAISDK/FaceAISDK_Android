@@ -37,7 +37,7 @@ on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoof
 https://www.pgyer.com/app/qrcode/hiface?domain=www.pgyer.com
 | 模块         | 描述                                |
 |------------|-----------------------------------|
-| HiFaceSDKLib | 子Module，FaceAISDK 所有功能都在module 中演示 |
+| HiFaceSDK  | 子Module，FaceAISDK 所有功能都在module 中演示 |
 | verify     | 1:1 人脸检测识别，活体检测页面，静态人脸对比      |
 | search     | 1:N 人脸搜索识别，人脸库增删改管理等财政         |
 | addFace    | 1:1和1:N共用的通过SDK相机添加人脸获取人脸特征值   |

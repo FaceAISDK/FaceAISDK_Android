@@ -77,7 +77,7 @@
     <string name="face_verify_result_success">Face verify success</string>
     <string name="face_verify_result_silent_failed">Silent liveness failed </string>
     <string name="face_verify_result_timeout">Face verify timeout</string>
-    <string name="face_verify_result_failed">Face verify failed</string>
+    <string name="face_verify_result_failed">Face verify failed. Please ensure adequate lighting</string>
     <string name="face_verify_result_no_face_multi_time">No Face multi times</string>
     <string name="face_verify_result_pause">Face verify pause</string>
     <string name="face_verify_two_image">Face similarity Verify</string>

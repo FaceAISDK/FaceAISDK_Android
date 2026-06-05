@@ -213,12 +213,8 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                 finishFaceVerify(1, R.string.face_verify_result_success, similarity,livenessValue);
             }, 500);
         } else {
-            int code;
-            if(isVerifyMatched){
-                code = 11; //SILENT_LIVENESS_FAILED
-            } else {
-                code = 2; //VERIFY_FAILED
-            }
+            // 如果匹配成功但活体检测失败(code=11)，否则为匹配失败(code=2)
+            int code = isVerifyMatched ? 11 : 2;
             TTSPlayer.getInstance().playTTS(R.string.face_verify_failed);
 
             new AlertDialog.Builder(FaceVerificationActivity.this).setTitle(R.string.face_verify_failed_title).setMessage(R.string.face_verify_failed).setCancelable(false).setPositiveButton(R.string.know, (dialogInterface, i) -> {

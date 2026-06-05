@@ -69,8 +69,8 @@ configurations.configureEach {
 
 
 dependencies {
-    implementation project(':HiFaceSDKLib')
-    //Face SDK API Demo Lib,人脸识别SDK API演示,얼굴인식 SDK API 데모，顔認証SDK APIデモ
+    implementation project(':HiFaceSDK')
+//Face SDK API Demo Lib,人脸识别SDK API演示,얼굴인식 SDK API 데모，顔認証SDK APIデモ
 
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
