@@ -6,7 +6,6 @@ import static com.hiface.demo.FaceSDKConfig.CACHE_FACE_LOG_DIR;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import com.tencent.mmkv.MMKV;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -90,9 +89,9 @@ public class FaceVerificationActivity extends AbsBaseActivity {
      * 初始化摄像头
      */
     private void initCameraX() {
-        SharedPreferences sharedPref = MMKV.mmkvWithID("HiFaceSDK_SP");
-        int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT);
-        int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
+        MMKV mmkv = MMKV.defaultMMKV();
+        int cameraLensFacing = mmkv.decodeInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT);
+        int degree = mmkv.decodeInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头

@@ -28,17 +28,12 @@ public class FaceSDKConfig {
      *
      */
     public static void init(Context context) {
-
         //使用MMKV保存简单1:1人脸特征保存key为faceID,value为特征值 （人脸搜索的人脸特征放在SDK内置数据库中管理）
         MMKV.initialize(context);
-        TTSPlayer.getInstance().init(context);
-
-        //语音提示播报，现在都是播放录音文件。后期改为TTS吧
+        TTSPlayer.getInstance().init(context); //TTS 文字转语音
         VoicePlayer.getInstance().init(context);
 
         // 人脸图存储在App内部私有空间，SDK未做分区存储
-        // Warming: 目前仅能存储在context.getCacheDir() 或者context.getFilesDir() 内部私有空间
-        // https://developer.android.com/training/data-storage?hl=zh-cn
         CACHE_BASE_FACE_DIR = context.getFilesDir().getPath() + "/FaceAI/Verify/";    //1:1 人脸识别目录
         CACHE_SEARCH_FACE_DIR = context.getFilesDir().getPath() + "/FaceAI/Search/";  //人脸搜索人脸库目录
         CACHE_FACE_LOG_DIR= context.getFilesDir().getPath() + "/FaceAI/Log/";  //使用场景图目录
@@ -48,10 +43,7 @@ public class FaceSDKConfig {
      * 清除所有的{人脸搜索识别}人脸特征值和本地缓存的图片
      */
     public static void clearAllFaceSearchData(Context context){
-        //清除所有人脸搜索所有特征
         FaceSearchFeatureManger.getInstance(context).clearAllFaceFaceFeature();
-
-        //删除所有缓存的人脸图
         Image2FaceFeature.getInstance(context).clearFaceImages(CACHE_SEARCH_FACE_DIR);
         Glide.get(context).clearMemory();
     }
@@ -61,9 +53,7 @@ public class FaceSDKConfig {
      * 清除某个{人脸搜索识别}人脸特征值和本地缓存的图片
      */
     public static void deleteFaceSearchData(Context context,String faceID){
-        //清除所有人脸搜索所有特征
         FaceSearchFeatureManger.getInstance(context).deleteFaceFaceFeature(faceID);
-        //删除FaceID对应缓存的裁剪好的人脸图
         Image2FaceFeature.getInstance(context).deleteFaceImage(CACHE_SEARCH_FACE_DIR+faceID);
     }
 
@@ -81,9 +71,8 @@ public class FaceSDKConfig {
     /**
      * 全部使用MMKV
      */
-    public static void setCameraID(Context context,int cameraID){
-        MMKV mmkv = MMKV.defaultMMKV();
-        mmkv.encode(FRONT_BACK_CAMERA_FLAG, cameraID);
+    public static void setCameraID(int cameraID){
+        MMKV.defaultMMKV().encode(FRONT_BACK_CAMERA_FLAG, cameraID);
     }
 
     /**
@@ -93,7 +82,6 @@ public class FaceSDKConfig {
      * @return
      */
     public static boolean isDebugMode(Context mContext){
-        //Debug 模式是打开状态
         return 0 != (mContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE);
     }
 

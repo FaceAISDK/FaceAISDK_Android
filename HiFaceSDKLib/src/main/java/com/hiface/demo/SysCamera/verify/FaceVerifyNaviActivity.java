@@ -8,7 +8,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import com.tencent.mmkv.MMKV;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -59,8 +59,8 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
         setContentView(R.layout.activity_face_verify_navi);
         setSupportActionBar(findViewById(R.id.toolbar));
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        SharedPreferences sharedPref = MMKV.mmkvWithID("HiFaceSDK_SP");
-        cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
+        MMKV mmkv = MMKV.defaultMMKV();
+        cameraType = mmkv.decodeInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
         TextView cameraTypeText = findViewById(R.id.camera_mode);
 
         if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {

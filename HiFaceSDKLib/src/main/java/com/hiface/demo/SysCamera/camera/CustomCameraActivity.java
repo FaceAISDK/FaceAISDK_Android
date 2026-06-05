@@ -4,7 +4,6 @@ import static com.hiface.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.hiface.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import com.tencent.mmkv.MMKV;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,9 +32,9 @@ public class CustomCameraActivity extends AbsBaseActivity {
             finish();
         });
 
-        SharedPreferences sharedPref = MMKV.defaultMMKV();
-        int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT);
-        int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
+        MMKV mmkv = MMKV.defaultMMKV();
+        int cameraLensFacing = mmkv.decodeInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT);
+        int degree = mmkv.decodeInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,_90,_180,_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()

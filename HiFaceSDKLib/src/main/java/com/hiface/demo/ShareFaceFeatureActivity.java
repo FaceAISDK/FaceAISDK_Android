@@ -13,10 +13,9 @@ import static com.sdk.hiface.recognize.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE
 import static com.sdk.hiface.recognize.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
 import static com.hiface.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.hiface.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
+
 import android.content.Context;
 import android.content.Intent;
-import com.tencent.mmkv.MMKV;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -43,17 +42,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
 import java.io.OutputStream;
+import com.tencent.mmkv.MMKV;
 
 /**
  * 「分享导出」使用SDK相机规范人脸录入,保存人脸特征值。
- *
- * 其他系统的录入的人脸请自行保证人脸规范，否则会导致识别错误
- * -  1. 尽量使用较高配置设备和摄像头，光线不好带上补光灯
- * -  2. 录入高质量的正脸图，人脸清晰，背景简单纯色
- * -  3. 光线环境好，人脸不能化浓妆或佩戴墨镜 口罩 帽子等遮盖
- * -  4. 人脸照片要求300*300 裁剪好的仅含人脸的正方形照片
- *
- * @author FaceAISDK.Service@gmail.com
  */
 public class ShareFaceFeatureActivity extends AbsBaseActivity {
     private FaceCoverView faceCoverView;
@@ -66,36 +58,19 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
         super.onCreate(savedInstanceState);
         hideSystemUI();
         setContentView(R.layout.activity_add_face_feature);
-        findViewById(R.id.back)
-                .setOnClickListener(v -> finish());
+        findViewById(R.id.back).setOnClickListener(v -> finish());
         faceCoverView = findViewById(R.id.face_cover);
+        
         if(FaceSDKConfig.isDebugMode(this)){
             addFacePerformanceMode=PERFORMANCE_MODE_FAST;
         }
 
-        /* 添加人脸,实时检测相机视频流人脸角度是否符合当前模式设置，并给予提示
-         *
-         *  2 PERFORMANCE_MODE_ACCURATE   精确模式 人脸要正对摄像头，严格要求角度
-         *  1 PERFORMANCE_MODE_FAST       快速模式 允许人脸角度可以有一定的偏差
-         *  0 PERFORMANCE_MODE_EASY       简单模式 允许人脸角度可以「较大」的偏差
-         * -1 PERFORMANCE_MODE_NO_LIMIT   无限制模式 基本上检测到人脸就返回了
-         */
         addFaceDispose = new AddFaceDispose(this, addFacePerformanceMode,false,new AddFaceCallBack() {
-            /**
-             * 人脸检测裁剪完成
-             * @param cropped         SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
-             * @param silentScore     静默活体分数(摄像头品质有关)，needLivenessCheck=true才有值
-             * @param origin          640*480 原图
-             */
             @Override
             public void onCompleted(Bitmap cropped, float silentScore,Bitmap origin) {
                 isConfirmAdd=true;
-                //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
-                //如果非SDK相机录入的人脸照片提取特征值用异步方法 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
                 String faceFeature = HiFaceSDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(cropped);
-
                 confirmAddFaceDialog(cropped,faceFeature);
-
             }
 
             @Override
@@ -104,42 +79,33 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
             }
         });
 
-        SharedPreferences sharedPref = MMKV.defaultMMKV();
-        int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 0);
-        int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
+        MMKV mmkv = MMKV.defaultMMKV();
+        int cameraLensFacing = mmkv.decodeInt(FRONT_BACK_CAMERA_FLAG, 0);
+        int degree = mmkv.decodeInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
-                .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0.1f)  //范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
-                .setRotation(degree)  //画面旋转角度0，90，180，270
-                .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降.部分定制设备不支持请工程师调试好
+                .setCameraLensFacing(cameraLensFacing)
+                .setLinearZoom(0.1f)
+                .setRotation(degree)
+                .setCameraSizeHigh(false)
                 .create();
 
         FaceCameraXFragment cameraXFragment = FaceCameraXFragment.newInstance(cameraXBuilder);
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             if (!isDestroyed() && !isFinishing() && !isConfirmAdd) {
-                //某些设备如果一直提示检测不到人脸，可以断点调试看看转化的Bitmap 是否有问题
                 addFaceDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy));
             }
         });
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_camerax, cameraXFragment).commit();
-
     }
 
-
-
-    /**
-     * 添加人脸过程中的提示
-     *
-     */
     private void AddFaceTips(int tipsCode) {
         switch (tipsCode) {
             case NO_FACE_REPEATEDLY:
                 faceCoverView.setTipsText(R.string.no_face_detected_tips);
                 break;
-
             case FACE_TOO_SMALL:
                 faceCoverView.setTipsText(R.string.come_closer_tips);
                 break;
@@ -179,25 +145,20 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
 
     public static void shareImageUri(Context context, Uri imageUri) {
         if (imageUri == null) return;
-
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("image/png");
         shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-        // 授予临时读取权限，防止第三方 App 报错
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
         context.startActivity(Intent.createChooser(shareIntent, "分享图片到"));
     }
 
-    public  Uri saveBitmapToPictures(Context context, Bitmap bitmap) {
+    public Uri saveBitmapToPictures(Context context, Bitmap bitmap) {
         long timestamp = System.currentTimeMillis();
         String displayName = "IMG_" + timestamp + ".png";
-
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.DISPLAY_NAME, displayName);
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
 
-        // Android 10 (API 29) 及以上处理隔离存储
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
             values.put(MediaStore.Images.Media.IS_PENDING, 1);
@@ -209,10 +170,7 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
         if (imageUri != null) {
             try (OutputStream out = context.getContentResolver().openOutputStream(imageUri)) {
                 if (out != null) {
-                    // 压缩并写入
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-
-                    // 写入完成后，解除 PENDING 状态
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                         values.clear();
                         values.put(MediaStore.Images.Media.IS_PENDING, 0);
@@ -222,30 +180,22 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                // 失败时删除记录
                 context.getContentResolver().delete(imageUri, null, null);
             }
         }
         return null;
     }
 
-    /**
-     * 经过SDK裁剪矫正处理好的bitmap 转为人脸特征值
-     *
-     * @param bitmap 符合对应参数设置的SDK裁剪好的人脸图
-     */
     private void confirmAddFaceDialog(Bitmap bitmap,String faceFeature) {
         ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,bitmap);
-
         confirmFaceDialog.btnShareFaceFeature.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_TEXT, faceFeature);
             intent.setType("text/plain");
             startActivity(intent);
-
             confirmFaceDialog.dialog.dismiss();
-            ShareFaceFeatureActivity.this.finish();
+            finish();
         });
 
         confirmFaceDialog.btnShareFaceImage.setOnClickListener(v -> {
@@ -256,7 +206,7 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
                 Toast.makeText(this, "failed", Toast.LENGTH_SHORT).show();
             }
             confirmFaceDialog.dialog.dismiss();
-            ShareFaceFeatureActivity.this.finish();
+            finish();
         });
 
         confirmFaceDialog.btnRetry.setOnClickListener(v -> {
@@ -267,15 +217,12 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
 
         confirmFaceDialog.close.setOnClickListener(v -> {
             confirmFaceDialog.dialog.dismiss();
-            ShareFaceFeatureActivity.this.finish();
+            finish();
         });
 
         confirmFaceDialog.dialog.show();
     }
 
-    /**
-     * 人脸录入确认弹窗
-     */
     public static class ConfirmFaceDialog{
         public AlertDialog dialog;
         public ImageView close;
@@ -287,25 +234,12 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
             dialog.setView(dialogView);
             dialog.setCanceledOnTouchOutside(false);
             ImageView basePreView = dialogView.findViewById(R.id.preview);
-            Glide.with(context)
-                    .load(bitmap)
-                    .transform(new RoundedCorners(22))
-                    .into(basePreView);
+            Glide.with(context).load(bitmap).transform(new RoundedCorners(22)).into(basePreView);
             btnShareFaceFeature = dialogView.findViewById(R.id.share_face_feature);
             btnShareFaceImage = dialogView.findViewById(R.id.share_face_image);
             btnRetry = dialogView.findViewById(R.id.retry);
             close = dialogView.findViewById(R.id.close);
         }
-
-        public void show(){
-            dialog.show();
-        }
-
-        public void dismiss(){
-            dialog.dismiss();
-        }
+        public void show(){ dialog.show(); }
     }
-
-
 }
-

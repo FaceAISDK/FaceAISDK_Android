@@ -19,7 +19,6 @@ import static com.hiface.demo.SysCamera.verify.FaceVerificationActivity.USER_FAC
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -150,9 +149,9 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
             }
         });
 
-        SharedPreferences sharedPref = MMKV.defaultMMKV();
-        int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 0);
-        int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
+        MMKV mmkv = MMKV.defaultMMKV();
+        int cameraLensFacing = mmkv.decodeInt(FRONT_BACK_CAMERA_FLAG, 0);
+        int degree = mmkv.decodeInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头

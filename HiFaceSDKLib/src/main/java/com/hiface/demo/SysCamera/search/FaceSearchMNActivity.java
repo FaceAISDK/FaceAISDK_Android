@@ -6,8 +6,6 @@ import static com.sdk.hiface.search.SearchProcessTipsCode.SEARCH_PREPARED;
 import static com.sdk.hiface.search.SearchProcessTipsCode.THRESHOLD_ERROR;
 import static com.hiface.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.hiface.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
-import android.content.Context;
-import android.content.SharedPreferences;
 import com.tencent.mmkv.MMKV;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -50,10 +48,10 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
         setContentView(binding.getRoot());
         binding.close.setOnClickListener(v -> finish());
 
-        SharedPreferences sharedPref = MMKV.mmkvWithID("HiFaceSDK_SP");
+        MMKV mmkv = MMKV.defaultMMKV();
 
-        int cameraLensFacing = sharedPref.getInt( FRONT_BACK_CAMERA_FLAG, 0);
-        int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
+        int cameraLensFacing = mmkv.decodeInt( FRONT_BACK_CAMERA_FLAG, 0);
+        int degree = mmkv.decodeInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()

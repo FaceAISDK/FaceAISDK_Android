@@ -19,7 +19,6 @@ import static com.hiface.demo.SysCamera.verify.FaceVerificationActivity.USER_FAC
 import static com.hiface.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import com.tencent.mmkv.MMKV;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -89,16 +88,16 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
     }
 
     private void initRGBCamara() {
-        SharedPreferences sp = MMKV.mmkvWithID("HiFaceSDK_SP");
+        MMKV mmkv = MMKV.defaultMMKV();
 
-        String s = sp.getString(RGB_UVC_CAMERA_SELECT, RGB_KEY_DEFAULT);
+        String s = mmkv.decodeString(RGB_UVC_CAMERA_SELECT, RGB_KEY_DEFAULT);
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
                 .setCameraName("UVC RGB Camera")
                 .setCameraKey(s)
                 .setCameraView(binding.rgbCameraView)
                 .setContext(this)
-                .setDegree(sp.getInt(RGB_UVC_CAMERA_DEGREE, 0))
-                .setHorizontalMirror(sp.getBoolean(RGB_UVC_CAMERA_MIRROR_H, false))
+                .setDegree(mmkv.decodeInt(RGB_UVC_CAMERA_DEGREE, 0))
+                .setHorizontalMirror(mmkv.decodeBool(RGB_UVC_CAMERA_MIRROR_H, false))
                 .build();
 
         rgbCameraManager = new UVCCameraManager(cameraBuilder);

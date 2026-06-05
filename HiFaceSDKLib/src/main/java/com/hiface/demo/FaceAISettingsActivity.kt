@@ -1,15 +1,13 @@
 package com.hiface.demo
 
-import android.content.Context
-import com.tencent.mmkv.MMKV
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
-import androidx.core.content.edit
 import com.hiface.demo.UVCCamera.manger.select.DeviceListDialogFragment
 import com.hiface.demo.databinding.ActivityFaceAiSettingsBinding
 import com.herohan.uvcapp.CameraHelper
+import com.tencent.mmkv.MMKV
 
 /**
  * 前后摄像头，角度切换等参数设置
@@ -18,6 +16,7 @@ import com.herohan.uvcapp.CameraHelper
  */
 class FaceAISettingsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFaceAiSettingsBinding
+    private val mmkv by lazy { MMKV.defaultMMKV() }
 
     companion object {
         //系统摄像头相关
@@ -25,7 +24,7 @@ class FaceAISettingsActivity : AppCompatActivity() {
         const val SYSTEM_CAMERA_DEGREE = "cameraDegree"
         const val UVC_CAMERA_TYPE = "UVC_CAMERA_TYPE" //UVC 协议相机类型，是否带IR
 
-        //UVC 相机旋转 镜像管理。神奇，竟然有相机两个不同步，那分开管理
+        //UVC 相机旋转 镜像管理
         const val RGB_UVC_CAMERA_DEGREE = "RGB_UVCCameraDegree"
         const val RGB_UVC_CAMERA_MIRROR_H = "RGB_UVCCameraHorizontalMirror"
         const val IR_UVC_CAMERA_DEGREE = "IR_UVCCameraDegree"
@@ -38,29 +37,67 @@ class FaceAISettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityFaceAiSettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.back.setOnClickListener {
-            this@FaceAISettingsActivity.finish()
-        }
-
-        val mmkv = MMKV.defaultMMKV()
+        binding.back.setOnClickListener { finish() }
 
         //1.切换系统相机前后摄像头
         binding.switchCamera.setOnClickListener {
-            //CameraSelector.LENS_FACING_FRONT=0 ,系统对前摄的定义
-            if (mmkv.getInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT) == 1) {
-                mmkv.edit(commit = true) { putInt(FRONT_BACK_CAMERA_FLAG, 0) }
-                Toast.makeText(baseContext, "Front camera now", Toast.LENGTH_SHORT).show()
-            } else {
-                mmkv.edit(commit = true) { putInt(FRONT_BACK_CAMERA_FLAG, 1) }
-                Toast.makeText(baseContext, "Back/USB Camera", Toast.LENGTH_SHORT).show()
-            }
+            val current = mmkv.decodeInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT)
+            val next = if (current == 1) 0 else 1
+            mmkv.encode(FRONT_BACK_CAMERA_FLAG, next)
+            Toast.makeText(this, if (next == 0) "Front camera now" else "Back/USB Camera", Toast.LENGTH_SHORT).show()
         }
 
         // 2.切换系统相机旋转角度
-        val degree = mmkv.getInt(SYSTEM_CAMERA_DEGREE, 0) % 4
+        updateCameraDegreeUI()
+        binding.switchCameraDegree.setOnClickListener {
+            val degreeSys = (mmkv.decodeInt(SYSTEM_CAMERA_DEGREE, 3) + 1) % 4
+            mmkv.encode(SYSTEM_CAMERA_DEGREE, degreeSys)
+            updateCameraDegreeUI()
+        }
+
+        //UVC RGB摄像头角度旋转设置
+        binding.rgbUvcCameraSwitch.setOnClickListener {
+            val rgbDegree = (mmkv.decodeInt(RGB_UVC_CAMERA_DEGREE, 0) + 90) % 360
+            mmkv.encode(RGB_UVC_CAMERA_DEGREE, rgbDegree)
+            Toast.makeText(this, "RGB Camera degree: $rgbDegree", Toast.LENGTH_SHORT).show()
+        }
+
+        //RGB画面左右水平翻转
+        binding.rgbUvcCameraHorizontal.setOnClickListener {
+            val mirror = !mmkv.decodeBool(RGB_UVC_CAMERA_MIRROR_H, false)
+            mmkv.encode(RGB_UVC_CAMERA_MIRROR_H, mirror)
+            Toast.makeText(this, "RGB CameraHorizontal: $mirror", Toast.LENGTH_SHORT).show()
+        }
+
+        //UVC IR摄像头角度旋转设置
+        binding.irUvcCameraSwitch.setOnClickListener {
+            val irDegree = (mmkv.decodeInt(IR_UVC_CAMERA_DEGREE, 0) + 90) % 360
+            mmkv.encode(IR_UVC_CAMERA_DEGREE, irDegree)
+            Toast.makeText(this, "IRCamera degree: $irDegree", Toast.LENGTH_SHORT).show()
+        }
+
+        //IR画面左右水平翻转
+        binding.irUvcCameraHorizontal.setOnClickListener {
+            val mirror = !mmkv.decodeBool(IR_UVC_CAMERA_MIRROR_H, false)
+            mmkv.encode(IR_UVC_CAMERA_MIRROR_H, mirror)
+            Toast.makeText(this, "IRCameraHorizontal: $mirror", Toast.LENGTH_SHORT).show()
+        }
+
+        //RGB摄像头选择
+        binding.rgbUvcCameraSelect.setOnClickListener {
+            selectCamera("RGB 摄像头选择", RGB_UVC_CAMERA_SELECT)
+        }
+
+        //IR摄像头选择
+        binding.irUvcCameraSelect.setOnClickListener {
+            selectCamera("IR 摄像头选择", IR_UVC_CAMERA_SELECT)
+        }
+    }
+
+    private fun updateCameraDegreeUI() {
+        val degree = mmkv.decodeInt(SYSTEM_CAMERA_DEGREE, 0) % 4
         val degreeStr = when (degree) {
             0 -> "0°"
             1 -> "90°"
@@ -68,120 +105,17 @@ class FaceAISettingsActivity : AppCompatActivity() {
             3 -> "270°"
             else -> "0°"
         }
-        //
         binding.cameraDegreeText.text = getString(R.string.camera_degree_set) + degreeStr
-
-
-        /**
-         * 共5个值，默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
-         * {@link Surface.ROTATION_0}
-         */
-        binding.switchCameraDegree.setOnClickListener {
-            val degreeSys = (mmkv.getInt(SYSTEM_CAMERA_DEGREE, 3) + 1) % 4
-            mmkv.edit(commit = true) { putInt(SYSTEM_CAMERA_DEGREE, degreeSys) }
-            val degreeStrSys = when (degreeSys) {
-                0 -> "0°"
-                1 -> "90°"
-                2 -> "180°"
-                3 -> "270°"
-                else -> "0"
-            }
-            binding.cameraDegreeText.text = getString(R.string.camera_degree_set) + degreeStrSys
-        }
-
-
-        //==========USB摄像头（UVC协议）管理 更多参考https://github.com/shiyinghan/UVCAndroid =========
-
-        //UVC RGB摄像头角度旋转设置
-        binding.rgbUvcCameraSwitch.setOnClickListener {
-            var rgbDegree = mmkv.getInt(RGB_UVC_CAMERA_DEGREE, 0)
-            rgbDegree += 90
-            rgbDegree %= 360
-            if (rgbDegree < 0) {
-                rgbDegree += 360
-            }
-            mmkv.edit(commit = true) { putInt(RGB_UVC_CAMERA_DEGREE, rgbDegree) }
-            Toast.makeText(
-                baseContext,
-                "RGB Camera degree: $rgbDegree",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        //RGB画面左右水平翻转
-        binding.rgbUvcCameraHorizontal.setOnClickListener {
-            val rgbHorizontalMirror = !mmkv.getBoolean(RGB_UVC_CAMERA_MIRROR_H, false)
-            mmkv.edit(commit = true) {
-                putBoolean(
-                    RGB_UVC_CAMERA_MIRROR_H,
-                    rgbHorizontalMirror
-                )
-            }
-            Toast.makeText(
-                baseContext,
-                "RGB CameraHorizontal: $rgbHorizontalMirror",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-
-        //UVC IR摄像头角度旋转设置
-        binding.irUvcCameraSwitch.setOnClickListener {
-            var irDegree = mmkv.getInt(IR_UVC_CAMERA_DEGREE, 0)
-            irDegree += 90
-            irDegree %= 360
-            if (irDegree < 0) {
-                irDegree += 360
-            }
-            mmkv.edit(commit = true) { putInt(IR_UVC_CAMERA_DEGREE, irDegree) }
-            Toast.makeText(
-                baseContext,
-                "IRCamera degree: $irDegree",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        //IR画面左右水平翻转
-        binding.irUvcCameraHorizontal.setOnClickListener {
-            val horizontalMirror = !mmkv.getBoolean(IR_UVC_CAMERA_MIRROR_H, false)
-            mmkv.edit(commit = true) { putBoolean(IR_UVC_CAMERA_MIRROR_H, horizontalMirror) }
-            Toast.makeText(
-                baseContext,
-                "IRCameraHorizontal: $horizontalMirror",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        //RGB摄像头选择
-        binding.rgbUvcCameraSelect.setOnClickListener {
-            selectCamera("RGB 摄像头选择",RGB_UVC_CAMERA_SELECT,mmkv);
-        }
-
-        //IR摄像头选择
-        binding.irUvcCameraSelect.setOnClickListener {
-            selectCamera("IR 摄像头选择",IR_UVC_CAMERA_SELECT,mmkv);
-        }
-
     }
 
-
-    /**
-     * 选择摄像头
-     */
-    private fun selectCamera(cameraName: String,cameraKey: String,mmkv: MMKV) {
+    private fun selectCamera(cameraName: String, cameraKey: String) {
         val mCameraHelper = CameraHelper()
-        val mDeviceDialog =
-            DeviceListDialogFragment(
-                mCameraHelper,
-                cameraName
-            )
+        val mDeviceDialog = DeviceListDialogFragment(mCameraHelper, cameraName)
         mDeviceDialog.setOnDeviceItemSelectListener { usbDevice ->
-            mmkv.edit(commit = true) { putString(cameraKey, usbDevice.productName.toString()) }
-            Toast.makeText(baseContext, usbDevice.productName.toString(), Toast.LENGTH_SHORT).show()
+            mmkv.encode(cameraKey, usbDevice.productName.toString())
+            Toast.makeText(this, usbDevice.productName.toString(), Toast.LENGTH_SHORT).show()
             mDeviceDialog.dismiss()
         }
-
         mDeviceDialog.show(supportFragmentManager, "device_list")
     }
-
 }

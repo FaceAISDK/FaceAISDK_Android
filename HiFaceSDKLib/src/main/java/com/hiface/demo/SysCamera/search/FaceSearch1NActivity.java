@@ -20,7 +20,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import com.tencent.mmkv.MMKV;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -102,9 +101,9 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
 
         getIntentParams(); //接收三方插件传递的参数，原生开发可以忽略裁剪掉
 
-        SharedPreferences sharedPref = MMKV.defaultMMKV();
-        cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 0); //默认前置
-        int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
+        MMKV mmkv = MMKV.defaultMMKV();
+        cameraLensFacing = mmkv.decodeInt(FRONT_BACK_CAMERA_FLAG, 0); //默认前置
+        int degree = mmkv.decodeInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //1. 摄像头相关参数配置
         /**摄像头管理源码开放在 {@link FaceCameraXFragment} **/

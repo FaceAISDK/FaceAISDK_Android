@@ -6,7 +6,6 @@ import static com.hiface.demo.FaceSDKConfig.CACHE_FACE_LOG_DIR;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import com.tencent.mmkv.MMKV;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -68,9 +67,9 @@ public class LivenessDetectActivity extends AbsBaseActivity {
 
         getIntentParams();    //接收三方插件的参数 数据
 
-        SharedPreferences sharedPref = MMKV.mmkvWithID("HiFaceSDK_SP");
-        int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 0);
-        int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
+        MMKV mmkv = MMKV.defaultMMKV();
+        int cameraLensFacing = mmkv.decodeInt(FRONT_BACK_CAMERA_FLAG, 0);
+        int degree = mmkv.decodeInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
