@@ -4,11 +4,11 @@ import static com.hiface.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
 import static com.hiface.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
 import static com.hiface.demo.SysCamera.addFace.AddFaceFeatureActivity.ADD_FACE_IMAGE_TYPE_KEY;
 import static com.hiface.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import com.tencent.mmkv.MMKV;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -16,27 +16,30 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.sdk.hiface.core.engine.HiFaceSDKEngine;
-import com.sdk.hiface.core.utils.FaceAICameraType;
-import com.hiface.demo.FaceSDKConfig;
-import com.hiface.demo.UVCCamera.verify.FaceVerify_UVCCameraActivity;
-import com.hiface.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
-import com.hiface.demo.SysCamera.addFace.AddFaceFeatureActivity;
-import com.hiface.demo.SysCamera.search.ImageBean;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.chad.library.adapter4.viewholder.QuickViewHolder;
+import com.hiface.demo.FaceSDKConfig;
 import com.hiface.demo.R;
+import com.hiface.demo.SysCamera.addFace.AddFaceFeatureActivity;
+import com.hiface.demo.SysCamera.search.ImageBean;
+import com.hiface.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
+import com.hiface.demo.UVCCamera.verify.FaceVerify_UVCCameraActivity;
+import com.sdk.hiface.core.engine.HiFaceSDKEngine;
+import com.sdk.hiface.core.utils.FaceAICameraType;
 import com.tencent.mmkv.MMKV;
 
 import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,7 +58,7 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState) ;
         setContentView(R.layout.activity_face_verify_navi);
         setSupportActionBar(findViewById(R.id.toolbar));
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -187,7 +190,7 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
     }
 
     /**
-     * 人脸横向列表适配器,
+     * 人脸横向列表适配器
      */
     public class FaceImageListAdapter extends BaseQuickAdapter<ImageBean, QuickViewHolder> {
         public FaceImageListAdapter(List<ImageBean> data) {

@@ -1,25 +1,16 @@
 package com.hiface.demo.UVCCamera.addFace;
 
 import static android.view.View.GONE;
-import static com.sdk.hiface.base.addFace.AddFaceDispose.PERFORMANCE_MODE_FAST;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_LEFT;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_RIGHT;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_UP;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.TILT_HEAD;
-import static com.sdk.hiface.recognize.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE;
-import static com.sdk.hiface.recognize.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
-import static com.sdk.hiface.recognize.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
 import static com.hiface.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_DEGREE;
 import static com.hiface.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_MIRROR_H;
 import static com.hiface.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_SELECT;
 import static com.hiface.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 import static com.hiface.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
+import static com.sdk.hiface.base.addFace.AddFaceDispose.PERFORMANCE_MODE_FAST;
+import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.*;
+import static com.sdk.hiface.recognize.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.*;
 
 import android.content.Context;
-import com.tencent.mmkv.MMKV;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -35,10 +26,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.sdk.hiface.base.addFace.AddFaceCallBack;
-import com.sdk.hiface.base.addFace.AddFaceDispose;
-import com.sdk.hiface.core.engine.HiFaceSDKEngine;
-import com.sdk.hiface.search.FaceSearchFeatureManger;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.hiface.demo.FaceSDKConfig;
@@ -46,6 +33,10 @@ import com.hiface.demo.R;
 import com.hiface.demo.UVCCamera.manger.CameraBuilder;
 import com.hiface.demo.UVCCamera.manger.UVCCameraManager;
 import com.hiface.demo.databinding.ActivityUvcCameraAddFaceBinding;
+import com.sdk.hiface.base.addFace.AddFaceCallBack;
+import com.sdk.hiface.base.addFace.AddFaceDispose;
+import com.sdk.hiface.core.engine.HiFaceSDKEngine;
+import com.sdk.hiface.search.FaceSearchFeatureManger;
 import com.tencent.mmkv.MMKV;
 
 import java.util.Objects;
@@ -102,12 +93,9 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
 
         rgbCameraManager = new UVCCameraManager(cameraBuilder);
 
-        rgbCameraManager.setFaceAIAnalysis(new UVCCameraManager.OnFaceAIAnalysisCallBack() {
-            @Override
-            public void onBitmapFrame(Bitmap bitmap) {
-                if (!isConfirmAdd) {
-                    addFaceDispose.dispose(bitmap);
-                }
+        rgbCameraManager.setFaceAIAnalysis(bitmap -> {
+            if (!isConfirmAdd) {
+                addFaceDispose.dispose(bitmap);
             }
         });
     }

@@ -11,13 +11,12 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Toast
+
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.net.toUri
-import com.sdk.hiface.base.utils.performance.DevicePerformance
-import com.sdk.hiface.core.utils.FaceAICameraType
-import com.sdk.hiface.recognize.FaceVerifyUtils
+
 import com.hiface.demo.FaceAISettingsActivity.Companion.UVC_CAMERA_TYPE
 import com.hiface.demo.SysCamera.search.FaceSearchNaviActivity
 import com.hiface.demo.SysCamera.verify.FaceVerifyNaviActivity
@@ -26,6 +25,9 @@ import com.hiface.demo.SysCamera.verify.TwoFaceImageVerifyActivity
 import com.hiface.demo.UVCCamera.liveness.Liveness_UVCCameraActivity
 import com.hiface.demo.base.AbsBaseActivity
 import com.hiface.demo.databinding.ActivityFaceAiNaviBinding
+import com.sdk.hiface.base.utils.performance.DevicePerformance
+import com.sdk.hiface.core.utils.FaceAICameraType
+import com.sdk.hiface.recognize.FaceVerifyUtils
 import com.tencent.mmkv.MMKV
 
 /**
@@ -57,12 +59,12 @@ class FaceAINaviActivity : AbsBaseActivity() {
 
         // 人脸搜索(系统相机和UVC 摄像头都支持) Face Search(support System&UVC camera)
         viewBinding.faceSearch.setOnClickListener {
-            startActivity(Intent(this, FaceSearchNaviActivity::class.java))
+            startActivity(Intent(this@FaceAINaviActivity, FaceSearchNaviActivity::class.java))
         }
 
         // 参数设置 FaceAI Settings
         viewBinding.paramsSetting.setOnClickListener {
-            startActivity(Intent(this, FaceAISettingsActivity::class.java))
+            startActivity(Intent(this@FaceAINaviActivity, FaceAISettingsActivity::class.java))
         }
 
         // 活体检测 livenessDetection
@@ -78,7 +80,7 @@ class FaceAINaviActivity : AbsBaseActivity() {
 
         // 两张静态人脸图中人脸相似度对比，two face image similarity compare
         viewBinding.twoFaceVerify.setOnClickListener {
-            startActivity(Intent(this, TwoFaceImageVerifyActivity::class.java))
+            startActivity(Intent(this@FaceAINaviActivity, TwoFaceImageVerifyActivity::class.java))
         }
 
         viewBinding.updateLayout.setOnClickListener {
@@ -110,7 +112,7 @@ class FaceAINaviActivity : AbsBaseActivity() {
         }
 
         viewBinding.moreAboutMe.setOnClickListener {
-            startActivity(Intent(this, AboutFaceAppActivity::class.java))
+            startActivity(Intent(this@FaceAINaviActivity, AboutFaceAppActivity::class.java))
         }
 
         showTipsDialog()

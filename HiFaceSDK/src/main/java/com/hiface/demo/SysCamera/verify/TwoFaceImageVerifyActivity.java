@@ -13,27 +13,22 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.exifinterface.media.ExifInterface;
-
-import com.sdk.hiface.search.Image2FaceFeature;
-import com.sdk.hiface.recognize.FaceVerifyUtils;
 import com.hiface.demo.BuildConfig;
-import com.hiface.demo.R;
 import com.hiface.demo.SysCamera.search.ImageToast;
 import com.hiface.demo.databinding.ActivityTwoFaceImageVerifyBinding;
-
+import com.sdk.hiface.recognize.FaceVerifyUtils;
+import com.sdk.hiface.search.Image2FaceFeature;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import ando.file.core.FileOperator;
 import ando.file.core.FileUtils;
 import ando.file.selector.FileSelectCallBack;

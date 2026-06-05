@@ -1,21 +1,14 @@
 package com.hiface.demo.SysCamera.addFace;
 
 import static android.view.View.GONE;
-import static com.sdk.hiface.base.addFace.AddFaceDispose.PERFORMANCE_MODE_ACCURATE;
-import static com.sdk.hiface.base.addFace.AddFaceDispose.PERFORMANCE_MODE_FAST;
-import static com.sdk.hiface.recognize.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE;
-import static com.sdk.hiface.recognize.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
-import static com.sdk.hiface.recognize.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_LEFT;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_RIGHT;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_UP;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.TILT_HEAD;
 import static com.hiface.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.hiface.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import static com.hiface.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
+import static com.sdk.hiface.base.addFace.AddFaceDispose.PERFORMANCE_MODE_ACCURATE;
+import static com.sdk.hiface.base.addFace.AddFaceDispose.PERFORMANCE_MODE_FAST;
+import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.*;
+import static com.sdk.hiface.recognize.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.*;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -30,22 +23,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
-
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.sdk.hiface.base.addFace.AddFaceCallBack;
-import com.sdk.hiface.base.addFace.AddFaceDispose;
-import com.sdk.hiface.base.utils.DataConvertUtils;
-import com.sdk.hiface.base.view.camera.CameraXBuilder;
-import com.sdk.hiface.core.engine.HiFaceSDKEngine;
-import com.sdk.hiface.search.FaceSearchFeatureManger;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.hiface.demo.FaceSDKConfig;
 import com.hiface.demo.R;
 import com.hiface.demo.SysCamera.camera.FaceCameraXFragment;
 import com.hiface.demo.base.AbsBaseActivity;
 import com.hiface.demo.base.view.FaceCoverView;
+import com.sdk.hiface.base.addFace.AddFaceCallBack;
+import com.sdk.hiface.base.addFace.AddFaceDispose;
+import com.sdk.hiface.base.utils.DataConvertUtils;
+import com.sdk.hiface.base.view.camera.CameraXBuilder;
+import com.sdk.hiface.core.engine.HiFaceSDKEngine;
+import com.sdk.hiface.search.FaceSearchFeatureManger;
 import com.tencent.mmkv.MMKV;
+
 import java.util.Objects;
 
 /**
@@ -68,7 +61,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     private boolean isConfirmAdd = false;   //是否弹出Dialog等待确定人脸
 
     //PERFORMANCE_MODE_EASY | PERFORMANCE_MODE_ACCURATE |PERFORMANCE_MODE_NO_LIMIT
-    private int mode = PERFORMANCE_MODE_FAST; //人脸角度校验模式
+    private int addFacePerformanceMode = PERFORMANCE_MODE_FAST;
 
     //是1:1识别还是1:N人脸搜索录入添加人脸特征信息
     public enum AddFaceImageTypeEnum {
@@ -88,7 +81,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         addFaceType = getIntent().getStringExtra(ADD_FACE_IMAGE_TYPE_KEY);
 
         if(FaceSDKConfig.isDebugMode(this)){
-            mode =PERFORMANCE_MODE_FAST;
+            addFacePerformanceMode=PERFORMANCE_MODE_FAST;
         }
 
         Intent intent = getIntent();
@@ -97,7 +90,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
                 faceID = intent.getStringExtra(USER_FACE_ID_KEY);
             }
             if (intent.hasExtra(ADD_FACE_PERFORMANCE_MODE)) {
-                mode = intent.getIntExtra(ADD_FACE_PERFORMANCE_MODE,PERFORMANCE_MODE_ACCURATE);
+                addFacePerformanceMode = intent.getIntExtra(ADD_FACE_PERFORMANCE_MODE,PERFORMANCE_MODE_ACCURATE);
             }
             if (intent.hasExtra(NEED_CONFIRM_ADD_FACE)) {
                 needConfirmAdd = intent.getBooleanExtra(NEED_CONFIRM_ADD_FACE,true);
@@ -112,7 +105,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
          *  0 PERFORMANCE_MODE_EASY       简单模式 允许人脸角度可以「较大」的偏差
          * -1 PERFORMANCE_MODE_NO_LIMIT   无限制模式 基本上检测到人脸就返回了
          */
-        addFaceDispose = new AddFaceDispose(this, mode,false, new AddFaceCallBack() {
+        addFaceDispose = new AddFaceDispose(this, addFacePerformanceMode,false, new AddFaceCallBack() {
             /**
              * 人脸检测裁剪完成
              * @param cropped         SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
@@ -254,11 +247,10 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
             if (!TextUtils.isEmpty(faceID)) {
                 if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
                     saveFaceVerifyData(croppedBitmap,faceID,faceFeature);
-                    finishConfirm(confirmFaceDialog.dialog, faceFeature);
                 } else {
                     saveFaceSearchData(croppedBitmap,faceID,faceFeature);
-                    finishConfirm(confirmFaceDialog.dialog, faceFeature);
                 }
+                finishConfirm(confirmFaceDialog.dialog, faceFeature);
             } else {
                 Toast.makeText(getBaseContext(), R.string.input_face_id_tips, Toast.LENGTH_SHORT).show();
             }
@@ -349,6 +341,4 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         }
     }
 
-
 }
-

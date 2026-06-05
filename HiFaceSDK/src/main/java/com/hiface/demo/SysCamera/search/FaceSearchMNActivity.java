@@ -1,28 +1,30 @@
 package com.hiface.demo.SysCamera.search;
 
-import static com.sdk.hiface.search.SearchProcessTipsCode.LOCAL_FACE_DATABASE_EMPTY;
-import static com.sdk.hiface.search.SearchProcessTipsCode.SEARCH_INITIALIZING;
-import static com.sdk.hiface.search.SearchProcessTipsCode.SEARCH_PREPARED;
-import static com.sdk.hiface.search.SearchProcessTipsCode.THRESHOLD_ERROR;
 import static com.hiface.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.hiface.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
-import com.tencent.mmkv.MMKV;
+import static com.sdk.hiface.search.SearchProcessTipsCode.*;
+
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageProxy;
+
+import com.google.gson.Gson;
 import com.sdk.hiface.base.view.camera.CameraXBuilder;
 import com.sdk.hiface.search.FaceSearchEngine;
+import com.sdk.hiface.search.FaceSearchResult;
 import com.sdk.hiface.search.SearchProcessBuilder;
 import com.sdk.hiface.search.SearchProcessCallBack;
-import com.sdk.hiface.search.FaceSearchResult;
+import com.tencent.mmkv.MMKV;
+
+import com.hiface.demo.R;
 import com.hiface.demo.SysCamera.camera.FaceCameraXFragment;
 import com.hiface.demo.base.AbsBaseActivity;
 import com.hiface.demo.databinding.ActivityFaceSearchMnBinding;
-import com.hiface.demo.R;
-import com.google.gson.Gson;
+
 import java.util.List;
 
 /**

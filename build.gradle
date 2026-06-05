@@ -3,6 +3,23 @@ allprojects {
         mavenCentral()
         google()
 
+        // 2. 直接指向 Sonatype/Maven Central 官方源，并绑定你的 SDK 包名
+        maven {
+            url "https://repo1.maven.org/maven2/"
+            content {
+                // 替换为你发布的 SDK 的实际 groupId
+                includeGroup "io.github.facesdkpro"
+            }
+        }
+
+        maven {
+            // 如果你的账号较新，可能是分配在 s01 服务器上
+            url "https://s01.oss.sonatype.org/content/groups/public"
+            content {
+                includeGroup "io.github.facesdkpro"
+            }
+        }
+
         //多放几个国内的依赖托管镜像源，工程师可以根据公司的网络屏蔽情况自行替换
         maven { url "https://s01.oss.sonatype.org/content/groups/public" }
         maven { url "https://maven.aliyun.com/nexus/content/groups/public/"}

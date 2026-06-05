@@ -2,10 +2,10 @@ package com.hiface.demo.SysCamera.search;
 
 import static com.hiface.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
 import static com.hiface.demo.SysCamera.addFace.AddFaceFeatureActivity.ADD_FACE_IMAGE_TYPE_KEY;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import com.tencent.mmkv.MMKV;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -15,34 +15,39 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.ObjectKey;
+import com.chad.library.adapter4.BaseQuickAdapter;
+import com.chad.library.adapter4.viewholder.QuickViewHolder;
 import com.sdk.hiface.core.engine.HiFaceSDKEngine;
 import com.sdk.hiface.core.utils.FaceAICameraType;
 import com.sdk.hiface.search.FaceSearchFeatureManger;
-import com.bumptech.glide.signature.ObjectKey;
+import com.sdk.hiface.search.Image2FaceFeature;
+import com.tencent.mmkv.MMKV;
+
 import com.hiface.demo.FaceSDKConfig;
+import com.hiface.demo.R;
+import com.hiface.demo.SysCamera.addFace.AddFaceFeatureActivity;
 import com.hiface.demo.SysCamera.verify.AbsAddFaceFromAlbumActivity;
 import com.hiface.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
-import com.hiface.demo.SysCamera.addFace.AddFaceFeatureActivity;
-import com.sdk.hiface.search.Image2FaceFeature;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.chad.library.adapter4.BaseQuickAdapter;
-import com.chad.library.adapter4.viewholder.QuickViewHolder;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import com.hiface.demo.R;
 
 /**
  * FaceAISDK 工作仅仅需要人脸特征值就可以工作不需图片，保存图片是为了可视化操作演示方便以及某些业务场景还要关联图片
- *
  *
  * 网盘分享的3000 张人脸图链接: https://pan.baidu.com/s/1RfzJlc-TMDb0lQMFKpA-tQ?pwd=Face 提取码: Face
  *
@@ -186,12 +191,9 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
      * 人脸图规范要求 大于 300*300的光线充足无遮挡的正面人脸如（./images/face_example.jpg)
      */
     private void copyFaceTestImage() {
-        CopyFaceImageUtils.copyTestFaceImages(this, new CopyFaceImageUtils.Callback() {
-            @Override
-            public void onComplete(int successCount, int failureCount) {
-                Toast.makeText(FaceSearchDataMangerActivity.this, "Success：" + successCount+" Failed:"+failureCount, Toast.LENGTH_SHORT).show();
-                updateFaceList();
-            }
+        CopyFaceImageUtils.copyTestFaceImages(this, (successCount, failureCount) -> {
+            Toast.makeText(FaceSearchDataMangerActivity.this, "Success：" + successCount+" Failed:"+failureCount, Toast.LENGTH_SHORT).show();
+            updateFaceList();
         });
 
     }

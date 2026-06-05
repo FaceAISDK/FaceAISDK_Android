@@ -32,7 +32,7 @@ import androidx.exifinterface.media.ExifInterface;
 import com.sdk.hiface.search.FaceSearchEngine;
 import com.sdk.hiface.search.SearchProcessBuilder;
 import com.sdk.hiface.search.SearchProcessCallBack;
-import com.sdk.hiface.search.SearchProcessTipsCode;
+import static com.sdk.hiface.search.SearchProcessTipsCode.*;
 import com.sdk.hiface.search.FaceSearchResult;
 import com.hiface.demo.BuildConfig;
 import com.hiface.demo.R;
@@ -216,9 +216,9 @@ public class FaceSearchByImageActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onProcessTips(int i) {
-                        if(i== SearchProcessTipsCode.NO_LIVE_FACE){
+                        if(i== NO_LIVE_FACE){
                             tvSearchResult.setText("NO_LIVE_FACE");
-                        }else if(i== SearchProcessTipsCode.LOCAL_FACE_DATABASE_EMPTY){
+                        }else if(i== LOCAL_FACE_DATABASE_EMPTY){
                             tvSearchResult.setText("LOCAL_FACE_DATABASE_EMPTY");
                         }
                     }

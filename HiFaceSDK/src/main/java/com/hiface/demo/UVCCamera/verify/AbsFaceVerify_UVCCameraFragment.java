@@ -1,6 +1,5 @@
 package com.hiface.demo.UVCCamera.verify;
 
-import static android.content.Context.MODE_PRIVATE;
 import static android.view.View.INVISIBLE;
 import static com.hiface.demo.FaceAISettingsActivity.IR_UVC_CAMERA_DEGREE;
 import static com.hiface.demo.FaceAISettingsActivity.IR_UVC_CAMERA_MIRROR_H;
@@ -12,7 +11,6 @@ import static com.hiface.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
 import static com.hiface.demo.UVCCamera.manger.UVCCameraManager.IR_KEY_DEFAULT;
 import static com.hiface.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
 
-import com.tencent.mmkv.MMKV;
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
 import android.os.Bundle;
@@ -24,11 +22,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.sdk.hiface.core.utils.FaceAICameraType;
 import com.hiface.demo.UVCCamera.manger.CameraBuilder;
 import com.hiface.demo.UVCCamera.manger.UVCCameraManager;
-import com.sdk.hiface.recognize.FaceVerifyUtils;
 import com.hiface.demo.databinding.FragmentUvcCameraBinding;
+import com.sdk.hiface.core.utils.FaceAICameraType;
+import com.sdk.hiface.recognize.FaceVerifyUtils;
+import com.tencent.mmkv.MMKV;
 
 /**
  * 1:1 人脸识别活体检测 abstract 基础类
@@ -40,7 +39,6 @@ import com.hiface.demo.databinding.FragmentUvcCameraBinding;
  * 更多UVC 摄像头使用参考 https://blog.csdn.net/hanshiying007/article/details/124118486
  */
 public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
-    private static final String TAG = AbsFaceVerify_UVCCameraFragment.class.getSimpleName();
     public FragmentUvcCameraBinding binding;
     public FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
     public int cameraType = FaceAICameraType.UVC_CAMERA_RGB; //UVC 可以单RGB或者RGB+IR
@@ -113,12 +111,7 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
         });
 
 
-        rgbCameraManager.setFaceAIAnalysis(new UVCCameraManager.OnFaceAIAnalysisCallBack() {
-            @Override
-            public void onBitmapFrame(Bitmap bitmap) {
-                faceVerifySetBitmap(bitmap, FaceVerifyUtils.BitmapType.RGB);
-            }
-        });
+        rgbCameraManager.setFaceAIAnalysis(bitmap -> faceVerifySetBitmap(bitmap, FaceVerifyUtils.BitmapType.RGB));
     }
 
     /**
@@ -148,12 +141,7 @@ public abstract class AbsFaceVerify_UVCCameraFragment extends Fragment {
             }
         });
 
-        irCameraManager.setFaceAIAnalysis(new UVCCameraManager.OnFaceAIAnalysisCallBack() {
-            @Override
-            public void onBitmapFrame(Bitmap bitmap) {
-                faceVerifySetBitmap(bitmap, FaceVerifyUtils.BitmapType.IR);
-            }
-        });
+        irCameraManager.setFaceAIAnalysis(bitmap -> faceVerifySetBitmap(bitmap, FaceVerifyUtils.BitmapType.IR));
 
     }
 

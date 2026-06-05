@@ -3,14 +3,14 @@ package com.hiface.demo.SysCamera.camera;
 import static com.hiface.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.hiface.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 
-import android.content.Context;
-import com.tencent.mmkv.MMKV;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.camera.core.CameraSelector;
 
 import com.sdk.hiface.base.view.camera.CameraXBuilder;
+import com.tencent.mmkv.MMKV;
+
 import com.hiface.demo.R;
 import com.hiface.demo.base.AbsBaseActivity;
 
@@ -18,7 +18,6 @@ import java.nio.ByteBuffer;
 
 /**
  * 自定义调试管理摄像头，把SDK 中的源码暴露出来放在 {@link FaceCameraXFragment}
- *
  */
 public class CustomCameraActivity extends AbsBaseActivity {
 
@@ -28,9 +27,7 @@ public class CustomCameraActivity extends AbsBaseActivity {
         setContentView(R.layout.activity_custom_camera);
         setTitle("Custom Camera");
 
-        findViewById(R.id.back).setOnClickListener(v -> {
-            finish();
-        });
+        findViewById(R.id.back).setOnClickListener(v -> finish());
 
         MMKV mmkv = MMKV.defaultMMKV();
         int cameraLensFacing = mmkv.decodeInt(FRONT_BACK_CAMERA_FLAG, CameraSelector.LENS_FACING_FRONT);
@@ -72,4 +69,3 @@ public class CustomCameraActivity extends AbsBaseActivity {
 
 
 }
-

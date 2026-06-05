@@ -1,6 +1,5 @@
 package com.hiface.demo.UVCCamera.search;
 
-import static android.content.Context.MODE_PRIVATE;
 import static android.view.View.INVISIBLE;
 import static com.hiface.demo.FaceAISettingsActivity.IR_UVC_CAMERA_DEGREE;
 import static com.hiface.demo.FaceAISettingsActivity.IR_UVC_CAMERA_MIRROR_H;
@@ -12,8 +11,6 @@ import static com.hiface.demo.FaceAISettingsActivity.UVC_CAMERA_TYPE;
 import static com.hiface.demo.UVCCamera.manger.UVCCameraManager.IR_KEY_DEFAULT;
 import static com.hiface.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
 
-import android.content.Context;
-import com.tencent.mmkv.MMKV;
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
 import android.os.Bundle;
@@ -25,11 +22,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.sdk.hiface.core.utils.FaceAICameraType;
 import com.hiface.demo.UVCCamera.manger.CameraBuilder;
 import com.hiface.demo.UVCCamera.manger.UVCCameraManager;
-import com.sdk.hiface.recognize.FaceVerifyUtils;
 import com.hiface.demo.databinding.FragmentFaceSearchUvcCameraBinding;
+import com.sdk.hiface.core.utils.FaceAICameraType;
+import com.sdk.hiface.recognize.FaceVerifyUtils;
+import com.tencent.mmkv.MMKV;
 
 /**
  * UVC协议USB摄像头人脸搜索识别 abstract 基类，管理摄像头
@@ -40,7 +38,6 @@ import com.hiface.demo.databinding.FragmentFaceSearchUvcCameraBinding;
  * 更多UVC 摄像头使用参考 https://blog.csdn.net/hanshiying007/article/details/124118486
  */
 public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
-    private static final String TAG = AbsFaceSearch_UVCCameraFragment.class.getSimpleName();
     public FragmentFaceSearchUvcCameraBinding binding;
     public int cameraType = FaceAICameraType.UVC_CAMERA_RGB; //UVC 可以单RGB或者RGB+IR
     private static final long DETECT_INTERVAL = 100; // 设为 100ms~200ms 检测一次足够了
@@ -129,17 +126,10 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
                 lastRGBDetectTime = currentTime;
 
                 faceSearchSetBitmap(bitmap, FaceVerifyUtils.BitmapType.RGB);
-
-                // 结合上面的深拷贝
-//                if (bitmap != null && !bitmap.isRecycled()) {
-//                    Bitmap copyBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-//                    //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
-//                    faceSearchSetBitmap(copyBitmap, FaceVerifyUtils.BitmapType.RGB);
-//                }
             }
             @Override
             public void onImageSize(int imageWidth, int imageHeight) {
-                //如果发现人脸框坐标左右镜像了，第三个参数置反一下就可以了
+                //如果发现人脸框坐标左右镜像了，第二个参数置反一下就可以了
                 binding.graphicOverlay.setCameraInfo(imageWidth, imageHeight,false);
             }
         });
@@ -175,25 +165,13 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
             }
         });
 
-        irCameraManager.setFaceAIAnalysis(new UVCCameraManager.OnFaceAIAnalysisCallBack() {
-            @Override
-            public void onBitmapFrame(Bitmap bitmap) {
-
-                long currentTime = System.currentTimeMillis();
-                if (currentTime - lastIRDetectTime < DETECT_INTERVAL) {
-                    return;
-                }
-                lastIRDetectTime = currentTime;
-                faceSearchSetBitmap(bitmap, FaceVerifyUtils.BitmapType.IR);
-
-                // 结合上面的深拷贝
-//                if (bitmap != null && !bitmap.isRecycled()) {
-//                    Bitmap copyBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-//                    //设备硬件可以加个红外检测有人靠近再启动人脸搜索检索服务，不然机器一直工作发热性能下降老化快
-//                    faceSearchSetBitmap(copyBitmap, FaceVerifyUtils.BitmapType.IR);
-//                }
-
+        irCameraManager.setFaceAIAnalysis(bitmap -> {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastIRDetectTime < DETECT_INTERVAL) {
+                return;
             }
+            lastIRDetectTime = currentTime;
+            faceSearchSetBitmap(bitmap, FaceVerifyUtils.BitmapType.IR);
         });
 
     }

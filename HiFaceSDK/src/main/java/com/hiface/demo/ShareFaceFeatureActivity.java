@@ -1,48 +1,43 @@
 package com.hiface.demo;
 
-import static com.sdk.hiface.base.addFace.AddFaceDispose.PERFORMANCE_MODE_FAST;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_LEFT;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_RIGHT;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_UP;
-import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.TILT_HEAD;
-import static com.sdk.hiface.recognize.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE;
-import static com.sdk.hiface.recognize.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
-import static com.sdk.hiface.recognize.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
 import static com.hiface.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.hiface.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
+import static com.sdk.hiface.base.addFace.AddFaceDispose.PERFORMANCE_MODE_FAST;
+import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.*;
+import static com.sdk.hiface.recognize.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.*;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
-import com.sdk.hiface.base.addFace.*;
-import com.sdk.hiface.base.utils.DataConvertUtils;
-import com.sdk.hiface.base.view.camera.CameraXBuilder;
-import com.sdk.hiface.core.engine.HiFaceSDKEngine;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.hiface.demo.SysCamera.camera.FaceCameraXFragment;
 import com.hiface.demo.base.AbsBaseActivity;
 import com.hiface.demo.base.view.FaceCoverView;
-
-import java.util.Objects;
-import android.content.ContentValues;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.widget.Toast;
-import java.io.OutputStream;
+import com.sdk.hiface.base.addFace.AddFaceCallBack;
+import com.sdk.hiface.base.addFace.AddFaceDispose;
+import com.sdk.hiface.base.utils.DataConvertUtils;
+import com.sdk.hiface.base.view.camera.CameraXBuilder;
+import com.sdk.hiface.core.engine.HiFaceSDKEngine;
 import com.tencent.mmkv.MMKV;
+
+import java.io.OutputStream;
+import java.util.Objects;
 
 /**
  * 「分享导出」使用SDK相机规范人脸录入,保存人脸特征值。

@@ -51,7 +51,7 @@ configurations.configureEach {
 dependencies {
 
     //高精度Pro SDK API Demo(Android)：https://github.com/HiFaceSDK/HiFaceSDK_Android
-    api 'io.github.facesdkpro:HiFace:0.0.10'
+    api 'io.github.facesdkpro:HiFace:0.1.2'
 
     //Library and sample to access UVC camera: https://github.com/shiyinghan/UVCAndroid
     implementation 'com.herohan:UVCAndroid:1.0.12' //For Custom Android device use UVC camera

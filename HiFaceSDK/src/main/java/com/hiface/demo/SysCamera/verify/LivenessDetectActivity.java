@@ -3,25 +3,21 @@ package com.hiface.demo.SysCamera.verify;
 import static com.hiface.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.hiface.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import static com.hiface.demo.FaceSDKConfig.CACHE_FACE_LOG_DIR;
-
-import android.content.Context;
+import static com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.*;
+import static com.sdk.hiface.recognize.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.*;
 import android.content.Intent;
-import com.tencent.mmkv.MMKV;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
-
 import com.sdk.hiface.base.view.camera.CameraXBuilder;
 import com.sdk.hiface.recognize.FaceProcessBuilder;
 import com.sdk.hiface.recognize.FaceVerifyUtils;
 import com.sdk.hiface.recognize.ProcessCallBack;
-import com.sdk.hiface.recognize.VerifyStatus.ALIVE_DETECT_TYPE_ENUM;
-import com.sdk.hiface.recognize.VerifyStatus.VERIFY_DETECT_TIPS_ENUM;
 import com.sdk.hiface.recognize.liveness.FaceLivenessType;
+import com.tencent.mmkv.MMKV;
 import com.hiface.demo.R;
 import com.hiface.demo.SysCamera.camera.FaceCameraXFragment;
 import com.hiface.demo.SysCamera.search.ImageToast;
@@ -33,7 +29,7 @@ import com.hiface.demo.base.view.FaceCoverView;
 /**
  * 活体检测 SDK 接入演示代码.
  * <p>
- * 摄像头管理源码开放了 {@link FaceCameraXFragment}
+ * 摄像头 management 源码开放了 {@link FaceCameraXFragment}
  * More：<a href="https://github.com/FaceSDKPro/HiFace_Android">人脸识别FaceAISDK</a>
  *
  * @author FaceAISDK.Service@gmail.com
@@ -171,17 +167,17 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         if (!isDestroyed() && !isFinishing()) {
             switch (actionCode) {
                 //炫彩活体检测需要人脸更加靠近屏幕摄像头才能通过检测
-                case VERIFY_DETECT_TIPS_ENUM.COLOR_FLASH_NEED_CLOSER_CAMERA:
+                case COLOR_FLASH_NEED_CLOSER_CAMERA:
                     setSecondTips(R.string.color_flash_need_closer_camera);
                     TTSPlayer.getInstance().playTTS(R.string.color_flash_need_closer_camera,TTSPlayer.PlayMode.DROP_IF_BUSY);
                     break;
 
                 //炫彩活体通过✅
-                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIVE_SUCCESS:
+                case COLOR_FLASH_LIVE_SUCCESS:
                     setMainTips(R.string.keep_face_visible);
                     break;
 
-                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIVE_FAILED:
+                case COLOR_FLASH_LIVE_FAILED:
                     new AlertDialog.Builder(this)
                             .setMessage(R.string.color_flash_liveness_failed)
                             .setCancelable(false)
@@ -195,7 +191,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                             }).show();
                     break;
 
-                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIGHT_HIGH:
+                case COLOR_FLASH_LIGHT_HIGH:
                     LayoutInflater inflater = LayoutInflater.from(this);
                     View dialogView = inflater.inflate(R.layout.dialog_light_warning, null);
                     new AlertDialog.Builder(this)
@@ -211,16 +207,16 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                             }).show();
                     break;
 
-                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_START:
+                case COLOR_FLASH_START:
                     break;
 
                 // 动作活体检测完成了
-                case ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_SUCCESS:
+                case MOTION_LIVE_SUCCESS:
                     setMainTips(R.string.keep_face_visible);
                     break;
 
                 // 动作活体检测超时
-                case ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_TIMEOUT:
+                case MOTION_LIVE_TIMEOUT:
                     new AlertDialog.Builder(this)
                             .setMessage(R.string.motion_liveness_detection_time_out)
                             .setCancelable(false)
@@ -236,37 +232,37 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     break;
 
                 // 人脸识别处理中
-                case VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:
+                case ACTION_PROCESS:
                     setMainTips(R.string.face_verifying);
                     break;
 
-                case ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
+                case OPEN_MOUSE:
                     TTSPlayer.getInstance().playTTS(R.string.repeat_open_close_mouse);
                     setMainTips(R.string.repeat_open_close_mouse);
                     break;
 
-                case ALIVE_DETECT_TYPE_ENUM.SMILE:
+                case SMILE:
                     setMainTips(R.string.motion_smile);
                     TTSPlayer.getInstance().playTTS(R.string.motion_smile);
                     break;
 
-                case ALIVE_DETECT_TYPE_ENUM.BLINK:
+                case BLINK:
                     TTSPlayer.getInstance().playTTS(R.string.motion_blink_eye);
                     setMainTips(R.string.motion_blink_eye);
                     break;
 
-                case ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD:
+                case SHAKE_HEAD:
                     TTSPlayer.getInstance().playTTS(R.string.motion_shake_head);
                     setMainTips(R.string.motion_shake_head);
                     break;
 
-                case ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
+                case NOD_HEAD:
                     TTSPlayer.getInstance().playTTS(R.string.motion_node_head);
                     setMainTips(R.string.motion_node_head);
                     break;
 
                 // 人脸识别活体检测过程切换到后台防止作弊
-                case VERIFY_DETECT_TIPS_ENUM.PAUSE_VERIFY:
+                case PAUSE_VERIFY:
                     new AlertDialog.Builder(this)
                             .setMessage(R.string.face_verify_pause)
                             .setCancelable(false)
@@ -276,7 +272,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     break;
 
                 //多次没有人脸，想作弊啊🤔️
-                case VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
+                case NO_FACE_REPEATEDLY:
                     setMainTips(R.string.no_face_or_repeat_switch_screen);
                     new AlertDialog.Builder(this)
                             .setMessage(R.string.stop_verify_tips)
@@ -287,26 +283,26 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     break;
 
                 // ------------ 以下是setSecondTips  -----------------
-                case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE:
+                case FACE_TOO_LARGE:
                     setSecondTips(R.string.far_away_tips);
                     break;
 
                 //人脸太小靠近一点摄像头。炫彩活体检测强制要求靠近屏幕才能把光线打在脸上
-                case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL:
+                case FACE_TOO_SMALL:
                     setSecondTips(R.string.come_closer_tips);
                     break;
 
                 //检测到正常的人脸，尺寸大小OK
-                case VERIFY_DETECT_TIPS_ENUM.FACE_SIZE_FIT:
+                case FACE_SIZE_FIT:
                     setSecondTips(0);
                     break;
 
-                case VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
+                case ACTION_NO_FACE:
                     setSecondTips(R.string.no_face_detected_tips);
                     break;
 
                 //检测到多人脸
-                case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY:
+                case FACE_TOO_MANY:
                     //防止一真一假人脸作弊,每帧画面检测
                     if(!allowMultiFaces){
                         finishFaceVerify(VerifyStatue.NOT_ALLOW_MULTI_FACES, R.string.multiple_faces_tips);
@@ -416,4 +412,3 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     }
 
 }
-

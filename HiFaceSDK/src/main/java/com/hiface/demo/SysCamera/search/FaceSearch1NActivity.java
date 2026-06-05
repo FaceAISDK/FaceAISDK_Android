@@ -1,48 +1,40 @@
 package com.hiface.demo.SysCamera.search;
 
-import static com.sdk.hiface.search.SearchProcessTipsCode.FACE_ANGLE_NOT_FIT;
-import static com.sdk.hiface.search.SearchProcessTipsCode.LOCAL_FACE_DATABASE_EMPTY;
-import static com.sdk.hiface.search.SearchProcessTipsCode.FACE_SIZE_FIT;
-import static com.sdk.hiface.search.SearchProcessTipsCode.FACE_TOO_LARGE;
-import static com.sdk.hiface.search.SearchProcessTipsCode.FACE_TOO_SMALL;
-import static com.sdk.hiface.search.SearchProcessTipsCode.MASK_DETECTION;
-import static com.sdk.hiface.search.SearchProcessTipsCode.NO_LIVE_FACE;
-import static com.sdk.hiface.search.SearchProcessTipsCode.NO_MATCHED;
-import static com.sdk.hiface.search.SearchProcessTipsCode.SEARCHING;
-import static com.sdk.hiface.search.SearchProcessTipsCode.SEARCH_INITIALIZING;
-import static com.sdk.hiface.search.SearchProcessTipsCode.SEARCH_PREPARED;
-import static com.sdk.hiface.search.SearchProcessTipsCode.THRESHOLD_ERROR;
 import static com.hiface.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.hiface.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import static com.hiface.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
+import static com.sdk.hiface.search.SearchProcessTipsCode.*;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import com.tencent.mmkv.MMKV;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageProxy;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.google.gson.Gson;
 import com.sdk.hiface.base.view.camera.CameraXBuilder;
 import com.sdk.hiface.core.utils.FaceAICameraType;
 import com.sdk.hiface.search.FaceSearchEngine;
+import com.sdk.hiface.search.FaceSearchResult;
 import com.sdk.hiface.search.SearchProcessBuilder;
 import com.sdk.hiface.search.SearchProcessCallBack;
-import com.sdk.hiface.search.FaceSearchResult;
+import com.tencent.mmkv.MMKV;
+
 import com.hiface.demo.R;
 import com.hiface.demo.SysCamera.camera.FaceCameraXFragment;
 import com.hiface.demo.base.AbsBaseActivity;
 import com.hiface.demo.base.utils.TTSPlayer;
 import com.hiface.demo.base.utils.VoicePlayer;
 import com.hiface.demo.databinding.ActivityFaceSearchBinding;
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -50,7 +42,7 @@ import java.util.List;
  * RGB摄像头动作活体检测+1:N 人脸搜索识别。当前人脸库默认最大5000，未成年搜索精度待提升
  * 数据合规建议不要再收集人脸原始图片数据 https://mp.weixin.qq.com/s/aGPwYUYxnr6ZDRxwAQd8vg
  * 摄像头管理源码开放在 {@link FaceCameraXFragment}
- * 内置1W测试人脸APK特制版本（点击导入Asset目录人脸）：https://www.pgyer.com/4c1e43a4e28bc50885ab942b41b1b85d
+ * 内置1W测试人脸APK特制版本（点击导入 Asset 目录人脸）：https://www.pgyer.com/4c1e43a4e28bc50885ab942b41b1b85d
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceSearch1NActivity extends AbsBaseActivity {
@@ -247,9 +239,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 break;
 
             case SEARCH_PREPARED: //搜索准备就绪
-                setSearchTips(R.string.keep_face_tips);
-                break;
-
             case SEARCHING: //人脸角度等条件OK，人脸搜索中
                 setSearchTips(R.string.keep_face_tips);
                 break;
