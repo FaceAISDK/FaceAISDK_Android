@@ -244,7 +244,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 break;
 
             case FACE_ANGLE_NOT_FIT:
-                setSecondTips(R.string.face_angle_not_fit);
+                setSearchTips(R.string.face_angle_not_fit);
                 break;
 
             case NO_LIVE_FACE:
