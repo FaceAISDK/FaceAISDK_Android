@@ -179,7 +179,8 @@ public class FaceCameraXFragment extends AbsFaceCameraXFragment {
                 .build();
 
         // 3. 配置 PreviewView
-        mPreviewView.setImplementationMode(PreviewView.ImplementationMode.PERFORMANCE);
+//        mPreviewView.setImplementationMode(PreviewView.ImplementationMode.PERFORMANCE);
+        mPreviewView.setImplementationMode(PreviewView.ImplementationMode.COMPATIBLE);//兼容模式可以选择相机角度
         mPreviewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
         mPreview.setSurfaceProvider(mPreviewView.getSurfaceProvider());
 

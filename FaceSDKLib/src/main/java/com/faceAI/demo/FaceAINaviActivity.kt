@@ -14,7 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.edit
+import com.tencent.mmkv.MMKV
 import androidx.core.net.toUri
 import com.ai.face.base.utils.performance.DevicePerformance
 import com.ai.face.core.utils.FaceAICameraType
@@ -67,8 +67,7 @@ class FaceAINaviActivity : AbsBaseActivity() {
 
         // 活体检测 livenessDetection
         viewBinding.livenessDetection.setOnClickListener {
-            val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
-            val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA)
+            val uvcCameraType = MMKV.defaultMMKV().decodeInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA)
 
             if(uvcCameraType== FaceAICameraType.SYSTEM_CAMERA){
                 startActivity(Intent(this@FaceAINaviActivity, LivenessDetectActivity::class.java))
@@ -175,16 +174,16 @@ class FaceAINaviActivity : AbsBaseActivity() {
         arrayAdapter.add(getString(R.string.camera_type_uvc_rgb_ir))
         builderSingle.setNegativeButton(R.string.cancel) { dialog, which -> dialog.dismiss() }
         builderSingle.setAdapter(arrayAdapter) { dialog, which ->
-            val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
+            val mmkv = MMKV.defaultMMKV()
             when (which) {
                 0 -> {
-                    sharedPref.edit(commit = true) { putInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA) }
+                    mmkv.encode(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA)
                 }
                 1 -> {
-                    sharedPref.edit(commit = true) { putInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB) }
+                    mmkv.encode(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB)
                 }
                 else -> {
-                    sharedPref.edit(commit = true) { putInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB_IR) }
+                    mmkv.encode(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB_IR)
                 }
             }
             setCameraType()
@@ -196,8 +195,7 @@ class FaceAINaviActivity : AbsBaseActivity() {
      *  当前的相机类型
      */
     private  fun setCameraType() {
-        val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
-        val uvcCameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA)
+        val uvcCameraType = MMKV.defaultMMKV().decodeInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA)
         when (uvcCameraType) {
             FaceAICameraType.SYSTEM_CAMERA -> {
                 viewBinding.cameraTypeSelect.text = getString(R.string.camera_type_system)
@@ -218,8 +216,8 @@ class FaceAINaviActivity : AbsBaseActivity() {
      */
     private fun showTipsDialog() {
 
-        val sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE)
-        val showTime = sharedPref.getLong("showTipsDialog", 0)
+        val mmkv = MMKV.defaultMMKV()
+        val showTime = mmkv.decodeLong("showTipsDialog", 0)
         if (System.currentTimeMillis() - showTime > 300 * 60 * 60 * 1000) {
             val builder = AlertDialog.Builder(this)
             val dialog = builder.create()
@@ -245,12 +243,7 @@ class FaceAINaviActivity : AbsBaseActivity() {
                     Toast.makeText(this,R.string.login_privacy_policy, Toast.LENGTH_LONG).show()
                     return@setOnClickListener
                 }
-                sharedPref.edit(commit = true) {
-                    putLong(
-                        "showTipsDialog",
-                        System.currentTimeMillis()
-                    ).commit()
-                }
+                mmkv.encode("showTipsDialog", System.currentTimeMillis())
                 dialog.dismiss()
             }
 

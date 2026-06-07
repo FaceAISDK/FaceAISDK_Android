@@ -3,7 +3,6 @@ package com.faceAI.demo;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import com.ai.face.faceSearch.search.FaceSearchFeatureManger;
 import com.ai.face.faceSearch.search.Image2FaceFeature;
@@ -30,7 +29,7 @@ public class FaceSDKConfig {
      */
     public static void init(Context context) {
 
-        //使用MMKV保存简单1:1人脸特征保存key为faceID,value为特征值 （人脸搜索的人脸特征放在SDK内置数据库中管理）
+        //使用MMKV保存1:1人脸特征和其他Key-Value配置（人脸搜索的人脸特征放在SDK内置数据库中管理）
         MMKV.initialize(context);
 
         //语音提示播报，现在都是播放录音文件。后期改为TTS吧
@@ -81,11 +80,10 @@ public class FaceSDKConfig {
     }
 
     /**
-     * 暂时还用SP，后期统一为MMKV
+     * 统一使用 MMKV
      */
-    public static void setCameraID(Context context,int cameraID){
-        SharedPreferences sharedPref = context.getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
-        sharedPref.edit().putInt(FRONT_BACK_CAMERA_FLAG,cameraID).apply();
+    public static void setCameraID(Context context, int cameraID) {
+        MMKV.defaultMMKV().encode(FRONT_BACK_CAMERA_FLAG, cameraID);
     }
 
     /**
