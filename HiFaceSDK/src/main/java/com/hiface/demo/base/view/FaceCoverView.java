@@ -32,7 +32,7 @@ import com.hiface.demo.base.utils.ScreenUtils;
  */
 public class FaceCoverView extends View {
 
-    public static  int MARGIN_SIZE = 8;
+    public static int MARGIN_SIZE = 8;
     private static final int START_ANGLE = 270;
     private static final int MAX_ANGLE = 360;
 
@@ -138,7 +138,7 @@ public class FaceCoverView extends View {
         mTipsPaint.setFakeBoldText(true);
 
         mSecondTipsPaint.setColor(mTipTextColor);
-        // 副标题稍微小一点，或者也可以保持一致
+        // 副标题稍微小一点
         mSecondTipsPaint.setTextSize(mTipTextSize * 0.88f);
         mSecondTipsPaint.setTextAlign(Paint.Align.CENTER);
         mSecondTipsPaint.setFakeBoldText(true);
@@ -149,10 +149,10 @@ public class FaceCoverView extends View {
 
         mTextSpacing = ScreenUtils.dp2px(context, 7);
         mTextPaddingHorizontal = ScreenUtils.dp2px(context, 17);
-        mTextPaddingVertical = ScreenUtils.dp2px(context, 5);
+        mTextPaddingVertical = ScreenUtils.dp2px(context, 6);
         mTextBgRadius = ScreenUtils.dp2px(context, 20);
 
-        setTipsText(R.string.sdk_init); //默认提示
+        setTipsText(R.string.sdk_init); // 默认提示
     }
 
     @Override
@@ -166,9 +166,9 @@ public class FaceCoverView extends View {
 
         mFullRect.set(0, 0, w, h);
         int shorterSide = min(w, h);
-        if(w>h) {
+        if (w > h) {
             MARGIN_SIZE = 5;
-        }else {
+        } else {
             MARGIN_SIZE = 8;
         }
 
@@ -259,11 +259,10 @@ public class FaceCoverView extends View {
         }
         this.mTipsText = newTips;
         this.mTipsWidth = mTipsPaint.measureText(mTipsText);
-        if (!TextUtils.isEmpty(mTipsText)) {
-            if (mSecondTipsAnimator != null) mSecondTipsAnimator.cancel();
-            mSecondTipsAlpha = 0;
-            mTargetSecondAlpha = 0;
-        }
+
+        // 🚨 优化点 1：移除了原先强行杀死 SecondTips 动画和隐藏其 Alpha 的逻辑，
+        // 让主、副标题的状态完全独立。如果业务需要清空副标题，应由外部显式调用 setSecondTipsText(null)。
+
         invalidate();
     }
 
@@ -276,12 +275,16 @@ public class FaceCoverView extends View {
             animateSecondTipsAlpha(0);
             return;
         }
-        if (TextUtils.equals(tips, mSecondTipsText)) {
-            animateSecondTipsAlpha(255);
-            return;
+
+        boolean textChanged = !TextUtils.equals(tips, mSecondTipsText);
+
+        if (textChanged) {
+            this.mSecondTipsText = tips;
+            this.mSecondTipsWidth = mSecondTipsPaint.measureText(mSecondTipsText);
+            // 🚨 优化点 2：即使透明度目标依然是 255（动画拦截了），也必须通过 invalidate 重绘新的文字内容
+            invalidate();
         }
-        this.mSecondTipsText = tips;
-        this.mSecondTipsWidth = mSecondTipsPaint.measureText(mSecondTipsText);
+
         animateSecondTipsAlpha(255);
     }
 
@@ -322,13 +325,16 @@ public class FaceCoverView extends View {
     // ==================== 动画处理 ====================
 
     private void animateSecondTipsAlpha(int targetAlpha) {
-        if (mSecondTipsAlpha == targetAlpha || mTargetSecondAlpha == targetAlpha) {
+        // 🚨 优化点 3：只判断目标值是否一致即可，避免动画状态机紊乱
+        if (mTargetSecondAlpha == targetAlpha) {
             return;
         }
         mTargetSecondAlpha = targetAlpha;
+
         if (mSecondTipsAnimator != null) {
             mSecondTipsAnimator.cancel();
         }
+
         int baseDuration = targetAlpha == 255 ? 200 : 400;
         int duration = (int) (Math.abs(targetAlpha - mSecondTipsAlpha) / 255f * baseDuration);
 
