@@ -1,16 +1,5 @@
 package com.faceAI.demo.SysCamera.search;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.ENGINE_INITING;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_ANGLE_NOT_FIT;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.LOCAL_FACE_DATABASE_EMPTY;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_SIZE_FIT;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_TOO_LARGE;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_TOO_SMALL;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.MASK_DETECTION;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_LIVE_FACE;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_MATCHED;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCHING;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.*;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
@@ -19,7 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -44,13 +32,14 @@ import com.faceAI.demo.base.utils.TTSPlayer;
 import com.faceAI.demo.base.utils.VoicePlayer;
 import com.faceAI.demo.databinding.ActivityFaceSearchBinding;
 import com.google.gson.Gson;
+import com.tencent.mmkv.MMKV;
 
 import java.util.List;
 
 /**
  * RGB摄像头动作活体检测+1:N 人脸搜索识别。当前人脸库默认最大5000，未成年搜索精度待提升
  * 数据合规建议不要再收集人脸原始图片数据 https://mp.weixin.qq.com/s/aGPwYUYxnr6ZDRxwAQd8vg
- * 摄像头管理源码开放在 {@link FaceCameraXFragment}
+ * 人脸搜索Pro 版本SDK：https://github.com/HiFaceSDK/HiFace_Android
  * 内置1W测试人脸APK特制版本（点击导入Asset目录人脸）：https://www.pgyer.com/4c1e43a4e28bc50885ab942b41b1b85d
  * @author FaceAISDK.Service@gmail.com
  */
@@ -102,9 +91,9 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
 
         getIntentParams(); //接收三方插件传递的参数，原生开发可以忽略裁剪掉
 
-        SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
-        cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 0); //默认前置
-        int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
+        MMKV mmkv = MMKV.defaultMMKV();
+        cameraLensFacing = mmkv.decodeInt(FRONT_BACK_CAMERA_FLAG, 0); //默认前置
+        int degree = mmkv.decodeInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //1. 摄像头相关参数配置
         /**摄像头管理源码开放在 {@link FaceCameraXFragment} **/
@@ -239,7 +228,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 break;
 
             case FACE_ANGLE_NOT_FIT:
-                setSecondTips(R.string.face_angle_not_fit);
+                setSearchTips(R.string.face_angle_not_fit);
                 break;
 
             case LOCAL_FACE_DATABASE_EMPTY:
@@ -248,15 +237,14 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                 Toast.makeText(this, R.string.no_face_data_tips, Toast.LENGTH_LONG).show();
                 break;
             case ENGINE_INITING:
-                setSecondTips(R.string.sdk_init);
+                setSearchTips(R.string.sdk_init);
                 break;
 
             case SEARCH_PREPARED:
-                Log.d("SEARCH_PREPARED", "SEARCH_PREPARED" );
+                setSearchTips(R.string.keep_face_tips);
                 break;
 
             case SEARCHING:
-                //后期将废除本状态
                 setSearchTips(R.string.keep_face_tips);
                 break;
 

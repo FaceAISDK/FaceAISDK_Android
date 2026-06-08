@@ -2,16 +2,8 @@ package com.faceAI.demo.UVCCamera.addFace;
 
 import static android.view.View.GONE;
 import static com.ai.face.base.addFace.AddFaceDispose.PERFORMANCE_MODE_FAST;
-import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
-import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
-import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
-import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_LEFT;
-import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_RIGHT;
-import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_UP;
-import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.TILT_HEAD;
-import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE;
-import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
-import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
+import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.*;
+import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.*;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_MIRROR_H;
 import static com.faceAI.demo.FaceAISettingsActivity.RGB_UVC_CAMERA_SELECT;
@@ -19,7 +11,6 @@ import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FAC
 import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -40,6 +31,7 @@ import com.ai.face.base.addFace.AddFaceDispose;
 import com.ai.face.core.engine.FaceAISDKEngine;
 import com.ai.face.faceSearch.search.FaceSearchFeatureManger;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
@@ -88,16 +80,16 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
     }
 
     private void initRGBCamara() {
-        SharedPreferences sp = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
+        MMKV mmkv = MMKV.defaultMMKV();
 
-        String s = sp.getString(RGB_UVC_CAMERA_SELECT, RGB_KEY_DEFAULT);
+        String s = mmkv.decodeString(RGB_UVC_CAMERA_SELECT, RGB_KEY_DEFAULT);
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
                 .setCameraName("UVC RGB Camera")
                 .setCameraKey(s)
                 .setCameraView(binding.rgbCameraView)
                 .setContext(this)
-                .setDegree(sp.getInt(RGB_UVC_CAMERA_DEGREE, 0))
-                .setHorizontalMirror(sp.getBoolean(RGB_UVC_CAMERA_MIRROR_H, false))
+                .setDegree(mmkv.decodeInt(RGB_UVC_CAMERA_DEGREE, 0))
+                .setHorizontalMirror(mmkv.decodeBool(RGB_UVC_CAMERA_MIRROR_H, false))
                 .build();
 
         rgbCameraManager = new UVCCameraManager(cameraBuilder);
@@ -126,10 +118,16 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
          * 0 PERFORMANCE_MODE_EASY 简单模式 允许人脸方位可以「较大」的偏移
          */
         addFaceDispose = new AddFaceDispose(this, PERFORMANCE_MODE_FAST, false,new AddFaceCallBack() {
+            /**
+             * 人脸检测裁剪完成
+             * @param cropped         SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
+             * @param silentScore     静默活体分数(摄像头品质有关)，needLivenessCheck=true才有值
+             * @param origin          640*480 原图
+             */
             @Override
-            public void onCompleted(Bitmap bitmap, float silentLiveValue) {
+            public void onCompleted(Bitmap cropped, float silentScore,Bitmap origin) {
                 isConfirmAdd = true;
-                confirmAddFaceDialog(bitmap, silentLiveValue);
+                confirmAddFaceDialog(cropped, silentScore,origin);
             }
 
             @Override
@@ -145,8 +143,8 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
      * @param bitmap 符合对应参数设置的SDK裁剪好的人脸图
      * @param score  1
      */
-    private void confirmAddFaceDialog(Bitmap bitmap, float score) {
-        ConfirmFaceDialog confirmFaceDialog = new ConfirmFaceDialog(this, bitmap, score);
+    private void confirmAddFaceDialog(Bitmap bitmap, float score,Bitmap origin) {
+        ConfirmFaceDialog confirmFaceDialog = new ConfirmFaceDialog(this, origin, score);
 
         confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
             //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
@@ -194,17 +192,17 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
         public Button btnConfirm, btnCancel;
         public EditText faceIDEdit;
 
-        public ConfirmFaceDialog(Context context, Bitmap bitmap, float silentLiveValue) {
+        public ConfirmFaceDialog(Context context, Bitmap originBitmap, float silentLiveValue) {
             dialog = new AlertDialog.Builder(context).create();
-            View dialogView = View.inflate(context, R.layout.dialog_confirm_base, null);
+            View dialogView = View.inflate(context, R.layout.dialog_confirm_add_face, null);
             Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.setView(dialogView);
             dialog.setCanceledOnTouchOutside(false);
-            ImageView basePreView = dialogView.findViewById(R.id.preview);
+            ImageView facePreView = dialogView.findViewById(R.id.preview);
             Glide.with(context)
-                    .load(bitmap)
-                    .transform(new RoundedCorners(22))
-                    .into(basePreView);
+                    .load(originBitmap)
+                    .transform(new CenterCrop(), new RoundedCorners(33))
+                    .into(facePreView);
             btnConfirm = dialogView.findViewById(R.id.share_face_feature);
             btnCancel = dialogView.findViewById(R.id.btn_cancel);
             faceIDEdit = dialogView.findViewById(R.id.edit_text);

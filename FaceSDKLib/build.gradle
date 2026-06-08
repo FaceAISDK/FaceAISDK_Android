@@ -17,6 +17,12 @@ android {
         }
     }
 
+    //不压缩SDK中的模型
+    androidResources {
+        noCompress "tflite"
+        noCompress "bin"
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
@@ -51,10 +57,10 @@ configurations.configureEach {
 dependencies {
 
     //Face SDK API Demo(Android)：https://github.com/FaceAISDK/FaceAISDK_Android
-    api 'io.github.faceaisdk:Android:2026.05.29.add'
+    api 'io.github.faceaisdk:Android:2026.06.07.time'
 
     //Library and sample to access UVC camera: https://github.com/shiyinghan/UVCAndroid
-    implementation 'com.herohan:UVCAndroid:1.0.11' //For Custom Android device use UVC camera
+    implementation 'com.herohan:UVCAndroid:1.0.12' //For Custom Android device use UVC camera
 
     implementation "androidx.localbroadcastmanager:localbroadcastmanager:1.1.0"
     implementation 'io.github.cymchad:BaseRecyclerViewAdapterHelper4:4.1.1'

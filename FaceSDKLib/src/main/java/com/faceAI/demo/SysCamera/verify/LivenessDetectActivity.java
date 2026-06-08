@@ -4,9 +4,9 @@ import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_FACE_LOG_DIR;
 
+import static com.faceAI.demo.SysCamera.verify.VerifyStatue.*;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,8 +19,8 @@ import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.faceVerify.verify.FaceProcessBuilder;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.ai.face.faceVerify.verify.ProcessCallBack;
-import com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM;
-import com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM;
+import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.*;
+import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.*;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
@@ -29,6 +29,7 @@ import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.utils.BitmapUtils;
 import com.faceAI.demo.base.utils.TTSPlayer;
 import com.faceAI.demo.base.view.FaceCoverView;
+import com.tencent.mmkv.MMKV;
 
 /**
  * 活体检测 SDK 接入演示代码.
@@ -63,13 +64,13 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         hideSystemUI();//炫彩活体全屏显示各种颜色
         setContentView(R.layout.activity_liveness_detection);
         faceCoverView = findViewById(R.id.face_cover);
-        findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(0, R.string.face_verify_result_cancel));
+        findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(DEFAULT, R.string.face_verify_result_cancel));
 
         getIntentParams();    //接收三方插件的参数 数据
 
-        SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
-        int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 0);
-        int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
+        MMKV mmkv = MMKV.defaultMMKV();
+        int cameraLensFacing = mmkv.decodeInt(FRONT_BACK_CAMERA_FLAG, 0);
+        int degree = mmkv.decodeInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
@@ -112,11 +113,11 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                         if(livenessValue>0.81){
                             TTSPlayer.getInstance().playTTS(R.string.face_verify_success);
                             new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
-                            finishFaceVerify(10, R.string.liveness_detection_done, livenessValue);
+                            finishFaceVerify(ALL_LIVENESS_SUCCESS, R.string.liveness_detection_done, livenessValue);
                         }else{
                             TTSPlayer.getInstance().playTTS(R.string.silent_anti_spoofing_error);
                             new ImageToast().show(getApplicationContext(), getString(R.string.silent_anti_spoofing_error));
-                            finishFaceVerify(11, R.string.silent_anti_spoofing_error, livenessValue);
+                            finishFaceVerify(SILENT_LIVENESS_FAILED, R.string.silent_anti_spoofing_error, livenessValue);
                         }
                     }
 
@@ -160,7 +161,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finishFaceVerify(0, R.string.face_verify_result_cancel);
+        finishFaceVerify(DEFAULT, R.string.face_verify_result_cancel);
     }
 
     /**
@@ -171,31 +172,31 @@ public class LivenessDetectActivity extends AbsBaseActivity {
         if (!isDestroyed() && !isFinishing()) {
             switch (actionCode) {
                 //炫彩活体检测需要人脸更加靠近屏幕摄像头才能通过检测
-                case VERIFY_DETECT_TIPS_ENUM.COLOR_FLASH_NEED_CLOSER_CAMERA:
+                case COLOR_FLASH_NEED_CLOSER_CAMERA:
                     setSecondTips(R.string.color_flash_need_closer_camera);
                     TTSPlayer.getInstance().playTTS(R.string.color_flash_need_closer_camera,TTSPlayer.PlayMode.DROP_IF_BUSY);
                     break;
 
                 //炫彩活体通过✅
-                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIVE_SUCCESS:
+                case COLOR_FLASH_LIVE_SUCCESS:
                     setMainTips(R.string.keep_face_visible);
                     break;
 
-                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIVE_FAILED:
+                case COLOR_FLASH_LIVE_FAILED:
                     new AlertDialog.Builder(this)
                             .setMessage(R.string.color_flash_liveness_failed)
                             .setCancelable(false)
                             .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                 retryTime++;
                                 if (retryTime > 1) {
-                                    finishFaceVerify(7, R.string.color_flash_liveness_failed);
+                                    finishFaceVerify(COLOR_LIVENESS_FAILED, R.string.color_flash_liveness_failed);
                                 } else {
                                     faceVerifyUtils.retryVerify();
                                 }
                             }).show();
                     break;
 
-                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_LIGHT_HIGH:
+                case COLOR_FLASH_LIGHT_HIGH:
                     LayoutInflater inflater = LayoutInflater.from(this);
                     View dialogView = inflater.inflate(R.layout.dialog_light_warning, null);
                     new AlertDialog.Builder(this)
@@ -204,30 +205,30 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                             .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                 retryTime++;
                                 if (retryTime > 1) {
-                                    finishFaceVerify(9, R.string.color_flash_light_high);
+                                    finishFaceVerify(COLOR_LIVENESS_LIGHT_TOO_HIGH, R.string.color_flash_light_high);
                                 } else {
                                     faceVerifyUtils.retryVerify();
                                 }
                             }).show();
                     break;
 
-                case ALIVE_DETECT_TYPE_ENUM.COLOR_FLASH_START:
+                case COLOR_FLASH_START:
                     break;
 
                 // 动作活体检测完成了
-                case ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_SUCCESS:
+                case MOTION_LIVE_SUCCESS:
                     setMainTips(R.string.keep_face_visible);
                     break;
 
                 // 动作活体检测超时
-                case ALIVE_DETECT_TYPE_ENUM.MOTION_LIVE_TIMEOUT:
+                case MOTION_LIVE_TIMEOUT:
                     new AlertDialog.Builder(this)
                             .setMessage(R.string.motion_liveness_detection_time_out)
                             .setCancelable(false)
                             .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
                                 retryTime++;
                                 if (retryTime > 1) {
-                                    finishFaceVerify(3, R.string.face_verify_result_timeout);
+                                    finishFaceVerify(MOTION_LIVENESS_TIMEOUT, R.string.face_verify_result_timeout);
                                 } else {
                                     faceVerifyUtils.retryVerify();
                                 }
@@ -235,80 +236,80 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     break;
 
                 // 人脸识别处理中
-                case VERIFY_DETECT_TIPS_ENUM.ACTION_PROCESS:
+                case ACTION_PROCESS:
                     setMainTips(R.string.face_verifying);
                     break;
 
-                case ALIVE_DETECT_TYPE_ENUM.OPEN_MOUSE:
+                case OPEN_MOUSE:
                     TTSPlayer.getInstance().playTTS(R.string.repeat_open_close_mouse);
                     setMainTips(R.string.repeat_open_close_mouse);
                     break;
 
-                case ALIVE_DETECT_TYPE_ENUM.SMILE:
+                case SMILE:
                     setMainTips(R.string.motion_smile);
                     TTSPlayer.getInstance().playTTS(R.string.motion_smile);
                     break;
 
-                case ALIVE_DETECT_TYPE_ENUM.BLINK:
+                case BLINK:
                     TTSPlayer.getInstance().playTTS(R.string.motion_blink_eye);
                     setMainTips(R.string.motion_blink_eye);
                     break;
 
-                case ALIVE_DETECT_TYPE_ENUM.SHAKE_HEAD:
+                case SHAKE_HEAD:
                     TTSPlayer.getInstance().playTTS(R.string.motion_shake_head);
                     setMainTips(R.string.motion_shake_head);
                     break;
 
-                case ALIVE_DETECT_TYPE_ENUM.NOD_HEAD:
+                case NOD_HEAD:
                     TTSPlayer.getInstance().playTTS(R.string.motion_node_head);
                     setMainTips(R.string.motion_node_head);
                     break;
 
                 // 人脸识别活体检测过程切换到后台防止作弊
-                case VERIFY_DETECT_TIPS_ENUM.PAUSE_VERIFY:
+                case PAUSE_VERIFY:
                     new AlertDialog.Builder(this)
                             .setMessage(R.string.face_verify_pause)
                             .setCancelable(false)
                             .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                                finishFaceVerify(6, R.string.face_verify_result_pause);
+                                finishFaceVerify(NO_FACE_MULTI, R.string.face_verify_result_pause);
                             }).show();
                     break;
 
                 //多次没有人脸，想作弊啊🤔️
-                case VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY:
+                case NO_FACE_REPEATEDLY:
                     setMainTips(R.string.no_face_or_repeat_switch_screen);
                     new AlertDialog.Builder(this)
                             .setMessage(R.string.stop_verify_tips)
                             .setCancelable(false)
                             .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
-                                finishFaceVerify(5, R.string.face_verify_result_no_face_multi_time);
+                                finishFaceVerify(NO_FACE_MULTI, R.string.face_verify_result_no_face_multi_time);
                             }).show();
                     break;
 
                 // ------------ 以下是setSecondTips  -----------------
-                case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE:
+                case FACE_TOO_LARGE:
                     setSecondTips(R.string.far_away_tips);
                     break;
 
                 //人脸太小靠近一点摄像头。炫彩活体检测强制要求靠近屏幕才能把光线打在脸上
-                case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL:
+                case FACE_TOO_SMALL:
                     setSecondTips(R.string.come_closer_tips);
                     break;
 
                 //检测到正常的人脸，尺寸大小OK
-                case VERIFY_DETECT_TIPS_ENUM.FACE_SIZE_FIT:
+                case FACE_SIZE_FIT:
                     setSecondTips(0);
                     break;
 
-                case VERIFY_DETECT_TIPS_ENUM.ACTION_NO_FACE:
+                case ACTION_NO_FACE:
                     setSecondTips(R.string.no_face_detected_tips);
                     break;
 
                 //检测到多人脸
-                case VERIFY_DETECT_TIPS_ENUM.FACE_TOO_MANY:
+                case FACE_TOO_MANY:
                     //防止一真一假人脸作弊,每帧画面检测
                     if(!allowMultiFaces){
-                        finishFaceVerify(13, R.string.multiple_faces_tips);
+                        finishFaceVerify(NOT_ALLOW_MULTI_FACES, R.string.multiple_faces_tips);
                         Toast.makeText(this,R.string.multiple_faces_tips,Toast.LENGTH_LONG).show();
                     }
                     break;

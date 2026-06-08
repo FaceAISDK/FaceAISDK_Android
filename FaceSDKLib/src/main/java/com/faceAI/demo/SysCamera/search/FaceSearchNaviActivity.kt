@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.CameraSelector
 import com.ai.face.core.utils.FaceAICameraType
 import com.ai.face.faceSearch.search.FaceSearchFeature
 import com.ai.face.faceSearch.search.FaceSearchFeatureManger
@@ -15,6 +14,7 @@ import com.faceAI.demo.FaceAISettingsActivity
 import com.faceAI.demo.R
 import com.faceAI.demo.UVCCamera.search.FaceSearch_UVCCameraActivity
 import com.faceAI.demo.databinding.ActivityFaceSearchNaviBinding
+import com.tencent.mmkv.MMKV
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 
@@ -35,8 +35,7 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
         setContentView(binding.root)
         checkNeededPermission()
 
-        val sharedPref = getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE)
-        cameraType = sharedPref.getInt(
+        cameraType = MMKV.defaultMMKV().decodeInt(
             FaceAISettingsActivity.Companion.UVC_CAMERA_TYPE,
             FaceAICameraType.SYSTEM_CAMERA
         )

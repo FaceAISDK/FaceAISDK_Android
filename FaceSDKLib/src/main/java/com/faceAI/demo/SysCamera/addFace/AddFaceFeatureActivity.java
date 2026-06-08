@@ -3,23 +3,14 @@ package com.faceAI.demo.SysCamera.addFace;
 import static android.view.View.GONE;
 import static com.ai.face.base.addFace.AddFaceDispose.PERFORMANCE_MODE_ACCURATE;
 import static com.ai.face.base.addFace.AddFaceDispose.PERFORMANCE_MODE_FAST;
-import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_LARGE;
-import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.FACE_TOO_SMALL;
-import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.NO_FACE_REPEATEDLY;
-import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
-import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
-import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
-import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_LEFT;
-import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_RIGHT;
-import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_UP;
-import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.TILT_HEAD;
+import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.*;
+import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.*;
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -42,6 +33,7 @@ import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.FaceSearchFeatureManger;
 import com.ai.face.faceSearch.searchByFeature.FeatureSearchResult;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.R;
@@ -114,15 +106,16 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         addFaceDispose = new AddFaceDispose(this, addFacePerformanceMode,false, new AddFaceCallBack() {
             /**
              * 人脸检测裁剪完成
-             * @param bitmap           SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
-             * @param silentScore      静默活体分数(摄像头品质有关)，needLivenessCheck=true才有值
+             * @param cropped         SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
+             * @param silentScore     静默活体分数(摄像头品质有关)，needLivenessCheck=true才有值
+             * @param origin          640*480 原图
              */
             @Override
-            public void onCompleted(Bitmap bitmap, float silentScore) {
+            public void onCompleted(Bitmap cropped, float silentScore,Bitmap origin) {
                 isConfirmAdd=true;
                 //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
                 //如果非SDK相机录入的人脸照片提取特征值用异步方法 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
-                String faceFeature = FaceAISDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(bitmap);
+                String faceFeature = FaceAISDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(cropped);
 
                 if(!needConfirmAdd){
                     if(TextUtils.isEmpty(faceID)){
@@ -131,13 +124,13 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
                     }
                     //明确指示不需要弹窗确认，并且faceID指定了
                     if (addFaceType.equals(AddFaceImageTypeEnum.FACE_VERIFY.name())) {
-                        saveFaceVerifyData(bitmap,faceID,faceFeature);
+                        saveFaceVerifyData(cropped,faceID,faceFeature);
                     } else {
-                        saveFaceSearchData(bitmap,faceID,faceFeature);
+                        saveFaceSearchData(cropped,faceID,faceFeature);
                     }
                     finishAddFace(1, "Add face success",faceFeature);
                 }else{
-                    confirmAddFaceDialog(bitmap,faceFeature);
+                    confirmAddFaceDialog(cropped,faceFeature,origin);
                 }
             }
 
@@ -147,13 +140,13 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
             }
         });
 
-        SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
-        int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 0);
-        int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
+        MMKV mmkv = MMKV.defaultMMKV();
+        int cameraLensFacing = mmkv.decodeInt(FRONT_BACK_CAMERA_FLAG, 0);
+        int degree = mmkv.decodeInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
-                .setLinearZoom(0.1f)  //范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
+                .setLinearZoom(0.12f)  //范围[0f,1.0f]，根据应用场景，自行适当调整焦距参数（摄像头需支持变焦）
                 .setRotation(degree)  //画面旋转角度0，90，180，270
                 .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降.部分定制设备不支持请工程师调试好
                 .create();
@@ -244,8 +237,8 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
      *
      * @param bitmap 符合对应参数设置的SDK裁剪好的人脸图
      */
-    private void confirmAddFaceDialog(Bitmap bitmap,String faceFeature) {
-        ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,bitmap);
+    private void confirmAddFaceDialog(Bitmap bitmap,String faceFeature,Bitmap originBitmap) {
+        ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,originBitmap);
 
         confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
             faceID = confirmFaceDialog.faceIDEdit.getText().toString();
@@ -322,17 +315,17 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         public AlertDialog dialog;
         public Button btnConfirm,btnCancel;
         public EditText faceIDEdit;
-        public ConfirmFaceDialog(Context context,Bitmap bitmap){
+        public ConfirmFaceDialog(Context context,Bitmap originBitmap){
             dialog = new AlertDialog.Builder(context).create();
-            View dialogView = View.inflate(context, R.layout.dialog_confirm_base, null);
+            View dialogView = View.inflate(context, R.layout.dialog_confirm_add_face, null);
             Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.setView(dialogView);
             dialog.setCanceledOnTouchOutside(false);
-            ImageView basePreView = dialogView.findViewById(R.id.preview);
+            ImageView facePreView = dialogView.findViewById(R.id.preview);
             Glide.with(context)
-                    .load(bitmap)
-                    .transform(new RoundedCorners(22))
-                    .into(basePreView);
+                    .load(originBitmap)
+                    .transform(new CenterCrop(), new RoundedCorners(33))
+                    .into(facePreView);
             btnConfirm = dialogView.findViewById(R.id.share_face_feature);
             btnCancel = dialogView.findViewById(R.id.btn_cancel);
             faceIDEdit = dialogView.findViewById(R.id.edit_text);

@@ -15,7 +15,6 @@ import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -29,10 +28,12 @@ import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.ai.face.core.engine.FaceAISDKEngine;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.base.view.FaceCoverView;
+import com.tencent.mmkv.MMKV;
 
 import java.util.Objects;
 import android.content.ContentValues;
@@ -82,18 +83,18 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
         addFaceDispose = new AddFaceDispose(this, addFacePerformanceMode, false,new AddFaceCallBack() {
             /**
              * 人脸检测裁剪完成
-             * @param bitmap           SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
-             * @param silentScore      静默活体分数
+             * @param cropped         SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
+             * @param silentScore     静默活体分数(摄像头品质有关)，needLivenessCheck=true才有值
+             * @param origin          640*480 原图
              */
             @Override
-            public void onCompleted(Bitmap bitmap, float silentScore) {
+            public void onCompleted(Bitmap cropped, float silentScore,Bitmap origin) {
                 isConfirmAdd=true;
                 //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
                 //如果非SDK相机录入的人脸照片提取特征值用异步方法 Image2FaceFeature.getInstance(this).getFaceFeatureByBitmap
-                String faceFeature = FaceAISDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(bitmap);
+                String faceFeature = FaceAISDKEngine.getInstance(getBaseContext()).croppedBitmap2Feature(cropped);
 
-                confirmAddFaceDialog(bitmap,faceFeature);
-
+                confirmAddFaceDialog(cropped,faceFeature,origin);
             }
 
             @Override
@@ -102,9 +103,9 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
             }
         });
 
-        SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
-        int cameraLensFacing = sharedPref.getInt(FRONT_BACK_CAMERA_FLAG, 0);
-        int degree = sharedPref.getInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
+        MMKV mmkv = MMKV.defaultMMKV();
+        int cameraLensFacing = mmkv.decodeInt(FRONT_BACK_CAMERA_FLAG, 0);
+        int degree = mmkv.decodeInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
                 .setCameraLensFacing(cameraLensFacing) //前后摄像头
@@ -232,8 +233,8 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
      *
      * @param bitmap 符合对应参数设置的SDK裁剪好的人脸图
      */
-    private void confirmAddFaceDialog(Bitmap bitmap,String faceFeature) {
-        ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,bitmap);
+    private void confirmAddFaceDialog(Bitmap bitmap,String faceFeature,Bitmap origin) {
+        ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,origin);
 
         confirmFaceDialog.btnShareFaceFeature.setOnClickListener(v -> {
             Intent intent = new Intent();
@@ -278,17 +279,17 @@ public class ShareFaceFeatureActivity extends AbsBaseActivity {
         public AlertDialog dialog;
         public ImageView close;
         public Button btnShareFaceFeature, btnShareFaceImage ,btnRetry;
-        public ConfirmFaceDialog(Context context,Bitmap bitmap){
+        public ConfirmFaceDialog(Context context,Bitmap originBitmap){
             dialog = new AlertDialog.Builder(context).create();
             View dialogView = View.inflate(context, R.layout.dialog_share_face, null);
             Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.setView(dialogView);
             dialog.setCanceledOnTouchOutside(false);
-            ImageView basePreView = dialogView.findViewById(R.id.preview);
+            ImageView facePreView = dialogView.findViewById(R.id.preview);
             Glide.with(context)
-                    .load(bitmap)
-                    .transform(new RoundedCorners(22))
-                    .into(basePreView);
+                    .load(originBitmap)
+                    .transform(new CenterCrop(), new RoundedCorners(33))
+                    .into(facePreView);
             btnShareFaceFeature = dialogView.findViewById(R.id.share_face_feature);
             btnShareFaceImage = dialogView.findViewById(R.id.share_face_image);
             btnRetry = dialogView.findViewById(R.id.retry);

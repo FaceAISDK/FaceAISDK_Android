@@ -5,7 +5,6 @@ import static com.faceAI.demo.SysCamera.addFace.AddFaceFeatureActivity.ADD_FACE_
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.ai.face.core.engine.FaceAISDKEngine;
 import com.ai.face.core.utils.FaceAICameraType;
@@ -33,6 +31,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.chad.library.adapter4.viewholder.QuickViewHolder;
+import com.tencent.mmkv.MMKV;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.ArrayList;
@@ -109,8 +108,8 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
 
         //添加人脸照片，UVC协议摄像头添加还是普通的系统相机
         if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean("isAdd")) {
-            SharedPreferences sharedPref =getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
-            int cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
+            MMKV mmkv = MMKV.defaultMMKV();
+            int cameraType = mmkv.decodeInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
 
             Intent addFaceIntent;
             if (cameraType==FaceAICameraType.SYSTEM_CAMERA) {
@@ -208,8 +207,8 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();//添加一张
         if (itemId == R.id.camera_add) {
-            SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
-            int cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
+            MMKV mmkv = MMKV.defaultMMKV();
+            int cameraType = mmkv.decodeInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA);
 
             if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
                 Intent addFaceIntent = new Intent(getBaseContext(), AddFaceFeatureActivity.class);

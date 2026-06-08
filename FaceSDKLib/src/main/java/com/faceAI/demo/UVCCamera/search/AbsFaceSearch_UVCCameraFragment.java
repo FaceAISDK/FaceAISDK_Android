@@ -1,6 +1,5 @@
 package com.faceAI.demo.UVCCamera.search;
 
-import static android.content.Context.MODE_PRIVATE;
 import static android.view.View.INVISIBLE;
 import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_DEGREE;
 import static com.faceAI.demo.FaceAISettingsActivity.IR_UVC_CAMERA_MIRROR_H;
@@ -13,7 +12,6 @@ import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.IR_KEY_DEFAULT;
 import static com.faceAI.demo.UVCCamera.manger.UVCCameraManager.RGB_KEY_DEFAULT;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbDevice;
 import android.os.Bundle;
@@ -31,6 +29,7 @@ import com.faceAI.demo.UVCCamera.manger.CameraBuilder;
 import com.faceAI.demo.UVCCamera.manger.UVCCameraManager;
 import com.ai.face.faceVerify.verify.FaceVerifyUtils;
 import com.faceAI.demo.databinding.FragmentFaceSearchUvcCameraBinding;
+import com.tencent.mmkv.MMKV;
 
 /**
  * UVC协议USB摄像头人脸搜索识别 abstract 基类，管理摄像头
@@ -62,8 +61,7 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentFaceSearchUvcCameraBinding.inflate(inflater, container, false);
 
-        SharedPreferences sharedPref = requireActivity().getSharedPreferences("FaceAISDK_SP", MODE_PRIVATE);
-        cameraType = sharedPref.getInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB);
+        cameraType = MMKV.defaultMMKV().decodeInt(UVC_CAMERA_TYPE, FaceAICameraType.UVC_CAMERA_RGB);
         initViews();
         initRGBCamara();
         return binding.getRoot();
@@ -87,14 +85,14 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
     // 定义一个上次检测的时间戳
     private long lastRGBDetectTime = 0;
     private void initRGBCamara() {
-        SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
+        MMKV mmkv = MMKV.defaultMMKV();
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
                 .setCameraName("UVC RGB Camera")
-                .setCameraKey(sp.getString(RGB_UVC_CAMERA_SELECT, RGB_KEY_DEFAULT))
+                .setCameraKey(mmkv.decodeString(RGB_UVC_CAMERA_SELECT, RGB_KEY_DEFAULT))
                 .setCameraView(binding.rgbCameraView)
                 .setContext(requireContext())
-                .setDegree(sp.getInt(RGB_UVC_CAMERA_DEGREE, 0))
-                .setHorizontalMirror(sp.getBoolean(RGB_UVC_CAMERA_MIRROR_H, false))
+                .setDegree(mmkv.decodeInt(RGB_UVC_CAMERA_DEGREE, 0))
+                .setHorizontalMirror(mmkv.decodeBool(RGB_UVC_CAMERA_MIRROR_H, false))
                 .build();
 
         rgbCameraManager = new UVCCameraManager(cameraBuilder);
@@ -152,15 +150,15 @@ public abstract class AbsFaceSearch_UVCCameraFragment extends Fragment {
      */
     private long lastIRDetectTime = 0;
     private void initIRCamara() {
-        SharedPreferences sp = requireContext().getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
+        MMKV mmkv = MMKV.defaultMMKV();
 
         CameraBuilder cameraBuilder = new CameraBuilder.Builder()
                 .setCameraName("IR摄像头")
-                .setCameraKey(sp.getString(IR_UVC_CAMERA_SELECT, IR_KEY_DEFAULT))
+                .setCameraKey(mmkv.decodeString(IR_UVC_CAMERA_SELECT, IR_KEY_DEFAULT))
                 .setCameraView(binding.irCameraView)
                 .setContext(requireContext())
-                .setDegree(sp.getInt(IR_UVC_CAMERA_DEGREE, 0))
-                .setHorizontalMirror(sp.getBoolean(IR_UVC_CAMERA_MIRROR_H, false))
+                .setDegree(mmkv.decodeInt(IR_UVC_CAMERA_DEGREE, 0))
+                .setHorizontalMirror(mmkv.decodeBool(IR_UVC_CAMERA_MIRROR_H, false))
                 .build();
 
         irCameraManager = new UVCCameraManager(cameraBuilder);

@@ -146,7 +146,7 @@ abstract class AbsAddFaceFromAlbumActivity : AppCompatActivity() {
     private fun showConfirmDialog(bitmap: Bitmap, faceID: String, faceFeature: String) {
         val builder = AlertDialog.Builder(this)
         val dialog = builder.create()
-        val dialogView = View.inflate(this, R.layout.dialog_confirm_base, null)
+        val dialogView = View.inflate(this, R.layout.dialog_confirm_add_face, null)
 
         //设置对话框布局
         dialog.setView(dialogView)
