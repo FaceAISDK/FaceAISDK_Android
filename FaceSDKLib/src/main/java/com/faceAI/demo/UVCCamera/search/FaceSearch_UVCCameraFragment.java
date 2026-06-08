@@ -1,24 +1,12 @@
 package com.faceAI.demo.UVCCamera.search;
 
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.ENGINE_INITING;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.LOCAL_FACE_DATABASE_EMPTY;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_SIZE_FIT;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_TOO_LARGE;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.FACE_TOO_SMALL;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.IR_LIVE_ERROR;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.MASK_DETECTION;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_LIVE_FACE;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.NO_MATCHED;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCHING;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.SEARCH_PREPARED;
-import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERROR;
+import static com.ai.face.faceSearch.search.SearchProcessTipsCode.*;
 import static com.faceAI.demo.FaceSDKConfig.CACHE_SEARCH_FACE_DIR;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
-
+import android.widget.Toast;
 import com.ai.face.core.utils.FaceAICameraType;
 import com.ai.face.faceSearch.search.FaceSearchEngine;
 import com.ai.face.faceSearch.search.SearchProcessBuilder;
@@ -29,11 +17,11 @@ import com.faceAI.demo.R;
 import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.utils.BrightnessUtil;
 import com.faceAI.demo.base.utils.VoicePlayer;
-
 import java.util.List;
 
 
 /**
+ * Pro 版本SDK：https://github.com/HiFaceSDK/HiFace_Android
  * UVC协议USB摄像头人脸搜索识别业务逻辑管理Fragment
  *
  * 如果USB带红外的双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
@@ -144,6 +132,16 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
     void showFaceSearchPrecessTips(int code) {
         switch (code) {
 
+            case NO_MATCHED: //setSearchTimeOut 超时没有搜索成功的提示
+                //setSearchTimeOut超时没有搜索匹配到结果.
+                Toast.makeText(requireContext(), R.string.no_matched_face, Toast.LENGTH_SHORT).show();
+                break;
+
+            case FACE_ANGLE_NOT_FIT:
+                setSearchTips(R.string.face_angle_not_fit);
+                break;
+
+
             case LOCAL_FACE_DATABASE_EMPTY:
                 //人脸库没有人脸照片，没有使用SDK 插入人脸？
                 setSearchTips(R.string.local_face_database_empty);
@@ -172,11 +170,6 @@ public class FaceSearch_UVCCameraFragment extends AbsFaceSearch_UVCCameraFragmen
 
             case MASK_DETECTION:
                 setSearchTips(R.string.no_mask_please);
-                break;
-
-            case NO_MATCHED:
-                //本次没有搜索匹配到结果.没有结果会持续尝试1秒之内没有结果会返回NO_MATCHED code
-                setSecondTips(R.string.no_matched_face);
                 break;
 
             case FACE_TOO_SMALL:

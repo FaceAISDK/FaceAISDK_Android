@@ -46,6 +46,12 @@ android {
 
     }
 
+    //不压缩SDK中的模型
+    androidResources {
+        noCompress "tflite"
+        noCompress "bin"
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11

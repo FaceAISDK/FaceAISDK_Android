@@ -5,7 +5,6 @@ import static com.ai.face.faceSearch.search.SearchProcessTipsCode.THRESHOLD_ERRO
 import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
 import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +21,7 @@ import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.databinding.ActivityFaceSearchMnBinding;
 import com.faceAI.demo.R;
 import com.google.gson.Gson;
+import com.tencent.mmkv.MMKV;
 import java.util.List;
 
 /**
@@ -30,7 +30,7 @@ import java.util.List;
  * 宽动态成像清晰摄像头，人脸正对摄像头
  * 提前在人脸库管理页面 点击右上角导入测试多人脸图，
  * 电脑上打开MN_face_search_test.jpg 手机摄像头对着图片就可以体验多人搜索
- *
+ * 人脸搜索Pro 版本SDK：https://github.com/HiFaceSDK/HiFace_Android
  * 本功能要求设备硬件配置高，摄像头品质好。可以拿当前的各品牌手机旗舰机测试验证
  * @author FaceAISDK.Service@gmail.com
  */
@@ -46,10 +46,10 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
         setContentView(binding.getRoot());
         binding.close.setOnClickListener(v -> finish());
 
-        SharedPreferences sharedPref = getSharedPreferences("FaceAISDK_SP", Context.MODE_PRIVATE);
+        MMKV mmkv = MMKV.defaultMMKV();
 
-        int cameraLensFacing = sharedPref.getInt( FRONT_BACK_CAMERA_FLAG, 0);
-        int degree = sharedPref.getInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
+        int cameraLensFacing = mmkv.decodeInt( FRONT_BACK_CAMERA_FLAG, 0);
+        int degree = mmkv.decodeInt( SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
 
         //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
         CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
