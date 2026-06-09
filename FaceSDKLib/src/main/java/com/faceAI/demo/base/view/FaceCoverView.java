@@ -1,4 +1,4 @@
-package com.hiface.demo.base.view;
+package com.faceAI.demo.base.view;
 
 import static java.lang.Math.min;
 import android.animation.ValueAnimator;
@@ -21,8 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
-import com.hiface.demo.R;
-import com.hiface.demo.base.utils.ScreenUtils;
+import com.faceAI.demo.R;
+import com.faceAI.demo.base.utils.ScreenUtils;
+
 
 /**
  * 人脸识别覆盖视图
