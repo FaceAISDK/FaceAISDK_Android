@@ -6,8 +6,8 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        versionCode 3
-        versionName "3"
+        versionCode 4
+        versionName "4"
         applicationId "com.sdk.hiface.Demo" //Demo App Name
         minSdk 23
         targetSdk 35
