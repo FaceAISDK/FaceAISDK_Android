@@ -26,7 +26,7 @@ public class WelcomeActivity extends AbsBaseActivity {
         hideSystemUI();
         setContentView(R.layout.activity_welcome);
         TextView sdkVersion=findViewById(R.id.sdk_version);
-        sdkVersion.setText("HiFaceSDK "+getVersionName());
+        sdkVersion.setText("HiFace "+getVersionName());
 
         new Handler().postDelayed(() -> {
             startActivity(new Intent(WelcomeActivity.this, FaceAINaviActivity.class));
