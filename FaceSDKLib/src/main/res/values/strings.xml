@@ -67,12 +67,11 @@
     <string name="face_verify_success">Face verify Success</string>
     <string name="face_verify_failed">Face verify failed！Please retry</string>
     <string name="face_verify_failed_title">Verify failed</string>
-    <string name="silent_anti_spoofing_error">Silent anti spoofing error</string>
+    <string name="silent_anti_spoofing_error">Liveness check failed. Please ensure soft lighting conditions</string>
     <string name="no_face_data_tips">No face data error</string>
     <string name="face_verify_pause">Face verify pause！Please retry</string>
     <string name="face_verify_demo">1:1 face verify demo</string>
     <string name="face_verify_no_face_tips">No face has been added yet\nClick the button above to add face data, long press the face to delete</string>
-<!--    <string name="no_face_image_found">No face data found</string>-->
     <string name="face_verify_result_cancel">Cancel face verify by user</string>
     <string name="face_verify_result_success">Face verify success</string>
     <string name="face_verify_result_silent_failed">Silent liveness failed </string>

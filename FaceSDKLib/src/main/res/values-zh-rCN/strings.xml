@@ -67,7 +67,7 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="face_verify_success">识别成功</string>
     <string name="face_verify_failed_title">识别失败</string>
     <string name="face_verify_failed">识别失败，请重试！</string>
-    <string name="silent_anti_spoofing_error">静默活体检测失败</string>
+    <string name="silent_anti_spoofing_error">活体检测失败,请确认光线环境柔和</string>
     <string name="face_verify_pause">人脸识别被中断了！</string>
     <string name="face_verify_demo">1:1 人脸识别演示</string>
     <string name="face_verify_no_face_tips">暂未录入人脸\n点击上面按钮添加录入，长按人脸可删除</string>
