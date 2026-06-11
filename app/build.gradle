@@ -8,8 +8,8 @@ android {
     defaultConfig {
         versionCode 4
         versionName "4"
-        applicationId "com.sdk.hiface.Demo" //Demo App Name
-        minSdk 23
+        applicationId "com.ai.face.Demo" //Demo App Name
+        minSdk 21
         targetSdk 35
         
         ndk {

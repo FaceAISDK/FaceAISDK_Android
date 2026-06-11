@@ -1,5 +1,5 @@
 
-# [关于「HiFaceSDK」](https://github.com/HiFaceSDK/HiFaceSDK_Android)
+# [关于「HiFaceSDK」](https://github.com/FaceSDKPro/HiFaceSDK_Android)
 
 人脸识别、活体检测、人脸录入检测以及[1：N以及M：N](https://github.com/HiFaceSDK/HiFaceSDK_Android/blob/main/Introduce_11_1N_MN.md) 人脸搜索Android SDK，可完全离线实现端侧人脸识别，人脸搜索等功能  
 on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoofing and 1:N/M:N Face Search SDK
@@ -28,9 +28,10 @@ on_device Offline Face Detection 、Recognition 、Liveness Detection Anti Spoof
 
 **顺手帮忙点个🌟Star吧，谢谢**  
 
-##  V0.0.1
+##  V0.1.6
 - 提高人脸搜索精度（阈值0.75-0.85） 
 - GPU与CPU协同加速，提升性能
+- 其他问题修复
 
 
 ## 如何使用
