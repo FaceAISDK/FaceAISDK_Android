@@ -10,7 +10,7 @@ android {
     namespace 'com.hiface.demo'
     compileSdk 35
     defaultConfig {
-        minSdk 23
+        minSdk 22
         targetSdk 35
         ndk {
             abiFilters 'armeabi-v7a','arm64-v8a'

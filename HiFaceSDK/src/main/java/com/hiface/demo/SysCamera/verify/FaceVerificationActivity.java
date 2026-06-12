@@ -55,7 +55,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     public static final String ALLOW_MULTI_FACES = "ALLOW_MULTI_FACES"; //是否允许有多人出现在镜头Key
     private  boolean allowMultiFaces = true; //是否允许有多人出现在镜头
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
-    private float verifyThreshold = 0.8f; //1:1人脸识别对比通过的阈值，根据使用场景自行调整
+    private float verifyThreshold = 0.79f; //1:1人脸识别对比通过的阈值，根据使用场景自行调整 范围[0.75，0.85]
 
     //NONE表示无活体，MOTION表示动作活体，COLOR_FLASH表示炫彩活体（其他种类默认都会包含静默活体，如果仅仅需静默可指定SILENT_LIVE）
     //静默活体效果和摄像头成像有关，炫彩活体不能在强光下使用

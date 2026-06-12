@@ -9,7 +9,7 @@ android {
         versionCode 4
         versionName "4"
         applicationId "com.ai.face.Demo" //Demo App Name
-        minSdk 21
+        minSdk 22
         targetSdk 35
         
         ndk {
