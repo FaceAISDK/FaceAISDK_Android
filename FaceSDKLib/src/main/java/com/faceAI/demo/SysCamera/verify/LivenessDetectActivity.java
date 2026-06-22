@@ -1,0 +1,429 @@
+package com.faceAI.demo.SysCamera.verify;
+
+import static com.faceAI.demo.FaceAISettingsActivity.FRONT_BACK_CAMERA_FLAG;
+import static com.faceAI.demo.FaceAISettingsActivity.SYSTEM_CAMERA_DEGREE;
+import static com.faceAI.demo.FaceSDKConfig.CACHE_FACE_LOG_DIR;
+
+import static com.faceAI.demo.SysCamera.verify.VerifyStatue.*;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+
+import com.ai.face.base.view.camera.CameraXBuilder;
+import com.ai.face.faceVerify.verify.FaceProcessBuilder;
+import com.ai.face.faceVerify.verify.FaceVerifyUtils;
+import com.ai.face.faceVerify.verify.ProcessCallBack;
+import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.*;
+import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM.*;
+import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
+import com.faceAI.demo.R;
+import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
+import com.faceAI.demo.SysCamera.search.ImageToast;
+import com.faceAI.demo.base.AbsBaseActivity;
+import com.faceAI.demo.base.utils.BitmapUtils;
+import com.faceAI.demo.base.utils.TTSPlayer;
+import com.faceAI.demo.base.view.FaceCoverView;
+import com.tencent.mmkv.MMKV;
+
+/**
+ * 活体检测 SDK 接入演示代码.
+ * <p>
+ * 摄像头管理源码开放了 {@link FaceCameraXFragment}
+ * More：<a href="https://github.com/FaceAISDK/FaceAISDK_Android">人脸识别FaceAISDK</a>
+ *
+ * @author FaceAISDK.Service@gmail.com
+ */
+public class LivenessDetectActivity extends AbsBaseActivity {
+    private FaceCoverView faceCoverView;
+    private final FaceVerifyUtils faceVerifyUtils = new FaceVerifyUtils();
+    private FaceCameraXFragment cameraXFragment;
+    public static final String FACE_LIVENESS_TYPE = "FACE_LIVENESS_TYPE";  //活体检测的类型
+    public static final String MOTION_STEP_SIZE = "MOTION_STEP_SIZE";   //动作活体的步骤数
+    public static final String MOTION_TIMEOUT = "MOTION_TIMEOUT";   //动作活体超时数据
+    public static final String MOTION_LIVENESS_TYPES = "MOTION_LIVENESS_TYPES"; //动作活体种类
+    public static final String ALLOW_MULTI_FACES = "ALLOW_MULTI_FACES"; //是否允许有多人出现在镜头Key
+    public static final String SHOW_RESULT_TIPS = "SHOW_RESULT_TIPS"; //是否显示结果提示还是留给插件调用方处理
+    private  boolean allowMultiFaces = true; //是否允许有多人出现在镜头
+    private int retryTime = 0; //记录失败尝试的次数
+
+    //NONE表示无活体，MOTION表示动作活体，COLOR_FLASH表示炫彩活体（其他种类默认都会包含静默活体，如果仅仅需静默可指定SILENT_LIVE）
+    //静默活体效果和摄像头成像有关，炫彩活体不能在强光下使用
+    private FaceLivenessType faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION;  //活体检测类型建议MOTION或COLOR_FLASH_MOTION
+    private int motionStepSize = 2; //动作活体的个数
+    private boolean showResultTips = true; //是否显示结果提示
+
+    private int motionTimeOut = 3*motionStepSize;  //动作超时秒，低端机可以设置长一点
+    private String motionLivenessTypes = "1,2,3,4,5"; //【配置动作活体类型】1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        hideSystemUI(); //全屏
+        setContentView(R.layout.activity_liveness_detection);
+        faceCoverView = findViewById(R.id.face_cover);
+        findViewById(R.id.back).setOnClickListener(v -> finishFaceVerify(DEFAULT, R.string.face_verify_result_cancel));
+
+        getIntentParams(); //接收三方插件的参数 数据
+
+        MMKV mmkv = MMKV.defaultMMKV();
+        int cameraLensFacing = mmkv.decodeInt(FRONT_BACK_CAMERA_FLAG, 0);
+        int degree = mmkv.decodeInt(SYSTEM_CAMERA_DEGREE, getWindowManager().getDefaultDisplay().getRotation());
+
+        //画面旋转方向 默认屏幕方向Display.getRotation()和Surface.ROTATION_0,ROTATION_90,ROTATION_180,ROTATION_270
+        CameraXBuilder cameraXBuilder = new CameraXBuilder.Builder()
+                .setCameraLensFacing(cameraLensFacing) //前后摄像头
+                .setLinearZoom(0f)    //焦距范围[0f,1.0f]，炫彩请设为0；根据应用场景适当调整焦距参数（摄像头需支持变焦）
+                .setRotation(degree)  //画面旋转方向
+                .setCameraSizeHigh(false) //高分辨率远距离也可以工作，但是性能速度会下降.部分定制设备不支持请工程师调试好
+                .create();
+
+        cameraXFragment = FaceCameraXFragment.newInstance(cameraXBuilder);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_camerax, cameraXFragment).commit();
+
+        initLivenessParam();
+    }
+
+    /**
+     * 初始化活体检测参数配置
+     */
+    private void initLivenessParam() {
+        FaceProcessBuilder faceProcessBuilder = new FaceProcessBuilder.Builder(this)
+                .setLivenessOnly(true)
+                .setLivenessType(faceLivenessType)         //活体检测可以炫彩&动作活体组合，炫彩活体不能在强光下使用
+                .setMotionLivenessStepSize(motionStepSize)  //随机动作活体的步骤个数[1-2]，SILENT_MOTION和MOTION 才有效
+                .setMotionLivenessTimeOut(motionTimeOut)     //动作活体检测，支持设置超时时间 [3,22] 秒 。API 名字0410 修改
+                .setMotionLivenessTypes(motionLivenessTypes)  //动作活体种类。1 张张嘴,2 微笑,3 眨眨眼,4 摇摇头,5 点点头
+                .setStopVerifyNoFaceRealTime(false)      //没检测到人脸是否立即停止，还是出现过人脸后检测到无人脸停止.(默认false，为后者)
+                .setProcessCallBack(new ProcessCallBack() {
+
+                    /**
+                     * 动作活体+炫彩活体都 检测完成，返回活体分数
+                     *
+                     * @param livenessValue 静默&炫彩活体分数，仅动作活体可以忽略判断(不同设备的情况可能不一样，建议大于0.8为真人)
+                     * @param bitmap  活体检测快照，可以用于log记录，后期抽查
+                     */
+                    @Override
+                    public void onLivenessDetected(float livenessValue, Bitmap bitmap) {
+                        BitmapUtils.saveCompressBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap");//保存Log记录，注意及时上传日志
+                        if(livenessValue>0.81){
+                            if(showResultTips){ //三方插件自行提示还是默认
+                                TTSPlayer.getInstance().playTTS(R.string.liveness_detection_done);
+                                new ImageToast().show(getApplicationContext(), getString(R.string.liveness_detection_done));
+                            }
+                            finishFaceVerify(ALL_LIVENESS_SUCCESS, R.string.liveness_detection_done, livenessValue);
+                        }else{
+                            if(showResultTips){ //三方插件自行提示还是默认
+                                TTSPlayer.getInstance().playTTS(R.string.silent_anti_spoofing_error);
+                                new ImageToast().show(getApplicationContext(), getString(R.string.silent_anti_spoofing_error));
+                            }
+                            finishFaceVerify(SILENT_LIVENESS_FAILED, R.string.silent_anti_spoofing_error, livenessValue);
+                        }
+                    }
+
+                    /**
+                     * 控制屏幕闪烁哪种颜色的光线，不能在室外强光环境使用
+                     */
+                    @Override
+                    public void onColorFlash(int color) {
+                        faceCoverView.setFlashColor(color);
+                    }
+
+                    //人脸识别，活体检测过程中的各种提示
+                    @Override
+                    public void onProcessTips(int i) {
+                        showFaceVerifyTips(i);
+                    }
+
+                    @Override
+                    public void onTimeCountDown(float percent) {
+                        faceCoverView.setProgress(percent); //动作活体倒计时
+                    }
+
+                    @Override
+                    public void onFailed(int code, String message) {
+                        Toast.makeText(getBaseContext(), "onFailed错误!：" + message, Toast.LENGTH_LONG).show();
+                    }
+
+                }).create();
+
+        faceVerifyUtils.setDetectorParams(faceProcessBuilder);
+        cameraXFragment.setOnAnalyzerListener(imageProxy -> {
+            //防止在识别过程中关闭页面导致Crash
+            if (!isDestroyed() && !isFinishing()) {
+                faceVerifyUtils.goVerifyWithImageProxy(imageProxy);
+                //自定义管理相机可以使用 goVerifyWithBitmap
+            }
+        });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishFaceVerify(DEFAULT, R.string.face_verify_result_cancel);
+    }
+
+    /**
+     * 根据业务和设计师UI交互修改你的 UI，Demo 仅供参考
+     *
+     */
+    private void showFaceVerifyTips(int actionCode) {
+        if (!isDestroyed() && !isFinishing()) {
+            switch (actionCode) {
+                //炫彩活体检测需要人脸更加靠近屏幕摄像头才能通过检测
+                case COLOR_FLASH_NEED_CLOSER_CAMERA:
+                    setSecondTips(R.string.color_flash_need_closer_camera);
+                    TTSPlayer.getInstance().playTTS(R.string.color_flash_need_closer_camera,TTSPlayer.PlayMode.DROP_IF_BUSY);
+                    break;
+
+                //炫彩活体通过✅
+                case COLOR_FLASH_LIVE_SUCCESS:
+                    setMainTips(R.string.keep_face_visible);
+                    break;
+
+                case COLOR_FLASH_LIVE_FAILED:
+                    new AlertDialog.Builder(this)
+                            .setMessage(R.string.color_flash_liveness_failed)
+                            .setCancelable(false)
+                            .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
+                                retryTime++;
+                                if (retryTime > 1) {
+                                    finishFaceVerify(COLOR_LIVENESS_FAILED, R.string.color_flash_liveness_failed);
+                                } else {
+                                    faceVerifyUtils.retryVerify();
+                                }
+                            }).show();
+                    break;
+
+                case COLOR_FLASH_LIGHT_HIGH:
+                    LayoutInflater inflater = LayoutInflater.from(this);
+                    View dialogView = inflater.inflate(R.layout.dialog_light_warning, null);
+                    new AlertDialog.Builder(this)
+                            .setView(dialogView)
+                            .setCancelable(false)
+                            .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
+                                retryTime++;
+                                if (retryTime > 1) {
+                                    finishFaceVerify(COLOR_LIVENESS_LIGHT_TOO_HIGH, R.string.color_flash_light_high);
+                                } else {
+                                    faceVerifyUtils.retryVerify();
+                                }
+                            }).show();
+                    break;
+
+                case COLOR_FLASH_START:
+                    break;
+
+                // 动作活体检测完成了
+                case MOTION_LIVE_SUCCESS:
+                    setMainTips(R.string.keep_face_visible);
+                    break;
+
+                // 动作活体检测超时
+                case MOTION_LIVE_TIMEOUT:
+                    new AlertDialog.Builder(this)
+                            .setMessage(R.string.motion_liveness_detection_time_out)
+                            .setCancelable(false)
+                            .setPositiveButton(R.string.retry, (dialogInterface, i) -> {
+                                retryTime++;
+                                if (retryTime > 1) {
+                                    finishFaceVerify(MOTION_LIVENESS_TIMEOUT, R.string.face_verify_result_timeout);
+                                } else {
+                                    faceVerifyUtils.retryVerify();
+                                }
+                            }).show();
+                    break;
+
+                // 人脸识别处理中
+                case ACTION_PROCESS:
+                    setMainTips(R.string.face_verifying);
+                    break;
+
+                case OPEN_MOUSE:
+                    TTSPlayer.getInstance().playTTS(R.string.repeat_open_close_mouse);
+                    setMainTips(R.string.repeat_open_close_mouse);
+                    break;
+
+                case SMILE:
+                    setMainTips(R.string.motion_smile);
+                    TTSPlayer.getInstance().playTTS(R.string.motion_smile);
+                    break;
+
+                case BLINK:
+                    TTSPlayer.getInstance().playTTS(R.string.motion_blink_eye);
+                    setMainTips(R.string.motion_blink_eye);
+                    break;
+
+                case SHAKE_HEAD:
+                    TTSPlayer.getInstance().playTTS(R.string.motion_shake_head);
+                    setMainTips(R.string.motion_shake_head);
+                    break;
+
+                case NOD_HEAD:
+                    TTSPlayer.getInstance().playTTS(R.string.motion_node_head);
+                    setMainTips(R.string.motion_node_head);
+                    break;
+
+                // 人脸识别活体检测过程切换到后台防止作弊
+                case PAUSE_VERIFY:
+                    new AlertDialog.Builder(this)
+                            .setMessage(R.string.face_verify_pause)
+                            .setCancelable(false)
+                            .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
+                                finishFaceVerify(NO_FACE_MULTI, R.string.face_verify_result_pause);
+                            }).show();
+                    break;
+
+                //多次没有人脸，想作弊啊🤔️
+                case NO_FACE_REPEATEDLY:
+                    setMainTips(R.string.no_face_or_repeat_switch_screen);
+                    new AlertDialog.Builder(this)
+                            .setMessage(R.string.stop_verify_tips)
+                            .setCancelable(false)
+                            .setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
+                                finishFaceVerify(NO_FACE_MULTI, R.string.face_verify_result_no_face_multi_time);
+                            }).show();
+                    break;
+
+                // ------------ 以下是setSecondTips  -----------------
+                case FACE_TOO_LARGE:
+                    setSecondTips(R.string.far_away_tips);
+                    break;
+
+                //人脸太小靠近一点摄像头。炫彩活体检测强制要求靠近屏幕才能把光线打在脸上
+                case FACE_TOO_SMALL:
+                    setSecondTips(R.string.come_closer_tips);
+                    break;
+
+                //检测到正常的人脸，尺寸大小OK
+                case FACE_SIZE_FIT:
+                    setSecondTips(0);
+                    break;
+
+                case ACTION_NO_FACE:
+                    setSecondTips(R.string.no_face_detected_tips);
+                    break;
+
+                //检测到多人脸
+                case FACE_TOO_MANY:
+                    //防止一真一假人脸作弊,每帧画面检测
+                    if(!allowMultiFaces){
+                        finishFaceVerify(NOT_ALLOW_MULTI_FACES, R.string.multiple_faces_tips);
+                        Toast.makeText(this,R.string.multiple_faces_tips,Toast.LENGTH_LONG).show();
+                    }
+                    break;
+            }
+        }
+    }
+
+
+    /**
+     * 主要提示
+     */
+    private void setMainTips(int resId) {
+        faceCoverView.setTipsText(resId);
+    }
+
+    /**
+     * 第二行提示
+     */
+    private void setSecondTips(int resId) {
+        faceCoverView.setSecondTipsText(resId);
+    }
+
+
+    /**
+     * 资源释放
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        faceVerifyUtils.destroyProcess();
+    }
+
+    /**
+     * 暂停识别，防止切屏识别，如果你需要退后台不能识别的话
+     */
+    protected void onStop() {
+        super.onStop();
+        faceVerifyUtils.pauseProcess();
+    }
+
+
+    // ************************** 下面代码是为了兼容三方插件，原生开放可以忽略   ***********************************
+
+    /**
+     * 获取UNI,RN,Flutter三方插件传递的参数,以便在原生代码中生效
+     */
+    private void getIntentParams() {
+        Intent intent = getIntent(); // 获取发送过来的Intent对象
+        if (intent != null) {
+
+            if (intent.hasExtra(FACE_LIVENESS_TYPE)) {
+                int type = intent.getIntExtra(FACE_LIVENESS_TYPE, 1);
+                // 1.动作活体  2.动作+炫彩活体 3.炫彩活体(不能强光环境使用) 4.仅仅静默活体检测
+                // 1，2，3 都包含静默活体
+                switch (type) {
+                    case 1:
+                        faceLivenessType = FaceLivenessType.MOTION;
+                        break;
+                    case 2:
+                        faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION;
+                        break;
+                    case 3:
+                        faceLivenessType = FaceLivenessType.COLOR_FLASH;
+                        break;
+                    case 4:
+                        faceLivenessType = FaceLivenessType.SILENT_LIVE;//仅仅静默活体
+                        break;
+                    default:
+                        faceLivenessType = FaceLivenessType.NONE;
+                }
+            }
+
+            if (intent.hasExtra(ALLOW_MULTI_FACES)) {
+                allowMultiFaces = intent.getBooleanExtra(ALLOW_MULTI_FACES, true);
+            }
+
+            if (intent.hasExtra(MOTION_STEP_SIZE)) {
+                motionStepSize = intent.getIntExtra(MOTION_STEP_SIZE, 2);
+            }
+            if (intent.hasExtra(MOTION_TIMEOUT)) {
+                motionTimeOut = intent.getIntExtra(MOTION_TIMEOUT, 9);
+            }
+            if (intent.hasExtra(MOTION_LIVENESS_TYPES)) {
+                motionLivenessTypes = intent.getStringExtra(MOTION_LIVENESS_TYPES);
+            }
+            if (intent.hasExtra(SHOW_RESULT_TIPS)) {
+                showResultTips = intent.getBooleanExtra(SHOW_RESULT_TIPS,true);
+            }
+
+        }
+    }
+
+
+    /**
+     * 识别结束返回结果, 为了给uniApp UTS插件，RN，Flutter统一的交互返回格式
+     */
+    private void finishFaceVerify(int code, int msgStrRes) {
+        finishFaceVerify(code, msgStrRes, 0f);
+    }
+
+    private void finishFaceVerify(int code, int msgStrRes, float livenessValue) {
+        Intent intent = new Intent().putExtra("code", code)
+                .putExtra("livenessValue",livenessValue)
+                .putExtra("msg", getString(msgStrRes));
+
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+}
+
