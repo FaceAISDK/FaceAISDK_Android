@@ -65,11 +65,11 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     Intent data = result.getData();
                     if (data != null) {
-                        String msg=data.getStringExtra("msg");
+                        String message=data.getStringExtra("message");
                         float similarity=data.getFloatExtra("similarity",0);
                         float livenessValue=data.getFloatExtra("livenessValue",0);
-                        new ImageToast().show(this, msg);
-                        TTSPlayer.getInstance().playTTS(msg);
+                        new ImageToast().show(this, message);
+                        TTSPlayer.getInstance().playTTS(message);
                     }
                 }
             }

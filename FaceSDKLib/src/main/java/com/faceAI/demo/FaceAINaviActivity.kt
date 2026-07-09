@@ -46,9 +46,9 @@ class FaceAINaviActivity : AbsBaseActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
             val livenessValue = data?.getFloatExtra("livenessValue", 0f)
-            val msg = data?.getStringExtra("msg")
-            ImageToast().show(this, msg+livenessValue)
-            TTSPlayer.getInstance().playTTS(msg)
+            val message = data?.getStringExtra("message")
+            ImageToast().show(this, message+livenessValue)
+            TTSPlayer.getInstance().playTTS(message)
         }
     }
 

@@ -516,7 +516,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private void finishFaceVerify(int code, int msgStrRes, float similarity,float livenessValue) {
         Intent intent = new Intent().putExtra("code", code)
                 .putExtra("faceID", faceID)
-                .putExtra("msg", getString(msgStrRes))
+                .putExtra("message", getString(msgStrRes))
                 .putExtra("livenessValue",livenessValue)
                 .putExtra("similarity", similarity);
         setResult(RESULT_OK, intent);

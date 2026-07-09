@@ -425,7 +425,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     private void finishFaceVerify(int code, int msgStrRes, float livenessValue) {
         Intent intent = new Intent().putExtra("code", code)
                 .putExtra("livenessValue",livenessValue)
-                .putExtra("msg", getString(msgStrRes));
+                .putExtra("message", getString(msgStrRes));
 
         setResult(RESULT_OK, intent);
         finish();

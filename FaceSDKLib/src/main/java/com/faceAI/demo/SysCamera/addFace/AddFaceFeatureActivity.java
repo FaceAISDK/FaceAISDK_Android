@@ -225,7 +225,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     private void finishAddFace(int code, String msg,String faceFeature) {
         Intent intent = new Intent().putExtra("code", code)
                 .putExtra("faceID", faceID)
-                .putExtra("msg", msg)
+                .putExtra("message", msg)
                 .putExtra("faceFeature", faceFeature);
 
         setResult(RESULT_OK, intent);
