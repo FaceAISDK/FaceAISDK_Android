@@ -1,0 +1,34 @@
+package com.faceAI.demo.UVCCamera.verify;
+
+import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import com.faceAI.demo.R;
+
+/**
+ * 演示UVC协议USB摄像头1:1人脸识别，活体检测
+ * **更多外接USB外接UVC摄像头**的操作参考这个大神的库：https://github.com/shiyinghan/UVCAndroid
+ * 项目中的libs/libuvccamera-release.aar 就是根据此调整部分
+ *
+ * 怎么提高人脸搜索识别系统的准确度？https://mp.weixin.qq.com/s/G2dvFQraw-TAzDRFIgdobA
+ */
+public class FaceVerify_UVCCameraActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_uvc_camera_faceai_activity);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        FaceVerify_UVCCameraFragment myUVCCameraFragment = new FaceVerify_UVCCameraFragment();
+        fragmentTransaction.replace(R.id.fragment_container, myUVCCameraFragment);
+
+        fragmentTransaction.commit();
+    }
+
+
+}
