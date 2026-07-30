@@ -1,9 +1,13 @@
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
+## V2026.07.30
+- New English Language
+- Silent Liveness update 
+- Android 17 compatibility preprocessing (To be verified)
+
 ## V2026.06.21
 - AddFace returns 640*480 original image
 - 16KB alignment optimization
-- Android 17 compatibility preprocessing (To be verified)
 
 ##  V2026.05.29
 - 处理人脸角度过大导致的人脸搜索误差
