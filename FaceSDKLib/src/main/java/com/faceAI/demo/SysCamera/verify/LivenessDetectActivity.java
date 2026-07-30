@@ -60,6 +60,8 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     private int motionTimeOut = 3*motionStepSize;  //动作超时秒，低端机可以设置长一点
     private String motionLivenessTypes = "1,2,3,4,5"; //【配置动作活体类型】1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
 
+    //silent Liveness performance depends on the device's camera. 静默活体检测和设备相机有关
+    private float silentLivenessThreshold =0.85f; //silent liveness threshold(0.85-0.95)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +113,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     @Override
                     public void onLivenessDetected(float livenessValue, Bitmap bitmap) {
                         BitmapUtils.saveCompressBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap");//保存Log记录，注意及时上传日志
-                        if(livenessValue>0.81){
+                        if(livenessValue>silentLivenessThreshold){
                             //.getInstance().playTTS(R.string.liveness_detection_done);
                             //new ImageToast().show(getApplicationContext(), getString(R.string.liveness_detection_done));
                             finishFaceVerify(ALL_LIVENESS_SUCCESS, R.string.liveness_detection_done, livenessValue);
