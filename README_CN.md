@@ -23,7 +23,8 @@ SDK支持Android[8,16] **SDK所有功能都不用联网，不上传不存储任�
 
 
 
-##  V2026.07.30
+##  V2026.07.31
+- iOS Android 静默活体通过阈值范围0.85到0.95，注意实际表现和摄像头&环境有关
 - 静默活体检测更新如同iOS
 - 英文翻译更新
 - Android 17 兼容预处理（待验证） 
@@ -60,7 +61,7 @@ SDK支持Android[8,16] **SDK所有功能都不用联网，不上传不存储任�
 **Android：** https://github.com/FaceAISDK/FaceAISDK_Android   
 **Flutter：**  https://github.com/FaceAISDK/FaceRecognition_Flutter  
 **uniApp UTS**  https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS    
-**React Native**  https://github.com/FaceAISDK/FaceRecognition_ReactNative  
+**React Native**  https://github.com/FaceAISDK/FaceRecognition_ReactNative   
 
 **顺手帮忙点个🌟Star吧，谢谢**
 
