@@ -5,6 +5,10 @@
   
    SDK不读取任何敏感信息，严格限制运行获取权限仅需一个相机运行权限，充分保护隐私数据，不联网就能工作更不会收集上传人脸关键信息。
    SDK 目前托管在Maven central，SDK所有功能都是离线端侧运行。
+### 0.关于静默活体检测
+   Silent liveness threshold (iOS/Android): 0.85–0.95. Actual performance varies with camera and lighting—adjust based on scenario.
+   iOS Android 静默活体通过阈值范围0.85到0.95，注意实际表现和摄像头&环境有关
+   如果你的项目有各种各样的摄像头，你应该先设置一个较低阈值，后期通过数据分析动态给每种摄像头类型设置
 
 ### 1.支持哪些摄像头？
    SDK并不限制具体类型摄像头，当前支持System,UVC_RGB,UVC_RGB_IR，具体参数参考/Doc目录/硬件配置要求

@@ -21,7 +21,8 @@ Supports silent liveness detection and action liveness (mouth opening, smiling, 
  **Efficient Integration** | **Data Security** | **Offline Use** | **Cost Saving** |
  Simple SDK APIs for quick integration, saving R&D costs | Inference performed locally on device, no user data sent to cloud | No network connection or cloud services required, one device can handle small scenarios | Machine learning on device reduces cloud expenses |
 
-## V2026.07.30
+## V2026.07.31
+- Silent liveness threshold (iOS/Android): 0.85–0.95. Actual performance varies with camera and lighting—adjust based on scenario.
 - New English Language
 - Silent Liveness update
 - Android 17 compatibility preprocessing (To be verified)

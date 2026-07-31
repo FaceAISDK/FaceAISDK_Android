@@ -54,8 +54,9 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
     private float verifyThreshold = 0.83f; //1:1人脸识别对比通过的阈值，根据使用场景自行调整
 
-    //silent Liveness performance depends on the device's camera. 静默活体检测和设备相机有关
-    private float silentLivenessThreshold =0.85f; //silent liveness threshold(0.85-0.95)
+    //Silent liveness threshold (iOS/Android): 0.85–0.95. Actual performance varies with camera and lighting—adjust based on scenario.
+    //iOS Android 静默活体通过阈值范围0.85到0.95，注意实际表现和摄像头&环境有关
+    private float silentLivenessThreshold =0.85f;
 
     //NONE表示无活体，MOTION表示动作活体，COLOR_FLASH表示炫彩活体（其他种类默认都会包含静默活体，如果仅仅需静默可指定SILENT_LIVE）
     //静默活体效果和摄像头成像有关，炫彩活体不能在强光下使用
