@@ -54,9 +54,9 @@ api 'io.github.FaceAISDK:Android:Version' // UVC protocol cameras also require U
 ## GitHub SDK API Demo Links
 **iOS SDK:** https://github.com/FaceAISDK/FaceAISDK_iOS  
 **Android:** https://github.com/FaceAISDK/FaceAISDK_Android  
-**Flutter:** https://github.com/FaceAISDK/FaceRecognition_Flutter
+**Flutter:** https://github.com/FaceAISDK/FaceRecognition_Flutter  
 **uniApp UTS:** https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS  
-**React Native:** https://github.com/FaceAISDK/FaceRecognition_ReactNative
+**React Native:** https://github.com/FaceAISDK/FaceRecognition_ReactNative  
 
 **Please give us a 🌟Star if it helps you, thank you!**
 
