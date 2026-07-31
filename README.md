@@ -21,9 +21,9 @@ Supports silent liveness detection and action liveness (mouth opening, smiling, 
  **Efficient Integration** | **Data Security** | **Offline Use** | **Cost Saving** |
  Simple SDK APIs for quick integration, saving R&D costs | Inference performed locally on device, no user data sent to cloud | No network connection or cloud services required, one device can handle small scenarios | Machine learning on device reduces cloud expenses |
 
-## V2026.06.21
-- AddFace returns 640*480 original image
-- 16KB alignment optimization
+## V2026.07.30
+- New English Language
+- Silent Liveness update
 - Android 17 compatibility preprocessing (To be verified)
 
 For more version history, refer to [SDK Update Records](Document/历史版本SDK更新记录.md)
@@ -54,9 +54,9 @@ api 'io.github.FaceAISDK:Android:Version' // UVC protocol cameras also require U
 ## GitHub SDK API Demo Links
 **iOS SDK:** https://github.com/FaceAISDK/FaceAISDK_iOS  
 **Android:** https://github.com/FaceAISDK/FaceAISDK_Android  
-**Flutter:** https://github.com/FaceAISDK/FaceAISDK_Flutter_Plugin  
+**Flutter:** https://github.com/FaceAISDK/FaceRecognition_Flutter
 **uniApp UTS:** https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS  
-**React Native:** https://github.com/FaceAISDK/FaceAISDK_RN
+**React Native:** https://github.com/FaceAISDK/FaceRecognition_ReactNative
 
 **Please give us a 🌟Star if it helps you, thank you!**
 

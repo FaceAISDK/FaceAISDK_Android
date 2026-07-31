@@ -1,5 +1,6 @@
 package com.faceAI.demo
 
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -11,22 +12,25 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
-import com.tencent.mmkv.MMKV
 import androidx.core.net.toUri
 import com.ai.face.base.utils.performance.DevicePerformance
 import com.ai.face.core.utils.FaceAICameraType
 import com.ai.face.faceVerify.verify.FaceVerifyUtils
 import com.faceAI.demo.FaceAISettingsActivity.Companion.UVC_CAMERA_TYPE
 import com.faceAI.demo.SysCamera.search.FaceSearchNaviActivity
+import com.faceAI.demo.SysCamera.search.ImageToast
 import com.faceAI.demo.SysCamera.verify.FaceVerifyNaviActivity
 import com.faceAI.demo.SysCamera.verify.LivenessDetectActivity
 import com.faceAI.demo.SysCamera.verify.TwoFaceImageVerifyActivity
 import com.faceAI.demo.UVCCamera.liveness.Liveness_UVCCameraActivity
 import com.faceAI.demo.base.AbsBaseActivity
+import com.faceAI.demo.base.utils.TTSPlayer
 import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
+import com.tencent.mmkv.MMKV
 
 /**
  * SDK 接入演示Demo，请先熟悉本Demo跑通主要流程后再集成到你的主工程 验证业务
@@ -35,6 +39,18 @@ import com.faceAI.demo.databinding.ActivityFaceAiNaviBinding
  */
 class FaceAINaviActivity : AbsBaseActivity() {
     private lateinit var viewBinding: ActivityFaceAiNaviBinding
+
+    private val myActivityLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            val livenessValue = data?.getFloatExtra("livenessValue", 0f)
+            val message = data?.getStringExtra("message")
+            ImageToast().show(this, message+livenessValue)
+            TTSPlayer.getInstance().playTTS(message)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +86,9 @@ class FaceAINaviActivity : AbsBaseActivity() {
             val uvcCameraType = MMKV.defaultMMKV().decodeInt(UVC_CAMERA_TYPE, FaceAICameraType.SYSTEM_CAMERA)
 
             if(uvcCameraType== FaceAICameraType.SYSTEM_CAMERA){
-                startActivity(Intent(this@FaceAINaviActivity, LivenessDetectActivity::class.java))
+                val intent = Intent(this, LivenessDetectActivity::class.java)
+                myActivityLauncher.launch(intent)
+                //startActivity(Intent(this@FaceAINaviActivity, LivenessDetectActivity::class.java))
             }else{
                 startActivity(Intent(this@FaceAINaviActivity, Liveness_UVCCameraActivity::class.java))
             }

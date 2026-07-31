@@ -23,9 +23,9 @@ SDK支持Android[8,16] **SDK所有功能都不用联网，不上传不存储任�
 
 
 
-##  V2026.06.21
-- AddFace 返回640*480 原图
-- 16KB 对齐优化处理
+##  V2026.07.30
+- 静默活体检测更新如同iOS
+- 英文翻译更新
 - Android 17 兼容预处理（待验证） 
 
 更多历史版本说明参考 [历史版本SDK更新记录](Document/历史版本SDK更新记录.md)
@@ -58,9 +58,9 @@ SDK支持Android[8,16] **SDK所有功能都不用联网，不上传不存储任�
 ## GitHub SDK API Demo 地址
 **iOS SDK：** https://github.com/FaceAISDK/FaceAISDK_iOS  
 **Android：** https://github.com/FaceAISDK/FaceAISDK_Android  
-**Flutter：**  https://github.com/FaceAISDK/FaceAISDK_Flutter_Plugin   
+**Flutter：**  https://github.com/FaceAISDK/FaceRecognition_Flutter
 **uniApp UTS**  https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS    
-**React Native**  https://github.com/FaceAISDK/FaceAISDK_RN
+**React Native**  https://github.com/FaceAISDK/FaceRecognition_ReactNative
 
 **顺手帮忙点个🌟Star吧，谢谢**
 

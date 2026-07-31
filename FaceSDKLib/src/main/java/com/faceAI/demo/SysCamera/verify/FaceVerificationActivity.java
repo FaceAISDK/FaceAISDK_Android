@@ -20,7 +20,6 @@ import androidx.camera.core.CameraSelector;
 import com.ai.face.core.utils.FaceAICameraType;
 import com.ai.face.faceVerify.verify.liveness.FaceLivenessType;
 import com.faceAI.demo.R;
-import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.base.AbsBaseActivity;
 import com.faceAI.demo.SysCamera.camera.FaceCameraXFragment;
 import com.faceAI.demo.base.utils.BitmapUtils;
@@ -54,6 +53,9 @@ public class FaceVerificationActivity extends AbsBaseActivity {
 
     private String faceID; //你的业务系统中可以唯一定义一个账户的ID，手机号/身份证号等
     private float verifyThreshold = 0.83f; //1:1人脸识别对比通过的阈值，根据使用场景自行调整
+
+    //silent Liveness performance depends on the device's camera. 静默活体检测和设备相机有关
+    private float silentLivenessThreshold =0.85f; //silent liveness threshold(0.85-0.95)
 
     //NONE表示无活体，MOTION表示动作活体，COLOR_FLASH表示炫彩活体（其他种类默认都会包含静默活体，如果仅仅需静默可指定SILENT_LIVE）
     //静默活体效果和摄像头成像有关，炫彩活体不能在强光下使用
@@ -213,10 +215,10 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private void showVerifyResult(boolean isVerifyMatched, float similarity,float livenessValue, Bitmap bitmap) {
         BitmapUtils.saveCompressBitmap(bitmap, CACHE_FACE_LOG_DIR, "verifyBitmap");  //保存场景图给三方插件使用
 
-        if (isVerifyMatched&&(livenessValue>0.8||faceLivenessType.equals(FaceLivenessType.NONE))) {
+        if (isVerifyMatched&&(livenessValue>silentLivenessThreshold||faceLivenessType.equals(FaceLivenessType.NONE))) {
             //2. 相似度>verifyThreshold，并且livenessValue>0.8
             //TTSPlayer.getInstance().playTTS(R.string.face_verify_success);
-            new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
+            //new ImageToast().show(getApplicationContext(), getString(R.string.face_verify_success));
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 finishFaceVerify(VERIFY_SUCCESS, R.string.face_verify_result_success, similarity,livenessValue);
             }, 500);
@@ -227,8 +229,8 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             new AlertDialog.Builder(FaceVerificationActivity.this)
                     .setMessage(R.string.face_verify_result_failed)
                     .setCancelable(false)
-                    .setPositiveButton(retryTime > 3 ? R.string.confirm : R.string.retry, (dialogInterface, i) -> {
-                        if (retryTime > 3) {
+                    .setPositiveButton(retryTime > 2 ? R.string.confirm : R.string.retry, (dialogInterface, i) -> {
+                        if (retryTime > 2) {
                             finishFaceVerify(code, R.string.face_verify_result_failed, similarity,livenessValue);
                         } else {
                             faceVerifyUtils.retryVerify();
@@ -516,7 +518,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private void finishFaceVerify(int code, int msgStrRes, float similarity,float livenessValue) {
         Intent intent = new Intent().putExtra("code", code)
                 .putExtra("faceID", faceID)
-                .putExtra("msg", getString(msgStrRes))
+                .putExtra("message", getString(msgStrRes))
                 .putExtra("livenessValue",livenessValue)
                 .putExtra("similarity", similarity);
         setResult(RESULT_OK, intent);

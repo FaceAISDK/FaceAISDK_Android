@@ -5,6 +5,7 @@ import static com.faceAI.demo.FaceSDKConfig.CACHE_BASE_FACE_DIR;
 import static com.faceAI.demo.SysCamera.addFace.AddFaceFeatureActivity.ADD_FACE_IMAGE_TYPE_KEY;
 import static com.faceAI.demo.SysCamera.verify.FaceVerificationActivity.USER_FACE_ID_KEY;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ai.face.core.engine.FaceAISDKEngine;
 import com.ai.face.core.utils.FaceAICameraType;
 import com.faceAI.demo.FaceSDKConfig;
+import com.faceAI.demo.SysCamera.search.ImageToast;
 import com.faceAI.demo.UVCCamera.verify.FaceVerify_UVCCameraActivity;
 import com.faceAI.demo.UVCCamera.addFace.AddFace_UVCCameraActivity;
 import com.faceAI.demo.SysCamera.addFace.AddFaceFeatureActivity;
@@ -33,6 +38,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.chad.library.adapter4.BaseQuickAdapter;
 import com.chad.library.adapter4.viewholder.QuickViewHolder;
 import com.faceAI.demo.R;
+import com.faceAI.demo.base.utils.TTSPlayer;
 import com.tencent.mmkv.MMKV;
 
 import org.jetbrains.annotations.NotNull;
@@ -51,6 +57,23 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
     private final List<ImageBean> faceImageList = new ArrayList<>();
     private FaceImageListAdapter faceImageListAdapter;
     private int cameraType = FaceAICameraType.SYSTEM_CAMERA;
+
+    // 1. 注册 Launcher
+    private final ActivityResultLauncher<Intent> myActivityLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    if (data != null) {
+                        String message=data.getStringExtra("message");
+                        float similarity=data.getFloatExtra("similarity",0);
+                        float livenessValue=data.getFloatExtra("livenessValue",0);
+                        new ImageToast().show(this, message);
+                        TTSPlayer.getInstance().playTTS(message);
+                    }
+                }
+            }
+    );
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -112,9 +135,12 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
         faceImageListAdapter.setOnItemClickListener((adapter, view, i) -> {
                     ImageBean item = faceImageListAdapter.getItem(i);
                     if (cameraType == FaceAICameraType.SYSTEM_CAMERA) {
-                        startActivity(
-                                new Intent(getBaseContext(), FaceVerificationActivity.class)
-                                        .putExtra(USER_FACE_ID_KEY, item.name));
+                        Intent intent = new Intent(this, FaceVerificationActivity.class);
+                        intent.putExtra(USER_FACE_ID_KEY, item.name);
+                        myActivityLauncher.launch(intent);
+//                        startActivity(
+//                                new Intent(getBaseContext(), FaceVerificationActivity.class)
+//                                        .putExtra(USER_FACE_ID_KEY, item.name));
                     } else {
                         //USB UVC协议摄像头
                         startActivity(

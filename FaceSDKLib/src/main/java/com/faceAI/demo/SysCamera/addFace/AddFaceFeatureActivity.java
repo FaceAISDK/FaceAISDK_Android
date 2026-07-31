@@ -225,7 +225,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     private void finishAddFace(int code, String msg,String faceFeature) {
         Intent intent = new Intent().putExtra("code", code)
                 .putExtra("faceID", faceID)
-                .putExtra("msg", msg)
+                .putExtra("message", msg)
                 .putExtra("faceFeature", faceFeature);
 
         setResult(RESULT_OK, intent);
@@ -238,7 +238,12 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
      * @param bitmap 符合对应参数设置的SDK裁剪好的人脸图
      */
     private void confirmAddFaceDialog(Bitmap bitmap,String faceFeature,Bitmap originBitmap) {
-        ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,originBitmap);
+        // --- 镜像处理开始 ---
+        android.graphics.Matrix matrix = new android.graphics.Matrix();
+        matrix.postScale(-1, 1); // 水平镜像翻转
+        Bitmap mirroredBitmap = Bitmap.createBitmap(originBitmap, 0, 0, originBitmap.getWidth(), originBitmap.getHeight(), matrix, true);
+        // --- 镜像处理结束 ---
+        ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,mirroredBitmap);
 
         confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
             faceID = confirmFaceDialog.faceIDEdit.getText().toString();

@@ -54,13 +54,14 @@ public class LivenessDetectActivity extends AbsBaseActivity {
 
     //NONE表示无活体，MOTION表示动作活体，COLOR_FLASH表示炫彩活体（其他种类默认都会包含静默活体，如果仅仅需静默可指定SILENT_LIVE）
     //静默活体效果和摄像头成像有关，炫彩活体不能在强光下使用
-    private FaceLivenessType faceLivenessType = FaceLivenessType.COLOR_FLASH_MOTION;  //活体检测类型建议MOTION或COLOR_FLASH_MOTION
+    private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION;  //活体检测类型建议MOTION或COLOR_FLASH_MOTION
     private int motionStepSize = 2; //动作活体的个数
-    private boolean showResultTips = true; //是否显示结果提示
 
     private int motionTimeOut = 3*motionStepSize;  //动作超时秒，低端机可以设置长一点
     private String motionLivenessTypes = "1,2,3,4,5"; //【配置动作活体类型】1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
 
+    //silent Liveness performance depends on the device's camera. 静默活体检测和设备相机有关
+    private float silentLivenessThreshold =0.85f; //silent liveness threshold(0.85-0.95)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,23 +113,16 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     @Override
                     public void onLivenessDetected(float livenessValue, Bitmap bitmap) {
                         BitmapUtils.saveCompressBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap");//保存Log记录，注意及时上传日志
-                        if(livenessValue>0.81){
-                            if(showResultTips){ //三方插件自行提示还是默认
-                                TTSPlayer.getInstance().playTTS(R.string.liveness_detection_done);
-                                new ImageToast().show(getApplicationContext(), getString(R.string.liveness_detection_done));
-                            }
+                        if(livenessValue>silentLivenessThreshold){
+                            //.getInstance().playTTS(R.string.liveness_detection_done);
+                            //new ImageToast().show(getApplicationContext(), getString(R.string.liveness_detection_done));
                             finishFaceVerify(ALL_LIVENESS_SUCCESS, R.string.liveness_detection_done, livenessValue);
                         }else{
-                            if(showResultTips){ //三方插件自行提示还是默认
-                                TTSPlayer.getInstance().playTTS(R.string.silent_anti_spoofing_error);
-                                new ImageToast().show(getApplicationContext(), getString(R.string.silent_anti_spoofing_error));
-                            }
-
                             new AlertDialog.Builder(LivenessDetectActivity.this)
                                     .setMessage(R.string.silent_anti_spoofing_error)
                                     .setCancelable(false)
-                                    .setPositiveButton(retryTime > 3 ? R.string.confirm : R.string.retry, (dialogInterface, i) -> {
-                                        if (retryTime > 3) {
+                                    .setPositiveButton(retryTime > 2 ? R.string.confirm : R.string.retry, (dialogInterface, i) -> {
+                                        if (retryTime > 2) {
                                             finishFaceVerify(SILENT_LIVENESS_FAILED, R.string.silent_anti_spoofing_error, livenessValue);
                                         } else {
                                             faceVerifyUtils.retryVerify();
@@ -419,10 +413,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
             if (intent.hasExtra(MOTION_LIVENESS_TYPES)) {
                 motionLivenessTypes = intent.getStringExtra(MOTION_LIVENESS_TYPES);
             }
-            if (intent.hasExtra(SHOW_RESULT_TIPS)) {
-                showResultTips = intent.getBooleanExtra(SHOW_RESULT_TIPS,true);
-            }
-
         }
     }
 
@@ -437,7 +427,7 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     private void finishFaceVerify(int code, int msgStrRes, float livenessValue) {
         Intent intent = new Intent().putExtra("code", code)
                 .putExtra("livenessValue",livenessValue)
-                .putExtra("msg", getString(msgStrRes));
+                .putExtra("message", getString(msgStrRes));
 
         setResult(RESULT_OK, intent);
         finish();
