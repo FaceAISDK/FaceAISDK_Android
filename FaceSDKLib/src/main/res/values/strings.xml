@@ -95,7 +95,7 @@
     <string name="motion_shake_head">Shake Your Head</string>
     <string name="motion_node_head">Nod Your Head</string>
     <string name="motion_liveness_detection_time_out">Motion Liveness Timeout</string>
-    <string name="no_face_or_repeat_switch_screen">No face detected or screen switched repeatedly</string>
+    <string name="no_face_or_repeat_switch_screen">No face detected repeatedly</string>
     <string name="no_face_repeatedly">Keep your face visible</string>
 
     <!--导航 activity-->
