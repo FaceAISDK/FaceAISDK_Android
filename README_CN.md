@@ -56,11 +56,11 @@ SDK支持Android[8,16] **SDK所有功能都不用联网，不上传不存储任�
 【1:N】 小区门禁、公司门禁、智能门锁、智慧校园、机器人、智能家居、社区、酒店等
 
 ## GitHub SDK API Demo 地址
-**iOS SDK：** https://github.com/FaceAISDK/FaceAISDK_iOS  
-**Android：** https://github.com/FaceAISDK/FaceAISDK_Android  
-**Flutter：**  https://github.com/FaceAISDK/FaceRecognition_Flutter
+**iOS SDK：** https://github.com/FaceAISDK/FaceAISDK_iOS   
+**Android：** https://github.com/FaceAISDK/FaceAISDK_Android   
+**Flutter：**  https://github.com/FaceAISDK/FaceRecognition_Flutter  
 **uniApp UTS**  https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS    
-**React Native**  https://github.com/FaceAISDK/FaceRecognition_ReactNative
+**React Native**  https://github.com/FaceAISDK/FaceRecognition_ReactNative  
 
 **顺手帮忙点个🌟Star吧，谢谢**
 
