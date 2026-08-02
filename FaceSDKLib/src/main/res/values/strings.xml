@@ -1,5 +1,5 @@
 <resources>
-    <string name="login_privacy_policy">I have read and agree to the Privacy Policy</string>
+    <string name="login_privacy_policy">I have read and agree the privacy policy</string>
     <string name="device_list_dialog_title">Devices</string>
     <string name="device_list_empty_tip">Please connect a USB camera</string>
     <string name="device_list_cancel_button">Cancel</string>
@@ -31,21 +31,21 @@
     <string name="no_tilt_head_tips">Do Not Tilt Your Head</string>
     <string name="head_turn_left_tips">Turn Head Left</string>
     <string name="head_turn_right_tips">Turn Head Right</string>
-    <string name="no_look_up_tips">Do Not Look Up</string>
-    <string name="no_look_down_tips">Do Not Look Down</string>
+    <string name="no_look_up_tips">Look Down</string>
+    <string name="no_look_down_tips">Look Up</string>
     <string name="no_face_detected_tips">No Face Detected</string>
     <string name="multiple_faces_tips">Too Many Faces Detected</string>
     <string name="come_closer_tips">Please Move Closer</string>
     <string name="far_away_tips">Please Move Farther Away</string>
     <string name="align_face_error_tips">Face alignment failed</string>
-    <string name="not_real_face">Liveness check failed</string>
-    <string name="not_real_face_for_debug">Liveness check failed</string>
+    <string name="not_real_face">Liveness failed</string>
+    <string name="not_real_face_for_debug">Liveness failed</string>
     <string name="add_a_face_image">Enroll Face Image</string>
     <string name="add_face_from_photo">Enroll From Album</string>
     <string name="add_face_from_camera">Enroll By Camera</string>
-    <string name="input_face_id_tips">Please enter a face name</string>
+    <string name="input_face_id_tips">Please enter face name</string>
     <string name="confirm_add_face_title">Confirm Face Registration?</string>
-    <string name="confirm_add_face_tips">Ensure the face is clear, fully visible, and unobstructed</string>
+    <string name="confirm_add_face_tips">Ensure  face is clear and fully visible</string>
     <string name="sure_delete_face_title">Delete this face?</string>
     <string name="sure_delete_face_tips">After deletion, the corresponding face will not be recognized</string>
 
@@ -63,18 +63,18 @@
 
     <!--1:1 人脸识别 face verify -->
     <string name="no_face_feature">Face feature does not exist</string>
-    <string name="face_verify_success">Verification Successful</string>
-    <string name="face_verify_failed">Verification failed. Please retry.</string>
+    <string name="face_verify_success">Verified</string>
+    <string name="face_verify_failed">Unverified</string>
     <string name="face_verify_failed_title">Verification Failed</string>
-    <string name="silent_anti_spoofing_error">Liveness check failed. Please ensure soft lighting conditions</string>
+    <string name="silent_anti_spoofing_error">Liveness Failed</string>
     <string name="no_face_data_tips">No face data has been enrolled</string>
-    <string name="face_verify_pause">Face verification was paused. Please retry.</string>
+    <string name="face_verify_pause">Verification was paused. Please retry</string>
     <string name="face_verify_demo">1:1 Face Verification Demo</string>
     <string name="face_verify_no_face_tips">No face has been added yet\nClick the button above to add face data, long press the face to delete</string>
     <string name="face_verify_result_cancel">Face verification canceled by user</string>
-    <string name="face_verify_result_success">Verification Successful</string>
-    <string name="face_verify_result_silent_failed">Silent liveness failed</string>
-    <string name="face_verify_result_timeout">Face verification timed out</string>
+    <string name="face_verify_result_success">Verified</string>
+    <string name="face_verify_result_silent_failed">Liveness Failed</string>
+    <string name="face_verify_result_timeout">Verification timed out</string>
     <string name="face_verify_result_failed">Verification Failed</string>
     <string name="face_verify_result_no_face_multi_time">No face detected multiple times</string>
     <string name="face_verify_result_pause">Face verification paused</string>

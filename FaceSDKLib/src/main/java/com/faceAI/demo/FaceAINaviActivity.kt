@@ -47,7 +47,7 @@ class FaceAINaviActivity : AbsBaseActivity() {
             val data: Intent? = result.data
             val livenessValue = data?.getFloatExtra("livenessValue", 0f)
             val message = data?.getStringExtra("message")
-            ImageToast().show(this, "$message,$livenessValue")
+            ImageToast().show(this, "$message, $livenessValue")
             TTSPlayer.getInstance().playTTS(message)
         }
     }

@@ -158,7 +158,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
                     @Override
                     public void onMostSimilar(String faceID, float score, Bitmap bitmap, float livenessValue) {
                         Bitmap faceBitmap = BitmapFactory.decodeFile(CACHE_SEARCH_FACE_DIR + faceID);//传给插件，其他可以忽略
-                        String tips=faceID + "," + score + "," + livenessValue;
+                        String tips=faceID + ", Simi=" + score + ", Liveness=" + livenessValue;
 
                         if (livenessValue > 0.85) { //根据你的摄像头和使用场景 自定义管理活体分数业务逻辑
                             VoicePlayer.getInstance().play(R.raw.ding_success);
@@ -224,7 +224,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         switch (code) {
             case NO_MATCHED: //setSearchTimeOut 超时没有搜索成功的提示
                 //setSearchTimeOut超时没有搜索匹配到结果.
-                Toast.makeText(this, R.string.no_matched_face, Toast.LENGTH_SHORT).show();
+                new ImageToast().show(getApplication(), getString(R.string.no_matched_face));
                 break;
 
             case FACE_ANGLE_NOT_FIT:
@@ -234,7 +234,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
             case LOCAL_FACE_DATABASE_EMPTY:
                 //人脸库没有人脸照片，使用SDK API插入人脸
                 setSearchTips(R.string.local_face_database_empty);
-                Toast.makeText(this, R.string.no_face_data_tips, Toast.LENGTH_LONG).show();
+                new ImageToast().show(getApplication(), getString(R.string.no_face_data_tips));
                 break;
             case ENGINE_INITING:
                 setSearchTips(R.string.sdk_init);

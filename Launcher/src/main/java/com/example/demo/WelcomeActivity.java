@@ -33,7 +33,6 @@ public class WelcomeActivity extends AbsBaseActivity {
 
         //test delete face data
         FaceSDKConfig.deleteFaceSearchData(this,"FaceAI");
-        FaceSDKConfig.deleteFaceSearchData(this,"pic");
 
         if (!BuildConfig.DEBUG) {
             CrashReport.initCrashReport(getApplicationContext(), "36fade54d8", true);
