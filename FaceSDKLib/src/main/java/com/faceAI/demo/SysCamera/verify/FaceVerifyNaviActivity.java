@@ -68,7 +68,8 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
                         String message=data.getStringExtra("message");
                         float similarity=data.getFloatExtra("similarity",0);
                         float livenessValue=data.getFloatExtra("livenessValue",0);
-                        new ImageToast().show(this, message);
+                        String tips=message+"\nLiveness="+livenessValue+", Simi="+similarity;
+                        new ImageToast().show(this,tips);
                         TTSPlayer.getInstance().playTTS(message);
                     }
                 }
@@ -138,9 +139,6 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
                         Intent intent = new Intent(this, FaceVerificationActivity.class);
                         intent.putExtra(USER_FACE_ID_KEY, item.name);
                         myActivityLauncher.launch(intent);
-//                        startActivity(
-//                                new Intent(getBaseContext(), FaceVerificationActivity.class)
-//                                        .putExtra(USER_FACE_ID_KEY, item.name));
                     } else {
                         //USB UVC协议摄像头
                         startActivity(

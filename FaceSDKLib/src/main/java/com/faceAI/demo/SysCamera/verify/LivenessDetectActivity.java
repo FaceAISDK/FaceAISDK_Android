@@ -56,7 +56,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
     //静默活体效果和摄像头成像有关，炫彩活体不能在强光下使用
     private FaceLivenessType faceLivenessType = FaceLivenessType.MOTION;  //活体检测类型建议MOTION或COLOR_FLASH_MOTION
     private int motionStepSize = 2; //动作活体的个数
-
     private int motionTimeOut = 3*motionStepSize;  //动作超时秒，低端机可以设置长一点
     private String motionLivenessTypes = "1,2,3,4,5"; //【配置动作活体类型】1.张张嘴 2.微笑 3.眨眨眼 4.摇头 5.点头
     //Silent liveness threshold (iOS/Android): 0.85–0.95. Actual performance varies with camera and lighting—adjust based on scenario.
@@ -122,6 +121,9 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                             new AlertDialog.Builder(LivenessDetectActivity.this)
                                     .setMessage(R.string.silent_anti_spoofing_error)
                                     .setCancelable(false)
+                                    .setNegativeButton(R.string.device_list_cancel_button, (dialog, which) -> {
+                                        finishFaceVerify(SILENT_LIVENESS_FAILED, R.string.silent_anti_spoofing_error, livenessValue);
+                                    })
                                     .setPositiveButton(retryTime > 2 ? R.string.confirm : R.string.retry, (dialogInterface, i) -> {
                                         if (retryTime > 2) {
                                             finishFaceVerify(SILENT_LIVENESS_FAILED, R.string.silent_anti_spoofing_error, livenessValue);
@@ -199,6 +201,9 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     new AlertDialog.Builder(this)
                             .setMessage(R.string.color_flash_liveness_failed)
                             .setCancelable(false)
+                            .setNegativeButton(R.string.device_list_cancel_button, (dialog, which) -> {
+                                finishFaceVerify(COLOR_LIVENESS_FAILED, R.string.color_flash_liveness_failed);
+                            })
                             .setPositiveButton(retryTime > 2 ? R.string.confirm : R.string.retry, (dialogInterface, i) -> {
                                 if (retryTime > 2) {
                                     finishFaceVerify(COLOR_LIVENESS_FAILED, R.string.color_flash_liveness_failed);
@@ -215,6 +220,9 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     new AlertDialog.Builder(this)
                             .setView(dialogView)
                             .setCancelable(false)
+                            .setNegativeButton(R.string.device_list_cancel_button, (dialog, which) -> {
+                                finishFaceVerify(COLOR_LIVENESS_LIGHT_TOO_HIGH, R.string.color_flash_light_high);
+                            })
                             .setPositiveButton(retryTime > 2 ? R.string.confirm : R.string.retry, (dialogInterface, i) -> {
                                 if (retryTime > 2) {
                                     finishFaceVerify(COLOR_LIVENESS_LIGHT_TOO_HIGH, R.string.color_flash_light_high);
@@ -238,6 +246,9 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     new AlertDialog.Builder(this)
                             .setMessage(R.string.motion_liveness_detection_time_out)
                             .setCancelable(false)
+                            .setNegativeButton(R.string.device_list_cancel_button, (dialog, which) -> {
+                                finishFaceVerify(MOTION_LIVENESS_TIMEOUT, R.string.face_verify_result_timeout);
+                            })
                             .setPositiveButton(retryTime > 2 ? R.string.confirm : R.string.retry, (dialogInterface, i) -> {
                                 if (retryTime > 2) {
                                     finishFaceVerify(MOTION_LIVENESS_TIMEOUT, R.string.face_verify_result_timeout);
@@ -295,6 +306,9 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     new AlertDialog.Builder(this)
                             .setMessage(R.string.no_face_repeatedly)
                             .setCancelable(false)
+                            .setNegativeButton(R.string.device_list_cancel_button, (dialog, which) -> {
+                                finishFaceVerify(NO_FACE_MULTI, R.string.face_verify_result_no_face_multi_time);
+                            })
                             .setPositiveButton(retryTime > 2 ? R.string.confirm : R.string.retry, (dialogInterface, i) -> {
                                 if (retryTime > 2) {
                                     finishFaceVerify(NO_FACE_MULTI, R.string.face_verify_result_no_face_multi_time);
