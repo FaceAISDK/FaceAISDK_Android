@@ -58,6 +58,10 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
     private FaceImageListAdapter faceImageListAdapter;
     private int cameraType = FaceAICameraType.SYSTEM_CAMERA;
 
+    //Silent liveness threshold (iOS/Android): 0.85–0.95. Actual performance varies with camera and lighting—adjust based on scenario.
+    //iOS Android 静默活体通过阈值范围0.85到0.95，注意实际表现和摄像头&环境有关
+    private final float silentLivenessThreshold = 0.85f;
+
     // 1. 注册 Launcher
     private final ActivityResultLauncher<Intent> myActivityLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -69,8 +73,13 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
                         float similarity=data.getFloatExtra("similarity",0);
                         float livenessValue=data.getFloatExtra("livenessValue",0);
                         String tips=message+"\nLiveness="+livenessValue+", Simi="+similarity;
-                        new ImageToast().show(this,tips);
                         TTSPlayer.getInstance().playTTS(message);
+
+                        if(livenessValue>silentLivenessThreshold&&similarity>0.83){
+                            new ImageToast().show(this,tips);
+                        }else{
+                            new ImageToast().showFailed(this,tips);
+                        }
                     }
                 }
             }
