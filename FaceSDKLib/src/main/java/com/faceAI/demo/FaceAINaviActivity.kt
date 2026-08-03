@@ -40,6 +40,10 @@ import com.tencent.mmkv.MMKV
 class FaceAINaviActivity : AbsBaseActivity() {
     private lateinit var viewBinding: ActivityFaceAiNaviBinding
 
+    //Silent liveness threshold (iOS/Android): 0.85–0.95. Actual performance varies with camera and lighting—adjust based on scenario.
+    //iOS Android 静默活体通过阈值范围0.85到0.95，注意实际表现和摄像头&环境有关
+    private val silentLivenessThreshold = 0.85f
+
     private val myActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -47,8 +51,15 @@ class FaceAINaviActivity : AbsBaseActivity() {
             val data: Intent? = result.data
             val livenessValue = data?.getFloatExtra("livenessValue", 0f)
             val message = data?.getStringExtra("message")
-            ImageToast().show(this, "$message, $livenessValue")
+
             TTSPlayer.getInstance().playTTS(message)
+            if (livenessValue != null) {
+                if(livenessValue>silentLivenessThreshold){
+                    ImageToast().show(this, "$message, $livenessValue")
+                }else{
+                    ImageToast().showFailed(this, "$message, $livenessValue")
+                }
+            }
         }
     }
 

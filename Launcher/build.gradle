@@ -8,7 +8,7 @@ android {
     defaultConfig {
         versionCode 20260731
         versionName "20260731"
-        applicationId "com.ai.face.Demo" //Demo App Name
+        applicationId "com.ai.face.verifyPub" //Demo App Name
         minSdk 21
         targetSdk 35
         
@@ -82,6 +82,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // Demo 为了收集 Crash，上线google play 删除
-    implementation 'com.tencent.bugly:crashreport:4.1.9.3'
+    //implementation 'com.tencent.bugly:crashreport:4.1.9.3'
 
 }
