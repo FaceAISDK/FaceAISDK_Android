@@ -33,6 +33,10 @@ public class ImageToast {
         return showBitmap(context, null, tips);
     }
 
+    public Toast showFailed(Context context, String tips) {
+        return showBitmap(context, null, tips,false);
+    }
+
     public Toast showBitmap(Context context, Bitmap bitmap, String tips) {
         return showBitmap(context, bitmap, tips, true);
     }

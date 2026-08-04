@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.faceAI.demo.FaceAINaviActivity;
 import com.faceAI.demo.FaceSDKConfig;
 import com.faceAI.demo.base.AbsBaseActivity;
-import com.tencent.bugly.crashreport.CrashReport;
 
 /**
  * FaceSDK API Demo in module 「FaceSDKLib」
@@ -29,13 +28,13 @@ public class WelcomeActivity extends AbsBaseActivity {
         new Handler().postDelayed(() -> {
             startActivity(new Intent(WelcomeActivity.this, FaceAINaviActivity.class));
             finish();
-        }, 2222);
+        }, 3333);
 
         //test delete face data
         FaceSDKConfig.deleteFaceSearchData(this,"FaceAI");
 
         if (!BuildConfig.DEBUG) {
-            CrashReport.initCrashReport(getApplicationContext(), "36fade54d8", true);
+            //CrashReport.initCrashReport(getApplicationContext(), "36fade54d8", true);
         }
     }
 
