@@ -54,7 +54,7 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
     public static final int REQUEST_ADD_FACE_IMAGE = 10086;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_data_manger);
         setSupportActionBar(findViewById(R.id.toolbar));
@@ -148,7 +148,7 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
      * 刷新人脸照片列表
      */
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         updateFaceList(); //太粗暴了，每次刷新，Demo演示就不优化了，根据自己业务处理
     }

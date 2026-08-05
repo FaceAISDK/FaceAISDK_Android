@@ -71,7 +71,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     private FaceCameraXFragment cameraXFragment;  //Camera Manger
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         hideSystemUI(); //full screen
         setContentView(R.layout.activity_face_verification);
@@ -454,7 +454,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
     /**
      * 暂停识别，防止切屏识别，如果你需要退后台不能识别的话
      */
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         faceVerifyUtils.pauseProcess();
     }

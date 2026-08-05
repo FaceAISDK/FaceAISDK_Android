@@ -82,7 +82,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         hideSystemUI();
         binding = ActivityFaceSearchBinding.inflate(getLayoutInflater());
@@ -321,18 +321,16 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         pauseSearch = false;
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         pauseSearch = true;
     }
-
-
 
     /**
      * 获取UNI,RN,Flutter三方插件传递的参数,以便在原生代码中生效

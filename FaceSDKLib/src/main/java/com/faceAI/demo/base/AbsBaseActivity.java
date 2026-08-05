@@ -29,12 +29,12 @@ import pub.devrel.easypermissions.EasyPermissions;
 /**
  * AbsBaseActivity for Face SDK API Demo
  */
-public  class AbsBaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
+public class AbsBaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
     private boolean shouldHideSystemUI = false;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkNeededPermission();
         adjustCameraMargin();
@@ -59,7 +59,7 @@ public  class AbsBaseActivity extends AppCompatActivity implements EasyPermissio
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         if (shouldHideSystemUI) {
             applyImmersiveMode();
@@ -150,4 +150,5 @@ public  class AbsBaseActivity extends AppCompatActivity implements EasyPermissio
                 })
                 .show();
     }
+
 }

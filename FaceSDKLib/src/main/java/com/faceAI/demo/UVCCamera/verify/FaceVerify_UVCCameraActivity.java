@@ -17,7 +17,7 @@ import com.faceAI.demo.R;
 public class FaceVerify_UVCCameraActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_uvc_camera_faceai_activity);
 
