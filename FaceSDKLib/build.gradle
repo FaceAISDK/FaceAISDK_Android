@@ -15,6 +15,25 @@ android {
         ndk {
             abiFilters 'armeabi-v7a','arm64-v8a' //无特殊需要可以不配置32位CPU
         }
+
+        // 传递给接入方 App：仅保留 FaceSDKLib 的类/成员名，
+        // 不会关闭接入方自身的 R8 压缩和混淆。
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+
+        release {
+            // 启用 R8 的无用代码删除和字节码优化。
+            // aar-optimize-rules.pro 中的 -dontobfuscate 保证不混淆。
+            minifyEnabled true
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'aar-optimize-rules.pro'
+        }
     }
 
     //不压缩SDK中的模型
