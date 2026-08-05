@@ -8,10 +8,10 @@ plugins {
 
 android {
     namespace 'com.faceAI.demo'
-    compileSdk 35
+    compileSdk 36
     defaultConfig {
         minSdk 21
-        targetSdk 35
+        targetSdk 36
         ndk {
             abiFilters 'armeabi-v7a','arm64-v8a' //无特殊需要可以不配置32位CPU
         }
@@ -63,7 +63,7 @@ android {
 dependencies {
 
     //Face SDK API Demo(Android)：https://github.com/FaceAISDK/FaceAISDK_Android
-    api 'io.github.faceaisdk:Android:2026.07.31'
+    api 'io.github.faceaisdk:Android:2026.08.01.beta2'
 
     //Library and sample to access UVC camera: https://github.com/shiyinghan/UVCAndroid
     implementation 'com.herohan:UVCAndroid:1.0.13' //For Custom Android device use UVC camera
