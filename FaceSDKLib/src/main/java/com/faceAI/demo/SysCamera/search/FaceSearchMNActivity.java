@@ -38,7 +38,7 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
     private ActivityFaceSearchMnBinding binding;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         hideSystemUI();
 

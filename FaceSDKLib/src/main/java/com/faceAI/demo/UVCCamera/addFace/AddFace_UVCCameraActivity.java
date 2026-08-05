@@ -62,7 +62,7 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityUvcCameraAddFaceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

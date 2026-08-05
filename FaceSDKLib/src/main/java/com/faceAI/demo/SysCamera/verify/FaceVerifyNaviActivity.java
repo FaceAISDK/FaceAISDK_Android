@@ -86,7 +86,7 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
     );
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_verify_navi);
         setSupportActionBar(findViewById(R.id.toolbar));
@@ -206,7 +206,7 @@ public class FaceVerifyNaviActivity extends AbsAddFaceFromAlbumActivity {
      * 加载已经录入的人脸账户列表
      */
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         updateFaceList();
     }

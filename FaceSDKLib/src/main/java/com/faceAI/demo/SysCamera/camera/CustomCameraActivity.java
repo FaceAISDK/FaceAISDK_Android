@@ -23,7 +23,7 @@ import java.nio.ByteBuffer;
 public class CustomCameraActivity extends AbsBaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_camera);
         setTitle("Custom Camera");
