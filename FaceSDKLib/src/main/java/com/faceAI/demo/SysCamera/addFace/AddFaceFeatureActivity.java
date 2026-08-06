@@ -71,7 +71,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         hideSystemUI();
 

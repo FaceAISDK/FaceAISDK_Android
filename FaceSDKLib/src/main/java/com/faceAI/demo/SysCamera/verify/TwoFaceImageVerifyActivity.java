@@ -73,7 +73,7 @@ public class TwoFaceImageVerifyActivity extends AppCompatActivity {
     );
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewBinding = ActivityTwoFaceImageVerifyBinding.inflate(getLayoutInflater());
         setContentView(viewBinding.getRoot());

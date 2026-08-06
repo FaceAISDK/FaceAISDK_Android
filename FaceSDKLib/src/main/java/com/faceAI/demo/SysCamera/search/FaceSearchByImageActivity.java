@@ -70,7 +70,7 @@ public class FaceSearchByImageActivity extends AppCompatActivity {
     private final AtomicInteger currentTaskVersion = new AtomicInteger();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_search_by_image);
 

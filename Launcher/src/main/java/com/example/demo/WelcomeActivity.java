@@ -18,7 +18,7 @@ import com.faceAI.demo.base.AbsBaseActivity;
 public class WelcomeActivity extends AbsBaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         hideSystemUI();
         setContentView(R.layout.activity_welcome);
