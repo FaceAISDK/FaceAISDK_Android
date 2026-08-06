@@ -3,14 +3,14 @@ plugins {
 }
 
 android {
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
-        versionCode 20260731
-        versionName "20260731"
+        versionCode 20260806
+        versionName "20260806"
         applicationId "com.ai.face.verifyPub" //Demo App Name
         minSdk 21
-        targetSdk 35
+        targetSdk 36
         
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'

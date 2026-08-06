@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import com.faceAI.demo.databinding.ActivityAboutFaceAppBinding
+import java.util.Locale
 
 /**
  * 关于我们，WeChat：FaceAISDK
@@ -26,10 +27,17 @@ class AboutFaceAppActivity : AppCompatActivity() {
         setContentView(viewBinding.root)
 
         viewBinding.moreAboutMe.setOnClickListener {
-            val uri = Uri.parse("https://mp.weixin.qq.com/s/yCyxtg0SCZ-kBCiOIu0kTA")
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.addCategory(Intent.CATEGORY_BROWSABLE)
-            intent.data = uri
+            val isChinese = Locale.getDefault().language == "zh"
+            val url = if (isChinese) {
+                "https://mp.weixin.qq.com/s/yCyxtg0SCZ-kBCiOIu0kTA"
+            } else {
+                "https://faceaisdk.github.io/index/"
+            }
+
+            val uri = url.toUri()
+            val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+                addCategory(Intent.CATEGORY_BROWSABLE)
+            }
             startActivity(intent)
         }
 
