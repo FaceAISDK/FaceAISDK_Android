@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -266,7 +267,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
             addFaceDispose.retry();
         });
 
-        confirmFaceDialog.dialog.show();
+        confirmFaceDialog.show();
     }
 
 
@@ -344,6 +345,9 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
 
         public void show(){
             dialog.show();
+            Objects.requireNonNull(dialog.getWindow()).setLayout(
+                    (int) (getResources().getDisplayMetrics().widthPixels * 0.92f),
+                    WindowManager.LayoutParams.WRAP_CONTENT);
         }
 
         public void dismiss(){
@@ -353,4 +357,3 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
 
 
 }
-

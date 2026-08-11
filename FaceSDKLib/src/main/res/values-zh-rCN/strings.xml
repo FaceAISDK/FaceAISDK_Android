@@ -44,8 +44,8 @@ Email: FaceAISDK.Service@gmail.com\n\n
     <string name="add_face_from_photo">相册添加</string>
     <string name="add_face_from_camera">SDK相机添加</string>
     <string name="input_face_id_tips">请输入人脸名称ID</string>
-    <string name="confirm_add_face_title">确认保存此人脸？</string>
-    <string name="confirm_add_face_tips">确保为清晰无遮挡正脸</string>
+    <string name="confirm_add_face_title">确认人脸录入</string>
+    <string name="confirm_add_face_tips">确保人脸清晰、完整且无遮挡</string>
     <string name="sure_delete_face_title">确认要删除</string>
     <string name="sure_delete_face_tips">删除后对应的人脸将无法被识别</string>
 
