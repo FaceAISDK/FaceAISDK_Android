@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="face_main_color">#347738</color>
+    <color name="face_dialog_hint">#8E8E93</color>
+    <color name="face_dialog_retry_background">#F7FAF7</color>
+    <color name="face_dialog_retry_stroke">#BFD5C1</color>
 
     <color name="black">#FF000000</color>
     <color name="grey">#232222</color>

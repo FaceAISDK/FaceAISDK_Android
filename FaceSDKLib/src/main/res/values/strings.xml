@@ -44,8 +44,8 @@
     <string name="add_face_from_photo">Enroll From Album</string>
     <string name="add_face_from_camera">Enroll By Camera</string>
     <string name="input_face_id_tips">Please enter face name</string>
-    <string name="confirm_add_face_title">Confirm Face Registration?</string>
-    <string name="confirm_add_face_tips">Ensure  face is clear and fully visible</string>
+    <string name="confirm_add_face_title">Confirm Face Registration</string>
+    <string name="confirm_add_face_tips">Ensure face is clear and fully visible</string>
     <string name="sure_delete_face_title">Delete this face?</string>
     <string name="sure_delete_face_tips">After deletion, the corresponding face will not be recognized</string>
 
