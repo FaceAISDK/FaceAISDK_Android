@@ -115,8 +115,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     public void onLivenessDetected(float livenessValue, Bitmap bitmap) {
                         BitmapUtils.saveCompressBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap");//保存Log记录，注意及时上传日志
                         if(livenessValue>silentLivenessThreshold){
-                            //.getInstance().playTTS(R.string.liveness_detection_done);
-                            //new ImageToast().show(getApplicationContext(), getString(R.string.liveness_detection_done));
                             finishFaceVerify(ALL_LIVENESS_SUCCESS, R.string.liveness_detection_done, livenessValue);
                         }else{
                             new AlertDialog.Builder(LivenessDetectActivity.this)

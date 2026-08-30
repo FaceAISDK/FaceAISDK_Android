@@ -124,7 +124,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             Toast.makeText(getBaseContext(), R.string.no_face_feature, Toast.LENGTH_LONG).show();
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 finishFaceVerify(NO_BASE_FACE_FEATURE, R.string.no_face_feature, 0,0);
-            }, 1111);
+            }, 999);
         }
 
         //option， 去Path 路径读取有没有faceID 对应的处理好的人脸Bitmap，不需要可删除
@@ -257,7 +257,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                         Toast.makeText(this,R.string.multiple_faces_tips,Toast.LENGTH_LONG).show();
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             finishFaceVerify(NOT_ALLOW_MULTI_FACES, R.string.multiple_faces_tips);
-                        }, 999);
+                        }, 555);
                     }
                     break;
 

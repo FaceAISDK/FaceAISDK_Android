@@ -50,6 +50,7 @@ android {
     androidResources {
         noCompress "tflite"
         noCompress "bin"
+        // ignoreAssetsPatterns.add("FaceAISDK.bin")
     }
 
     compileOptions {

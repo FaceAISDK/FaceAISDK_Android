@@ -13,7 +13,6 @@ import com.faceAI.demo.base.AbsBaseActivity;
  * FaceSDK API Demo in module 「FaceSDKLib」
  *
  * @author  FaceAISDK.Service@gmail.com
- * @website https://faceaisdk.github.io/index
  */
 public class WelcomeActivity extends AbsBaseActivity {
 
