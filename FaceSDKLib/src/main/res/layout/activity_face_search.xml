@@ -43,4 +43,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/switch_button"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/bg_switch_camera_button"
+        android:clickable="true"
+        android:contentDescription="@string/switch_camera"
+        android:focusable="true"
+        android:padding="7dp"
+        android:src="@drawable/switch_camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
