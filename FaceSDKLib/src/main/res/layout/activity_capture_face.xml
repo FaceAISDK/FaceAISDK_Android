@@ -33,6 +33,24 @@
         android:src="@drawable/ic_arrow_back_24" />
 
 
+    <ImageView
+        android:id="@+id/crop"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="33dp"
+        android:layout_width="111dp"
+        android:layout_height="111dp"/>
+
+    <ImageView
+        android:id="@+id/origin"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="33dp"
+
+        android:layout_width="111dp"
+        android:layout_height="111dp"/>
+
+
 </RelativeLayout>
 
 

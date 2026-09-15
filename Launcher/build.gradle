@@ -9,7 +9,7 @@ android {
         versionCode 20260831
         versionName "20260831"
         applicationId "com.ai.face.Demo" //Demo App Name
-        minSdk 21
+        minSdk 23
         targetSdk 36
         
         ndk {
@@ -64,7 +64,7 @@ android {
 }
 
 //CameraX，Android 16KB Page
-def camera_version = "1.4.2"
+def camera_version = "1.5.2"
 configurations.configureEach {
     resolutionStrategy {
         force "androidx.camera:camera-core:$camera_version",

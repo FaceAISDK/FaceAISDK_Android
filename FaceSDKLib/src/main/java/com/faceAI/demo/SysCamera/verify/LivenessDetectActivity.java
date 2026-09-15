@@ -32,7 +32,7 @@ import com.faceAI.demo.base.view.FaceCoverView;
 import com.tencent.mmkv.MMKV;
 
 /**
- * 活体检测 SDK 接入演示代码.
+ * 活体检测 SDK 接入演示代码.（炫彩活体光线强可能会失败，要求全屏能反射颜色，圆心小一点）
  * <p>
  * 摄像头管理源码开放了 {@link FaceCameraXFragment}
  * More：<a href="https://github.com/FaceAISDK/FaceAISDK_Android">人脸识别FaceAISDK</a>

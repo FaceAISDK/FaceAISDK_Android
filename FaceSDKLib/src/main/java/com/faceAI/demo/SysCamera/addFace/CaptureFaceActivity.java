@@ -3,6 +3,7 @@ package com.faceAI.demo.SysCamera.addFace;
 import static com.ai.face.base.addFace.AddFaceDispose.PERFORMANCE_MODE_ACCURATE;
 import static com.ai.face.base.addFace.AddFaceDispose.PERFORMANCE_MODE_FAST;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.CLOSE_EYE;
+import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.FACE_UNSTABLE;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_CENTER;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_DOWN;
 import static com.ai.face.faceVerify.verify.VerifyStatus.ALIVE_DETECT_TYPE_ENUM.HEAD_LEFT;
@@ -15,8 +16,11 @@ import static com.ai.face.faceVerify.verify.VerifyStatus.VERIFY_DETECT_TIPS_ENUM
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.ai.face.base.addFace.AddFaceCallBack;
-import com.ai.face.base.addFace.AddFaceDispose;
+import com.ai.face.base.addFace.CaptureFaceDispose;
 import com.ai.face.base.utils.DataConvertUtils;
 import com.ai.face.base.view.camera.CameraXBuilder;
 import com.faceAI.demo.R;
@@ -32,9 +36,8 @@ import com.faceAI.demo.base.view.FaceCoverView;
 public class CaptureFaceActivity extends AbsBaseActivity {
     public static String ADD_FACE_PERFORMANCE_MODE = "ADD_FACE_PERFORMANCE_MODE";
     private FaceCoverView faceCoverView;
-    private AddFaceDispose addFaceDispose;
-    private int addFacePerformanceMode = PERFORMANCE_MODE_FAST;
-
+    private CaptureFaceDispose addFaceDispose;
+    private int mode = PERFORMANCE_MODE_FAST;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,7 @@ public class CaptureFaceActivity extends AbsBaseActivity {
         Intent intent = getIntent();
         if (intent != null) {
             if (intent.hasExtra(ADD_FACE_PERFORMANCE_MODE)) {
-                addFacePerformanceMode = intent.getIntExtra(ADD_FACE_PERFORMANCE_MODE,PERFORMANCE_MODE_ACCURATE);
+                mode = intent.getIntExtra(ADD_FACE_PERFORMANCE_MODE,PERFORMANCE_MODE_ACCURATE);
             }
         }
 
@@ -60,7 +63,7 @@ public class CaptureFaceActivity extends AbsBaseActivity {
          *  0 PERFORMANCE_MODE_EASY       简单模式 允许人脸角度可以「较大」的偏差
          * -1 PERFORMANCE_MODE_NO_LIMIT   无限制模式 基本上检测到人脸就返回了
          */
-        addFaceDispose = new AddFaceDispose(this, addFacePerformanceMode,true, new AddFaceCallBack() {
+        addFaceDispose = new CaptureFaceDispose(this, mode,false, new AddFaceCallBack() {
             /**
              * 人脸检测裁剪完成
              * @param cropped         SDK检测裁剪矫正后的Bitmap，20260227版本统一大小为224*224
@@ -69,7 +72,11 @@ public class CaptureFaceActivity extends AbsBaseActivity {
              */
             @Override
             public void onCompleted(Bitmap cropped, float silentScore,Bitmap origin) {
+                ((ImageView) findViewById(R.id.crop)).setImageBitmap(cropped);
+                ((ImageView) findViewById(R.id.origin)).setImageBitmap(origin);
 
+                Toast.makeText(getBaseContext(),"S="+silentScore,Toast.LENGTH_SHORT).show();
+                addFaceDispose.retry(); //立即重试
             }
 
             @Override
@@ -89,7 +96,6 @@ public class CaptureFaceActivity extends AbsBaseActivity {
         FaceCameraXFragment cameraXFragment = FaceCameraXFragment.newInstance(cameraXBuilder);
         cameraXFragment.setOnAnalyzerListener(imageProxy -> {
             if (!isDestroyed() && !isFinishing()) {
-                //某些设备如果一直提示检测不到人脸，可以断点调试看看转化的Bitmap 是否有问题
                 addFaceDispose.dispose(DataConvertUtils.imageProxy2Bitmap(imageProxy));
             }
         });
@@ -119,6 +125,9 @@ public class CaptureFaceActivity extends AbsBaseActivity {
             case CLOSE_EYE:
                 faceCoverView.setTipsText(R.string.no_close_eye_tips);
                 break;
+            case FACE_UNSTABLE:
+                faceCoverView.setTipsText(R.string.keep_face_still_tips);
+                break;
             case HEAD_CENTER:
                 faceCoverView.setTipsText(R.string.keep_face_tips);
                 break;
@@ -138,6 +147,14 @@ public class CaptureFaceActivity extends AbsBaseActivity {
                 faceCoverView.setTipsText(R.string.no_look_down_tips);
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (addFaceDispose != null) {
+            addFaceDispose.release();
+        }
+        super.onDestroy();
     }
 
 }

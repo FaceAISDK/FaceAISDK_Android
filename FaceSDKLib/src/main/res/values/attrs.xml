@@ -12,6 +12,9 @@
         <!--提示文字大小-->
         <attr name="tip_text_size" format="dimension" />
 
+        <!--圆圈距离边距-->
+        <attr name="circle_margin_extra" format="dimension" />
+
         <!--炫彩颜色，改变背景色-->
         <attr name="flash_color" format="color" />
         <attr name="progress_start_color" format="color" />
