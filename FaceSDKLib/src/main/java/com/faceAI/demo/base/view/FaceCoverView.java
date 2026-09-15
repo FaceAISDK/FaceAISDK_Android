@@ -38,7 +38,7 @@ public class FaceCoverView extends View {
     private static final int MAX_ANGLE = 360;
 
     // ==================== 可配置属性 ====================
-    public  int circleMarginExtra = 0; //circle_margin_extra,单位是DP
+    public int circleMarginExtra = 0; //circle_margin_extra,单位是DP
 
     private int mFlashColor;
     private final int mStartColor;
@@ -114,7 +114,7 @@ public class FaceCoverView extends View {
         float defaultTextSize = 19 * context.getResources().getDisplayMetrics().scaledDensity;
         mTipTextSize = array.getDimension(R.styleable.FaceVerifyCoverView_tip_text_size, defaultTextSize);
 
-        circleMarginExtra =
+        circleMarginExtra = ScreenUtils.dp2px(context,array.getDimension(R.styleable.FaceVerifyCoverView_circle_margin_extra, 0));
 
         array.recycle();
 
