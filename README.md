@@ -21,15 +21,11 @@ Supports silent liveness detection and action liveness (mouth opening, smiling, 
  **Efficient Integration** | **Data Security** | **Offline Use** | **Cost Saving** |
  Simple SDK APIs for quick integration, saving R&D costs | Inference performed locally on device, no user data sent to cloud | No network connection or cloud services required, one device can handle small scenarios | Machine learning on device reduces cloud expenses |
 
-## V2026.08.11
-1.New English Language
-2.Silent Liveness update
-3.Android 17 compatibility preprocessing (To be verified)
-4.Reduce SDK size
-5.Silent liveness threshold (iOS/Android): 0.85–0.95.
+## V2026.09.20
 
-Actual performance varies with camera and lighting—adjust based on scenario.
-
+1. Optimized color-based liveness detection. The circle size can now be adjusted to reflect more light onto the face.
+2. Reduced heat generation and power consumption during face search.
+3. Other minor improvements.
 
 For more version history, refer to [SDK Update Records](Document/历史版本SDK更新记录.md)
 

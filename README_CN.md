@@ -22,15 +22,10 @@ SDK支持Android[8,16] **SDK所有功能都不用联网，不上传不存储任�
  少量简洁的 SDK API 可快速接入，节省研发维护费用 | 在设备本地执行推断，无需将用户数据发送到云端 | 无需网络连接或在云端运行服务，小场景一台设备就能 Hold 业务需求 | 在设备端运行机器学习功能，减少云端费用 |
 
 
-## V2026.08.11
-1.New English Language
-2.Silent Liveness update
-3.Android 17 compatibility preprocessing (To be verified)
-4.Reduce SDK size
-5.Silent liveness threshold (iOS/Android): 0.85–0.95.
-
-Actual performance varies with camera and lighting—adjust based on scenario.
-
+## V2026.09.20
+1.炫彩活体优化，圆圈大小调节可反射更多光线
+2.人脸搜索发热功耗降低 
+3.其他细节优化
 
 更多历史版本说明参考 [历史版本SDK更新记录](Document/历史版本SDK更新记录.md)
 
