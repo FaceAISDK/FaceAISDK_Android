@@ -27,6 +27,7 @@
 
     <!--添加人脸 add face image-->
     <string name="keep_face_tips">Face the Camera</string>
+    <string name="keep_face_still_tips">Please keep face still</string>
     <string name="no_close_eye_tips">Keep Eyes Open</string>
     <string name="no_tilt_head_tips">Do Not Tilt Your Head</string>
     <string name="head_turn_left_tips">Turn Head Left</string>

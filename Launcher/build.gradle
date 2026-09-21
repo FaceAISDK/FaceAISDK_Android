@@ -6,10 +6,10 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        versionCode 20260806
-        versionName "20260806"
-        applicationId "com.ai.face.verifyPub" //Demo App Name
-        minSdk 21
+        versionCode 20260920
+        versionName "20260920"
+        applicationId "com.ai.face.Demo" //Demo App Name
+        minSdk 23
         targetSdk 36
         
         ndk {
@@ -20,7 +20,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("FaceAIPublic")
+            storeFile file("FaceSDKPublic.jks")
             storePassword "FaceAIPublic"
             keyAlias "FaceAIPublic"
             keyPassword "FaceAIPublic"
@@ -50,6 +50,7 @@ android {
     androidResources {
         noCompress "tflite"
         noCompress "bin"
+        // ignoreAssetsPatterns.add("FaceAISDK.bin")
     }
 
     compileOptions {
@@ -63,7 +64,7 @@ android {
 }
 
 //CameraX，Android 16KB Page
-def camera_version = "1.4.2"
+def camera_version = "1.5.2"
 configurations.configureEach {
     resolutionStrategy {
         force "androidx.camera:camera-core:$camera_version",

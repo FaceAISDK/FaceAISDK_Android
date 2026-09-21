@@ -122,9 +122,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
             //根据你的业务进行提示去录入人脸特征信息，或从你的服务器提前同步到本地
             TTSPlayer.getInstance().playTTS(R.string.no_face_feature);
             Toast.makeText(getBaseContext(), R.string.no_face_feature, Toast.LENGTH_LONG).show();
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                finishFaceVerify(NO_BASE_FACE_FEATURE, R.string.no_face_feature, 0,0);
-            }, 1111);
+            finishFaceVerify(NO_BASE_FACE_FEATURE, R.string.no_face_feature, 0,0);
         }
 
         //option， 去Path 路径读取有没有faceID 对应的处理好的人脸Bitmap，不需要可删除
@@ -218,9 +216,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
 
         if (isVerifyMatched&&(livenessValue>silentLivenessThreshold||faceLivenessType.equals(FaceLivenessType.NONE))) {
             //2. 相似度>verifyThreshold，并且livenessValue>0.85
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                finishFaceVerify(VERIFY_SUCCESS, R.string.face_verify_result_success, similarity,livenessValue);
-            }, 500);
+            finishFaceVerify(VERIFY_SUCCESS, R.string.face_verify_result_success, similarity,livenessValue);
         } else {
             int code = isVerifyMatched ? SILENT_LIVENESS_FAILED : VERIFY_FAILED;
             TTSPlayer.getInstance().playTTS(R.string.face_verify_failed);
@@ -255,9 +251,7 @@ public class FaceVerificationActivity extends AbsBaseActivity {
                     //防止一真一假人脸作弊,每帧画面检测
                     if(!allowMultiFaces){
                         Toast.makeText(this,R.string.multiple_faces_tips,Toast.LENGTH_LONG).show();
-                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                            finishFaceVerify(NOT_ALLOW_MULTI_FACES, R.string.multiple_faces_tips);
-                        }, 999);
+                        finishFaceVerify(NOT_ALLOW_MULTI_FACES, R.string.multiple_faces_tips);
                     }
                     break;
 

@@ -60,6 +60,7 @@ public class FaceSearchMNActivity extends AbsBaseActivity {
                 .create();
 
         FaceCameraXFragment cameraXFragment = FaceCameraXFragment.newInstance(cameraXBuilder);
+        binding.switchButton.setOnClickListener(v -> cameraXFragment.switchCamera());
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_camerax, cameraXFragment)
                 .commit();

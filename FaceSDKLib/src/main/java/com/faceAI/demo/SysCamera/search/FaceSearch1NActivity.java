@@ -88,6 +88,7 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         binding = ActivityFaceSearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.close.setOnClickListener(v -> finish());
+        binding.switchButton.setOnClickListener(v -> cameraXFragment.switchCamera());
 
         getIntentParams(); //接收三方插件传递的参数，原生开发可以忽略裁剪掉
 

@@ -1,5 +1,15 @@
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
+## V2026.08.11
+1.New English Language
+2.Silent Liveness update
+3.Android 17 compatibility preprocessing (To be verified)
+4.Reduce SDK size
+5.Silent liveness threshold (iOS/Android): 0.85–0.95.
+
+Actual performance varies with camera and lighting—adjust based on scenario.
+iOS Android 静默活体通过阈值范围0.85到0.95，注意实际表现和摄像头&环境有关
+
 ## V2026.07.30
 - New English Language
 - Silent Liveness update 

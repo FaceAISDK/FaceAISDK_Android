@@ -32,7 +32,7 @@ import com.faceAI.demo.base.view.FaceCoverView;
 import com.tencent.mmkv.MMKV;
 
 /**
- * 活体检测 SDK 接入演示代码.
+ * 活体检测 SDK 接入演示代码.（炫彩活体光线强可能会失败，要求全屏能反射颜色，圆心小一点）
  * <p>
  * 摄像头管理源码开放了 {@link FaceCameraXFragment}
  * More：<a href="https://github.com/FaceAISDK/FaceAISDK_Android">人脸识别FaceAISDK</a>
@@ -115,8 +115,6 @@ public class LivenessDetectActivity extends AbsBaseActivity {
                     public void onLivenessDetected(float livenessValue, Bitmap bitmap) {
                         BitmapUtils.saveCompressBitmap(bitmap, CACHE_FACE_LOG_DIR, "liveBitmap");//保存Log记录，注意及时上传日志
                         if(livenessValue>silentLivenessThreshold){
-                            //.getInstance().playTTS(R.string.liveness_detection_done);
-                            //new ImageToast().show(getApplicationContext(), getString(R.string.liveness_detection_done));
                             finishFaceVerify(ALL_LIVENESS_SUCCESS, R.string.liveness_detection_done, livenessValue);
                         }else{
                             new AlertDialog.Builder(LivenessDetectActivity.this)

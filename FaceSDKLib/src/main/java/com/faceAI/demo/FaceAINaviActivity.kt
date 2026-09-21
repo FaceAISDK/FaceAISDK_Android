@@ -21,6 +21,7 @@ import com.ai.face.base.utils.performance.DevicePerformance
 import com.ai.face.core.utils.FaceAICameraType
 import com.ai.face.faceVerify.verify.FaceVerifyUtils
 import com.faceAI.demo.FaceAISettingsActivity.Companion.UVC_CAMERA_TYPE
+import com.faceAI.demo.SysCamera.addFace.CaptureFaceActivity
 import com.faceAI.demo.SysCamera.search.FaceSearchNaviActivity
 import com.faceAI.demo.SysCamera.search.ImageToast
 import com.faceAI.demo.SysCamera.verify.FaceVerifyNaviActivity
@@ -74,6 +75,12 @@ class FaceAINaviActivity : AbsBaseActivity() {
         // 摄像头类型选择 Camera type select
         viewBinding.cameraTypeSelect.setOnClickListener {
             switchCameraType()
+        }
+
+        viewBinding.cameraTypeSelect.setOnLongClickListener {
+            val test = Intent(baseContext, CaptureFaceActivity::class.java)
+            startActivity(test)
+            return@setOnLongClickListener true
         }
 
         // 1:1 人脸识别

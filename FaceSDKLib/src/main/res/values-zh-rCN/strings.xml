@@ -27,6 +27,7 @@ Email: FaceAISDK.Service@gmail.com\n\n
 
     <!--添加人脸 add face image-->
     <string name="keep_face_tips">平视正对摄像头</string>
+    <string name="keep_face_still_tips">请保持人脸稳定不动</string>
     <string name="no_close_eye_tips">请勿闭眼</string>
     <string name="no_tilt_head_tips">请勿歪头</string>
     <string name="head_turn_left_tips">向左摆正脸部</string>
