@@ -1,5 +1,15 @@
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
+## V2026.09.30
+1. New Face Search SDK here: http://github.com/FaceSDKPro
+   **FaceAISDK HelloFace** _Face Feature is different_
+
+
+## V2026.09.20
+1.Optimized color-based liveness detection. The circle size can now be adjusted to reflect more light onto the face.
+2.Reduced heat generation and power consumption during face search.
+3.Other minor improvements.
+
 ## V2026.08.11
 1.New English Language
 2.Silent Liveness update
