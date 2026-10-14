@@ -188,9 +188,17 @@ public class FaceSearchDataMangerActivity extends AbsAddFaceFromAlbumActivity {
     private void copyFaceTestImage() {
         CopyFaceImageUtils.copyTestFaceImages(this, new CopyFaceImageUtils.Callback() {
             @Override
-            public void onComplete(int successCount, int failureCount) {
-                Toast.makeText(FaceSearchDataMangerActivity.this, "Success：" + successCount+" Failed:"+failureCount, Toast.LENGTH_SHORT).show();
+            public void onComplete(int submittedCount, int failureCount) {
+                // SDK 的返回值表示接受提交的数量，实际数据库写入仍在 SDK 内部异步执行。
+                Toast.makeText(FaceSearchDataMangerActivity.this,
+                        "Submitted：" + submittedCount + " Failed:" + failureCount,
+                        Toast.LENGTH_SHORT).show();
                 updateFaceList();
+            }
+
+            @Override
+            public void onError(@NonNull String message) {
+                Toast.makeText(FaceSearchDataMangerActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
 

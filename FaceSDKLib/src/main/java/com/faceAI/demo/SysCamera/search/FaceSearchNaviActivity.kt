@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ai.face.core.utils.FaceAICameraType
@@ -109,16 +108,22 @@ class FaceSearchNaviActivity : AppCompatActivity(), PermissionCallbacks {
 
         //兼容某些场景还需要通过图片方式导入人脸库
         binding.copyFaceImages.setOnClickListener {
-            binding.copyFaceImages.visibility= View.INVISIBLE
+            binding.copyFaceImages.isEnabled = false
             CopyFaceImageUtils.copyTestFaceImages(
                 this@FaceSearchNaviActivity,
                 object : CopyFaceImageUtils.Callback {
-                    override fun onComplete(successCount: Int, failureCount: Int) {
+                    override fun onComplete(submittedCount: Int, failureCount: Int) {
+                        binding.copyFaceImages.isEnabled = true
                         Toast.makeText(
                             this@FaceSearchNaviActivity,
-                            "Success：$successCount Failed:$failureCount",
+                            "Submitted：$submittedCount Failed:$failureCount",
                             Toast.LENGTH_SHORT
                         ).show()
+                    }
+
+                    override fun onError(message: String) {
+                        binding.copyFaceImages.isEnabled = true
+                        Toast.makeText(this@FaceSearchNaviActivity, message, Toast.LENGTH_SHORT).show()
                     }
                 })
         }
