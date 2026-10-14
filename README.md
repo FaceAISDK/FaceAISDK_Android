@@ -21,11 +21,10 @@ Supports silent liveness detection and action liveness (mouth opening, smiling, 
  **Efficient Integration** | **Data Security** | **Offline Use** | **Cost Saving** |
  Simple SDK APIs for quick integration, saving R&D costs | Inference performed locally on device, no user data sent to cloud | No network connection or cloud services required, one device can handle small scenarios | Machine learning on device reduces cloud expenses |
 
-## V2026.09.20
+## V2026.09.30
 
-1. Optimized color-based liveness detection. The circle size can now be adjusted to reflect more light onto the face.
-2. Reduced heat generation and power consumption during face search.
-3. Other minor improvements.
+1. New Face Search SDK here: http://github.com/FaceSDKPro
+   **FaceAISDK HelloFace** _Face Feature is different_
 
 For more version history, refer to [SDK Update Records](Document/历史版本SDK更新记录.md)
 
