@@ -26,12 +26,8 @@ import java.util.List;
 
 /**
  * M:N 人脸搜索，暂不支持活体检测
- *
- * 宽动态成像清晰摄像头，人脸正对摄像头
- * 提前在人脸库管理页面 点击右上角导入测试多人脸图，
- * 电脑上打开MN_face_search_test.jpg 手机摄像头对着图片就可以体验多人搜索
- * 人脸搜索Pro 版本SDK：https://github.com/HiFaceSDK/HiFace_Android
- * 本功能要求设备硬件配置高，摄像头品质好。可以拿当前的各品牌手机旗舰机测试验证
+ * 人脸搜索新重构Pro 版本SDK：https://github.com/FaceSDKPro/HelloFace
+ * 
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceSearchMNActivity extends AbsBaseActivity {

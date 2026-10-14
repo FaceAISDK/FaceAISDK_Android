@@ -38,9 +38,8 @@ import java.util.List;
 
 /**
  * RGB摄像头动作活体检测+1:N 人脸搜索识别。当前人脸库默认最大5000，未成年搜索精度待提升
- * 数据合规建议不要再收集人脸原始图片数据 https://mp.weixin.qq.com/s/aGPwYUYxnr6ZDRxwAQd8vg
- * 人脸搜索Pro 版本SDK：https://github.com/HiFaceSDK/HiFace_Android
- * 内置1W测试人脸APK特制版本（点击导入Asset目录人脸）：https://www.pgyer.com/4c1e43a4e28bc50885ab942b41b1b85d
+ * 人脸搜索新重构Pro 版本SDK：https://github.com/FaceSDKPro/HelloFace
+ *
  * @author FaceAISDK.Service@gmail.com
  */
 public class FaceSearch1NActivity extends AbsBaseActivity {

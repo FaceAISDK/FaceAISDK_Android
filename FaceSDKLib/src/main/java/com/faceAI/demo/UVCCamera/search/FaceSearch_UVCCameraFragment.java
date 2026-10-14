@@ -21,7 +21,7 @@ import java.util.List;
 
 
 /**
- * Pro 版本SDK：https://github.com/HiFaceSDK/HiFace_Android
+ * 人脸搜索新重构Pro 版本SDK：https://github.com/FaceSDKPro/HelloFace
  * UVC协议USB摄像头人脸搜索识别业务逻辑管理Fragment
  *
  * 如果USB带红外的双目摄像头（两个摄像头，camera.getUsbDevice().getProductName()监听输出名字），并获取预览数据进一步处理
