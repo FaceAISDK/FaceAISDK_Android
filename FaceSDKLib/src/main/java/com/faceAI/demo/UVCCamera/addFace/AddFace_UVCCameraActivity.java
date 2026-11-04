@@ -54,7 +54,7 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
     private AddFaceDispose addFaceDispose;
     private String faceID, addFaceImageType;
     private UVCCameraManager rgbCameraManager; //添加人脸只用到 RBG camera
-    private boolean isConfirmAdd = false; //确认期间停止人脸检测
+    private volatile boolean isConfirmAdd = false; //确认期间停止人脸检测
 
     //是1:1 还是1:N 人脸搜索添加人脸，他们的数据处理方式有点不同
     public enum AddFaceImageTypeEnum {
@@ -145,6 +145,13 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
      */
     private void confirmAddFaceDialog(Bitmap bitmap, float score,Bitmap origin) {
         ConfirmFaceDialog confirmFaceDialog = new ConfirmFaceDialog(this, origin, score);
+        // 系统返回键和重试按钮统一恢复录入；确认保存后的 dismiss 不触发重试。
+        confirmFaceDialog.dialog.setOnCancelListener(dialog -> {
+            if (!isFinishing() && !isDestroyed()) {
+                addFaceDispose.retry();
+                isConfirmAdd = false;
+            }
+        });
 
         confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
             //提取人脸特征值,从已经经过SDK裁剪好的Bitmap中提取人脸特征值
@@ -175,11 +182,7 @@ public class AddFace_UVCCameraActivity extends AppCompatActivity {
             }
         });
 
-        confirmFaceDialog.btnCancel.setOnClickListener(v -> {
-            confirmFaceDialog.dialog.dismiss();
-            addFaceDispose.retry();
-            isConfirmAdd = false;
-        });
+        confirmFaceDialog.btnCancel.setOnClickListener(v -> confirmFaceDialog.dialog.cancel());
 
         confirmFaceDialog.dialog.show();
     }

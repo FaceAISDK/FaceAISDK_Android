@@ -61,7 +61,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
     private FaceCoverView faceCoverView;
     private AddFaceDispose addFaceDispose;
     private String faceID, addFaceType;
-    private boolean isConfirmAdd = false;   //是否弹出Dialog等待确定人脸
+    private volatile boolean isConfirmAdd = false;   //是否弹出Dialog等待确定人脸
 
     //PERFORMANCE_MODE_EASY | PERFORMANCE_MODE_ACCURATE |PERFORMANCE_MODE_NO_LIMIT
     private int addFacePerformanceMode = PERFORMANCE_MODE_FAST;
@@ -245,6 +245,13 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
         Bitmap mirroredBitmap = Bitmap.createBitmap(originBitmap, 0, 0, originBitmap.getWidth(), originBitmap.getHeight(), matrix, true);
         // --- 镜像处理结束 ---
         ConfirmFaceDialog confirmFaceDialog=new ConfirmFaceDialog(this,mirroredBitmap);
+        // 系统返回键和重试按钮统一恢复录入；确认保存后的 dismiss 不触发重试。
+        confirmFaceDialog.dialog.setOnCancelListener(dialog -> {
+            if (!isFinishing() && !isDestroyed()) {
+                addFaceDispose.retry();
+                isConfirmAdd = false;
+            }
+        });
 
         confirmFaceDialog.btnConfirm.setOnClickListener(v -> {
             faceID = confirmFaceDialog.faceIDEdit.getText().toString();
@@ -261,11 +268,7 @@ public class AddFaceFeatureActivity extends AbsBaseActivity {
             }
         });
 
-        confirmFaceDialog.btnCancel.setOnClickListener(v -> {
-            isConfirmAdd=false;
-            confirmFaceDialog.dialog.dismiss();
-            addFaceDispose.retry();
-        });
+        confirmFaceDialog.btnCancel.setOnClickListener(v -> confirmFaceDialog.dialog.cancel());
 
         confirmFaceDialog.show();
     }
