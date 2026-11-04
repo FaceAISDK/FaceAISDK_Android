@@ -13,7 +13,7 @@ English | [中文](README_CN.md)
 on_device Offline Face Detection, Recognition, Liveness Detection Anti-Spoofing and [1:N/M:N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) Face Search SDK.  
 Completely offline implementation of edge-side face recognition, face search, and other functions.
 
-SDK supports Android [8, 16]. **All SDK functions work offline, no data is uploaded or stored, ensuring privacy and security.**  
+SDK supports Android [8, 17]. **All SDK functions work offline, no data is uploaded or stored, ensuring privacy and security.**  
 Supports silent liveness detection and action liveness (mouth opening, smiling, blinking, head shaking, head nodding). Supports UVC protocol USB cameras (requires clear imaging, WDR > 105dB).
 
  🚀 | 🔑 | 📡 | 💰 |
@@ -21,9 +21,9 @@ Supports silent liveness detection and action liveness (mouth opening, smiling, 
  **Efficient Integration** | **Data Security** | **Offline Use** | **Cost Saving** |
  Simple SDK APIs for quick integration, saving R&D costs | Inference performed locally on device, no user data sent to cloud | No network connection or cloud services required, one device can handle small scenarios | Machine learning on device reduces cloud expenses |
 
-## V2026.09.30
-
-1. New Face Search SDK here: http://github.com/FaceSDKPro
+## V2026.10.09 
+1. Support Android 17
+2. New Face Search SDK here: http://github.com/FaceSDKPro
    **FaceAISDK HelloFace** _Face Feature is different_
 
 For more version history, refer to [SDK Update Records](Document/历史版本SDK更新记录.md)
