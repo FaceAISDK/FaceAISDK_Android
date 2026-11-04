@@ -1,9 +1,11 @@
 **更新SDK版本后，请清除一下本地的缓存（invalidate caches）再运行**
 
+## V2026.10.09 
+1. Support Android 17
+
 ## V2026.09.30
 1. New Face Search SDK here: http://github.com/FaceSDKPro
    **FaceAISDK HelloFace** _Face Feature is different_
-
 
 ## V2026.09.20
 1.Optimized color-based liveness detection. The circle size can now be adjusted to reflect more light onto the face.
@@ -23,7 +25,6 @@ iOS Android 静默活体通过阈值范围0.85到0.95，注意实际表现和摄
 ## V2026.07.30
 - New English Language
 - Silent Liveness update 
-- Android 17 compatibility preprocessing (To be verified)
 
 ## V2026.06.21
 - AddFace returns 640*480 original image

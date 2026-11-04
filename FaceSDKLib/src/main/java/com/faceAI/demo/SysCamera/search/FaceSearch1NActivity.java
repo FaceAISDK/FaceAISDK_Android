@@ -113,6 +113,12 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
 
         // 2. 获取 LocalBroadcastManager 实例
         FaceUpdateBroadcastManager = LocalBroadcastManager.getInstance(this);
+        // 每个 Activity 实例只注册一次，并在 onDestroy 中注销；后台仍接收数据更新通知。
+        faceUpdateReceiver = new FaceUpdateReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_START_UPDATE_FACE_DATA);
+        filter.addAction(ACTION_COMPLETE_UPDATE_FACE_DATA);
+        FaceUpdateBroadcastManager.registerReceiver(faceUpdateReceiver, filter);
     }
 
 
@@ -307,17 +313,6 @@ public class FaceSearch1NActivity extends AbsBaseActivity {
         if (FaceUpdateBroadcastManager != null && faceUpdateReceiver != null) {
             FaceUpdateBroadcastManager.unregisterReceiver(faceUpdateReceiver);
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // 动态注册广播接收器,当正在后台通过人脸图更新人脸数据时候(不建议)，需要暂停前台的通过相机检测人脸，避免冲突
-        faceUpdateReceiver = new FaceUpdateReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_START_UPDATE_FACE_DATA);
-        filter.addAction(ACTION_COMPLETE_UPDATE_FACE_DATA);
-        FaceUpdateBroadcastManager.registerReceiver(faceUpdateReceiver, filter);
     }
 
     @Override
