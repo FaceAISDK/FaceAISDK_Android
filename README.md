@@ -21,7 +21,7 @@ Supports silent liveness detection and action liveness (mouth opening, smiling, 
  **Efficient Integration** | **Data Security** | **Offline Use** | **Cost Saving** |
  Simple SDK APIs for quick integration, saving R&D costs | Inference performed locally on device, no user data sent to cloud | No network connection or cloud services required, one device can handle small scenarios | Machine learning on device reduces cloud expenses |
 
-## V2026.10.09 
+## V2026.11.01
 1. Support Android 17
 2. New Face Search SDK here: http://github.com/FaceSDKPro
    **FaceAISDK HelloFace** _Face Feature is different_

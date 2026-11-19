@@ -75,7 +75,6 @@ public class CaptureFaceActivity extends AbsBaseActivity {
                 ((ImageView) findViewById(R.id.crop)).setImageBitmap(cropped);
                 ((ImageView) findViewById(R.id.origin)).setImageBitmap(origin);
 
-                Toast.makeText(getBaseContext(),"S="+silentScore,Toast.LENGTH_SHORT).show();
                 addFaceDispose.retry(); //立即重试
             }
 
