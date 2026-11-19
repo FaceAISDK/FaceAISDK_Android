@@ -24,7 +24,7 @@ The SDK supports silent liveness detection and action-based liveness detection, 
 | :--- | :--- | :--- | :--- |
 | Simple SDK APIs enable quick integration and reduce development and maintenance costs. | Inference runs locally on the device, so user data is never sent to the cloud. | No network connection or cloud service is required; a single device can handle small-scale scenarios. | On-device machine learning reduces cloud infrastructure costs. |
 
-## What's New · v2026.10.09
+## What's New · v2026.11.01
 
 - Added support for Android 17.
 - New face search SDK: [FaceSDKPro](https://github.com/FaceSDKPro)
