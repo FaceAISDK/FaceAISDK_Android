@@ -1,69 +1,79 @@
-<div align=right>
-  <img src="https://badgen.net/badge/FaceAI%20SDK/Fast%20Face%20Recognition"/>
+<div align="right">
+  <img src="https://badgen.net/badge/FaceAI%20SDK/Fast%20Face%20Recognition" alt="FaceAI SDK · Fast Face Recognition" />
 </div>
 
-English | [中文](README_CN.md)
+**English** | [中文](README_CN.md)
 
-<br>
- <a href='https://play.google.com/store/apps/details?id=com.ai.face.verifyPub'><img alt='Get FaceAI On Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='50'/></a>
-<br> 
+<p align="center">
+  <a href="https://play.google.com/store/apps/details?id=com.ai.face.verifyPub">
+    <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="50" alt="Get FaceAI on Google Play" />
+  </a>
+</p>
 
-# [About Android "FaceAISDK"](https://github.com/FaceAISDK/FaceAISDK_Android)
+# [FaceAISDK for Android](https://github.com/FaceAISDK/FaceAISDK_Android)
 
-on_device Offline Face Detection, Recognition, Liveness Detection Anti-Spoofing and [1:N/M:N](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/Introduce_11_1N_MN.md) Face Search SDK.  
-Completely offline implementation of edge-side face recognition, face search, and other functions.
+An on-device SDK for offline face detection, recognition, liveness anti-spoofing, and [1:N / M:N face search](Document/Introduce_11_1N_MN.md).
 
-SDK supports Android [8, 17]. **All SDK functions work offline, no data is uploaded or stored, ensuring privacy and security.**  
-Supports silent liveness detection and action liveness (mouth opening, smiling, blinking, head shaking, head nodding). Supports UVC protocol USB cameras (requires clear imaging, WDR > 105dB).
+Face recognition, face search, and related features are implemented entirely on the edge. The SDK supports Android 8–17.
 
- 🚀 | 🔑 | 📡 | 💰 |
- :--- | :--- | :--- | :--- |
- **Efficient Integration** | **Data Security** | **Offline Use** | **Cost Saving** |
- Simple SDK APIs for quick integration, saving R&D costs | Inference performed locally on device, no user data sent to cloud | No network connection or cloud services required, one device can handle small scenarios | Machine learning on device reduces cloud expenses |
+> **Privacy first:** All SDK features work offline. No face data is uploaded or stored.
 
-## V2026.11.01
-1. Support Android 17
-2. New Face Search SDK here: http://github.com/FaceSDKPro
-   **FaceAISDK HelloFace** _Face Feature is different_
+The SDK supports silent liveness detection and action-based liveness detection, including mouth opening, smiling, blinking, head shaking, and nodding. It also supports UVC-compatible USB cameras (clear imaging and WDR > 105 dB are recommended).
 
-For more version history, refer to [SDK Update Records](Document/历史版本SDK更新记录.md)
+| 🚀 **Efficient Integration** | 🔑 **Data Security** | 📡 **Offline Use** | 💰 **Cost Saving** |
+| :--- | :--- | :--- | :--- |
+| Simple SDK APIs enable quick integration and reduce development and maintenance costs. | Inference runs locally on the device, so user data is never sent to the cloud. | No network connection or cloud service is required; a single device can handle small-scale scenarios. | On-device machine learning reduces cloud infrastructure costs. |
+
+## What's New · v2026.11.01
+
+- Added support for Android 17.
+- New face search SDK: [FaceSDKPro](https://github.com/FaceSDKPro)
+- **Note:** Face features from FaceAISDK and HelloFace are not interchangeable.
+
+See the [SDK update history](Document/历史版本SDK更新记录.md) for earlier releases.
 
 ## How to Use
-FaceAISDK is hosted on mavenCentral. Ensure you add `mavenCentral()` to your repositories configuration.
+
+FaceAISDK is hosted on Maven Central. Make sure `mavenCentral()` is included in your repositories configuration, then add the dependency:
+
 ```gradle
-api 'io.github.FaceAISDK:Android:Version' // UVC protocol cameras also require UVCAndroid dependency
+api 'io.github.FaceAISDK:Android:Version' // UVC cameras also require the UVCAndroid dependency
 ```
 
-**Project Structure Overview**
+### Project Structure
 
- Module | Description |
-------------|-----------------------------------|
- FaceSDKLib | Sub-module, all FaceAISDK features are demonstrated in this module |
- verify | 1:1 face detection & recognition, liveness detection, static face comparison |
- search | 1:N face search & recognition, face library management (CRUD) |
- addFace | Shared component for 1:1 and 1:N to add faces and get feature vectors via SDK camera |
- SysCamera | System camera (phones, tablets), works immediately after opening |
- UVCCamera | UVC protocol USB camera face recognition & search, usually for custom hardware |
+| Module | Description |
+| :--- | :--- |
+| `FaceSDKLib` | Submodule demonstrating all FaceAISDK features. |
+| `verify` | 1:1 face detection and recognition, liveness detection, and static face comparison. |
+| `search` | 1:N face search and recognition, plus face library management (CRUD). |
+| `addFace` | Shared component for 1:1 and 1:N workflows; adds faces and obtains feature vectors through the SDK camera. |
+| `SysCamera` | System camera support for phones and tablets; generally works immediately after opening. |
+| `UVCCamera` | Face recognition and search using UVC-compatible USB cameras, typically for custom hardware. |
 
-## [Scenarios](https://github.com/FaceAISDK/FaceAISDK_Android/blob/main/doc/Introduce_11_1N_MN.md)
+## [Use Cases](Document/Introduce_11_1N_MN.md)
 
-**【1:1】** Mobile attendance, app password-less login, face authorization, face unlock, patrol check-in verification.
+- **1:1** — Mobile attendance, passwordless app login, face authorization, face unlock, and patrol check-in verification.
+- **1:N** — Residential and company access control, smart locks, smart campuses, robots, smart homes, communities, hotels, and more.
 
-**【1:N】** Residential access control, company access control, smart locks, smart campus, robots, smart home, community, hotels, etc.
+## SDK Demos
 
-## GitHub SDK API Demo Links
-**iOS SDK:** https://github.com/FaceAISDK/FaceAISDK_iOS  
-**Android:** https://github.com/FaceAISDK/FaceAISDK_Android  
-**Flutter:** https://github.com/FaceAISDK/FaceRecognition_Flutter  
-**uniApp UTS:** https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS  
-**React Native:** https://github.com/FaceAISDK/FaceRecognition_ReactNative  
+| Platform | Repository |
+| :--- | :--- |
+| iOS | [FaceAISDK_iOS](https://github.com/FaceAISDK/FaceAISDK_iOS) |
+| Android | [FaceAISDK_Android](https://github.com/FaceAISDK/FaceAISDK_Android) |
+| Flutter | [FaceRecognition_Flutter](https://github.com/FaceAISDK/FaceRecognition_Flutter) |
+| uniApp UTS | [FaceAISDK_uniapp_UTS](https://github.com/FaceAISDK/FaceAISDK_uniapp_UTS) |
+| React Native | [FaceRecognition_ReactNative](https://github.com/FaceAISDK/FaceRecognition_ReactNative) |
 
-**Please give us a 🌟Star if it helps you, thank you!**
+> If FaceAISDK helps you, please consider giving the project a ⭐. Thank you!
 
-## Demo APK Download
+## Demo APK
 
-<div align=center>
-<img src="https://www.pgyer.com/app/qrcode/faceVerify" width = 19% alt="click to launch"/>
-</div>
+<p align="center">
+  <a href="https://www.pgyer.com/faceVerify">
+    <img src="https://www.pgyer.com/app/qrcode/faceVerify" width="180" alt="Scan the QR code to download the FaceAISDK demo APK" />
+  </a>
+</p>
 
-[For more details, please refer to: FaceAISDK Product Description and API Documentation](Document/FaceAISDK产品说明及API文档.pdf)
+For more information, see the [FaceAISDK product description and API documentation](Document/FaceAISDK产品说明及API文档.pdf).
